@@ -1,91 +1,87 @@
 <template>
-    <v-navigation-drawer v-model="layoutStore.drawer" :rail="layoutStore.rail" permanent
-        @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer" color="blue-lighten-1" rail-width="65">
-        <!-- Header -->
-        <div class="pa-4 text-center header-section">
-            <v-avatar v-if="layoutStore.rail" size="36" color="blue-lighten-1">
-                <span class="text-white font-weight-bold text-body-1">FC</span>
-            </v-avatar>
+  <v-navigation-drawer v-model="layoutStore.drawer" :rail="layoutStore.rail" permanent
+    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer" color="blue-lighten-1" rail-width="65">
+    <!-- Header -->
+    <div class="pa-4 text-center header-section">
+      <v-avatar v-if="layoutStore.rail" size="36" color="blue-lighten-1">
+        <span class="text-white font-weight-bold text-body-1">FC</span>
+      </v-avatar>
 
-            <div v-else>
-                <!-- <v-avatar size="48" color="blue-lighten-1" class="mb-3">
+      <div v-else>
+        <!-- <v-avatar size="48" color="blue-lighten-1" class="mb-3">
                     <span class="text-white font-weight-bold text-h6">NG</span>
                 </v-avatar> -->
-                <div class="d-flex align-center"> <v-img
-              src="/src/assets/logo-pequena.png"
-              alt="Logo"
-              width="150"
-              class="mb-3"
-              contain
-            ></v-img></div>
-            </div>
-        </div>
-        
-        <!-- Menu -->
-            <div style="display:flex; flex-direction: column; justify-content: space-between;">
-                <div class="">
-                    <v-list v-model:opened="open">
-                        <v-list-group prepend-icon="mdi-magnify">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props" title="Análise" icon="mdi-search"></v-list-item>
-                            </template>
-                        <v-list-item v-for="items in menuItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
-                            :value="items.value" :to="items.to"></v-list-item>
-                        </v-list-group>
-                    </v-list>
-                </div>
+        <div class="d-flex align-center">
+           <v-img src="/src/assets/logo-pequena.png" alt="Logo" width="150" class="mb-3"
+            contain></v-img>
+          </div>
+      </div>
+    </div>
+
+    <!-- Menu -->
+    <div>
+      <div>
+        <v-list v-model:opened="open">
+          <v-list-group prepend-icon="mdi-magnify">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="Análise" icon="mdi-search"></v-list-item>
+            </template>
+            <v-list-item v-for="items in menuItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
+              :value="items.value" :to="items.to"></v-list-item>
+          </v-list-group>
+        </v-list>
+      </div>
 
 
-                
-                <div class="mt-10 text-center">
-                    <span 
-                        v-show="!layoutStore.rail"
-                        style="font-weight: 300; letter-spacing: 1px; font-size: 1.25em; transition: 0.3s;">
-                        MÉDICO
-                    </span>
 
-                    <v-list style="text-align: center;" v-model:opened="open">
-                        <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item v-bind="props" title="Notificações" icon="mdi mdi-alert-circle-outline"></v-list-item>
-                            </template>
-                        </v-list-group>
-                    </v-list>
-                </div>
+      <div class="mt-4 text-center">
+        <v-divider class="mb-3" thickness="2"></v-divider>
+        <span class="text-subtitle-1" v-show="!layoutStore.rail">
+          MÉDICO
+        </span>
 
-
-                <div class="">
-                    <v-list style="text-align: center;" v-model:opened="open">
-                        <v-list-group prepend-icon="mdi mdi-home-outline">
-                            <template v-slot:activator="{ props }">
-                                <v-list-item class="" v-bind="props" title="Minha conta" icon="mdi-search"></v-list-item>
-                            </template>
-                        <v-list-item v-for="items in contaItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
-                            :value="items.value" :to="items.to"></v-list-item>
-                        </v-list-group>
-                    </v-list>
-                </div>
-                
-            </div>
+        <v-list style="text-align: center;" v-model:opened="open">
+          <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
+            <template v-slot:activator="{ props }">
+              <v-list-item v-bind="props" title="Notificações" icon="mdi mdi-alert-circle-outline"></v-list-item>
+            </template>
+          </v-list-group>
+        </v-list>
+      </div>
 
 
-            
-    
+      <div class="">
+        <v-list style="text-align: center;" v-model:opened="open">
+          <v-list-group prepend-icon="mdi mdi-home-outline">
+            <template v-slot:activator="{ props }">
+              <v-list-item class="" v-bind="props" title="Minha conta" icon="mdi-search"></v-list-item>
+            </template>
+            <v-list-item v-for="items in contaItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
+              :value="items.value" :to="items.to"></v-list-item>
+          </v-list-group>
+        </v-list>
+      </div>
 
-        <!-- Footer -->
-        <template v-slot:append>
-            <div >
-                <v-divider class="mx-2 mb-3" color="blue-lighten-4" opacity="0.3"></v-divider>
+    </div>
 
-                <v-list nav>
-                    <v-list-item v-for="item in footerMenuItem" :key="item.value" :prepend-icon="item.icon" :title="item.title"
-                :to="item.to" rounded="lg" class="mb-1 menu-item" :class="{ 'active-menu': $route.path === item.to }">
-            </v-list-item>
-                   
-                </v-list>
-            </div>
-        </template>
-    </v-navigation-drawer>
+
+
+
+
+    <!-- Footer -->
+    <template v-slot:append>
+      <div>
+        <v-divider class="mx-2 mb-3" color="blue-lighten-4" opacity="0.3"></v-divider>
+
+        <v-list nav>
+          <v-list-item v-for="item in footerMenuItem" :key="item.value" :prepend-icon="item.icon" :title="item.title"
+            :to="item.to" rounded="lg" class="mb-1 menu-item" :class="{ 'active-menu': $route.path === item.to }">
+          </v-list-item>
+
+        </v-list>
+      </div>
+    </template>
+  </v-navigation-drawer>
 </template>
 
 <script setup lang="ts">
@@ -98,18 +94,18 @@ const $route = useRoute()
 const open = ref(['Analise'])
 
 const menuItems = [
-    { icon: 'mdi mdi-magnify', title: 'Análise', value: 'dashboard', to: '/' },
-    { icon: 'mdi mdi-compass-outline', title: 'Resumo', value: 'blog', to: '/resumo/' },
-    { icon: 'mdi-chart-bar', title: 'MRP', value: 'marketplace', to: '/marketplace' },
+  { icon: 'mdi mdi-magnify', title: 'Análise', value: 'dashboard', to: '/' },
+  { icon: 'mdi mdi-compass-outline', title: 'Resumo', value: 'blog', to: '/resumo/' },
+  { icon: 'mdi-chart-bar', title: 'MRP', value: 'marketplace', to: '/marketplace' },
 ]
 
 const contaItems = [
-    { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/' },
+  { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/' },
 ]
 
 const footerMenuItem = [
-    { icon: 'mdi-cog', title: 'Configurações', value: 'settings', to: '/settings' },
-    { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
+  { icon: 'mdi-cog', title: 'Configurações', value: 'settings', to: '/settings' },
+  { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
 ]
 
 </script>

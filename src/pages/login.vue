@@ -1,21 +1,19 @@
 <template>
-  <v-container fluid class="pa-0 fill-height d-flex flex-column flex-md-row overflow-x-hidden">
+  <v-container   style="background-color: #22d3ee;" fluid class=" pa-0 fill-height d-flex flex-column flex-md-row overflow-x-hidden">
+<v-row no-gutters class="h-100">
 
     <!-- Coluna da esquerda -->
     <v-col
-      cols="12"
-      md="5"
-      class="d-flex flex-column justify-center align-center "
-      style="background-color: #22d3ee; padding: 2rem; height: 100%;"
+      md="4"
+      class="d-flex flex-column justify-center  px-16 h-100 "
     >
-      <div style="max-width: 20rem; width: 100%;">
 
         <!-- Logo -->
         <div class="mb-8">
-          <RouterLink to="/" class="d-flex align-center">
+          <RouterLink to="/" class="d-flex align-center justify-center">
             <v-img
               src="../assets/Login/logo-fit.png"
-              width="163"
+              max-width="180"
               alt="Logo"
               cover
             ></v-img>
@@ -23,12 +21,13 @@
         </div>
 
         <!-- Texto de boas-vindas -->
-        <p style="color: white; margin-bottom: 1.5rem;">
-          Bem-vindo! Faça seu login para acessar sua conta.
-        </p>
+
 
         <!-- Formulário -->
-        <v-form @submit.prevent="handleSubmit">
+        <p class="text-white text-center text-subtitle-1" style="margin-bottom: 1.5rem;">
+                Bem-vindo! Faça seu login para acessar sua conta.
+              </p>
+        <v-form class=" d-flex align-center flex-column px-12 " @submit.prevent="handleSubmit">
           <v-text-field
             v-model="email"
             type="email"
@@ -37,9 +36,9 @@
             variant="solo"
             bg-color="white"
             density="comfortable"
-            class="mb-4"
+            class="mb-4 w-100"
             :rules="[value => !!value || 'Campo obrigatório']"
-            style="border-radius: 5px; width: 100%; max-width: 362px; color: #1f2937;"
+            style="border-radius: 5px;  color: #1f2937;"
           ></v-text-field>
 
           <v-text-field
@@ -61,28 +60,42 @@
           >
             <v-btn
               type="submit"
-              color="lime-darken-2"
               class="text-white font-weight-bold mt-10"
-              style="width: 100%; max-width: 108px; height: 47px; border-radius: 0.375rem;"
+              style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
               @click="handleSubmit"
             >
               Entrar
             </v-btn>
           </RouterLink>
+          <p>Não tem uma conta?</p>
+           <RouterLink
+            to="/"
+            class="text-decoration-none"
+          >
+            <v-btn
+              type="submit"
+              class="text-white font-weight-bold mt-10"
+              style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
+              @click="handleSubmit"
+            >
+              Cadastrar
+            </v-btn>
+          </RouterLink>
         </v-form>
-      </div>
+
     </v-col>
 
     <!-- Coluna da direita -->
-    <v-col cols="12" md="7" class="pa-0 hidden-sm-and-down" style="height: 100vh;">
+    <v-col  md="8" class="pa-0 hidden-sm-and-down">
       <v-img
-        :width="1500"
         src="../assets/Login/login-banner.jpg"
         cover
-        height="100%"
+        height="100vh"
         width="100%"
       </v-img>
     </v-col>
+</v-row>
+
   </v-container>
 </template>
 
