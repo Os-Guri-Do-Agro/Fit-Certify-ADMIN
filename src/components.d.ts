@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CadastroB: typeof import('./components/register-steps/cadastroB.vue')['default']
     Form: typeof import('./components/artigos/FormArtigo.vue')['default']
     FormArtigo: typeof import('./components/artigos/FormArtigo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
