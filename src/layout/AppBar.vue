@@ -1,20 +1,20 @@
 <template>
     <v-app-bar color=""  :elevation="0" class="app-bar">
         <template v-slot:prepend>
-            <v-btn icon variant="text" color="blue-lighten-1" @click="layoutStore.toggleRail()" class="ml-2">
+            <v-btn icon variant="text" color="light-blue-accent-3" @click="layoutStore.toggleRail()" class="ml-2">
                 <v-icon size="36px">mdi-menu</v-icon>
             </v-btn>
         </template>
 
         <template v-slot:append>
-            <v-btn icon variant="text" color="blue-lighten-1" class="mr-2">
-                <v-badge content="2" color="info">
+            <v-btn icon variant="text" color="light-blue-accent-3" class="mr-5">
+                <v-badge dot color="light-blue-accent-3">
                     <v-icon size="28px">mdi-bell-outline</v-icon>   
                 </v-badge>
 
             </v-btn>
 
-                <v-sheet width="65px" height="100%" class="bg-red d-flex align-center justify-center">
+                <v-sheet width="65px" height="100%" class="bg-red d-flex align-center justify-center mr-3">
                     <v-icon size="38px">mdi-alert-outline</v-icon>
                 </v-sheet>
 

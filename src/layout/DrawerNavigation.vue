@@ -1,6 +1,6 @@
 <template>
   <v-navigation-drawer v-model="layoutStore.drawer" :rail="layoutStore.rail" permanent
-    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer" color="blue-lighten-1" rail-width="65">
+    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer" color="light-blue-accent-3" rail-width="65">
     <!-- Header -->
     <div class="pa-4 text-center header-section">
       <v-avatar v-if="layoutStore.rail" size="36" color="blue-lighten-1">
