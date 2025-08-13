@@ -5,7 +5,7 @@
     <!-- Coluna da esquerda -->
     <v-col
       md="4"
-      class="d-flex flex-column justify-center  px-16 h-100 "
+      class="d-flex flex-column justify-center px-10  px-lg-16 h-100 "
     >
 
         <!-- Logo -->
@@ -24,10 +24,10 @@
 
 
         <!-- Formulário -->
-        <p class="text-white text-center text-subtitle-1" style="margin-bottom: 1.5rem;">
+        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10" style="margin-bottom: 1.5rem;">
                 Bem-vindo! Faça seu login para acessar sua conta.
               </p>
-        <v-form class=" d-flex align-center flex-column px-12 " @submit.prevent="handleSubmit">
+        <v-form class=" d-flex align-center flex-column px-lg-12" @submit.prevent="handleSubmit">
           <v-text-field
             v-model="email"
             type="email"
@@ -60,21 +60,22 @@
           >
             <v-btn
               type="submit"
-              class="text-white font-weight-bold mt-10"
+              class="text-white font-weight-bold mt-5"
               style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
               @click="handleSubmit"
             >
               Entrar
             </v-btn>
           </RouterLink>
-          <p>Não tem uma conta?</p>
+          <p class="my-5 text-white text-subtitle-2">Não tem uma conta?</p>
            <RouterLink
             to="/"
             class="text-decoration-none"
           >
             <v-btn
               type="submit"
-              class="text-white font-weight-bold mt-10"
+              class=" font-weight-bold text-white"
+              value="outlined"
               style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
               @click="handleSubmit"
             >
