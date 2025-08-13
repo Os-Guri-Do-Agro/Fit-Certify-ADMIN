@@ -101,7 +101,7 @@ const menuItems = [
 ]
 
 const contaItems = [
-  { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/' },
+  { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/perfil' },
 ]
 
 const footerMenuItem = [
