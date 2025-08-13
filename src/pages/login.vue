@@ -27,7 +27,7 @@
         <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10" style="margin-bottom: 1.5rem;">
                 Bem-vindo! Faça seu login para acessar sua conta.
               </p>
-        <v-form class=" d-flex align-center flex-column px-lg-12" @submit.prevent="handleSubmit">
+        <v-form class=" d-flex align-center flex-column px-lg-0 px-xl-12" @submit.prevent="handleSubmit">
           <v-text-field
             v-model="email"
             type="email"
@@ -54,34 +54,23 @@
             style="border-radius: 5px; color: #1f2937;"
           ></v-text-field>
 
-          <RouterLink
-            to="/"
-            class="text-decoration-none"
-          >
-            <v-btn
-              type="submit"
-              class="text-white font-weight-bold mt-5"
-              style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
-              @click="handleSubmit"
-            >
-              Entrar
-            </v-btn>
+          <RouterLink class="text-white w-100 d-flex justify-end" to="/register">
+            <span>Esqueceu a senha?</span>
           </RouterLink>
-          <p class="my-5 text-white text-subtitle-2">Não tem uma conta?</p>
-           <RouterLink
-            to="/register"
-            class="text-decoration-none"
-          >
-            <v-btn
-              type="submit"
-              class=" font-weight-bold text-white"
-              value="outlined"
-              style=" height: 47px; border-radius: 0.375rem; background-color: #88CE0D;"
-              @click="handleSubmit"
-            >
-              Cadastrar
-            </v-btn>
-          </RouterLink>
+
+
+          <VRow class="d-flex align-center w-100 mt-5">
+            <VCol class="d-flex justify-space-around flex-column ga-3 flex-lg-row align-center" cols="12">
+              <RouterLink to="/">
+                <VBtn class="text-white" height="47px" style="background-color: #88CE0D;">Entrar</VBtn>
+              </RouterLink>
+              <span class="text-white font-weight-bold">Ou</span>
+              <RouterLink to="/register">
+                <VBtn class="text-white" height="47px" style="background-color: #88CE0D;">Cadastrar</VBtn>
+              </RouterLink>
+            </VCol>         
+          </VRow>
+
         </v-form>
 
     </v-col>

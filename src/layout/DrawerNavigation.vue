@@ -64,10 +64,6 @@
 
     </div>
 
-
-
-
-
     <!-- Footer -->
     <template v-slot:append>
       <div>
@@ -95,7 +91,6 @@ const $route = useRoute()
 const open = ref(['Analise'])
 
 const menuItems = [
-  { icon: 'mdi mdi-magnify', title: 'Análise', value: 'dashboard', to: '/' },
   { icon: 'mdi mdi-compass-outline', title: 'Resumo', value: 'blog', to: '/resumo/' },
   { icon: 'mdi-chart-bar', title: 'MRP', value: 'marketplace', to: '/marketplace' },
 ]
