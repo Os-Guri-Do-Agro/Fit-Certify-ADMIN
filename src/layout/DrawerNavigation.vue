@@ -112,7 +112,7 @@ const footerMenuItem = [
 function handleClickOutside(event: MouseEvent) {
   const drawer = document.querySelector('.clean-drawer')
   if (drawer && !drawer.contains(event.target as Node)) {
-    open.value = []  // fecha todos os grupos
+    open.value = [] 
   }
 }
 

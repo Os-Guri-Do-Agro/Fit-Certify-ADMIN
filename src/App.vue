@@ -29,6 +29,7 @@ const route = useRoute()
 // Rotas que não devem mostrar o layout padrão
 const authRoutes = ['/login', '/register', '/forgot-password']
 
+
 const isAuthRoute = computed(() => {
   return authRoutes.includes(route.path)
 })

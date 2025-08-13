@@ -69,7 +69,7 @@
           </RouterLink>
           <p class="my-5 text-white text-subtitle-2">Não tem uma conta?</p>
            <RouterLink
-            to="/"
+            to="/register"
             class="text-decoration-none"
           >
             <v-btn
