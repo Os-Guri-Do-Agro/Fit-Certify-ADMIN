@@ -88,6 +88,7 @@
 import { ref } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
 import { useRoute } from 'vue-router'
+import { onMounted, onBeforeUnmount } from 'vue'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
@@ -107,5 +108,20 @@ const footerMenuItem = [
   { icon: 'mdi-cog', title: 'Configurações', value: 'settings', to: '/settings' },
   { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
 ]
+
+function handleClickOutside(event: MouseEvent) {
+  const drawer = document.querySelector('.clean-drawer')
+  if (drawer && !drawer.contains(event.target as Node)) {
+    open.value = []  // fecha todos os grupos
+  }
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+})
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside)
+})
 
 </script>
