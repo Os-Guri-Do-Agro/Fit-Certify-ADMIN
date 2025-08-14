@@ -102,7 +102,7 @@
                                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="">Objetivo com a atividade física:</label><VTextField placeholder="Saúde geral" variant="outlined"/></VCol>
                                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="">Já participou de provas antes?</label><VTextField placeholder="Sim" variant="outlined"/></VCol>
                                 <VCol class="my-0 py-0 font-weight-medium" cols="12" lg="6"><label for="">Se sim, qual a última?</label><VTextField variant="outlined"/></VCol>
-                                <VCol class="my-0 py-0 font-weight-medium d-flex align-center" cols="12" lg="6"><v-btn class="text-white w-100" height="56px" to="/" style="background-color: #00C6FE;">Próximo</v-btn></VCol>
+                                <VCol class="my-0 py-0 font-weight-medium d-flex align-center" cols="12" lg="6"><v-btn class="text-white w-100" height="56px" to="/registerSaude02" style="background-color: #00C6FE;">Próximo</v-btn></VCol>
                             </VRow>
                         </div>
 
