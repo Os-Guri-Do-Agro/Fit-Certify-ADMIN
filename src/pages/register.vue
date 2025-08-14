@@ -54,11 +54,11 @@
       variant="outlined"
     ></v-select></VCol>
     <VCol class="w-100" cols="12">
-        <RouterLink
-            to="/registerSaude"
+        <div
             class="w-100 text-decoration-none d-flex justify-center justify-md-end"
           >
             <v-btn
+              to="/registerSaude"
               type="submit"
               class=" font-weight-bold text-white"
               value="outlined"
@@ -68,7 +68,7 @@
             >
               Próximo
             </v-btn>
-        </RouterLink>
+          </div>
     </VCol>
                     
                    
