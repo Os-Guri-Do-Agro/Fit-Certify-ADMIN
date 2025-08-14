@@ -44,7 +44,7 @@
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="nascimento">Data de nascimento:</label><VTextField id="nascimento" variant="outlined"/></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label><VTextField id="altura" variant="outlined"/></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label><VTextField id="peso" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="telefone">Telefone:</label><VTextField id="telefone" type="tel" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="telefone">Telefone:</label><VTextField id="telefone02" type="tel" variant="outlined"/></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label><v-select
       v-model="select.value.value"
       :error-messages="select.errorMessage.value"
@@ -55,7 +55,7 @@
     ></v-select></VCol>
     <VCol class="w-100" cols="12">
         <RouterLink
-            to="/"
+            to="/registerSaude"
             class="w-100 text-decoration-none d-flex justify-center justify-md-end"
           >
             <v-btn

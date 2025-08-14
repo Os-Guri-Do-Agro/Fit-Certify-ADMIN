@@ -1,9 +1,10 @@
 <template>
 
-        <v-row class="d-flex flex-row w-100 h-100 align-center justify-center border-md">
-                <VCol class="mx-3" cols="12" xl="11">
-                        <h1 class="text-h5">Resumo</h1>                                
+        <v-row class="d-flex flex-row w-100 h-100 align-center justify-center">
+                <VCol class="mx-3" cols="12" xl="12">
+                        <h1 class="text-h5 ml-xl-6">Resumo</h1>                                
                 </VCol>
+                
                 <v-col class="d-flex flex-column align-center mb-15" cols="md-6">
                         <v-card class="mb-2 mb-md-3 rounded-lg w-100" max-width="750px" height="295px" elevation="0">
                                 <VCardTitle primary-title>
