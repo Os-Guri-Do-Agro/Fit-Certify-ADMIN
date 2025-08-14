@@ -31,7 +31,7 @@
 
 
     <!--DIV DA DIREITA-->
-    <VCol class="h-100 d-flex align-center pa-0 ma-0 border-md"  md="8">
+    <VCol class="h-100 d-flex align-center pa-0 ma-0"  md="8">
         <v-container class="d-flex ga-10 align-top mx-md-5 flex-column">
             <div class="mt-10 mt-md-0">
                 <h2 class="text-start text-h5 font-weight-bold" style="color: #88CE0D;">
@@ -83,7 +83,7 @@
             class="font-weight-medium" color="success" ></v-checkbox>
                 </v-form>
                 <div class="d-flex justify-center justify-md-start">
-                    <v-btn class="text-white w-100 d-flex" height="43px" max-width="237px" to="/register" style="background-color: #88CE0D;">Enviar questionário</v-btn>
+                    <v-btn class="text-white w-100 d-flex" height="43px" max-width="237px" to="/registerPlanos" style="background-color: #88CE0D;">Enviar questionário</v-btn>
                 </div>
 
             </div>
