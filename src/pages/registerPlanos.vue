@@ -68,7 +68,7 @@
 
                         <div class="">
                             <VCardActions>
-                                <VBtn class="text-white w-100 text-caption text-md-subtitle-1" max-width="255px" height="44px" style="background-color: #88CE0D;">Assinar Saúde Certificada</VBtn>
+                                <VBtn to="/marcarConsulta" class="text-white w-100 text-caption text-md-subtitle-1" max-width="255px" height="44px" style="background-color: #88CE0D;">Assinar Saúde Certificada</VBtn>
                             </VCardActions>
                         </div>
 
@@ -103,7 +103,7 @@
 
                         <div class="">
                             <VCardActions>
-                                <VBtn to="" class="text-white w-100 text-caption text-md-subtitle-1" max-width="255px" height="44px" style="background-color: #88CE0D;">Assinar Saúde Ativa</VBtn>
+                                <VBtn to="/marcarConsulta" class="text-white w-100 text-caption text-md-subtitle-1" max-width="255px" height="44px" style="background-color: #88CE0D;">Assinar Saúde Ativa</VBtn>
                             </VCardActions>
                         </div>
 
