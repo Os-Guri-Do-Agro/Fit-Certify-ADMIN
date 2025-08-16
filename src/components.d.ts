@@ -9,6 +9,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CadastroB: typeof import('./components/register-steps/cadastroB.vue')['default']
+    CadastroBasico: typeof import('./components/cadastros/cadastroBasico.vue')['default']
+    CadastroPlanos: typeof import('./components/cadastros/cadastroPlanos.vue')['default']
+    CadastroSaude: typeof import('./components/cadastros/CadastroSaude.vue')['default']
+    CadastroSaude02: typeof import('./components/cadastros/cadastroSaude02.vue')['default']
     Form: typeof import('./components/artigos/FormArtigo.vue')['default']
     FormArtigo: typeof import('./components/artigos/FormArtigo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']

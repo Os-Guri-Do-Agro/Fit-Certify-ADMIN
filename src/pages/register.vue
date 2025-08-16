@@ -35,7 +35,7 @@
     <!--DIV DA DIREITA-->
     <VCol class="h-100 d-flex align-center"  md="8">
         
-        <VRow class="mx-5">
+        <VRow class="px-5">
             <VCol class="mb-10 mt-10 mt-md-0" cols="12"><h2 class="text-start text-h5 font-weight-bold" style="color: #88CE0D;">1. Informações Pessoais</h2></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome completo:</label><VTextField id="nomeCompleto" variant="outlined"/></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label><VTextField id="cpf" variant="outlined"/></VCol>
