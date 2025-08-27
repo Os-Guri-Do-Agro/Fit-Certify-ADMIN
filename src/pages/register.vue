@@ -83,16 +83,16 @@
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"
                   ><label for="cpf">CPF</label>
-<VTextField
-  id="cpf"
-  v-model="form.cpf"
-  v-maska="'###.###.###-##'"
-  density="compact"
-  :rules="[rules.requiredCpfObrigatorio]"
-  name="cpf"
-  placeholder="000.000.000-00"
-  variant="outlined"
-/>
+                  <VTextField
+                    id="cpf"
+                    v-model="form.cpf"
+                    v-maska="'###.###.###-##'"
+                    density="compact"
+                    :rules="[rules.requiredCpfObrigatorio]"
+                    name="cpf"
+                    placeholder="000.000.000-00"
+                    variant="outlined"
+                  />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
@@ -226,6 +226,7 @@
                         hide-details
                         density="compact"
                         color="success"
+                        @change="handleDoencaChange(item)"
                       />
 
                       <VRow>
@@ -294,6 +295,7 @@
                         hide-details
                         density="compact"
                         color="success"
+                        @change="handleSintomaChange(item)"
                       />
 
                       <div class="mt-7">
@@ -444,7 +446,6 @@
                         placeholder="Sim"
                         variant="outlined"
                       ></v-select>
-                      
                     </VCol>
                     <VCol class="my-0 px-3" cols="12">
                       <v-checkbox
@@ -637,6 +638,37 @@ function formatarDataParaISO(dataDigitada) {
   return data.isValid() ? data.startOf('day').toISOString() : ''
 }
 
+function handleDoencaChange(item) {
+  const nenhumaId = doencas.value.find(
+    (d) => d.descricao === 'Nenhuma das anteriores'
+  )?.id
+
+  if (!nenhumaId) return
+
+  if (item.id === nenhumaId) {
+
+    if (formDoencas.value.includes(nenhumaId)) {
+      formDoencas.value = [nenhumaId] 
+    } else {
+      formDoencas.value = []
+    }
+  } else {
+
+    formDoencas.value = formDoencas.value.filter((v) => v !== nenhumaId)
+  }
+}
+
+function handleSintomaChange(item) {
+  const nenhumId = sintomas.value.find(s => s.descricao === 'Nenhum desses')?.id
+  if (!nenhumId) return
+
+  if (item.id === nenhumId) {
+    formSintomas.value = formSintomas.value.includes(nenhumId) ? [nenhumId] : []
+  } else {
+    formSintomas.value = formSintomas.value.filter(v => v !== nenhumId)
+  }
+}
+
 const rules = {
   requiredNomeObrigatorio: (value) => !!value || 'Nome obrigatório',
 
@@ -706,7 +738,11 @@ const submitAtleta = handleSubmit(async () => {
     const arquivos = toRaw(formPdfImage.value)
     const formData = new FormData()
 
-    console.log('OBJETIVO SELECIONADO:', objetivoAtividade.value, typeof objetivoAtividade.value)
+    console.log(
+      'OBJETIVO SELECIONADO:',
+      objetivoAtividade.value,
+      typeof objetivoAtividade.value
+    )
 
     formData.append('nome', values.nome || '')
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
