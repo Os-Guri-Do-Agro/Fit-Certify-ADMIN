@@ -479,19 +479,18 @@ const submitAtleta = handleSubmit(async () => {
       formatarDataParaISO(values.dataDeNascimento)
     )
 
-    if (formPdfImage.value?.length > 0) {
-      formPdfImage.value.forEach((file) => {
+    if (arquivos?.length > 0) {
+      arquivos.forEach((file) => {
         formData.append('files', file)
       })
     }
-
-    formData.forEach((v, k) => {
-      console.log(k, v);
-      
-    })
     
-    await AtletaService.post('/atleta', formData)
-    router.push('/registerPlanos')
+    const response =  await AtletaService.createAtleta(formData)
+    console.log(response);
+    
+    if(response.success){
+      router.push('/registerPlanos')
+    }
   } catch (error) {
     console.error(error)
   }

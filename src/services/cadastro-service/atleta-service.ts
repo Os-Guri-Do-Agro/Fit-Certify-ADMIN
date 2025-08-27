@@ -18,7 +18,7 @@ class AtletaService {
   }
 
     async createAtleta(formData: FormData): Promise<any> {
-        return await this.handleRequest(
+        return this.handleRequest(
             apiClient.post('/atleta', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
