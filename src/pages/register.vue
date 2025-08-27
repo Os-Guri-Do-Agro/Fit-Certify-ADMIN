@@ -87,7 +87,7 @@
                     id="cpf"
                     v-model="form.cpf"
                     density="compact"
-                    :error-messages="errors.cpf"
+                    :rules="[rules.requiredCpfObrigatorio]"
                     name="cpf"
                     placeholder="000.000.000-00"
                     variant="outlined"
@@ -100,7 +100,7 @@
                     id="senha"
                     v-model="form.senha"
                     density="compact"
-                    :error-messages="errors.senha"
+                    :rules="[rules.requiredSenhaObrigatoria]"
                     name="senha"
                     type="password"
                     variant="outlined"
@@ -112,7 +112,7 @@
                     id="formEmail"
                     v-model="form.email"
                     density="compact"
-                    :error-messages="errors.email"
+                    :rules="[rules.requiredEmailObrigatorio]"
                     placeholder="exemplo@dominio.com"
                     type="email"
                     variant="outlined"
@@ -125,7 +125,7 @@
                     id="telefone"
                     v-model="form.telefone"
                     density="compact"
-                    :error-messages="errors.telefone"
+                    :rules="[rules.requiredTelefoneObrigatorio]"
                     name="telefone"
                     placeholder="(99) 9 9999-9999"
                     type="tel"
@@ -138,7 +138,7 @@
                     id="nascimento"
                     v-model="form.dataDeNascimento"
                     density="compact"
-                    :error-messages="errors.dataDeNascimento"
+                    :rules="[rules.requiredDataNascimentoObrigatorio]"
                     name="nascimento"
                     placeholder="DD/MM/AAAA"
                     variant="outlined"
@@ -151,7 +151,7 @@
                     id="altura"
                     v-model="form.altura"
                     density="compact"
-                    :error-messages="errors.altura"
+                    :rules="[rules.requiredAlturaObrigatorio]"
                     name="altura"
                     placeholder="0.00cm"
                     variant="outlined"
@@ -164,7 +164,7 @@
                     id="peso"
                     v-model="form.peso"
                     density="compact"
-                    :error-messages="errors.peso"
+                    :rules="[rules.requiredPesoObrigatorio]"
                     name="peso"
                     placeholder="0.00kg"
                     variant="outlined"
@@ -179,7 +179,7 @@
                     id="pratica"
                     v-model="form.atividadeFisica"
                     density="compact"
-                    :error-messages="errors.atividadeFisica"
+                    :rules="[rules.requiredSelectObrigatorio]"
                     :items="items"
                     placeholder="Sim"
                     variant="outlined"
@@ -203,7 +203,7 @@
                         <v-checkbox
                             v-for="(item, index) in doencas"
                             :key="index"
-                            v-model="formDoencas.doencas"
+                            :rules="[rules.requiredCheckObrigatorio]"
                             :label="item.descricao"
                             :value="item.id"
                             hide-details
@@ -260,14 +260,14 @@
                         <v-checkbox
                             v-for="(item, index) in sintomas"
                             :key="index"
-                            v-model="formSintomas.sintomas"
+                            v-model="formSintomas.historicoSaudeSintomas"
+                            :rules="[rules.requiredCheckObrigatorio]"
                             :label="item.descricao"
                             :value="item.id"
                             hide-details
                             density="compact"
                             color="success"
                         />
-                        <p>TESTANDO:  {{ formSintomas.sintomas }}</p>
 
                       <div class="mt-7">
                         <h2
@@ -285,7 +285,7 @@
                               id="objetivo_atividade"
                               v-model="select.value.value"
                               density="compact"
-                              :error-messages="errors.atividadeFisica"
+                              :rules="[rules.requiredSelectObrigatorio]"
                               :items="objetivos"
                               placeholder="Saúde geral"
                               variant="outlined"
@@ -300,7 +300,7 @@
                               id="Objetivo_pratica"
                               v-model="form.participouProva"
                               density="compact"
-                              :error-messages="errors.atividadeFisica"
+                              :rules="[rules.requiredSelectObrigatorio]"
                               :items="items"
                               placeholder="Sim"
                               variant="outlined"
@@ -346,7 +346,7 @@
                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="check">Fez check-up nos últimos 12 meses?</label><v-select
                   density="comfortable"
                   v-model="form.fezcheckUp"
-                  :error-messages="errors.fezcheckUp"
+                  :rules="[rules.requiredSelectObrigatorio]"
                   :items="items"
                   name="check"
                   id="check"
@@ -358,14 +358,14 @@
                 <VCol class="my-0 py-0 font-weight-medium " cols="12"><label for="possuiSmartwatch">Possui smartwatch ou app de treino?</label><v-select
                   density="comfortable"
                   v-model="form.possuiSmartwatch"
-                  :error-messages="errors.possuiSmartwatch"
+                  :rules="[rules.requiredSelectObrigatorio]"
                   :items="items"
                   id="possuiSmartwatch"
                   placeholder="Sim"
                   variant="outlined"
                 ></v-select></VCol>
-            <VCol class="my-0 px-1" cols="12">
-                <v-checkbox class="font-weight-medium" v-model="form.integrarDados" color="success" required label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
+            <VCol class="my-0 px-3" cols="12">
+                <v-checkbox class="font-weight-medium" v-model="form.integrarDados" :rules="[rules.requiredCheckObrigatorio]" color="success" required label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
             </VCol>
             </v-form>
             </VRow>
@@ -382,23 +382,26 @@
                 <v-form class="w-100">
             <v-checkbox
               v-model="form.declaroInformacoes"
+              :rules="[rules.requiredCheckObrigatorio]"
               color="success"
               class="font-weight-medium"
-              label="Desejo integrar meus dados com a FitCertify365">
+              label=" Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.">
             </v-checkbox>
 
             <v-checkbox
               v-model="form.aceitoCompartilhar"
+              :rules="[rules.requiredCheckObrigatorio]"
               color="success"
               class="font-weight-medium"
-              label="Desejo integrar meus dados com a FitCertify365">
+              label="Aceito compartilhar meus dados com as organizações dos eventos que eu participar.">
             </v-checkbox>
 
             <v-checkbox
               v-model="form.concordoTermos"
+              :rules="[rules.requiredCheckObrigatorio]"
               color="success"
               class="font-weight-medium"
-              label="Desejo integrar meus dados com a FitCertify365">
+              label=" Li e concordo com os Termos de Uso e Política de Privacidade.">
             </v-checkbox>
 
                 </v-form>
@@ -444,19 +447,16 @@
 </template>
 
 <script setup>
-import dayjs from 'dayjs'
 import { useField, useForm } from 'vee-validate'
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
-import * as yup from 'yup'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import DoencaService from '../services/cadastro-service/doenca-service'
 import SintomaService from '../services/cadastro-service/sintoma-service'
-import AtletaService from '../services/cadastro-service/atleta-service'
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import * as yup from "yup"
-import atletaService from '../services/cadastro-service/atleta-service'
+
 
 dayjs.locale('pt-br')
 
@@ -502,8 +502,42 @@ const formSintomas = ref({
   historicoSaudeSintomas: []
 })
 
+
+
+function validarCPF(cpf) {
+  cpf = cpf.replace(/\D/g, '');
+  if (cpf.length !== 11) return false;
+  if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+  let soma = 0;
+  for (let i = 0; i < 9; i++) soma += parseInt(cpf[i]) * (10 - i);
+  let resto = (soma * 10) % 11;
+  if (resto === 10) resto = 0;
+  if (resto !== parseInt(cpf[9])) return false;
+
+  soma = 0;
+  for (let i = 0; i < 10; i++) soma += parseInt(cpf[i]) * (11 - i);
+  resto = (soma * 10) % 11;
+  if (resto === 10) resto = 0;
+  if (resto !== parseInt(cpf[10])) return false;
+
+  return true;
+}
+
 const rules = {
-  requiredNomeObrigatorio: (value) => !!value || 'Nome é obrigatório',
+  requiredNomeObrigatorio: (value) => !!value || 'Nome obrigatório',
+  requiredCpfObrigatorio: (value) => {
+    if (!value) return 'CPF obrigatório'
+    return validarCPF(value) || 'CPF inválido'
+  },
+  requiredEmailObrigatorio: (value) => !!value || 'E-mail obrigatório',
+  requiredSenhaObrigatoria: (value) => !!value || 'Senha obrigatória',
+  requiredTelefoneObrigatorio: (value) => !!value || 'Telefone obrigatório',
+  requiredDataNascimentoObrigatorio: (value) => !!value || 'Data de nascimento obrigatória',
+  requiredAlturaObrigatorio: (value) => !!value || 'Altura obrigatória',
+  requiredPesoObrigatorio: (value) => !!value || 'Peso obrigatório',
+  requiredSelectObrigatorio: (value) => !!value || 'Campo obrigatório',
+  requiredCheckObrigatorio: (value) => !!value || 'Campo obrigatório'
 }
 
 const schema = yup.object({
@@ -552,55 +586,54 @@ const bruscarSintoma = async () => {
   }
 }
 
-const submitForm = async () => {
+const submitAtleta = handleSubmit(async (values) => {
   try {
-    const { valid } = await formRef.value.validate()
-    if (!valid) return
     const formData = new FormData()
 
-   
-    formData.append('nome', form.value.nomeCompleto || '')
-    formData.append('cpf', form.value.cpf || '')
-    formData.append('senha', form.value.senha || '')
-    formData.append('email', form.value.email || '')
-    formData.append('telefone', form.value.telefone || '')
-    formData.append('altura', form.value.altura || '')
-    formData.append('peso', form.value.peso || '')
-    formData.append('atividadeFisica', form.value.atividadeFisica ?? '')
-    formData.append('outrasCondicoes', form.value.outrasCondicoes || '')
-    formData.append('tomaMedicamento', form.value.tomaMedicamento || '')
-    formData.append('participouProva', form.value.participouProva?.toString() || '')
-    formData.append('ultimaProva', form.value.ultimaProva || '')
-    formData.append('fezcheckUp', form.value.fezcheckUp?.toString() || '')
-    formData.append('possuiSmartwatch', form.value.possuiSmartwatch?.toString() || '')
+    formData.append('nome', values.nomeCompleto || '')
+    formData.append('cpf', values.cpf || '')
+    formData.append('senha', values.senha || '')
+    formData.append('email', values.email || '')
+    formData.append('telefone', values.telefone || '')
+    formData.append('altura', values.altura || '')
+    formData.append('peso', values.peso || '')
+    formData.append('atividadeFisica', values.atividadeFisica ?? '')
+    formData.append('outrasCondicoes', values.outrasCondicoes || '')
+    formData.append('tomaMedicamento', values.tomaMedicamento || '')
+    formData.append('participouProva', values.participouProva?.toString() || '')
+    formData.append('ultimaProva', values.ultimaProva || '')
+    formData.append('fezcheckUp', values.fezcheckUp?.toString() || '')
+    formData.append('possuiSmartwatch', values.possuiSmartwatch?.toString() || '')
+
     formData.append(
-    'historicoSaudeDoencas',
-    JSON.stringify(formDoencas.value.doencas.map(d => d.id))
+      'historicoSaudeDoencas',
+      JSON.stringify(formDoencas.value.doencas.map(d => d.id))
     )
     formData.append(
-    'sintomas',
-    JSON.stringify(formSintomas.value.sintomas.map(s => s.id))
+      'sintomas',
+      JSON.stringify(formSintomas.value.sintomas.map(s => s.id))
     )
-    
+
     formData.append(
-    'dataNascimento',
-    form.value.dataDeNascimento
-    ? dayjs(form.value.dataDeNascimento).toISOString()
-    : ''
-)
+      'dataNascimento',
+      values.dataDeNascimento
+        ? dayjs(values.dataDeNascimento).toISOString()
+        : ''
+    )
 
     if (formPdfImage.value.pdfImages?.length > 0) {
-      formPdfImage.value.pdfImages.forEach((file, index) => {
-        formData.append('files', file) 
+      formPdfImage.value.pdfImages.forEach((file) => {
+        formData.append('files', file)
       })
     }
 
-    await atletaService.post('/atleta', formData)
-
+    await AtletaService.post('/atleta', formData)
+    router.push('/registerPlanos')
   } catch (error) {
     console.error(error)
   }
-}
+})
+
 
 
 const select = useField('select')
@@ -612,7 +645,6 @@ const handleNext = async (next) => {
   if (step.value === 3) {
     try {
       await submitAtleta()
-      router.push('/registerPlanos')
     } catch (error) {
       console.error('Erro ao enviar formulário:', error)
     }
