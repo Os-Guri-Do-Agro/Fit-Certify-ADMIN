@@ -3,7 +3,7 @@ import apiClient from '../api-service'
 // import type IArtigo from '@/Interfaces/artigo-interface'
 // import { CategoryEntity, CreateCategoryDto, UpdateCategoryDto } from '@/common/types/category'
 
-class CadastroService {
+class SintomaService {
   private async handleRequest<T>(
     request: Promise<{ data: T }>,
     errorMessage: string
@@ -17,19 +17,14 @@ class CadastroService {
     }
   }
 
-  getAllDoencas(): Promise<any> {
-    return this.handleRequest(
-      apiClient.get('/doenca'),
-      'ERROR - 404'
-    )
-  }
 
-  getAllSintomas(): Promise<any> {
+    getAllSintomas(): Promise<any> {
     return this.handleRequest(
       apiClient.get('/sintoma'),
       'ERROR - 404'
     )
   }
+
 }
 
-export default new CadastroService()
+export default new SintomaService()

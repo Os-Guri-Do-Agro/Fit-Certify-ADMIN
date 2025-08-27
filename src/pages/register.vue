@@ -61,39 +61,61 @@
 
         <!--Primeiro slid-->
           <template #item.1>
+          <v-form>
+
           <VRow>
             <VCol class="mb-10 mt-10 mt-md-0" cols="12"><h2 class="text-start text-h5 font-weight-bold" style="color: #88CE0D;">1. Informações Pessoais</h2></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome completo:</label><VTextField density="compact" name="nomeCompleto" id="nomeCompleto" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label><VTextField density="compact" name="cpf" id="cpf" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome completo:</label>
+              <VTextField v-model="form.nomeCompleto" density="compact" name="nomeCompleto" id="nomeCompleto" variant="outlined"/>
+            </VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label>
+              <VTextField v-model="form.cpf" placeholder="000.000.000-00" density="compact" name="cpf" id="cpf" variant="outlined"/>
+            </VCol>
           
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label><VTextField density="compact" name="senha" id="senha" type="password" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="email">E-mail</label><VTextField density="compact" name="email" id="email" type="email" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label>
+              <VTextField v-model="form.senha" density="compact" name="senha" id="senha" type="password" variant="outlined"/>
+            </VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="email">E-mail</label>
+              <VTextField v-model="form.email" placeholder="exemplo@dominio.com" density="compact" name="email" id="email" type="email" variant="outlined"/>
+            </VCol>
 
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label><VTextField density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de nascimento:</label><VTextField density="compact" name="nascimento" id="nascimento" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label>
+              <VTextField v-model="form.telefone" placeholder="(99) 9 9999-9999" density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/>
+            </VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de nascimento:</label>
+              <VTextField v-model="form.dataDeNascimento" placeholder="DD/MM/AAAA" density="compact" name="nascimento" id="nascimento" variant="outlined"/>
+            </VCol>
 
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label><VTextField density="compact" name="altura" id="altura" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label>
+              <VTextField density="compact" v-model="form.altura" placeholder="0.00cm" name="altura" id="altura" variant="outlined"/>
+            </VCol>
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label><VTextField density="compact" name="peso" id="peso" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label>
+              <VTextField density="compact" v-model="form.peso" placeholder="0.00kg" name="peso" id="peso" variant="outlined"/>
+            </VCol>
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label><v-select density="compact"
-            v-model="select.value.value"
+            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label>
+              <v-select density="compact"
+            v-model="form.atividadeFisica"
             :error-messages="select.errorMessage.value"
             :items="items"
             id="pratica"
-            placeholder="Sim"
             variant="outlined"
-            ></v-select></VCol>
+            placeholder="Sim"
+            ></v-select>
+          </VCol>
                                       
           </VRow>
+          </v-form>
           </template>
 
 
           <!--Segundo slide-->
           <template #item.2>
+            <v-form>
             <VRow class="pa-0 ma-0 fill-md-height d-flex flex-column flex-md-row">
 
 
@@ -182,12 +204,13 @@
             </VCol>
 
         </VRow>
+        </v-form>
           </template>
-
-
 
           <!--Terceiro slide-->
           <template #item.3>
+            <v-form>
+
   <div class="d-flex flex-column justify-space-between">
     <div class="mt-10 mt-md-0 d-flex">
                 <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88CE0D;">
@@ -242,6 +265,7 @@
                 </v-form>
             </div>
             </div>
+            </v-form>
           </template>
 
          <template #actions="{ next, prev }">
@@ -269,6 +293,7 @@
                  {{ step !== 3 ? 'Próximo' : 'Enviar Formulário' }}
               </VBtn>
             </div>
+          
           </template>
         </VStepper>
       </v-container>
@@ -280,7 +305,12 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
-import CadastroService from '../services/cadastro-service/cadastro-service'
+import DoencaService from '../services/cadastro-service/doenca-service'
+import SintomaService from '../services/cadastro-service/sintoma-service'
+import dayjs from "dayjs";
+import "dayjs/locale/pt-br";
+
+dayjs.locale("pt-br");
 
 const step = ref(1)
 const router = useRouter()
@@ -289,6 +319,18 @@ const doencas = ref([])
 const sintomas = ref([])
 const selecionados = ref([])
 
+const form = ref({
+  nomeCompleto: '',
+  cpf: '',
+  senha: '',
+  email: '',
+  telefone: '',
+  dataDeNascimento: '',
+  altura: '',
+  peso: '',
+  atividadeFisica: null
+})
+
 onMounted(async () => {
   await buscarDoenca(),
   await bruscarSintoma()
@@ -296,7 +338,7 @@ onMounted(async () => {
 
 const buscarDoenca = async () => {
   try {
-    const res = await CadastroService.getAllDoencas()
+    const res = await DoencaService.getAllDoencas()
     doencas.value = res.data || []
   } catch (e) {
     console.error('Erro ao carregar doenças', e)
@@ -305,21 +347,12 @@ const buscarDoenca = async () => {
 
 const bruscarSintoma = async () => {
   try {
-    const res = await CadastroService.getAllSintomas()
+    const res = await SintomaService.getAllSintomas()
     sintomas.value = res.data || []
   } catch (e) {
     console.error('Erro ao carregar sintomas', e)
   }
 }
-
-const { handleSubmit } = useForm({
-  validationSchema: {
-    select (value) {
-      if (value) return true
-      return 'Select an item.'
-    },
-  },
-})
 
 const select = useField('select')
 const checkselect = useField('checkselect')
