@@ -66,41 +66,41 @@
           <VRow>
             <VCol class="mb-10 mt-10 mt-md-0" cols="12"><h2 class="text-start text-h5 font-weight-bold" style="color: #88CE0D;">1. Informações Pessoais</h2></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome completo:</label>
-              <VTextField v-model="form.nomeCompleto" density="compact" name="nomeCompleto" id="nomeCompleto" variant="outlined"/>
+              <VTextField v-model="form.nomeCompleto" :error-messages="errors.nomeCompleto" density="compact" name="nomeCompleto" id="nomeCompleto" variant="outlined"/>
             </VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label>
-              <VTextField v-model="form.cpf" placeholder="000.000.000-00" density="compact" name="cpf" id="cpf" variant="outlined"/>
+              <VTextField v-model="form.cpf" :error-messages="errors.cpf" placeholder="000.000.000-00" density="compact" name="cpf" id="cpf" variant="outlined"/>
             </VCol>
           
 
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label>
-              <VTextField v-model="form.senha" density="compact" name="senha" id="senha" type="password" variant="outlined"/>
+              <VTextField v-model="form.senha" :error-messages="errors.senha" density="compact" name="senha" id="senha" type="password" variant="outlined"/>
             </VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="email">E-mail</label>
-              <VTextField v-model="form.email" placeholder="exemplo@dominio.com" density="compact" name="email" id="email" type="email" variant="outlined"/>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="formEmail">E-mail</label>
+              <VTextField v-model="form.email" :error-messages="errors.email" placeholder="exemplo@dominio.com" density="compact" id="formEmail" type="email" variant="outlined"/>
             </VCol>
 
 
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label>
-              <VTextField v-model="form.telefone" placeholder="(99) 9 9999-9999" density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/>
+              <VTextField v-model="form.telefone" :error-messages="errors.telefone" placeholder="(99) 9 9999-9999" density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/>
             </VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de nascimento:</label>
-              <VTextField v-model="form.dataDeNascimento" placeholder="DD/MM/AAAA" density="compact" name="nascimento" id="nascimento" variant="outlined"/>
+              <VTextField v-model="form.dataDeNascimento" :error-messages="errors.dataDeNascimento" placeholder="DD/MM/AAAA" density="compact" name="nascimento" id="nascimento" variant="outlined"/>
             </VCol>
 
 
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label>
-              <VTextField density="compact" v-model="form.altura" placeholder="0.00cm" name="altura" id="altura" variant="outlined"/>
+              <VTextField density="compact" v-model="form.altura" :error-messages="errors.altura" placeholder="0.00cm" name="altura" id="altura" variant="outlined"/>
             </VCol>
 
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label>
-              <VTextField density="compact" v-model="form.peso" placeholder="0.00kg" name="peso" id="peso" variant="outlined"/>
+              <VTextField density="compact" v-model="form.peso" :error-messages="errors.peso" placeholder="0.00kg" name="peso" id="peso" variant="outlined"/>
             </VCol>
 
             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label>
               <v-select density="compact"
             v-model="form.atividadeFisica"
-            :error-messages="select.errorMessage.value"
+            :error-messages="errors.atividadeFisica"
             :items="items"
             id="pratica"
             variant="outlined"
@@ -127,9 +127,9 @@
                         <v-checkbox
                             v-for="(item, index) in doencas"
                             :key="index"
-                            v-model="selecionados"
+                            v-model="formDoencas.doencas"
                             :label="item.descricao"
-                            :value="item.id"
+                            :value="item.descricao"
                             hide-details
                             density="compact"
                             color="success"
@@ -139,7 +139,7 @@
                             <VCol cols="12">
                         <div class="mt-5 d-flex flex-column">
                             <span class="text-black">Outras condições médicas:</span>
-                            <v-textarea class="text-black" no-resize rows="2" color="black" variant="outlined"></v-textarea>
+                            <v-textarea class="text-black" v-model="form.outrasCondicoes" :error-messages="errors.outrasCondicoes" no-resize rows="2" color="black" variant="outlined"></v-textarea>
                         </div>
                             </VCol>
 
@@ -147,7 +147,7 @@
                             <VCol cols="12">
                         <div class="mt-5 d-flex flex-column">
                             <span class="text-black">Toma algum medicamento contínuo? Se sim, qual?</span>
-                            <v-textarea class="text-black custom-textarea" rows="2"  no-resize max-height="20px" color="black" variant="outlined"></v-textarea>
+                            <v-textarea class="text-black custom-textarea" v-model="form.tomaMedicamento" :error-messages="errors.tomaMedicamento" rows="2"  no-resize max-height="20px" color="black" variant="outlined"></v-textarea>
                         </div>
                             </VCol>
                         </VRow>
@@ -165,9 +165,9 @@
                         <v-checkbox
                             v-for="(item, index) in sintomas"
                             :key="index"
-                            v-model="selecionados"
+                            v-model="formSintomas.sintomas"
                             :label="item.descricao"
-                            :value="item.id"
+                            :value="item.descricao"
                             hide-details
                             density="compact"
                             color="success"
@@ -178,23 +178,26 @@
                             <VRow>
                             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="objetivo_atividade">Objetivo com a atividade física:</label><v-select density="compact"
                             v-model="select.value.value"
-                            :error-messages="select.errorMessage.value"
+                            :error-messages="errors.atividadeFisica"
                             :items="objetivos"
                             id="objetivo_atividade"
                             placeholder="Saúde geral"
                             variant="outlined"
                             ></v-select></VCol>
 
-                            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="Objetivo_pratica">Pratica atividade física regularmente?</label><v-select density="compact"
-                            v-model="select.value.value"
-                            :error-messages="select.errorMessage.value"
+                            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="Objetivo_pratica">Já participou de provas antes?</label>
+                              <v-select density="compact"
+                            v-model="form.participouProva"
+                            :error-messages="errors.atividadeFisica"
                             :items="items"
                             id="Objetivo_pratica"
                             placeholder="Sim"
                             variant="outlined"
                             ></v-select></VCol>
 
-                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a última?</label><VTextField name="ultimasprovas" id="ultimasprovas" density="compact" variant="outlined"/></VCol>
+                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a última?</label>
+                                  <VTextField v-model="form.ultimaProva" name="ultimasprovas" id="ultimasprovas" density="compact" variant="outlined"/>
+                                </VCol>
                                 
                             </VRow>
                         </div>
@@ -222,27 +225,27 @@
                 <v-form class="w-100">
                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="check">Fez check-up nos últimos 12 meses?</label><v-select
                   density="comfortable"
-                  v-model="checkselect.value.value"
-                  :error-messages="checkselect.errorMessage.value"
+                  v-model="form.fezcheckUp"
+                  :error-messages="errors.fezcheckUp"
                   :items="items"
                   name="check"
                   id="check"
                   placeholder="Sim"
                   variant="outlined"
                 ></v-select></VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="arquivos">Anexar exames (PDF ou imagem):</label><VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"/></VCol>
-                <VCol class="my-0 py-0 font-weight-medium " cols="12"><label for="app">Possui smartwatch ou app de treino?</label><v-select
+                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="arquivos">Anexar exames (PDF ou imagem):</label>
+                  <VFileInput v-model="formPdfImage.pdfImages" density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"/></VCol>
+                <VCol class="my-0 py-0 font-weight-medium " cols="12"><label for="possuiSmartwatch">Possui smartwatch ou app de treino?</label><v-select
                   density="comfortable"
-                  v-model="appselect.value.value"
-                  :error-messages="appselect.errorMessage.value"
+                  v-model="form.possuiSmartwatch"
+                  :error-messages="errors.possuiSmartwatch"
                   :items="items"
-                  name="app"
-                  id="app"
+                  id="possuiSmartwatch"
                   placeholder="Sim"
                   variant="outlined"
                 ></v-select></VCol>
             <VCol class="my-0 px-1" cols="12">
-                <v-checkbox class="font-weight-medium" color="success" label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
+                <v-checkbox class="font-weight-medium" color="success" required label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
             </VCol>
             </v-form>
             </VRow>
@@ -289,8 +292,9 @@
                 height="43px"
                 max-width="237px"
                 :style="step === 3 ? 'background-color:#88ce0d' : 'background-color: #00c6fe'"
-                 @click="handleNext(next)" >
-                 {{ step !== 3 ? 'Próximo' : 'Enviar Formulário' }}
+                @click="handleNext(next)"
+                >
+                {{ step !== 3 ? 'Próximo' : 'Enviar Formulário' }}
               </VBtn>
             </div>
           
@@ -307,8 +311,10 @@ import { useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
 import DoencaService from '../services/cadastro-service/doenca-service'
 import SintomaService from '../services/cadastro-service/sintoma-service'
+import AtletaService from '../services/cadastro-service/atleta-service'
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
+import * as yup from "yup"
 
 dayjs.locale("pt-br");
 
@@ -328,7 +334,43 @@ const form = ref({
   dataDeNascimento: '',
   altura: '',
   peso: '',
-  atividadeFisica: null
+  atividadeFisica: null,
+  outrasCondicoes: '',
+  tomaMedicamento: '',
+  participouProva: null,
+  ultimaProva: '',
+  fezcheckUp: null,
+  possuiSmartwatch: null
+})
+
+const schema = yup.object({
+  nomeCompleto: yup.string().required("Nome é obrigatório"),
+  cpf: yup.string().required("CPF é obrigatório"),
+  email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
+  senha: yup.string().min(6, "Senha deve ter pelo menos 6 caracteres").required("Senha é obrigatória"),
+  telefone: yup.string().required("Telefone é obrigatório"),
+  dataDeNascimento: yup.string().required("Data de nascimento é obrigatória"),
+  altura: yup.number().required("Altura é obrigatória"),
+  peso: yup.number().required("Peso é obrigatório"),
+  atividadeFisica: yup.string().required("Campo obrigatório"),
+  fezcheckUp: yup.string().required("Campo obrigatório"),
+  possuiSmartwatch: yup.string().required("Campo obrigatório"),
+})
+
+const { handleSubmit, errors } = useForm({
+  validationSchema: schema,
+})
+
+const formPdfImage = ref({
+  pdfImages: []
+})
+
+const formDoencas = ref({
+  doencas: []
+})
+
+const formSintomas = ref({
+  sintomas: []
 })
 
 onMounted(async () => {
@@ -354,16 +396,50 @@ const bruscarSintoma = async () => {
   }
 }
 
+const submitAtleta = handleSubmit(async (values) => {
+  try {
+    const formData = new FormData()
+
+ 
+    for (const key in values) {
+      formData.append(key, values[key])
+    }
+
+
+    formPdfImage.value.pdfImages.forEach((file, index) => {
+      formData.append(`arquivos[${index}]`, file)
+    })
+
+
+    formDoencas.value.doencas.forEach((id, index) => {
+      formData.append(`doencas[${index}]`, id)
+    })
+
+
+    formSintomas.value.sintomas.forEach((id, index) => {
+      formData.append(`sintomas[${index}]`, id)
+    })
+    
+    await AtletaService.createAtleta(formData)
+    router.push("/registerPlanos")
+  } catch (error) {
+    console.error("Erro ao criar atleta:", error)
+  }
+})
+
 const select = useField('select')
-const checkselect = useField('checkselect')
-const appselect = useField('appselect')
 
 const items = ref(['Sim', 'Não'])
 const objetivos = ref(['Saúde Geral', 'Objetivo 02', 'Objetivo 03'])
 
-const handleNext = (next) => {
+const handleNext = async (next) => {
   if (step.value === 3) {
-    router.push('/registerPlanos') 
+    try {
+      await submitAtleta()
+      router.push('/registerPlanos')
+    } catch (error) {
+      console.error("Erro ao enviar formulário:", error)
+    }
   } else {
     next()
   }

@@ -17,7 +17,16 @@ class AtletaService {
     }
   }
 
-
+    async createAtleta(formData: FormData): Promise<any> {
+        return this.handleRequest(
+            apiClient.post('/atleta', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    },
+            }),
+            'Erro ao criar atleta'
+        )
+    }
 }
 
 export default new AtletaService()
