@@ -79,8 +79,6 @@
 
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label><VTextField density="compact" name="peso" id="peso" variant="outlined"/></VCol>
 
-            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="telefone">Telefone:</label><VTextField density="compact" name="telefone02" id="telefone02" type="tel" variant="outlined"/></VCol>
-
             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label><v-select density="compact"
             v-model="select.value.value"
             :error-messages="select.errorMessage.value"
@@ -105,11 +103,11 @@
                 <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88CE0D;">2. Histórico de Saúde</h2>
                 <div class="mb-5"><span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições abaixo?</span></div>
                         <v-checkbox
-                            v-for="(item, index) in condicoes"
+                            v-for="(item, index) in doencas"
                             :key="index"
                             v-model="selecionados"
-                            :label="item"
-                            :value="item"
+                            :label="item.descricao"
+                            :value="item.id"
                             hide-details
                             density="compact"
                             color="success"
@@ -146,8 +144,8 @@
                             v-for="(item, index) in sintomas"
                             :key="index"
                             v-model="selecionados"
-                            :label="item"
-                            :value="item"
+                            :label="item.descricao"
+                            :value="item.id"
                             hide-details
                             density="compact"
                             color="success"
@@ -174,7 +172,7 @@
                             variant="outlined"
                             ></v-select></VCol>
 
-                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a última?</label><VTextField name="ultimasprovas" id="ultimasprovas" variant="outlined"/></VCol>
+                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a última?</label><VTextField name="ultimasprovas" id="ultimasprovas" density="compact" variant="outlined"/></VCol>
                                 
                             </VRow>
                         </div>
@@ -200,29 +198,29 @@
             <VRow class="d-flex">
                 <v-form class="w-100">
                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="check">Fez check-up nos últimos 12 meses?</label><v-select
-        density="comfortable"
-      v-model="checkselect.value.value"
-      :error-messages="checkselect.errorMessage.value"
-      :items="items"
-      name="check"
-      id="check"
-      placeholder="Sim"
-      variant="outlined"
-    ></v-select></VCol>
+                  density="comfortable"
+                  v-model="checkselect.value.value"
+                  :error-messages="checkselect.errorMessage.value"
+                  :items="items"
+                  name="check"
+                  id="check"
+                  placeholder="Sim"
+                  variant="outlined"
+                ></v-select></VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="arquivos">Anexar exames (PDF ou imagem):</label><VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"/></VCol>
                 <VCol class="my-0 py-0 font-weight-medium " cols="12"><label for="app">Possui smartwatch ou app de treino?</label><v-select
-        density="comfortable"
-      v-model="appselect.value.value"
-      :error-messages="appselect.errorMessage.value"
-      :items="items"
-      name="app"
-      id="app"
-      placeholder="Sim"
-      variant="outlined"
-    ></v-select></VCol>
-            <div class="">
+                  density="comfortable"
+                  v-model="appselect.value.value"
+                  :error-messages="appselect.errorMessage.value"
+                  :items="items"
+                  name="app"
+                  id="app"
+                  placeholder="Sim"
+                  variant="outlined"
+                ></v-select></VCol>
+            <VCol class="my-0 px-1" cols="12">
                 <v-checkbox class="font-weight-medium" color="success" label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
-            </div>
+            </VCol>
             </v-form>
             </VRow>
 
@@ -279,79 +277,70 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useField, useForm } from 'vee-validate'
+import CadastroService from '../services/cadastro-service/cadastro-service'
 
 const step = ref(1)
 const router = useRouter()
 
-  const { handleSubmit } = useForm({
-    validationSchema: {
+const doencas = ref([])
+const sintomas = ref([])
+const selecionados = ref([])
 
-      select (value) {
-        if (value) return true
+onMounted(async () => {
+  await buscarDoenca(),
+  await bruscarSintoma()
+})
 
-        return 'Select an item.'
-      },
+const buscarDoenca = async () => {
+  try {
+    const res = await CadastroService.getAllDoencas()
+    doencas.value = res.data || []
+  } catch (e) {
+    console.error('Erro ao carregar doenças', e)
+  }
+}
+
+const bruscarSintoma = async () => {
+  try {
+    const res = await CadastroService.getAllSintomas()
+    sintomas.value = res.data || []
+  } catch (e) {
+    console.error('Erro ao carregar sintomas', e)
+  }
+}
+
+const { handleSubmit } = useForm({
+  validationSchema: {
+    select (value) {
+      if (value) return true
+      return 'Select an item.'
     },
-  })
+  },
+})
 
-  const select = useField('select')
- 
+const select = useField('select')
+const checkselect = useField('checkselect')
+const appselect = useField('appselect')
 
-  const items = ref([
-    'Sim',
-    'Não'
-  ])
-
-  const objetivos = ref ([
-    'Saúde Geral',
-    'Objetivo 02',
-    'Objetivo 03'
-  ])
-
+const items = ref(['Sim', 'Não'])
+const objetivos = ref(['Saúde Geral', 'Objetivo 02', 'Objetivo 03'])
 
 const handleNext = (next) => {
   if (step.value === 3) {
-
     router.push('/registerPlanos') 
   } else {
     next()
   }
 }
 
-const condicoes = [
-  'Hipertensão',
-  'Diabetes',
-  'Asma',
-  'Colesterol alto',
-  'Problemas cardíacos',
-  'Doenças renais',
-  'Problemas respiratórios',
-  'Nenhuma das anteriores'
+const declaracoes = [
+  'Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.',
+  'Aceito compartilhar meus dados com as organizações dos eventos que eu participar.',
+  'Li e concordo com os Termos de Uso e Política de Privacidade.'
 ]
-
-const sintomas = [
-    'Dor no peito ao esforço',
-    'Falta de ar com atividades leves',
-    'Tontura ou desmaios',
-    'Palpitações',
-    'Inchaço nas pernas',
-    'Nenhum desses'
-]
-
-const selecionados = ref([])
-
-
-  const checkselect = useField('checkselect')
-  const appselect = useField('appselect')
-  
-  const declaracoes = [
-    'Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.',
-    'Aceito compartilhar meus dados com as organizações dos eventos que eu participar.',
-    'Li e concordo com os Termos de Uso e Política de Privacidade.'
-  ]
 
 const item = [
   'Cadastro Básico',
@@ -373,6 +362,7 @@ const textStep = [
   'Criar sua conta na FitCertify365 é rápido, seguro e gratuito.Com ela, você poderá validar certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace.',
 ]
 </script>
+
 
 
 
