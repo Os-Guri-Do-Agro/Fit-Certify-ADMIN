@@ -129,7 +129,7 @@
                             :key="index"
                             v-model="formDoencas.doencas"
                             :label="item.descricao"
-                            :value="item.descricao"
+                            :value="item.id"
                             hide-details
                             density="compact"
                             color="success"
@@ -167,11 +167,12 @@
                             :key="index"
                             v-model="formSintomas.sintomas"
                             :label="item.descricao"
-                            :value="item.descricao"
+                            :value="item.id"
                             hide-details
                             density="compact"
                             color="success"
                         />
+                        <p>TESTANDO:  {{ formSintomas.sintomas }}</p>
 
                         <div class="mt-7">
                             <h2 class="text-start text-h5 font-weight-bold mb-7" style="color: #88CE0D;">4. Histórico Esportivo</h2>
@@ -245,7 +246,7 @@
                   variant="outlined"
                 ></v-select></VCol>
             <VCol class="my-0 px-1" cols="12">
-                <v-checkbox class="font-weight-medium" color="success" required label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
+                <v-checkbox class="font-weight-medium" v-model="form.integrarDados" color="success" required label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
             </VCol>
             </v-form>
             </VRow>
@@ -258,13 +259,26 @@
                 </h2>
                 <v-form class="w-100">
             <v-checkbox
-            v-for="(item, index) in declaracoes"
-            :key="index"
-            v-model="selecionados"
-            :label="item"
-            :value="item"
-            density="compact"
-            class="font-weight-medium" color="success" ></v-checkbox>
+              v-model="form.declaroInformacoes"
+              color="success"
+              class="font-weight-medium"
+              label="Desejo integrar meus dados com a FitCertify365">
+            </v-checkbox>
+
+            <v-checkbox
+              v-model="form.aceitoCompartilhar"
+              color="success"
+              class="font-weight-medium"
+              label="Desejo integrar meus dados com a FitCertify365">
+            </v-checkbox>
+
+            <v-checkbox
+              v-model="form.concordoTermos"
+              color="success"
+              class="font-weight-medium"
+              label="Desejo integrar meus dados com a FitCertify365">
+            </v-checkbox>
+
                 </v-form>
             </div>
             </div>
@@ -315,6 +329,7 @@ import AtletaService from '../services/cadastro-service/atleta-service'
 import dayjs from "dayjs";
 import "dayjs/locale/pt-br";
 import * as yup from "yup"
+import atletaService from '../services/cadastro-service/atleta-service'
 
 dayjs.locale("pt-br");
 
@@ -340,18 +355,34 @@ const form = ref({
   participouProva: null,
   ultimaProva: '',
   fezcheckUp: null,
-  possuiSmartwatch: null
+  possuiSmartwatch: null,
+  integrarDados: false,
+  declaroInformacoes: false,
+  aceitoCompartilhar: false,
+  concordoTermos: false
+})
+
+const formPdfImage = ref({
+  pdfImages: []
+})
+
+const formDoencas = ref({
+  historicoSaudeDoencas: []
+})
+
+const formSintomas = ref({
+  historicoSaudeSintomas: []
 })
 
 const schema = yup.object({
-  nomeCompleto: yup.string().required("Nome é obrigatório"),
-  cpf: yup.string().required("CPF é obrigatório"),
-  email: yup.string().email("E-mail inválido").required("E-mail é obrigatório"),
-  senha: yup.string().min(6, "Senha deve ter pelo menos 6 caracteres").required("Senha é obrigatória"),
-  telefone: yup.string().required("Telefone é obrigatório"),
-  dataDeNascimento: yup.string().required("Data de nascimento é obrigatória"),
-  altura: yup.number().required("Altura é obrigatória"),
-  peso: yup.number().required("Peso é obrigatório"),
+  nomeCompleto: yup.string().required("Nome obrigatório"),
+  cpf: yup.string().required("CPF obrigatório"),
+  email: yup.string().email("E-mail inválido").required("E-mail obrigatório"),
+  senha: yup.string().min(6, "Senha deve ter pelo menos 8 caracteres").required("Senha obrigatória"),
+  telefone: yup.string().required("Telefone obrigatório"),
+  dataDeNascimento: yup.string().required("Data de nascimento obrigatória"),
+  altura: yup.number().required("Altura obrigatória"),
+  peso: yup.number().required("Peso obrigatório"),
   atividadeFisica: yup.string().required("Campo obrigatório"),
   fezcheckUp: yup.string().required("Campo obrigatório"),
   possuiSmartwatch: yup.string().required("Campo obrigatório"),
@@ -361,17 +392,6 @@ const { handleSubmit, errors } = useForm({
   validationSchema: schema,
 })
 
-const formPdfImage = ref({
-  pdfImages: []
-})
-
-const formDoencas = ref({
-  doencas: []
-})
-
-const formSintomas = ref({
-  sintomas: []
-})
 
 onMounted(async () => {
   await buscarDoenca(),
@@ -396,36 +416,54 @@ const bruscarSintoma = async () => {
   }
 }
 
-const submitAtleta = handleSubmit(async (values) => {
+const submitForm = async () => {
   try {
     const formData = new FormData()
 
- 
-    for (const key in values) {
-      formData.append(key, values[key])
+   
+    formData.append('nome', form.value.nomeCompleto || '')
+    formData.append('cpf', form.value.cpf || '')
+    formData.append('senha', form.value.senha || '')
+    formData.append('email', form.value.email || '')
+    formData.append('telefone', form.value.telefone || '')
+    formData.append('altura', form.value.altura || '')
+    formData.append('peso', form.value.peso || '')
+    formData.append('atividadeFisica', form.value.atividadeFisica ?? '')
+    formData.append('outrasCondicoes', form.value.outrasCondicoes || '')
+    formData.append('tomaMedicamento', form.value.tomaMedicamento || '')
+    formData.append('participouProva', form.value.participouProva?.toString() || '')
+    formData.append('ultimaProva', form.value.ultimaProva || '')
+    formData.append('fezcheckUp', form.value.fezcheckUp?.toString() || '')
+    formData.append('possuiSmartwatch', form.value.possuiSmartwatch?.toString() || '')
+    formData.append(
+    'historicoSaudeDoencas',
+    JSON.stringify(formDoencas.value.doencas.map(d => d.id))
+    )
+    formData.append(
+    'sintomas',
+    JSON.stringify(formSintomas.value.sintomas.map(s => s.id))
+    )
+    
+    formData.append(
+    'dataNascimento',
+    form.value.dataDeNascimento
+    ? dayjs(form.value.dataDeNascimento).toISOString()
+    : ''
+)
+
+    if (formPdfImage.value.pdfImages?.length > 0) {
+      formPdfImage.value.pdfImages.forEach((file, index) => {
+        formData.append('files', file) 
+      })
     }
 
+    await atletaService.post('/atleta', formData)
 
-    formPdfImage.value.pdfImages.forEach((file, index) => {
-      formData.append(`arquivos[${index}]`, file)
-    })
-
-
-    formDoencas.value.doencas.forEach((id, index) => {
-      formData.append(`doencas[${index}]`, id)
-    })
-
-
-    formSintomas.value.sintomas.forEach((id, index) => {
-      formData.append(`sintomas[${index}]`, id)
-    })
-    
-    await AtletaService.createAtleta(formData)
-    router.push("/registerPlanos")
   } catch (error) {
-    console.error("Erro ao criar atleta:", error)
+    console.error(error)
   }
-})
+}
+
 
 const select = useField('select')
 
@@ -445,11 +483,6 @@ const handleNext = async (next) => {
   }
 }
 
-const declaracoes = [
-  'Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.',
-  'Aceito compartilhar meus dados com as organizações dos eventos que eu participar.',
-  'Li e concordo com os Termos de Uso e Política de Privacidade.'
-]
 
 const item = [
   'Cadastro Básico',
