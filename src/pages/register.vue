@@ -51,7 +51,7 @@
     </VCol>
 
     <!-- DIV DA DIREITA -->
-    <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8">
+    <VCol class="h-100 d-flex align-center pa-0 ma-0 " md="8">
       <v-container class="d-flex ga-10 align-top flex-column fill-height pa-0">
         <VStepper
           v-model="step"
@@ -107,7 +107,7 @@
                     variant="outlined"
                   />
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
+                <VCol class="my-0 py-0 font-weight-medium " cols="12" md="6"
                   ><label for="formEmail">E-mail</label>
                   <VTextField
                     id="formEmail"
@@ -174,7 +174,7 @@
                   />
                 </VCol>
 
-                <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="12"
                   ><label for="pratica"
                     >Pratica atividade física regularmente?</label
                   >
@@ -738,12 +738,6 @@ const submitAtleta = handleSubmit(async () => {
     const arquivos = toRaw(formPdfImage.value)
     const formData = new FormData()
 
-    console.log(
-      'OBJETIVO SELECIONADO:',
-      objetivoAtividade.value,
-      typeof objetivoAtividade.value
-    )
-
     formData.append('nome', values.nome || '')
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('senha', values.senha || '')
@@ -763,10 +757,8 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('aceitaCompartilharDados', values.aceitoCompartilhar ?? '')
     formData.append('aceitaTermos', values.concordoTermos ?? '')
 
-    formData.append('historicoSaudeDoencas', [doencas])
-
-    formData.append('historicoSaudeSintomas', [sintomas])
-
+    formData.append('historicoSaudeDoencas', JSON.stringify(doencas))
+    formData.append('historicoSaudeSintomas', JSON.stringify(sintomas))
     formData.append(
       'dataNascimento',
       formatarDataParaISO(values.dataDeNascimento)
@@ -778,8 +770,18 @@ const submitAtleta = handleSubmit(async () => {
       })
     }
 
+    // 👉 Console.log geral para debug
+    console.log("📤 Dados prontos para envio:", {
+      ...values,
+      doencas,
+      sintomas,
+      arquivos,
+      dataNascimento: formatarDataParaISO(values.dataDeNascimento),
+      objetivoAtividade: objetivoAtividade.value
+    })
+
     const response = await AtletaService.createAtleta(formData)
-    console.log(response)
+    console.log("📩 Resposta do backend:", response)
 
     if (response.success) {
       router.push('/registerPlanos')
@@ -788,6 +790,7 @@ const submitAtleta = handleSubmit(async () => {
     console.error(error)
   }
 })
+
 
 const { value: objetivoAtividade } = useField('objetivosItens')
 
