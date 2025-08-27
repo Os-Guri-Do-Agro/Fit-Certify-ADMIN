@@ -61,28 +61,36 @@
 
         <!--Primeiro slid-->
           <template #item.1>
-                    <VRow>
+          <VRow>
             <VCol class="mb-10 mt-10 mt-md-0" cols="12"><h2 class="text-start text-h5 font-weight-bold" style="color: #88CE0D;">1. Informações Pessoais</h2></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome completo:</label><VTextField density="compact" name="nomeCompleto" id="nomeCompleto" variant="outlined"/></VCol>
             <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label><VTextField density="compact" name="cpf" id="cpf" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="telefone">Telefone:</label><VTextField density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="email">E-mail</label><VTextField density="compact" name="email" id="email" type="email" variant="outlined"/></VCol>
-            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="nascimento">Data de nascimento:</label><VTextField density="compact" name="nascimento" id="nascimento" variant="outlined"/></VCol>
+          
+
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label><VTextField density="compact" name="senha" id="senha" type="password" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="email">E-mail</label><VTextField density="compact" name="email" id="email" type="email" variant="outlined"/></VCol>
+
+
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label><VTextField density="compact" name="telefone" id="telefone" type="tel" variant="outlined"/></VCol>
+            <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de nascimento:</label><VTextField density="compact" name="nascimento" id="nascimento" variant="outlined"/></VCol>
+
+
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label><VTextField density="compact" name="altura" id="altura" variant="outlined"/></VCol>
+
             <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label><VTextField density="compact" name="peso" id="peso" variant="outlined"/></VCol>
+
             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="telefone">Telefone:</label><VTextField density="compact" name="telefone02" id="telefone02" type="tel" variant="outlined"/></VCol>
+
             <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="pratica">Pratica atividade física regularmente?</label><v-select density="compact"
-      v-model="select.value.value"
-      :error-messages="select.errorMessage.value"
-      :items="items"
-      id="pratica"
-      placeholder="Sim"
-      variant="outlined"
-    ></v-select></VCol>
-    <VCol class="w-100" cols="12">
-    </VCol>
+            v-model="select.value.value"
+            :error-messages="select.errorMessage.value"
+            :items="items"
+            id="pratica"
+            placeholder="Sim"
+            variant="outlined"
+            ></v-select></VCol>
                                       
-        </VRow>
+          </VRow>
           </template>
 
 
@@ -148,8 +156,24 @@
                         <div class="mt-7">
                             <h2 class="text-start text-h5 font-weight-bold mb-7" style="color: #88CE0D;">4. Histórico Esportivo</h2>
                             <VRow>
-                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="objetivo">Objetivo com a atividade física:</label><VTextField name="objetivo" id="objetivo"  placeholder="Saúde geral" variant="outlined"/></VCol>
-                                <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="provas">Já participou de provas antes?</label><VTextField name="provas"  id="provas" placeholder="Sim" variant="outlined"/></VCol>
+                            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="objetivo_atividade">Objetivo com a atividade física:</label><v-select density="compact"
+                            v-model="select.value.value"
+                            :error-messages="select.errorMessage.value"
+                            :items="objetivos"
+                            id="objetivo_atividade"
+                            placeholder="Saúde geral"
+                            variant="outlined"
+                            ></v-select></VCol>
+
+                            <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="Objetivo_pratica">Pratica atividade física regularmente?</label><v-select density="compact"
+                            v-model="select.value.value"
+                            :error-messages="select.errorMessage.value"
+                            :items="items"
+                            id="Objetivo_pratica"
+                            placeholder="Sim"
+                            variant="outlined"
+                            ></v-select></VCol>
+
                                 <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a última?</label><VTextField name="ultimasprovas" id="ultimasprovas" variant="outlined"/></VCol>
                                 
                             </VRow>
@@ -257,7 +281,6 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import CadastroSaude02 from '../components/cadastros/cadastroSaude02.vue'
 import { useField, useForm } from 'vee-validate'
 
 const step = ref(1)
@@ -282,9 +305,11 @@ const router = useRouter()
     'Não'
   ])
 
-  const submit = handleSubmit(values => {
-    alert(JSON.stringify(values, null, 2))
-  })
+  const objetivos = ref ([
+    'Saúde Geral',
+    'Objetivo 02',
+    'Objetivo 03'
+  ])
 
 
 const handleNext = (next) => {
