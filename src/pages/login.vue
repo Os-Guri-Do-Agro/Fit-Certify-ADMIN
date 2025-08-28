@@ -61,7 +61,6 @@ import { RouterLink } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
 
-
 const email = ref('');
 const senha = ref('');
 const isMobile = ref(false)
@@ -86,7 +85,6 @@ async function handleSubmit() {
       senha: senha.value,
       isMobile: isMobile.value,
     };
-
 
     const response = await authService.login(data);
 
