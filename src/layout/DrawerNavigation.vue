@@ -1,10 +1,11 @@
 <template>
   <v-navigation-drawer v-model="layoutStore.drawer" :rail="layoutStore.rail" permanent
-    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer position-fixed" color="light-blue-accent-3" rail-width="65">
+    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer position-fixed"
+    color="light-blue-accent-3" rail-width="65">
     <!-- Header -->
     <div class="pa-4 text-center header-section">
       <v-avatar v-if="layoutStore.rail" size="36" color="blue-lighten-1">
-        <span class="text-white font-weight-bold text-body-1">FC</span>
+        <span class="text-white font-weight-bold text-body-1">{{ retornarSiglaNome() }}</span>
       </v-avatar>
 
       <div v-else>
@@ -12,9 +13,8 @@
                     <span class="text-white font-weight-bold text-h6">NG</span>
                 </v-avatar> -->
         <div class="d-flex align-center">
-           <v-img src="/src/assets/logo-pequena.png" alt="Logo" width="150" class="mb-3"
-            contain></v-img>
-          </div>
+          <v-img src="/src/assets/logo-pequena.png" alt="Logo" width="150" class="mb-3" contain></v-img>
+        </div>
       </div>
     </div>
 
@@ -22,22 +22,27 @@
     <div>
       <div>
         <v-list v-model:opened="open">
-          <v-list-group prepend-icon="mdi-magnify">
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Análise" icon="mdi-search"></v-list-item>
-            </template>
-            <v-list-item v-for="items in menuItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
-              :value="items.value" :to="items.to"></v-list-item>
-          </v-list-group>
+          <template v-for="item in menuFinal">
+            <v-list-group v-if="item.children && item.children.length" :key="item.value" :prepend-icon="item.icon">
+              <template v-slot:activator="{ props }">
+                <v-list-item v-bind="props" :title="item.title"></v-list-item>
+              </template>
+
+              <v-list-item v-for="child in item.children" :key="child.value" :prepend-icon="child.icon"
+                :title="child.title" :to="child.to"></v-list-item>
+            </v-list-group>
+
+            <v-list-item v-else :key="item" :prepend-icon="item.icon" :title="item.title" :to="item.to"></v-list-item>
+          </template>
         </v-list>
       </div>
 
 
 
-      <div class="mt-4 text-center">
+      <div class="mt-4 text-center" v-if="payload?.role == 'medico'">
         <v-divider class="mb-3" thickness="2"></v-divider>
         <span class="text-subtitle-1" v-show="!layoutStore.rail">
-          MÉDICO
+          {{ perfis[payload?.role] }}
         </span>
 
         <v-list style="text-align: center;" v-model:opened="open">
@@ -48,7 +53,6 @@
           </v-list-group>
         </v-list>
       </div>
-
 
       <div class="">
         <v-list style="text-align: center;" v-model:opened="open">
@@ -71,7 +75,8 @@
 
         <v-list nav>
           <v-list-item v-for="item in footerMenuItem" :key="item.value" :prepend-icon="item.icon" :title="item.title"
-            :to="item.to" rounded="lg" class="mb-1 menu-item" :class="{ 'active-menu': $route.path === item.to }">
+            :to="item.to" rounded="lg" class="mb-1 menu-item" :class="{ 'active-menu': $route.path === item.to }"
+            @click="onClickMenu(item.title)">
           </v-list-item>
 
         </v-list>
@@ -81,19 +86,16 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { computed, ref, toRaw } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
 import { useRoute } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
+import { getPayload, logout } from '@/utils/auth'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
 const open = ref(['Analise'])
-
-const menuItems = [
-  { icon: 'mdi mdi-compass-outline', title: 'Resumo', value: 'blog', to: '/resumo/' },
-  { icon: 'mdi-chart-bar', title: 'MRP', value: 'marketplace', to: '/marketplace' },
-]
+const payload = ref<any>()
 
 const contaItems = [
   { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/perfil' },
@@ -104,12 +106,133 @@ const footerMenuItem = [
   { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
 ]
 
+const menusPorPerfil: Record<string, any[]> = {
+  medico: [
+    {
+      icon: 'mdi mdi-magnify',
+      title: 'Análise',
+      value: 'resumo',
+      to: '/analise',
+      children: [
+
+      ],
+    },
+    {
+      icon: 'mdi mdi-compass-outline',
+      title: 'Resumo',
+      value: 'resumo',
+      to: '/resumo',
+      children: [
+
+      ],
+    },
+    {
+      icon: 'mdi-chart-bar',
+      title: 'MRP',
+      value: 'mrp',
+      to: '/rmp',
+      children: [
+
+      ],
+    },
+  ],
+  atleta: [
+    {
+      icon: 'mdi mdi-heart-outline',
+      title: 'Saúde',
+      value: 'saude',
+      to: '/saude',
+      children: [
+        { icon: 'mdi-calendar-check', title: 'Treinos', value: 'treinos', to: '/agenda/treinos' },
+        { icon: 'mdi-calendar-star', title: 'Competições', value: 'competicoes', to: '/agenda/competicoes' },
+      ],
+    },
+    {
+      icon: 'mdi mdi-exclamation',
+      title: 'Alertas',
+      value: 'alertas',
+      to: '/alertas',
+    },
+    {
+      icon: 'mdi mdi-web',
+      title: 'Visão Geral',
+      value: 'visaoGeral',
+      to: '/visao-geral',
+    },
+    {
+      icon: 'mdi mdi-compass',
+      title: 'MRP',
+      value: 'mrp',
+      to: '/rmp',
+      children: [
+
+      ],
+    },
+    {
+      icon: 'mdi-chart-bar',
+      title: 'Registros Médicos',
+      value: 'registrosMedicos',
+      to: '/registros-medicos',
+      children: [
+
+      ],
+    },
+    {
+      icon: 'mdi mdi-file-document-outline',
+      title: 'Certificados',
+      value: 'certificados',
+      to: '/certificados',
+      children: [
+
+      ],
+    },
+  ],
+};
+
 function handleClickOutside(event: MouseEvent) {
   const drawer = document.querySelector('.clean-drawer')
   if (drawer && !drawer.contains(event.target as Node)) {
-    open.value = [] 
+    open.value = []
   }
 }
+
+function onClickMenu(menu: string) {
+  if (menu == 'Sair') {
+    logout()
+  }
+}
+
+const perfis: any = {
+  'medico': 'MÉDICO',
+  'atleta': 'ATLETA',
+  'admin': 'ADMINISTRADOR'
+}
+
+function retornarSiglaNome() {
+  const nome: string | undefined = toRaw(payload.value)?.user?.nome;
+
+  if (!nome) return "";
+
+  const partes = nome.trim().split(" ").filter(Boolean);
+
+  if (partes.length === 1) {
+    return partes[0].charAt(0).toUpperCase();
+  }
+
+  const primeira = partes[0].charAt(0).toUpperCase();
+  const ultima = partes[partes.length - 1].charAt(0).toUpperCase();
+
+  return primeira + ultima;
+}
+
+const menuFinal = computed(() => {
+  const role = toRaw(payload.value)?.role;
+  return menusPorPerfil[role] || [];
+});
+
+onMounted(() => {
+  payload.value = getPayload()
+})
 
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)

@@ -144,6 +144,5 @@ const submitForm = async () => {
 onMounted(async() => {
   // Initialize any necessary data or state here
   categoriasArtigo.value = await categoriaArtigoService.getAllCategoriasArtigo()
-  console.log('Categorias Artigo:', categoriasArtigo.value)
 })
 </script>

@@ -12,7 +12,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 // Composables
 import { createApp } from 'vue'
-
+import 'vue3-toastify/dist/index.css';
 // Styles
 import 'unfonts.css'
 const pinia = createPinia()
