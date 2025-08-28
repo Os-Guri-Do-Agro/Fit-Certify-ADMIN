@@ -30,25 +30,25 @@
                         >
                         <!-- Avatar -->
                         <v-avatar size="42" class="mr-3" >
-                            <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+                            <v-img :src="payload?.user?.avatarUrl"></v-img>
                         </v-avatar>
 
                         <!-- Nome e profissão -->
                         <div class="d-flex flex-column justify-center text-left">
-                            <span class="font-weight-medium text-body-2">Manuela Castro</span>
-                            <span class="text-caption text-grey">MÉDICA</span>
+                            <span class="font-weight-medium text-body-2">{{ payload?.user?.nome }}</span>
+                            <span class="text-caption text-grey">{{ perfis[payload?.role] }}</span>
                         </div>
                     </v-btn>
                 </template>
                 <v-list>
-                    <v-list-item>
+                    <v-list-item @click="router.push('/perfil')">
                         <v-list-item-title>Perfil</v-list-item-title>
                     </v-list-item>
                     <v-list-item>
                         <v-list-item-title>Configurações</v-list-item-title>
                     </v-list-item>
                     <v-divider></v-divider>
-                    <v-list-item>
+                    <v-list-item @click="sair">
                         <v-list-item-title>Sair</v-list-item-title>
                     </v-list-item>
                 </v-list>
@@ -59,8 +59,28 @@
 
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout';
+import { getPayload, logout } from '@/utils/auth';
+import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const layoutStore = useLayoutStore()
+const payload = ref<any>()
+const router = useRouter()
+
+function sair(){
+    logout()
+}
+
+const perfis: any = {
+  'medico': 'MÉDICO',
+  'atleta': 'ATLETA',
+  'admin': 'ADMINISTRADOR'
+}
+
+onMounted(() => {
+  payload.value = getPayload()
+})
+
 </script>
 
 <style scoped>
