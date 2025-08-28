@@ -145,7 +145,6 @@
                     placeholder="DD/MM/AAAA"
                     variant="outlined"
                   />
-                  <p>testando data: {{ form.dataNascimento }}</p>
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"
@@ -519,6 +518,8 @@
                 class="text-white w-100"
                 height="43px"
                 max-width="237px"
+                :loading="loading"
+                :disabled="loading"
                 :style="
                   step === 3
                     ? 'background-color:#88ce0d'
@@ -526,7 +527,13 @@
                 "
                 @click="handleNext(next)"
               >
-                {{ step !== 3 ? 'Próximo' : 'Enviar Formulário' }}
+                {{
+                  step !== 3
+                    ? 'Próximo'
+                    : loading
+                      ? 'Enviando...'
+                      : 'Enviar Formulário'
+                }}
               </VBtn>
             </div>
           </template>
@@ -543,7 +550,8 @@ import { useRouter } from 'vue-router'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import DoencaService from '../services/cadastro-service/doenca-service'
 import SintomaService from '../services/cadastro-service/sintoma-service'
-import { vMaska } from 'maska/vue';
+import { vMaska } from 'maska/vue'
+import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 
@@ -551,6 +559,7 @@ dayjs.locale('pt-br')
 
 const step = ref(1)
 const router = useRouter()
+const loading = ref(false)
 
 const doencas = ref([])
 const sintomas = ref([])
@@ -626,12 +635,9 @@ function validarSenhaForte(senha) {
 function formatarDataParaISO(dataDigitada) {
   if (!dataDigitada) return ''
 
-  // Input type="date" já retorna YYYY-MM-DD
   const data = dayjs(dataDigitada, ['YYYY-MM-DD', 'DD/MM/YYYY', 'DDMMYYYY'])
 
-  return data.isValid()
-    ? data.startOf('day').toISOString() // -> "2002-10-10T00:00:00.000Z"
-    : ''
+  return data.isValid() ? data.startOf('day').toISOString() : ''
 }
 
 function handleDoencaChange(item) {
@@ -642,26 +648,26 @@ function handleDoencaChange(item) {
   if (!nenhumaId) return
 
   if (item.id === nenhumaId) {
-
     if (formDoencas.value.includes(nenhumaId)) {
       formDoencas.value = [nenhumaId]
     } else {
       formDoencas.value = []
     }
   } else {
-
     formDoencas.value = formDoencas.value.filter((v) => v !== nenhumaId)
   }
 }
 
 function handleSintomaChange(item) {
-  const nenhumId = sintomas.value.find(s => s.descricao === 'Nenhum desses')?.id
+  const nenhumId = sintomas.value.find(
+    (s) => s.descricao === 'Nenhum desses'
+  )?.id
   if (!nenhumId) return
 
   if (item.id === nenhumId) {
     formSintomas.value = formSintomas.value.includes(nenhumId) ? [nenhumId] : []
   } else {
-    formSintomas.value = formSintomas.value.filter(v => v !== nenhumId)
+    formSintomas.value = formSintomas.value.filter((v) => v !== nenhumId)
   }
 }
 
@@ -728,33 +734,25 @@ const buscarSintoma = async () => {
 
 const submitAtleta = handleSubmit(async () => {
   try {
+    loading.value = true
     const values = toRaw(form.value)
     const sintomas = toRaw(formSintomas.value)
     const doencas = toRaw(formDoencas.value)
     const arquivos = toRaw(formPdfImage.value)
     const formData = new FormData()
 
+    //STRING NESSA BOMBA
     formData.append('nome', values.nome || '')
-    formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('senha', values.senha || '')
+    formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('email', values.email || '')
     formData.append('telefone', values.telefone || '')
-    formData.append('altura', values.altura || '')
-    formData.append('peso', values.peso || '')
     formData.append('objetivo', values.atividadeFisica ?? '')
     formData.append('outrasCondicoesMedicas', values.outrasCondicoes || '')
     formData.append('tomaMedicamentoContinuo', values.tomaMedicamento || '')
-    formData.append('participouProvaAntes', values.participouProva ?? '')
     formData.append('ultimaProva', values.ultimaProva || '')
-    formData.append('fezCheckupUltimosMeses', values.fezcheckUp ?? '')
-    formData.append('possuiSmartwatch', values.possuiSmartwatch ?? '')
-    formData.append('integrarFitCertify', values.integrarDados ?? '')
-    formData.append('declaraVeracidade', values.declaroInformacoes ?? '')
-    formData.append('aceitaCompartilharDados', values.aceitoCompartilhar ?? '')
-    formData.append('aceitaTermos', values.concordoTermos ?? '')
-
-    formData.append('historicoSaudeDoencas', (doencas))
-    formData.append('historicoSaudeSintomas', (sintomas))
+    formData.append('historicoSaudeDoencas', doencas)
+    formData.append('historicoSaudeSintomas', sintomas)
     formData.append(
       'dataNascimento',
       formatarDataParaISO(values.dataNascimento)
@@ -766,17 +764,53 @@ const submitAtleta = handleSubmit(async () => {
       })
     }
 
+    //NUMBER NESSA BOMBA
+    formData.append('altura', values.altura ? Number(values.altura) : 0)
+    formData.append('peso', values.peso ? Number(values.peso) : 0)
+
+    //BOOLEAN NESSA BOMBA
+    formData.append(
+      'participouProvaAntes',
+      values.participouProva ? 'true' : 'false'
+    )
+    formData.append(
+      'fezCheckupUltimosMeses',
+      values.fezcheckUp ? 'true' : 'false'
+    )
+    formData.append(
+      'possuiSmartwatch',
+      values.possuiSmartwatch ? 'true' : 'false'
+    )
+    formData.append(
+      'integrarFitCertify',
+      values.integrarDados ? 'true' : 'false'
+    )
+    formData.append(
+      'declaraVeracidade',
+      values.declaroInformacoes ? 'true' : 'false'
+    )
+    formData.append(
+      'aceitaCompartilharDados',
+      values.aceitoCompartilhar ? 'true' : 'false'
+    )
+    formData.append('aceitaTermos', values.concordoTermos ? 'true' : 'false')
+
     const response = await AtletaService.createAtleta(formData)
-    console.log("📩 Resposta do backend:", response)
 
     if (response.success) {
+      loading.value = false
+      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
       router.push('/registerPlanos')
+    } else {
+      loading.value = false
+      toast.error(response?.message || 'Não foi possível concluir o cadastro')
     }
   } catch (error) {
+    loading.value = false
+    toast.error('Erro ao cadastrar. Tente novamente!', { autoClose: 3000 })
     console.error(error)
   }
 })
-
 
 const { value: objetivoAtividade } = useField('objetivosItens')
 
@@ -827,7 +861,6 @@ h2 {
   font-family: 'DM Sans', sans-serif;
 }
 
-/* Remove o ícone do calendário no Chrome, Edge, Safari */
 input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
