@@ -90,11 +90,11 @@ async function handleSubmit() {
 
     if (response.access_token) {
       sessionStorage.setItem("token", response.access_token)
-      toast.success("Login realizado com sucesso!", { autoClose: 2000 });
-      setTimeout(() => {
-        loading.value = false
-        router.push("/");
-      }, 500);
+
+      loading.value = false
+      router.push("/").then(() => {
+        toast.success("Login realizado com sucesso!", { autoClose: 2500 });
+      });
     } else {
       toast.error(response?.message || "Não foi possível fazer login");
     }
