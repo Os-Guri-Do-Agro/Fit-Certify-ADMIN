@@ -51,7 +51,7 @@
     </VCol>
 
     <!-- DIV DA DIREITA -->
-    <VCol class="h-100 d-flex align-center pa-0 ma-0 " md="8">
+    <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8">
       <v-container class="d-flex ga-10 align-top flex-column fill-height pa-0">
         <VStepper
           v-model="step"
@@ -107,7 +107,7 @@
                     variant="outlined"
                   />
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium " cols="12" md="6"
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
                   ><label for="formEmail">E-mail</label>
                   <VTextField
                     id="formEmail"
@@ -137,15 +137,15 @@
                   ><label for="nascimento">Data de nascimento:</label>
                   <VTextField
                     type="date"
-                    v-maska="'##/##/####'"
                     id="nascimento"
-                    v-model="form.dataDeNascimento"
+                    v-model="form.dataNascimento"
                     density="compact"
                     :rules="[rules.requiredDataNascimentoObrigatorio]"
                     name="nascimento"
                     placeholder="DD/MM/AAAA"
                     variant="outlined"
                   />
+                  <p>testando data: {{ form.dataNascimento }}</p>
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"
@@ -187,7 +187,7 @@
                       { title: 'Sim', value: true },
                       { title: 'Não', value: false },
                     ]"
-                    placeholder="Sim"
+                    placeholder="Selecione"
                     variant="outlined"
                   />
                 </VCol>
@@ -318,7 +318,7 @@
                               item-value="value"
                               density="compact"
                               :rules="[rules.requiredSelectObrigatorio]"
-                              placeholder="Saúde geral"
+                              placeholder="Selecione"
                               variant="outlined"
                             />
                           </VCol>
@@ -336,7 +336,7 @@
                                 { title: 'Sim', value: true },
                                 { title: 'Não', value: false },
                               ]"
-                              placeholder="Sim"
+                              placeholder="Selecione"
                               variant="outlined"
                             />
                           </VCol>
@@ -390,7 +390,7 @@
                         ]"
                         name="check"
                         id="check"
-                        placeholder="Sim"
+                        placeholder="Selecione"
                         variant="outlined"
                       ></v-select
                     ></VCol>
@@ -443,7 +443,7 @@
                           { title: 'Não', value: false },
                         ]"
                         id="possuiSmartwatch"
-                        placeholder="Sim"
+                        placeholder="Selecione"
                         variant="outlined"
                       ></v-select>
                     </VCol>
@@ -543,6 +543,7 @@ import { useRouter } from 'vue-router'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import DoencaService from '../services/cadastro-service/doenca-service'
 import SintomaService from '../services/cadastro-service/sintoma-service'
+import { vMaska } from 'maska/vue';
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 
@@ -561,7 +562,7 @@ const form = ref({
   senha: '',
   email: '',
   telefone: '',
-  dataDeNascimento: '',
+  dataNascimento: '',
   altura: '',
   peso: '',
   atividadeFisica: null,
@@ -618,24 +619,19 @@ function validarEmail(email) {
 }
 
 function validarSenhaForte(senha) {
-  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.])[A-Za-z\d!@#$%^&*.]{8,}$/
   return regex.test(senha)
 }
 
 function formatarDataParaISO(dataDigitada) {
   if (!dataDigitada) return ''
 
-  let data
+  // Input type="date" já retorna YYYY-MM-DD
+  const data = dayjs(dataDigitada, ['YYYY-MM-DD', 'DD/MM/YYYY', 'DDMMYYYY'])
 
-  if (/^\d{8}$/.test(dataDigitada)) {
-    data = dayjs(dataDigitada, 'DDMMYYYY')
-  } else if (/^\d{4}-\d{2}-\d{2}$/.test(dataDigitada)) {
-    data = dayjs(dataDigitada, 'YYYY-MM-DD')
-  } else {
-    return ''
-  }
-
-  return data.isValid() ? data.startOf('day').toISOString() : ''
+  return data.isValid()
+    ? data.startOf('day').toISOString() // -> "2002-10-10T00:00:00.000Z"
+    : ''
 }
 
 function handleDoencaChange(item) {
@@ -648,7 +644,7 @@ function handleDoencaChange(item) {
   if (item.id === nenhumaId) {
 
     if (formDoencas.value.includes(nenhumaId)) {
-      formDoencas.value = [nenhumaId] 
+      formDoencas.value = [nenhumaId]
     } else {
       formDoencas.value = []
     }
@@ -757,11 +753,11 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('aceitaCompartilharDados', values.aceitoCompartilhar ?? '')
     formData.append('aceitaTermos', values.concordoTermos ?? '')
 
-    formData.append('historicoSaudeDoencas', JSON.stringify(doencas))
-    formData.append('historicoSaudeSintomas', JSON.stringify(sintomas))
+    formData.append('historicoSaudeDoencas', (doencas))
+    formData.append('historicoSaudeSintomas', (sintomas))
     formData.append(
       'dataNascimento',
-      formatarDataParaISO(values.dataDeNascimento)
+      formatarDataParaISO(values.dataNascimento)
     )
 
     if (arquivos?.length > 0) {
@@ -769,16 +765,6 @@ const submitAtleta = handleSubmit(async () => {
         formData.append('files', file)
       })
     }
-
-    // 👉 Console.log geral para debug
-    console.log("📤 Dados prontos para envio:", {
-      ...values,
-      doencas,
-      sintomas,
-      arquivos,
-      dataNascimento: formatarDataParaISO(values.dataDeNascimento),
-      objetivoAtividade: objetivoAtividade.value
-    })
 
     const response = await AtletaService.createAtleta(formData)
     console.log("📩 Resposta do backend:", response)
