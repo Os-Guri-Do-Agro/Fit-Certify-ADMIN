@@ -173,13 +173,44 @@
                   />
                 </VCol>
 
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"
+                  ><label for="pratica">Gênero</label>
+                  <v-select
+                    id="pratica"
+                    v-model="form.genero"
+                    density="compact"
+                    :rules="[rules.requiredSelectObrigatorio]"
+                    :items="[
+                      { title: 'Homem', value: 'Homem' },
+                      { title: 'Mulher', value: 'Mulher' },
+                      { title: 'Outro', value: 'Outro' },
+                    ]"
+                    placeholder="Selecione"
+                    variant="outlined"
+                  />
+                </VCol>
+
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"
+                  ><label for="pratica">Tipo Sanguíneo</label>
+                  <v-select
+                    v-model="form.tipoSanguineo"
+                    :items="tiposSanguineos"
+                    :rules="[rules.requiredSelectObrigatorio]"
+                    density="compact"
+                    item-title="title"
+                    item-value="value"
+                    placeholder="Tipo Sanguíneo"
+                    variant="outlined"
+                  />
+                </VCol>
+
                 <VCol class="my-0 py-0 font-weight-medium mb-5" cols="12"
                   ><label for="pratica"
                     >Pratica atividade física regularmente?</label
                   >
                   <v-select
                     id="pratica"
-                    v-model="form.atividadeFisica"
+                    v-model="form.praticaAtividadeFisicaRegularmente"
                     density="compact"
                     :rules="[rules.requiredSelectObrigatorio]"
                     :items="[
@@ -569,11 +600,14 @@ const form = ref({
   nome: '',
   cpf: '',
   senha: '',
+  genero: '',
   email: '',
   telefone: '',
   dataNascimento: '',
   altura: '',
   peso: '',
+  objetivoAtividade: '',
+  praticaAtividadeFisicaRegularmente: null,
   atividadeFisica: null,
   outrasCondicoes: '',
   tomaMedicamento: '',
@@ -586,6 +620,20 @@ const form = ref({
   aceitoCompartilhar: false,
   concordoTermos: false,
 })
+
+const { value: tipoSanguineo } = useField('tipoSanguineo')
+
+const tiposSanguineos = ref([
+  { title: 'A+', value: 'A+' },
+  { title: 'A-', value: 'A-' },
+  { title: 'B+', value: 'B+' },
+  { title: 'B-', value: 'B-' },
+  { title: 'AB+', value: 'AB+' },
+  { title: 'AB-', value: 'AB-' },
+  { title: 'O+', value: 'O+' },
+  { title: 'O-', value: 'O-' },
+  { title: 'Não sei', value: 'Não sei' },
+])
 
 const formPdfImage = ref([])
 
@@ -746,13 +794,16 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('senha', values.senha || '')
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('email', values.email || '')
+    formData.append('genero', values.genero || '')
+    formData.append('tiposSanguineos', values.tiposSanguineos || '')
     formData.append('telefone', values.telefone || '')
-    formData.append('objetivo', values.atividadeFisica ?? '')
+    formData.append('objetivo', values.objetivoAtividade || '')
     formData.append('outrasCondicoesMedicas', values.outrasCondicoes || '')
     formData.append('tomaMedicamentoContinuo', values.tomaMedicamento || '')
     formData.append('ultimaProva', values.ultimaProva || '')
     formData.append('historicoSaudeDoencas', doencas)
     formData.append('historicoSaudeSintomas', sintomas)
+    formData.append('tipoSanguineo', values.tipoSanguineo || '')
     formData.append(
       'dataNascimento',
       formatarDataParaISO(values.dataNascimento)
@@ -769,6 +820,11 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('peso', values.peso ? Number(values.peso) : 0)
 
     //BOOLEAN NESSA BOMBA
+
+    formData.append(
+      'praticaAtividadeFisicaRegularmente',
+      values.praticaAtividadeFisicaRegularmente ? 'true' : 'false'
+    )
     formData.append(
       'participouProvaAntes',
       values.participouProva ? 'true' : 'false'
@@ -819,8 +875,6 @@ const objetivos = ref([
   { title: 'Objetivo 02', value: 'Objetivo 02' },
   { title: 'Objetivo 03', value: 'Objetivo 03' },
 ])
-
-const items = ref(['Sim', 'Não'])
 
 const handleNext = async (next) => {
   if (step.value === 3) {

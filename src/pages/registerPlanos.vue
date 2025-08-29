@@ -29,12 +29,7 @@
 
           <p
             class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10"
-            style="
-              font-family:
-                DM Sans,
-                sans-serif;
-              line-height: 36px;
-            "
+            style="font-family: DM Sans, sans-serif; line-height: 36px;"
           >
             Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com
             ela, você poderá validar certificados, acompanhar seus marcadores de
@@ -50,23 +45,14 @@
         <div class="w-100 d-flex align-center flex-column">
           <h2
             class="text-center text-h5 font-weight-black mb-5"
-            style="
-              color: #88ce0d;
-              font-family:
-                DM Sans,
-                sans-serif;
-            "
+            style="color: #88ce0d; font-family: DM Sans, sans-serif;"
           >
             Escolha seu plano
           </h2>
 
           <span
             class="text-center text-subtitle-1"
-            style="
-              font-family:
-                DM Sans,
-                sans-serif;
-            "
+            style="font-family: DM Sans, sans-serif;"
           >
             Certifique sua saúde com a FitCertify365. Escolha o plano ideal para
             sua jornada esportiva.
@@ -74,142 +60,128 @@
         </div>
 
         <VRow class="d-flex flex-md-row-reverse flex-column-reverse">
-          <VCol v-for="plano in planos" :key="plano.id" cols="12" md="6">
-            <VCard
-              class="pa-7 rounded-xl d-flex flex-column justify-space-between border_Focus"
-              min-height="606.7px"
-              height="100%"
-            >
-              <!-- Nome e destaque -->
-              <div class="d-flex align-md-center flex-column flex-md-row">
-                <VCardTitle
-                  class="font-weight-black text-h6 text-md-h5"
-                  style="
-                    color: #00b5d8;
-                    font-family:
-                      DM Sans,
-                      sans-serif;
-                  "
-                  primary-title
-                >
-                  {{ plano.nome }}
-                </VCardTitle>
-                <span
-                  v-if="plano.maisPopular"
-                  class="text-caption font-weight-black"
-                  style="color: #00b5d8"
-                >
-                  ⭐ Mais popular
-                </span>
-              </div>
+          <!-- LOADING -->
+          <template v-if="loading">
+            <VCol v-for="n in 2" :key="n" cols="12" md="6">
+              <VSkeletonLoader
+                type="card, actions"
+                class="pa-7 rounded-xl"
+                height="606.7px"
+              />
+            </VCol>
+          </template>
 
-              <!-- Preço -->
-              <div class="d-flex flex-column flex-lg-row">
-                <v-card-subtitle
-                  class="font-weight-black text-md-h6"
-                  style="
-                    color: #88ce0d;
-                    font-family:
-                      DM Sans,
-                      sans-serif;
-                  "
-                >
-                  R$ {{ plano.preco.toFixed(2).replace('.', ',') }}/ano
-                </v-card-subtitle>
-
-                <v-card-subtitle
-                  v-if="plano.preco && plano.maisPopular"
-                  class="font-weight-black text-md-h6"
-                  style="
-                    color: #88ce0d;
-                    font-family:
-                      DM Sans,
-                      sans-serif;
-                  "
-                >
-                  (R$
-                  {{
-                    (plano.preco / plano.duracao).toFixed(2).replace('.', ',')
-                  }}/mês)
-                </v-card-subtitle>
-              </div>
-
-              <div>
-                <v-list density="compact">
-                  <v-list-item
-                    v-for="item in plano.planoBeneficio"
-                    :key="item.id"
-                    min-height="45px"
-                    class="d-flex overflow-x-auto"
+          <!-- PLANOS -->
+          <template v-else>
+            <VCol v-for="plano in planos" :key="plano.id" cols="12" md="6">
+              <VCard
+                class="pa-7 rounded-xl d-flex flex-column justify-space-between border_Focus"
+                min-height="606.7px"
+                height="100%"
+              >
+                <!-- Nome e destaque -->
+                <div class="d-flex align-md-center flex-column flex-md-row">
+                  <VCardTitle
+                    class="font-weight-black text-h6 text-md-h5"
+                    style="color: #00b5d8; font-family: DM Sans, sans-serif;"
+                    primary-title
                   >
-                    <div class="d-flex flex-row-reverse">
-                      <v-list-item-title
-                        class="text-wrap flex-grow-1"
-                        style="color: #5f6c7b"
-                      >
-                        {{ item.beneficio.descricao }}
-                      </v-list-item-title>
-
-                      <span
-                        class="mr-1"
-                        v-if="item.incluso"
-                        style="
-                          color: #4caf50;
-                          font-weight: bold;
-                          margin-left: auto;
-                        "
-                      >
-                        ✔️
-                      </span>
-                      <span
-                        class="mr-1"
-                        v-else
-                        style="
-                          color: #f44336;
-                          font-weight: bold;
-                          margin-left: auto;
-                        "
-                      >
-                        ❌
-                      </span>
-                    </div>
-                  </v-list-item>
-                </v-list>
-              </div>
-
-              <!-- Botão -->
-              <div>
-                <VCardActions>
-                  <VBtn
-                    to="/marcarConsulta"
-                    class="text-white w-100 text-caption text-md-subtitle-1"
-                    max-width="255px"
-                    height="44px"
-                    style="background-color: #88ce0d"
+                    {{ plano.nome }}
+                  </VCardTitle>
+                  <span
+                    v-if="plano.maisPopular"
+                    class="text-caption font-weight-black"
+                    style="color: #00b5d8"
                   >
-                    Assinar {{ plano.nome }}
-                  </VBtn>
-                </VCardActions>
-              </div>
-            </VCard>
-          </VCol>
+                    ⭐ Mais popular
+                  </span>
+                </div>
+
+                <!-- Preço -->
+                <div class="d-flex flex-column flex-lg-row">
+                  <v-card-subtitle
+                    class="font-weight-black text-md-h6"
+                    style="color: #88ce0d; font-family: DM Sans, sans-serif;"
+                  >
+                    R$ {{ plano.precoMes?.toFixed(2).replace('.', ',') || '0,00' }}/mês
+
+                  </v-card-subtitle>
+
+                  <v-card-subtitle
+                    v-if="plano.precoMes && plano.maisPopular"
+                    class="font-weight-black text-md-h6"
+                    style="color: #88ce0d; font-family: DM Sans, sans-serif;"
+                  >
+                    (R$
+                    {{ plano.precoAno.toFixed(2).replace('.', ',') }}/ano)
+                  </v-card-subtitle>
+                </div>
+
+                <!-- Benefícios -->
+                <div>
+                  <v-list density="compact">
+                    <v-list-item
+                      v-for="item in plano.planoBeneficio"
+                      :key="item.id"
+                      min-height="45px"
+                      class="d-flex overflow-x-auto"
+                    >
+                      <div class="d-flex flex-row-reverse">
+                        <v-list-item-title
+                          class="text-wrap flex-grow-1"
+                          style="color: #5f6c7b"
+                        >
+                          {{ item.beneficio.descricao }}
+                        </v-list-item-title>
+
+                        <span
+                          class="mr-1"
+                          v-if="item.incluso"
+                          style="color: #4caf50; font-weight: bold; margin-left: auto;"
+                        >
+                          ✔️
+                        </span>
+                        <span
+                          class="mr-1"
+                          v-else
+                          style="color: #f44336; font-weight: bold; margin-left: auto;"
+                        >
+                          ❌
+                        </span>
+                      </div>
+                    </v-list-item>
+                  </v-list>
+                </div>
+
+                <!-- Botão -->
+                <div>
+                  <VCardActions>
+                    <VBtn
+                      to="/marcarConsulta"
+                      class="text-white w-100 text-caption text-md-subtitle-1"
+                      max-width="255px"
+                      height="44px"
+                      style="background-color: #88ce0d"
+                    >
+                      Assinar {{ plano.nome }}
+                    </VBtn>
+                  </VCardActions>
+                </div>
+              </VCard>
+            </VCol>
+          </template>
         </VRow>
       </v-container>
     </VCol>
   </VRow>
 </template>
 
-<style>
-.border_Focus:hover {
-  border: 2px solid #00b5d8;
-}
-</style>
-
 <script setup>
 import { onMounted, ref } from 'vue'
-import PlanoService from '../services/planos/plano-beneficio-service'
+import PlanoService from '../services/planos/plano-service'
 
 const planos = ref([])
+const loading = ref(true)
 
 const buscarPlanos = async () => {
   try {
@@ -217,6 +189,8 @@ const buscarPlanos = async () => {
     planos.value = res.data || []
   } catch (error) {
     console.error('Erro ao carregar planos', error)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -224,3 +198,9 @@ onMounted(async () => {
   await buscarPlanos()
 })
 </script>
+
+<style>
+.border_Focus:hover {
+  border: 2px solid #00b5d8;
+}
+</style>
