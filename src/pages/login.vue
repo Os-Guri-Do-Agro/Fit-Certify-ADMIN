@@ -60,6 +60,7 @@ import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
+import { getPayload } from '@/utils/auth';
 
 const email = ref('');
 const senha = ref('');
@@ -92,7 +93,19 @@ async function handleSubmit() {
       sessionStorage.setItem("token", response.access_token)
 
       loading.value = false
-      router.push("/").then(() => {
+
+      const payload = getPayload()
+
+      const user = payload?.user
+      let path = ''
+
+      if (user?.atleta && !user.atleta.planoId) {
+        path = '/registerPlanos'
+      } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
+        path = '/'
+      }
+
+      router.push(path).then(() => {
         toast.success("Login realizado com sucesso!", { autoClose: 2500 });
       });
     } else {

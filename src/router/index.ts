@@ -24,7 +24,7 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-  if (from.path == '/') {
+  if (from.path == '/' && !isTokenValid()) {
     router.push('/login')
     return
   }

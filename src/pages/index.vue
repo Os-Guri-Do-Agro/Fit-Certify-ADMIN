@@ -1,7 +1,7 @@
 <template>
-  <Login/>
+  <Resumo/>
 </template>
 
 <script lang="ts" setup>
-import Login from '../pages/login.vue'
+import Resumo from '../pages/resumo/index.vue'
 </script>
