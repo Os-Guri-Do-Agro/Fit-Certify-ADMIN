@@ -24,9 +24,13 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
+  if (from.path == '/') {
+    router.push('/login')
+    return
+  }
 
   // Rotas privadas
-  if (!isTokenValid()) {
+  if (!isTokenValid() && from.path !== '/login') {
     sessionStorage.clear()
     router.push('/login').then(() => {
       toast.error("Usuário não autenticado, redirecionando para login", { autoClose: 3000 })
