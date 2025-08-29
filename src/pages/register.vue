@@ -56,7 +56,13 @@
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label>
                   <VTextField id="senha" v-model="form.senha" density="compact"
-                    :rules="[rules.requiredSenhaObrigatoria]" name="senha" type="password" variant="outlined" />
+                    :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'" variant="outlined">
+                    <template #append-inner>
+                      <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
+                        {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                      </v-icon>
+                    </template>
+                  </VTextField>
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="formEmail">E-mail</label>
                   <VTextField id="formEmail" v-model="form.email" density="compact"
@@ -326,7 +332,7 @@ const loading = ref(false)
 
 const loadingEmail = ref(false)
 const disabled = ref(false)
-
+const showPassword = ref(false)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
@@ -390,7 +396,7 @@ async function onBlurEmail(email) {
       toast.error(data?.message)
       disabled.value = true
       return;
-    }else{
+    } else {
       disabled.value = false
     }
   }).finally(() => loadingEmail.value = false)

@@ -20,11 +20,17 @@
         <v-form class=" d-flex align-center flex-column px-lg-0 px-xl-12" @submit.prevent="handleSubmit" ref="formRef">
           <v-text-field v-model="email" type="email" placeholder="Email" hide-details variant="solo" bg-color="white"
             density="comfortable" class="mb-4 w-100" :rules="[value => !!value || 'Campo obrigatório']"
-            style="border-radius: 5px;  color: #1f2937;"></v-text-field>
+            style="border-radius: 5px;  color: #1f2937;">
+          </v-text-field>
 
-          <v-text-field v-model="senha" type="password" placeholder="Senha" hide-details variant="solo" bg-color="white"
+          <v-text-field v-model="senha" :type="showPassword ? 'text' : 'password'" placeholder="Senha" hide-details variant="solo" bg-color="white"
             density="comfortable" class="mb-6 w-100" :rules="[value => !!value || 'Campo obrigatório']"
-            style="border-radius: 5px; color: #1f2937;"></v-text-field>
+            style="border-radius: 5px; color: #1f2937;">
+            <template #append-inner>
+              <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
+                {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+              </v-icon>
+            </template></v-text-field>
 
           <RouterLink class="text-white w-100 d-flex justify-end" to="/forgot-password">
             <span>Esqueceu a senha?</span>
@@ -33,7 +39,8 @@
           <VRow class="d-flex align-center w-100 mt-5">
             <VCol class="d-flex justify-space-around flex-column ga-3 flex-lg-row align-center" cols="12">
               <VBtn class="text-white" height="47px" style="background-color: #88CE0D;" type="submit"
-                :loading="loading">Entrar</VBtn>
+                :loading="loading">Entrar
+              </VBtn>
               <span class="text-white font-weight-bold">Ou</span>
               <RouterLink to="/register">
                 <VBtn class="text-white" height="47px" style="background-color: #88CE0D;">Cadastrar</VBtn>
@@ -62,6 +69,7 @@ import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
 import { getPayload } from '@/utils/auth';
 
+const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
 const isMobile = ref(false)
