@@ -60,8 +60,8 @@
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="formEmail">E-mail</label>
                   <VTextField id="formEmail" v-model="form.email" density="compact"
-                    :rules="[rules.requiredEmailObrigatorio]" placeholder="exemplo@dominio.com" type="email"
-                    variant="outlined" />
+                    @blur="(e) => onBlurEmail(e.target.value)" :rules="[rules.requiredEmailObrigatorio]"
+                    placeholder="exemplo@dominio.com" type="email" variant="outlined" :loading="loadingEmail" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label>
@@ -86,19 +86,16 @@
                     name="peso" placeholder="0.00kg" variant="outlined" />
                 </VCol>
 
-                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"><label for="pratica">Gênero</label>
-                  <v-select id="pratica" v-model="form.genero" density="compact"
-                    :rules="[rules.requiredSelectObrigatorio]" :items="[
-                      { title: 'Homem', value: 'Homem' },
-                      { title: 'Mulher', value: 'Mulher' },
-                      { title: 'Outro', value: 'Outro' },
-                    ]" placeholder="Selecione" variant="outlined" />
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"><label for="genero">Gênero</label>
+                  <v-select id="genero" v-model="form.genero" :items="generos"
+                    :rules="[rules.requiredSelectObrigatorio]" density="compact" item-title="title" item-value="value"
+                    placeholder="Selecione" variant="outlined" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"><label for="pratica">Tipo Sanguíneo</label>
                   <v-select v-model="form.tipoSanguineo" :items="tiposSanguineos"
                     :rules="[rules.requiredSelectObrigatorio]" density="compact" item-title="title" item-value="value"
-                    placeholder="Tipo Sanguíneo" variant="outlined" />
+                    placeholder="Selecione" variant="outlined" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium mb-5" cols="12"><label for="pratica">Pratica atividade física
@@ -287,10 +284,10 @@
                 style="color: #00c6fe" variant="outlined" @click="prev">
                 Voltar
               </VBtn>
-              <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading" :disabled="loading"
-                :style="step === 3
-                    ? 'background-color:#88ce0d'
-                    : 'background-color: #00c6fe'
+              <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
+                :disabled="loading || disabled" :style="step === 3
+                  ? 'background-color:#88ce0d'
+                  : 'background-color: #00c6fe'
                   " @click="handleNext(next)">
                 {{
                   step !== 3
@@ -319,12 +316,16 @@ import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import userService from '@/services/user/user-service'
 
 dayjs.locale('pt-br')
 
 const step = ref(1)
 const router = useRouter()
 const loading = ref(false)
+
+const loadingEmail = ref(false)
+const disabled = ref(false)
 
 const doencas = ref([])
 const sintomas = ref([])
@@ -334,7 +335,7 @@ const form = ref({
   nome: '',
   cpf: '',
   senha: '',
-  genero: '',
+  genero: null,
   email: '',
   telefone: '',
   dataNascimento: '',
@@ -345,6 +346,7 @@ const form = ref({
   atividadeFisica: null,
   outrasCondicoes: '',
   tomaMedicamento: '',
+  tipoSanguineo: null,
   participouProva: null,
   ultimaProva: '',
   fezcheckUp: null,
@@ -354,8 +356,6 @@ const form = ref({
   aceitoCompartilhar: false,
   concordoTermos: false,
 })
-
-const { value: tipoSanguineo } = useField('tipoSanguineo')
 
 const tiposSanguineos = ref([
   { title: 'A+', value: 'A+' },
@@ -369,11 +369,32 @@ const tiposSanguineos = ref([
   { title: 'Não sei', value: 'Não sei' },
 ])
 
+const generos = ref([
+  { title: 'Homem', value: 'Homem' },
+  { title: 'Mulher', value: 'Mulher' },
+  { title: 'Outro', value: 'Outro' },
+])
+
 const formPdfImage = ref([])
 
 const formDoencas = ref([])
 
 const formSintomas = ref([])
+
+async function onBlurEmail(email) {
+  loadingEmail.value = true
+  await userService.validarExisteEmail(email).then((resp) => {
+    const data = resp?.data
+
+    if (data?.existeEmail == true) {
+      toast.error(data?.message)
+      disabled.value = true
+      return;
+    }else{
+      disabled.value = false
+    }
+  }).finally(() => loadingEmail.value = false)
+}
 
 function handleFileChange(files) {
   if (!files) return
@@ -529,7 +550,6 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('email', values.email || '')
     formData.append('genero', values.genero || '')
-    formData.append('tiposSanguineos', values.tiposSanguineos || '')
     formData.append('telefone', values.telefone || '')
     formData.append('objetivo', objetivoAtividade.value || '')
     formData.append('outrasCondicoesMedicas', values.outrasCondicoes || '')
