@@ -1,11 +1,28 @@
 <template>
-  <v-navigation-drawer v-model="layoutStore.drawer" :rail="layoutStore.rail" permanent
-    @click="layoutStore.rail && layoutStore.toggleRail()" class="clean-drawer position-fixed"
-    color="light-blue-accent-3" rail-width="65">
+  <v-navigation-drawer
+    v-model="layoutStore.drawer"
+    :rail="layoutStore.rail"
+    permanent
+    @click="layoutStore.rail && layoutStore.toggleRail()"
+    class="clean-drawer position-fixed"
+    color="light-blue-accent-3"
+    rail-width="65"
+  >
     <!-- Header -->
     <div class="pa-4 text-center header-section">
-      <v-avatar v-if="layoutStore.rail" size="36" color="blue-lighten-1">
-        <span class="text-white font-weight-bold text-body-1">{{ retornarSiglaNome() }}</span>
+      <v-avatar
+        class="d-flex align-center justify-center"
+        v-if="layoutStore.rail"
+        size="36"
+        color="blue-lighten-1"
+      >
+        <v-img
+          src="/src/assets/logo-pequena.png"
+          alt="Logo"
+          width="100%"
+          height="100%"
+          contain
+        ></v-img>
       </v-avatar>
 
       <div v-else>
@@ -13,7 +30,13 @@
                     <span class="text-white font-weight-bold text-h6">NG</span>
                 </v-avatar> -->
         <div class="d-flex align-center">
-          <v-img src="/src/assets/logo-pequena.png" alt="Logo" width="150" class="mb-3" contain></v-img>
+          <v-img
+            src="/src/assets/logo-pequena.png"
+            alt="Logo"
+            width="150"
+            class="mb-3"
+            contain
+          ></v-img>
         </div>
       </div>
     </div>
@@ -23,21 +46,34 @@
       <div>
         <v-list v-model:opened="open">
           <template v-for="item in menuFinal">
-            <v-list-group v-if="item.children && item.children.length" :key="item.value" :prepend-icon="item.icon">
+            <v-list-group
+              v-if="item.children && item.children.length"
+              :key="item.value"
+              :prepend-icon="item.icon"
+            >
               <template v-slot:activator="{ props }">
                 <v-list-item v-bind="props" :title="item.title"></v-list-item>
               </template>
 
-              <v-list-item v-for="child in item.children" :key="child.value" :prepend-icon="child.icon"
-                :title="child.title" :to="child.to"></v-list-item>
+              <v-list-item
+                v-for="child in item.children"
+                :key="child.value"
+                :prepend-icon="child.icon"
+                :title="child.title"
+                :to="child.to"
+              ></v-list-item>
             </v-list-group>
 
-            <v-list-item v-else :key="item" :prepend-icon="item.icon" :title="item.title" :to="item.to"></v-list-item>
+            <v-list-item
+              v-else
+              :key="item"
+              :prepend-icon="item.icon"
+              :title="item.title"
+              :to="item.to"
+            ></v-list-item>
           </template>
         </v-list>
       </div>
-
-
 
       <div class="mt-4 text-center" v-if="payload?.role == 'medico'">
         <v-divider class="mb-3" thickness="2"></v-divider>
@@ -45,40 +81,65 @@
           {{ perfis[payload?.role] }}
         </span>
 
-        <v-list style="text-align: center;" v-model:opened="open">
+        <v-list style="text-align: center" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
             <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Notificações" icon="mdi mdi-alert-circle-outline"></v-list-item>
+              <v-list-item
+                v-bind="props"
+                title="Notificações"
+                icon="mdi mdi-alert-circle-outline"
+              ></v-list-item>
             </template>
           </v-list-group>
         </v-list>
       </div>
 
       <div class="">
-        <v-list style="text-align: center;" v-model:opened="open">
+        <v-list style="text-align: center" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-home-outline">
             <template v-slot:activator="{ props }">
-              <v-list-item class="" v-bind="props" title="Minha conta" icon="mdi-search"></v-list-item>
+              <v-list-item
+                class=""
+                v-bind="props"
+                title="Minha conta"
+                icon="mdi-search"
+              ></v-list-item>
             </template>
-            <v-list-item v-for="items in contaItems" :key="items.value" :prepend-icon="items.icon" :title="items.title"
-              :value="items.value" :to="items.to"></v-list-item>
+            <v-list-item
+              v-for="items in contaItems"
+              :key="items.value"
+              :prepend-icon="items.icon"
+              :title="items.title"
+              :value="items.value"
+              :to="items.to"
+            ></v-list-item>
           </v-list-group>
         </v-list>
       </div>
-
     </div>
 
     <!-- Footer -->
     <template v-slot:append>
       <div>
-        <v-divider class="mx-2 mb-3" color="blue-lighten-4" opacity="0.3"></v-divider>
+        <v-divider
+          class="mx-2 mb-3"
+          color="blue-lighten-4"
+          opacity="0.3"
+        ></v-divider>
 
         <v-list nav>
-          <v-list-item v-for="item in footerMenuItem" :key="item.value" :prepend-icon="item.icon" :title="item.title"
-            :to="item.to" rounded="lg" class="mb-1 menu-item" :class="{ 'active-menu': $route.path === item.to }"
-            @click="onClickMenu(item.title)">
+          <v-list-item
+            v-for="item in footerMenuItem"
+            :key="item.value"
+            :prepend-icon="item.icon"
+            :title="item.title"
+            :to="item.to"
+            rounded="lg"
+            class="mb-1 menu-item"
+            :class="{ 'active-menu': $route.path === item.to }"
+            @click="onClickMenu(item.title)"
+          >
           </v-list-item>
-
         </v-list>
       </div>
     </template>
@@ -98,11 +159,21 @@ const open = ref(['Analise'])
 const payload = ref<any>()
 
 const contaItems = [
-  { icon: 'mdi mdi-account-circle', title: 'Perfil', value: 'dashboard', to: '/perfil' },
+  {
+    icon: 'mdi mdi-account-circle',
+    title: 'Perfil',
+    value: 'dashboard',
+    to: '/perfil',
+  },
 ]
 
 const footerMenuItem = [
-  { icon: 'mdi-cog', title: 'Configurações', value: 'settings', to: '/settings' },
+  {
+    icon: 'mdi-cog',
+    title: 'Configurações',
+    value: 'settings',
+    to: '/settings',
+  },
   { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
 ]
 
@@ -113,27 +184,21 @@ const menusPorPerfil: Record<string, any[]> = {
       title: 'Análise',
       value: 'resumo',
       to: '/analise',
-      children: [
-
-      ],
+      children: [],
     },
     {
       icon: 'mdi mdi-compass-outline',
       title: 'Resumo',
       value: 'resumo',
       to: '/resumo',
-      children: [
-
-      ],
+      children: [],
     },
     {
       icon: 'mdi-chart-bar',
       title: 'MRP',
       value: 'mrp',
       to: '/rmp',
-      children: [
-
-      ],
+      children: [],
     },
   ],
   atleta: [
@@ -143,8 +208,18 @@ const menusPorPerfil: Record<string, any[]> = {
       value: 'saude',
       to: '/saude',
       children: [
-        { icon: 'mdi-calendar-check', title: 'Treinos', value: 'treinos', to: '/agenda/treinos' },
-        { icon: 'mdi-calendar-star', title: 'Competições', value: 'competicoes', to: '/agenda/competicoes' },
+        {
+          icon: 'mdi-calendar-check',
+          title: 'Treinos',
+          value: 'treinos',
+          to: '/agenda/treinos',
+        },
+        {
+          icon: 'mdi-calendar-star',
+          title: 'Competições',
+          value: 'competicoes',
+          to: '/agenda/competicoes',
+        },
       ],
     },
     {
@@ -164,30 +239,24 @@ const menusPorPerfil: Record<string, any[]> = {
       title: 'MRP',
       value: 'mrp',
       to: '/rmp',
-      children: [
-
-      ],
+      children: [],
     },
     {
       icon: 'mdi-chart-bar',
       title: 'Registros Médicos',
       value: 'registrosMedicos',
       to: '/registros-medicos',
-      children: [
-
-      ],
+      children: [],
     },
     {
       icon: 'mdi mdi-file-document-outline',
       title: 'Certificados',
       value: 'certificados',
       to: '/certificados',
-      children: [
-
-      ],
+      children: [],
     },
   ],
-};
+}
 
 function handleClickOutside(event: MouseEvent) {
   const drawer = document.querySelector('.clean-drawer')
@@ -203,32 +272,32 @@ function onClickMenu(menu: string) {
 }
 
 const perfis: any = {
-  'medico': 'MÉDICO',
-  'atleta': 'ATLETA',
-  'admin': 'ADMINISTRADOR'
+  medico: 'MÉDICO',
+  atleta: 'ATLETA',
+  admin: 'ADMINISTRADOR',
 }
 
 function retornarSiglaNome() {
-  const nome: string | undefined = toRaw(payload.value)?.user?.nome;
+  const nome: string | undefined = toRaw(payload.value)?.user?.nome
 
-  if (!nome) return "";
+  if (!nome) return ''
 
-  const partes = nome.trim().split(" ").filter(Boolean);
+  const partes = nome.trim().split(' ').filter(Boolean)
 
   if (partes.length === 1) {
-    return partes[0].charAt(0).toUpperCase();
+    return partes[0].charAt(0).toUpperCase()
   }
 
-  const primeira = partes[0].charAt(0).toUpperCase();
-  const ultima = partes[partes.length - 1].charAt(0).toUpperCase();
+  const primeira = partes[0].charAt(0).toUpperCase()
+  const ultima = partes[partes.length - 1].charAt(0).toUpperCase()
 
-  return primeira + ultima;
+  return primeira + ultima
 }
 
 const menuFinal = computed(() => {
-  const role = toRaw(payload.value)?.role;
-  return menusPorPerfil[role] || [];
-});
+  const role = toRaw(payload.value)?.role
+  return menusPorPerfil[role] || []
+})
 
 onMounted(() => {
   payload.value = getPayload()
@@ -241,5 +310,4 @@ onMounted(() => {
 onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
-
 </script>
