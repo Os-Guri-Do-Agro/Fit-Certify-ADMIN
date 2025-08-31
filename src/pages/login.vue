@@ -73,7 +73,9 @@ const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
 const isMobile = ref(false)
-const formRef = ref(null)
+import type { VForm } from 'vuetify/components';
+
+const formRef = ref<VForm | null>(null)
 const router = useRouter()
 const loading = ref(false)
 
@@ -109,16 +111,16 @@ async function handleSubmit() {
       } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
         path = '/'
       }
-
-
       router.push(path).then(() => {
         toast.success("Login realizado com sucesso!", { autoClose: 2500 });
       });
     } else {
       toast.error(response?.message || "Não foi possível fazer login");
+       loading.value = false
     }
   } catch (err: any) {
     toast.error(err?.response?.data?.message || "Erro no servidor");
+     loading.value = false
   }
 }
 
