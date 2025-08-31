@@ -8,7 +8,7 @@
     <VCol class="pa-0 ma-0"  md="4" style="background-color: #00C6FE;">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column">
         <VCol class="pa-0 ma-0 flex-fill" cols="12" >
-            <RouterLink to="/" class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15" >
+            <div class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15" >
                 <v-img
                     src="../assets/Login/logo-fit.png"
                     max-width="200"
@@ -16,7 +16,7 @@
                     cover
                     class="mx-5 mx-lg-15"
                 ></v-img>
-            </RouterLink>
+            </div>
         </VCol>
         <VCol class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill" cols="12">    
             <p class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10 " style="font-family: DM Sans, sans-serif; line-height: 36px;">
@@ -52,8 +52,8 @@
     ></v-text-field>
                 </VCol>
                 <VCol class="d-flex align-center justify-center ga-3 flex-wrap" cols="12" md="6">
-                    <VBtn class="w-100 text-white" max-width="237px" height="44.9px" @click="submit" style="background-color: #05DEF0;">Buscar</VBtn>
-                    <VBtn class="w-100" max-width="237px" height="44.9px" to="/" style="color: #05DEF0; background-color: #F5FDFC; border: 2px solid;">Já tenho meu médico</VBtn>
+                    <VBtn class="w-100 text-white" max-width="237px" height="44.9px" @click="submit" style="background-color: #00c6fe;">Buscar</VBtn>
+                    <VBtn class="w-100" max-width="237px" height="44.9px" to="/" style="color: #00c6fe; background-color: #F5FDFC; border: 2px solid;">Já tenho meu médico</VBtn>
                 </VCol>
             </VRow>
 
@@ -129,10 +129,10 @@
                     </VCard>
 
                     <div class="d-flex justify-center ga-4">
-                        <div class="" style="width: 12px; height: 12px; background-color: #05DEF0; border-radius: 50%; cursor: pointer;"></div>
-                        <div class="" style="width: 12px; height: 12px; background-color: #05DEF0; border-radius: 50%; cursor: pointer;"></div>
-                        <div class="" style="width: 12px; height: 12px; background-color: #05DEF0; border-radius: 50%; cursor: pointer;"></div>
-                        <div class="" style="width: 12px; height: 12px; background-color: #05DEF0; border-radius: 50%; cursor: pointer;"></div>
+                        <div class="" style="width: 12px; height: 12px; background-color: #00c6fe; border-radius: 50%; cursor: pointer;"></div>
+                        <div class="" style="width: 12px; height: 12px; background-color: #00c6fe; border-radius: 50%; cursor: pointer;"></div>
+                        <div class="" style="width: 12px; height: 12px; background-color: #00c6fe; border-radius: 50%; cursor: pointer;"></div>
+                        <div class="" style="width: 12px; height: 12px; background-color: #00c6fe; border-radius: 50%; cursor: pointer;"></div>
                     </div>
                 </VCol>
 
