@@ -311,3 +311,15 @@ onBeforeUnmount(() => {
   document.removeEventListener('click', handleClickOutside)
 })
 </script>
+
+<style scoped>
+.v-list-item:hover {
+  background-color: white !important;
+  color: #1976d2 !important;
+}
+
+.v-list-item:hover .v-list-item__content,
+.v-list-item:hover .v-icon {
+  color: #1976d2 !important;
+}
+</style>

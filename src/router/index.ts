@@ -18,12 +18,18 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   const publicRoutes = ['/login', '/register', '/forgot-password'];
+  const isAuthenticated = isTokenValid();
+
+  // Impede usuários logados de acessar login e registerPlanos
+  if (isAuthenticated && (to.path === '/login' || to.path === '/registerPlanos')) {
+    return next('/');
+  }
 
   if (publicRoutes.includes(to.path)) {
     return next();
   }
 
-  if (!isTokenValid()) {
+  if (!isAuthenticated) {
     sessionStorage.clear();
     if (to.path !== '/login') {
       router.push('/login').then(() => {
