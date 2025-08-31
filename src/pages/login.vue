@@ -61,7 +61,7 @@
   </v-container>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import authService from '@/services/auth/auth-service';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -117,7 +117,7 @@ async function handleSubmit() {
     } else {
       toast.error(response?.message || "Não foi possível fazer login");
     }
-  } catch (err) {
+  } catch (err: any) {
     toast.error(err?.response?.data?.message || "Erro no servidor");
   }
 }
