@@ -8,9 +8,9 @@
 
         <!-- Logo -->
         <div class="mb-8">
-          <div class="d-flex align-center justify-center">
+          <a href="https://fitcert365.com/" class="d-flex align-center justify-center">
             <v-img src="../assets/Login/logo-fit.png" max-width="180" alt="Logo" cover></v-img>
-          </div>
+          </a>
         </div>
 
         <!-- Formulário -->
