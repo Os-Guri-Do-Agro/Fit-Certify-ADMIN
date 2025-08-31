@@ -1,29 +1,49 @@
 <template>
-  <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height" no-gutters>
+  <VRow
+    class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height"
+    no-gutters
+  >
     <!-- DIV DA ESQUERDA -->
     <VCol class="pa-0 ma-0" md="4" style="background-color: #00c6fe">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column" no-gutters>
         <VCol class="pa-0 ma-0 flex-fill" cols="12">
-          <RouterLink class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15" to="/login">
-            <v-img alt="Logo" class="mx-5 mx-lg-15" cover max-width="200" src="../assets/Login/logo-fit.png" />
+          <RouterLink
+            class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15"
+            to="/login"
+          >
+            <v-img
+              alt="Logo"
+              class="mx-5 mx-lg-15"
+              cover
+              max-width="200"
+              src="../assets/Login/logo-fit.png"
+            />
           </RouterLink>
         </VCol>
 
-        <VCol class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill" cols="12">
-          <h1 class="mx-5 mx-lg-15 text-white text-h5 text-md-h4 font-weight-medium font-italic" style="
+        <VCol
+          class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill"
+          cols="12"
+        >
+          <h1
+            class="mx-5 mx-lg-15 text-white text-h5 text-md-h4 font-weight-medium font-italic"
+            style="
               font-family:
                 DM Sans,
                 sans-serif;
-            ">
+            "
+          >
             {{ titleStep[step - 1] }}
           </h1>
-          <p class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10"
+          <p
+            class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10"
             style="
               font-family:
                 DM Sans,
                 sans-serif;
               line-height: 36px;
-            ">
+            "
+          >
             {{ textStep[step - 1] }}
           </p>
         </VCol>
@@ -33,85 +53,185 @@
     <!-- DIV DA DIREITA -->
     <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8">
       <v-container class="d-flex ga-10 align-top flex-column fill-height pa-0">
-        <VStepper v-model="step" class="d-flex flex-column h-100 w-100 justify-space-between" :items="item">
+        <VStepper
+          v-model="step"
+          class="d-flex flex-column h-100 w-100 justify-space-between"
+          :items="item"
+        >
           <!--Primeiro slid-->
           <template #item.1>
             <v-form :ref="formRef">
               <VRow>
                 <VCol class="mb-10 mt-10 mt-md-0" cols="12">
-                  <h2 class="text-start text-h5 font-weight-bold" style="color: #88ce0d">
+                  <h2
+                    class="text-start text-h5 font-weight-bold"
+                    style="color: #88ce0d"
+                  >
                     1. Informações Pessoais
                   </h2>
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"><label for="nomeCompleto">Nome
-                    completo:</label>
-                  <VTextField id="nomeCompleto" density="compact" v-model="form.nome" name="nomeCompleto"
-                    :rules="[rules.requiredNomeObrigatorio]" variant="outlined" />
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="8"
+                  ><label for="nomeCompleto">Nome completo:</label>
+                  <VTextField
+                    id="nomeCompleto"
+                    density="compact"
+                    v-model="form.nome"
+                    name="nomeCompleto"
+                    :rules="[rules.requiredNomeObrigatorio]"
+                    variant="outlined"
+                  />
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label>
-                  <VTextField id="cpf" v-model="form.cpf" v-maska="'###.###.###-##'" density="compact"
-                    :rules="[rules.requiredCpfObrigatorio]" name="cpf" placeholder="000.000.000-00"
-                    variant="outlined" />
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"
+                  ><label for="cpf">CPF</label>
+                  <VTextField
+                    id="cpf"
+                    v-model="form.cpf"
+                    v-maska="'###.###.###-##'"
+                    density="compact"
+                    :rules="[rules.requiredCpfObrigatorio]"
+                    name="cpf"
+                    placeholder="000.000.000-00"
+                    variant="outlined"
+                  />
                 </VCol>
 
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label>
-                  <VTextField id="senha" v-model="form.senha" density="compact"
-                    :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'"
-                    variant="outlined">
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
+                  ><label for="senha">Senha</label>
+                  <VTextField
+                    id="senha"
+                    v-model="form.senha"
+                    density="compact"
+                    :rules="[rules.requiredSenhaObrigatoria]"
+                    name="senha"
+                    :type="showPassword ? 'text' : 'password'"
+                    variant="outlined"
+                  >
                     <template #append-inner>
-                      <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
+                      <v-icon
+                        @click="showPassword = !showPassword"
+                        class="cursor-pointer"
+                      >
                         {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
                   </VTextField>
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="formEmail">E-mail</label>
-                  <VTextField id="formEmail" v-model="form.email" density="compact"
-                    @blur="(e) => onBlurEmail(e.target.value)" :rules="[rules.requiredEmailObrigatorio]"
-                    placeholder="exemplo@dominio.com" type="email" variant="outlined" :loading="loadingEmail" />
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
+                  ><label for="formEmail">E-mail</label>
+                  <VTextField
+                    id="formEmail"
+                    v-model="form.email"
+                    density="compact"
+                    @blur="(e) => onBlurEmail(e.target.value)"
+                    :rules="[rules.requiredEmailObrigatorio]"
+                    placeholder="exemplo@dominio.com"
+                    type="email"
+                    variant="outlined"
+                    :loading="loadingEmail"
+                  />
                 </VCol>
 
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label>
-                  <VTextField v-maska="'(##) #####-####'" id="telefone" v-model="form.telefone" density="compact"
-                    :rules="[rules.requiredTelefoneObrigatorio]" name="telefone" placeholder="(99) 9 9999-9999"
-                    type="tel" variant="outlined" />
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
+                  ><label for="telefone">Telefone:</label>
+                  <VTextField
+                    v-maska="'(##) #####-####'"
+                    id="telefone"
+                    v-model="form.telefone"
+                    density="compact"
+                    :rules="[rules.requiredTelefoneObrigatorio]"
+                    name="telefone"
+                    placeholder="(99) 9 9999-9999"
+                    type="tel"
+                    variant="outlined"
+                  />
                 </VCol>
-                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de
-                    nascimento:</label>
-                  <VTextField  id="nascimento" v-model="form.dataNascimento" density="compact"
-                    :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento" v-maska="'##/##/####'"  placeholder="DD/MM/AAAA"
-                    variant="outlined" />
-                </VCol>
-
-                <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label>
-                  <VTextField id="altura" v-maska="'#.##'" v-model="form.altura" density="compact"
-                    :rules="[rules.requiredAlturaObrigatorio]" name="altura" placeholder="0.00cm" variant="outlined" />
-                </VCol>
-
-                <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label>
-                  <VTextField id="peso" v-model="form.peso" :maska="'###'" density="compact" :rules="[rules.requiredPesoObrigatorio]"
-                    name="peso" placeholder="0.00kg" variant="outlined" />
-                </VCol>
-
-                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"><label for="genero">Gênero</label>
-                  <v-select id="genero" v-model="form.genero" :items="generos"
-                    :rules="[rules.requiredSelectObrigatorio]" density="compact" item-title="title" item-value="value"
-                    placeholder="Selecione" variant="outlined" />
-                </VCol>
-
-                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"><label for="pratica">Tipo Sanguíneo</label>
-                  <v-select v-model="form.tipoSanguineo" :items="tiposSanguineos"
-                    :rules="[rules.requiredSelectObrigatorio]" density="compact" item-title="title" item-value="value"
-                    placeholder="Selecione" variant="outlined" />
+                <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"
+                  ><label for="nascimento">Data de nascimento:</label>
+                  <VTextField
+                    id="nascimento"
+                    v-model="form.dataNascimento"
+                    density="compact"
+                    :rules="[rules.requiredDataNascimentoObrigatorio]"
+                    name="nascimento"
+                    v-maska="'##/##/####'"
+                    placeholder="DD/MM/AAAA"
+                    variant="outlined"
+                  />
                 </VCol>
 
-                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="12"><label for="pratica">Pratica atividade física
-                    regularmente?</label>
-                  <v-select id="pratica" v-model="form.praticaAtividadeFisicaRegularmente" density="compact"
-                    :rules="[rules.requiredSelectObrigatorio]" :items="[
+                <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"
+                  ><label for="altura">Altura (cm):</label>
+                  <VTextField
+                    id="altura"
+                    v-maska="'#.##'"
+                    v-model="form.altura"
+                    density="compact"
+                    :rules="[rules.requiredAlturaObrigatorio]"
+                    name="altura"
+                    placeholder="0.00cm"
+                    variant="outlined"
+                  />
+                </VCol>
+
+                <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"
+                  ><label for="peso">Peso (kg):</label>
+                  <VTextField
+                    id="peso"
+                    v-model="form.peso"
+                    v-maska="'###.##'"
+                    density="compact"
+                    :rules="[rules.requiredPesoObrigatorio]"
+                    name="peso"
+                    placeholder="0.00kg"
+                    variant="outlined"
+                  />
+                </VCol>
+
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"
+                  ><label for="genero">Gênero</label>
+                  <v-select
+                    id="genero"
+                    v-model="form.genero"
+                    :items="generos"
+                    :rules="[rules.requiredSelectObrigatorio]"
+                    density="compact"
+                    item-title="title"
+                    item-value="value"
+                    placeholder="Selecione"
+                    variant="outlined"
+                  />
+                </VCol>
+
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="6"
+                  ><label for="pratica">Tipo Sanguíneo</label>
+                  <v-select
+                    v-model="form.tipoSanguineo"
+                    :items="tiposSanguineos"
+                    :rules="[rules.requiredSelectObrigatorio]"
+                    density="compact"
+                    item-title="title"
+                    item-value="value"
+                    placeholder="Selecione"
+                    variant="outlined"
+                  />
+                </VCol>
+
+                <VCol class="my-0 py-0 font-weight-medium mb-5" cols="12"
+                  ><label for="pratica"
+                    >Pratica atividade física regularmente?</label
+                  >
+                  <v-select
+                    id="pratica"
+                    v-model="form.praticaAtividadeFisicaRegularmente"
+                    density="compact"
+                    :rules="[rules.requiredSelectObrigatorio]"
+                    :items="[
                       { title: 'Sim', value: true },
                       { title: 'Não', value: false },
-                    ]" placeholder="Selecione" variant="outlined" />
+                    ]"
+                    placeholder="Selecione"
+                    variant="outlined"
+                  />
                 </VCol>
               </VRow>
             </v-form>
@@ -120,37 +240,71 @@
           <!--Segundo slide-->
           <template #item.2>
             <v-form>
-              <VRow class="pa-0 ma-0 fill-md-height d-flex flex-column flex-md-row">
+              <VRow
+                class="pa-0 ma-0 fill-md-height d-flex flex-column flex-md-row"
+              >
                 <VCol class="d-flex ma-0 pa-0 pr-0 pr-md-3" md="6">
                   <v-row class="d-flex">
                     <v-col cols="12">
-                      <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88ce0d">
+                      <h2
+                        class="text-start text-h5 font-weight-bold mb-5"
+                        style="color: #88ce0d"
+                      >
                         2. Histórico de Saúde
                       </h2>
                       <div class="mb-5">
-                        <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
-                          abaixo?</span>
+                        <span class="text-black font-weight-medium"
+                          >Já foi diagnosticado com alguma das condições
+                          abaixo?</span
+                        >
                       </div>
-                      <v-checkbox v-for="(item, index) in doencas" :key="index" v-model="formDoencas"
-                        :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
-                        density="compact" color="success" @change="handleDoencaChange(item)" />
+                      <v-checkbox
+                        v-for="(item, index) in doencas"
+                        :key="index"
+                        v-model="formDoencas"
+                        :rules="[rules.requiredCheckObrigatorio]"
+                        :label="item.descricao"
+                        :value="item.id"
+                        hide-details
+                        density="compact"
+                        color="success"
+                        @change="handleDoencaChange(item)"
+                      />
 
                       <VRow>
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Outras condições médicas:</span>
-                            <v-textarea v-model="form.outrasCondicoes" class="text-black" color="black"
-                              :error-messages="errors.outrasCondicoes" no-resize rows="2" variant="outlined" />
+                            <span class="text-black"
+                              >Outras condições médicas:</span
+                            >
+                            <v-textarea
+                              v-model="form.outrasCondicoes"
+                              class="text-black"
+                              color="black"
+                              :error-messages="errors.outrasCondicoes"
+                              no-resize
+                              rows="2"
+                              variant="outlined"
+                            />
                           </div>
                         </VCol>
 
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Toma algum medicamento contínuo? Se sim,
-                              qual?</span>
-                            <v-textarea v-model="form.tomaMedicamento" class="text-black custom-textarea" color="black"
-                              :error-messages="errors.tomaMedicamento" max-height="20px" no-resize rows="2"
-                              variant="outlined" />
+                            <span class="text-black"
+                              >Toma algum medicamento contínuo? Se sim,
+                              qual?</span
+                            >
+                            <v-textarea
+                              v-model="form.tomaMedicamento"
+                              class="text-black custom-textarea"
+                              color="black"
+                              :error-messages="errors.tomaMedicamento"
+                              max-height="20px"
+                              no-resize
+                              rows="2"
+                              variant="outlined"
+                            />
                           </div>
                         </VCol>
                       </VRow>
@@ -161,41 +315,84 @@
                 <VCol class="d-flex pa-0 ma-0" md="6">
                   <v-row class="d-flex h-100">
                     <v-col class="h-100" cols="12">
-                      <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88ce0d">
+                      <h2
+                        class="text-start text-h5 font-weight-bold mb-5"
+                        style="color: #88ce0d"
+                      >
                         3. Sinais e Sintomas Recentes
                       </h2>
                       <div class="mb-5">
-                        <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
-                          abaixo?</span>
+                        <span class="text-black font-weight-medium"
+                          >Já foi diagnosticado com alguma das condições
+                          abaixo?</span
+                        >
                       </div>
-                      <v-checkbox v-for="(item, index) in sintomas" :key="index" v-model="formSintomas"
-                        :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
-                        density="compact" color="success" @change="handleSintomaChange(item)" />
+                      <v-checkbox
+                        v-for="(item, index) in sintomas"
+                        :key="index"
+                        v-model="formSintomas"
+                        :rules="[rules.requiredCheckObrigatorio]"
+                        :label="item.descricao"
+                        :value="item.id"
+                        hide-details
+                        density="compact"
+                        color="success"
+                        @change="handleSintomaChange(item)"
+                      />
 
                       <div class="mt-7">
-                        <h2 class="text-start text-h5 font-weight-bold mb-7" style="color: #88ce0d">
+                        <h2
+                          class="text-start text-h5 font-weight-bold mb-7"
+                          style="color: #88ce0d"
+                        >
                           4. Histórico Esportivo
                         </h2>
                         <VRow>
-                          <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="objetivo_atividade">Objetivo
-                              com a atividade física:</label>
-                            <v-select id="objetivo_atividade" v-model="objetivoAtividade" :items="objetivos"
-                              item-title="title" item-value="value" density="compact"
-                              :rules="[rules.requiredSelectObrigatorio]" placeholder="Selecione" variant="outlined" />
+                          <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                            ><label for="objetivo_atividade"
+                              >Objetivo com a atividade física:</label
+                            >
+                            <v-select
+                              id="objetivo_atividade"
+                              v-model="objetivoAtividade"
+                              :items="objetivos"
+                              item-title="title"
+                              item-value="value"
+                              density="compact"
+                              :rules="[rules.requiredSelectObrigatorio]"
+                              placeholder="Selecione"
+                              variant="outlined"
+                            />
                           </VCol>
-                          <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="Objetivo_pratica">Já
-                              participou de provas antes?</label>
-                            <v-select id="Objetivo_pratica" v-model="form.participouProva" density="compact"
-                              :rules="[rules.requiredSelectObrigatorio]" :items="[
+                          <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                            ><label for="Objetivo_pratica"
+                              >Já participou de provas antes?</label
+                            >
+                            <v-select
+                              id="Objetivo_pratica"
+                              v-model="form.participouProva"
+                              density="compact"
+                              :rules="[rules.requiredSelectObrigatorio]"
+                              :items="[
                                 { title: 'Sim', value: true },
                                 { title: 'Não', value: false },
-                              ]" placeholder="Selecione" variant="outlined" />
+                              ]"
+                              placeholder="Selecione"
+                              variant="outlined"
+                            />
                           </VCol>
 
-                          <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a
-                              última?</label>
-                            <VTextField id="ultimasprovas" v-model="form.ultimaProva" density="compact"
-                              name="ultimasprovas" variant="outlined" />
+                          <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                            ><label for="ultimasprovas"
+                              >Se sim, qual a última?</label
+                            >
+                            <VTextField
+                              id="ultimasprovas"
+                              v-model="form.ultimaProva"
+                              density="compact"
+                              name="ultimasprovas"
+                              variant="outlined"
+                            />
                           </VCol>
                         </VRow>
                       </div>
@@ -211,73 +408,132 @@
             <v-form>
               <div class="d-flex flex-column justify-space-between">
                 <div class="mt-10 mt-md-0 d-flex">
-                  <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88ce0d">
+                  <h2
+                    class="text-start text-h5 font-weight-bold mb-5"
+                    style="color: #88ce0d"
+                  >
                     5. Exames e Dados Complementares
                   </h2>
                 </div>
 
                 <VRow class="d-flex">
                   <v-form class="w-100">
-                    <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="check">Fez check-up nos últimos 12
-                        meses?</label><v-select density="comfortable" v-model="form.fezcheckUp"
-                        :rules="[rules.requiredSelectObrigatorio]" :items="[
+                    <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                      ><label for="check"
+                        >Fez check-up nos últimos 12 meses?</label
+                      ><v-select
+                        density="comfortable"
+                        v-model="form.fezcheckUp"
+                        :rules="[rules.requiredSelectObrigatorio]"
+                        :items="[
                           { title: 'Sim', value: true },
                           { title: 'Não', value: false },
-                        ]" name="check" id="check" placeholder="Selecione" variant="outlined"></v-select></VCol>
+                        ]"
+                        name="check"
+                        id="check"
+                        placeholder="Selecione"
+                        variant="outlined"
+                      ></v-select
+                    ></VCol>
 
                     <VCol cols="12" class="my-0 py-0 font-weight-medium">
-                      <label for="arquivos">Anexar exames (PDF ou imagem):</label>
-                      <VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"
-                        accept=".pdf, image/*" @update:model-value="handleFileChange" />
+                      <label for="arquivos"
+                        >Anexar exames (PDF ou imagem):</label
+                      >
+                      <VFileInput
+                        density="comfortable"
+                        prepend-icon=""
+                        name="arquivos"
+                        id="arquivos"
+                        variant="outlined"
+                        accept=".pdf, image/*"
+                        @update:model-value="handleFileChange"
+                      />
                     </VCol>
 
                     <VCol cols="12" class="my-0 py-0 font-weight-medium">
                       <div v-if="formPdfImage.length">
                         <div v-for="(file, index) in formPdfImage" :key="index">
-                          <div class="d-flex w-100 justify-space-between align-center my-5 pa-3 rounded-lg"
-                            style="background-color: #88ce0d">
+                          <div
+                            class="d-flex w-100 justify-space-between align-center my-5 pa-3 rounded-lg"
+                            style="background-color: #88ce0d"
+                          >
                             <div class="gap-5 text-white">
                               <b>{{ file.name }}</b>
                               <b>{{ (file.size / 1024).toFixed(1) }} KB</b>
                             </div>
-                            <VBtn icon="mdi-close" size="small" @click="removeFile(index)" />
+                            <VBtn
+                              icon="mdi-close"
+                              size="small"
+                              @click="removeFile(index)"
+                            />
                           </div>
                         </div>
                       </div>
                     </VCol>
 
-                    <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="possuiSmartwatch">Possui smartwatch
-                        ou app de treino?</label><v-select density="comfortable" v-model="form.possuiSmartwatch"
-                        :rules="[rules.requiredSelectObrigatorio]" :items="[
+                    <VCol class="my-0 py-0 font-weight-medium" cols="12"
+                      ><label for="possuiSmartwatch"
+                        >Possui smartwatch ou app de treino?</label
+                      ><v-select
+                        density="comfortable"
+                        v-model="form.possuiSmartwatch"
+                        :rules="[rules.requiredSelectObrigatorio]"
+                        :items="[
                           { title: 'Sim', value: true },
                           { title: 'Não', value: false },
-                        ]" id="possuiSmartwatch" placeholder="Selecione" variant="outlined"></v-select>
+                        ]"
+                        id="possuiSmartwatch"
+                        placeholder="Selecione"
+                        variant="outlined"
+                      ></v-select>
                     </VCol>
                     <VCol class="my-0 px-3" cols="12">
-                      <v-checkbox class="font-weight-medium" v-model="form.integrarDados"
-                        :rules="[rules.requiredCheckObrigatorio]" color="success" required
-                        label=" Desejo integrar meus dados com a FitCertify365"></v-checkbox>
+                      <v-checkbox
+                        class="font-weight-medium"
+                        v-model="form.integrarDados"
+                        :rules="[rules.requiredCheckObrigatorio]"
+                        color="success"
+                        required
+                        label=" Desejo integrar meus dados com a FitCertify365"
+                      ></v-checkbox>
                     </VCol>
                   </v-form>
                 </VRow>
 
                 <div class="d-flex flex-column h-100">
-                  <h2 class="text-start text-h5 font-weight-bold mb-5" style="color: #88ce0d">
+                  <h2
+                    class="text-start text-h5 font-weight-bold mb-5"
+                    style="color: #88ce0d"
+                  >
                     6. Declaração
                   </h2>
                   <v-form class="w-100">
-                    <v-checkbox v-model="form.declaroInformacoes" :rules="[rules.requiredCheckObrigatorio]"
-                      color="success" class="font-weight-medium"
-                      label=" Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.">
+                    <v-checkbox
+                      v-model="form.declaroInformacoes"
+                      :rules="[rules.requiredCheckObrigatorio]"
+                      color="success"
+                      class="font-weight-medium"
+                      label=" Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação."
+                    >
                     </v-checkbox>
 
-                    <v-checkbox v-model="form.aceitoCompartilhar" :rules="[rules.requiredCheckObrigatorio]"
-                      color="success" class="font-weight-medium"
-                      label="Aceito compartilhar meus dados com as organizações dos eventos que eu participar.">
+                    <v-checkbox
+                      v-model="form.aceitoCompartilhar"
+                      :rules="[rules.requiredCheckObrigatorio]"
+                      color="success"
+                      class="font-weight-medium"
+                      label="Aceito compartilhar meus dados com as organizações dos eventos que eu participar."
+                    >
                     </v-checkbox>
 
-                    <v-checkbox v-model="form.concordoTermos" :rules="[rules.requiredCheckObrigatorio]" color="success"
-                      class="font-weight-medium" label=" Li e concordo com os Termos de Uso e Política de Privacidade.">
+                    <v-checkbox
+                      v-model="form.concordoTermos"
+                      :rules="[rules.requiredCheckObrigatorio]"
+                      color="success"
+                      class="font-weight-medium"
+                      label=" Li e concordo com os Termos de Uso e Política de Privacidade."
+                    >
                     </v-checkbox>
                   </v-form>
                 </div>
@@ -286,16 +542,33 @@
           </template>
 
           <template #actions="{ next, prev }">
-            <div class="d-flex justify-space-between w-100 px-6 mb-5 flex-column-reverse flex-md-row align-center ga-3">
-              <VBtn class="w-100" :disabled="step === 1 ? true : false" height="43px" max-width="237px"
-                style="color: #00c6fe" variant="outlined" @click="prev">
+            <div
+              class="d-flex justify-space-between w-100 px-6 mb-5 flex-column-reverse flex-md-row align-center ga-3"
+            >
+              <VBtn
+                class="w-100"
+                :disabled="step === 1 ? true : false"
+                height="43px"
+                max-width="237px"
+                style="color: #00c6fe"
+                variant="outlined"
+                @click="prev"
+              >
                 Voltar
               </VBtn>
-              <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
-                :disabled="loading || disabled" :style="step === 3
-                  ? 'background-color:#88ce0d'
-                  : 'background-color: #00c6fe'
-                  " @click="handleNext(next)">
+              <VBtn
+                class="text-white w-100"
+                height="43px"
+                max-width="237px"
+                :loading="loading"
+                :disabled="loading || disabled"
+                :style="
+                  step === 3
+                    ? 'background-color:#88ce0d'
+                    : 'background-color: #00c6fe'
+                "
+                @click="handleNext(next)"
+              >
                 {{
                   step !== 3
                     ? 'Próximo'
@@ -323,7 +596,7 @@ import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import userService from '@/services/user/user-service'
- import { vMaska } from 'maska/vue';
+import { vMaska } from 'maska/vue'
 
 dayjs.locale('pt-br')
 
@@ -333,7 +606,7 @@ const loading = ref(false)
 
 const loadingEmail = ref(false)
 const disabled = ref(false)
-const showPassword = ref(true)
+const showPassword = ref(false)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
@@ -390,17 +663,20 @@ const formSintomas = ref([])
 
 async function onBlurEmail(email) {
   loadingEmail.value = true
-  await userService.validarExisteEmail(email).then((resp) => {
-    const data = resp?.data
+  await userService
+    .validarExisteEmail(email)
+    .then((resp) => {
+      const data = resp?.data
 
-    if (data?.existeEmail == true) {
-      toast.error(data?.message)
-      disabled.value = true
-      return;
-    } else {
-      disabled.value = false
-    }
-  }).finally(() => loadingEmail.value = false)
+      if (data?.existeEmail == true) {
+        toast.error(data?.message)
+        disabled.value = true
+        return
+      } else {
+        disabled.value = false
+      }
+    })
+    .finally(() => (loadingEmail.value = false))
 }
 
 function handleFileChange(files) {
@@ -577,8 +853,14 @@ const submitAtleta = handleSubmit(async () => {
     }
 
     //NUMBER NESSA BOMBA
-    formData.append('altura', values.altura ? Number(values.altura) : 0)
-    formData.append('peso', values.peso ? Number(values.peso) : 0)
+    formData.append(
+      'altura',
+      values.altura ? Number(values.altura.replace(',', '.')) : 0
+    )
+    formData.append(
+      'peso',
+      values.peso ? Number(values.peso.replace(',', '.')) : 0
+    )
 
     //BOOLEAN NESSA BOMBA
 
