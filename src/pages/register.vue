@@ -49,7 +49,7 @@
                     :rules="[rules.requiredNomeObrigatorio]" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label>
-                  <VTextField id="cpf" v-model="form.cpf" v-mask="'###.###.###-##'" density="compact"
+                  <VTextField id="cpf" v-model="form.cpf" v-maska="'###.###.###-##'" density="compact"
                     :rules="[rules.requiredCpfObrigatorio]" name="cpf" placeholder="000.000.000-00"
                     variant="outlined" />
                 </VCol>
@@ -60,7 +60,7 @@
                     variant="outlined">
                     <template #append-inner>
                       <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
-                        {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                        {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
                   </VTextField>
@@ -72,24 +72,24 @@
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="telefone">Telefone:</label>
-                  <VTextField id="telefone" v-model="form.telefone" density="compact"
+                  <VTextField v-maska="'(##) #####-####'" id="telefone" v-model="form.telefone" density="compact"
                     :rules="[rules.requiredTelefoneObrigatorio]" name="telefone" placeholder="(99) 9 9999-9999"
                     type="tel" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de
                     nascimento:</label>
-                  <VTextField type="date" id="nascimento" v-model="form.dataNascimento" density="compact"
-                    :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento"  placeholder="DD/MM/AAAA"
+                  <VTextField  id="nascimento" v-model="form.dataNascimento" density="compact"
+                    :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento" v-maska="'##/##/####'"  placeholder="DD/MM/AAAA"
                     variant="outlined" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="altura">Altura (cm):</label>
-                  <VTextField id="altura" v-model="form.altura" density="compact"
+                  <VTextField id="altura" v-maska="'#.##'" v-model="form.altura" density="compact"
                     :rules="[rules.requiredAlturaObrigatorio]" name="altura" placeholder="0.00cm" variant="outlined" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="6" md="12"><label for="peso">Peso (kg):</label>
-                  <VTextField id="peso" v-model="form.peso" density="compact" :rules="[rules.requiredPesoObrigatorio]"
+                  <VTextField id="peso" v-model="form.peso" :maska="'###'" density="compact" :rules="[rules.requiredPesoObrigatorio]"
                     name="peso" placeholder="0.00kg" variant="outlined" />
                 </VCol>
 
@@ -323,7 +323,7 @@ import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import userService from '@/services/user/user-service'
-import {TheMask} from 'vue-the-mask'
+ import { vMaska } from 'maska/vue';
 
 dayjs.locale('pt-br')
 
@@ -333,7 +333,7 @@ const loading = ref(false)
 
 const loadingEmail = ref(false)
 const disabled = ref(false)
-const showPassword = ref(false)
+const showPassword = ref(true)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
@@ -557,7 +557,7 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('email', values.email || '')
     formData.append('genero', values.genero || '')
-    formData.append('telefone', values.telefone || '')
+    formData.append('telefone', values.telefone.replace(/\D/g, '') || '')
     formData.append('objetivo', objetivoAtividade.value || '')
     formData.append('outrasCondicoesMedicas', values.outrasCondicoes || '')
     formData.append('tomaMedicamentoContinuo', values.tomaMedicamento || '')

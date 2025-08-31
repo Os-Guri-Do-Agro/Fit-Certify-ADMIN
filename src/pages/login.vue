@@ -30,7 +30,7 @@
             :rules="[value => !!value || 'Campo obrigatório']" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
-                {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
               </v-icon>
             </template></v-text-field>
 
