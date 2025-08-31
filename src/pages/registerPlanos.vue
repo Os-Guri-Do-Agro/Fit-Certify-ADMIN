@@ -14,7 +14,7 @@
               cover
               class="mx-5 mx-lg-15"
             ></v-img>
-        </div>
+          </div>
         </VCol>
         <VCol
           class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill"
@@ -28,7 +28,12 @@
 
           <p
             class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10"
-            style="font-family: DM Sans, sans-serif; line-height: 36px;"
+            style="
+              font-family:
+                DM Sans,
+                sans-serif;
+              line-height: 36px;
+            "
           >
             Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com
             ela, você poderá validar certificados, acompanhar seus marcadores de
@@ -41,17 +46,31 @@
     <!--DIV DA DIREITA-->
     <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8">
       <v-container class="d-flex ga-10 align-top mx-md-5 flex-column">
+        <div class="w-100 d-flex justify-end">
+          <v-btn icon @click="sair">
+  <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8;" />
+</v-btn>
+        </div>
         <div class="w-100 d-flex align-center flex-column">
           <h2
             class="text-center text-h5 font-weight-black mb-5"
-            style="color: #88ce0d; font-family: DM Sans, sans-serif;"
+            style="
+              color: #88ce0d;
+              font-family:
+                DM Sans,
+                sans-serif;
+            "
           >
             Escolha seu plano
           </h2>
 
           <span
             class="text-center text-subtitle-1"
-            style="font-family: DM Sans, sans-serif;"
+            style="
+              font-family:
+                DM Sans,
+                sans-serif;
+            "
           >
             Certifique sua saúde com a FitCertify365. Escolha o plano ideal para
             sua jornada esportiva.
@@ -82,7 +101,12 @@
                 <div class="d-flex align-md-center flex-column flex-md-row">
                   <VCardTitle
                     class="font-weight-black text-h6 text-md-h5"
-                    style="color: #00b5d8; font-family: DM Sans, sans-serif;"
+                    style="
+                      color: #00b5d8;
+                      font-family:
+                        DM Sans,
+                        sans-serif;
+                    "
                     primary-title
                   >
                     {{ plano.nome }}
@@ -100,16 +124,28 @@
                 <div class="d-flex flex-column flex-lg-row">
                   <v-card-subtitle
                     class="font-weight-black text-md-h6"
-                    style="color: #88ce0d; font-family: DM Sans, sans-serif;"
+                    style="
+                      color: #88ce0d;
+                      font-family:
+                        DM Sans,
+                        sans-serif;
+                    "
                   >
-                    R$ {{ plano.precoMes?.toFixed(2).replace('.', ',') || '0,00' }}/mês
-
+                    R$
+                    {{
+                      plano.precoMes?.toFixed(2).replace('.', ',') || '0,00'
+                    }}/mês
                   </v-card-subtitle>
 
                   <v-card-subtitle
                     v-if="plano.precoMes && plano.maisPopular"
                     class="font-weight-black text-md-h6"
-                    style="color: #88ce0d; font-family: DM Sans, sans-serif;"
+                    style="
+                      color: #88ce0d;
+                      font-family:
+                        DM Sans,
+                        sans-serif;
+                    "
                   >
                     (R$
                     {{ plano.precoAno.toFixed(2).replace('.', ',') }}/ano)
@@ -136,14 +172,22 @@
                         <span
                           class="mr-1"
                           v-if="item.incluso"
-                          style="color: #4caf50; font-weight: bold; margin-left: auto;"
+                          style="
+                            color: #4caf50;
+                            font-weight: bold;
+                            margin-left: auto;
+                          "
                         >
                           ✔️
                         </span>
                         <span
                           class="mr-1"
                           v-else
-                          style="color: #f44336; font-weight: bold; margin-left: auto;"
+                          style="
+                            color: #f44336;
+                            font-weight: bold;
+                            margin-left: auto;
+                          "
                         >
                           ❌
                         </span>
@@ -177,10 +221,20 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import PlanoService from '../services/planos/plano-service'
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiWindowClose } from '@mdi/js'
+import { logout } from '@/utils/auth'
 
+const router = useRouter()
 const planos = ref([])
 const loading = ref(true)
+
+function sair() {
+  logout()
+  router.push('/login')
+}
 
 const buscarPlanos = async () => {
   try {
@@ -197,6 +251,7 @@ onMounted(async () => {
   await buscarPlanos()
 })
 </script>
+
 
 <style>
 .border_Focus:hover {
