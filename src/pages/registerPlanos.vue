@@ -4,8 +4,7 @@
     <VCol class="pa-0 ma-0" md="4" style="background-color: #00c6fe">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column">
         <VCol class="pa-0 ma-0 flex-fill" cols="12">
-          <RouterLink
-            to="/"
+          <div
             class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15"
           >
             <v-img
@@ -15,7 +14,7 @@
               cover
               class="mx-5 mx-lg-15"
             ></v-img>
-          </RouterLink>
+        </div>
         </VCol>
         <VCol
           class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill"
