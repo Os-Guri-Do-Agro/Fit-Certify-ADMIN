@@ -20,8 +20,8 @@ router.beforeEach((to, from, next) => {
   const publicRoutes = ['/login', '/register', '/forgot-password'];
   const isAuthenticated = isTokenValid();
 
-  // Impede usuários logados de acessar login e registerPlanos
-  if (isAuthenticated && (to.path === '/login' || to.path === '/registerPlanos')) {
+  // Impede usuários logados de acessar login, register e registerPlanos
+  if (isAuthenticated && (to.path === '/login' || to.path === '/register' || to.path === '/registerPlanos')) {
     return next('/');
   }
 
