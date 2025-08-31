@@ -5,7 +5,7 @@
  */
 
 // Composables
-import {  isTokenValid } from '@/utils/auth'
+import { getPayload, isTokenValid, atletaTemPlano } from '@/utils/auth'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
 import { toast } from 'vue3-toastify';
@@ -17,29 +17,29 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  // Rotas públicas
   const publicRoutes = ['/login', '/register', '/forgot-password'];
 
   if (publicRoutes.includes(to.path)) {
     return next();
   }
 
-  if (from.path == '/' && !isTokenValid()) {
-    router.push('/login')
-    return
+  if (!isTokenValid()) {
+    sessionStorage.clear();
+    if (to.path !== '/login') {
+      router.push('/login').then(() => {
+        toast.error("Usuário não autenticado, redirecionando para login", { autoClose: 3000 });
+      })
+    }
+    return next();
   }
 
-  // Rotas privadas
-  if (!isTokenValid() && from.path !== '/login') {
-    sessionStorage.clear()
-    router.push('/login').then(() => {
-      toast.error("Usuário não autenticado, redirecionando para login", { autoClose: 3000 })
-    });
-    return
+  if (!atletaTemPlano() && to.path !== '/registerPlanos') {
+    return next('/registerPlanos');
   }
 
   next();
 });
+
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {

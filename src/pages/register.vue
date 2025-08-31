@@ -4,7 +4,7 @@
     <VCol class="pa-0 ma-0" md="4" style="background-color: #00c6fe">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column" no-gutters>
         <VCol class="pa-0 ma-0 flex-fill" cols="12">
-          <RouterLink class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15" to="/">
+          <RouterLink class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15" to="/login">
             <v-img alt="Logo" class="mx-5 mx-lg-15" cover max-width="200" src="../assets/Login/logo-fit.png" />
           </RouterLink>
         </VCol>
@@ -60,7 +60,7 @@
                     variant="outlined">
                     <template #append-inner>
                       <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
-                        {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                        {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
                   </VTextField>
@@ -333,7 +333,7 @@ const loading = ref(false)
 
 const loadingEmail = ref(false)
 const disabled = ref(false)
-const showPassword = ref(false)
+const showPassword = ref(true)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
