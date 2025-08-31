@@ -23,9 +23,9 @@
             style="border-radius: 5px;  color: #1f2937;">
           </v-text-field>
 
-          <v-text-field v-model="senha" :type="showPassword ? 'text' : 'password'" placeholder="Senha" hide-details variant="solo" bg-color="white"
-            density="comfortable" class="mb-6 w-100" :rules="[value => !!value || 'Campo obrigatório']"
-            style="border-radius: 5px; color: #1f2937;">
+          <v-text-field v-model="senha" :type="showPassword ? 'text' : 'password'" placeholder="Senha" hide-details
+            variant="solo" bg-color="white" density="comfortable" class="mb-6 w-100"
+            :rules="[value => !!value || 'Campo obrigatório']" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
                 {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
@@ -61,7 +61,7 @@
   </v-container>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import authService from '@/services/auth/auth-service';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
@@ -73,7 +73,7 @@ const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
 const isMobile = ref(false)
-const formRef = ref<any>(null)
+const formRef = ref(null)
 const router = useRouter()
 const loading = ref(false)
 
@@ -99,19 +99,17 @@ async function handleSubmit() {
 
     if (response.access_token) {
       sessionStorage.setItem("token", response.access_token)
-
       loading.value = false
-
       const payload = getPayload()
-
       const user = payload?.user
-      let path = ''
+      let path = '/'
 
-      if (user?.atleta && !user.atleta.planoId) {
+       if (user?.atleta && !user.atleta.planoId) {
         path = '/registerPlanos'
       } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
         path = '/'
       }
+
 
       router.push(path).then(() => {
         toast.success("Login realizado com sucesso!", { autoClose: 2500 });
@@ -119,7 +117,7 @@ async function handleSubmit() {
     } else {
       toast.error(response?.message || "Não foi possível fazer login");
     }
-  } catch (err: any) {
+  } catch (err) {
     toast.error(err?.response?.data?.message || "Erro no servidor");
   }
 }

@@ -49,14 +49,15 @@
                     :rules="[rules.requiredNomeObrigatorio]" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="4"><label for="cpf">CPF</label>
-                  <VTextField id="cpf" v-model="form.cpf" v-maska="'###.###.###-##'" density="compact"
+                  <VTextField id="cpf" v-model="form.cpf" v-mask="'###.###.###-##'" density="compact"
                     :rules="[rules.requiredCpfObrigatorio]" name="cpf" placeholder="000.000.000-00"
                     variant="outlined" />
                 </VCol>
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="senha">Senha</label>
                   <VTextField id="senha" v-model="form.senha" density="compact"
-                    :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'" variant="outlined">
+                    :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'"
+                    variant="outlined">
                     <template #append-inner>
                       <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
                         {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
@@ -78,7 +79,7 @@
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6"><label for="nascimento">Data de
                     nascimento:</label>
                   <VTextField type="date" id="nascimento" v-model="form.dataNascimento" density="compact"
-                    :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento" placeholder="DD/MM/AAAA"
+                    :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento"  placeholder="DD/MM/AAAA"
                     variant="outlined" />
                 </VCol>
 
@@ -318,11 +319,11 @@ import { useRouter } from 'vue-router'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import DoencaService from '../services/cadastro-service/doenca-service'
 import SintomaService from '../services/cadastro-service/sintoma-service'
-import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import userService from '@/services/user/user-service'
+import {TheMask} from 'vue-the-mask'
 
 dayjs.locale('pt-br')
 

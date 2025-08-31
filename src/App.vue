@@ -1,5 +1,5 @@
 <template>
-  <v-app theme="light"> 
+  <v-app theme="light">
     <!-- Layout com Drawer e AppBar -->
     <v-layout v-if="!isAuthRoute">
       <DrawerNavigation />
