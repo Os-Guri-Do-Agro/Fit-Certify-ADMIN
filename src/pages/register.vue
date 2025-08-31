@@ -60,7 +60,7 @@
                     variant="outlined">
                     <template #append-inner>
                       <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
-                        {{ showPassword ? 'mdi-eye-off' : 'mdi-eye' }}
+                        {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
                   </VTextField>
@@ -333,7 +333,7 @@ const loading = ref(false)
 
 const loadingEmail = ref(false)
 const disabled = ref(false)
-const showPassword = ref(false)
+const showPassword = ref(true)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
