@@ -6,26 +6,24 @@
                     <!-- Modal -->
         <v-dialog v-model="showModal" width="600" persistent>
           <v-card>
-            <div>
-              <VBtn class="text-h5" @click="voltar" variant="text" style="color: #00c6fe;">
-                <span class="mdi mdi-arrow-left"></span>
-              </VBtn>
-            </div>
+              <v-btn variant="text" width="20px" height="50px">
+                <span @click="showModal = false" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
+              </v-btn>
             <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
               <span class="mdi mdi-email-fast-outline text-h1" style="color: #00c6fe;"></span>
               <span class="text-h6 text-md-h5 font-weight-bold">Verifique sua conta</span>
             </v-card-title>
-            <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1" style="white-space: normal; word-wrap: break-word;">
+            <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1  px-md-10" style="white-space: normal; word-wrap: break-word;">
               <span>
-                Enviamos um código de verificação para o email <span class="font-weight-medium" style="color: #00c6fe;">testeemail@gmail.com</span>
+                Enviamos um código de verificação para o e-mail: <span class="font-weight-medium" style="color: #00c6fe;">testeemail@gmail.com</span>
               </span>
             </v-card-subtitle>
             <div class="my-5 px-5 px-md-10">
                 <v-otp-input variant="solo-filled"></v-otp-input>
             </div>
             <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
-              <v-btn class="w-100" height="50px" text >Reenviar código</v-btn>
-              <span class="text-subtitle-2">Não recebeu seu código?</span>
+              <v-btn class="w-100" height="50px" text @click="trocarEmail" >Trocar E-mail</v-btn>
+              <span class="text-subtitle-2">Informou o e-mail errado?</span>
               <v-btn class="w-100 text-white" height="50px" @click="confirmar" style="background-color: #00c6fe;">Confirmar</v-btn>
             </v-card-actions>
           </v-card>
@@ -123,6 +121,11 @@ function voltar() {
 
 function confirmar() {
   showModal.value = false
+}
+
+function trocarEmail() {
+  showModal.value = false
+  router.push('/login')
 }
 
 function redefinirSenha() {
