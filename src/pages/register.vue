@@ -650,9 +650,9 @@ const tiposSanguineos = ref([
 ])
 
 const generos = ref([
-  { title: 'Homem', value: 'Homem' },
-  { title: 'Mulher', value: 'Mulher' },
-  { title: 'Outro', value: 'Outro' },
+  { title: 'Masculino', value: 'Masculino' },
+  { title: 'Feminino', value: 'Feminino' },
+  { title: 'Outros', value: 'Outros' },
 ])
 
 const formPdfImage = ref([])
