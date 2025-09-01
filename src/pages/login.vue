@@ -38,12 +38,17 @@
             <span>Esqueceu a senha?</span>
           </button>
 
-          <!-- Modal -->
+                  <!-- Modal -->
 
-          <v-dialog v-model="showModal" width="600" height="500">
-            <v-card>
+          <v-dialog v-model="showModal" width="600">
+            <v-card rounded="xl">
+              <div >
+              <v-btn variant="text" width="20px" height="50px">
+                <span @click="showModal = false" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
+              </v-btn>
+              </div>
               <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
-                <span class="mdi mdi-alert-circle-outline text-h1" style="color: #00c6fe;"></span>
+                <span class="mdi mdi-account-lock-outline text-h1" style="color: #00c6fe;"></span>
                 <span class="text-h6 text-md-h5 font-weight-bold">Recuperar senha</span>
               </v-card-title>
               <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1" style="white-space: normal; word-wrap: break-word;">
@@ -51,7 +56,7 @@
                   Digite seu e-mail e nós enviaremos um link para redefinir sua senha.
                 </span>
               </v-card-subtitle>
-              <v-card-text class="px-5 px-md-10">
+              <v-card-text class="px-5 px-md-10 mt-2 mt-md-5">
                 <v-text-field 
                   v-model="emailModal" 
                   type="email" 
@@ -64,8 +69,9 @@
                 ></v-text-field>
               </v-card-text>
               <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
-                <v-btn class="w-100" height="50px" text @click="showModal = false">Voltar para login</v-btn>
-                <v-btn class="w-100 text-white" height="50px" @click="enviarCodigo" style="background-color: #00c6fe;">Enviar</v-btn>
+                <v-btn class="w-100" variant="tonal" height="50px" text @click="">Reenviar código</v-btn>
+                <span>Não recebeu seu código?</span>
+                <v-btn class="w-100 text-white" height="50px" @click="" style="background-color: #00c6fe;">Enviar</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -118,9 +124,6 @@ const loading = ref(false)
 
 const showModal = ref(false)
 
-function enviarCodigo() {
-  showModal.value = false
-}
 
 async function handleSubmit() {
   if (!formRef.value) return;
