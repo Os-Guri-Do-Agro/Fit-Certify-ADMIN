@@ -33,10 +33,42 @@
                 {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
               </v-icon>
             </template></v-text-field>
-
-          <RouterLink class="text-white text-subtitle-2 mt-1 w-100 d-flex justify-end" to="/forgot-password">
+            
+          <button type="button"  @click="showModal = true" class="text-white text-subtitle-2 mt-1 w-100 d-flex justify-end" to="/forgot-password">
             <span>Esqueceu a senha?</span>
-          </RouterLink>
+          </button>
+
+          <!-- Modal -->
+
+          <v-dialog v-model="showModal" width="600" height="500">
+            <v-card>
+              <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
+                <span class="mdi mdi-alert-circle-outline text-h1" style="color: #00c6fe;"></span>
+                <span class="text-h6 text-md-h5 font-weight-bold">Recuperar senha</span>
+              </v-card-title>
+              <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1" style="white-space: normal; word-wrap: break-word;">
+                <span>
+                  Digite seu e-mail e nós enviaremos um link para redefinir sua senha.
+                </span>
+              </v-card-subtitle>
+              <v-card-text class="px-5 px-md-10">
+                <v-text-field 
+                  v-model="emailModal" 
+                  type="email" 
+                  placeholder="Email" 
+                  hide-details 
+                  variant="solo" 
+                  bg-color="white"
+                  @blur="() => onBlurEmailModal(emailModal)"
+                  :loading="loadingEmailModal"
+                ></v-text-field>
+              </v-card-text>
+              <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
+                <v-btn class="w-100" height="50px" text @click="showModal = false">Voltar para login</v-btn>
+                <v-btn class="w-100 text-white" height="50px" @click="showModal = false" style="background-color: #00c6fe;">Enviar</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
 
           <VRow class="d-flex w-100 mt-5">
             <div class="d-flex flex-column align-center w-100" cols="12">
@@ -64,21 +96,27 @@
 
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service';
+import userService from '@/services/user/user-service';
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
 import { getPayload } from '@/utils/auth';
+import type { VForm } from 'vuetify/components';
 
 const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
 const isMobile = ref(false)
-import type { VForm } from 'vuetify/components';
+
+const emailModal = ref('');
+const loadingEmailModal = ref(false);
 
 const formRef = ref<VForm | null>(null)
 const router = useRouter()
 const loading = ref(false)
+
+const showModal = ref(false)
 
 async function handleSubmit() {
   if (!formRef.value) return;
@@ -122,6 +160,26 @@ async function handleSubmit() {
   } catch (err: any) {
     toast.error(err?.response?.data?.message || "Erro no servidor");
      loading.value = false
+  }
+}
+
+async function onBlurEmailModal(email: string) {
+  if (!email) return;
+  
+  loadingEmailModal.value = true;
+  try {
+    const response = await userService.validarExisteEmail(email);
+    const data = response?.data;
+    
+    if (!data?.existeEmail) {
+      toast.error('Email não encontrado no sistema');
+    } else {
+      toast.success('Email encontrado! Confirme para enviarmos o código de verificação.');
+    }
+  } catch (error) {
+    toast.error('Erro ao verificar email');
+  } finally {
+    loadingEmailModal.value = false;
   }
 }
 
