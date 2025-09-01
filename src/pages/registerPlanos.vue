@@ -48,8 +48,8 @@
       <v-container class="d-flex ga-10 align-top mx-md-5 flex-column">
         <div class="w-100 d-flex justify-end">
           <v-btn icon @click="sair">
-  <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8;" />
-</v-btn>
+            <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8;" />
+          </v-btn>
         </div>
         <div class="w-100 d-flex align-center flex-column">
           <h2
@@ -200,7 +200,7 @@
                 <div>
                   <VCardActions>
                     <VBtn
-                      to="/marcarConsulta"
+                      @click="assinarPlano(plano)"
                       class="text-white w-100 text-caption text-md-subtitle-1"
                       max-width="255px"
                       height="44px"

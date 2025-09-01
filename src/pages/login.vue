@@ -65,7 +65,7 @@
               </v-card-text>
               <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
                 <v-btn class="w-100" height="50px" text @click="showModal = false">Voltar para login</v-btn>
-                <v-btn class="w-100 text-white" height="50px" @click="showModal = false" style="background-color: #00c6fe;">Enviar</v-btn>
+                <v-btn class="w-100 text-white" height="50px" @click="enviarCodigo" style="background-color: #00c6fe;">Enviar</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -117,6 +117,10 @@ const router = useRouter()
 const loading = ref(false)
 
 const showModal = ref(false)
+
+function enviarCodigo() {
+  showModal.value = false
+}
 
 async function handleSubmit() {
   if (!formRef.value) return;

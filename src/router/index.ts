@@ -39,9 +39,9 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-  if (!atletaTemPlano() && to.path !== '/registerPlanos') {
-    return next('/registerPlanos');
-  }
+   if (!atletaTemPlano() && to.path !== '/registerPlanos') {
+     return next('/registerPlanos');
+   }
 
   next();
 });
