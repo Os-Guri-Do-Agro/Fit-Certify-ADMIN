@@ -532,10 +532,91 @@
                       :rules="[rules.requiredCheckObrigatorio]"
                       color="success"
                       class="font-weight-medium"
-                      label=" Li e concordo com os Termos de Uso e Política de Privacidade."
                     >
+                      <template #label>
+                        <span>
+                          Li e concordo com os 
+                          <span class="cursor-pointer text-decoration-underline" style="color: #00c6fe" @click="showModal = true">
+                            termos de Uso e Política de Privacidade
+                          </span>.
+                        </span>
+                      </template>
                     </v-checkbox>
                   </v-form>
+
+                  <v-dialog v-model="showModal" width="600" height="800">
+                    <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
+                      <v-card-title
+                        class="text-center text-h5"
+                        style="color: #00c6fe; white-space: normal; word-wrap: break-word"
+                        >Política de Privacidade</v-card-title
+                      >
+                      <v-card-subtitle
+                        class="text-subtitle-1 text-center"
+                        style="white-space: normal; word-wrap: break-word"
+                      >
+                        Esta Política de Privacidade descreve como coletamos,
+                        usamos e protegemos as informações dos usuários ao
+                        utilizar nosso aplicativo.
+                      </v-card-subtitle>
+                      <v-card-text >
+                        <strong>Coleta de Informações</strong> <br><br> 
+
+                        Nosso aplicativo pode coletar
+                        informações fornecidas diretamente pelo usuário (como
+                        nome, e-mail ou outros dados inseridos voluntariamente)
+                        e informações técnicas automaticamente (como modelo do
+                        dispositivo, sistema operacional e uso básico do
+                        aplicativo). <br><br>
+                        
+                        <strong>Uso das Informações</strong> <br><br>
+                        As informações coletadas são utilizadas apenas para: <br><br>
+
+                        1. Melhorar a experiência do usuário no aplicativo;<br>
+
+                        2. Garantir o funcionamento adequado do app; <br>
+
+                        3. Realizar atualizações e melhorias; <br>
+
+                        4. Cumprir requisitos legais, se necessário. <br>
+
+                        5. Compartilhamento de Informações <br><br>
+
+                        Não compartilhamos dados pessoais com terceiros, exceto quando exigido por lei ou
+                        quando necessário para o funcionamento do aplicativo
+                        (por exemplo, serviços de análise ou armazenamento). <br><br>
+
+                        <strong>Segurança</strong> <br><br>
+                        Tomamos medidas razoáveis para proteger as
+                        informações dos usuários contra acesso não autorizado,
+                        alteração, divulgação ou destruição. <br><br>
+
+                        <strong>Direitos do Usuário</strong> <br><br>
+
+                        O usuário pode, a qualquer momento, solicitar a exclusão
+                        de seus dados ou entrar em contato para mais informações
+                        sobre o tratamento das informações.<br><br>
+                        <strong>Alterações nesta Política</strong> <br><br>
+
+                        Podemos atualizar esta Política de Privacidade
+                        periodicamente. Recomendamos que os usuários revisem
+                        esta página regularmente para se manterem informados
+                        sobre quaisquer mudanças. <br><br>
+
+                        <strong>Contato</strong> <br><br>
+
+                        Se tiver dúvidas ou
+                        solicitações relacionadas a esta Política de
+                        Privacidade, entre em contato pelo e-mail:
+                        <span class="font-weight-medium text-decoration-underline" style="color: #00c6fe;">emilio.machado@fitcertify365.com</span> 
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn class="w-100 text-white font-weight-bold" @click="showModal = false" height="50px" rounded="lg" style="background-color: #00c6fe;">
+                          Fechar
+                        </v-btn>
+                      </v-card-actions>
+                    </v-card>
+                  </v-dialog>
                 </div>
               </div>
             </v-form>
@@ -610,6 +691,8 @@ const showPassword = ref(false)
 const doencas = ref([])
 const sintomas = ref([])
 const formRef = ref(null)
+
+const showModal = ref(false)
 
 const form = ref({
   nome: '',
@@ -963,5 +1046,19 @@ input[type='date']::-webkit-calendar-picker-indicator {
   display: none;
   -webkit-appearance: none;
   appearance: none;
+}
+
+.custom-scroll { 
+  overflow-y: auto;
+}
+
+
+.custom-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
+.custom-scroll {
+  scrollbar-width: none; 
 }
 </style>
