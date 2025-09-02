@@ -29,6 +29,29 @@ class AuthService {
     )
   }
 
+  enviarCodigo(email: string): Promise<any> {
+    return this.handleRequest(
+      apiClient.post(`/auth/enviar-codigo-email?email=${email}`, {
+      }),
+      'ERROR - 404'
+    )
+  }
+
+  validarCodigoEmail(data: { token: string, codigo: string }): Promise<any> {
+    return this.handleRequest(
+      apiClient.post(`/auth/validar-codigo-email`, data, {
+      }),
+      'ERROR - 404'
+    )
+  }
+
+  validarToken(token: string): Promise<any> {
+    return this.handleRequest(
+      apiClient.post(`/auth/validar-token?token=${token}`, {
+      }),
+      'ERROR - 404'
+    )
+  }
 }
 
 

@@ -17,7 +17,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicRoutes = ['/login', '/register', '/forgot-password'];
+  const publicRoutes = ['/login', '/register', '/esqueceuSenha'];
   const isAuthenticated = isTokenValid();
 
   // Impede usuários logados de acessar login, register e registerPlanos
@@ -39,9 +39,9 @@ router.beforeEach((to, from, next) => {
     return next();
   }
 
-   if (!atletaTemPlano() && to.path !== '/registerPlanos') {
-     return next('/registerPlanos');
-   }
+  if (!atletaTemPlano() && to.path !== '/registerPlanos') {
+    return next('/registerPlanos');
+  }
 
   next();
 });
