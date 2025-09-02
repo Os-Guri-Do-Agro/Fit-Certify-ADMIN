@@ -14,12 +14,12 @@
         </div>
 
         <!-- Formulário -->
-        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10" style="margin-bottom: 1.5rem;">
+        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10 " style="margin-bottom: 1.5rem;">
           Bem-vindo! Faça seu login para acessar sua conta.
         </p>
 
 
-        <v-form class="d-flex align-center flex-column px-lg-0 px-xl-12 h-auto" @submit.prevent="handleSubmit" ref="formRef">
+        <v-form class="d-flex align-center flex-column px-lg-0 px-xl-12 h-auto " @submit.prevent="handleSubmit" ref="formRef">
           <v-text-field v-model="email" type="email" placeholder="Email" hide-details variant="solo" bg-color="white"
             density="comfortable" class="mb-4 w-100" :rules="[value => !!value || 'Campo obrigatório']"
             style="border-radius: 5px;  color: #1f2937;">
