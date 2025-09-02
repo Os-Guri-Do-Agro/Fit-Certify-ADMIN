@@ -7,7 +7,7 @@
         <v-dialog v-model="showModal" width="600" persistent>
           <v-card>
               <v-btn variant="text" width="20px" height="50px">
-                <span @click="showModal = false" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
+                <span @click="voltar" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
               </v-btn>
             <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
               <span class="mdi mdi-email-fast-outline text-h1" style="color: #00c6fe;"></span>
