@@ -14,7 +14,7 @@
         </div>
 
         <!-- Formulário -->
-        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10" style="margin-bottom: 1.5rem;">
+        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10 " style="margin-bottom: 1.5rem;">
           Bem-vindo! Faça seu login para acessar sua conta.
         </p>
 
