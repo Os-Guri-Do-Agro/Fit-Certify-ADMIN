@@ -3,7 +3,9 @@
     <!-- DIV DA ESQUERDA -->
     <VCol class="pa-0 ma-0" md="12" style="background-color: #00c6fe">
       <VRow class="pa-0 ma-0">
-        <VCol class="pa-0 ma-0" cols="12">
+        <VCol class="pa-0 ma-0 d-flex justify-center" cols="12">
+          <v-container class=" mb-5 mb-md-10 pa-0 ma-0 px-6 px-5 px-md-10"
+        max-width="150vh">
           <div class="d-flex align-center justify-center py-10">
             <v-img
               src="../assets/Login/logo-fit.png"
@@ -13,6 +15,16 @@
               @click="$router.push('/register')"
             ></v-img>
           </div>
+          <!-- TÍTULO -->
+          <div
+            class="d-flex justify-center px-md-10 py-5 py-md-10"
+          >
+            <h1 class="text-h5 text-md-h3 font-weight-bold text-center text-white mb-8">
+              Política de Privacidade, Termos e Condições de Uso e Proteção de
+              Dados
+            </h1>
+          </div>
+          </v-container>
         </VCol>
       </VRow>
     </VCol>
@@ -24,19 +36,6 @@
       >
         <div class="d-flex">
           <div class="bg-grey-lighten-5 w-100">
-            <!-- TÍTULO -->
-            <div
-              class="d-flex justify-center px-md-10 bg-grey-lighten-4 py-5 py-md-10"
-            >
-              <v-container>
-                <h1
-                  class="text-h5 text-md-h3 font-weight-bold text-center mb-8"
-                >
-                  Política de Privacidade, Termos e Condições de Uso e Proteção
-                  de Dados
-                </h1>
-              </v-container>
-            </div>
             <!-- SEÇÃO 1 -->
             <div class="d-flex mt-10 mx-md-10">
               <v-container class="px-6 px-5 px-md-10">
