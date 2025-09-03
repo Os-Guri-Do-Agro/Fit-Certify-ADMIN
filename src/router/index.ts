@@ -31,6 +31,10 @@ router.beforeEach((to, from, next) => {
 
   if (!isAuthenticated) {
     sessionStorage.clear();
+    if (to.path.includes("/esqueceuSenha")) {
+      return next()
+    }
+
     if (to.path !== '/login') {
       router.push('/login').then(() => {
         toast.error("Usuário não autenticado, redirecionando para login", { autoClose: 3000 });

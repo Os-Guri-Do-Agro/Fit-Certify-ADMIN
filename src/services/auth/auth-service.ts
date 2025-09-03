@@ -52,6 +52,15 @@ class AuthService {
       'ERROR - 404'
     )
   }
+
+  forgotPassword(data: { token: string, codigo: string, senhaNova: string }): Promise<any> {
+    return this.handleRequest(
+      apiClient.post(`/auth/forgot-password`, data, {
+      }),
+      'ERROR - 404'
+    )
+  }
+
 }
 
 

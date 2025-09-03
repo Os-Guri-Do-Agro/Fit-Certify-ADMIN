@@ -5,13 +5,10 @@
 
       <!-- Modal -->
       <v-dialog v-model="showModal" width="600" persistent>
-        <v-card>
-          <v-btn variant="text" width="20px" height="50px">
-            <span @click="voltar" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
-          </v-btn>
+        <v-card :loading="loading" :disabled="loading">
           <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
             <span class="mdi mdi-email-fast-outline text-h1" style="color: #00c6fe;"></span>
-            <span class="text-h6 text-md-h5 font-weight-bold">Verifique sua conta</span>
+            <span class="text-h6 text-md-h5 font-weight-bold">Verifique seu e-mail</span>
           </v-card-title>
           <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1  px-md-10"
             style="white-space: normal; word-wrap: break-word;">
@@ -24,8 +21,8 @@
             <v-otp-input variant="solo-filled" v-model="codigo"></v-otp-input>
           </div>
           <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
-            <v-btn class="w-100 text-white" height="50px" @click="confirmar"
-              style="background-color: #00c6fe;">Confirmar</v-btn>
+            <v-btn class="w-100 text-white" height="50px" @click="confirmar" style="background-color: #00c6fe;"
+              :loading="loading">Confirmar</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -43,10 +40,10 @@
           Redefina sua senha para acessar sua conta.
         </p>
 
-        <v-form class="d-flex align-center flex-column px-lg-0 px-xl-12 h-auto">
+        <v-form class="d-flex align-center flex-column px-lg-0 px-xl-12 h-auto" :ref="formRef">
           <v-text-field v-model="novaSenha" :type="showPassword ? 'text' : 'password'" placeholder="Nova senha"
-            hide-details variant="solo" bg-color="white" density="comfortable" class="mb-4 w-100"
-            style="border-radius: 5px; color: #1f2937;">
+            variant="solo" bg-color="white" density="comfortable" class="mb-4 w-100"
+            :rules="[rules.requiredSenhaObrigatoria]" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
                 {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
@@ -55,8 +52,8 @@
           </v-text-field>
 
           <v-text-field v-model="confirmarSenha" :type="showPassword2 ? 'text' : 'password'"
-            placeholder="Confirmar senha" hide-details variant="solo" bg-color="white" density="comfortable"
-            class="w-100" style="border-radius: 5px; color: #1f2937;">
+            placeholder="Confirmar senha" variant="solo" bg-color="white" density="comfortable"
+            :rules="[rules.requiredSenhaObrigatoria]" class="w-100" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword2 = !showPassword2" class="cursor-pointer">
                 {{ showPassword2 ? 'mdi-eye' : 'mdi-eye-off' }}
@@ -66,9 +63,10 @@
 
           <VRow class="d-flex w-100 mt-5">
             <div class="d-flex flex-column align-center w-100" cols="12">
-              <VBtn class="text-white" block height="47px" style="background-color: #88CE0D;" @click="redefinirSenha">
-                Redefinir
-                Senha</VBtn>
+              <VBtn class="text-white" block height="47px" style="background-color: #88CE0D;" @click="redefinirSenha"
+                :loading="loading">
+                Redefinir Senha
+              </VBtn>
               <div class="d-flex flex-column flex-md-row align-center justify-center mt-10">
                 <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">Lembrou da senha?</span>
                 <button @click="voltar"
@@ -95,6 +93,7 @@ import authService from '@/services/auth/auth-service';
 import { logout } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
 
 const showModal = ref(true)
 const router = useRoute()
@@ -105,7 +104,8 @@ const novaSenha = ref('')
 const confirmarSenha = ref('')
 const codigo = ref('')
 const usuario = ref<any>(null)
-
+const loading = ref(false)
+const formRef = ref<any>(null)
 const token = ref()
 
 function voltar() {
@@ -114,25 +114,69 @@ function voltar() {
   route.push('/login')
 }
 
-async function confirmar() {
-  console.log(codigo.value);
-
-  await authService.validarCodigoEmail({ token: token.value, codigo: codigo.value }).then((resp) => {
-    console.log(resp);
-  })
+const rules = {
+  requiredSenhaObrigatoria: (value: any) => {
+    if (!value) return 'Senha obrigatória'
+    return (
+      validarSenhaForte(value) ||
+      'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial'
+    )
+  },
 }
 
-function redefinirSenha() {
-  logout()
-  route.push('/login')
+function validarSenhaForte(senha: string) {
+  const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.])[A-Za-z\d!@#$%^&*.]{8,}$/
+  return regex.test(senha)
+}
+
+async function confirmar() {
+  if (!codigo.value) {
+    toast.success("Informe o código")
+    return;
+  }
+
+  loading.value = true
+
+  await authService.validarCodigoEmail({ token: token.value, codigo: codigo.value })
+    .then((resp) => {
+      if (resp?.success) {
+        toast.success(resp?.data)
+        showModal.value = false
+      } else {
+        toast.error(resp?.message)
+      }
+    }).finally(() => loading.value = false)
+}
+
+async function redefinirSenha() {
+  if (novaSenha.value != confirmarSenha.value) {
+    toast.error("As senhas não coincidem")
+    return;
+  }
+  loading.value = true
+
+  await authService.forgotPassword({
+    codigo: codigo.value,
+    senhaNova: novaSenha.value,
+    token: token.value
+  }).then((resp) => {
+    if (resp?.success) {
+      route.push("/login").then(() => {
+        toast.success(resp?.data)
+      })
+    } else {
+      toast.error(resp?.message)
+    }
+  }).finally(() => loading.value = false)
 }
 
 async function validarToken(token: string) {
+  loading.value = true
   await authService.validarToken(token).then((resp) => {
     if (resp?.success) {
       usuario.value = resp?.data?.usuario
     }
-  })
+  }).finally(() => loading.value = false)
 }
 
 onMounted(() => {
