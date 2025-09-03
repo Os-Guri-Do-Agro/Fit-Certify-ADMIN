@@ -807,7 +807,7 @@ function validarSenhaForte(senha) {
 function formatarDataParaISO(dataDigitada) {
   if (!dataDigitada) return ''
 
-  const data = dayjs(dataDigitada, ['YYYY-MM-DD', 'DD/MM/YYYY', 'DDMMYYYY'])
+  const data = dayjs(dataDigitada, ['YYYY-MM-DD', 'MM/DD/AAAA', 'MMAAYYYY'])
 
   return data.isValid() ? data.startOf('day').toISOString() : ''
 }
