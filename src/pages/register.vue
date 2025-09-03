@@ -762,7 +762,7 @@ async function onBlurEmail(email) {
 
 function maisTermos() {
   showModal.value = false 
-  router.push('/politicaPrivacidade')
+  window.open('/politicaPrivacidade', '_blank')
 }
 
 function handleFileChange(files) {
