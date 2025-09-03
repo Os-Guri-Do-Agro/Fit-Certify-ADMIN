@@ -535,10 +535,14 @@
                     >
                       <template #label>
                         <span>
-                          Li e concordo com os 
-                          <span class="cursor-pointer text-decoration-underline" style="color: #00c6fe" @click="showModal = true">
-                            termos de Uso e Política de Privacidade
-                          </span>.
+                          Li e concordo com os
+                          <span
+                            class="cursor-pointer text-decoration-underline"
+                            style="color: #00c6fe"
+                            @click="showModal = true"
+                          >
+                            termos de Uso e Política de Privacidade </span
+                          >.
                         </span>
                       </template>
                     </v-checkbox>
@@ -548,71 +552,65 @@
                     <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
                       <v-card-title
                         class="text-center text-h5"
-                        style="color: #00c6fe; white-space: normal; word-wrap: break-word"
-                        >Política de Privacidade</v-card-title
+                        style="
+                          color: #00c6fe;
+                          white-space: normal;
+                          word-wrap: break-word;
+                        "
+                        >Política de Privacidade, Termos e Condições de Uso e
+                        Proteção de Dados</v-card-title
                       >
-                      <v-card-subtitle
-                        class="text-subtitle-1 text-center"
-                        style="white-space: normal; word-wrap: break-word"
-                      >
-                        Esta Política de Privacidade descreve como coletamos,
-                        usamos e protegemos as informações dos usuários ao
-                        utilizar nosso aplicativo.
-                      </v-card-subtitle>
-                      <v-card-text >
-                        <strong>Coleta de Informações</strong> <br><br> 
+                      <v-card-text>
+                        <p class="mb-5"><strong>1. Introdução</strong></p>
 
-                        Nosso aplicativo pode coletar
-                        informações fornecidas diretamente pelo usuário (como
-                        nome, e-mail ou outros dados inseridos voluntariamente)
-                        e informações técnicas automaticamente (como modelo do
-                        dispositivo, sistema operacional e uso básico do
-                        aplicativo). <br><br>
-                        
-                        <strong>Uso das Informações</strong> <br><br>
-                        As informações coletadas são utilizadas apenas para: <br><br>
+                        <p>
+                          Bem-vindo(a) à <strong>FitCertify365</strong> (“Companhia”, “nós”,
+                          “nosso”, “conosco”)! <br />
+                          <br />
+                          Estes Termos de Serviço (“Termos”, “Termos de
+                          Serviço”, “Termos e Condições de Uso”) regem o uso dos
+                          nossos aplicativos móveis e plataforma digital,
+                          desenvolvidos pela FitCertify365.
+                        </p>
 
-                        1. Melhorar a experiência do usuário no aplicativo;<br>
+                        <p>
+                          Nossa <strong>Política de Privacidade</strong> também rege o uso do
+                          nosso Serviço e explica como coletamos, protegemos e
+                          divulgamos informações resultantes da sua utilização
+                          dos aplicativos móveis e páginas web. <br />
+                          <br />
+                          Seu acordo conosco inclui estes Termos e nossa
+                          Política de Privacidade (“Acordos”). Ao utilizar
+                          nossos serviços, você reconhece que leu e compreendeu
+                          os Acordos, e concorda em estar legalmente vinculado a
+                          eles.
+                        </p>
 
-                        2. Garantir o funcionamento adequado do app; <br>
+                        <p>
+                          Caso não concorde (ou não possa cumprir) os Acordos,
+                          você não poderá utilizar o Serviço. Neste caso,
+                          solicitamos que nos comunique pelo e-mail
+                          <strong>atendimento@fitcertify365.com</strong> para que possamos buscar
+                          uma solução. <br />
+                          <br />
+                          Estes Termos aplicam-se a todos os visitantes,
+                          usuários e demais pessoas que desejarem acessar ou
+                          utilizar o Serviço.
+                        </p>
 
-                        3. Realizar atualizações e melhorias; <br>
-
-                        4. Cumprir requisitos legais, se necessário. <br>
-
-                        5. Compartilhamento de Informações <br><br>
-
-                        Não compartilhamos dados pessoais com terceiros, exceto quando exigido por lei ou
-                        quando necessário para o funcionamento do aplicativo
-                        (por exemplo, serviços de análise ou armazenamento). <br><br>
-
-                        <strong>Segurança</strong> <br><br>
-                        Tomamos medidas razoáveis para proteger as
-                        informações dos usuários contra acesso não autorizado,
-                        alteração, divulgação ou destruição. <br><br>
-
-                        <strong>Direitos do Usuário</strong> <br><br>
-
-                        O usuário pode, a qualquer momento, solicitar a exclusão
-                        de seus dados ou entrar em contato para mais informações
-                        sobre o tratamento das informações.<br><br>
-                        <strong>Alterações nesta Política</strong> <br><br>
-
-                        Podemos atualizar esta Política de Privacidade
-                        periodicamente. Recomendamos que os usuários revisem
-                        esta página regularmente para se manterem informados
-                        sobre quaisquer mudanças. <br><br>
-
-                        <strong>Contato</strong> <br><br>
-
-                        Se tiver dúvidas ou
-                        solicitações relacionadas a esta Política de
-                        Privacidade, entre em contato pelo e-mail:
-                        <span class="font-weight-medium text-decoration-underline" style="color: #00c6fe;">emilio.machado@fitcertify365.com</span> 
+                        <p>
+                          Este aplicativo pode se integrar com o <strong>Apple Saúde (HealthKit ou CareKit)</strong> e com o <strong>Google Health Connect</strong>, para leitura e acompanhamento de dados obtidos via Apple Watch e outros dispositivos wearables compatíveis, permitindo também o envio de dados manuais e de dispositivos Bluetooth (BLE), sempre mediante autorização do usuário. 
+                        </p>
                       </v-card-text>
                       <v-card-actions>
-                        <v-btn class="w-100 text-white font-weight-bold" @click="showModal = false" height="50px" rounded="lg" style="background-color: #00c6fe;">
-                          Fechar
+                        <v-btn
+                          class="w-100 text-white font-weight-bold"
+                          @click="maisTermos"
+                          height="50px"
+                          rounded="lg"
+                          style="background-color: #00c6fe"
+                        >
+                          Ler Mais
                         </v-btn>
                       </v-card-actions>
                     </v-card>
@@ -760,6 +758,11 @@ async function onBlurEmail(email) {
       }
     })
     .finally(() => (loadingEmail.value = false))
+}
+
+function maisTermos() {
+  showModal.value = false 
+  router.push('/politicaPrivacidade')
 }
 
 function handleFileChange(files) {
@@ -1048,17 +1051,15 @@ input[type='date']::-webkit-calendar-picker-indicator {
   appearance: none;
 }
 
-.custom-scroll { 
+.custom-scroll {
   overflow-y: auto;
 }
-
 
 .custom-scroll::-webkit-scrollbar {
   display: none;
 }
 
-
 .custom-scroll {
-  scrollbar-width: none; 
+  scrollbar-width: none;
 }
 </style>
