@@ -9,24 +9,31 @@
               src="../assets/Login/logo-fit.png"
               max-width="200"
               alt="Logo"
-              style="cursor: pointer;"
+              style="cursor: pointer"
               @click="$router.push('/register')"
             ></v-img>
           </div>
         </VCol>
-
       </VRow>
     </VCol>
 
     <VCol class="d-flex pa-0 ma-0 justify-center" md="12">
-      <v-container class="d-flex align-center justify-center mb-5 mb-md-10 pa-0 ma-0" max-width="150vh">
+      <v-container
+        class="d-flex align-center justify-center mb-5 mb-md-10 pa-0 ma-0"
+        max-width="150vh"
+      >
         <div class="d-flex">
           <div class="bg-grey-lighten-5 w-100">
             <!-- TÍTULO -->
-            <div class="d-flex justify-center  px-md-10 bg-grey-lighten-4 py-5 py-md-10">
+            <div
+              class="d-flex justify-center px-md-10 bg-grey-lighten-4 py-5 py-md-10"
+            >
               <v-container>
-                <h1 class="text-h5 text-md-h3 font-weight-bold text-center mb-8">
-                  Política de Privacidade, Termos e Condições de Uso e Proteção de Dados
+                <h1
+                  class="text-h5 text-md-h3 font-weight-bold text-center mb-8"
+                >
+                  Política de Privacidade, Termos e Condições de Uso e Proteção
+                  de Dados
                 </h1>
               </v-container>
             </div>
