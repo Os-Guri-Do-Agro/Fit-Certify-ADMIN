@@ -154,7 +154,7 @@
                     :rules="[rules.requiredDataNascimentoObrigatorio]"
                     name="nascimento"
                     v-maska="'##/##/####'"
-                    placeholder="DD/MM/AAAA"
+                    placeholder="MM/DD/AAAA"
                     variant="outlined"
                   />
                 </VCol>
