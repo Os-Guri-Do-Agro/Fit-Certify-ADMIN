@@ -399,6 +399,7 @@ import 'dayjs/locale/pt-br'
 import userService from '@/services/user/user-service'
 import { vMaska } from 'maska/vue'
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { isValidDate } from '@/utils/isValidDate'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -589,14 +590,19 @@ const rules = {
   },
 
   requiredTelefoneObrigatorio: (value) => !!value || 'Telefone obrigatório',
-  requiredDataNascimentoObrigatorio: (value) =>
-    !!value || 'Data de nascimento obrigatória',
+
+  requiredDataNascimentoObrigatorio: (value) => {
+    if (!value) return 'Data de nascimento obrigatória'
+    return isValidDate(value) || 'Data de nascimento inválida'
+  },
+
   requiredAlturaObrigatorio: (value) => !!value || 'Altura obrigatória',
   requiredPesoObrigatorio: (value) => !!value || 'Peso obrigatório',
   requiredSelectObrigatorio: (value) =>
     value !== null && value !== undefined ? true : 'Campo obrigatório',
   requiredCheckObrigatorio: (value) => !!value || 'Campo obrigatório',
 }
+
 
 const { handleSubmit, errors } = useForm({
   validateOnMount: false,
