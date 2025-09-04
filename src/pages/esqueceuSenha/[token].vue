@@ -175,6 +175,10 @@ async function validarToken(token: string) {
   await authService.validarToken(token).then((resp) => {
     if (resp?.success) {
       usuario.value = resp?.data?.usuario
+    } else {
+      route.push("/login").then(() => {
+        toast.error("Token inválido")
+      })
     }
   }).finally(() => loading.value = false)
 }
