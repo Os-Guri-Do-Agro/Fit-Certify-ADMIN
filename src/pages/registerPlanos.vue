@@ -236,6 +236,10 @@ function sair() {
   router.push('/login')
 }
 
+function assinarPlano(plano) {
+  router.push({ path: '/pagamento', params: { planoId: plano.id } })
+}
+
 const buscarPlanos = async () => {
   try {
     const res = await PlanoService.getAllPlanos()
