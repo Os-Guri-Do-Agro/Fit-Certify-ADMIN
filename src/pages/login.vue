@@ -62,11 +62,10 @@
               <v-card-text class="px-5 px-md-10 mt-2 mt-md-5">
                 <v-text-field v-model="emailModal" type="email" placeholder="Email" hide-details variant="solo"
                   bg-color="white" @blur="() => onBlurEmailModal(emailModal)"
-                  :loading="loadingEmailModal"></v-text-field>
+                  :loading="loadingEmailModal">
+                  </v-text-field>
               </v-card-text>
-              <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
-                <v-btn class="w-100" variant="tonal" height="50px" text @click="">Reenviar código</v-btn>
-                <span>Não recebeu seu código?</span>
+              <v-card-actions class="d-flex w-100 flex-column ga-5 px-5 px-md-10 mb-5">
                 <v-btn class="w-100 text-white" height="50px" style="background-color: #00c6fe;"
                   :loading="loadingEmailModal" @click="enviarCodigo" :disabled="loadingEmailModal || !validarEmail(emailModal) || !clicouEnviar">Enviar</v-btn>
               </v-card-actions>
@@ -104,7 +103,7 @@
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
@@ -125,6 +124,17 @@ const loading = ref(false)
 
 const showModal = ref(false)
 const clicouEnviar = ref(false)
+
+let debounceTimer: number
+
+watch(emailModal, (newEmail) => {
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    if (newEmail.endsWith('.com')) {
+      onBlurEmailModal(newEmail)
+    }
+  }, 500)
+})
 
 async function handleSubmit() {
   if (!formRef.value) return;
