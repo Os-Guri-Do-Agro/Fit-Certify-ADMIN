@@ -31,9 +31,8 @@ class AuthService {
 
   enviarCodigo(email: string): Promise<any> {
     return this.handleRequest(
-      apiClient.post(`/auth/enviar-codigo-email?email=${email}`, {
-      }),
-      'ERROR - 404'
+      apiClient.post(`/auth/enviar-codigo-email?email=${email}&isAdmin=true&isCmAdmin=false&isMobile=false`),
+      'Erro ao enviar email de redefinição de senha'
     )
   }
 
