@@ -156,8 +156,8 @@ async function handleSubmit() {
 
     const response = await authService.login(data);
 
-    if (response.access_token) {
-      sessionStorage.setItem("token", response.access_token)
+    if (response.data?.access_token) {
+      sessionStorage.setItem("token", response.data?.access_token)
       loading.value = false
       const payload = getPayload()
       const user = payload?.user
