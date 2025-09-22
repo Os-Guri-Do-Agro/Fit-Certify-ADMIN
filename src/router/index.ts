@@ -17,7 +17,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicRoutes = ['/login', '/register', '/esqueceuSenha', '/politicaPrivacidade', '/pagamento'];
+  const publicRoutes = ['/login', '/register', '/esqueceuSenha', '/politicaPrivacidade', '/detalhesExclusaoConta', '/pagamento'];
   const isAuthenticated = isTokenValid();
 
   // Impede usuários logados de acessar login, register e registerPlanos
