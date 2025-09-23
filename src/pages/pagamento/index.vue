@@ -113,7 +113,7 @@
                       </div>
                     </div>
 
-                    <div class="bg-grey my-5 mx-4" style="height: 2px"></div>
+                    <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
@@ -145,7 +145,7 @@
                       </div>
                     </div>
 
-                    <div class="bg-grey my-5 mx-4" style="height: 2px"></div>
+                    <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div class="">
@@ -375,7 +375,7 @@
                       </div>
                     </div>
 
-                    <div class="bg-grey my-5 mx-4" style="height: 2px"></div>
+                    <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
@@ -407,7 +407,7 @@
                       </div>
                     </div>
 
-                    <div class="bg-grey my-5 mx-4" style="height: 2px"></div>
+                    <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div class="">
