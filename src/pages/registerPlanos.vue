@@ -48,7 +48,7 @@
       <v-container class="d-flex ga-10 align-top mx-md-5 flex-column">
         <div class="w-100 d-flex justify-end">
           <v-btn icon @click="sair">
-            <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8;" />
+            <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8" />
           </v-btn>
         </div>
         <div class="w-100 d-flex align-center flex-column">
@@ -226,10 +226,12 @@ import PlanoService from '../services/planos/plano-service'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiWindowClose } from '@mdi/js'
 import { logout } from '@/utils/auth'
+import { usePlanoStore } from '@/stores/plano'
 
 const router = useRouter()
 const planos = ref([])
 const loading = ref(true)
+const planoStore = usePlanoStore()
 
 function sair() {
   logout()
@@ -237,7 +239,8 @@ function sair() {
 }
 
 function assinarPlano(plano) {
-  router.push({ path: '/pagamento', params: { planoId: plano.id } })
+  planoStore.setPlanoSelecionado(plano)
+  router.push('/pagamento')
 }
 
 const buscarPlanos = async () => {
@@ -255,7 +258,6 @@ onMounted(async () => {
   await buscarPlanos()
 })
 </script>
-
 
 <style>
 .border_Focus:hover {
