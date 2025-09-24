@@ -385,6 +385,8 @@
                               class="px-3"
                               v-model="metodoPagamentoCartao"
                               :items="items"
+                              item-title="label"
+                              item-value="value"
                               label="Método de pagamento"
                               color="blue"
                               rounded="xl"
@@ -392,7 +394,8 @@
                               variant="outlined"
                               :rules="requiredRule"
                               validate-on="blur"
-                              >{{
+                            >
+                              {{
                                 metodoPagamentoCartao ||
                                 'Selecione o metodo de pagamento'
                               }}</v-select
@@ -419,8 +422,19 @@
                           rounded="xl"
                           color="blue"
                           class="text-center"
+                          @input="codigoCupom = codigoCupom.toUpperCase()"
                         ></v-text-field>
                       </v-col>
+
+                      <template v-if="cupom">
+                        <b class="text-green"
+                          >Desconto de
+                          {{
+                            cupom?.porcentagem.toString().replace('.', ',')
+                          }}
+                          % aplicado!</b
+                        >
+                      </template>
 
                       <v-col class="ma-0 pa-0 justify-center d-flex" cols="12">
                         <v-btn
@@ -428,6 +442,8 @@
                           size="x-large"
                           color="blue"
                           rounded="xl"
+                          :loading="loadingCupom"
+                          @click="validarCupom()"
                         >
                           Validar Cupom
                         </v-btn>
@@ -517,7 +533,7 @@
                         <v-card-text>Valor:</v-card-text>
                       </div>
 
-                      <div class="">
+                      <div :class="{ 'preco-antigo': cupom }">
                         <v-card-text
                           >R$
                           {{
@@ -532,7 +548,10 @@
                       </div>
                     </div>
 
-                    <div class="d-flex justify-space-between align-center">
+                    <div
+                      v-if="cupom != null"
+                      class="d-flex justify-space-between align-center"
+                    >
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
@@ -558,17 +577,19 @@
                       <div class="">
                         <v-card-text>Total:</v-card-text>
                       </div>
-
                       <div class="">
                         <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
+                          >{{
+                            formatarPreco(
+                              planoSelecionado?.precoAno ||
+                                planoSelecionado?.precoMes
+                            )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
                           }}</v-card-text
                         >
                       </div>
                     </div>
-
                     <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center mb-5">
@@ -577,7 +598,9 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ metodoPagamentoCartao }}</v-card-text>
+                        <v-card-text>{{
+                          tipoCartoes[metodoPagamentoCartao]
+                        }}</v-card-text>
                       </div>
                     </div>
                   </v-card>
@@ -706,7 +729,7 @@
                               getBanco(numeroCartao)
                             }}</v-card-title>
                             <v-card-text class="pa-0 ma-0 text-right">{{
-                              metodoPagamentoCartao
+                              tipoCartoes[metodoPagamentoCartao]
                             }}</v-card-text>
                           </div>
 
@@ -871,7 +894,10 @@
                       </div>
                     </div>
 
-                    <div class="d-flex justify-space-between align-center">
+                    <div
+                      v-if="cupom != null"
+                      class="d-flex justify-space-between align-center"
+                    >
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
@@ -900,7 +926,11 @@
 
                       <div class="">
                         <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
+                          >{{
+                            formatarPreco(
+                              planoSelecionado?.precoAno ||
+                                planoSelecionado?.precoMes
+                            )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
                           }}</v-card-text
@@ -917,7 +947,7 @@
 
                       <div class="">
                         <v-card-text>{{
-                          metodoPagamentoCartao || metodoPagamento
+                          tipoCartoes[metodoPagamentoCartao]
                         }}</v-card-text>
                       </div>
                     </div>
@@ -1074,7 +1104,10 @@
                       </div>
                       <div>
                         <v-card-text class="text-end">
-                          {{ metodoPagamentoCartao || metodoPagamento }}
+                          {{
+                            tipoCartoes[metodoPagamentoCartao] ||
+                            metodoPagamento
+                          }}
                         </v-card-text>
                       </div>
                     </div>
@@ -1139,6 +1172,9 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePlanoStore } from '@/stores/plano'
 import { getPayload } from '@/utils/auth'
+import { toast } from 'vue3-toastify'
+import cupomService from '@/services/cupom/cupom-service'
+import pagarmeService from '@/services/pagarme/pagarme-service'
 
 const step = ref(1)
 const router = useRouter()
@@ -1148,7 +1184,6 @@ const planoStore = usePlanoStore()
 const planoSelecionado = computed(() => planoStore.getPlanoSelecionado)
 
 const payload = ref()
-console.log('payload', payload)
 
 const formatarPreco = (preco) => {
   return preco?.toFixed(2).replace('.', ',') || '0,00'
@@ -1202,11 +1237,51 @@ const handleNext = async (next) => {
     }
   } else if (step.value === 3) {
     loading.value = true
-    // Simular processamento do pagamento
-    setTimeout(() => {
-      loading.value = false
-      next()
-    }, 2000)
+    const data = {
+      plan_id: planoSelecionado.value.planoIdPagarme,
+      customer: {
+        name: payload.value.user.nome,
+        email: payload.value.user.email,
+        document: payload.value.user.cpf,
+        type: 'individual',
+        document_type: 'CPF',
+      },
+      card: {
+        number: numeroCartao.value,
+        exp_month: Number(validadedCartao.value.slice(0, 2)),
+        exp_year: Number(validadedCartao.value.slice(3, 5)),
+        cvv: cvvCode.value,
+        holder_name: nomeCartao.value,
+      },
+      payment_method: metodoPagamentoCartao.value,
+      discounts: cupom.value
+        ? [
+            {
+              cycles: '1',
+              value: cupom?.value?.porcentagem.toString(),
+              discount_type: 'percentage',
+            },
+          ]
+        : [],
+    }
+
+    await pagarmeService
+      .realizarAssinatura(data)
+      .then((resp) => {
+        if (resp?.success) {
+          toast.success('Pagamento realizado com sucesso!')
+          next()
+        } else {
+          toast.error('Falha no pagamento')
+        }
+      })
+      .catch((err) => {
+        toast.error('Erro ao processar pagamento! Tente novamente.')
+      })
+      .finally(() => (loading.value = false))
+  } else if (step.value === 4) {
+    console.log('step')
+    //chamar função de refresh user data
   } else {
     next()
   }
@@ -1227,17 +1302,27 @@ const item = [
   'Pagamento Realizado',
 ]
 
+const tipoCartoes = {
+  credit_card: 'Cartão de Crédito',
+  debit_card: 'Cartão de Débito',
+}
+
 const formValid = ref(false)
 const nomeCartao = ref('')
 const numeroCartao = ref('')
 const validadedCartao = ref('')
 const cvvCode = ref('')
 const metodoPagamentoCartao = ref('')
-const items = ref(['Débito', 'Crédito'])
+const items = ref([
+  { label: 'Débito', value: 'debit_card' },
+  { label: 'Crédito', value: 'credit_card' },
+])
 const isCardFlipped = ref(false)
 const isCardFlippedStep3 = ref(false)
 const metodoPagamento = ref('')
 const formRef = ref(null)
+const cupom = ref(null)
+const loadingCupom = ref(false)
 
 const flipCard = () => {
   isCardFlipped.value = true
@@ -1354,12 +1439,49 @@ const codigoCupom = ref('')
 
 const valorTotal = null
 
-const irParaHome = () => {
+const refreshUserData = async () => {
+  // try {
+  //   const response = await atletaService.getAtletaById(userData.user.atleta.id);
+  //   if (response.success && response.data.planoId) {
+  //     await updateUserPlan(response.data.planoId);
+  //   }
+  // } catch (error) {
+  //   console.error('Erro ao atualizar dados do usuário:', error);
+  // }
+}
+
+const irParaHome = async () => {
+  // await refreshUserData();
+  // Não precisa navegar - o AuthContext vai redirecionar automaticamente
   router.push('/')
+  //
 }
 
 const voltarParaPlanos = () => {
   router.push('/registerPlanos')
+}
+
+const validarCupom = async () => {
+  if (!codigoCupom.value) {
+    Toast.show({
+      type: 'error',
+      text1: 'Digite um código',
+    })
+    return
+  }
+  loadingCupom.value = true
+  await cupomService
+    .validarCupom(codigoCupom.value)
+    .then((resp) => {
+      if (resp?.success && resp?.data?.isValid) {
+        toast.success('Cupom aplicado!')
+        cupom.value = resp?.data?.cupom
+      }
+    })
+    .catch((err) => {
+      toast.error(err.response.data.message)
+    })
+    .finally(() => (loadingCupom.value = false))
 }
 </script>
 
@@ -1391,6 +1513,11 @@ const voltarParaPlanos = () => {
   border-top: 1px solid #e0e0e0;
   z-index: 1000;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preco-antigo {
+  text-decoration: line-through;
+  color: #888;
 }
 
 @media (max-width: 768px) {
