@@ -54,3 +54,28 @@ export const atletaTemPlano = () => {
   const payload = getPayload()
   return payload?.role == 'atleta' && payload?.user?.atleta?.planoId
 }
+
+const updateUserPlan = async (planoId: string) => {
+  try {
+    var userData = getPayload()
+    if (userData) {
+      const updatedUserData = {
+        ...userData,
+        user: {
+          ...userData.user,
+          [userData.role]: {
+            ...userData.user[userData.role],
+            planoId: planoId,
+          },
+        },
+      };
+      // setUserData(updatedUserData);
+    }
+  } catch (error) {
+    console.error('Erro ao atualizar plano:', error);
+  }
+};
+
+export const getToken =() => {
+  return sessionStorage.getItem('token')
+}

@@ -10,36 +10,20 @@
                 <v-col class="px-0 py-md-0 pr-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-5 pa-md-10">
                     <v-radio-group v-model="metodoPagamento">
-                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5"
-                        >Cartão de Crédito ou Débito</span
-                      >
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="cartao"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
+                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5">Cartão de Crédito ou Débito</span>
+                      <v-radio class="cardBtn pa-2 rounded-xl mb-5" value="cartao" color="blue"
+                        style="background-color: #ddf1fd" prepend-icon="mdi-google">
                         <template v-slot:label>
                           <div class="d-flex ga-3">
                             <span>Adicionar Cartão</span>
-                            <v-icon color="blue" size="24"
-                              >mdi-credit-card-outline</v-icon
-                            >
+                            <v-icon color="blue" size="24">mdi-credit-card-outline</v-icon>
                           </div>
                         </template>
                       </v-radio>
 
-                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5"
-                        >Outros meios:</span
-                      >
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="applePay"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
+                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5">Outros meios:</span>
+                      <v-radio class="cardBtn pa-2 rounded-xl mb-5" value="applePay" color="blue"
+                        style="background-color: #ddf1fd" prepend-icon="mdi-google">
                         <template v-slot:label>
                           <div class="d-flex ga-3">
                             <span>Apple Play</span>
@@ -47,13 +31,8 @@
                           </div>
                         </template>
                       </v-radio>
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="googlePay"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
+                      <v-radio class="cardBtn pa-2 rounded-xl mb-5" value="googlePay" color="blue"
+                        style="background-color: #ddf1fd" prepend-icon="mdi-google">
                         <template v-slot:label>
                           <div class="d-flex ga-3">
                             <span>Google Play</span>
@@ -62,14 +41,8 @@
                         </template>
                       </v-radio>
                     </v-radio-group>
-                    
-                    <v-btn
-                      variant="outlined"
-                      color="blue"
-                      rounded="xl"
-                      class="mt-5"
-                      @click="voltarParaPlanos"
-                    >
+
+                    <v-btn variant="outlined" color="blue" rounded="xl" class="mt-5" @click="voltarParaPlanos">
                       Voltar para Planos
                     </v-btn>
                   </v-card>
@@ -79,37 +52,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                          }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -157,17 +120,15 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -177,9 +138,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -189,17 +148,15 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -223,50 +180,29 @@
           <template #item.2>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-blue text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
                   Adicionar Cartão
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card>
-                    <v-form
-                      class="w-100"
-                      width="100%"
-                      v-model="formValid"
-                      ref="formRef"
-                    >
+                    <v-form class="w-100" width="100%" v-model="formValid" ref="formRef">
                       <v-row class="d-flex justify-center">
-                        <v-col
-                          md="12"
-                          lg="4"
-                          class="mx-auto mx-lg-10 mt-9 d-none d-md-inline"
-                        >
+                        <v-col md="12" lg="4" class="mx-auto mx-lg-10 mt-9 d-none d-md-inline">
                           <div class="card-container">
-                            <v-card
-                              :class="[
-                                'card-face card-front',
-                                { flipped: isCardFlipped },
-                              ]"
-                              class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                              max-width="320"
-                              min-height="200"
+                            <v-card :class="[
+                              'card-face card-front',
+                              { flipped: isCardFlipped },
+                            ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200"
                               style="
                                 background: linear-gradient(
                                   135deg,
                                   #0067b8 0%,
                                   #6bd0ff 100%
                                 );
-                              "
-                            >
+                              ">
                               <div class="text-white flex-1-1">
                                 <v-card-title class="pa-0 ma-0">{{
                                   getBanco(numeroCartao)
@@ -274,62 +210,40 @@
                               </div>
 
                               <div class="flex-1-3">
-                                <v-card-text
-                                  class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3"
-                                >
+                                <v-card-text class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3">
                                   {{ numeroCartao || '0000 0000 0000 0000' }}
                                 </v-card-text>
                                 <div class="pr-5 pr-md-7">
-                                  <v-card-text class="text-white pa-0 ma-0"
-                                    >Nome</v-card-text
-                                  >
-                                  <v-card-text
-                                    class="text-white text-subtitle-1 pa-0 ma-0"
-                                    >{{
-                                      formatNomeCartao(nomeCartao)
-                                    }}</v-card-text
-                                  >
+                                  <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                                  <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{
+                                    formatNomeCartao(nomeCartao)
+                                    }}</v-card-text>
                                 </div>
                               </div>
                             </v-card>
 
-                            <v-card
-                              :class="[
-                                'card-face card-back',
-                                { flipped: isCardFlipped },
-                              ]"
-                              class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                              max-width="320"
-                              min-height="200"
+                            <v-card :class="[
+                              'card-face card-back',
+                              { flipped: isCardFlipped },
+                            ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200"
                               style="
                                 background: linear-gradient(
                                   135deg,
                                   #0067b8 0%,
                                   #6bd0ff 100%
                                 );
-                              "
-                            >
+                              ">
                               <div class="black-stripe mt-4 mb-6"></div>
-                              <div
-                                class="d-flex justify-space-between align-center"
-                              >
+                              <div class="d-flex justify-space-between align-center">
                                 <div class="cvv-area">
-                                  <v-card-text
-                                    class="text-white text-caption pa-0 ma-0 mb-1"
-                                    >CVV</v-card-text
-                                  >
+                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">CVV</v-card-text>
                                   <div class="cvv-box text-black pa-2 rounded">
                                     {{ cvvCode || '***' }}
                                   </div>
                                 </div>
                                 <div class="validity-area">
-                                  <v-card-text
-                                    class="text-white text-caption pa-0 ma-0 mb-1"
-                                    >Validade</v-card-text
-                                  >
-                                  <v-card-text
-                                    class="text-white text-subtitle-2 pa-0 ma-0"
-                                  >
+                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                                  <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                     {{ validadedCartao || 'MM/AA' }}
                                   </v-card-text>
                                 </div>
@@ -340,95 +254,40 @@
 
                         <v-row class="pa-10 mt-3">
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field
-                              class="px-3"
-                              v-model="nomeCartao"
-                              label="Nome do Cartão"
-                              required
-                              variant="outlined"
-                              rounded="xl"
-                              name="nomeDoCartao"
-                              color="blue"
-                              :rules="nomeRules"
-                              validate-on="blur"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="nomeCartao" label="Nome do Cartão" required
+                              variant="outlined" rounded="xl" name="nomeDoCartao" color="blue" :rules="nomeRules"
+                              validate-on="blur"></v-text-field>
                           </v-col>
 
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field
-                              class="px-3"
-                              v-model="numeroCartao"
-                              required
-                              label="Número do Cartão"
-                              variant="outlined"
-                              rounded="xl"
-                              maxlength="19"
-                              placeholder="0000 0000 0000 0000"
-                              name="numeroDoCartao"
-                              color="blue"
-                              :rules="numeroRules"
-                              validate-on="blur"
-                              @input="onNumeroCartaoInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="numeroCartao" required label="Número do Cartão"
+                              variant="outlined" rounded="xl" maxlength="19" placeholder="0000 0000 0000 0000"
+                              name="numeroDoCartao" color="blue" :rules="numeroRules" validate-on="blur"
+                              @input="onNumeroCartaoInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pl-0 pr-2 mb-2" cols="6">
-                            <v-text-field
-                              class="px-3"
-                              v-model="validadedCartao"
-                              required
-                              label="Validade"
-                              variant="outlined"
-                              rounded="xl"
-                              maxlength="5"
-                              placeholder="MM/AA"
-                              name="validadeCartao"
-                              color="blue"
-                              :rules="validadeRules"
-                              validate-on="blur"
-                              @focus="flipCard"
-                              @blur="unflipCard"
-                              @input="onValidadeInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="validadedCartao" required label="Validade"
+                              variant="outlined" rounded="xl" maxlength="5" placeholder="MM/AA" name="validadeCartao"
+                              color="blue" :rules="validadeRules" validate-on="blur" @focus="flipCard"
+                              @blur="unflipCard" @input="onValidadeInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pr-0 pl-2 mb-2" cols="6">
-                            <v-text-field
-                              class="px-3"
-                              v-model="cvvCode"
-                              required
-                              label="CVV"
-                              variant="outlined"
-                              rounded="xl"
-                              :counter="3"
-                              maxlength="3"
-                              name="cvvCartao"
-                              color="blue"
-                              :rules="cvvRules"
-                              validate-on="blur"
-                              @focus="flipCard"
-                              @blur="unflipCard"
-                              @input="onCvvInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="cvvCode" required label="CVV" variant="outlined"
+                              rounded="xl" :counter="3" maxlength="3" name="cvvCartao" color="blue" :rules="cvvRules"
+                              validate-on="blur" @focus="flipCard" @blur="unflipCard"
+                              @input="onCvvInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pa-0 mb-0" cols="12">
-                            <v-select
-                              class="px-3"
-                              v-model="metodoPagamentoCartao"
-                              :items="items"
-                              label="Método de pagamento"
-                              color="blue"
-                              rounded="xl"
-                              required
-                              variant="outlined"
-                              :rules="requiredRule"
-                              validate-on="blur"
-                              >{{
+                            <v-select class="px-3" v-model="metodoPagamentoCartao" :items="items" item-title="label"
+                              item-value="value" label="Método de pagamento" color="blue" rounded="xl" required
+                              variant="outlined" :rules="requiredRule" validate-on="blur">
+                              {{
                                 metodoPagamentoCartao ||
                                 'Selecione o metodo de pagamento'
-                              }}</v-select
-                            >
+                              }}</v-select>
                           </v-col>
                         </v-row>
                       </v-row>
@@ -436,31 +295,24 @@
                   </v-card>
 
                   <v-card class="mt-5 py-10 d-flex flex-column justify-center">
-                    <v-card-title
-                      class="text-blue pa-0 mb-10 mx-5 text-subtitle-1 text-md-h6 text-center"
-                    >
+                    <v-card-title class="text-blue pa-0 mb-10 mx-5 text-subtitle-1 text-md-h6 text-center">
                       Adicionar cupom de desconto
                     </v-card-title>
                     <v-row class="mx-5 d-flex flex-column">
                       <v-col class="pa-0" cols="12">
-                        <v-text-field
-                          v-model="codigoCupom"
-                          required
-                          label="Código do cupom"
-                          variant="outlined"
-                          rounded="xl"
-                          color="blue"
-                          class="text-center"
-                        ></v-text-field>
+                        <v-text-field v-model="codigoCupom" required label="Código do cupom" variant="outlined"
+                          rounded="xl" color="blue" class="text-center"
+                          @input="codigoCupom = codigoCupom.toUpperCase()"></v-text-field>
                       </v-col>
 
+                      <template v-if="cupom">
+                        <b class="text-green">Desconto de {{ cupom?.porcentagem.toString().replace('.', ',') }} %
+                          aplicado!</b>
+                      </template>
+
                       <v-col class="ma-0 pa-0 justify-center d-flex" cols="12">
-                        <v-btn
-                          class="text-lg-subtitle-1 text-subtitle-2"
-                          size="x-large"
-                          color="blue"
-                          rounded="xl"
-                        >
+                        <v-btn class="text-lg-subtitle-1 text-subtitle-2" size="x-large" color="blue" rounded="xl"
+                          :loading="loadingCupom" @click="validarCupom()">
                           Validar Cupom
                         </v-btn>
                       </v-col>
@@ -472,37 +324,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                          }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -549,28 +391,26 @@
                         <v-card-text>Valor:</v-card-text>
                       </div>
 
-                      <div class="">
-                        <v-card-text
-                          >R$
+                      <div :class="{ 'preco-antigo': cupom }">
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
-                    <div class="d-flex justify-space-between align-center">
+                    <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || 'Desconto' }}%</v-card-text>
+                        <v-card-text>{{ cupom?.porcentagem.toString().replace('.', ',') }} %</v-card-text>
                       </div>
                     </div>
 
@@ -580,9 +420,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -590,17 +428,17 @@
                       <div class="">
                         <v-card-text>Total:</v-card-text>
                       </div>
-
                       <div class="">
-                        <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
-                          }}{{
+                        <v-card-text>{{
+                          formatarPreco(
+                            planoSelecionado?.precoAno ||
+                            planoSelecionado?.precoMes
+                          )
+                        }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
-
                     <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
 
                     <div class="d-flex justify-space-between align-center mb-5">
@@ -609,7 +447,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ metodoPagamentoCartao }}</v-card-text>
+                        <v-card-text>{{ tipoCartoes[metodoPagamentoCartao] }}</v-card-text>
                       </div>
                     </div>
                   </v-card>
@@ -621,24 +459,15 @@
           <template #item.3>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-blue text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
                   Finalizar Pagamento
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-2 pa-5">
-                    <v-card-title
-                      class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold"
-                    >
+                    <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold">
                       <v-icon size="24" color="blue">mdi-account</v-icon> DADOS
                       PESSOAIS
                     </v-card-title>
@@ -651,8 +480,7 @@
                       <v-col cols="12" md="6">
                         <div>
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             Nome:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.nome }}
@@ -662,8 +490,7 @@
 
                         <div>
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             Celular:
                             <v-card-text class="text-caption">
                               {{
@@ -679,8 +506,7 @@
                       <v-col cols="12" md="6">
                         <div class="">
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             CPF:
                             <v-card-text class="text-caption">
                               {{ formatarCPF(payload?.user?.cpf) }}
@@ -690,8 +516,7 @@
 
                         <div class="">
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             E-mail:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.email }}
@@ -703,9 +528,7 @@
                   </v-card>
 
                   <v-card class="mt-5 pa-5">
-                    <v-card-title
-                      class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold flex-wrap"
-                    >
+                    <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold flex-wrap">
                       <v-icon size="24" color="blue">mdi-credit-card</v-icon>
                       CARTÃO DE PAGAMENTO
                     </v-card-title>
@@ -715,88 +538,59 @@
 
                     <div class="d-flex justify-center">
                       <div class="card-container" @click="flipCardStep3">
-                        <v-card
-                          :class="[
-                            'card-face card-front',
-                            { flipped: isCardFlippedStep3 },
-                          ]"
-                          class="d-flex flex-column rounded-xl card-with-bg pa-4 mx-auto"
-                          max-width="320"
-                          min-height="200"
-                          style="
+                        <v-card :class="[
+                          'card-face card-front',
+                          { flipped: isCardFlippedStep3 },
+                        ]" class="d-flex flex-column rounded-xl card-with-bg pa-4 mx-auto" max-width="320"
+                          min-height="200" style="
                             background: linear-gradient(
                               135deg,
                               #0067b8 0%,
                               #6bd0ff 100%
                             );
-                          "
-                        >
-                          <div
-                            class="d-flex justify-space-between text-white flex-1-1"
-                          >
+                          ">
+                          <div class="d-flex justify-space-between text-white flex-1-1">
                             <v-card-title class="pa-0 ma-0">{{
                               getBanco(numeroCartao)
                             }}</v-card-title>
                             <v-card-text class="pa-0 ma-0 text-right">{{
-                              metodoPagamentoCartao
+                              tipoCartoes[metodoPagamentoCartao]
                             }}</v-card-text>
                           </div>
 
                           <div class="flex-1-3">
-                            <v-card-text
-                              class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3"
-                            >
+                            <v-card-text class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3">
                               {{ numeroCartao || '0000 0000 0000 0000' }}
                             </v-card-text>
                             <div class="pr-5 pr-md-7">
-                              <v-card-text class="text-white pa-0 ma-0"
-                                >Nome</v-card-text
-                              >
-                              <v-card-text
-                                class="text-white text-subtitle-1 pa-0 ma-0"
-                                >{{ formatNomeCartao(nomeCartao) }}</v-card-text
-                              >
+                              <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                              <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{ formatNomeCartao(nomeCartao)
+                              }}</v-card-text>
                             </div>
                           </div>
                         </v-card>
 
-                        <v-card
-                          :class="[
-                            'card-face card-back',
-                            { flipped: isCardFlippedStep3 },
-                          ]"
-                          class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                          max-width="320"
-                          min-height="200"
-                          style="
+                        <v-card :class="[
+                          'card-face card-back',
+                          { flipped: isCardFlippedStep3 },
+                        ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200" style="
                             background: linear-gradient(
                               135deg,
                               #0067b8 0%,
                               #6bd0ff 100%
                             );
-                          "
-                        >
+                          ">
                           <div class="black-stripe mt-4 mb-6"></div>
-                          <div
-                            class="d-flex justify-space-between align-center"
-                          >
+                          <div class="d-flex justify-space-between align-center">
                             <div class="cvv-area">
-                              <v-card-text
-                                class="text-white text-caption pa-0 ma-0 mb-1"
-                                >CVV</v-card-text
-                              >
+                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">CVV</v-card-text>
                               <div class="cvv-box text-black pa-2 rounded">
                                 {{ cvvCode || '***' }}
                               </div>
                             </div>
                             <div class="validity-area">
-                              <v-card-text
-                                class="text-white text-caption pa-0 ma-0 mb-1"
-                                >Validade</v-card-text
-                              >
-                              <v-card-text
-                                class="text-white text-subtitle-2 pa-0 ma-0"
-                              >
+                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                              <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                 {{ validadedCartao || 'MM/AA' }}
                               </v-card-text>
                             </div>
@@ -811,37 +605,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                          }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -889,27 +673,25 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
-                    <div class="d-flex justify-space-between align-center">
+                    <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || 'Desconto' }}%</v-card-text>
+                        <v-card-text>{{ cupom?.porcentagem.toString().replace('.', ',') }} %</v-card-text>
                       </div>
                     </div>
 
@@ -919,9 +701,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -931,12 +711,14 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
-                          }}{{
+                        <v-card-text>{{
+                          formatarPreco(
+                            planoSelecionado?.precoAno ||
+                            planoSelecionado?.precoMes
+                          )
+                        }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -949,7 +731,7 @@
 
                       <div class="">
                         <v-card-text>{{
-                          metodoPagamentoCartao || metodoPagamento
+                          tipoCartoes[metodoPagamentoCartao]
                         }}</v-card-text>
                       </div>
                     </div>
@@ -962,20 +744,13 @@
           <template #item.4>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-green text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-green text-h5 text-md-h4 font-weight-medium text-center">
                   Pagamento Realizado com Sucesso!
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-5 text-center">
                     <v-icon size="80" color="green" class="mb-5">
                       mdi-check-circle
@@ -995,13 +770,7 @@
                       os detalhes da sua compra.
                     </v-card-text>
 
-                    <v-btn
-                      color="blue"
-                      size="large"
-                      rounded="xl"
-                      class="text-white px-8"
-                      @click="irParaHome"
-                    >
+                    <v-btn color="blue" size="large" rounded="xl" class="text-white px-8" @click="irParaHome">
                       Ir para Home
                     </v-btn>
                   </v-card>
@@ -1020,25 +789,19 @@
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center text-white">
                           {{ planoSelecionado?.nome || 'Plano Selecionado' }}
                         </v-card-text>
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0 text-white">
                           R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
                         </v-card-text>
@@ -1050,9 +813,7 @@
                         <v-card-text>Status:</v-card-text>
                       </div>
                       <div>
-                        <v-card-text
-                          class="text-end text-green font-weight-bold"
-                        >
+                        <v-card-text class="text-end text-green font-weight-bold">
                           Aprovado
                         </v-card-text>
                       </div>
@@ -1092,8 +853,8 @@
                           {{
                             formatarPreco(
                               valorTotal ||
-                                planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoAno ||
+                              planoSelecionado?.precoMes
                             )
                           }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
                         </v-card-text>
@@ -1106,7 +867,7 @@
                       </div>
                       <div>
                         <v-card-text class="text-end">
-                          {{ metodoPagamentoCartao || metodoPagamento }}
+                          {{ tipoCartoes[metodoPagamentoCartao] || metodoPagamento }}
                         </v-card-text>
                       </div>
                     </div>
@@ -1119,35 +880,16 @@
           <template #actions="{ next, prev }">
             <div class="fixed-buttons">
               <v-container>
-                <div
-                  class="d-flex justify-space-between w-100 py-4 flex-column-reverse flex-md-row align-center ga-3"
-                >
-                  <VBtn
-                    v-if="step !== 4"
-                    class="w-100"
-                    :disabled="step === 1 ? true : false"
-                    height="43px"
-                    max-width="237px"
-                    style="color: #00c6fe"
-                    variant="outlined"
-                    @click="handlePrev(prev)"
-                  >
+                <div class="d-flex justify-space-between w-100 py-4 flex-column-reverse flex-md-row align-center ga-3">
+                  <VBtn v-if="step !== 4" class="w-100" :disabled="step === 1 ? true : false" height="43px"
+                    max-width="237px" style="color: #00c6fe" variant="outlined" @click="handlePrev(prev)">
                     Voltar
                   </VBtn>
-                  <VBtn
-                    v-if="step !== 4"
-                    class="text-white w-100"
-                    height="43px"
-                    max-width="237px"
-                    :loading="loading"
-                    :disabled="loading || (step === 1 && !metodoPagamento)"
-                    :style="
-                      step === 3
-                        ? 'background-color:#88ce0d'
-                        : 'background-color: #00c6fe'
-                    "
-                    @click="handleNext(next)"
-                  >
+                  <VBtn v-if="step !== 4" class="text-white w-100" height="43px" max-width="237px" :loading="loading"
+                    :disabled="loading || (step === 1 && !metodoPagamento)" :style="step === 3
+                      ? 'background-color:#88ce0d'
+                      : 'background-color: #00c6fe'
+                      " @click="handleNext(next)">
                     {{
                       step !== 3
                         ? 'Próximo'
@@ -1171,6 +913,9 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePlanoStore } from '@/stores/plano'
 import { getPayload } from '@/utils/auth'
+import { toast } from 'vue3-toastify'
+import cupomService from '@/services/cupom/cupom-service'
+import pagarmeService from '@/services/pagarme/pagarme-service'
 
 const step = ref(1)
 const router = useRouter()
@@ -1180,7 +925,6 @@ const planoStore = usePlanoStore()
 const planoSelecionado = computed(() => planoStore.getPlanoSelecionado)
 
 const payload = ref()
-console.log('payload', payload)
 
 const formatarPreco = (preco) => {
   return preco?.toFixed(2).replace('.', ',') || '0,00'
@@ -1234,12 +978,48 @@ const handleNext = async (next) => {
     }
   } else if (step.value === 3) {
     loading.value = true
-    // Simular processamento do pagamento
-    setTimeout(() => {
-      loading.value = false
-      next()
-    }, 2000)
-  } else {
+    const data = {
+      plan_id: planoSelecionado.value.planoIdPagarme,
+      customer: {
+        name: payload.value.user.nome,
+        email: payload.value.user.email,
+        document: payload.value.user.cpf,
+        type: 'individual',
+        document_type: 'CPF',
+      },
+      card: {
+        number: numeroCartao.value,
+        exp_month: Number(validadedCartao.value.slice(0, 2)),
+        exp_year: Number(validadedCartao.value.slice(3, 5)),
+        cvv: cvvCode.value,
+        holder_name: nomeCartao.value,
+      },
+      payment_method: metodoPagamentoCartao.value,
+      discounts: cupom.value ? [
+        {
+          "cycles": "1",
+          "value": cupom?.value?.porcentagem.toString(),
+          "discount_type": "percentage"
+        }
+      ] : [],
+    };
+
+    await pagarmeService.realizarAssinatura(data).then((resp) => {
+      if (resp?.success) {
+        toast.success('Pagamento realizado com sucesso!')
+        next()
+      } else {
+        toast.error("Falha no pagamento")
+      }
+    }).catch((err) => {
+      toast.error("Erro ao processar pagamento! Tente novamente.")
+    }).finally(() => loading.value = false)
+
+  }else if(step.value === 4){
+    console.log('step');
+    //chamar função de refresh user data  
+  } 
+  else {
     next()
   }
 }
@@ -1259,17 +1039,24 @@ const item = [
   'Pagamento Realizado',
 ]
 
+const tipoCartoes = {
+  'credit_card': 'Cartão de Crédito',
+  'debit_card': 'Cartão de Débito',
+}
+
 const formValid = ref(false)
 const nomeCartao = ref('')
 const numeroCartao = ref('')
 const validadedCartao = ref('')
 const cvvCode = ref('')
 const metodoPagamentoCartao = ref('')
-const items = ref(['Débito', 'Crédito'])
+const items = ref([{ label: 'Débito', value: 'debit_card' }, { label: 'Crédito', value: 'credit_card' }])
 const isCardFlipped = ref(false)
 const isCardFlippedStep3 = ref(false)
 const metodoPagamento = ref('')
 const formRef = ref(null)
+const cupom = ref(null)
+const loadingCupom = ref(false)
 
 const flipCard = () => {
   isCardFlipped.value = true
@@ -1386,12 +1173,47 @@ const codigoCupom = ref('')
 
 const valorTotal = null
 
-const irParaHome = () => {
+const refreshUserData = async () => {
+    // try {
+    //   const response = await atletaService.getAtletaById(userData.user.atleta.id);
+
+    //   if (response.success && response.data.planoId) {
+    //     await updateUserPlan(response.data.planoId);
+    //   }
+    // } catch (error) {
+    //   console.error('Erro ao atualizar dados do usuário:', error);
+    // }
+  };
+
+const irParaHome = async () => {
+  // await refreshUserData();
+        // Não precisa navegar - o AuthContext vai redirecionar automaticamente
   router.push('/')
+  //
 }
 
 const voltarParaPlanos = () => {
   router.push('/registerPlanos')
+}
+
+const validarCupom = async () => {
+  if (!codigoCupom.value) {
+    Toast.show({
+      type: 'error',
+      text1: "Digite um código",
+    });
+    return;
+  }
+  loadingCupom.value = true
+  await cupomService.validarCupom(codigoCupom.value).then((resp) => {
+    if (resp?.success && resp?.data?.isValid) {
+      toast.success('Cupom aplicado!')
+      cupom.value = resp?.data?.cupom
+    }
+  }).catch((err) => {
+    toast.error(err.response.data.message)
+  }).finally(() => loadingCupom.value = false)
+
 }
 </script>
 
@@ -1423,6 +1245,11 @@ const voltarParaPlanos = () => {
   border-top: 1px solid #e0e0e0;
   z-index: 1000;
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.preco-antigo {
+  text-decoration: line-through;
+  color: #888;
 }
 
 @media (max-width: 768px) {
