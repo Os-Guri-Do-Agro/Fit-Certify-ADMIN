@@ -158,12 +158,7 @@
 
                       <div class="">
                         <v-card-text
-                          >R$
-                          {{
-                            formatarPreco(
-                              planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
-                            )
+                          >R$ {{ formatarPreco(valorTotal)
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
                           }}</v-card-text
@@ -429,9 +424,7 @@
                       <template v-if="cupom">
                         <b class="text-green"
                           >Desconto de
-                          {{
-                            cupom?.porcentagem.toString().replace('.', ',')
-                          }}
+                          {{ cupom?.porcentagem.toString().replace('.', ',') }}
                           % aplicado!</b
                         >
                       </template>
@@ -557,7 +550,12 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || '0' }}%</v-card-text>
+                        <v-card-text
+                          >{{
+                            cupom?.porcentagem.toString().replace('.', ',') ||
+                            '0'
+                          }}%</v-card-text
+                        >
                       </div>
                     </div>
 
@@ -579,11 +577,7 @@
                       </div>
                       <div class="">
                         <v-card-text
-                          >{{
-                            formatarPreco(
-                              planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
-                            )
+                          >R$ {{ formatarPreco(valorTotal)
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
                           }}</v-card-text
@@ -903,7 +897,12 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || '0' }}%</v-card-text>
+                        <v-card-text
+                          >{{
+                            cupom?.porcentagem.toString().replace('.', ',') ||
+                            '0'
+                          }}%</v-card-text
+                        >
                       </div>
                     </div>
 
@@ -926,11 +925,7 @@
 
                       <div class="">
                         <v-card-text
-                          >{{
-                            formatarPreco(
-                              planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
-                            )
+                          >R$ {{ formatarPreco(valorTotal)
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
                           }}</v-card-text
@@ -1437,8 +1432,6 @@ const cvvRules = [
 
 const codigoCupom = ref('')
 
-const valorTotal = null
-
 const refreshUserData = async () => {
   // try {
   //   const response = await atletaService.getAtletaById(userData.user.atleta.id);
@@ -1483,6 +1476,18 @@ const validarCupom = async () => {
     })
     .finally(() => (loadingCupom.value = false))
 }
+
+const valorTotal = computed(() => {
+  const precoBase =
+    planoSelecionado.value?.precoAno || planoSelecionado.value?.precoMes
+  if (!precoBase) return 0
+
+  let valor = precoBase
+  if (cupom.value?.porcentagem) {
+    valor = valor - (valor * cupom.value.porcentagem) / 100
+  }
+  return valor
+})
 </script>
 
 <style scoped>
