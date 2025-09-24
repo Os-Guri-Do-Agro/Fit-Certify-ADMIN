@@ -29,40 +29,8 @@
                           </div>
                         </template>
                       </v-radio>
-
-                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5"
-                        >Outros meios:</span
-                      >
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="applePay"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
-                        <template v-slot:label>
-                          <div class="d-flex ga-3">
-                            <span>Apple Play</span>
-                            <v-icon color="blue" size="24">mdi-apple</v-icon>
-                          </div>
-                        </template>
-                      </v-radio>
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="googlePay"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
-                        <template v-slot:label>
-                          <div class="d-flex ga-3">
-                            <span>Google Play</span>
-                            <v-icon color="blue" size="24">mdi-google</v-icon>
-                          </div>
-                        </template>
-                      </v-radio>
                     </v-radio-group>
-                    
+
                     <v-btn
                       variant="outlined"
                       color="blue"
@@ -570,7 +538,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || 'Desconto' }}%</v-card-text>
+                        <v-card-text>{{ desconto || '0' }}%</v-card-text>
                       </div>
                     </div>
 
@@ -909,7 +877,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ desconto || 'Desconto' }}%</v-card-text>
+                        <v-card-text>{{ desconto || '0' }}%</v-card-text>
                       </div>
                     </div>
 
