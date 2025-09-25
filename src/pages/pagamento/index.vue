@@ -589,6 +589,7 @@
                             validate-on="blur"
                             maxlength="2"
                             class="mb-2"
+                            @input="onUfInput"
                           ></v-text-field>
                         </v-col>
 
@@ -620,6 +621,7 @@
                             class="mb-2"
                             :rules="requiredRule"
                             validate-on="blur"
+                            @input="onPaisInput"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -695,7 +697,7 @@
                     </v-form>
 
                     <v-row>
-                      <v-col class="px-10 py-0" cols="12">
+                      <v-col class="px-10 py-5" cols="12">
                         <v-btn
                           color="blue"
                           block
@@ -1507,6 +1509,17 @@ const handleNext = async (next) => {
     }
   } else if (step.value === 3) {
     loading.value = true
+
+    if (
+      !mobile_phone.value.country_code ||
+      !mobile_phone.value.area_code ||
+      !mobile_phone.value.number_clean
+    ) {
+      toast.error('Dados de contato incompletos')
+      loading.value = false
+      return
+    }
+
     const data = {
       plan_id: planoSelecionado.value.planoIdPagarme,
       customer: {
@@ -1515,6 +1528,13 @@ const handleNext = async (next) => {
         document: payload.value.user.cpf,
         type: 'individual',
         document_type: 'CPF',
+        phones: {
+          country_code: String(
+            paises.find((p) => p.id === mobile_phone.value.country_code)?.code
+          ),
+          area_code: String(mobile_phone.value.area_code),
+          number: String(mobile_phone.value.number_clean),
+        },
       },
       card: {
         number: numeroCartao.value,
@@ -1522,6 +1542,14 @@ const handleNext = async (next) => {
         exp_year: Number(validadedCartao.value.slice(3, 5)),
         cvv: cvvCode.value,
         holder_name: nomeCartao.value,
+        billing_address: {
+          line_1: endereco.value.rua,
+          line_2: endereco.value.complemento,
+          zip_code: endereco.value.cep_clean,
+          city: endereco.value.cidade,
+          state: endereco.value.uf,
+          country: endereco.value.pais,
+        },
       },
       payment_method: metodoPagamentoCartao.value,
       discounts: cupom.value
@@ -1534,6 +1562,9 @@ const handleNext = async (next) => {
           ]
         : [],
     }
+
+    console.log('Dados do telefone:', mobile_phone.value)
+    console.log('Dados enviados para API:', data)
 
     await pagarmeService
       .realizarAssinatura(data)
@@ -1691,6 +1722,8 @@ const onNumeroCartaoInput = (event) => {
 
 const onTelefoneInput = (event) => {
   const numbers = event.target.value.replace(/\D/g, '').substring(0, 9)
+  mobile_phone.value.number_clean = numbers
+
   let formatted = numbers
   if (numbers.length > 1) {
     formatted = numbers.substring(0, 1) + ' ' + numbers.substring(1)
@@ -1777,15 +1810,17 @@ const endereco = ref({
   rua: '',
   complemento: '',
   cep: '',
+  cep_clean: '',
   uf: '',
   cidade: '',
-  pais: 'Brasil',
+  pais: '',
 })
 
 const mobile_phone = ref({
   country_code: 'br',
   area_code: '',
   number: '',
+  number_clean: '',
 })
 
 const paises = [
@@ -1829,6 +1864,8 @@ const telefoneRules = [
 
 const onCepInput = (event) => {
   const numbers = event.target.value.replace(/\D/g, '').substring(0, 8)
+  endereco.value.cep_clean = numbers
+
   let formatted = numbers
   if (numbers.length > 5) {
     formatted = numbers.substring(0, 5) + '-' + numbers.substring(5)
@@ -1841,6 +1878,16 @@ const enderecoSalvo = ref(false)
 const getPaisCode = (countryId) => {
   const pais = paises.find((p) => p.id === countryId)
   return pais ? pais.code : '55'
+}
+
+const onUfInput = (event) => {
+  const value = event.target.value.toUpperCase().substring(0, 2)
+  endereco.value.uf = value
+}
+
+const onPaisInput = (event) => {
+  const value = event.target.value.toUpperCase().substring(0, 2)
+  endereco.value.pais = value
 }
 
 const salvarEndereco = async () => {
