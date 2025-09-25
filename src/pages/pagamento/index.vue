@@ -1166,7 +1166,7 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePlanoStore } from '@/stores/plano'
-import { getPayload } from '@/utils/auth'
+import { getPayload, refreshUserData } from '@/utils/auth'
 import { toast } from 'vue3-toastify'
 import cupomService from '@/services/cupom/cupom-service'
 import pagarmeService from '@/services/pagarme/pagarme-service'
@@ -1262,9 +1262,10 @@ const handleNext = async (next) => {
 
     await pagarmeService
       .realizarAssinatura(data)
-      .then((resp) => {
+      .then(async (resp) => {
         if (resp?.success) {
           toast.success('Pagamento realizado com sucesso!')
+          await refreshUserData()
           next()
         } else {
           toast.error('Falha no pagamento')
@@ -1432,22 +1433,11 @@ const cvvRules = [
 
 const codigoCupom = ref('')
 
-const refreshUserData = async () => {
-  // try {
-  //   const response = await atletaService.getAtletaById(userData.user.atleta.id);
-  //   if (response.success && response.data.planoId) {
-  //     await updateUserPlan(response.data.planoId);
-  //   }
-  // } catch (error) {
-  //   console.error('Erro ao atualizar dados do usuário:', error);
-  // }
-}
+
 
 const irParaHome = async () => {
-  // await refreshUserData();
-  // Não precisa navegar - o AuthContext vai redirecionar automaticamente
+  await refreshUserData()
   router.push('/')
-  //
 }
 
 const voltarParaPlanos = () => {
