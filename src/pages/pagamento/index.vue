@@ -407,6 +407,7 @@
                         class="pa-0 d-flex flex-column px-5"
                         cols="12"
                         lg="6"
+                        style="height: 280px"
                       >
                         <v-card-title
                           class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
@@ -420,6 +421,7 @@
                           variant="outlined"
                           rounded="xl"
                           color="blue"
+                          density="comfortable"
                           class="text-center"
                           @input="codigoCupom = codigoCupom.toUpperCase()"
                         ></v-text-field>
@@ -457,7 +459,31 @@
                           Endereço | Contato
                         </v-card-title>
 
-                        <div class=""></div>
+                        <div v-if="enderecoSalvo" class="mx-5 mb-4">
+                          <v-card variant="outlined" color="blue" class="pa-3">
+                            <div class="text-caption text-grey-darken-1 mb-2">
+                              Endereço:
+                            </div>
+                            <div class="text-body-2">
+                              {{ endereco.rua }}, {{ endereco.complemento }}
+                            </div>
+                            <div class="text-body-2">
+                              {{ endereco.cidade }}, {{ endereco.uf }} -
+                              {{ endereco.cep }}
+                            </div>
+                            <div class="text-body-2">{{ endereco.pais }}</div>
+                            <div
+                              class="text-caption text-grey-darken-1 mt-2 mb-1"
+                            >
+                              Contato:
+                            </div>
+                            <div class="text-body-2">
+                              +{{ getPaisCode(mobile_phone.country_code) }} ({{
+                                mobile_phone.area_code
+                              }}) {{ mobile_phone.number }}
+                            </div>
+                          </v-card>
+                        </div>
 
                         <v-btn
                           class="text-lg-subtitle-1 text-subtitle-2"
@@ -466,7 +492,11 @@
                           rounded="xl"
                           @click="showModal = true"
                         >
-                          CADASTRAR NOVO ENDEREÇO
+                          {{
+                            enderecoSalvo
+                              ? 'EDITAR ENDEREÇO'
+                              : 'CADASTRAR NOVO ENDEREÇO'
+                          }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -497,134 +527,183 @@
                       ></v-btn>
                     </div>
 
-                    <v-row class="d-flex px-10 py-5">
-                      <v-col class="pa-0" cols="12">
-                        <v-text-field
-                          required
-                          label="Rua*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
+                    <v-form ref="enderecoFormRef" v-model="enderecoFormValid">
+                      <v-row class="d-flex px-10 py-5">
+                        <v-col class="pa-0" cols="12">
+                          <v-text-field
+                            v-model="endereco.rua"
+                            required
+                            label="Rua*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            class="mb-2"
+                            :rules="requiredRule"
+                            validate-on="blur"
+                          ></v-text-field>
+                        </v-col>
 
-                      <v-col class="pa-0" cols="12">
-                        <v-text-field
-                          required
-                          label="Complemento*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
+                        <v-col class="pa-0" cols="12">
+                          <v-text-field
+                            v-model="endereco.complemento"
+                            required
+                            label="Complemento*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            class="mb-2"
+                            :rules="requiredRule"
+                            validate-on="blur"
+                          ></v-text-field>
+                        </v-col>
 
-                      <v-col class="pa-0 pr-2" cols="6">
-                        <v-text-field
-                          required
-                          label="CEP*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
+                        <v-col class="pa-0 pr-2" cols="6">
+                          <v-text-field
+                            v-model="endereco.cep"
+                            required
+                            label="CEP*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="cepRules"
+                            validate-on="blur"
+                            maxlength="9"
+                            class="mb-2"
+                            @input="onCepInput"
+                          ></v-text-field>
+                        </v-col>
 
-                      <v-col class="pa-0 pl-2" cols="6">
-                        <v-text-field
-                          required
-                          label="UF*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
+                        <v-col class="pa-0 pl-2" cols="6">
+                          <v-text-field
+                            v-model="endereco.uf"
+                            required
+                            label="UF*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="ufRules"
+                            validate-on="blur"
+                            maxlength="2"
+                            class="mb-2"
+                          ></v-text-field>
+                        </v-col>
 
-                      <v-col class="pa-0 pr-2" cols="6">
-                        <v-text-field
-                          required
-                          label="Cidade*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
+                        <v-col class="pa-0 pr-2" cols="6">
+                          <v-text-field
+                            v-model="endereco.cidade"
+                            required
+                            label="Cidade*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="requiredRule"
+                            class="mb-2"
+                            validate-on="blur"
+                          ></v-text-field>
+                        </v-col>
 
-                      <v-col class="pa-0 pl-2" cols="6">
-                        <v-text-field
-                          required
-                          label="País*"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                        ></v-text-field>
-                      </v-col>
-                    </v-row>
+                        <v-col class="pa-0 pl-2" cols="6">
+                          <v-text-field
+                            v-model="endereco.pais"
+                            required
+                            label="País*"
+                            variant="outlined"
+                            rounded="lg"
+                            maxlength="2"
+                            density="comfortable"
+                            color="blue"
+                            class="mb-2"
+                            :rules="requiredRule"
+                            validate-on="blur"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
 
-                    <div
-                      class="d-flex justify-space-between align-center px-7"
-                      elevation-1
-                    >
-                      <v-card-title
-                        class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5"
+                      <div
+                        class="d-flex justify-space-between align-center px-7"
+                        elevation-1
                       >
-                        <v-icon size="28" color="blue"
-                          >mdi-card-account-phone-outline</v-icon
+                        <v-card-title
+                          class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5"
                         >
-                        CONTATO
-                      </v-card-title>
-                    </div>
+                          <v-icon size="28" color="blue"
+                            >mdi-card-account-phone-outline</v-icon
+                          >
+                          CONTATO
+                        </v-card-title>
+                      </div>
 
-                    <v-row class="d-flex px-10 py-5">
-                      <v-col class="pa-0 pr-2" cols="12" md="4">
-                        <v-select
-                          v-model="mobile_phone.country_code"
-                          :items="paises"
-                          item-title="name"
-                          item-value="id"
-                          label="Código"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
+                      <v-row class="d-flex px-10 pt-5">
+                        <v-col class="pa-0 pr-2" cols="12" md="4">
+                          <v-select
+                            v-model="mobile_phone.country_code"
+                            :items="paises"
+                            item-title="name"
+                            item-value="id"
+                            label="Código*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="requiredRule"
+                            validate-on="blur"
+                            placeholder="+55"
+                          >
+                            <template v-slot:selection="{ item }">
+                              +{{ item.raw.code }}
+                            </template>
+                          </v-select>
+                        </v-col>
+
+                        <v-col class="pa-0 px-2" cols="12" md="4">
+                          <v-text-field
+                            v-model="mobile_phone.area_code"
+                            required
+                            label="DDD*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="dddRules"
+                            validate-on="blur"
+                            maxlength="2"
+                            placeholder="21"
+                          ></v-text-field>
+                        </v-col>
+
+                        <v-col class="pa-0 pl-2" cols="12" lg="4">
+                          <v-text-field
+                            v-model="mobile_phone.number"
+                            required
+                            label="Número*"
+                            variant="outlined"
+                            rounded="lg"
+                            density="comfortable"
+                            color="blue"
+                            :rules="telefoneRules"
+                            validate-on="blur"
+                            placeholder="9 9999-9999"
+                            @input="onTelefoneInput"
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-form>
+
+                    <v-row>
+                      <v-col class="px-10 py-0" cols="12">
+                        <v-btn
                           color="blue"
-                          clearable
-                          placeholder="+55"
+                          block
+                          size="large"
+                          @click="salvarEndereco"
                         >
-                          <template v-slot:selection="{ item }">
-                            +{{ item.raw.code }}
-                          </template>
-                        </v-select>
-                      </v-col>
-
-                      <v-col class="pa-0 px-2" cols="12" md="4">
-                        <v-text-field
-                          v-model="mobile_phone.area_code"
-                          required
-                          label="DDD"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                          type="number"
-                          placeholder="21"
-                        ></v-text-field>
-                      </v-col>
-
-                      <v-col class="pa-0 pl-2" cols="12" lg="4">
-                        <v-text-field
-                          v-model="mobile_phone.number"
-                          required
-                          label="Número"
-                          variant="outlined"
-                          rounded="lg"
-                          density="comfortable"
-                          color="blue"
-                          placeholder="9 9999-9999"
-                        ></v-text-field>
+                          SALVAR
+                        </v-btn>
                       </v-col>
                     </v-row>
                   </v-card>
@@ -836,11 +915,20 @@
                           >
                             Celular:
                             <v-card-text class="text-caption">
-                              {{
-                                formatarTelefone(
-                                  payload?.user?.atleta?.telefone
-                                )
-                              }}
+                              +{{ getPaisCode(mobile_phone.country_code) }} ({{
+                                mobile_phone.area_code
+                              }}) {{ mobile_phone.number }}
+                            </v-card-text>
+                          </v-card-text>
+                        </div>
+
+                        <div>
+                          <v-card-text
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
+                          >
+                            CEP:
+                            <v-card-text class="text-caption">
+                              {{ endereco.cep }}
                             </v-card-text>
                           </v-card-text>
                         </div>
@@ -1412,8 +1500,10 @@ const handleNext = async (next) => {
     }
   } else if (step.value === 2) {
     const { valid } = await formRef.value.validate()
-    if (valid) {
+    if (valid && enderecoSalvo.value) {
       next()
+    } else if (!enderecoSalvo.value) {
+      toast.error('É necessário cadastrar um endereço para continuar')
     }
   } else if (step.value === 3) {
     loading.value = true
@@ -1680,9 +1770,20 @@ const valorTotal = computed(() => {
 })
 
 const showModal = ref(false)
+const enderecoFormRef = ref(null)
+const enderecoFormValid = ref(false)
+
+const endereco = ref({
+  rua: '',
+  complemento: '',
+  cep: '',
+  uf: '',
+  cidade: '',
+  pais: 'Brasil',
+})
 
 const mobile_phone = ref({
-  country_code: '',
+  country_code: 'br',
   area_code: '',
   number: '',
 })
@@ -1704,6 +1805,54 @@ const paises = [
   { id: 'ru', name: 'Rússia', code: '7' },
   { id: 'ar', name: 'Argentina', code: '54' },
 ]
+
+const cepRules = [
+  (v) => !!v || 'CEP é obrigatório',
+  (v) => v.replace(/\D/g, '').length === 8 || 'CEP deve ter 8 dígitos',
+]
+
+const ufRules = [
+  (v) => !!v || 'UF é obrigatória',
+  (v) => v.length === 2 || 'UF deve ter 2 caracteres',
+]
+
+const dddRules = [
+  (v) => !!v || 'DDD é obrigatório',
+  (v) => v.length === 2 || 'DDD deve ter 2 dígitos',
+]
+
+const telefoneRules = [
+  (v) => !!v || 'Número é obrigatório',
+  (v) =>
+    v.replace(/\D/g, '').length >= 8 || 'Número deve ter pelo menos 8 dígitos',
+]
+
+const onCepInput = (event) => {
+  const numbers = event.target.value.replace(/\D/g, '').substring(0, 8)
+  let formatted = numbers
+  if (numbers.length > 5) {
+    formatted = numbers.substring(0, 5) + '-' + numbers.substring(5)
+  }
+  endereco.value.cep = formatted
+}
+
+const enderecoSalvo = ref(false)
+
+const getPaisCode = (countryId) => {
+  const pais = paises.find((p) => p.id === countryId)
+  return pais ? pais.code : '55'
+}
+
+const salvarEndereco = async () => {
+  const { valid } = await enderecoFormRef.value.validate()
+  if (valid) {
+    enderecoSalvo.value = true
+    toast.success('Endereço salvo com sucesso!')
+    showModal.value = false
+  } else {
+    toast.error('Preencha todos os campos obrigatórios')
+  }
+}
 </script>
 
 <style scoped>
