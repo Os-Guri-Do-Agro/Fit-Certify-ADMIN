@@ -407,7 +407,6 @@
                         class="pa-0 d-flex flex-column px-5"
                         cols="12"
                         lg="6"
-                        style="height: 280px"
                       >
                         <v-card-title
                           class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
@@ -419,10 +418,10 @@
                           required
                           label="Código do cupom"
                           variant="outlined"
-                          rounded="xl"
+                          rounded="lg"
                           color="blue"
                           density="comfortable"
-                          class="text-center"
+                          height="50"
                           @input="codigoCupom = codigoCupom.toUpperCase()"
                         ></v-text-field>
 
