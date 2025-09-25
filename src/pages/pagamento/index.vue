@@ -402,13 +402,17 @@
                   </v-card>
 
                   <v-card class="mt-5 py-10 d-flex flex-column justify-center">
-                    <v-card-title
-                      class="text-blue pa-0 mb-10 mx-5 text-subtitle-1 text-md-h6 text-center"
-                    >
-                      Adicionar cupom de desconto
-                    </v-card-title>
-                    <v-row class="mx-5 d-flex flex-column">
-                      <v-col class="pa-0" cols="12">
+                    <v-row class="mx-5 d-flex">
+                      <v-col
+                        class="pa-0 d-flex flex-column px-5"
+                        cols="12"
+                        lg="6"
+                      >
+                        <v-card-title
+                          class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
+                        >
+                          Adicionar cupom de desconto
+                        </v-card-title>
                         <v-text-field
                           v-model="codigoCupom"
                           required
@@ -419,17 +423,7 @@
                           class="text-center"
                           @input="codigoCupom = codigoCupom.toUpperCase()"
                         ></v-text-field>
-                      </v-col>
 
-                      <template v-if="cupom">
-                        <b class="text-green"
-                          >Desconto de
-                          {{ cupom?.porcentagem.toString().replace('.', ',') }}
-                          % aplicado!</b
-                        >
-                      </template>
-
-                      <v-col class="ma-0 pa-0 justify-center d-flex" cols="12">
                         <v-btn
                           class="text-lg-subtitle-1 text-subtitle-2"
                           size="x-large"
@@ -440,10 +434,201 @@
                         >
                           Validar Cupom
                         </v-btn>
+
+                        <template v-if="cupom">
+                          <b class="text-green text-center mt-3"
+                            >Desconto de
+                            {{
+                              cupom?.porcentagem.toString().replace('.', ',')
+                            }}
+                            % aplicado!</b
+                          >
+                        </template>
+                      </v-col>
+
+                      <v-col
+                        class="pa-0 d-flex flex-column px-5 mt-10 mt-md-0 justify-space-between"
+                        cols="12"
+                        lg="6"
+                      >
+                        <v-card-title
+                          class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
+                        >
+                          Endereço | Contato
+                        </v-card-title>
+
+                        <div class=""></div>
+
+                        <v-btn
+                          class="text-lg-subtitle-1 text-subtitle-2"
+                          size="x-large"
+                          color="blue"
+                          rounded="xl"
+                          @click="showModal = true"
+                        >
+                          CADASTRAR NOVO ENDEREÇO
+                        </v-btn>
                       </v-col>
                     </v-row>
                   </v-card>
                 </v-col>
+
+                <v-dialog v-model="showModal" width="750" min-height="600">
+                  <v-card class="bg-gray">
+                    <div
+                      class="d-flex justify-space-between align-center px-7 py-5"
+                      elevation-1
+                    >
+                      <v-card-title
+                        class="d-flex align-center ga-1 text-subtitle-1 text-md-h6 font-weight-black pa-0"
+                      >
+                        <v-icon size="28" color="blue"
+                          >mdi-map-marker-circle</v-icon
+                        >
+                        NOVO ENDEREÇO
+                      </v-card-title>
+
+                      <v-btn
+                        rounded="lg"
+                        variant="outlined"
+                        @click="showModal = false"
+                        icon="mdi-window-close"
+                        class="text-blue"
+                      ></v-btn>
+                    </div>
+
+                    <v-row class="d-flex px-10 py-5">
+                      <v-col class="pa-0" cols="12">
+                        <v-text-field
+                          required
+                          label="Rua*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0" cols="12">
+                        <v-text-field
+                          required
+                          label="Complemento*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0 pr-2" cols="6">
+                        <v-text-field
+                          required
+                          label="CEP*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0 pl-2" cols="6">
+                        <v-text-field
+                          required
+                          label="UF*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0 pr-2" cols="6">
+                        <v-text-field
+                          required
+                          label="Cidade*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0 pl-2" cols="6">
+                        <v-text-field
+                          required
+                          label="País*"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+
+                    <div
+                      class="d-flex justify-space-between align-center px-7"
+                      elevation-1
+                    >
+                      <v-card-title
+                        class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5"
+                      >
+                        <v-icon size="28" color="blue"
+                          >mdi-card-account-phone-outline</v-icon
+                        >
+                        CONTATO
+                      </v-card-title>
+                    </div>
+
+                    <v-row class="d-flex px-10 py-5">
+                      <v-col class="pa-0 pr-2" cols="12" md="4">
+                        <v-select
+                          v-model="mobile_phone.country_code"
+                          :items="paises"
+                          item-title="name"
+                          item-value="id"
+                          label="Código"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                          clearable
+                          placeholder="+55"
+                        >
+                          <template v-slot:selection="{ item }">
+                            +{{ item.raw.code }}
+                          </template>
+                        </v-select>
+                      </v-col>
+
+                      <v-col class="pa-0 px-2" cols="12" md="4">
+                        <v-text-field
+                          v-model="mobile_phone.area_code"
+                          required
+                          label="DDD"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                          type="number"
+                          placeholder="21"
+                        ></v-text-field>
+                      </v-col>
+
+                      <v-col class="pa-0 pl-2" cols="12" lg="4">
+                        <v-text-field
+                          v-model="mobile_phone.number"
+                          required
+                          label="Número"
+                          variant="outlined"
+                          rounded="lg"
+                          density="comfortable"
+                          color="blue"
+                          placeholder="9 9999-9999"
+                        ></v-text-field>
+                      </v-col>
+                    </v-row>
+                  </v-card>
+                </v-dialog>
 
                 <v-col class="ma-0 pa-0" cols="12" md="5" lg="4">
                   <v-card>
@@ -1414,6 +1599,23 @@ const onNumeroCartaoInput = (event) => {
   numeroCartao.value = formatted
 }
 
+const onTelefoneInput = (event) => {
+  const numbers = event.target.value.replace(/\D/g, '').substring(0, 9)
+  let formatted = numbers
+  if (numbers.length > 1) {
+    formatted = numbers.substring(0, 1) + ' ' + numbers.substring(1)
+  }
+  if (numbers.length > 5) {
+    formatted =
+      numbers.substring(0, 1) +
+      ' ' +
+      numbers.substring(1, 5) +
+      '-' +
+      numbers.substring(5)
+  }
+  mobile_phone.value.number = formatted
+}
+
 const requiredRule = [(v) => !!v || 'Campo obrigatório']
 
 const nomeRules = [
@@ -1432,8 +1634,6 @@ const cvvRules = [
 ]
 
 const codigoCupom = ref('')
-
-
 
 const irParaHome = async () => {
   await refreshUserData()
@@ -1478,6 +1678,32 @@ const valorTotal = computed(() => {
   }
   return valor
 })
+
+const showModal = ref(false)
+
+const mobile_phone = ref({
+  country_code: '',
+  area_code: '',
+  number: '',
+})
+
+const paises = [
+  { id: 'br', name: 'Brasil', code: '55' },
+  { id: 'us', name: 'Estados Unidos', code: '1' },
+  { id: 'gb', name: 'Reino Unido', code: '44' },
+  { id: 'jp', name: 'Japão', code: '81' },
+  { id: 'pt', name: 'Portugal', code: '351' },
+  { id: 'de', name: 'Alemanha', code: '49' },
+  { id: 'fr', name: 'França', code: '33' },
+  { id: 'it', name: 'Itália', code: '39' },
+  { id: 'es', name: 'Espanha', code: '34' },
+  { id: 'ca', name: 'Canadá', code: '1' },
+  { id: 'mx', name: 'México', code: '52' },
+  { id: 'cn', name: 'China', code: '86' },
+  { id: 'in', name: 'Índia', code: '91' },
+  { id: 'ru', name: 'Rússia', code: '7' },
+  { id: 'ar', name: 'Argentina', code: '54' },
+]
 </script>
 
 <style scoped>
