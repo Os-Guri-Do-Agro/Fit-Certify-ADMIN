@@ -640,56 +640,23 @@
                       </div>
 
                       <v-row class="d-flex px-10 pt-5">
-                        <v-col class="pa-0 pr-2" cols="12" md="4">
-                          <v-select
-                            v-model="mobile_phone.country_code"
-                            :items="paises"
-                            item-title="name"
-                            item-value="id"
-                            label="Código*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="requiredRule"
-                            validate-on="blur"
-                            placeholder="+55"
-                          >
-                            <template v-slot:selection="{ item }">
-                              +{{ item.raw.code }}
-                            </template>
-                          </v-select>
-                        </v-col>
-
-                        <v-col class="pa-0 px-2" cols="12" md="4">
+                        <v-col class="pa-0" cols="12">
+                          <p>
+                            TESTE:
+                            {{ numeroCelular.slice(4, 13) }}
+                          </p>
                           <v-text-field
-                            v-model="mobile_phone.area_code"
+                            v-model="mobile_phone.full_number"
                             required
-                            label="DDD*"
+                            label="Telefone Completo*"
                             variant="outlined"
                             rounded="lg"
                             density="comfortable"
                             color="blue"
-                            :rules="dddRules"
+                            :rules="telefoneCompletoRules"
                             validate-on="blur"
-                            maxlength="2"
-                            placeholder="21"
-                          ></v-text-field>
-                        </v-col>
-
-                        <v-col class="pa-0 pl-2" cols="12" lg="4">
-                          <v-text-field
-                            v-model="mobile_phone.number"
-                            required
-                            label="Número*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="telefoneRules"
-                            validate-on="blur"
-                            placeholder="9 9999-9999"
-                            @input="onTelefoneInput"
+                            placeholder="+55 (21) 9 9999-9999"
+                            @input="onTelefoneCompletoInput"
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -1528,11 +1495,9 @@ const handleNext = async (next) => {
         type: 'individual',
         document_type: 'CPF',
         phones: {
-          country_code: String(
-            paises.find((p) => p.id === mobile_phone.value.country_code)?.code
-          ),
-          area_code: String(mobile_phone.value.area_code),
-          number: String(mobile_phone.value.number_clean),
+          country_code: numeroCelular.value.slice(0, 2),
+          area_code: numeroCelular.value.slice(2, 4),
+          number: numeroCelular.value.slice(4, 13),
         },
       },
       card: {
@@ -1688,6 +1653,10 @@ const getBanco = (numero) => {
   return 'Banco'
 }
 
+const numeroCelular = computed(() => {
+  return mobile_phone.value.full_number.replace(/\D/g, '')
+})
+
 const formatNomeCartao = (nome) => {
   if (!nome) return 'Nome Sobrenome'
 
@@ -1719,23 +1688,42 @@ const onNumeroCartaoInput = (event) => {
   numeroCartao.value = formatted
 }
 
-const onTelefoneInput = (event) => {
-  const numbers = event.target.value.replace(/\D/g, '').substring(0, 9)
-  mobile_phone.value.number_clean = numbers
+const onTelefoneCompletoInput = (event) => {
+  const value = event.target.value
+  const numbers = value.replace(/\D/g, '')
 
-  let formatted = numbers
-  if (numbers.length > 1) {
-    formatted = numbers.substring(0, 1) + ' ' + numbers.substring(1)
-  }
-  if (numbers.length > 5) {
-    formatted =
-      numbers.substring(0, 1) +
+  // Assume formato brasileiro por padrão (+55)
+  if (numbers.length >= 13) {
+    const countryCode = numbers.substring(0, 2)
+    const areaCode = numbers.substring(2, 4)
+    const phoneNumber = numbers.substring(4, 13)
+
+    mobile_phone.value.country_code = 'br'
+    mobile_phone.value.area_code = areaCode
+    mobile_phone.value.number_clean = phoneNumber
+
+    // Formatar para exibição
+    let formatted = `+${countryCode} (${areaCode}) `
+    if (phoneNumber.length > 0) {
+      formatted += phoneNumber.substring(0, 1)
+    }
+    if (phoneNumber.length > 1) {
+      formatted += ' ' + phoneNumber.substring(1, 5)
+    }
+    if (phoneNumber.length > 5) {
+      formatted += '-' + phoneNumber.substring(5)
+    }
+
+    mobile_phone.value.full_number = formatted
+    mobile_phone.value.number =
+      phoneNumber.substring(0, 1) +
       ' ' +
-      numbers.substring(1, 5) +
+      phoneNumber.substring(1, 5) +
       '-' +
-      numbers.substring(5)
+      phoneNumber.substring(5)
+  } else {
+    mobile_phone.value.full_number = value
   }
-  mobile_phone.value.number = formatted
 }
 
 const requiredRule = [(v) => !!v || 'Campo obrigatório']
@@ -1820,6 +1808,7 @@ const mobile_phone = ref({
   area_code: '',
   number: '',
   number_clean: '',
+  full_number: '',
 })
 
 const paises = [
@@ -1855,10 +1844,15 @@ const dddRules = [
   (v) => v.length === 2 || 'DDD deve ter 2 dígitos',
 ]
 
-const telefoneRules = [
-  (v) => !!v || 'Número é obrigatório',
-  (v) =>
-    v.replace(/\D/g, '').length >= 8 || 'Número deve ter pelo menos 8 dígitos',
+const telefoneCompletoRules = [
+  (v) => !!v || 'Telefone é obrigatório',
+  (v) => {
+    const numbers = v.replace(/\D/g, '')
+    return (
+      numbers.length >= 13 ||
+      'Telefone deve ter formato completo: +55 (XX) 9 XXXX-XXXX'
+    )
+  },
 ]
 
 const onCepInput = (event) => {
