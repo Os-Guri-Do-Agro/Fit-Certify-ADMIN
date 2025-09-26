@@ -477,9 +477,7 @@
                               Contato:
                             </div>
                             <div class="text-body-2">
-                              +{{ getPaisCode(mobile_phone.country_code) }} ({{
-                                mobile_phone.area_code
-                              }}) {{ mobile_phone.number }}
+                              {{ mobile_phone.full_number }}
                             </div>
                           </v-card>
                         </div>
@@ -883,9 +881,7 @@
                           >
                             Celular:
                             <v-card-text class="text-caption">
-                              +{{ getPaisCode(mobile_phone.country_code) }} ({{
-                                mobile_phone.area_code
-                              }}) {{ mobile_phone.number }}
+                              {{ mobile_phone.full_number }}
                             </v-card-text>
                           </v-card-text>
                         </div>
@@ -1811,24 +1807,6 @@ const mobile_phone = ref({
   full_number: '',
 })
 
-const paises = [
-  { id: 'br', name: 'Brasil', code: '55' },
-  { id: 'us', name: 'Estados Unidos', code: '1' },
-  { id: 'gb', name: 'Reino Unido', code: '44' },
-  { id: 'jp', name: 'Japão', code: '81' },
-  { id: 'pt', name: 'Portugal', code: '351' },
-  { id: 'de', name: 'Alemanha', code: '49' },
-  { id: 'fr', name: 'França', code: '33' },
-  { id: 'it', name: 'Itália', code: '39' },
-  { id: 'es', name: 'Espanha', code: '34' },
-  { id: 'ca', name: 'Canadá', code: '1' },
-  { id: 'mx', name: 'México', code: '52' },
-  { id: 'cn', name: 'China', code: '86' },
-  { id: 'in', name: 'Índia', code: '91' },
-  { id: 'ru', name: 'Rússia', code: '7' },
-  { id: 'ar', name: 'Argentina', code: '54' },
-]
-
 const cepRules = [
   (v) => !!v || 'CEP é obrigatório',
   (v) => v.replace(/\D/g, '').length === 8 || 'CEP deve ter 8 dígitos',
@@ -1867,11 +1845,6 @@ const onCepInput = (event) => {
 }
 
 const enderecoSalvo = ref(false)
-
-const getPaisCode = (countryId) => {
-  const pais = paises.find((p) => p.id === countryId)
-  return pais ? pais.code : '55'
-}
 
 const onUfInput = (event) => {
   const value = event.target.value.toUpperCase().substring(0, 2)
