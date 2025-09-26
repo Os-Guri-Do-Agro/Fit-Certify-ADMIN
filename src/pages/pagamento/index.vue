@@ -1807,6 +1807,10 @@ const mobile_phone = ref({
 const cepRules = [
   (v) => !!v || 'CEP é obrigatório',
   (v) => v.replace(/\D/g, '').length === 8 || 'CEP deve ter 8 dígitos',
+  (v) => {
+    const numbers = v.replace(/\D/g, '')
+    return numbers !== '00000000' || 'CEP inválido'
+  }
 ]
 
 const ufRules = [
@@ -1887,12 +1891,32 @@ const onPaisInput = (event) => {
 
 const salvarEndereco = async () => {
   const { valid } = await enderecoFormRef.value.validate()
-  if (valid) {
+  if (!valid) {
+    toast.error('Preencha todos os campos obrigatórios')
+    return
+  }
+
+  // Validar CEP antes de salvar
+  const cepOnlyDigits = endereco.value.cep.replace(/\D/g, '')
+  if (cepOnlyDigits.length !== 8) {
+    toast.error('CEP inválido. Use 8 dígitos.')
+    return
+  }
+
+  try {
+    const response = await fetch(`https://viacep.com.br/ws/${cepOnlyDigits}/json/`)
+    const data = await response.json()
+
+    if (!response.ok || data?.erro) {
+      toast.error('CEP não encontrado. Verifique o CEP informado.')
+      return
+    }
+
     enderecoSalvo.value = true
     toast.success('Endereço salvo com sucesso!')
     showModal.value = false
-  } else {
-    toast.error('Preencha todos os campos obrigatórios')
+  } catch (error) {
+    toast.error('Erro ao validar CEP. Tente novamente.')
   }
 }
 </script>
