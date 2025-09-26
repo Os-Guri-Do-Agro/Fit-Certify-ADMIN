@@ -1529,7 +1529,7 @@ const handleNext = async (next) => {
     await pagarmeService
       .realizarAssinatura(data)
       .then(async (resp) => {
-        if (resp?.success) {
+        if (resp?.success && resp?.data?.status == 'active') {
           toast.success('Pagamento realizado com sucesso!')
           await refreshUserData()
           next()
