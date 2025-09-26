@@ -570,6 +570,7 @@
                             maxlength="9"
                             class="mb-2"
                             @input="onCepInput"
+                            @blur="preencherCep"
                           ></v-text-field>
                         </v-col>
 
@@ -639,10 +640,6 @@
 
                       <v-row class="d-flex px-10 pt-5">
                         <v-col class="pa-0" cols="12">
-                          <p>
-                            TESTE:
-                            {{ numeroCelular.slice(4, 13) }}
-                          </p>
                           <v-text-field
                             v-model="mobile_phone.full_number"
                             required
@@ -1832,6 +1829,38 @@ const telefoneCompletoRules = [
     )
   },
 ]
+
+const preencherCep = async () => {
+  try {
+    const cepOnlyDigits = endereco.value.cep.replace(/\D/g, '')
+
+    if (cepOnlyDigits.length !== 8) {
+      toast.error('CEP inválido. Use 8 dígitos.')
+      return
+    }
+
+    const response = await fetch(
+      `https://viacep.com.br/ws/${cepOnlyDigits}/json/`
+    )
+    const data = await response.json()
+
+    if (!response.ok || data?.erro) {
+      toast.error('CEP não encontrado no ViaCEP.')
+      return
+    }
+
+    endereco.value = {
+      ...endereco.value,
+      rua: data?.logradouro || '',
+      complemento: data?.complemento || '',
+      cidade: data?.localidade || '',
+      uf: data?.uf || '',
+      pais: 'BR',
+    }
+  } catch (error) {
+    toast.error('Erro ao buscar CEP. Tente novamente.')
+  }
+}
 
 const onCepInput = (event) => {
   const numbers = event.target.value.replace(/\D/g, '').substring(0, 8)
