@@ -23,10 +23,14 @@
       <v-row v-else-if="paciente">
         <v-col cols="12" md="5">
           <v-card rounded="lg" variant="outlined" color="blue">
-            <div class="bg-blue pa-4 d-flex justify-space-between align-center">
-              <div class="mr-1">
-                <v-card-title class="text-white pa-0 text-subtitle-1">
-                  <v-icon class="mr-2">mdi-account</v-icon>
+            <div
+              class="bg-blue pa-4 d-flex flex-column flex-md-row ga-2 justify-space-between align-center"
+            >
+              <div class="">
+                <v-card-title
+                  class="text-white pa-0 text-subtitle-1 d-flex align-center flex-column flex-md-row"
+                >
+                  <v-icon class="mr-md-2">mdi-account</v-icon>
                   Informações Pessoais
                 </v-card-title>
               </div>
@@ -192,7 +196,11 @@
 
                     <template #append>
                       <div class="d-flex align-center ga-2">
-                        <v-chip size="small" variant="outlined">
+                        <v-chip
+                          size="small"
+                          variant="outlined"
+                          class="d-none d-sm-flex"
+                        >
                           {{ formatarData(item.data) }}
                         </v-chip>
                         <v-btn
