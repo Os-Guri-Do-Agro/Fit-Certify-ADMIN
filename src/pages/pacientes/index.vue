@@ -246,7 +246,10 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
+
+const router = useRouter()
 
 const headers = [
   { title: 'Perfil', key: 'usuario.avatarUrl' },
@@ -305,7 +308,7 @@ const editarPaciente = (paciente) => {
 }
 
 const verInformacoes = (paciente) => {
-  console.log('Ver informações do paciente:', paciente)
+  router.push(`/detalhesPaciente?id=${paciente.id}`)
 }
 </script>
 
