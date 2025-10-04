@@ -82,6 +82,26 @@
         </span>
 
         <v-list style="text-align: center" v-model:opened="open">
+          <v-list-group prepend-icon="mdi mdi-account-group-outline">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                title="Pacientes"
+                icon="mdi mdi-account-group-outline"
+              ></v-list-item>
+            </template>
+            <v-list-item
+              v-for="items in pacienteItems"
+              :key="items.value"
+              :prepend-icon="items.icon"
+              :title="items.title"
+              :value="items.value"
+              :to="items.to"
+            ></v-list-item>
+          </v-list-group>
+        </v-list>
+
+        <v-list style="text-align: center" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -160,10 +180,25 @@ const payload = ref<any>()
 
 const contaItems = [
   {
-    icon: 'mdi mdi-account-circle',
+    icon: 'mdi-account-circle',
     title: 'Perfil',
     value: 'dashboard',
     to: '/perfil',
+  },
+]
+
+const pacienteItems = [
+  {
+    icon: 'mdi-clipboard-text-search-outline',
+    title: 'Lista de Pacientes',
+    value: 'lista de pacientes',
+    to: '/pacientes',
+  },
+  {
+    icon: 'mdi-pin-outline ',
+    title: 'Salvos',
+    value: 'salvos',
+    to: '/pacientessalvos',
   },
 ]
 

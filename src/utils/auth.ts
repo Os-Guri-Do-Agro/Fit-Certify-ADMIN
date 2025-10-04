@@ -1,4 +1,4 @@
-import atletaService from "@/services/atleta/atleta-service"
+import atletaService from '@/services/atleta/atleta-service'
 
 export const isTokenValid = (): boolean => {
   const token = sessionStorage.getItem('token')
@@ -30,31 +30,36 @@ export const checkAuthAndRedirect = () => {
 }
 
 export const getPayload = () => {
-  const token = sessionStorage.getItem('token');
+  const token = sessionStorage.getItem('token')
 
-  if (!token) return false;
+  if (!token) return false
 
   try {
-    const base64 = token.split('.')[1];
+    const base64 = token.split('.')[1]
     const jsonPayload = decodeURIComponent(
       atob(base64)
         .split('')
-        .map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
         .join('')
-    );
+    )
 
-    const payload = JSON.parse(jsonPayload);
+    const payload = JSON.parse(jsonPayload)
 
-    return payload;
+    return payload
   } catch (error) {
-    console.log(error);
-    return false;
+    console.log(error)
+    return false
   }
-};
+}
 
 export const atletaTemPlano = () => {
   const payload = getPayload()
   return payload?.role == 'atleta' && payload?.user?.atleta?.planoId
+}
+
+export const medicoLogin = () => {
+  const payload = getPayload()
+  return payload?.role == 'medico'
 }
 
 export const updateUserPlan = async (planoId: string) => {
@@ -70,7 +75,7 @@ export const updateUserPlan = async (planoId: string) => {
             planoId: planoId,
           },
         },
-      };
+      }
 
       // Update token in sessionStorage with new plan data
       const token = sessionStorage.getItem('token')
@@ -82,25 +87,27 @@ export const updateUserPlan = async (planoId: string) => {
       }
     }
   } catch (error) {
-    console.error('Erro ao atualizar plano:', error);
+    console.error('Erro ao atualizar plano:', error)
   }
-};
+}
 
 export const refreshUserData = async () => {
   try {
     const userData = getPayload()
     if (userData?.user?.atleta?.id) {
       // TODO: Implement atletaService.getAtletaById call
-      const response = await atletaService.getAtletaById(userData.user.atleta.id);
+      const response = await atletaService.getAtletaById(
+        userData.user.atleta.id
+      )
       if (response.success && response.data.planoId) {
-        await updateUserPlan(response.data.planoId);
+        await updateUserPlan(response.data.planoId)
       }
     }
   } catch (error) {
-    console.error('Erro ao atualizar dados do usuário:', error);
+    console.error('Erro ao atualizar dados do usuário:', error)
   }
-};
+}
 
-export const getToken =() => {
+export const getToken = () => {
   return sessionStorage.getItem('token')
 }
