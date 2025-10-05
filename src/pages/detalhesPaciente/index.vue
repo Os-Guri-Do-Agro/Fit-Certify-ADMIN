@@ -14,7 +14,16 @@
         <h1 class="text-h5 font-weight-bold">Detalhes do Paciente</h1>
       </div>
 
-      <v-row v-if="loading" justify="center">
+      <v-row v-if="loading">
+        <v-col cols="12" md="5">
+          <v-skeleton-loader type="card" />
+        </v-col>
+        <v-col cols="12" md="7">
+          <v-skeleton-loader type="card" />
+        </v-col>
+        <v-col cols="12">
+          <v-skeleton-loader type="card" />
+        </v-col>
         <v-col cols="12">
           <v-skeleton-loader type="card" />
         </v-col>
@@ -119,7 +128,7 @@
                   <div class="mb-3">
                     <strong class="text-black">Telefone:</strong>
                     <span class="text-black ml-1">{{
-                      paciente.telefone || 'N/A'
+                      formatarTelefone(paciente.telefone) || 'N/A'
                     }}</span>
                   </div>
                   <div class="mb-3">
@@ -141,7 +150,7 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="!loading && paciente">
         <v-col cols="12" md="12">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div
@@ -169,29 +178,23 @@
               <v-card-text v-show="historicoMedicoExpanded" class="pa-0">
                 <v-list>
                   <v-list-item
-                    v-for="(item, index) in historicoMedico"
+                    v-for="(item, index) in consultas"
                     :key="index"
                     class="px-4 py-2 cursor-pointer list-item-hover"
                     @click="abrirModalExame(item)"
                   >
                     <template #prepend>
-                      <v-icon
-                        :color="item.tipo === 'consulta' ? 'blue' : 'green'"
-                      >
-                        {{
-                          item.tipo === 'consulta'
-                            ? 'mdi-stethoscope'
-                            : 'mdi-pill'
-                        }}
+                      <v-icon color="blue">
+                        mdi-stethoscope
                       </v-icon>
                     </template>
 
                     <v-list-item-title class="font-weight-medium">
-                      {{ item.medico.nome }}
+                      {{ item.medico?.usuario?.nome || 'Médico não informado' }}
                     </v-list-item-title>
 
                     <v-list-item-subtitle>
-                      {{ item.medico.especializacao }}
+                      {{ item.medico?.especializacao || 'Especialização não informada' }}
                     </v-list-item-subtitle>
 
                     <template #append>
@@ -201,7 +204,7 @@
                           variant="outlined"
                           class="d-none d-sm-flex"
                         >
-                          {{ formatarData(item.data) }}
+                          {{ formatarData(item.createdAt) }}
                         </v-chip>
                         <v-btn
                           :icon="
@@ -217,7 +220,7 @@
                   </v-list-item>
 
                   <v-list-item
-                    v-if="historicoMedico.length === 0"
+                    v-if="consultas.length === 0"
                     class="text-center py-8"
                   >
                     <v-list-item-title class="text-grey">
@@ -231,7 +234,7 @@
         </v-col>
       </v-row>
 
-      <v-row>
+      <v-row v-if="!loading && paciente">
         <v-col cols="12" md="12">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div
@@ -305,8 +308,8 @@
               ? 'mdi-stethoscope'
               : 'mdi-pill'
           }}</v-icon>
-          {{ exameSelecionado.medico.nome }} -
-          {{ exameSelecionado.medico.especializacao }}
+          {{ exameSelecionado.medico?.usuario?.nome || 'Médico' }} -
+          {{ exameSelecionado.medico?.especializacao || 'Especialização' }}
         </v-card-title>
 
         <v-card-text class="pa-0">
@@ -318,7 +321,7 @@
                   <div>
                     <div class="text-caption text-grey">Data da Consulta</div>
                     <div class="font-weight-medium">
-                      {{ formatarData(exameSelecionado.data) }}
+                      {{ formatarData(exameSelecionado.createdAt) }}
                     </div>
                   </div>
                 </div>
@@ -340,7 +343,7 @@
                   <div>
                     <div class="text-caption text-grey">Tipo</div>
                     <div class="font-weight-medium text-capitalize">
-                      {{ exameSelecionado.tipo }}
+                      Consulta
                     </div>
                   </div>
                 </div>
@@ -363,47 +366,27 @@
           </div>
 
           <div
-            v-if="exameSelecionado.medicamentos?.length"
+            v-if="exameSelecionado.medicamentosReceitados"
             class="pa-4 border-b"
           >
             <div class="d-flex align-start">
               <v-icon color="green" class="mr-2 mt-1">mdi-pill</v-icon>
               <div class="flex-grow-1">
-                <div class="text-subtitle-2 mb-3">Medicamentos Receitados</div>
-                <div class="d-flex flex-column ga-2">
-                  <v-card
-                    v-for="(medicamento, idx) in exameSelecionado.medicamentos"
-                    :key="idx"
-                    variant="outlined"
-                    class="pa-3"
-                  >
-                    <div class="d-flex align-center">
-                      <v-icon color="green" size="small" class="mr-2"
-                        >mdi-pill</v-icon
-                      >
-                      <div class="flex-grow-1">
-                        <div class="font-weight-medium text-body-2">
-                          {{ medicamento.nome }}
-                        </div>
-                        <div class="text-caption text-grey">
-                          {{ medicamento.dosagem }} •
-                          {{ medicamento.frequencia }}
-                        </div>
-                      </div>
-                    </div>
-                  </v-card>
-                </div>
+                <div class="text-subtitle-2 mb-2">Medicamentos Receitados</div>
+                <p class="text-body-2 mb-0">
+                  {{ exameSelecionado.medicamentosReceitados }}
+                </p>
               </div>
             </div>
           </div>
 
-          <div v-if="exameSelecionado.observacoes" class="pa-4">
+          <div v-if="exameSelecionado.situacao" class="pa-4">
             <div class="d-flex align-start">
               <v-icon color="purple" class="mr-2 mt-1">mdi-note-text</v-icon>
               <div class="flex-grow-1">
-                <div class="text-subtitle-2 mb-2">Observações</div>
+                <div class="text-subtitle-2 mb-2">Situação</div>
                 <p class="text-body-2 mb-0">
-                  {{ exameSelecionado.observacoes }}
+                  {{ exameSelecionado.situacao }}
                 </p>
               </div>
             </div>
@@ -413,7 +396,7 @@
         <v-card-actions class="pa-4">
           <v-spacer />
           <v-btn
-            :color="exameSelecionado.tipo === 'consulta' ? 'blue' : 'green'"
+            color="blue"
             variant="outlined"
             @click="modalExame = false"
           >
@@ -429,6 +412,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
+import consultasService from '@/services/consultas/consultas-service'
 
 const router = useRouter()
 const route = useRoute()
@@ -439,6 +423,7 @@ const historicoMedicoExpanded = ref(false)
 const alergiasExpanded = ref(true)
 const modalExame = ref(false)
 const exameSelecionado = ref(null)
+const consultas = ref([])
 
 const alergias = ref([
   {
@@ -458,73 +443,7 @@ const alergias = ref([
   },
 ])
 
-const historicoMedico = ref([
-  {
-    tipo: 'consulta',
-    titulo: 'Consulta Cardiológica',
-    descricao: 'Avaliação cardiovascular de rotina - Resultados normais',
-    data: '2024-01-15',
-    medico: {
-      nome: 'Dr. Carlos Silva',
-      especializacao: 'Cardiologista',
-    },
-    favorito: false,
-    diagnostico:
-      'Função cardiovascular dentro dos parâmetros normais. Pressão arterial controlada.',
-    medicamentos: [
-      {
-        nome: 'Atenolol 25mg',
-        dosagem: '1 comprimido',
-        frequencia: '1x ao dia',
-      },
-      { nome: 'AAS 100mg', dosagem: '1 comprimido', frequencia: '1x ao dia' },
-    ],
-    observacoes:
-      'Manter atividade física regular e dieta balanceada. Retorno em 6 meses.',
-  },
-  {
-    tipo: 'exame',
-    titulo: 'Exame de Sangue',
-    descricao: 'Hemograma completo - Todos os valores dentro da normalidade',
-    data: '2024-01-10',
-    medico: {
-      nome: 'Dra. Ana Costa',
-      especializacao: 'Clínica Geral',
-    },
-    favorito: true,
-    diagnostico:
-      'Hemograma completo sem alterações. Níveis de colesterol e glicose normais.',
-    medicamentos: [],
-    observacoes: 'Manter hábitos saudáveis. Próximo exame em 1 ano.',
-  },
-  {
-    tipo: 'consulta',
-    titulo: 'Consulta Ortopédica',
-    descricao: 'Avaliação de lesão no joelho - Recomendado fisioterapia',
-    data: '2023-12-20',
-    medico: {
-      nome: 'Dr. Roberto Lima',
-      especializacao: 'Ortopedista',
-    },
-    favorito: false,
-    diagnostico:
-      'Lesão leve no menisco medial. Processo inflamatório controlado.',
-    medicamentos: [
-      {
-        nome: 'Ibuprofeno 600mg',
-        dosagem: '1 comprimido',
-        frequencia: '3x ao dia por 7 dias',
-      },
-      {
-        nome: 'Glucosamina 1500mg',
-        dosagem: '1 cápsula',
-        frequencia: '1x ao dia',
-      },
-    ],
-    observacoes:
-      'Fisioterapia 3x por semana. Evitar impacto por 30 dias. Retorno em 1 mês.',
-  },
-])
+
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return 'N/A'
@@ -541,6 +460,17 @@ const calcularIdade = (dataNascimento) => {
 const formatarData = (data) => {
   if (!data) return 'N/A'
   return new Date(data).toLocaleDateString('pt-BR')
+}
+
+const formatarTelefone = (telefone) => {
+  if (!telefone) return null
+  const numero = telefone.replace(/\D/g, '')
+  if (numero.length === 11) {
+    return numero.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+  } else if (numero.length === 10) {
+    return numero.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+  }
+  return telefone
 }
 
 const voltarParaLista = () => {
@@ -562,6 +492,26 @@ const abrirModalExame = (item) => {
 
 const toggleFavorito = (item) => {
   item.favorito = !item.favorito
+}
+
+const findAllConsultas = async (id) => {
+  try {
+    const response = await consultasService.getConsultasByAtletaId(id)
+    console.log('Consultas carregadas:', response)
+    if (response && response.data) {
+      consultas.value = response.data
+    } else {
+      consultas.value = response
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      console.log('Nenhuma consulta encontrada para este atleta')
+      consultas.value = []
+    } else {
+      console.error('Erro ao buscar consultas:', error)
+      consultas.value = []
+    }
+  }
 }
 
 const buscarPaciente = async (id) => {
@@ -587,14 +537,15 @@ const buscarPaciente = async (id) => {
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   const pacienteId = route.params.id || route.query.id
   console.log('ID do paciente:', pacienteId)
   console.log('Route params:', route.params)
   console.log('Route query:', route.query)
 
   if (pacienteId) {
-    buscarPaciente(pacienteId)
+    await buscarPaciente(pacienteId)
+    await findAllConsultas(pacienteId)
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false
