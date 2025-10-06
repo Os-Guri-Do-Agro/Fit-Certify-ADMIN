@@ -159,6 +159,7 @@
               </v-col>
               <v-col cols="auto">
                 <v-text-field
+                  v-model="busca"
                   class="white-input"
                   bg-color="white"
                   variant="outlined"
@@ -173,7 +174,7 @@
 
             <v-data-table
               :headers="headers"
-              :items="atleta"
+              :items="pacientesFiltrados"
               :loading="loading"
               class="blue-header font-weight-bold"
               item-height="80"
@@ -209,18 +210,18 @@
                   </v-btn>
 
                   <v-btn
-                    :color="item.favorito ? 'amber-darken-1' : 'grey-lighten-1'"
-                    :variant="item.favorito ? 'flat' : 'outlined'"
+                    :color="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'amber-darken-1' : 'grey-lighten-1'"
+                    :variant="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'flat' : 'outlined'"
                     size="small"
                     icon
                     rounded="lg"
-                    @click="toggleFavorito(item)"
+                    @click="toggleSalvo(item)"
                   >
                     <v-icon
                       size="16"
-                      :color="item.favorito ? 'white' : 'grey-darken-2'"
+                      :color="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'white' : 'grey-darken-2'"
                     >
-                      {{ item.favorito ? 'mdi-pin' : 'mdi-pin-outline' }}
+                      {{ pacientesSalvosStore.isPacienteSalvo(item.id) ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
                     </v-icon>
                   </v-btn>
 
@@ -245,11 +246,13 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
+import { usePacientesSalvosStore } from '@/stores/pacientesSalvos'
 
 const router = useRouter()
+const pacientesSalvosStore = usePacientesSalvosStore()
 
 const headers = [
   { title: 'Perfil', key: 'usuario.avatarUrl' },
@@ -266,6 +269,16 @@ const headers = [
 
 const atleta = ref([])
 const loading = ref(true)
+const busca = ref('')
+
+const pacientesFiltrados = computed(() => {
+  if (!busca.value) {
+    return atleta.value
+  }
+  return atleta.value.filter(paciente => 
+    paciente.usuario.nome.toLowerCase().includes(busca.value.toLowerCase())
+  )
+})
 
 const calcularIdade = (dataNascimento) => {
   const hoje = new Date()
@@ -286,11 +299,13 @@ const buscarAtletas = async () => {
   try {
     loading.value = true
     const response = await atletaService.getAllAtletas()
-    atleta.value = response.data.map((item) => ({
-      ...item,
-      idade: calcularIdade(item.dataNascimento),
-      favorito: false,
-    }))
+    atleta.value = response.data
+      .map((item) => ({
+        ...item,
+        idade: calcularIdade(item.dataNascimento),
+        favorito: false,
+      }))
+      .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
   } catch (error) {
     console.error('Erro ao buscar atletas:', error)
   } finally {
@@ -298,9 +313,8 @@ const buscarAtletas = async () => {
   }
 }
 
-const toggleFavorito = (paciente) => {
-  paciente.favorito = !paciente.favorito
-  console.log('Favorito alterado:', paciente)
+const toggleSalvo = (paciente) => {
+  pacientesSalvosStore.togglePacienteSalvo(paciente)
 }
 
 const editarPaciente = (paciente) => {
