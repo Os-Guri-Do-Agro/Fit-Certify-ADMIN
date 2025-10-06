@@ -184,9 +184,7 @@
                     @click="abrirModalExame(item)"
                   >
                     <template #prepend>
-                      <v-icon color="blue">
-                        mdi-stethoscope
-                      </v-icon>
+                      <v-icon color="blue"> mdi-stethoscope </v-icon>
                     </template>
 
                     <v-list-item-title class="font-weight-medium">
@@ -194,7 +192,10 @@
                     </v-list-item-title>
 
                     <v-list-item-subtitle>
-                      {{ item.medico?.especializacao || 'Especialização não informada' }}
+                      {{
+                        item.medico?.especializacao ||
+                        'Especialização não informada'
+                      }}
                     </v-list-item-subtitle>
 
                     <template #append>
@@ -257,38 +258,46 @@
             <v-expand-transition>
               <v-card-text v-show="alergiasExpanded" class="pa-0">
                 <v-list>
-                  <v-list-item
-                    v-for="(alergia, index) in alergias"
-                    :key="index"
-                    class="px-4 py-2"
-                  >
-                    <template #prepend>
-                      <v-icon color="blue">mdi-alert-circle</v-icon>
-                    </template>
+                  <template v-if="loadingAlergias">
+                    <v-list-item v-for="n in 3" :key="n" class="px-4 py-2">
+                      <v-skeleton-loader type="list-item-two-line" />
+                    </v-list-item>
+                  </template>
 
-                    <v-list-item-title class="font-weight-medium">
-                      {{ alergia.nome }}
-                    </v-list-item-title>
+                  <template v-else>
+                    <v-list-item
+                      v-for="(alergia, index) in alergias"
+                      :key="index"
+                      class="px-4 py-2"
+                    >
+                      <template #prepend>
+                        <v-icon color="blue">mdi-alert-circle</v-icon>
+                      </template>
 
-                    <v-list-item-subtitle>
-                      {{ alergia.sintomas }}
-                    </v-list-item-subtitle>
+                      <v-list-item-title class="font-weight-medium">
+                        {{ alergia.titulo || 'Alergia sem título' }}
+                      </v-list-item-title>
 
-                    <template #append>
-                      <v-chip size="small" variant="outlined">
-                        {{ formatarData(alergia.dataAdicionada) }}
-                      </v-chip>
-                    </template>
-                  </v-list-item>
+                      <v-list-item-subtitle>
+                        {{ alergia.descricao || 'Sem descrição' }}
+                      </v-list-item-subtitle>
 
-                  <v-list-item
-                    v-if="alergias.length === 0"
-                    class="text-center py-8"
-                  >
-                    <v-list-item-title class="text-grey">
-                      Nenhuma alergia registrada
-                    </v-list-item-title>
-                  </v-list-item>
+                      <template #append>
+                        <v-chip size="small" variant="outlined">
+                          {{ formatarData(alergia.createdAt) }}
+                        </v-chip>
+                      </template>
+                    </v-list-item>
+
+                    <v-list-item
+                      v-if="alergias.length === 0"
+                      class="text-center py-8"
+                    >
+                      <v-list-item-title class="text-grey">
+                        Nenhuma alergia registrada
+                      </v-list-item-title>
+                    </v-list-item>
+                  </template>
                 </v-list>
               </v-card-text>
             </v-expand-transition>
@@ -358,7 +367,10 @@
               >
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Diagnóstico</div>
-                <p class="text-body-2 mb-0">
+                <p
+                  class="text-body-2 mb-0"
+                  style="word-break: break-word; overflow-wrap: break-word"
+                >
                   {{ exameSelecionado.diagnostico }}
                 </p>
               </div>
@@ -373,7 +385,10 @@
               <v-icon color="green" class="mr-2 mt-1">mdi-pill</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Medicamentos Receitados</div>
-                <p class="text-body-2 mb-0">
+                <p
+                  class="text-body-2 mb-0"
+                  style="word-break: break-word; overflow-wrap: break-word"
+                >
                   {{ exameSelecionado.medicamentosReceitados }}
                 </p>
               </div>
@@ -385,7 +400,10 @@
               <v-icon color="purple" class="mr-2 mt-1">mdi-note-text</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Situação</div>
-                <p class="text-body-2 mb-0">
+                <p
+                  class="text-body-2 mb-0"
+                  style="word-break: break-word; overflow-wrap: break-word"
+                >
                   {{ exameSelecionado.situacao }}
                 </p>
               </div>
@@ -395,11 +413,7 @@
 
         <v-card-actions class="pa-4">
           <v-spacer />
-          <v-btn
-            color="blue"
-            variant="outlined"
-            @click="modalExame = false"
-          >
+          <v-btn color="blue" variant="outlined" @click="modalExame = false">
             Fechar
           </v-btn>
         </v-card-actions>
@@ -413,6 +427,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
+import alergiasService from '@/services/alergias/alergias-service'
 
 const router = useRouter()
 const route = useRoute()
@@ -424,26 +439,8 @@ const alergiasExpanded = ref(true)
 const modalExame = ref(false)
 const exameSelecionado = ref(null)
 const consultas = ref([])
-
-const alergias = ref([
-  {
-    nome: 'Penicilina',
-    sintomas: 'Erupção cutânea, coceira, inchaço',
-    dataAdicionada: '2023-05-15',
-  },
-  {
-    nome: 'Amendoim',
-    sintomas: 'Dificuldade respiratória, inchaço na garganta',
-    dataAdicionada: '2022-08-20',
-  },
-  {
-    nome: 'Látex',
-    sintomas: 'Irritação na pele, vermelhidão',
-    dataAdicionada: '2024-01-10',
-  },
-])
-
-
+const alergias = ref([])
+const loadingAlergias = ref(true)
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return 'N/A'
@@ -497,7 +494,6 @@ const toggleFavorito = (item) => {
 const findAllConsultas = async (id) => {
   try {
     const response = await consultasService.getConsultasByAtletaId(id)
-    console.log('Consultas carregadas:', response)
     if (response && response.data) {
       consultas.value = response.data
     } else {
@@ -514,20 +510,38 @@ const findAllConsultas = async (id) => {
   }
 }
 
+const findAllAlergias = async () => {
+  try {
+    loadingAlergias.value = true
+    const response = await alergiasService.getAlergiaAtletaId(paciente.value.id)
+    if (response && response.data) {
+      alergias.value = response.data
+    } else {
+      alergias.value = response
+    }
+  } catch (error) {
+    if (error.response?.status === 404) {
+      console.log('Nenhuma alergia encontrada para este atleta')
+      alergias.value = []
+    } else {
+      console.error('Erro ao buscar alergias:', error)
+      alergias.value = []
+    }
+  } finally {
+    loadingAlergias.value = false
+  }
+}
+
 const buscarPaciente = async (id) => {
   try {
     loading.value = true
-    console.log('Buscando paciente com ID:', id)
     const response = await atletaService.getAtletaById(id)
-    console.log('Resposta completa da API:', response)
 
     if (response && response.data) {
       paciente.value = response.data
     } else {
       paciente.value = response
     }
-
-    console.log('Paciente final carregado:', paciente.value)
   } catch (error) {
     console.error('Erro ao buscar paciente:', error)
     console.error('Detalhes do erro:', error.response || error)
@@ -539,13 +553,11 @@ const buscarPaciente = async (id) => {
 
 onMounted(async () => {
   const pacienteId = route.params.id || route.query.id
-  console.log('ID do paciente:', pacienteId)
-  console.log('Route params:', route.params)
-  console.log('Route query:', route.query)
 
   if (pacienteId) {
     await buscarPaciente(pacienteId)
     await findAllConsultas(pacienteId)
+    await findAllAlergias()
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false
