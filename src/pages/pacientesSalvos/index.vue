@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-grey-lighten-4 h-100 w-100">
+  <div class="h-100 w-100">
     <v-container fluid class="">
       <v-row class="">
         <v-col cols="12">
@@ -19,7 +19,19 @@
                     >Pacientes Salvos</span
                   >
                   <span class="text-caption text-amber-lighten-4"
-                    >{{ pacientesSalvosStore.pacientesSalvos.length }} paciente{{ pacientesSalvosStore.pacientesSalvos.length !== 1 ? 's' : '' }} salvo{{ pacientesSalvosStore.pacientesSalvos.length !== 1 ? 's' : '' }}</span
+                    >{{
+                      pacientesSalvosStore.pacientesSalvos.length
+                    }}
+                    paciente{{
+                      pacientesSalvosStore.pacientesSalvos.length !== 1
+                        ? 's'
+                        : ''
+                    }}
+                    salvo{{
+                      pacientesSalvosStore.pacientesSalvos.length !== 1
+                        ? 's'
+                        : ''
+                    }}</span
                   >
                 </div>
               </v-col>

@@ -210,8 +210,16 @@
                   </v-btn>
 
                   <v-btn
-                    :color="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'amber-darken-1' : 'grey-lighten-1'"
-                    :variant="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'flat' : 'outlined'"
+                    :color="
+                      pacientesSalvosStore.isPacienteSalvo(item.id)
+                        ? 'amber-darken-1'
+                        : 'grey-lighten-1'
+                    "
+                    :variant="
+                      pacientesSalvosStore.isPacienteSalvo(item.id)
+                        ? 'flat'
+                        : 'outlined'
+                    "
                     size="small"
                     icon
                     rounded="lg"
@@ -219,9 +227,17 @@
                   >
                     <v-icon
                       size="16"
-                      :color="pacientesSalvosStore.isPacienteSalvo(item.id) ? 'white' : 'grey-darken-2'"
+                      :color="
+                        pacientesSalvosStore.isPacienteSalvo(item.id)
+                          ? 'white'
+                          : 'grey-darken-2'
+                      "
                     >
-                      {{ pacientesSalvosStore.isPacienteSalvo(item.id) ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
+                      {{
+                        pacientesSalvosStore.isPacienteSalvo(item.id)
+                          ? 'mdi-bookmark'
+                          : 'mdi-bookmark-outline'
+                      }}
                     </v-icon>
                   </v-btn>
 
@@ -275,7 +291,7 @@ const pacientesFiltrados = computed(() => {
   if (!busca.value) {
     return atleta.value
   }
-  return atleta.value.filter(paciente => 
+  return atleta.value.filter((paciente) =>
     paciente.usuario.nome.toLowerCase().includes(busca.value.toLowerCase())
   )
 })
