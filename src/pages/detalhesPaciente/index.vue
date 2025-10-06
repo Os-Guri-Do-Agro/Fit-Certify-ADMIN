@@ -168,7 +168,7 @@
                 >
                 <v-card-title
                   class="text-white text-subtitle-2 text-md-subtitle-1 pa-0"
-                  >Adicionar Consultas e Exames</v-card-title
+                  >Adicionar Consultas</v-card-title
                 >
               </div>
               <div class="">
