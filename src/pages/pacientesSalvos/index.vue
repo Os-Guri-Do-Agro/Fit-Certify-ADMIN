@@ -6,10 +6,10 @@
           <v-card
             rounded="lg"
             variant="outlined"
-            color="amber"
+            color="blue"
             class="pa-0 ma-0"
           >
-            <v-row no-gutters class="pa-5 bg-amber" justify="space-between">
+            <v-row no-gutters class="pa-5 bg-blue" justify="space-between">
               <v-col class="d-flex align-center" cols="auto">
                 <v-icon color="white" size="28" class="mr-2"
                   >mdi-bookmark-multiple</v-icon
@@ -18,7 +18,7 @@
                   <span class="text-h6 font-weight-bold text-white"
                     >Pacientes Salvos</span
                   >
-                  <span class="text-caption text-amber-lighten-4"
+                  <span class="text-caption text-blue-lighten-4"
                     >{{
                       pacientesSalvosStore.pacientesSalvos.length
                     }}
@@ -94,7 +94,7 @@
               <template #item.actions="{ item }">
                 <div class="d-flex ga-3 align-center justify-end">
                   <v-btn
-                    color="amber"
+                    color="blue"
                     variant="outlined"
                     size="small"
                     rounded="lg"
@@ -184,7 +184,7 @@ const verInformacoes = (paciente) => {
 
 <style scoped>
 .amber-header :deep(.v-data-table__th) {
-  background-color: #ffc10725 !important;
+  background-color: #0080ff25 !important;
   color: black !important;
 }
 

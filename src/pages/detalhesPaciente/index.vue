@@ -30,7 +30,7 @@
       </v-row>
 
       <v-row v-else-if="paciente">
-        <v-col cols="12" md="5">
+        <v-col cols="12" lg="5">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div
               class="bg-blue pa-4 d-flex flex-column flex-md-row ga-2 justify-space-between align-center"
@@ -89,14 +89,27 @@
                   >{{ calcularIdade(paciente.dataNascimento) }} anos</span
                 >
               </div>
+              <div class="">
+                <v-btn
+                  class="text-subtitle-1"
+                  block
+                  color="blue"
+                  variant="outlined"
+                >
+                  <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
+                  QR Code do Atleta
+                </v-btn>
+              </div>
             </v-card-text>
           </v-card>
         </v-col>
 
-        <v-col cols="12" md="7">
+        <v-col cols="12" lg="7">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div class="pa-4 bg-blue d-flex align-center">
-              <v-card-title class="text-white text-subtitle-1 pa-0">
+              <v-card-title
+                class="text-white text-subtitle-2 text-md-subtitle-1 pa-0"
+              >
                 <v-icon class="mr-2">mdi-clipboard-text</v-icon>
                 Informações Médicas
               </v-card-title>
@@ -147,6 +160,59 @@
               </v-row>
             </v-card-text>
           </v-card>
+          <v-col cols="12" class="pa-0 mt-5">
+            <v-card variant="outlined" rounded="lg" color="blue">
+              <div class="d-flex align-center pa-4 bg-blue">
+                <v-icon size="24" color="white" class="mr-2"
+                  >mdi-clipboard-plus-outline</v-icon
+                >
+                <v-card-title
+                  class="text-white text-subtitle-2 text-md-subtitle-1 pa-0"
+                  >Adicionar Consultas e Exames</v-card-title
+                >
+              </div>
+              <div class="">
+                <v-card-text>
+                  <v-row>
+                    <v-col class="d-flex align-center py-2 py-lg-4" cols="12">
+                      <v-btn
+                        class="text-subtitle-2 text-md-subtitle-1"
+                        block
+                        color="blue"
+                        variant="outlined"
+                        @click="
+                          $router.push({
+                            name: '/adicionarConsulta/',
+                            query: { pacienteId: paciente.id },
+                          })
+                        "
+                      >
+                        <v-icon left>mdi-stethoscope</v-icon>
+                        Adicionar Consulta
+                      </v-btn>
+                    </v-col>
+                    <v-col class="d-flex align-center py-0 pb-2" cols="12">
+                      <v-btn
+                        class="text-subtitle-2 text-md-subtitle-1"
+                        block
+                        color="blue"
+                        variant="outlined"
+                        @click="
+                          $router.push({
+                            name: '/analises/',
+                            query: { pacienteId: paciente.id },
+                          })
+                        "
+                      >
+                        <v-icon left>mdi-flask-outline</v-icon>
+                        Análises
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-card-text>
+              </div>
+            </v-card>
+          </v-col>
         </v-col>
       </v-row>
 
