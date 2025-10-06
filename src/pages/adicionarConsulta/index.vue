@@ -16,8 +16,6 @@
       </div>
 
       <v-row class="d-flex flex-column ga-6">
-
-
         <v-col cols="12" class="mx-auto">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div class="pa-4 bg-blue d-flex align-center">
@@ -80,6 +78,8 @@
               color="blue"
               class="px-16 py-5 d-flex align-center justify-center"
               variant="flat"
+              :loading="loading"
+              :disabled="loading"
               @click="salvarConsultaFunc"
             >
               <v-icon left>mdi-clipboard-check-outline</v-icon>
@@ -89,18 +89,23 @@
         </v-col>
       </v-row>
     </v-container>
+    
+
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { getPayload } from '@/utils/auth'
 import consultasService from '@/services/consultas/consultas-service'
+import { toast } from 'vue3-toastify'
 
 
 const route = useRoute()
+const router = useRouter()
 
+const loading = ref(false)
 
 const salvarConsulta = ref({
   medicoId: '',
@@ -109,8 +114,6 @@ const salvarConsulta = ref({
   medicamentosReceitados: '',
   situacao: '',
 })
-
-
 
 const updateIds = () => {
   const payload = getPayload()
@@ -126,16 +129,20 @@ watch(() => route.query, updateIds, { immediate: true })
 
 const salvarConsultaFunc = async () => {
   if (!salvarConsulta.value.medicoId || !salvarConsulta.value.atletaId) {
-    alert('IDs do médico e atleta são obrigatórios')
+    toast.error('IDs do médico e atleta são obrigatórios')
     return
   }
 
+  loading.value = true
   try {
     await consultasService.postConsulta(salvarConsulta.value)
-    alert('Consulta salva com sucesso!')
+    toast.success('Consulta salva com sucesso!')
+    router.back()
   } catch (error) {
     console.error('Erro ao salvar:', error)
-    alert('Erro ao salvar consulta.')
+    toast.error('Erro ao salvar consulta.')
+  } finally {
+    loading.value = false
   }
 }
 
