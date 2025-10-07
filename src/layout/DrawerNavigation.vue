@@ -313,6 +313,13 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/certificados',
       children: [],
     },
+    {
+      icon: 'mdi-clipboard-pulse-outline',
+      title: 'Consultas',
+      value: 'consultas',
+      to: '/Atleta-Screens/Consulta/',
+      children: [],
+    },
   ],
 }
 
