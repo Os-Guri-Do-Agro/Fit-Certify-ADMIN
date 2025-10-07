@@ -10,7 +10,7 @@
     </v-row>
 
     <v-row justify="center" class="mb-10">
-      <v-btn-toggle v-model="filtro" rounded="pill" group>
+      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
         <v-btn
           value="lista"
           color="green"
@@ -46,9 +46,22 @@
             color="green"
             variant="flat"
             class="position-absolute"
-            style="top: 16px; right: 16px"
+            style="top: 16px; right: 60px"
           >
             <v-icon>mdi-map-marker</v-icon>
+          </v-btn>
+          <v-btn
+            icon
+            size="small"
+            :color="medico.favorito ? 'amber-darken-1' : 'green'"
+            :variant="medico.favorito ? 'flat' : 'outlined'"
+            class="position-absolute"
+            style="top: 16px; right: 16px"
+            @click="toggleFavorito(medico)"
+          >
+            <v-icon :color="medico.favorito ? 'white' : 'green'">
+              {{ medico.favorito ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
+            </v-icon>
           </v-btn>
 
           <v-row align="center">
@@ -135,24 +148,31 @@ import { ref } from 'vue'
 const filtro = ref('lista')
 const cep = ref('')
 
-const medicos = [
+const medicos = ref([
   {
     nome: 'Nome Sobrenome',
     especialidade: 'Cirurgião',
     crm: '98379374',
     foto: 'https://randomuser.me/api/portraits/women/44.jpg',
+    favorito: false,
   },
   {
     nome: 'Nome Sobrenome',
     especialidade: 'Cirurgião',
     crm: '98379374',
     foto: 'https://randomuser.me/api/portraits/women/68.jpg',
+    favorito: false,
   },
   {
     nome: 'Nome Sobrenome',
     especialidade: 'Cardiologista',
     crm: '12345678',
     foto: 'https://randomuser.me/api/portraits/men/32.jpg',
+    favorito: false,
   },
-]
+])
+
+const toggleFavorito = (medico) => {
+  medico.favorito = !medico.favorito
+}
 </script>

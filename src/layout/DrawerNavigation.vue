@@ -315,9 +315,9 @@ const menusPorPerfil: Record<string, any[]> = {
     },
     {
       icon: 'mdi-clipboard-pulse-outline',
-      title: 'Consultas',
-      value: 'consultas',
-      to: '/Atleta-Screens/Consulta/',
+      title: 'Médicos',
+      value: 'medicos',
+      to: '/Atleta-Screens/medicos/',
       children: [],
     },
   ],
