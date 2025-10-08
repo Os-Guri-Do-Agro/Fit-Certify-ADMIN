@@ -1,139 +1,232 @@
 <template>
   <v-container class="pa-0 h-100" fluid>
-    <!-- Header do médico -->
-    <v-card flat class="pa-0" tile>
-      <v-sheet color="blue" class="pa-6 position-relative" rounded="0">
-        <!-- Estrelas e chats no canto superior direito -->
-        <div class="position-absolute" style="top: 16px; right: 16px">
-          <v-chip
-            color="white"
-            text-color="black"
-            small
-            class="me-2"
-            style="border: 2px solid rgba(255, 255, 255, 0.9)"
-          >
-            <v-icon left class="mr-1">mdi-star</v-icon> 5
-          </v-chip>
-          <v-chip
-            color="white"
-            text-color="black"
-            small
-            style="border: 2px solid rgba(255, 255, 255, 0.9)"
-          >
-            <v-icon left class="mr-1">mdi-comment</v-icon> 40
-          </v-chip>
-        </div>
 
-        <v-row align="center">
-          <!-- Foto -->
-          <v-col cols="auto">
-            <v-avatar size="120">
-              <img
-                src="https://randomuser.me/api/portraits/men/75.jpg"
-                alt="Dr. João Pedro Lopes"
-              />
-            </v-avatar>
-          </v-col>
+    <div v-if="loading">
+      <v-card flat class="pa-0" tile>
+        <v-sheet color="blue" class="pa-6 position-relative" rounded="0">
 
-          <!-- Informações -->
-          <v-col>
-            <div class="text-h5 font-weight-bold white--text">
-              Dr. João Pedro Lopes
-            </div>
-            <div class="subtitle-1 white--text">Cirurgião Cardiovascular</div>
+          <div class="position-absolute" style="top: 16px; right: 16px">
+            <v-skeleton-loader
+              type="chip"
+              width="100"
+              height="auto"
+              class="me-2 d-inline-block"
+              color="transparent"
+            ></v-skeleton-loader>
+            <v-skeleton-loader
+              type="chip"
+              width="100"
+              height="auto"
+              class="d-inline-block"
+              color="transparent"
+            ></v-skeleton-loader>
+          </div>
 
-            <v-row class="mt-4" dense>
-              <v-col cols="auto">
-                <v-chip
-                  color="blue-lighten-2"
-                  small
-                  style="border: 2px solid white; color: white !important"
-                >
-                  <v-icon left color="white" class="mr-1">mdi-medal</v-icon> 15
-                  anos experiência
-                </v-chip>
-              </v-col>
-              <v-col cols="auto">
-                <v-chip
-                  color="blue-lighten-2"
-                  small
-                  style="border: 2px solid white; color: white !important"
-                >
-                  <v-icon left color="white" class="mr-1">mdi-calendar</v-icon>
-                  Seg-Sex / 9:00AM - 5:00PM
-                </v-chip>
-              </v-col>
-            </v-row>
+          <v-row align="center">
+            <v-col cols="auto">
+              <v-skeleton-loader
+                type="avatar"
+                width="120"
+                height="120"
+                color="transparent"
+                boilerplate
+              ></v-skeleton-loader>
+            </v-col>
+            <v-col>
+              <v-skeleton-loader
+                type="heading"
+                width="300"
+                height="32"
+                class="mb-2"
+                color="transparent"
+              ></v-skeleton-loader>
+              <v-skeleton-loader
+                type="subtitle"
+                width="250"
+                height="20"
+                class="mb-4"
+                color="transparent"
+              ></v-skeleton-loader>
 
-            <!-- Botão Marcar Consulta -->
-            <v-row class="mt-6">
-              <v-col>
-                <v-btn
-                  color="white"
-                  size="large"
-                  class="text-blue font-weight-bold px-6 marcar-consulta-btn"
-                  prepend-icon="mdi-calendar-plus"
-                  rounded="lg"
-                  elevation="4"
-                >
-                  Marcar Consulta
-                </v-btn>
-              </v-col>
-            </v-row>
+              <div class="mt-4 mb-4">
+                <v-skeleton-loader
+                  type="chip"
+                  width="140"
+                  height="28"
+                  class="me-2 d-inline-block"
+                  color="transparent"
+                ></v-skeleton-loader>
+                <v-skeleton-loader
+                  type="chip"
+                  width="180"
+                  height="28"
+                  class="d-inline-block"
+                  color="transparent"
+                ></v-skeleton-loader>
+              </div>
+
+              <div class="mt-6">
+                <v-skeleton-loader
+                  type="button"
+                  width="160"
+                  height="40"
+                  color="transparent"
+                ></v-skeleton-loader>
+              </div>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </v-card>
+      <v-container class="mt-6">
+        <v-row>
+          <v-col cols="12" md="8" offset-md="2">
+            <v-skeleton-loader
+              type="card"
+              class="mb-4"
+              color="transparent"
+            ></v-skeleton-loader>
+            <v-skeleton-loader
+              type="article"
+              color="transparent"
+            ></v-skeleton-loader>
           </v-col>
         </v-row>
-      </v-sheet>
-    </v-card>
+      </v-container>
+    </div>
 
-    <!-- Conteúdo -->
-    <v-container class="mt-6">
-      <v-row>
-        <v-col cols="12" md="8" offset-md="2">
-          <v-card class="bg-transparent" flat>
-            <!-- Foco -->
-            <v-card color="grey-lighten-4" class="pa-4 mb-4" tile>
-              <strong>Foco:</strong> Lorem ipsum, dolor sit amet consectetur
-              adipisicing elit. Alias voluptates dolores aperiam veritatis
-              pariatur! Aliquam quos ab modi consequatur esse! Libero nostrum
-              quibusdam distinctio provident temporibus vero rem atque iste.
+    <div v-else>
+      <v-card flat class="pa-0" tile>
+        <v-sheet color="blue" class="pa-6 position-relative" rounded="0">
+
+          <div class="position-absolute" style="top: 16px; right: 16px">
+            <v-chip
+              color="white"
+              text-color="black"
+              small
+              class="me-2"
+              style="border: 2px solid rgba(255, 255, 255, 0.9)"
+            >
+              <v-icon left class="mr-1">mdi-star</v-icon> 5
+            </v-chip>
+            <v-chip
+              color="white"
+              text-color="black"
+              small
+              style="border: 2px solid rgba(255, 255, 255, 0.9)"
+            >
+              <v-icon left class="mr-1">mdi-comment</v-icon> 40
+            </v-chip>
+          </div>
+
+          <v-row align="center">
+
+            <v-col cols="auto">
+              <v-avatar size="120" color="white">
+                <img
+                  v-if="medico?.usuario?.avatarUrl"
+                  :src="medico?.usuario?.avatarUrl"
+                  style="object-fit: cover; width: 100%; height: 100%"
+                />
+                <v-icon v-else size="60" color="blue">mdi-account</v-icon>
+              </v-avatar>
+            </v-col>
+
+
+            <v-col>
+              <div class="text-h5 font-weight-bold white--text">
+                {{ medico?.usuario?.nome }}
+              </div>
+              <div class="subtitle-1 white--text">
+                {{ medico?.especializacao }}
+              </div>
+
+              <v-row class="mt-4" dense>
+                <v-col cols="auto">
+                  <v-chip
+                    color="blue"
+                    small
+                    style="border: 2px solid white; color: white !important"
+                  >
+                    <v-icon left color="white" class="mr-1">mdi-medal</v-icon>
+                    {{ medico?.experiencia }}
+                    anos experiência
+                  </v-chip>
+                </v-col>
+                <v-col cols="auto">
+                  <v-chip
+                    color="blue-lighten-2"
+                    small
+                    style="border: 2px solid white; color: white !important"
+                  >
+                    <v-icon left color="white" class="mr-1"
+                      >mdi-calendar</v-icon
+                    >
+                    {{ medico?.diaFuncionamentoInicio }} -
+                    {{ medico?.diaFuncionamentoFim }}
+
+                    {{ formatarHorario(medico?.horarioInicio) }} -
+                    {{ formatarHorario(medico?.horarioFim) }}
+                  </v-chip>
+                </v-col>
+              </v-row>
+
+
+              <v-row class="mt-6">
+                <v-col>
+                  <v-btn
+                    color="white"
+                    size="large"
+                    class="text-blue font-weight-bold px-6 marcar-consulta-btn"
+                    prepend-icon="mdi-calendar-plus"
+                    rounded="lg"
+                    elevation="4"
+                  >
+                    Marcar Consulta
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+        </v-sheet>
+      </v-card>
+
+
+      <v-container class="mt-6">
+        <v-row>
+          <v-col cols="12" md="8" offset-md="2">
+            <v-card class="bg-transparent" flat>
+
+              <v-card
+                color="grey-lighten-4"
+                class="pa-4 mb-4"
+                tile
+                rounded="lg"
+              >
+                <strong>Foco:</strong> {{ medico?.foco }}
+              </v-card>
+
+
+              <div class="text-h6 font-weight-bold mb-2">Perfil</div>
+              <p>
+                {{ medico?.perfil }}
+              </p>
+
+
+              <div class="text-h6 font-weight-bold mt-4 mb-2">Carreira</div>
+              <p>
+                {{ medico?.carreira }}
+              </p>
+
+
+              <div class="text-h6 font-weight-bold mt-4 mb-2">Destaques</div>
+              <p>
+                {{ medico?.destaques }}
+              </p>
             </v-card>
-
-            <!-- Perfil -->
-            <div class="text-h6 font-weight-bold mb-2">Perfil</div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-              ipsum dolor sit amet consectetur adipisicing elit. Odit, omnis
-              aspernatur sit deserunt architecto quis ad harum facere nesciunt!
-              Consequatur dignissimos necessitatibus eligendi cupiditate! Magnam
-              ipsum molestias rem rerum provident.
-            </p>
-
-            <!-- Carreira -->
-            <div class="text-h6 font-weight-bold mt-4 mb-2">Carreira</div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem
-              ipsum dolor sit amet consectetur adipisicing elit. Ab pariatur
-              modi blanditiis officia sequi qui officiis quod. Ratione porro
-              minus, reprehenderit cum officiis quod iure tenetur sunt omnis
-              ipsa deleniti.
-            </p>
-
-            <!-- Destaques -->
-            <div class="text-h6 font-weight-bold mt-4 mb-2">Destaques</div>
-            <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem,
-              ipsum dolor sit amet consectetur adipisicing elit. Animi ullam
-              explicabo temporibus, placeat odit non veritatis. Eveniet tempora
-              vitae hic eos dignissimos laboriosam ea sed animi molestiae, quas
-              enim harum!
-            </p>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
   </v-container>
 </template>
 
@@ -146,6 +239,13 @@ import { useRouter, useRoute } from 'vue-router'
 const route = useRoute()
 
 const medico = ref(null)
+const loading = ref(true)
+
+const formatarHorario = (horario) => {
+  if (!horario) return ''
+  const hora = horario.substring(11, 16)
+  return hora.replace(/^0/, '')
+}
 
 const buscarMedicoById = async (id) => {
   console.log('bateu aqui')
@@ -164,16 +264,17 @@ const buscarMedicoById = async (id) => {
     console.log('Médico carregado:', medico.value)
   } catch (error) {
     console.error('Erro ao buscar medicoId:', error)
+  } finally {
+    loading.value = false
   }
 }
 
 onMounted(async () => {
   console.log(route.query?.id)
-  const medicoId =  route.query?.id
+  const medicoId = route.query?.id
 
   if (medicoId) {
-  buscarMedicoById(medicoId)
-
+    buscarMedicoById(medicoId)
   } else {
     console.error('ID do médico não encontrado')
   }
