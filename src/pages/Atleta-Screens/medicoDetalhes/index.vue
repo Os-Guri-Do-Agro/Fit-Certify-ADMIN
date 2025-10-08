@@ -142,12 +142,14 @@ import { ref, onMounted } from 'vue'
 import medicoService from '@/services/medico/medico-service'
 import { useRouter, useRoute } from 'vue-router'
 
-const router = useRouter()
+// const router = useRouter()
 const route = useRoute()
 
 const medico = ref(null)
 
 const buscarMedicoById = async (id) => {
+  console.log('bateu aqui')
+  console.log('id bateu aqui', id)
   try {
     console.log('Buscando médico com ID:', id)
     const response = await medicoService.getMedicoById(id)
@@ -155,6 +157,7 @@ const buscarMedicoById = async (id) => {
 
     if (response && response.data) {
       medico.value = response.data
+      console.log(medico.value)
     } else {
       medico.value = response
     }
@@ -165,12 +168,12 @@ const buscarMedicoById = async (id) => {
 }
 
 onMounted(async () => {
-  const medicoId = route.state?.id
-  console.log('Route params:', route.state)
-  console.log('Medico ID encontrado:', medicoId)
+  console.log(route.query?.id)
+  const medicoId =  route.query?.id
 
   if (medicoId) {
-    await buscarMedicoById(medicoId)
+  buscarMedicoById(medicoId)
+
   } else {
     console.error('ID do médico não encontrado')
   }
