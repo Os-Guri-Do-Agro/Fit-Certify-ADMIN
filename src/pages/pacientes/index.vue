@@ -248,11 +248,11 @@
                     icon
                     rounded="lg"
                     @click="
-                          $router.push({
-                            name: '/adicionarConsulta/',
-                            query: { pacienteId: item.id },
-                          })
-                        "
+                      $router.push({
+                        name: '/adicionarConsulta/',
+                        query: { pacienteId: item.id },
+                      })
+                    "
                   >
                     <v-icon size="16" color="green">mdi-pencil</v-icon>
                   </v-btn>

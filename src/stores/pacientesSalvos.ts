@@ -8,25 +8,25 @@ export const usePacientesSalvosStore = defineStore('pacientesSalvos', () => {
     localStorage.setItem('pacientes-salvos', JSON.stringify(newValue))
   }, { deep: true })
 
-  const adicionarPaciente = (paciente) => {
+  const adicionarPaciente = (paciente: any) => {
     const existe = pacientesSalvos.value.find(p => p.id === paciente.id)
     if (!existe) {
       pacientesSalvos.value.push({ ...paciente, salvo: true })
     }
   }
 
-  const removerPaciente = (pacienteId) => {
+  const removerPaciente = (pacienteId: any) => {
     const index = pacientesSalvos.value.findIndex(p => p.id === pacienteId)
     if (index > -1) {
       pacientesSalvos.value.splice(index, 1)
     }
   }
 
-  const isPacienteSalvo = (pacienteId) => {
+  const isPacienteSalvo = (pacienteId: any) => {
     return pacientesSalvos.value.some(p => p.id === pacienteId)
   }
 
-  const togglePacienteSalvo = (paciente) => {
+  const togglePacienteSalvo = (paciente: any) => {
     if (isPacienteSalvo(paciente.id)) {
       removerPaciente(paciente.id)
       return false
