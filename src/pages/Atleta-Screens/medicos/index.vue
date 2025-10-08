@@ -33,7 +33,7 @@
     <v-row align="start" justify="center" no-gutters>
       <v-col cols="12" md="7" class="pe-md-8">
         <v-card
-          v-for="(medico, index) in medicos"
+          v-for="(medico, index) in medico"
           :key="index"
           class="mb-6 pa-5 position-relative"
           variant="outlined"
@@ -66,11 +66,18 @@
 
           <v-row align="center">
             <v-col cols="auto" class="text-center">
-              <v-avatar size="90">
-                <v-img :src="medico.foto" cover></v-img>
+              <v-avatar size="90" color="grey-lighten-3">
+                <v-img
+                  v-if="medico?.usuario?.avatarUrl"
+                  :src="medico?.usuario?.avatarUrl"
+                  cover
+                ></v-img>
+                <v-icon v-else size="50" color="grey-darken-1"
+                  >mdi-account</v-icon
+                >
               </v-avatar>
               <div class="mt-2">
-                <v-btn icon size="small" variant="text" class="me-1">
+                <v-btn icon size="small" variant="text">
                   <v-icon size="22" color="black">mdi-instagram</v-icon>
                 </v-btn>
                 <v-btn icon size="small" variant="text">
@@ -84,10 +91,10 @@
                 class="text-subtitle-1 font-weight-bold"
                 style="color: black"
               >
-                {{ medico.nome }}
+                {{ medico?.usuario?.nome }}
               </div>
               <div class="text-body-2" style="color: black">
-                {{ medico.especialidade }}
+                {{ medico?.especializacao }}
               </div>
               <div class="text-body-2" style="color: black">
                 CRM {{ medico.crm }}
@@ -100,6 +107,7 @@
                     color="green"
                     class="px-8 text-body-2"
                     rounded
+                    @click="detalhesMedico(medico.id)"
                   >
                     Mais Detalhes
                   </v-btn>
@@ -143,36 +151,44 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import medicoService from '@/services/medico/medico-service'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const filtro = ref('lista')
 const cep = ref('')
 
-const medicos = ref([
+const medico = ref([
   {
-    nome: 'Nome Sobrenome',
-    especialidade: 'Cirurgião',
-    crm: '98379374',
-    foto: 'https://randomuser.me/api/portraits/women/44.jpg',
-    favorito: false,
-  },
-  {
-    nome: 'Nome Sobrenome',
-    especialidade: 'Cirurgião',
-    crm: '98379374',
-    foto: 'https://randomuser.me/api/portraits/women/68.jpg',
-    favorito: false,
-  },
-  {
-    nome: 'Nome Sobrenome',
-    especialidade: 'Cardiologista',
-    crm: '12345678',
-    foto: 'https://randomuser.me/api/portraits/men/32.jpg',
-    favorito: false,
+    nome: '',
+    especializacao: '',
+    crm: '',
+    avatarUrl: '',
   },
 ])
 
+const buscarMedico = async () => {
+  try {
+    const response = await medicoService.getAllMedicos()
+    medico.value = response.data
+    console.log('RESULTADO RESPONSE:', medico.value)
+  } catch (error) {
+    console.error('erro ao buscar médico', error)
+  }
+}
+
+onMounted(() => {
+  buscarMedico()
+})
+
 const toggleFavorito = (medico) => {
   medico.favorito = !medico.favorito
+}
+
+function detalhesMedico(id) {
+  router.push({ name: '/Atleta-Screens/medicoDetalhes/', state: { id } })
+  console.log('ID: ', id)
 }
 </script>
