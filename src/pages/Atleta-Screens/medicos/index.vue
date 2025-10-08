@@ -173,8 +173,10 @@ import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload } from '@/utils/auth'
 import { useRouter } from 'vue-router'
+import { useMedicosSalvosStore } from '@/stores/medicosSalvos'
 
 const router = useRouter()
+const medicosSalvosStore = useMedicosSalvosStore()
 
 const filtro = ref('lista')
 const cep = ref('')
@@ -222,6 +224,8 @@ const buscarMedico = async () => {
           console.error('Erro ao buscar usuário do médico:', error)
         }
       }
+      // Verificar se o médico já está salvo
+      medico.value[i].favorito = medicosSalvosStore.isMedicoSalvo(medico.value[i].id)
     }
   } catch (error) {
     console.error('erro ao buscar médico', error)
@@ -241,7 +245,13 @@ const mudarPagina = (novaPagina) => {
 }
 
 const toggleFavorito = (medico) => {
-  medico.favorito = !medico.favorito
+  if (medico.favorito) {
+    medicosSalvosStore.removerMedico(medico.id)
+    medico.favorito = false
+  } else {
+    medicosSalvosStore.adicionarMedico(medico)
+    medico.favorito = true
+  }
 }
 
 function detalhesMedico(id) {

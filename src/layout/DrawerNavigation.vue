@@ -317,8 +317,20 @@ const menusPorPerfil: Record<string, any[]> = {
       icon: 'mdi-clipboard-pulse-outline',
       title: 'Médicos',
       value: 'medicos',
-      to: '/Atleta-Screens/medicos/',
-      children: [],
+      children: [
+        {
+          icon: 'mdi-magnify',
+          title: 'Buscar Médico',
+          value: 'buscarMedico',
+          to: '/Atleta-Screens/medicos/',
+        },
+        {
+          icon: 'mdi-bookmark-outline',
+          title: 'Salvos',
+          value: 'medicosSalvos',
+          to: '/Atleta-Screens/medicoSalvos/',
+        },
+      ],
     },
   ],
 }
