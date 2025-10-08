@@ -5,11 +5,15 @@
  */
 
 // Composables
-import { getPayload, isTokenValid, atletaTemPlano } from '@/utils/auth'
+import {
+  getPayload,
+  isTokenValid,
+  atletaTemPlano,
+  medicoLogin,
+} from '@/utils/auth'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
-import { toast } from 'vue3-toastify';
-
+import { toast } from 'vue3-toastify'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,39 +21,47 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const publicRoutes = ['/login', '/register', '/esqueceuSenha', '/politicaPrivacidade', '/detalhesExclusaoConta', '/pagamento'];
-  const isAuthenticated = isTokenValid();
+  const publicRoutes = [
+    '/login',
+    '/register',
+    '/esqueceuSenha',
+    '/politicaPrivacidade',
+    '/detalhesExclusaoConta',
+    '/pagamento',
+  ]
+  const isAuthenticated = isTokenValid()
 
   // Impede usuários logados de acessar login, register e registerPlanos
   if (isAuthenticated && (to.path === '/login' || to.path === '/register')) {
-    return next('/');
+    return next('/')
   }
 
   if (publicRoutes.includes(to.path)) {
-    return next();
+    return next()
   }
 
   if (!isAuthenticated) {
-    sessionStorage.clear();
-    if (to.path.includes("/esqueceuSenha")) {
+    sessionStorage.clear()
+    if (to.path.includes('/esqueceuSenha')) {
       return next()
     }
 
     if (to.path !== '/login') {
       router.push('/login').then(() => {
-        toast.error("Usuário não autenticado, redirecionando para login", { autoClose: 3000 });
+        toast.error('Usuário não autenticado, redirecionando para login', {
+          autoClose: 3000,
+        })
       })
     }
-    return next();
+    return next()
   }
 
-  if (!atletaTemPlano() && to.path !== '/registerPlanos') {
-   return next('/registerPlanos');
-   }
+  if (!medicoLogin && !atletaTemPlano() && to.path !== '/registerPlanos') {
+    return next('/registerPlanos')
+  }
 
-  next();
-});
-
+  next()
+})
 
 // Workaround for https://github.com/vitejs/vite/issues/11804
 router.onError((err, to) => {

@@ -15,14 +15,24 @@ class UserService {
     }
   }
 
-  validarExisteEmail(email:string): Promise<any> {
+  validarExisteEmail(email: string): Promise<any> {
     return this.handleRequest(
-      apiClient.get(`/user/validarExisteEmail?email=${email}`, {
+      apiClient.get(`/user/validarExisteEmail?email=${email}`, {}),
+      'ERROR - 404'
+    )
+  }
+
+  userById(id: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }),
       'ERROR - 404'
     )
   }
 }
-
 
 export default new UserService()

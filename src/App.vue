@@ -5,7 +5,11 @@
       <DrawerNavigation />
       <AppBar />
       <v-main class="main-content">
-        <v-container fluid  class="fill-height" style="background-color: #E7F8F6;">
+        <v-container
+          fluid
+          class="fill-height"
+          style="background-color: #fffdfc"
+        >
           <router-view />
         </v-container>
       </v-main>
@@ -27,15 +31,19 @@ import DrawerNavigation from './layout/DrawerNavigation.vue'
 const route = useRoute()
 
 // Rotas que não devem mostrar o layout padrão
-const authRoutes = ['/login', '/register', '/registerPlanos', '/marcarConsulta', '/politicaPrivacidade', '/pagamento', '/detalhesExclusaoConta'];
+const authRoutes = [
+  '/login',
+  '/register',
+  '/registerPlanos',
+  '/politicaPrivacidade',
+  '/pagamento',
+  '/detalhesExclusaoConta',
+]
 const isAuthRoute = computed(() => {
-  return authRoutes.includes(route.path) || route.path.startsWith('/esqueceuSenha');
-});
-
+  return (
+    authRoutes.includes(route.path) || route.path.startsWith('/esqueceuSenha')
+  )
+})
 </script>
 
-<style>
-
-
-
-</style>
+<style></style>

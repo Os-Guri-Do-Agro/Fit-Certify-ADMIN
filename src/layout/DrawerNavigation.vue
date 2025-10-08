@@ -5,7 +5,7 @@
     permanent
     @click="layoutStore.rail && layoutStore.toggleRail()"
     class="clean-drawer position-fixed"
-    color="light-blue-accent-3"
+    color="blue"
     rail-width="65"
   >
     <!-- Header -->
@@ -61,7 +61,18 @@
                 :prepend-icon="child.icon"
                 :title="child.title"
                 :to="child.to"
-              ></v-list-item>
+                class="text-wrap"
+              >
+                <template v-slot:title>
+                  <v-tooltip :text="child.title" location="right">
+                    <template v-slot:activator="{ props }">
+                      <span v-bind="props" class="text-truncate">{{
+                        child.title
+                      }}</span>
+                    </template>
+                  </v-tooltip>
+                </template>
+              </v-list-item>
             </v-list-group>
 
             <v-list-item
@@ -70,7 +81,18 @@
               :prepend-icon="item.icon"
               :title="item.title"
               :to="item.to"
-            ></v-list-item>
+              class="text-wrap"
+            >
+              <template v-slot:title>
+                <v-tooltip :text="item.title" location="right">
+                  <template v-slot:activator="{ props }">
+                    <span v-bind="props" class="text-truncate">{{
+                      item.title
+                    }}</span>
+                  </template>
+                </v-tooltip>
+              </template>
+            </v-list-item>
           </template>
         </v-list>
       </div>
@@ -81,7 +103,28 @@
           {{ perfis[payload?.role] }}
         </span>
 
-        <v-list style="text-align: center" v-model:opened="open">
+        <v-list style="text-align: start" v-model:opened="open">
+          <v-list-group prepend-icon="mdi mdi-account-group-outline">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                title="Pacientes"
+                icon="mdi mdi-account-group-outline"
+              ></v-list-item>
+            </template>
+            <v-list-item
+              v-for="items in pacienteItems"
+              :key="items.value"
+              :prepend-icon="items.icon"
+              :title="items.title"
+              :value="items.value"
+              :to="items.to"
+              class="paciente-item"
+            ></v-list-item>
+          </v-list-group>
+        </v-list>
+
+        <v-list style="text-align: start" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -95,7 +138,7 @@
       </div>
 
       <div class="">
-        <v-list style="text-align: center" v-model:opened="open">
+        <v-list style="text-align: start" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-home-outline">
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -160,10 +203,25 @@ const payload = ref<any>()
 
 const contaItems = [
   {
-    icon: 'mdi mdi-account-circle',
+    icon: 'mdi-account-circle',
     title: 'Perfil',
     value: 'dashboard',
     to: '/perfil',
+  },
+]
+
+const pacienteItems = [
+  {
+    icon: 'mdi-clipboard-text-search-outline',
+    title: 'Lista de Pacientes',
+    value: 'lista de pacientes',
+    to: '/pacientes',
+  },
+  {
+    icon: 'mdi-bookmark-outline',
+    title: 'Salvos',
+    value: 'salvos',
+    to: '/pacientessalvos',
   },
 ]
 
@@ -255,6 +313,25 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/certificados',
       children: [],
     },
+    {
+      icon: 'mdi-clipboard-pulse-outline',
+      title: 'Médicos',
+      value: 'medicos',
+      children: [
+        {
+          icon: 'mdi-magnify',
+          title: 'Buscar Médico',
+          value: 'buscarMedico',
+          to: '/Atleta-Screens/medicos/',
+        },
+        {
+          icon: 'mdi-bookmark-outline',
+          title: 'Salvos',
+          value: 'medicosSalvos',
+          to: '/Atleta-Screens/medicoSalvos/',
+        },
+      ],
+    },
   ],
 }
 
@@ -321,5 +398,37 @@ onBeforeUnmount(() => {
 .v-list-item:hover .v-list-item__content,
 .v-list-item:hover .v-icon {
   color: #1976d2 !important;
+}
+
+.text-wrap .v-list-item__content {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.v-list-item .v-list-item__prepend {
+  margin-inline-end: 2px !important;
+}
+
+.v-list-item .v-list-item__prepend > .v-icon {
+  margin-inline-end: 0 !important;
+}
+
+.paciente-item {
+  font-size: 0.8rem !important;
+}
+
+.paciente-item .v-icon {
+  font-size: 1rem !important;
+}
+
+.paciente-item .v-list-item__content {
+  font-size: 0.8rem !important;
 }
 </style>
