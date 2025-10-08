@@ -124,7 +124,12 @@
                     size="small"
                     icon
                     rounded="lg"
-                    @click="editarPaciente(item)"
+                    @click="
+                      $router.push({
+                        name: '/adicionarConsulta/',
+                        query: { pacienteId: item.id },
+                      })
+                    "
                   >
                     <v-icon size="16" color="green">mdi-pencil</v-icon>
                   </v-btn>
@@ -171,10 +176,6 @@ const pacientesFiltrados = computed(() => {
 
 const removerPaciente = (paciente) => {
   pacientesSalvosStore.removerPaciente(paciente.id)
-}
-
-const editarPaciente = (paciente) => {
-  console.log('Editar paciente:', paciente)
 }
 
 const verInformacoes = (paciente) => {
