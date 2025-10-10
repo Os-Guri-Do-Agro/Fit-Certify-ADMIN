@@ -20,6 +20,7 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/adicionarConsulta/': RouteRecordInfo<'/adicionarConsulta/', '/adicionarConsulta', Record<never, never>, Record<never, never>>,
+    '/agenda/': RouteRecordInfo<'/agenda/', '/agenda', Record<never, never>, Record<never, never>>,
     '/analises/': RouteRecordInfo<'/analises/', '/analises', Record<never, never>, Record<never, never>>,
     '/artigos/': RouteRecordInfo<'/artigos/', '/artigos', Record<never, never>, Record<never, never>>,
     '/artigos/form': RouteRecordInfo<'/artigos/form', '/artigos/form', Record<never, never>, Record<never, never>>,
@@ -33,7 +34,7 @@ declare module 'vue-router/auto-routes' {
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/marcarConsultaBKP': RouteRecordInfo<'/marcarConsultaBKP', '/marcarConsultaBKP', Record<never, never>, Record<never, never>>,
     '/pacientes/': RouteRecordInfo<'/pacientes/', '/pacientes', Record<never, never>, Record<never, never>>,
-    '/pacientesSalvos/': RouteRecordInfo<'/pacientesSalvos/', '/pacientesSalvos', Record<never, never>, Record<never, never>>,
+    '/pacientesAtendidos/': RouteRecordInfo<'/pacientesAtendidos/', '/pacientesAtendidos', Record<never, never>, Record<never, never>>,
     '/pagamento/': RouteRecordInfo<'/pagamento/', '/pagamento', Record<never, never>, Record<never, never>>,
     '/perfil/': RouteRecordInfo<'/perfil/', '/perfil', Record<never, never>, Record<never, never>>,
     '/politicaPrivacidade': RouteRecordInfo<'/politicaPrivacidade', '/politicaPrivacidade', Record<never, never>, Record<never, never>>,

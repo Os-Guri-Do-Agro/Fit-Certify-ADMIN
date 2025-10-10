@@ -537,7 +537,7 @@ const formatarTelefone = (telefone) => {
 }
 
 const voltarParaLista = () => {
-  router.push('/pacientes')
+  router.back()
 }
 
 const toggleHistoricoMedico = () => {
@@ -576,10 +576,10 @@ const findAllConsultas = async (id) => {
   }
 }
 
-const findAllAlergias = async () => {
+const findAllAlergias = async (id) => {
   try {
     loadingAlergias.value = true
-    const response = await alergiasService.getAlergiaAtletaId(paciente.value.id)
+    const response = await alergiasService.getAlergiaAtletaId(id)
     if (response && response.data) {
       alergias.value = response.data
     } else {
@@ -621,9 +621,9 @@ onMounted(async () => {
   const pacienteId = route.params.id || route.query.id
 
   if (pacienteId) {
-    await buscarPaciente(pacienteId)
-    await findAllConsultas(pacienteId)
-    await findAllAlergias()
+     buscarPaciente(pacienteId)
+     findAllConsultas(pacienteId)
+     findAllAlergias(pacienteId)
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false

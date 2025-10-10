@@ -218,10 +218,10 @@ const pacienteItems = [
     to: '/pacientes',
   },
   {
-    icon: 'mdi-bookmark-outline',
-    title: 'Salvos',
+    icon: 'mdi-account-group-outline',
+    title: 'Meus pacientes',
     value: 'salvos',
-    to: '/pacientessalvos',
+    to: '/pacientesAtendidos',
   },
 ]
 
@@ -239,9 +239,9 @@ const menusPorPerfil: Record<string, any[]> = {
   medico: [
     {
       icon: 'mdi mdi-magnify',
-      title: 'Análise',
-      value: 'resumo',
-      to: '/analise',
+      title: 'Agenda',
+      value: 'agenda',
+      to: '/agenda',
       children: [],
     },
     {

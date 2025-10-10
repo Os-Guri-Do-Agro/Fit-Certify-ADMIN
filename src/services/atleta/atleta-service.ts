@@ -38,6 +38,7 @@ class atletaService {
     )
   }
 
+
    async editAtletaByProfile(data: FormData): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(
