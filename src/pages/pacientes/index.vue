@@ -207,8 +207,7 @@ const buscarAtletas = async () => {
 
  const  getMetricsByDay = async () => {
     try {
-    // # TODO -> Alterar para 'YYYY-MM-DD'
-      const todayISO = dayjs().format('2025-10-08') + 'T00:00:00.000Z';
+      const todayISO = dayjs().format('YYYY-MM-DD') + 'T00:00:00.000Z';
       const response = await medicoService.getMetricsById(todayISO);
       Metrics.value = ({
         pacientesAtendidos: response.data.pacientesAtendidos || 0,
