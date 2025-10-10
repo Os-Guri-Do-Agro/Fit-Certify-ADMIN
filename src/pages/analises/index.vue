@@ -18,10 +18,10 @@
 
     <v-row dense>
       <v-col v-for="(analise, i) in analises" :key="i" cols="12">
-        <v-card 
-          variant="outlined" 
-          color="blue" 
-          class="pa-4" 
+        <v-card
+          variant="outlined"
+          color="blue"
+          class="pa-4"
           rounded="xl"
           @click="selecionado = i"
           style="cursor: pointer"

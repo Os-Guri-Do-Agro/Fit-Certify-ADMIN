@@ -1,66 +1,6 @@
 <template>
   <div class="w-100 h-100 ma-0">
     <v-container fluid>
-      <h1 class="mb-5 text-h5 font-weight-bold">Resumo do Dia</h1>
-      <v-row class="mb-4" dense>
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-account-group</v-icon>
-            </v-sheet>
-
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ totalAtletas }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Total de Pacientes
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-account-heart</v-icon>
-            </v-sheet>
-
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.pacientesAtendidos }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Pacientes Atendidos
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-certificate</v-icon>
-            </v-sheet>
-
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.certificadosEmitidos }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Certificados Emitidos
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100" rounded="t-lg">
-              <v-icon size="40" color="white">mdi-calendar-clock</v-icon>
-            </v-sheet>
-
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.consultasMarcadas }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Consultas Marcadas
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-
-
-
       <v-row>
         <h1 class="mb-5 text-h5 font-weight-bold">Meus pacientes</h1>
         <v-col cols="12">
@@ -177,7 +117,6 @@ const calcularIdade = (dataNascimento) => {
 
 onMounted(() => {
   buscarAtletas()
-  getMetricsByDay()
 })
 
 
@@ -188,7 +127,7 @@ watch([page, filterLimitPerPage], () => {
 const buscarAtletas = async () => {
   try {
     loading.value = true
-    const response = await pacientesService.getAtletasByMedico(page.value, filterLimitPerPage.value)
+    const response = await pacientesService.getAtletasAtendidosByMedico(page.value, filterLimitPerPage.value)
     totalAtletas.value = response.data.total
     totalPages.value = response.data.totalPages
     atleta.value = response.data.itens
@@ -204,20 +143,6 @@ const buscarAtletas = async () => {
     loading.value = false
   }
 }
-
- const  getMetricsByDay = async () => {
-    try {
-      const todayISO = dayjs().format('YYYY-MM-DD') + 'T00:00:00.000Z';
-      const response = await medicoService.getMetricsById(todayISO);
-      Metrics.value = ({
-        pacientesAtendidos: response.data.pacientesAtendidos || 0,
-        certificadosEmitidos: response.data.certificadosEmitidos || 0,
-        consultasMarcadas: response.data.consultasMarcadas || 0,
-      });
-    } catch (error) {
-      console.error('Erro ao carregar métricas:', error);
-    }
-  }
 
 const verInformacoes = (paciente) => {
   router.push(`/detalhesPaciente?id=${paciente.id}`)
