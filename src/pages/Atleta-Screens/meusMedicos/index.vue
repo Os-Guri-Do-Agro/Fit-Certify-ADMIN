@@ -3,12 +3,7 @@
     <v-container fluid class="">
       <v-row class="">
         <v-col cols="12">
-          <v-card
-            rounded="lg"
-            variant="outlined"
-            color="green"
-            class="pa-0 ma-0"
-          >
+          <v-card rounded="lg" class="pa-0 ma-0">
             <v-row no-gutters class="pa-5 bg-green" justify="space-between">
               <v-col class="d-flex align-center" cols="auto">
                 <v-icon color="white" size="28" class="mr-2">mdi-doctor</v-icon>
@@ -21,7 +16,7 @@
               <v-col cols="auto">
                 <v-text-field
                   v-model="busca"
-                  @input="buscarMeusMedicos"
+                  @input="filtrarMedicos"
                   class="white-input"
                   bg-color="white"
                   variant="outlined"
@@ -34,8 +29,29 @@
               </v-col>
             </v-row>
 
-            <div
-              class="pa-5"
+            <!-- Skeleton Loading -->
+            <div v-if="loading">
+              <v-skeleton-loader
+                v-for="n in 3"
+                :key="n"
+                class="mb-6 pa-5 ma-5"
+                type="list-item-avatar-three-line"
+                elevation="2"
+                rounded="xl"
+                height="140"
+              />
+            </div>
+
+            <!-- Nenhum médico encontrado -->
+            <div v-else-if="!loading && meusMedicos.length === 0" class="text-center pa-10">
+              <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-doctor</v-icon>
+              <div class="text-h6 text-grey-darken-1">Nenhum médico encontrado</div>
+            </div>
+
+            <!-- Lista de Médicos -->
+            <v-card
+              v-else
+              class="pa-5 ma-5"
               v-for="(meusMedicos, index) in meusMedicos"
               :key="index"
             >
@@ -43,8 +59,8 @@
                 <v-col cols="auto" class="text-center">
                   <v-avatar size="90" color="grey-lighten-3">
                     <v-img
-                      v-if="medico?.usuario?.avatarUrl"
-                      :src="medico?.usuario?.avatarUrl"
+                      v-if="meusMedicos?.usuario?.avatarUrl"
+                      :src="meusMedicos?.usuario?.avatarUrl"
                       cover
                     ></v-img>
                     <v-icon v-else size="50" color="grey-darken-1"
@@ -63,16 +79,19 @@
 
                 <v-col>
                   <div
-                    class="text-subtitle-1 font-weight-bold"
+                    class="text-subtitle-1 font-weight-bold d-flex align-center justify-space-between"
                     style="color: black"
                   >
-                    NOME: {{ medico?.usuario?.nome }}
+                    {{ meusMedicos?.usuario?.nome }}
+                    <v-btn icon size="small" color="green" variant="flat">
+                      <v-icon>mdi-map-marker</v-icon>
+                    </v-btn>
                   </div>
                   <div class="text-body-2" style="color: black">
-                    {{ medico?.especializacao }}
+                    {{ meusMedicos?.especializacao }}
                   </div>
                   <div class="text-body-2" style="color: black">
-                    CRM: {{ medico?.crm }}
+                    CRM: {{ meusMedicos?.crm }}
                   </div>
 
                   <v-row align="center" class="mt-3">
@@ -82,7 +101,7 @@
                         color="green"
                         class="px-8 text-body-2"
                         rounded
-                        @click="detalhesMedico(medico.id)"
+                        @click="detalhesMedico(meusMedicos.id)"
                       >
                         Mais Detalhes
                       </v-btn>
@@ -90,12 +109,15 @@
                   </v-row>
                 </v-col>
               </v-row>
-            </div>
+            </v-card>
 
             <v-pagination
+              v-if="totalPages > 1 && !loading"
               v-model="page"
               :length="totalPages"
+              :disabled="loading"
               @update:model-value="mudarPagina"
+              class="mt-4"
             />
           </v-card>
         </v-col>
@@ -105,39 +127,102 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
+import { useRouter } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
+
+const router = useRouter()
 
 const busca = ref('')
 const meusMedicos = ref([])
 const page = ref(1)
 const pageSize = 10
-const nome = ref('')
 const totalPages = ref(0)
+const loading = ref(false)
+
+let debounceTimer = null
+let currentRequest = null
 
 const buscarMeusMedicos = async () => {
+  if (currentRequest) {
+    currentRequest.abort()
+  }
+
+  loading.value = true
+  const controller = new AbortController()
+  currentRequest = controller
+
   try {
     const response = await atletaService.getMedicosComConsulta(
       page.value,
       pageSize,
-      nome.value
+      busca.value,
+      { signal: controller.signal }
     )
-    meusMedicos.value = response.data.itens
-    console.log('MÉDICOS FILTRADOS: ', meusMedicos.value)
-    totalPages.value = response.data.totalPages
+
+    if (!controller.signal.aborted) {
+      meusMedicos.value = response?.data?.itens || []
+      totalPages.value = Math.max(1, response?.data?.totalPages || 1)
+
+      if (page.value > totalPages.value) {
+        page.value = 1
+        return buscarMeusMedicos()
+      }
+    }
   } catch (error) {
-    console.error('Erro ao buscar médicos:', error)
+    if (error.name !== 'AbortError') {
+      console.error('Erro ao buscar médicos:', error)
+      meusMedicos.value = []
+      totalPages.value = 1
+    }
+  } finally {
+    if (!controller.signal.aborted) {
+      loading.value = false
+      currentRequest = null
+    }
   }
 }
 
+const filtrarMedicos = () => {
+  if (debounceTimer) {
+    clearTimeout(debounceTimer)
+  }
+
+  debounceTimer = setTimeout(() => {
+    page.value = 1
+    buscarMeusMedicos()
+  }, 500)
+}
+
 const mudarPagina = (novaPagina) => {
-  page.value = novaPagina
-  buscarMeusMedicos()
+  if (novaPagina >= 1 && novaPagina <= totalPages.value && !loading.value) {
+    page.value = novaPagina
+    buscarMeusMedicos()
+  }
 }
 
 onMounted(() => {
   buscarMeusMedicos()
 })
+
+onUnmounted(() => {
+  if (debounceTimer) {
+    clearTimeout(debounceTimer)
+  }
+  if (currentRequest) {
+    currentRequest.abort()
+  }
+})
+
+function detalhesMedico(id) {
+  if (!id) return
+
+  const url = router.resolve({
+    name: '/Atleta-Screens/medicoDetalhes/',
+    query: { id },
+  }).href
+  window.open(url, '_blank')
+}
 </script>
 
 <style scoped>
