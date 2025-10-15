@@ -54,85 +54,89 @@
             elevation="2"
             rounded="xl"
           >
-          <v-btn
-            icon
-            size="small"
-            color="green"
-            variant="flat"
-            class="position-absolute"
-            style="top: 16px; right: 60px"
-          >
-            <v-icon>mdi-map-marker</v-icon>
-          </v-btn>
-          <v-btn
-            icon
-            size="small"
-            :color="medico.favorito ? 'amber-darken-1' : 'green'"
-            :variant="medico.favorito ? 'flat' : 'outlined'"
-            class="position-absolute"
-            style="top: 16px; right: 16px"
-            @click="toggleFavorito(medico)"
-          >
-            <v-icon :color="medico.favorito ? 'white' : 'green'">
-              {{ medico.favorito ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
-            </v-icon>
-          </v-btn>
+            <v-btn
+              icon
+              size="small"
+              color="green"
+              variant="flat"
+              class="position-absolute"
+              style="top: 16px; right: 60px"
+            >
+              <v-icon>mdi-map-marker</v-icon>
+            </v-btn>
+            <v-btn
+              icon
+              size="small"
+              :color="medico.favorito ? 'amber-darken-1' : 'green'"
+              :variant="medico.favorito ? 'flat' : 'outlined'"
+              class="position-absolute"
+              style="top: 16px; right: 16px"
+              @click="toggleFavorito(medico)"
+            >
+              <v-icon :color="medico.favorito ? 'white' : 'green'">
+                {{ medico.favorito ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
+              </v-icon>
+            </v-btn>
 
-          <v-row align="center">
-            <v-col cols="auto" class="text-center">
-              <v-avatar size="90" color="grey-lighten-3">
-                <v-img
-                  v-if="medico?.usuario?.avatarUrl"
-                  :src="medico?.usuario?.avatarUrl"
-                  cover
-                ></v-img>
-                <v-icon v-else size="50" color="grey-darken-1"
-                  >mdi-account</v-icon
-                >
-              </v-avatar>
-              <div class="mt-2">
-                <v-btn icon size="small" variant="text">
-                  <v-icon size="22" color="black">mdi-instagram</v-icon>
-                </v-btn>
-                <v-btn icon size="small" variant="text">
-                  <v-icon size="22" color="black">mdi-whatsapp</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-
-            <v-col>
-              <div
-                class="text-subtitle-1 font-weight-bold"
-                style="color: black"
-              >
-                {{ medico?.usuario?.nome }}
-              </div>
-              <div class="text-body-2" style="color: black">
-                {{ medico?.especializacao }}
-              </div>
-              <div class="text-body-2" style="color: black">
-                CRM: {{ medico.crm }}
-              </div>
-
-              <v-row align="center" class="mt-3">
-                <v-col cols="auto">
-                  <v-btn
-                    variant="flat"
-                    color="green"
-                    class="px-8 text-body-2"
-                    rounded
-                    @click="detalhesMedico(medico.id)"
+            <v-row align="center">
+              <v-col cols="auto" class="text-center">
+                <v-avatar size="90" color="grey-lighten-3">
+                  <v-img
+                    v-if="medico?.usuario?.avatarUrl"
+                    :src="medico?.usuario?.avatarUrl"
+                    cover
+                  ></v-img>
+                  <v-icon v-else size="50" color="grey-darken-1"
+                    >mdi-account</v-icon
                   >
-                    Mais Detalhes
+                </v-avatar>
+                <div class="mt-2">
+                  <v-btn icon size="small" variant="text">
+                    <v-icon size="22" color="black">mdi-instagram</v-icon>
                   </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+                  <v-btn icon size="small" variant="text">
+                    <v-icon size="22" color="black">mdi-whatsapp</v-icon>
+                  </v-btn>
+                </div>
+              </v-col>
+
+              <v-col>
+                <div
+                  class="text-subtitle-1 font-weight-bold"
+                  style="color: black"
+                >
+                  {{ medico?.usuario?.nome }}
+                </div>
+                <div class="text-body-2" style="color: black">
+                  {{ medico?.especializacao }}
+                </div>
+                <div class="text-body-2" style="color: black">
+                  CRM: {{ medico.crm }}
+                </div>
+
+                <v-row align="center" class="mt-3">
+                  <v-col cols="auto">
+                    <v-btn
+                      variant="flat"
+                      color="green"
+                      class="px-8 text-body-2"
+                      rounded
+                      @click="detalhesMedico(medico.id)"
+                    >
+                      Mais Detalhes
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
           </v-card>
 
           <!-- Paginação -->
-          <v-row v-if="!loading && totalPages > 1" justify="center" class="mt-4">
+          <v-row
+            v-if="!loading && totalPages > 1"
+            justify="center"
+            class="mt-4"
+          >
             <v-pagination
               v-model="page"
               :length="totalPages"
@@ -173,7 +177,7 @@ import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload } from '@/utils/auth'
 import { useRouter } from 'vue-router'
-import { useMedicosSalvosStore } from '@/stores/medicosSalvos'
+import { useMedicosSalvosStore } from '@/stores/meusMedicos'
 
 const router = useRouter()
 const medicosSalvosStore = useMedicosSalvosStore()
@@ -225,7 +229,9 @@ const buscarMedico = async () => {
         }
       }
       // Verificar se o médico já está salvo
-      medico.value[i].favorito = medicosSalvosStore.isMedicoSalvo(medico.value[i].id)
+      medico.value[i].favorito = medicosSalvosStore.isMedicoSalvo(
+        medico.value[i].id
+      )
     }
   } catch (error) {
     console.error('erro ao buscar médico', error)

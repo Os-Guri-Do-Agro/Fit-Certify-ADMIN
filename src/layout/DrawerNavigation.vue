@@ -326,9 +326,9 @@ const menusPorPerfil: Record<string, any[]> = {
         },
         {
           icon: 'mdi-bookmark-outline',
-          title: 'Salvos',
-          value: 'medicosSalvos',
-          to: '/Atleta-Screens/medicoSalvos/',
+          title: 'Meus Médicos',
+          value: 'meusMedicos',
+          to: '/Atleta-Screens/meusMedicos/',
         },
       ],
     },
