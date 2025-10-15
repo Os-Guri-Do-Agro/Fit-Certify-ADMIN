@@ -62,6 +62,16 @@ export const medicoLogin = () => {
   return payload?.role == 'medico'
 }
 
+export const getMedicoId = () => {
+  const payload = getPayload()
+  return payload?.role === 'medico' ? payload?.user?.medicoId : null
+}
+
+export const getRole = () => {
+   const payload = getPayload()
+  return payload?.role
+}
+
 export const updateUserPlan = async (planoId: string) => {
   try {
     const userData = getPayload()

@@ -1,6 +1,6 @@
 import apiClient from '../api-service'
 
-class consultaService {
+class consultasService {
   private async handleRequest<T>(
     request: Promise<{ data: T }>,
     errorMessage: string
@@ -41,6 +41,18 @@ class consultaService {
       'Falha ao criar consulta'
     )
   }
+
+
+  async findHorariosDisponiveis(data: { medicoId: string, data: string }): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/consulta/findHorariosDisponiveis', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get horarios disponiveis'
+    )
+  }
+
 }
 
-export default new consultaService()
+export default new consultasService()
