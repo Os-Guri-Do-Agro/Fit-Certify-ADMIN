@@ -210,62 +210,16 @@ const calendarDays = ref([])
 const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const selectedDayAppointments = ref({
   date: dayjs().format('DD/MM'),
-  appointments: [
-    { id: 1, patient: 'João Silva', time: '09:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 2, patient: 'Maria Santos', time: '10:30', status: 'pending', type: 'external' },
-    { id: 3, patient: 'Pedro Costa', time: '14:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 4, patient: 'Ana Oliveira', time: '15:30', status: 'confirmed', type: 'external' }
-  ]
+  appointments: []
 })
 
-const appointmentsByDay = ref({
-  // Mês atual
-  [dayjs().format('YYYY-MM-DD')]: [
-    { id: 1, patient: 'João Silva', time: '09:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 2, patient: 'Maria Santos', time: '10:30', status: 'pending', type: 'external' },
-    { id: 3, patient: 'Pedro Costa', time: '14:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 4, patient: 'Ana Oliveira', time: '15:30', status: 'confirmed', type: 'external' }
-  ],
-  [dayjs().add(1, 'day').format('YYYY-MM-DD')]: [
-    { id: 5, patient: 'Carlos Mendes', time: '08:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 6, patient: 'Lucia Ferreira', time: '11:00', status: 'pending', type: 'external' }
-  ],
-  [dayjs().add(5, 'day').format('YYYY-MM-DD')]: [
-    { id: 8, patient: 'Fernanda Costa', time: '09:30', status: 'confirmed', type: 'external' },
-    { id: 9, patient: 'Marcos Silva', time: '14:30', status: 'pending', type: 'fitcertify' }
-  ],
-  // Próximo mês
-  [dayjs().add(1, 'month').date(5).format('YYYY-MM-DD')]: [
-    { id: 10, patient: 'Ricardo Souza', time: '10:00', status: 'confirmed', type: 'fitcertify' },
-    { id: 11, patient: 'Amanda Lima', time: '15:00', status: 'pending', type: 'external' }
-  ],
-  [dayjs().add(1, 'month').date(12).format('YYYY-MM-DD')]: [
-    { id: 12, patient: 'Bruno Santos', time: '09:00', status: 'confirmed', type: 'external' }
-  ],
-  [dayjs().add(1, 'month').date(20).format('YYYY-MM-DD')]: [
-    { id: 13, patient: 'Carla Oliveira', time: '11:30', status: 'confirmed', type: 'fitcertify' },
-    { id: 14, patient: 'Diego Ferreira', time: '14:00', status: 'pending', type: 'fitcertify' },
-    { id: 15, patient: 'Elena Costa', time: '16:30', status: 'confirmed', type: 'external' }
-  ],
-  // Segundo mês seguinte
-  [dayjs().add(2, 'month').date(8).format('YYYY-MM-DD')]: [
-    { id: 16, patient: 'Felipe Alves', time: '08:30', status: 'confirmed', type: 'fitcertify' }
-  ],
-  [dayjs().add(2, 'month').date(15).format('YYYY-MM-DD')]: [
-    { id: 17, patient: 'Gabriela Silva', time: '10:30', status: 'pending', type: 'external' },
-    { id: 18, patient: 'Henrique Lima', time: '13:00', status: 'confirmed', type: 'fitcertify' }
-  ],
-  [dayjs().add(2, 'month').date(25).format('YYYY-MM-DD')]: [
-    { id: 19, patient: 'Isabela Santos', time: '09:15', status: 'confirmed', type: 'external' },
-    { id: 20, patient: 'João Pedro', time: '11:45', status: 'pending', type: 'fitcertify' },
-    { id: 21, patient: 'Larissa Costa', time: '15:15', status: 'confirmed', type: 'external' }
-  ]
-})
+const appointmentsByDay = ref({})
 
 onMounted(async () => {
   buscarAtletas()
   buscarHorariosDisponiveis()
   generateCalendar()
+  await buscarConsultasDoDia(dayjs().format('YYYY-MM-DD'))
 })
 
 watch(dayselect, (newValue) => {
@@ -344,14 +298,49 @@ const previousMonth = () => {
   generateCalendar()
 }
 
-const selectDay = (day) => {
+const buscarConsultasDoDia = async (selectedDate) => {
+  const dataInicio = selectedDate + 'T00:00:00.000Z'
+  const dataFim = selectedDate + 'T23:59:00.000Z'
+  
+  const data = {
+    dataInicio,
+    dataFim
+  }
+  
+  try {
+    const response = await consultasService.findConsultasByDayForMedico(data)
+    if (response.success && response.data.length > 0) {
+      const dayData = response.data[0]
+      const appointments = dayData.consultas.map(consulta => ({
+        id: consulta.id,
+        patient: consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta.usuario.nome,
+        time: dayjs(consulta.dataConsulta).format('HH:mm'),
+        status: consulta.situacao.toLowerCase(),
+        type: consulta.consultaExterna ? 'external' : 'fitcertify'
+      }))
+      selectedDayAppointments.value = {
+        date: dayjs(selectedDate).format('DD/MM'),
+        appointments
+      }
+    } else {
+      selectedDayAppointments.value = {
+        date: dayjs(selectedDate).format('DD/MM'),
+        appointments: []
+      }
+    }
+  } catch (error) {
+    console.error('Erro ao buscar consultas:', error)
+    selectedDayAppointments.value = {
+      date: dayjs(selectedDate).format('DD/MM'),
+      appointments: []
+    }
+  }
+}
+
+const selectDay = async (day) => {
   console.log('Dia selecionado:', day)
   selectedDay.value = day.date
-  const dayAppointments = appointmentsByDay.value[day.date] || []
-  selectedDayAppointments.value = {
-    date: dayjs(day.date).format('DD/MM'),
-    appointments: dayAppointments
-  }
+  await buscarConsultasDoDia(day.date)
 }
 </script>
 
