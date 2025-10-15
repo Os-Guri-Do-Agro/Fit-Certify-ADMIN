@@ -64,19 +64,6 @@
             >
               <v-icon>mdi-map-marker</v-icon>
             </v-btn>
-            <v-btn
-              icon
-              size="small"
-              :color="medico.favorito ? 'amber-darken-1' : 'green'"
-              :variant="medico.favorito ? 'flat' : 'outlined'"
-              class="position-absolute"
-              style="top: 16px; right: 16px"
-              @click="toggleFavorito(medico)"
-            >
-              <v-icon :color="medico.favorito ? 'white' : 'green'">
-                {{ medico.favorito ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
-              </v-icon>
-            </v-btn>
 
             <v-row align="center">
               <v-col cols="auto" class="text-center">

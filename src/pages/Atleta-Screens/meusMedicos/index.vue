@@ -34,10 +34,68 @@
               </v-col>
             </v-row>
 
+            <div
+              class="pa-5"
+              v-for="(meusMedicos, index) in meusMedicos"
+              :key="index"
+            >
+              <v-row align="center">
+                <v-col cols="auto" class="text-center">
+                  <v-avatar size="90" color="grey-lighten-3">
+                    <v-img
+                      v-if="medico?.usuario?.avatarUrl"
+                      :src="medico?.usuario?.avatarUrl"
+                      cover
+                    ></v-img>
+                    <v-icon v-else size="50" color="grey-darken-1"
+                      >mdi-account</v-icon
+                    >
+                  </v-avatar>
+                  <div class="mt-2">
+                    <v-btn icon size="small" variant="text">
+                      <v-icon size="22" color="black">mdi-instagram</v-icon>
+                    </v-btn>
+                    <v-btn icon size="small" variant="text">
+                      <v-icon size="22" color="black">mdi-whatsapp</v-icon>
+                    </v-btn>
+                  </div>
+                </v-col>
+
+                <v-col>
+                  <div
+                    class="text-subtitle-1 font-weight-bold"
+                    style="color: black"
+                  >
+                    NOME: {{ medico?.usuario?.nome }}
+                  </div>
+                  <div class="text-body-2" style="color: black">
+                    {{ medico?.especializacao }}
+                  </div>
+                  <div class="text-body-2" style="color: black">
+                    CRM: {{ medico?.crm }}
+                  </div>
+
+                  <v-row align="center" class="mt-3">
+                    <v-col cols="auto">
+                      <v-btn
+                        variant="flat"
+                        color="green"
+                        class="px-8 text-body-2"
+                        rounded
+                        @click="detalhesMedico(medico.id)"
+                      >
+                        Mais Detalhes
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </div>
+
             <v-pagination
               v-model="page"
               :length="totalPages"
-              @update:model-value="buscarMeusMedicos"
+              @update:model-value="mudarPagina"
             />
           </v-card>
         </v-col>
@@ -55,7 +113,7 @@ const meusMedicos = ref([])
 const page = ref(1)
 const pageSize = 10
 const nome = ref('')
-const totalPages = ref(1)
+const totalPages = ref(0)
 
 const buscarMeusMedicos = async () => {
   try {
@@ -64,12 +122,17 @@ const buscarMeusMedicos = async () => {
       pageSize,
       nome.value
     )
-    meusMedicos.value = response.data
+    meusMedicos.value = response.data.itens
     console.log('MÉDICOS FILTRADOS: ', meusMedicos.value)
-    totalPages.value = Math.ceil(response.total / pageSize)
+    totalPages.value = response.data.totalPages
   } catch (error) {
     console.error('Erro ao buscar médicos:', error)
   }
+}
+
+const mudarPagina = (novaPagina) => {
+  page.value = novaPagina
+  buscarMeusMedicos()
 }
 
 onMounted(() => {
