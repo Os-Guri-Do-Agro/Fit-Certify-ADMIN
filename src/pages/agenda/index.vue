@@ -81,10 +81,15 @@
                   <div class="flex-grow-1">
                     <div class="font-weight-medium">{{ appointment.patient }}</div>
                     <div class="text-caption text-grey">{{ appointment.time }}</div>
-                    <v-chip size="x-small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
-                      variant="outlined">
-                      {{ appointment.type === 'fitcertify' ? 'FitCertify365' : 'Externo' }}
-                    </v-chip>
+                    <div class="d-flex gap-1 mt-1">
+                      <v-chip size="x-small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
+                        variant="outlined">
+                        {{ appointment.type === 'fitcertify' ? 'FitCertify365' : 'Externo' }}
+                      </v-chip>
+                      <v-chip size="x-small" :color="getStatusColor(appointment.status)" variant="flat">
+                        {{ formatStatus(appointment.status) }}
+                      </v-chip>
+                    </div>
                   </div>
                 </div>
                 <v-divider
@@ -113,7 +118,7 @@
             prepend-inner-icon="mdi-account"></v-combobox>
           <!-- Caso nao seja atleta fitcertify -->
           <v-text-field v-if="ConsultaExterna" label="Nome do Paciente Externo" variant="outlined"
-            prepend-inner-icon="mdi-account"></v-text-field>
+            prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
 
           <v-checkbox class="ma-0 pa-0" label="Consulta Externa" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
@@ -139,10 +144,11 @@
                 <div class="time-slots-grid">
                   <v-card v-for="(hora, index) in datinhas.slots" :key="index" :class="[
                     'time-slot-card',
-                    hora.disponivel ? 'available' : 'unavailable'
+                    hora.disponivel ? 'available' : 'unavailable',
+                    { 'selected': selectedTimeSlot?.horario === hora.horario }
                   ]" :disabled="!hora.disponivel" @click="hora.disponivel && selectTimeSlot(hora)">
                     <v-card-text class="pa-3 text-center">
-                      <v-icon :color="hora.disponivel ? 'blue' : 'grey'" class="mb-1">
+                      <v-icon :color="selectedTimeSlot?.horario === hora.horario ? 'white' : (hora.disponivel ? 'blue' : 'grey')" class="mb-1">
                         {{ hora.disponivel ? 'mdi-clock-check' : 'mdi-clock-remove' }}
                       </v-icon>
                       <div class="text-body-2 font-weight-medium">
@@ -177,7 +183,7 @@
           <v-btn color="grey" variant="text" @click="ActiveDialog = false">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat">
+          <v-btn color="blue" variant="flat" @click="criarConsulta" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
             Confirmar
           </v-btn>
         </v-card-actions>
@@ -204,6 +210,8 @@ const ConsultaExterna = ref(false)
 const atletas = ref([])
 const dayselect = ref()
 const datinhas = ref([])
+const selectedTimeSlot = ref(null)
+const nomePacienteExterno = ref('')
 const currentDate = ref(dayjs())
 const currentMonth = ref(dayjs().format('MMMM YYYY'))
 const calendarDays = ref([])
@@ -229,8 +237,7 @@ watch(dayselect, (newValue) => {
 })
 
 
-// #todo primeira busca, sempre ser o dia atual. (calendario)
-//
+
 const buscarHorariosDisponiveis = async () => {
   const data = {
     medicoId: getMedicoId(),
@@ -246,23 +253,40 @@ const buscarAtletas = async () => {
   atletas.value = response.data
 }
 
-// const AgendarConsulta = async (){
-
-// evitar de mandar o atletaId quando for externo
-// if(ConsultaExterna){
-//   atletaSelected.value = null
-// }
-
-
-// console.log(dayselect.value.toISOString())
-// const response = consultasService.criarAgendamento(data)
-// console.log(response.data)
-// datinhas.value = response.data
-// }
-
 
 const selectTimeSlot = (hora) => {
+  selectedTimeSlot.value = hora
   console.log('Horário selecionado:', hora)
+}
+
+const criarConsulta = async () => {
+  try {
+    const data = {
+      medicoId: getMedicoId(),
+      atletaId: ConsultaExterna.value ? null : atletaSelected.value.id,
+      diagnostico: '',
+      medicamentosReceitados: '',
+      situacao: 'Aberto',
+      nomePacienteExterno: ConsultaExterna.value ? nomePacienteExterno.value : null,
+      consultaExterna: ConsultaExterna.value,
+      dataConsulta: selectedTimeSlot.value.horario
+    }
+
+    await consultasService.createConsultaByMedico(data)
+    ActiveDialog.value = false
+
+    // Reset form
+    selectedTimeSlot.value = null
+    atletaSelected.value = null
+    nomePacienteExterno.value = ''
+    ConsultaExterna.value = false
+
+    // Refresh data
+    await buscarHorariosDisponiveis()
+    await buscarConsultasDoDia(selectedDay.value)
+  } catch (error) {
+    console.error('Erro ao criar consulta:', error)
+  }
 }
 
 const generateCalendar = () => {
@@ -301,12 +325,12 @@ const previousMonth = () => {
 const buscarConsultasDoDia = async (selectedDate) => {
   const dataInicio = selectedDate + 'T00:00:00.000Z'
   const dataFim = selectedDate + 'T23:59:00.000Z'
-  
+
   const data = {
     dataInicio,
     dataFim
   }
-  
+
   try {
     const response = await consultasService.findConsultasByDayForMedico(data)
     if (response.success && response.data.length > 0) {
@@ -314,8 +338,8 @@ const buscarConsultasDoDia = async (selectedDate) => {
       const appointments = dayData.consultas.map(consulta => ({
         id: consulta.id,
         patient: consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta.usuario.nome,
-        time: dayjs(consulta.dataConsulta).format('HH:mm'),
-        status: consulta.situacao.toLowerCase(),
+        time: dayjs(consulta.dataConsulta).utc().format('HH:mm'),
+        status: consulta.situacao.toLowerCase().replace(' ', ''),
         type: consulta.consultaExterna ? 'external' : 'fitcertify'
       }))
       selectedDayAppointments.value = {
@@ -341,6 +365,20 @@ const selectDay = async (day) => {
   console.log('Dia selecionado:', day)
   selectedDay.value = day.date
   await buscarConsultasDoDia(day.date)
+}
+
+const formatStatus = (status) => {
+  if (status === 'ematendimento') return 'Em Atendimento'
+  if (status === 'concluido') return 'Concluído'
+  if (status === 'aberto') return 'Aberto'
+  return status
+}
+
+const getStatusColor = (status) => {
+  if (status === 'ematendimento') return 'orange'
+  if (status === 'concluido') return 'green'
+  if (status === 'aberto') return 'blue'
+  return 'grey'
 }
 </script>
 
@@ -378,6 +416,12 @@ const selectDay = async (day) => {
 .time-slot-card.unavailable:hover {
   transform: none;
   box-shadow: none;
+}
+
+.time-slot-card.selected {
+  background: #1976d2 !important;
+  color: white;
+  border-color: #1976d2;
 }
 
 .agenda-container {

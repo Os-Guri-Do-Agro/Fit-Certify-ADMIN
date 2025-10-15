@@ -53,13 +53,31 @@ class consultasService {
     )
   }
   async findConsultasByDayForMedico(data:
-     { dataInicio: string, dataFim: string }): Promise<any> {
+    { dataInicio: string, dataFim: string }): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.post('/consulta/findConsultasByMedico', data, {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to get horarios disponiveis'
+    )
+  }
+  async createConsultaByMedico(data: {
+    medicoId: string
+    atletaId?: string
+    diagnostico: string
+    medicamentosReceitados: string
+    situacao: string
+    nomePacienteExterno?: string
+    consultaExterna: boolean
+    dataConsulta: string
+  }): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/consulta', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to create consulta'
     )
   }
 
