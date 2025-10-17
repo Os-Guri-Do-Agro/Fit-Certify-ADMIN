@@ -5,7 +5,6 @@ class atletaService {
     request: Promise<{ data: T }>,
     errorMessage: string
   ): Promise<T> {
-
     try {
       const { data } = await request
       return data
@@ -16,37 +15,36 @@ class atletaService {
   }
 
   async getAtletaById(id: string): Promise<any> {
-   const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.get(`/atleta/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }),
       'Failed to get all Doencas '
     )
   }
   async getAllAtletas(): Promise<any> {
-   const token = sessionStorage.getItem('token')
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.get(`/atleta`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }),
       'Failed to get all Doencas '
     )
   }
 
-
-   async editAtletaByProfile(data: FormData): Promise<any> {
+  async editAtletaByProfile(data: FormData): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.patch(`/atleta/updateProfile`, data, {
         headers: {
           'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }),
       'Failed to update atleta profile'
     )
@@ -62,18 +60,40 @@ class atletaService {
     )
   }
 
-  async deleteAtleta(id:string){
-   const token = sessionStorage.getItem('token')
+  async deleteAtleta(id: string) {
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
-      apiClient.delete(`atleta/inativar-atleta/${id}`,{
+      apiClient.delete(`atleta/inativar-atleta/${id}`, {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`,
+        },
       }),
       'Failed to delete account'
     )
   }
-}
 
+  async getMedicosComConsulta(
+    page?: number,
+    pageSize?: number,
+    nome?: string
+  ): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    const params: Record<string, any> = {}
+
+    if (page !== undefined) params.page = page
+    if (pageSize !== undefined) params.pageSize = pageSize
+    if (nome) params.nome = nome
+
+    return this.handleRequest(
+      apiClient.get(`/atleta/findMedicosComConsultasPagined`, {
+        params,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'Failed to get all Doencas '
+    )
+  }
+}
 
 export default new atletaService()
