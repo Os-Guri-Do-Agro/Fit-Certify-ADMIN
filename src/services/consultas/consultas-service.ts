@@ -23,6 +23,28 @@ class consultasService {
       'Failed to get consultas by atleta ID'
     )
   }
+  async getConsultasPendentesByMedico(): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/consulta/findConsultasPendentes`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get consultas by atleta ID'
+    )
+  }
+
+  async aceitarOrRejeitarConsultaById(id: string, data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.patch(`/consulta/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to update atleta profile'
+    )
+  }
 
   async postConsulta(data: {
     medicoId: string
@@ -50,6 +72,52 @@ class consultasService {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to get horarios disponiveis'
+    )
+  }
+  async findConsultasByDayForMedico(data:
+    { dataInicio: string, dataFim: string }): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/consulta/findConsultasByMedico', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get horarios disponiveis'
+    )
+  }
+  async createConsultaByMedico(data: {
+    medicoId: string
+    atletaId?: string
+    diagnostico: string
+    medicamentosReceitados: string
+    situacao: string
+    nomePacienteExterno?: string
+    consultaExterna: boolean
+    dataConsulta: string
+  }): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/consulta', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to create consulta'
+    )
+  }
+  async createConsultaByAtleta(data: {
+    medicoId: string
+    atletaId?: string
+    diagnostico: string
+    medicamentosReceitados: string
+    situacao: string
+    nomePacienteExterno?: string
+    consultaExterna: boolean
+    dataConsulta: string
+  }): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/consulta', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to create consulta'
     )
   }
 

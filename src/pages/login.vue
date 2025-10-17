@@ -210,7 +210,6 @@ function validarEmail(email: string) {
 async function enviarCodigo() {
   try {
     await authService.enviarCodigo(emailModal.value).then((resp) => {
-      console.log(resp);
       toast.success('Código enviado com sucesso!');
     })
 

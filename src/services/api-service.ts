@@ -7,15 +7,15 @@ import axios, {
 } from 'axios'
 //   import { useAuthStore } from '@/stores/auth'
 
-const apiClient: AxiosInstance = axios.create({
-  baseURL: 'https://fitcertify-api-staging.up.railway.app/',
-  headers: {
-    'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Authorization',
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-  },
-})
+  const apiClient: AxiosInstance = axios.create({
+    baseURL:  import.meta.env.VITE_BASE_URL,
+    headers: {
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Authorization",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT, PATCH, DELETE",
+      }
+  })
 
 const getAuthHeader = (): AxiosRequestHeaders | undefined => {
   return undefined

@@ -567,7 +567,6 @@ const findAllConsultas = async (id) => {
     }
   } catch (error) {
     if (error.response?.status === 404) {
-      console.log('Nenhuma consulta encontrada para este atleta')
       consultas.value = []
     } else {
       console.error('Erro ao buscar consultas:', error)
@@ -587,7 +586,6 @@ const findAllAlergias = async (id) => {
     }
   } catch (error) {
     if (error.response?.status === 404) {
-      console.log('Nenhuma alergia encontrada para este atleta')
       alergias.value = []
     } else {
       console.error('Erro ao buscar alergias:', error)

@@ -1520,8 +1520,6 @@ const handleNext = async (next) => {
         : [],
     }
 
-    console.log('Dados do telefone:', mobile_phone.value)
-    console.log('Dados enviados para API:', data)
 
     await pagarmeService
       .realizarAssinatura(data)
@@ -1539,8 +1537,6 @@ const handleNext = async (next) => {
       })
       .finally(() => (loading.value = false))
   } else if (step.value === 4) {
-    console.log('step')
-    //chamar função de refresh user data
   } else {
     next()
   }

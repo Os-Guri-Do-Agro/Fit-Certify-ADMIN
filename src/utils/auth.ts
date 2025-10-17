@@ -11,7 +11,7 @@ export const isTokenValid = (): boolean => {
 
     return payload.exp > currentTime
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -47,7 +47,7 @@ export const getPayload = () => {
 
     return payload
   } catch (error) {
-    console.log(error)
+    console.error(error)
     return false
   }
 }
@@ -66,9 +66,13 @@ export const getMedicoId = () => {
   const payload = getPayload()
   return payload?.role === 'medico' ? payload?.user?.medicoId : null
 }
+export const getAtletaId = () => {
+  const payload = getPayload()
+  return payload?.role === 'atleta' ? payload?.user?.atletaId : null
+}
 
 export const getRole = () => {
-   const payload = getPayload()
+  const payload = getPayload()
   return payload?.role
 }
 

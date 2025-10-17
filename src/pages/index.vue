@@ -1,12 +1,12 @@
 <template>
   <Resumo v-if="validationScreenByRole === 'atleta'" />
-  <Agenda v-else />
+  <Calendario v-else />
 </template>
 
 <script  setup>
 import { onMounted, ref } from 'vue';
 import Resumo from '../pages/resumo/index.vue'
-import Agenda from '../pages/agenda/index.vue'
+import Calendario from '../pages/agendaMedica/index.vue'
 import { getRole } from '@/utils/auth';
 const validationScreenByRole = ref()
 onMounted(async () => {

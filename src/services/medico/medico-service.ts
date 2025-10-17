@@ -48,6 +48,9 @@ class medicoService {
       'Falha ao buscar médicos paginados'
     )
   }
+
+
+
   async getMetricsById(data:any): Promise<any> {
    const token = sessionStorage.getItem('token')
     return this.handleRequest(
