@@ -168,11 +168,11 @@
                 <div class="mt-4 text-center">
                   <v-chip color="success" variant="flat" size="small" class="mr-2">
                     <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                    {{ datinhas.slotsDisponiveis }} disponíveis
+                    {{ datinhas.slotsDisponiveis || 0 }} disponíveis
                   </v-chip>
                   <v-chip color="grey" variant="flat" size="small">
                     <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                    {{ datinhas.slots?.length - datinhas.slotsDisponiveis }} Ocupados
+                    {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} ocupados
                   </v-chip>
                 </div>
               </v-card>

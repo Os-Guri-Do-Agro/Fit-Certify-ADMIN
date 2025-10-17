@@ -19,6 +19,9 @@
         <v-btn value="realizadas" color="green" :variant="filtro === 'realizadas' ? 'flat' : 'outlined'" class="px-8 text-body-1 font-weight-medium">
           Realizadas
         </v-btn>
+        <v-btn value="pendente" color="green" :variant="filtro === 'pendente' ? 'flat' : 'outlined'" class="px-8 text-body-1 font-weight-medium">
+          Pendentes
+        </v-btn>
       </v-btn-toggle>
     </v-row>
 
@@ -101,7 +104,8 @@ const consultas = ref([])
 
 const consultasFiltradas = computed(() => {
   if (filtro.value === 'todas') return consultas.value
-  if (filtro.value === 'marcado') return consultas.value.filter(c => ['Pendente', 'Marcado'].includes(c.situacao))
+  if (filtro.value === 'marcado') return consultas.value.filter(c => c.situacao === 'Marcado')
+  if (filtro.value === 'pendente') return consultas.value.filter(c => c.situacao === 'Pendente')
   if (filtro.value === 'realizadas') return consultas.value.filter(c => c.situacao === 'Concluido')
   return consultas.value
 })

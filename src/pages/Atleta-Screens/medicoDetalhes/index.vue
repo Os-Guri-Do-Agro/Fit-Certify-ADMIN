@@ -168,7 +168,7 @@
         <v-row>
           <v-col cols="6">
             <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100"
-              locale="pt-BR"></v-date-picker>
+              locale="pt-BR" ></v-date-picker>
           </v-col>
           <v-col cols="6">
             <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
@@ -202,11 +202,11 @@
               <div class="mt-4 text-center">
                 <v-chip color="success" variant="flat" size="small" class="mr-2">
                   <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                  {{ datinhas.slotsDisponiveis }} disponíveis
+                  {{ datinhas.slotsDisponiveis || 0 }} disponíveis
                 </v-chip>
                 <v-chip color="grey" variant="flat" size="small">
                   <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                  {{ datinhas.slots?.length - datinhas.slotsDisponiveis }} Ocupados
+                  {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} ocupados
                 </v-chip>
               </div>
             </v-card>
