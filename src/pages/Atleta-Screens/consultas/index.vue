@@ -3,7 +3,6 @@
     <v-row justify="center" class="text-center mb-8">
       <v-col cols="12">
         <h2 class="text-h5 text-md-h4 font-weight-bold" style="color: green">
-          Exemplo
           Minhas Consultas
         </h2>
       </v-col>
@@ -11,13 +10,13 @@
 
     <v-row justify="center" class="mb-10">
       <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
-        <v-btn value="todas" color="green" variant="flat" class="px-8 text-body-1 font-weight-medium">
-          Todas Consultas
+        <v-btn value="todas" color="green" :variant="filtro === 'todas' ? 'flat' : 'outlined'" class="px-8 text-body-1 font-weight-medium">
+          Todas as Consultas
         </v-btn>
-        <v-btn value="agendadas" color="green" variant="outlined" class="px-8 text-body-1 font-weight-medium">
-          Agendadas
+        <v-btn value="marcado" color="green" :variant="filtro === 'marcado' ? 'flat' : 'outlined'" class="px-8 text-body-1 font-weight-medium">
+          Marcadas
         </v-btn>
-        <v-btn value="realizadas" color="green" variant="outlined" class="px-8 text-body-1 font-weight-medium">
+        <v-btn value="realizadas" color="green" :variant="filtro === 'realizadas' ? 'flat' : 'outlined'" class="px-8 text-body-1 font-weight-medium">
           Realizadas
         </v-btn>
       </v-btn-toggle>
@@ -31,40 +30,43 @@
         </div>
 
         <div v-else>
-          <v-card v-for="(consulta, index) in consultasFiltradas" :key="index" class="mb-6 pa-5" elevation="2"
-            rounded="xl">
-            <v-row align="center">
-              <v-col cols="auto" class="text-center">
-                <v-avatar size="90" color="grey-lighten-3">
-                  <v-img v-if="consulta?.medico?.usuario?.avatarUrl" :src="consulta?.medico?.usuario?.avatarUrl" cover></v-img>
-                  <v-icon v-else size="50" color="grey-darken-1">mdi-account</v-icon>
-                </v-avatar>
-              </v-col>
+          <v-row>
+            <v-col v-for="(consulta, index) in consultasFiltradas" :key="index" cols="12" md="6">
+              <v-card class="mb-6 pa-5" elevation="2" rounded="xl" height="100%">
+                <v-row align="center">
+                  <v-col cols="auto" class="text-center">
+                    <v-avatar size="90" color="grey-lighten-3">
+                      <v-img v-if="consulta?.medico?.usuario?.avatarUrl" :src="consulta?.medico?.usuario?.avatarUrl" cover></v-img>
+                      <v-icon v-else size="50" color="grey-darken-1">mdi-account</v-icon>
+                    </v-avatar>
+                  </v-col>
 
-              <v-col>
-                <div class="text-subtitle-1 font-weight-bold" style="color: black">
-                  Dr. {{ consulta?.medico?.usuario?.nome }}
-                </div>
-                <div class="text-body-2" style="color: black">
-                  {{ consulta?.medico?.especializacao }}
-                </div>
-                <div class="text-body-2" style="color: black">
-                  Data: {{ formatarData(consulta?.dataConsulta) }}
-                </div>
-                <div class="text-body-2" style="color: black">
-                  Horário: {{ formatarHorario(consulta?.dataConsulta) }}
-                </div>
+                  <v-col>
+                    <div class="text-subtitle-1 font-weight-bold" style="color: black">
+                      Dr. {{ consulta?.medico?.usuario?.nome }}
+                    </div>
+                    <div class="text-body-2" style="color: black">
+                      {{ consulta?.medico?.especializacao }}
+                    </div>
+                    <div class="text-body-2" style="color: black">
+                      Data: {{ formatarData(consulta?.dataConsulta) }}
+                    </div>
+                    <div class="text-body-2" style="color: black">
+                      Horário: {{ formatarHorario(consulta?.dataConsulta) }}
+                    </div>
 
-                <v-chip
-                  :color="getStatusColor(consulta?.situacao)"
-                  size="small"
-                  class="mt-2"
-                >
-                  {{ consulta?.situacao }}
-                </v-chip>
-              </v-col>
-            </v-row>
-          </v-card>
+                    <v-chip
+                      :color="getStatusColor(consulta?.situacao)"
+                      size="small"
+                      class="mt-2"
+                    >
+                      {{ consulta?.situacao }}
+                    </v-chip>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
 
           <div v-if="consultasFiltradas.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
@@ -72,10 +74,10 @@
           </div>
 
           <!-- Paginação -->
-          <v-row v-if="!loading && totalPages > 1" justify="center" class="mt-4">
+          <!-- <v-row v-if="!loading && totalPages > 1" justify="center" class="mt-4">
             <v-pagination v-model="page" :length="totalPages" active-color="green" total-visible="4" size="small"
               @update:model-value="mudarPagina" />
-          </v-row>
+          </v-row> -->
         </div>
       </v-col>
     </v-row>
@@ -99,7 +101,7 @@ const consultas = ref([])
 
 const consultasFiltradas = computed(() => {
   if (filtro.value === 'todas') return consultas.value
-  if (filtro.value === 'agendadas') return consultas.value.filter(c => ['Pendente', 'Marcado'].includes(c.situacao))
+  if (filtro.value === 'marcado') return consultas.value.filter(c => ['Pendente', 'Marcado'].includes(c.situacao))
   if (filtro.value === 'realizadas') return consultas.value.filter(c => c.situacao === 'Concluido')
   return consultas.value
 })
@@ -107,11 +109,7 @@ const consultasFiltradas = computed(() => {
 const buscarConsultas = async () => {
   try {
     loading.value = true
-    const response = await consultasService.findConsultasByAtleta({
-      atletaId: getAtletaId(),
-      page: page.value,
-      pageSize: pageSize.value
-    })
+    const response = await consultasService.getConsultasByAtletaId(getAtletaId())
     consultas.value = response.data.itens || response.data
     totalPages.value = response.data.totalPages || 1
   } catch (error) {
