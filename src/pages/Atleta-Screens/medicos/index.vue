@@ -11,21 +11,11 @@
 
     <v-row justify="center" class="mb-10">
       <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
-        <v-btn
-          value="lista"
-          color="green"
-          variant="flat"
-          class="px-8 text-body-1 font-weight-medium"
-        >
+        <v-btn value="lista" color="green" variant="flat" class="px-8 text-body-1 font-weight-medium">
           Lista completa
         </v-btn>
-        <v-btn
-          value="meu"
-          color="green"
-          variant="outlined"
-          class="px-8 text-body-1 font-weight-medium"
-          @click="router.push('/Atleta-Screens/meusMedicos')"
-        >
+        <v-btn value="meu" color="green" variant="outlined" class="px-8 text-body-1 font-weight-medium"
+          @click="router.push('/Atleta-Screens/meusMedicos')">
           Já tenho meu médico
         </v-btn>
       </v-btn-toggle>
@@ -34,85 +24,25 @@
     <v-row align="start" justify="center" no-gutters>
       <v-col cols="12" md="7" class="pe-md-8">
         <div v-if="loading">
-          <v-skeleton-loader
-            v-for="n in 3"
-            :key="n"
-            class="mb-6 pa-5"
-            type="list-item-avatar-three-line"
-            elevation="2"
-            rounded="xl"
-            height="140"
-          />
+          <v-skeleton-loader v-for="n in 3" :key="n" class="mb-6 pa-5" type="list-item-avatar-three-line" elevation="2"
+            rounded="xl" height="140" />
         </div>
 
         <div v-else>
-          <v-card
-            v-for="(medico, index) in medico"
-            :key="index"
-            class="mb-6 pa-5 position-relative"
-            elevation="2"
-            rounded="xl"
-          >
-          <v-btn
-            icon
-            size="small"
-            color="green"
-            variant="flat"
-            class="position-absolute"
-            style="top: 16px; right: 60px"
-            @click="buscarEnderecoPorCep(medico.cep)"
-          >
-            <v-icon>mdi-map-marker</v-icon>
-          </v-btn>
+          <v-card v-for="(medico, index) in medico" :key="index" class="mb-6 pa-5 position-relative" elevation="2"
+            rounded="xl">
+            <v-btn icon size="small" color="green" variant="flat" class="position-absolute"
+              style="top: 16px; right: 60px" @click="buscarEnderecoPorCep(medico.cep)">
+              <v-icon>mdi-map-marker</v-icon>
+            </v-btn>
 
 
-          <v-row align="center">
-            <v-col cols="auto" class="text-center">
-              <v-avatar size="90" color="grey-lighten-3">
-                <v-img
-                  v-if="medico?.usuario?.avatarUrl"
-                  :src="medico?.usuario?.avatarUrl"
-                  cover
-                ></v-img>
-                <v-icon v-else size="50" color="grey-darken-1"
-                  >mdi-account</v-icon
-                >
-              </v-avatar>
-              <div class="mt-2">
-                <v-btn icon size="small" variant="text">
-                  <v-icon size="22" color="black">mdi-instagram</v-icon>
-                </v-btn>
-                <v-btn icon size="small" variant="text">
-                  <v-icon size="22" color="black">mdi-whatsapp</v-icon>
-                </v-btn>
-              </div>
-            </v-col>
-
-            <v-col>
-              <div
-                class="text-subtitle-1 font-weight-bold"
-                style="color: black"
-              >
-                {{ medico?.usuario?.nome }}
-              </div>
-              <div class="text-body-2" style="color: black">
-                {{ medico?.especializacao }}
-              </div>
-              <div class="text-body-2" style="color: black">
-                CRM: {{ medico.crm }}
-              </div>
 
             <v-row align="center">
               <v-col cols="auto" class="text-center">
                 <v-avatar size="90" color="grey-lighten-3">
-                  <v-img
-                    v-if="medico?.usuario?.avatarUrl"
-                    :src="medico?.usuario?.avatarUrl"
-                    cover
-                  ></v-img>
-                  <v-icon v-else size="50" color="grey-darken-1"
-                    >mdi-account</v-icon
-                  >
+                  <v-img v-if="medico?.usuario?.avatarUrl" :src="medico?.usuario?.avatarUrl" cover></v-img>
+                  <v-icon v-else size="50" color="grey-darken-1">mdi-account</v-icon>
                 </v-avatar>
                 <div class="mt-2">
                   <v-btn icon size="small" variant="text">
@@ -125,10 +55,7 @@
               </v-col>
 
               <v-col>
-                <div
-                  class="text-subtitle-1 font-weight-bold"
-                  style="color: black"
-                >
+                <div class="text-subtitle-1 font-weight-bold" style="color: black">
                   {{ medico?.usuario?.nome }}
                 </div>
                 <div class="text-body-2" style="color: black">
@@ -140,13 +67,8 @@
 
                 <v-row align="center" class="mt-3">
                   <v-col cols="auto">
-                    <v-btn
-                      variant="flat"
-                      color="green"
-                      class="px-8 text-body-2"
-                      rounded
-                      @click="detalhesMedico(medico.id)"
-                    >
+                    <v-btn variant="flat" color="green" class="px-8 text-body-2" rounded
+                      @click="detalhesMedico(medico.id)">
                       Mais Detalhes
                     </v-btn>
                   </v-col>
@@ -156,67 +78,30 @@
           </v-card>
 
           <!-- Paginação -->
-          <v-row
-            v-if="!loading && totalPages > 1"
-            justify="center"
-            class="mt-4"
-          >
-            <v-pagination
-              v-model="page"
-              :length="totalPages"
-              active-color="green"
-              total-visible="4"
-              size="small"
-              @update:model-value="mudarPagina"
-            />
+          <v-row v-if="!loading && totalPages > 1" justify="center" class="mt-4">
+            <v-pagination v-model="page" :length="totalPages" active-color="green" total-visible="4" size="small"
+              @update:model-value="mudarPagina" />
           </v-row>
         </div>
       </v-col>
 
       <v-col cols="12" md="5">
-        <v-text-field
-          v-model="cep"
-          label="CEP"
-          variant="outlined"
-          density="comfortable"
-          class="mb-4 mt-10 mt-md-0"
-          rounded="xl"
-          color="green"
-          append-inner-icon="mdi-map-search"
-          @click:append-inner="buscarEnderecoPorCep(cep)"
-          @keyup.enter="buscarEnderecoPorCep(cep)"
-        ></v-text-field>
+        <v-text-field v-model="cep" label="CEP" variant="outlined" density="comfortable" class="mb-4 mt-10 mt-md-0"
+          rounded="xl" color="green" append-inner-icon="mdi-map-search" @click:append-inner="buscarEnderecoPorCep(cep)"
+          @keyup.enter="buscarEnderecoPorCep(cep)"></v-text-field>
 
         <v-card v-if="endereco" class="mb-4 pa-4" rounded="xl">
           <div class="text-subtitle-2 font-weight-bold mb-2">Endereço:</div>
           <div class="text-body-2">{{ endereco }}</div>
-          <v-btn
-            color="green"
-            variant="flat"
-            size="small"
-            class="mt-2"
-            @click="abrirGoogleMaps"
-          >
+          <v-btn color="green" variant="flat" size="small" class="mt-2" @click="abrirGoogleMaps">
             <v-icon start>mdi-map</v-icon>
             Ver no Google Maps
           </v-btn>
         </v-card>
 
-        <v-img
-          v-if="!mapaUrl"
-          src="../../../assets/mapa.jpg"
-          height="500"
-          rounded="xl"
-          cover
-        ></v-img>
+        <v-img v-if="!mapaUrl" src="../../../assets/mapa.jpg" height="500" rounded="xl" cover></v-img>
 
-        <v-img
-          v-else
-          :src="mapaUrl"
-          height="500"
-          rounded="xl"
-          cover
-        ></v-img>
+        <v-img v-else :src="mapaUrl" height="500" rounded="xl" cover></v-img>
       </v-col>
     </v-row>
   </v-container>
