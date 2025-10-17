@@ -24,6 +24,7 @@
           color="green"
           variant="outlined"
           class="px-8 text-body-1 font-weight-medium"
+          @click="router.push('/Atleta-Screens/meusMedicos')"
         >
           Já tenho meu médico
         </v-btn>
@@ -32,7 +33,6 @@
 
     <v-row align="start" justify="center" no-gutters>
       <v-col cols="12" md="7" class="pe-md-8">
-        <!-- Skeleton enquanto carrega -->
         <div v-if="loading">
           <v-skeleton-loader
             v-for="n in 3"
@@ -45,7 +45,6 @@
           />
         </div>
 
-        <!-- Lista de médicos -->
         <div v-else>
           <v-card
             v-for="(medico, index) in medico"
@@ -61,22 +60,11 @@
             variant="flat"
             class="position-absolute"
             style="top: 16px; right: 60px"
+            @click="buscarEnderecoPorCep(medico.cep)"
           >
             <v-icon>mdi-map-marker</v-icon>
           </v-btn>
-          <v-btn
-            icon
-            size="small"
-            :color="medico.favorito ? 'amber-darken-1' : 'green'"
-            :variant="medico.favorito ? 'flat' : 'outlined'"
-            class="position-absolute"
-            style="top: 16px; right: 16px"
-            @click="toggleFavorito(medico)"
-          >
-            <v-icon :color="medico.favorito ? 'white' : 'green'">
-              {{ medico.favorito ? 'mdi-bookmark' : 'mdi-bookmark-outline' }}
-            </v-icon>
-          </v-btn>
+
 
           <v-row align="center">
             <v-col cols="auto" class="text-center">
@@ -154,10 +142,37 @@
           class="mb-4 mt-10 mt-md-0"
           rounded="xl"
           color="green"
+          append-inner-icon="mdi-map-search"
+          @click:append-inner="buscarEnderecoPorCep(cep)"
+          @keyup.enter="buscarEnderecoPorCep(cep)"
         ></v-text-field>
 
+        <v-card v-if="endereco" class="mb-4 pa-4" rounded="xl">
+          <div class="text-subtitle-2 font-weight-bold mb-2">Endereço:</div>
+          <div class="text-body-2">{{ endereco }}</div>
+          <v-btn
+            color="green"
+            variant="flat"
+            size="small"
+            class="mt-2"
+            @click="abrirGoogleMaps"
+          >
+            <v-icon start>mdi-map</v-icon>
+            Ver no Google Maps
+          </v-btn>
+        </v-card>
+
         <v-img
+          v-if="!mapaUrl"
           src="../../../assets/mapa.jpg"
+          height="500"
+          rounded="xl"
+          cover
+        ></v-img>
+
+        <v-img
+          v-else
+          :src="mapaUrl"
           height="500"
           rounded="xl"
           cover
@@ -173,10 +188,8 @@ import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload } from '@/utils/auth'
 import { useRouter } from 'vue-router'
-import { useMedicosSalvosStore } from '@/stores/medicosSalvos'
 
 const router = useRouter()
-const medicosSalvosStore = useMedicosSalvosStore()
 
 const filtro = ref('lista')
 const cep = ref('')
@@ -186,6 +199,10 @@ const totalPages = ref(0)
 const loading = ref(true)
 const medico = ref([])
 const usuario = ref(null)
+const endereco = ref('')
+const mapaUrl = ref('')
+const coordenadas = ref(null)
+const mapKey = ref(import.meta.env.VITE_MAP_KEY)
 
 const buscarUsuario = async () => {
   try {
@@ -193,7 +210,6 @@ const buscarUsuario = async () => {
     if (payload?.user?.id) {
       const response = await userService.userById(payload.user.id)
       usuario.value = response
-      console.log('USUARIO:', usuario.value)
     }
   } catch (error) {
     console.error('erro ao buscar usuário', error)
@@ -209,8 +225,6 @@ const buscarMedico = async () => {
     )
     medico.value = response.data.itens
     totalPages.value = response.data.totalPages
-    console.log('RESULTADO RESPONSE:', response.data)
-    console.log('MEDICOS:', medico.value)
 
     // Buscar dados do usuário para cada médico
     for (let i = 0; i < medico.value.length; i++) {
@@ -224,8 +238,6 @@ const buscarMedico = async () => {
           console.error('Erro ao buscar usuário do médico:', error)
         }
       }
-      // Verificar se o médico já está salvo
-      medico.value[i].favorito = medicosSalvosStore.isMedicoSalvo(medico.value[i].id)
     }
   } catch (error) {
     console.error('erro ao buscar médico', error)
@@ -260,5 +272,32 @@ function detalhesMedico(id) {
     query: { id },
   }).href
   window.open(url, '_blank')
+}
+
+const buscarEnderecoPorCep = async (cepValue) => {
+  if (!cepValue) return
+
+  try {
+    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${cepValue}&key=${mapKey.value}`)
+    const data = await response.json()
+
+    if (data.results && data.results.length > 0) {
+      const result = data.results[0]
+      endereco.value = result.formatted_address
+      coordenadas.value = result.geometry.location
+
+      // Gerar URL do mapa estático
+      mapaUrl.value = `https://maps.googleapis.com/maps/api/staticmap?center=${coordenadas.value.lat},${coordenadas.value.lng}&zoom=15&size=600x500&markers=color:green%7C${coordenadas.value.lat},${coordenadas.value.lng}&key=${mapKey.value}`
+    }
+  } catch (error) {
+    console.error('Erro ao buscar endereço:', error)
+  }
+}
+
+const abrirGoogleMaps = () => {
+  if (coordenadas.value) {
+    const url = `https://www.google.com/maps/dir/?api=1&destination=${coordenadas.value.lat},${coordenadas.value.lng}`
+    window.open(url, '_blank')
+  }
 }
 </script>

@@ -51,6 +51,16 @@ class atletaService {
       'Failed to update atleta profile'
     )
   }
+  async findMedicosComConsultasPagined(page = 1, pageSize = 5): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/atleta/findMedicosComConsultasPagined`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, pageSize },
+      }),
+      'Falha ao buscar médicos paginados'
+    )
+  }
 
   async deleteAtleta(id:string){
    const token = sessionStorage.getItem('token')

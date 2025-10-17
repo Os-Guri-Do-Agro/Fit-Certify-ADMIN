@@ -41,7 +41,6 @@ onMounted(async () => {
   try {
     const response = await artigoService.getAllArtigos()
     teste.value = response
-    console.log('Artigos:', teste.value)
   } catch (error) {
     console.error('Erro ao carregar artigos:', error)
   }

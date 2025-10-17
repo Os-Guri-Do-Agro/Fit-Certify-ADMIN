@@ -1,4 +1,3 @@
-```vue
 <template>
   <div class="w-100 h-100 ma-0">
     <v-container fluid>
@@ -89,7 +88,7 @@
         </v-col>
       </v-row>
     </v-container>
-    
+
 
   </div>
 </template>
@@ -159,4 +158,3 @@ const salvarConsultaFunc = async () => {
   overflow-y: auto;
 }
 </style>
-```

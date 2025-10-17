@@ -8,10 +8,12 @@
             <v-icon size="32" class="mr-3">mdi-calendar-month</v-icon>
             <div>
               <h1 class="text-h4 font-weight-bold mb-1">Agenda Médica</h1>
-              <p class="text-subtitle-1 mb-0 opacity-90">{{ dayjs().utcOffset(0).format('dddd, DD [de] MMMM [de] YYYY')
-                }}</p>
+              <p class="text-subtitle-1 mb-0 opacity-90">{{ dayjs().format('dddd, DD [de] MMMM [de] YYYY')
+              }}</p>
             </div>
           </div>
+
+
           <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" prepend-icon="mdi-plus"
             class="text-blue font-weight-bold">
             Nova Consulta
@@ -76,7 +78,7 @@
                 <div class="d-flex align-center mb-2">
                   <v-avatar size="32" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'" class="mr-3">
                     <v-icon color="white">{{ appointment.type === 'fitcertify' ? 'mdi-dumbbell' : 'mdi-account'
-                      }}</v-icon>
+                    }}</v-icon>
                   </v-avatar>
                   <div class="flex-grow-1">
                     <div class="font-weight-medium">{{ appointment.patient }}</div>
@@ -148,7 +150,9 @@
                     { 'selected': selectedTimeSlot?.horario === hora.horario }
                   ]" :disabled="!hora.disponivel" @click="hora.disponivel && selectTimeSlot(hora)">
                     <v-card-text class="pa-3 text-center">
-                      <v-icon :color="selectedTimeSlot?.horario === hora.horario ? 'white' : (hora.disponivel ? 'blue' : 'grey')" class="mb-1">
+                      <v-icon
+                        :color="selectedTimeSlot?.horario === hora.horario ? 'white' : (hora.disponivel ? 'blue' : 'grey')"
+                        class="mb-1">
                         {{ hora.disponivel ? 'mdi-clock-check' : 'mdi-clock-remove' }}
                       </v-icon>
                       <div class="text-body-2 font-weight-medium">
@@ -183,7 +187,8 @@
           <v-btn color="grey" variant="text" @click="ActiveDialog = false">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat" @click="criarConsulta" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+          <v-btn color="blue" variant="flat" @click="criarConsulta"
+            :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
             Confirmar
           </v-btn>
         </v-card-actions>
@@ -210,6 +215,7 @@ const ConsultaExterna = ref(false)
 const atletas = ref([])
 const dayselect = ref()
 const datinhas = ref([])
+// const consultasPendentes = ref([])
 const selectedTimeSlot = ref(null)
 const nomePacienteExterno = ref('')
 const currentDate = ref(dayjs())
@@ -226,6 +232,7 @@ const appointmentsByDay = ref({})
 onMounted(async () => {
   buscarAtletas()
   buscarHorariosDisponiveis()
+  // buscarConsultasPendentes()
   generateCalendar()
   await buscarConsultasDoDia(dayjs().format('YYYY-MM-DD'))
 })
@@ -245,9 +252,9 @@ const buscarHorariosDisponiveis = async () => {
   }
   const response = await consultasService.findHorariosDisponiveis(data)
   datinhas.value = response.data
-  console.log(datinhas.value)
 
 }
+
 const buscarAtletas = async () => {
   const response = await atletaService.getAllAtletas()
   atletas.value = response.data
@@ -256,7 +263,6 @@ const buscarAtletas = async () => {
 
 const selectTimeSlot = (hora) => {
   selectedTimeSlot.value = hora
-  console.log('Horário selecionado:', hora)
 }
 
 const criarConsulta = async () => {
@@ -266,7 +272,7 @@ const criarConsulta = async () => {
       atletaId: ConsultaExterna.value ? null : atletaSelected.value.id,
       diagnostico: '',
       medicamentosReceitados: '',
-      situacao: 'Aberto',
+      situacao: 'Marcado',
       nomePacienteExterno: ConsultaExterna.value ? nomePacienteExterno.value : null,
       consultaExterna: ConsultaExterna.value,
       dataConsulta: selectedTimeSlot.value.horario
@@ -362,7 +368,6 @@ const buscarConsultasDoDia = async (selectedDate) => {
 }
 
 const selectDay = async (day) => {
-  console.log('Dia selecionado:', day)
   selectedDay.value = day.date
   await buscarConsultasDoDia(day.date)
 }
@@ -370,14 +375,18 @@ const selectDay = async (day) => {
 const formatStatus = (status) => {
   if (status === 'ematendimento') return 'Em Atendimento'
   if (status === 'concluido') return 'Concluído'
-  if (status === 'aberto') return 'Aberto'
+  if (status === 'marcado') return 'Marcado'
+  if (status === 'pendente') return 'Pendente'
+  if (status === 'recusado') return 'Recusado'
   return status
 }
 
 const getStatusColor = (status) => {
-  if (status === 'ematendimento') return 'orange'
+  if (status === 'recusado') return 'red'
+  if (status === 'ematendimento') return 'yellow'
   if (status === 'concluido') return 'green'
-  if (status === 'aberto') return 'blue'
+  if (status === 'marcado') return 'blue'
+  if (status === 'pendente') return 'orange'
   return 'grey'
 }
 </script>
