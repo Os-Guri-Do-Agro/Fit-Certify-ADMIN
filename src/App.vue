@@ -34,6 +34,7 @@ const route = useRoute()
 const authRoutes = [
   '/login',
   '/register',
+  '/register-medico',
   '/registerPlanos',
   '/politicaPrivacidade',
   '/pagamento',

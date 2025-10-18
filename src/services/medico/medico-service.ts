@@ -62,6 +62,19 @@ class medicoService {
       'Failed to get all metrics by day '
     )
   }
+
+  async createMedico(formData: FormData): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/medico', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to create medico'
+    )
+  }
 }
 
 export default new medicoService()

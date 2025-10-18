@@ -141,6 +141,52 @@
               <p>
                 {{ medico?.destaques }}
               </p>
+
+              <div class="text-h6 font-weight-bold mt-6 mb-4">
+                <v-icon class="mr-2" color="blue">mdi-calendar-clock</v-icon>
+                Suas Consultas com este Médico
+              </div>
+
+              <v-card v-if="loadingConsultas" class="mb-4 pa-6 text-center" variant="outlined">
+                <v-progress-circular indeterminate color="blue" class="mb-3"></v-progress-circular>
+                <div class="text-body-2 text-grey">Carregando consultas...</div>
+              </v-card>
+
+              <v-card v-else-if="consultasMedicoAtleta?.length > 0" class="mb-4" variant="outlined">
+                <v-list>
+                  <v-list-item v-for="consulta in consultasMedicoAtleta" :key="consulta.id" class="px-4 py-3">
+                    <template v-slot:prepend>
+                      <v-avatar :color="getStatusColor(consulta.situacao)" size="40">
+                        <v-icon color="white">
+                          {{ getStatusIcon(consulta.situacao) }}
+                        </v-icon>
+                      </v-avatar>
+                    </template>
+
+                    <v-list-item-title class="font-weight-medium">
+                      {{ formatarDataHora(consulta.dataConsulta) }}
+                    </v-list-item-title>
+
+                    <v-list-item-subtitle class="mt-1">
+                      <v-chip :color="getStatusColor(consulta.situacao)" size="small" variant="flat" class="mr-2">
+                        {{ situacoes[consulta.situacao] }}
+                      </v-chip>
+                      <span v-if="consulta.diagnostico" class="text-grey-darken-1">
+                        Diagnóstico: {{ consulta.diagnostico }}
+                      </span>
+                    </v-list-item-subtitle>
+
+                  </v-list-item>
+                </v-list>
+              </v-card>
+
+              <v-card v-else class="pa-6 text-center" variant="outlined">
+                <v-icon size="48" color="grey-lighten-1" class="mb-3">mdi-calendar-remove</v-icon>
+                <div class="text-h6 text-grey-darken-1 mb-2">Nenhuma consulta encontrada</div>
+                <div class="text-body-2 text-grey">
+                  Você ainda não possui consultas com este médico.
+                </div>
+              </v-card>
             </v-card>
           </v-col>
         </v-row>
@@ -168,7 +214,7 @@
         <v-row>
           <v-col cols="6">
             <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100"
-              locale="pt-BR" ></v-date-picker>
+              locale="pt-BR"></v-date-picker>
           </v-col>
           <v-col cols="6">
             <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
@@ -240,6 +286,7 @@ import 'dayjs/locale/pt-br';
 import { getAtletaId } from '@/utils/auth';
 import consultasService from '@/services/consultas/consultas-service';
 import { watch } from 'vue';
+import atletaService from '@/services/atleta/atleta-service';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 dayjs.locale('pt-br');
@@ -257,11 +304,58 @@ const datinhas = ref([])
 const selectedTimeSlot = ref(null)
 const nomePacienteExterno = ref('')
 const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
+const consultasMedicoAtleta = ref([])
+const loadingConsultas = ref(false)
 
 const formatarHorario = (horario) => {
   if (!horario) return ''
   const hora = horario.substring(11, 16)
   return hora.replace(/^0/, '')
+}
+
+const formatarDataHora = (dataHora) => {
+  if (!dataHora) return ''
+  return dayjs(dataHora).format('DD/MM/YYYY [às] HH:mm')
+}
+
+const getStatusColor = (situacao) => {
+  const cores = {
+    'Pendente': 'orange',
+    'Marcado': 'blue',
+    'EmAtendimento': 'purple',
+    'Recusada': 'red',
+    'Concluido': 'green',
+  }
+  return cores[situacao] || 'grey'
+}
+
+const situacoes = { Pendente: 'Pendente', Marcado: 'Marcado', EmAtendimento: 'Em Atendimento', Recusada: 'Recusada', Concluido: 'Concluido' }
+
+const getStatusIcon = (situacao) => {
+  const icones = {
+    'Pendente': 'mdi-clock-outline',
+    'Marcado': 'mdi-check-all',
+    'EmAtendimento': 'mdi-account-clock',
+    'Recusada': 'mdi-close-circle',
+    'Concluido': 'mdi-check-circle',
+  }
+  return icones[situacao] || 'mdi-help-circle'
+}
+
+const buscarConsultasAtleta = async () => {
+  if (!medicoId.value) return
+
+  loadingConsultas.value = true
+  try {
+    const response = await atletaService.getConsultasByAtletaIdAndMedicoId(getAtletaId(), medicoId.value)
+    if (response && response.success) {
+      consultasMedicoAtleta.value = response.data
+    }
+  } catch (error) {
+    consultasMedicoAtleta.value = []
+  } finally {
+    loadingConsultas.value = false
+  }
 }
 
 const buscarMedicoById = async (id) => {
@@ -335,11 +429,10 @@ watch(dayselect, () => {
 
 onMounted(async () => {
   medicoId.value = route.query?.id
-  console.log('atleta id', getAtletaId())
-  console.log('medico id', medicoId.value)
 
   if (medicoId.value) {
-    buscarMedicoById(medicoId.value)
+    await buscarMedicoById(medicoId.value)
+    await buscarConsultasAtleta()
   } else {
     console.error('ID do médico não encontrado')
   }

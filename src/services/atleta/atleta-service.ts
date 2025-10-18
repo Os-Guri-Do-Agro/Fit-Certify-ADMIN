@@ -94,6 +94,17 @@ class atletaService {
       'Failed to get all Doencas '
     )
   }
+
+  async getConsultasByAtletaIdAndMedicoId(atletaId: string, medicoId: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/atleta/findConsultasByMedicoAtleta`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { atletaId: atletaId, medicoId: medicoId },
+      }),
+      'Failed to get consultas by atleta ID and medico ID'
+    )
+  }
 }
 
 export default new atletaService()
