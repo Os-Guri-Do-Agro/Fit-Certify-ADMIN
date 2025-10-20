@@ -819,7 +819,7 @@ const submitMedico = async () => {
     loading.value = false
   }
 }
-
+// #Todo timezone em data inicio e horario inicio e horario final e data final para fazer 100% agendamento
 </script>
 
 <style scoped>
