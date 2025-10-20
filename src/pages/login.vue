@@ -3,18 +3,16 @@
     class=" pa-0 fill-height d-flex flex-column flex-md-row overflow-x-hidden">
     <v-row no-gutters class="h-100">
 
-      <!-- Coluna da esquerda -->
       <v-col md="4" class="d-flex flex-column justify-center px-10  px-lg-16 h-100 ">
 
-        <!-- Logo -->
         <div class="mb-8">
           <a href="https://fitcert365.com/" class="d-flex align-center justify-center">
             <v-img src="../assets/Login/logo-fit.png" max-width="180" alt="Logo" cover></v-img>
           </a>
         </div>
 
-        <!-- Formulário -->
-        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10 " style="margin-bottom: 1.5rem;">
+        <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10 "
+          style="margin-bottom: 1.5rem;">
           Bem-vindo! Faça seu login para acessar sua conta.
         </p>
 
@@ -45,85 +43,81 @@
               <VBtn class="text-white" block height="47px" style="background-color: #88CE0D;" type="submit"
                 :loading="loading">
                 Entrar</VBtn>
-              <div class="d-flex flex-column flex-md-row align-center justify-center mt-10">
-                <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">Não tem uma conta?</span>
-                <button @click="showTipoContaModal = true" class="font-weight-bold ml-2 text-subtitle-1 text-align-center text-white" style="background: none; border: none; cursor: pointer;">
-                  Criar conta
-                </button>
-              </div>
-
             </div>
           </VRow>
-
         </v-form>
 
-        <v-dialog v-model="showModal" width="600">
-            <v-card rounded="xl">
-              <div>
-                <v-btn variant="text" width="20px" height="50px">
-                  <span @click="showModal = false" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
-                </v-btn>
-              </div>
-              <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
-                <span class="mdi mdi-account-lock-outline text-h1" style="color: #00c6fe;"></span>
-                <span class="text-h6 text-md-h5 font-weight-bold">Recuperar senha</span>
-              </v-card-title>
-              <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1"
-                style="white-space: normal; word-wrap: break-word;">
-                <span>
-                  Digite seu e-mail e nós enviaremos um link para redefinir sua senha.
-                </span>
-              </v-card-subtitle>
-              <v-card-text class="px-5 px-md-10 mt-2 mt-md-5">
-                <v-text-field v-model="emailModal" type="email" placeholder="Email" hide-details variant="solo"
-                  bg-color="white" @blur="() => onBlurEmailModal(emailModal)"
-                  :loading="loadingEmailModal">
-                  </v-text-field>
-              </v-card-text>
-              <v-card-actions class="d-flex w-100 flex-column ga-5 px-5 px-md-10 mb-5">
-                <v-btn class="w-100 text-white" height="50px" style="background-color: #00c6fe;"
-                  :loading="loadingEmailModal" @click="enviarCodigo" :disabled="loadingEmailModal || !validarEmail(emailModal) || !clicouEnviar">Enviar</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+        <div class="d-flex flex-column flex-md-row align-center justify-center mt-4">
+          <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">Não tem uma conta?</span>
+          <button @click="showTipoContaModal = true"
+            class="font-weight-bold ml-2 text-subtitle-1 text-align-center text-white"
+            style="background: none; border: none; cursor: pointer;">
+            Criar conta
+          </button>
+        </div>
 
-        <!-- Modal de Seleção de Tipo de Conta -->
+
+
+        <v-dialog v-model="showModal" width="600">
+          <v-card rounded="xl">
+            <div>
+              <v-btn variant="text" width="20px" height="50px">
+                <span @click="showModal = false" class="mdi mdi-window-close text-h5" style="color: #00c6fe;"></span>
+              </v-btn>
+            </div>
+            <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
+              <span class="mdi mdi-account-lock-outline text-h1" style="color: #00c6fe;"></span>
+              <span class="text-h6 text-md-h5 font-weight-bold">Recuperar senha</span>
+            </v-card-title>
+            <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1"
+              style="white-space: normal; word-wrap: break-word;">
+              <span>
+                Digite seu e-mail e nós enviaremos um link para redefinir sua senha.
+              </span>
+            </v-card-subtitle>
+            <v-card-text class="px-5 px-md-10 mt-2 mt-md-5">
+              <v-text-field v-model="emailModal" type="email" placeholder="Email" hide-details variant="solo"
+                bg-color="white" @blur="() => onBlurEmailModal(emailModal)" :loading="loadingEmailModal">
+              </v-text-field>
+            </v-card-text>
+            <v-card-actions class="d-flex w-100 flex-column ga-5 px-5 px-md-10 mb-5">
+              <v-btn class="w-100 text-white" height="50px" style="background-color: #00c6fe;"
+                :loading="loadingEmailModal" @click="enviarCodigo"
+                :disabled="loadingEmailModal || !validarEmail(emailModal) || !clicouEnviar">Enviar</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+
         <v-dialog v-model="showTipoContaModal" width="800">
           <v-card rounded="xl">
             <div class="d-flex justify-end pa-2">
               <v-btn variant="text" @click="showTipoContaModal = false" icon="mdi-close" size="small"></v-btn>
             </div>
-            
+
             <v-card-title class="d-flex flex-column justify-center align-center ga-3 px-5">
               <v-icon size="60" color="#00c6fe">mdi-account-plus</v-icon>
               <span class="text-h5 font-weight-bold">Escolha o tipo de conta</span>
             </v-card-title>
-            
+
             <v-card-subtitle class="text-center text-subtitle-1 px-5">
               Selecione se você deseja criar uma conta como atleta ou médico
             </v-card-subtitle>
-            
+
             <v-card-text class="px-5 py-4">
               <div class="d-flex gap-4">
-                <v-card 
-                  class="pa-4 text-center cursor-pointer hover-card flex-1" 
-                  variant="outlined"
+                <v-card class="pa-4 text-center cursor-pointer hover-card flex-1" variant="outlined"
                   @click="selecionarTipoConta('atleta')"
-                  :class="{ 'selected-card': tipoContaSelecionado === 'atleta' }"
-                >
+                  :class="{ 'selected-card': tipoContaSelecionado === 'atleta' }">
                   <v-icon size="48" color="#88CE0D" class="mb-3">mdi-account-heart</v-icon>
                   <div class="text-h6 font-weight-bold mb-2">Atleta</div>
                   <div class="text-body-2 text-grey">
                     Crie sua conta para acessar consultas médicas e acompanhamento
                   </div>
                 </v-card>
-                
-                <v-card 
-                  class="pa-4 text-center cursor-pointer hover-card flex-1" 
-                  variant="outlined"
+
+                <v-card class="pa-4 text-center cursor-pointer hover-card flex-1" variant="outlined"
                   @click="selecionarTipoConta('medico')"
-                  :class="{ 'selected-card': tipoContaSelecionado === 'medico' }"
-                >
+                  :class="{ 'selected-card': tipoContaSelecionado === 'medico' }">
                   <v-icon size="48" color="#00c6fe" class="mb-3">mdi-doctor</v-icon>
                   <div class="text-h6 font-weight-bold mb-2">Médico</div>
                   <div class="text-body-2 text-grey">
@@ -132,16 +126,10 @@
                 </v-card>
               </div>
             </v-card-text>
-            
+
             <v-card-actions class="px-5 pb-5">
-              <v-btn 
-                color="#00c6fe" 
-                variant="flat" 
-                block 
-                size="large"
-                @click="confirmarTipoConta"
-                :disabled="!tipoContaSelecionado"
-              >
+              <v-btn color="#00c6fe" variant="flat" block size="large" @click="confirmarTipoConta"
+                :disabled="!tipoContaSelecionado">
                 Continuar
               </v-btn>
             </v-card-actions>
@@ -166,7 +154,7 @@ import { ref, watch } from 'vue';
 import { RouterLink } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router'
-import { getPayload } from '@/utils/auth';
+import { getPayload, getRole, getStatusMedicoCRM } from '@/utils/auth';
 import type { VForm } from 'vuetify/components';
 
 const showPassword = ref(false)
@@ -223,6 +211,14 @@ async function handleSubmit() {
       const payload = getPayload()
       const user = payload?.user
       let path = '/'
+      if (getRole() === 'admin') {
+        toast.error(response?.message || "Este painel é exclusivo para médicos e atletas");
+        return
+      }
+      if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
+
+        toast.error(response?.message || "Sua conta médica está inativa. Entre em contato com o suporte.'");
+      }
 
       if (user?.atleta && !user.atleta.planoId) {
         path = '/registerPlanos'

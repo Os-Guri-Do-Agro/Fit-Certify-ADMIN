@@ -6,10 +6,12 @@
 
 // Composables
 import {
-  getPayload,
+  // getPayload,
+  getRole,
   isTokenValid,
   atletaTemPlano,
   medicoLogin,
+  getStatusMedicoCRM
 } from '@/utils/auth'
 import { createRouter, createWebHistory } from 'vue-router/auto'
 import { routes } from 'vue-router/auto-routes'
@@ -57,10 +59,22 @@ router.beforeEach((to, from, next) => {
     return next()
   }
 
+  if (getRole() === 'admin') {
+    sessionStorage.clear()
+    return next('/login')
+  }
+
   if (!medicoLogin && !atletaTemPlano() && to.path !== '/registerPlanos') {
     return next('/registerPlanos')
   }
+    if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
+      sessionStorage.clear()
+      toast.error('Sua conta médica está inativa. Entre em contato com o suporte.', {
+        autoClose: 5000,
 
+      })
+      return next('/login')
+    }
   next()
 })
 

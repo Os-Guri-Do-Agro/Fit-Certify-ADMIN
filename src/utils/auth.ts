@@ -57,9 +57,18 @@ export const atletaTemPlano = () => {
   return payload?.role == 'atleta' && payload?.user?.atleta?.planoId
 }
 
+
+
 export const medicoLogin = () => {
   const payload = getPayload()
   return payload?.role == 'medico'
+}
+
+export const getStatusMedicoCRM = () => {
+  const payload = getPayload()
+  if(payload?.role == 'medico') {
+    return payload?.user?.medico?.ativo
+  }
 }
 
 export const getMedicoId = () => {

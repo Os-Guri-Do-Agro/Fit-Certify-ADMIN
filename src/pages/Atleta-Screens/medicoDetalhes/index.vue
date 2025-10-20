@@ -414,7 +414,6 @@ const criarConsulta = async () => {
     dayselect.value = null
     datinhas.value = []
 
-    console.log('Consulta agendada com sucesso!')
   } catch (error) {
     console.error('Erro ao criar consulta:', error)
   }
