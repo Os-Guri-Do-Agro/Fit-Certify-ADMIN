@@ -36,8 +36,6 @@
               <v-icon>mdi-map-marker</v-icon>
             </v-btn>
 
-
-
             <v-row align="center">
               <v-col cols="auto" class="text-center">
                 <v-avatar size="90" color="grey-lighten-3">
@@ -64,6 +62,9 @@
                 <div class="text-body-2" style="color: black">
                   CRM: {{ medico.crm }}
                 </div>
+                <div class="text-body-2" style="color: black">
+                  KM: {{ buscouCep === true ? kmTotal : '0'  }}
+                </div>
 
                 <v-row align="center" class="mt-3">
                   <v-col cols="auto">
@@ -86,7 +87,7 @@
       </v-col>
 
       <v-col cols="12" md="5">
-        <v-text-field v-model="cep" label="CEP" variant="outlined" density="comfortable" class="mb-4 mt-10 mt-md-0"
+        <v-text-field v-model="cep" label="Insira seu CEP" variant="outlined" density="comfortable" class="mb-4 mt-10 mt-md-0"
           rounded="xl" color="green" append-inner-icon="mdi-map-search" @click:append-inner="buscarEnderecoPorCep(cep)"
           @keyup.enter="buscarEnderecoPorCep(cep)"></v-text-field>
 
@@ -128,6 +129,8 @@ const endereco = ref('')
 const mapaUrl = ref('')
 const coordenadas = ref(null)
 const mapKey = ref(import.meta.env.VITE_MAP_KEY)
+const buscouCep = ref(false)
+const kmTotal = ref(10)
 
 const buscarUsuario = async () => {
   try {
@@ -181,15 +184,7 @@ const mudarPagina = (novaPagina) => {
   buscarMedico()
 }
 
-const toggleFavorito = (medico) => {
-  if (medico.favorito) {
-    medicosSalvosStore.removerMedico(medico.id)
-    medico.favorito = false
-  } else {
-    medicosSalvosStore.adicionarMedico(medico)
-    medico.favorito = true
-  }
-}
+
 
 function detalhesMedico(id) {
   const url = router.resolve({
@@ -201,7 +196,7 @@ function detalhesMedico(id) {
 
 const buscarEnderecoPorCep = async (cepValue) => {
   if (!cepValue) return
-
+  buscouCep.value = true
   try {
     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${cepValue}&key=${mapKey.value}`)
     const data = await response.json()

@@ -1526,6 +1526,7 @@ const handleNext = async (next) => {
       .then(async (resp) => {
         if (resp?.success && resp?.data?.status == 'active') {
           toast.success('Pagamento realizado com sucesso!')
+          await cupomService.updateCupom(cupom.value.id)
           await refreshUserData()
           next()
         } else {

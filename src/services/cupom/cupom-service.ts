@@ -22,6 +22,19 @@ class CupomService {
       'Failed to fetch all categories'
     )
   }
+
+  updateCupom(id: string): Promise<any> {
+    return this.handleRequest(
+      apiClient.patch(`/cupom/updateQuantidadeUsada/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }),
+      'Failed to update cupom'
+    )
+  }
+
+
 }
 
 export default new CupomService()
