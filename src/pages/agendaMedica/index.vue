@@ -8,14 +8,20 @@
             <v-icon size="32" class="mr-3">mdi-calendar-month</v-icon>
             <div>
               <h1 class="text-h4 font-weight-bold mb-1">Agenda Médica</h1>
-              <p class="text-subtitle-1 mb-0 opacity-90">{{ dayjs().format('dddd, DD [de] MMMM [de] YYYY')
-              }}</p>
+              <p class="text-subtitle-1 mb-0 opacity-90">
+                {{ dayjs().format('dddd, DD [de] MMMM [de] YYYY') }}
+              </p>
             </div>
           </div>
 
-
-          <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" prepend-icon="mdi-plus"
-            class="text-blue font-weight-bold">
+          <v-btn
+            @click="ActiveDialog = true"
+            color="white"
+            variant="flat"
+            size="large"
+            prepend-icon="mdi-plus"
+            class="text-blue font-weight-bold"
+          >
             Nova Consulta
           </v-btn>
         </div>
@@ -34,28 +40,60 @@
                 <span>Calendário - {{ currentMonth }}</span>
               </div>
               <div class="d-flex align-center">
-                <v-btn icon="mdi-chevron-left" size="small" variant="text" color="blue" @click="previousMonth"></v-btn>
-                <v-btn icon="mdi-chevron-right" size="small" variant="text" color="blue" @click="nextMonth"></v-btn>
+                <v-btn
+                  icon="mdi-chevron-left"
+                  size="small"
+                  variant="text"
+                  color="blue"
+                  @click="previousMonth"
+                ></v-btn>
+                <v-btn
+                  icon="mdi-chevron-right"
+                  size="small"
+                  variant="text"
+                  color="blue"
+                  @click="nextMonth"
+                ></v-btn>
               </div>
             </div>
           </v-card-title>
           <v-card-text class="pa-4">
             <div class="calendar-grid">
               <div class="calendar-header">
-                <div v-for="day in ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" :key="day" class="day-header">
+                <div
+                  v-for="day in [
+                    'Dom',
+                    'Seg',
+                    'Ter',
+                    'Qua',
+                    'Qui',
+                    'Sex',
+                    'Sáb',
+                  ]"
+                  :key="day"
+                  class="day-header"
+                >
                   {{ day }}
                 </div>
               </div>
               <div class="calendar-body">
-                <div v-for="day in calendarDays" :key="day.date" :class="[
-                  'calendar-day',
-                  { 'today': day.isToday },
-                  { 'other-month': !day.isCurrentMonth },
-                  { 'has-appointments': day.hasAppointments },
-                  { 'selected': selectedDay === day.date }
-                ]" @click="selectDay(day)">
+                <div
+                  v-for="day in calendarDays"
+                  :key="day.date"
+                  :class="[
+                    'calendar-day',
+                    { today: day.isToday },
+                    { 'other-month': !day.isCurrentMonth },
+                    { 'has-appointments': day.hasAppointments },
+                    { selected: selectedDay === day.date },
+                  ]"
+                  @click="selectDay(day)"
+                >
                   <span class="day-number">{{ day.day }}</span>
-                  <div v-if="day.hasAppointments" class="appointment-indicator"></div>
+                  <div
+                    v-if="day.hasAppointments"
+                    class="appointment-indicator"
+                  ></div>
                 </div>
               </div>
             </div>
@@ -68,37 +106,81 @@
         <v-card elevation="2" rounded="lg">
           <v-card-title class="pa-4 bg-green-lighten-5">
             <v-icon class="mr-2" color="green">mdi-clock-outline</v-icon>
-            {{ selectedDayAppointments.date ? `Consultas - ${selectedDayAppointments.date}` : `Hoje -
-            ${dayjs().format('DD/MM')}` }}
+            {{
+              selectedDayAppointments.date
+                ? `Consultas - ${selectedDayAppointments.date}`
+                : `Hoje -
+            ${dayjs().format('DD/MM')}`
+            }}
           </v-card-title>
           <v-card-text class="pa-4">
             <div class="appointment-list">
-              <div v-for="appointment in selectedDayAppointments.appointments" :key="appointment.id"
-                class="appointment-item">
+              <div
+                v-for="appointment in selectedDayAppointments.appointments"
+                :key="appointment.id"
+                class="appointment-item"
+              >
                 <div class="d-flex align-center mb-2">
-                  <v-avatar size="32" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'" class="mr-3">
-                    <v-icon color="white">{{ appointment.type === 'fitcertify' ? 'mdi-dumbbell' : 'mdi-account'
+                  <v-avatar
+                    size="32"
+                    :color="
+                      appointment.type === 'fitcertify' ? 'blue' : 'orange'
+                    "
+                    class="mr-3"
+                  >
+                    <v-icon color="white">{{
+                      appointment.type === 'fitcertify'
+                        ? 'mdi-dumbbell'
+                        : 'mdi-account'
                     }}</v-icon>
                   </v-avatar>
                   <div class="flex-grow-1">
-                    <div class="font-weight-medium">{{ appointment.patient }}</div>
-                    <div class="text-caption text-grey">{{ appointment.time }}</div>
+                    <div class="font-weight-medium">
+                      {{ appointment.patient }}
+                    </div>
+                    <div class="text-caption text-grey">
+                      {{ appointment.time }}
+                    </div>
                     <div class="d-flex gap-1 mt-1">
-                      <v-chip size="x-small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
-                        variant="outlined">
-                        {{ appointment.type === 'fitcertify' ? 'FitCertify365' : 'Externo' }}
+                      <v-chip
+                        size="x-small"
+                        :color="
+                          appointment.type === 'fitcertify' ? 'blue' : 'orange'
+                        "
+                        variant="outlined"
+                      >
+                        {{
+                          appointment.type === 'fitcertify'
+                            ? 'FitCertify365'
+                            : 'Externo'
+                        }}
                       </v-chip>
-                      <v-chip size="x-small" :color="getStatusColor(appointment.status)" variant="flat">
+                      <v-chip
+                        size="x-small"
+                        :color="getStatusColor(appointment.status)"
+                        variant="flat"
+                      >
                         {{ formatStatus(appointment.status) }}
                       </v-chip>
                     </div>
                   </div>
                 </div>
                 <v-divider
-                  v-if="appointment.id !== selectedDayAppointments.appointments[selectedDayAppointments.appointments.length - 1].id"></v-divider>
+                  v-if="
+                    appointment.id !==
+                    selectedDayAppointments.appointments[
+                      selectedDayAppointments.appointments.length - 1
+                    ].id
+                  "
+                ></v-divider>
               </div>
-              <div v-if="selectedDayAppointments.appointments.length === 0" class="text-center text-grey py-4">
-                <v-icon size="48" color="grey-lighten-2">mdi-calendar-blank</v-icon>
+              <div
+                v-if="selectedDayAppointments.appointments.length === 0"
+                class="text-center text-grey py-4"
+              >
+                <v-icon size="48" color="grey-lighten-2"
+                  >mdi-calendar-blank</v-icon
+                >
                 <p class="mt-2 mb-0">Nenhuma consulta neste dia</p>
               </div>
             </div>
@@ -115,26 +197,52 @@
 
         <v-card-text class="pa-6">
           <!-- caso seja atleta fitCertify -->
-          <v-combobox clearable v-if="!ConsultaExterna" label="Nome do Atleta" variant="outlined" :items="atletas"
-            item-title="usuario.nome" item-value="id" v-model="atletaSelected"
-            prepend-inner-icon="mdi-account"></v-combobox>
+          <v-combobox
+            clearable
+            v-if="!ConsultaExterna"
+            label="Nome do Atleta"
+            variant="outlined"
+            :items="atletas"
+            item-title="usuario.nome"
+            item-value="id"
+            v-model="atletaSelected"
+            prepend-inner-icon="mdi-account"
+          ></v-combobox>
           <!-- Caso nao seja atleta fitcertify -->
-          <v-text-field v-if="ConsultaExterna" label="Nome do Paciente Externo" variant="outlined"
-            prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
+          <v-text-field
+            v-if="ConsultaExterna"
+            label="Nome do Paciente Externo"
+            variant="outlined"
+            prepend-inner-icon="mdi-account"
+            v-model="nomePacienteExterno"
+          ></v-text-field>
 
-          <v-checkbox class="ma-0 pa-0" label="Consulta Externa" v-model="ConsultaExterna" color="blue"></v-checkbox>
+          <v-checkbox
+            class="ma-0 pa-0"
+            label="Consulta Externa"
+            v-model="ConsultaExterna"
+            color="blue"
+          ></v-checkbox>
 
-          <v-alert class="mb-1"
+          <v-alert
+            class="mb-1"
             text="Você pode deixar marcado aqui tanto para horários anteriores para registro quanto para novos horários. Pacientes Externos e FitCertify365. Caso seja FitCertify, tome cuidado pois é notificado para ele em seu aplicativo."
-            title="Informações Importantes" type="info" variant="tonal"></v-alert>
+            title="Informações Importantes"
+            type="info"
+            variant="tonal"
+          ></v-alert>
 
-          <div>
-
-          </div>
+          <div></div>
           <v-row>
             <v-col cols="6">
-              <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100"
-                locale="pt-BR"></v-date-picker>
+              <v-date-picker
+                v-model="dayselect"
+                color="blue"
+                elevation="2"
+                rounded="lg"
+                class="w-100"
+                locale="pt-BR"
+              ></v-date-picker>
             </v-col>
             <v-col cols="6">
               <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
@@ -144,42 +252,68 @@
                 </v-card-title>
 
                 <div class="time-slots-grid">
-                  <v-card v-for="(hora, index) in datinhas.slots" :key="index" :class="[
-                    'time-slot-card',
-                    hora.disponivel ? 'available' : 'unavailable',
-                    { 'selected': selectedTimeSlot?.horario === hora.horario }
-                  ]" :disabled="!hora.disponivel" @click="hora.disponivel && selectTimeSlot(hora)">
+                  <v-card
+                    v-for="(hora, index) in datinhas.slots"
+                    :key="index"
+                    :class="[
+                      'time-slot-card',
+                      hora.disponivel ? 'available' : 'unavailable',
+                      { selected: selectedTimeSlot?.horario === hora.horario },
+                    ]"
+                    :disabled="!hora.disponivel"
+                    @click="hora.disponivel && selectTimeSlot(hora)"
+                  >
                     <v-card-text class="pa-3 text-center">
                       <v-icon
-                        :color="selectedTimeSlot?.horario === hora.horario ? 'white' : (hora.disponivel ? 'blue' : 'grey')"
-                        class="mb-1">
-                        {{ hora.disponivel ? 'mdi-clock-check' : 'mdi-clock-remove' }}
+                        :color="
+                          selectedTimeSlot?.horario === hora.horario
+                            ? 'white'
+                            : hora.disponivel
+                              ? 'blue'
+                              : 'grey'
+                        "
+                        class="mb-1"
+                      >
+                        {{
+                          hora.disponivel
+                            ? 'mdi-clock-check'
+                            : 'mdi-clock-remove'
+                        }}
                       </v-icon>
                       <div class="text-body-2 font-weight-medium">
                         {{ dayjs(hora.horario).utcOffset(0).format('HH:mm') }}
                       </div>
                       <div class="text-caption text-grey">
-                        {{ dayjs(hora.horarioFim).utcOffset(0).format('HH:mm') }}
+                        {{
+                          dayjs(hora.horarioFim).utcOffset(0).format('HH:mm')
+                        }}
                       </div>
                     </v-card-text>
                   </v-card>
                 </div>
 
                 <div class="mt-4 text-center">
-                  <v-chip color="success" variant="flat" size="small" class="mr-2">
+                  <v-chip
+                    color="success"
+                    variant="flat"
+                    size="small"
+                    class="mr-2"
+                  >
                     <v-icon size="12" class="mr-1">mdi-check</v-icon>
                     {{ datinhas.slotsDisponiveis || 0 }} disponíveis
                   </v-chip>
                   <v-chip color="grey" variant="flat" size="small">
                     <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                    {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} ocupados
+                    {{
+                      (datinhas.slots?.length || 0) -
+                      (datinhas.slotsDisponiveis || 0)
+                    }}
+                    ocupados
                   </v-chip>
                 </div>
               </v-card>
             </v-col>
-
           </v-row>
-
         </v-card-text>
 
         <v-card-actions class="pa-4">
@@ -187,8 +321,17 @@
           <v-btn color="grey" variant="text" @click="ActiveDialog = false">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat" @click="criarConsulta"
-            :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+          <v-btn
+            color="blue"
+            variant="flat"
+            @click="criarConsulta"
+            :loading="loading"
+            :disabled="
+              !selectedTimeSlot ||
+              (ConsultaExterna && !nomePacienteExterno) ||
+              (!ConsultaExterna && !atletaSelected)
+            "
+          >
             Confirmar
           </v-btn>
         </v-card-actions>
@@ -198,17 +341,19 @@
 </template>
 
 <script setup>
-import atletaService from '@/services/atleta/atleta-service';
-import consultasService from '@/services/consultas/consultas-service';
-import { getMedicoId } from '@/utils/auth';
-import { onMounted, ref, watch } from 'vue';
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import timezone from 'dayjs/plugin/timezone';
-import 'dayjs/locale/pt-br';
-dayjs.extend(utc);
-dayjs.extend(timezone);
-dayjs.locale('pt-br');
+import atletaService from '@/services/atleta/atleta-service'
+import consultasService from '@/services/consultas/consultas-service'
+import { getMedicoId } from '@/utils/auth'
+import { onMounted, ref, watch } from 'vue'
+import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { toast } from 'vue3-toastify'
+import 'dayjs/locale/pt-br'
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.locale('pt-br')
+const loading = ref(false)
 const atletaSelected = ref(null)
 const ActiveDialog = ref(false)
 const ConsultaExterna = ref(false)
@@ -224,7 +369,7 @@ const calendarDays = ref([])
 const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const selectedDayAppointments = ref({
   date: dayjs().format('DD/MM'),
-  appointments: []
+  appointments: [],
 })
 
 const appointmentsByDay = ref({})
@@ -243,16 +388,13 @@ watch(dayselect, (newValue) => {
   }
 })
 
-
-
 const buscarHorariosDisponiveis = async () => {
   const data = {
     medicoId: getMedicoId(),
-    data: dayjs(dayselect.value).format('YYYY-MM-DD')
+    data: dayjs(dayselect.value).format('YYYY-MM-DD'),
   }
   const response = await consultasService.findHorariosDisponiveis(data)
   datinhas.value = response.data
-
 }
 
 const buscarAtletas = async () => {
@@ -260,12 +402,12 @@ const buscarAtletas = async () => {
   atletas.value = response.data
 }
 
-
 const selectTimeSlot = (hora) => {
   selectedTimeSlot.value = hora
 }
 
 const criarConsulta = async () => {
+  loading.value = true
   try {
     const data = {
       medicoId: getMedicoId(),
@@ -273,13 +415,18 @@ const criarConsulta = async () => {
       diagnostico: '',
       medicamentosReceitados: '',
       situacao: 'Marcado',
-      nomePacienteExterno: ConsultaExterna.value ? nomePacienteExterno.value : null,
+      nomePacienteExterno: ConsultaExterna.value
+        ? nomePacienteExterno.value
+        : null,
       consultaExterna: ConsultaExterna.value,
-      dataConsulta: selectedTimeSlot.value.horario
+      dataConsulta: selectedTimeSlot.value.horario,
     }
 
     await consultasService.createConsultaByMedico(data)
     ActiveDialog.value = false
+    toast.success('Consulta marcada com sucesso!', {
+      position: toast.POSITION.TOP_RIGHT,
+    })
 
     // Reset form
     selectedTimeSlot.value = null
@@ -291,7 +438,12 @@ const criarConsulta = async () => {
     await buscarHorariosDisponiveis()
     await buscarConsultasDoDia(selectedDay.value)
   } catch (error) {
+    toast.error('Erro ao marcar consulta!', {
+      position: toast.POSITION.TOP_RIGHT,
+    })
     console.error('Erro ao criar consulta:', error)
+  } finally {
+    loading.value = false
   }
 }
 
@@ -310,7 +462,8 @@ const generateCalendar = () => {
       day: current.date(),
       isToday: current.format('YYYY-MM-DD') === today.format('YYYY-MM-DD'),
       isCurrentMonth: current.isSame(currentDate.value, 'month'),
-      hasAppointments: appointmentsByDay.value[current.format('YYYY-MM-DD')]?.length > 0
+      hasAppointments:
+        appointmentsByDay.value[current.format('YYYY-MM-DD')]?.length > 0,
     })
     current = current.add(1, 'day')
   }
@@ -334,35 +487,37 @@ const buscarConsultasDoDia = async (selectedDate) => {
 
   const data = {
     dataInicio,
-    dataFim
+    dataFim,
   }
 
   try {
     const response = await consultasService.findConsultasByDayForMedico(data)
     if (response.success && response.data.length > 0) {
       const dayData = response.data[0]
-      const appointments = dayData.consultas.map(consulta => ({
+      const appointments = dayData.consultas.map((consulta) => ({
         id: consulta.id,
-        patient: consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta.usuario.nome,
+        patient: consulta.consultaExterna
+          ? consulta.nomePacienteExterno
+          : consulta.atleta.usuario.nome,
         time: dayjs(consulta.dataConsulta).utc().format('HH:mm'),
         status: consulta.situacao.toLowerCase().replace(' ', ''),
-        type: consulta.consultaExterna ? 'external' : 'fitcertify'
+        type: consulta.consultaExterna ? 'external' : 'fitcertify',
       }))
       selectedDayAppointments.value = {
         date: dayjs(selectedDate).format('DD/MM'),
-        appointments
+        appointments,
       }
     } else {
       selectedDayAppointments.value = {
         date: dayjs(selectedDate).format('DD/MM'),
-        appointments: []
+        appointments: [],
       }
     }
   } catch (error) {
     console.error('Erro ao buscar consultas:', error)
     selectedDayAppointments.value = {
       date: dayjs(selectedDate).format('DD/MM'),
-      appointments: []
+      appointments: [],
     }
   }
 }
@@ -438,7 +593,6 @@ const getStatusColor = (status) => {
   min-height: 100vh;
   width: 100%;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-
 }
 
 .bg-gradient-primary {
