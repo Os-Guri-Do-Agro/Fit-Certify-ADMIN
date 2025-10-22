@@ -402,9 +402,9 @@
                   </v-card>
 
                   <v-card class="mt-5 py-10 d-flex flex-column justify-center">
-                    <v-row class="mx-5 d-flex">
+                    <v-row class="mx-5 d-flex align-center justify-center">
                       <v-col
-                        class="pa-0 d-flex flex-column px-5"
+                        class="pa-0 d-flex flex-column px-5 mb-md-10"
                         cols="12"
                         lg="6"
                       >
@@ -450,7 +450,6 @@
                       <v-col
                         class="pa-0 d-flex flex-column px-5 mt-10 mt-md-0 justify-space-between"
                         cols="12"
-                        lg="6"
                       >
                         <v-card-title
                           class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
@@ -1520,7 +1519,6 @@ const handleNext = async (next) => {
         : [],
     }
 
-
     await pagarmeService
       .realizarAssinatura(data)
       .then(async (resp) => {
@@ -1807,7 +1805,7 @@ const cepRules = [
   (v) => {
     const numbers = v.replace(/\D/g, '')
     return numbers !== '00000000' || 'CEP inválido'
-  }
+  },
 ]
 
 const ufRules = [
@@ -1901,7 +1899,9 @@ const salvarEndereco = async () => {
   }
 
   try {
-    const response = await fetch(`https://viacep.com.br/ws/${cepOnlyDigits}/json/`)
+    const response = await fetch(
+      `https://viacep.com.br/ws/${cepOnlyDigits}/json/`
+    )
     const data = await response.json()
 
     if (!response.ok || data?.erro) {
