@@ -366,7 +366,7 @@
                 Voltar
               </VBtn>
               <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
-                :disabled="loading || disabled" :style="step === 3
+                :disabled="loading || disabled || !isCurrentStepValid" :style="step === 3
                   ? 'background-color:#88ce0d'
                   : 'background-color: #00c6fe'
                   " @click="handleNext(next)">
@@ -388,7 +388,7 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-import { onMounted, ref, toRaw } from 'vue'
+import { onMounted, ref, toRaw, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import DoencaService from '../services/cadastro-service/doenca-service'
@@ -601,6 +601,61 @@ const rules = {
     value !== null && value !== undefined ? true : 'Campo obrigatório',
   requiredCheckObrigatorio: (value) => !!value || 'Campo obrigatório',
 }
+
+// Validações para cada step
+const isStep1Valid = computed(() => {
+  return (
+    form.value.nome &&
+    form.value.cpf &&
+    validarCPF(form.value.cpf) &&
+    form.value.senha &&
+    validarSenhaForte(form.value.senha) &&
+    form.value.email &&
+    validarEmail(form.value.email) &&
+    form.value.telefone &&
+    form.value.dataNascimento &&
+    isValidDate(form.value.dataNascimento) &&
+    form.value.altura &&
+    form.value.peso &&
+    form.value.genero !== null &&
+    form.value.tipoSanguineo !== null &&
+    form.value.praticaAtividadeFisicaRegularmente !== null &&
+    !disabled.value
+  )
+})
+
+const isStep2Valid = computed(() => {
+  return (
+    formDoencas.value.length > 0 &&
+    formSintomas.value.length > 0 &&
+    objetivoAtividade.value &&
+    form.value.participouProva !== null
+  )
+})
+
+const isStep3Valid = computed(() => {
+  return (
+    form.value.fezcheckUp !== null &&
+    form.value.possuiSmartwatch !== null &&
+    form.value.integrarDados &&
+    form.value.declaroInformacoes &&
+    form.value.aceitoCompartilhar &&
+    form.value.concordoTermos
+  )
+})
+
+const isCurrentStepValid = computed(() => {
+  switch (step.value) {
+    case 1:
+      return isStep1Valid.value
+    case 2:
+      return isStep2Valid.value
+    case 3:
+      return isStep3Valid.value
+    default:
+      return false
+  }
+})
 
 
 const { handleSubmit, errors } = useForm({

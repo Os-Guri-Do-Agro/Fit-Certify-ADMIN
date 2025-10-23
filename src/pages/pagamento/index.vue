@@ -10,34 +10,19 @@
                 <v-col class="px-0 py-md-0 pr-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-5 pa-md-10">
                     <v-radio-group v-model="metodoPagamento">
-                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5"
-                        >Cartão de Crédito ou Débito</span
-                      >
-                      <v-radio
-                        class="cardBtn pa-2 rounded-xl mb-5"
-                        value="cartao"
-                        color="blue"
-                        style="background-color: #ddf1fd"
-                        prepend-icon="mdi-google"
-                      >
+                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5">Cartão de Crédito ou Débito</span>
+                      <v-radio class="cardBtn pa-2 rounded-xl mb-5" value="cartao" color="blue"
+                        style="background-color: #ddf1fd" prepend-icon="mdi-google">
                         <template v-slot:label>
                           <div class="d-flex ga-3">
                             <span>Adicionar Cartão</span>
-                            <v-icon color="blue" size="24"
-                              >mdi-credit-card-outline</v-icon
-                            >
+                            <v-icon color="blue" size="24">mdi-credit-card-outline</v-icon>
                           </div>
                         </template>
                       </v-radio>
                     </v-radio-group>
 
-                    <v-btn
-                      variant="outlined"
-                      color="blue"
-                      rounded="xl"
-                      class="mt-5"
-                      @click="voltarParaPlanos"
-                    >
+                    <v-btn variant="outlined" color="blue" rounded="xl" class="mt-5" @click="voltarParaPlanos">
                       Voltar para Planos
                     </v-btn>
                   </v-card>
@@ -47,37 +32,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                        }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -125,17 +100,15 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -145,9 +118,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -157,12 +128,10 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
-                          }}{{
+                        <v-card-text>R$ {{ formatarPreco(valorTotal)
+                        }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -186,50 +155,29 @@
           <template #item.2>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-blue text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
                   Adicionar Cartão
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card>
-                    <v-form
-                      class="w-100"
-                      width="100%"
-                      v-model="formValid"
-                      ref="formRef"
-                    >
+                    <v-form class="w-100" width="100%" v-model="formValid" ref="formRef">
                       <v-row class="d-flex justify-center">
-                        <v-col
-                          md="12"
-                          lg="4"
-                          class="mx-auto mx-lg-10 mt-9 d-none d-md-inline"
-                        >
+                        <v-col md="12" lg="4" class="mx-auto mx-lg-10 mt-9 d-none d-md-inline">
                           <div class="card-container">
-                            <v-card
-                              :class="[
-                                'card-face card-front',
-                                { flipped: isCardFlipped },
-                              ]"
-                              class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                              max-width="320"
-                              min-height="200"
+                            <v-card :class="[
+                              'card-face card-front',
+                              { flipped: isCardFlipped },
+                            ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200"
                               style="
                                 background: linear-gradient(
                                   135deg,
                                   #0067b8 0%,
                                   #6bd0ff 100%
                                 );
-                              "
-                            >
+                              ">
                               <div class="text-white flex-1-1">
                                 <v-card-title class="pa-0 ma-0">{{
                                   getBanco(numeroCartao)
@@ -237,62 +185,40 @@
                               </div>
 
                               <div class="flex-1-3">
-                                <v-card-text
-                                  class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3"
-                                >
+                                <v-card-text class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3">
                                   {{ numeroCartao || '0000 0000 0000 0000' }}
                                 </v-card-text>
                                 <div class="pr-5 pr-md-7">
-                                  <v-card-text class="text-white pa-0 ma-0"
-                                    >Nome</v-card-text
-                                  >
-                                  <v-card-text
-                                    class="text-white text-subtitle-1 pa-0 ma-0"
-                                    >{{
-                                      formatNomeCartao(nomeCartao)
-                                    }}</v-card-text
-                                  >
+                                  <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                                  <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{
+                                    formatNomeCartao(nomeCartao)
+                                  }}</v-card-text>
                                 </div>
                               </div>
                             </v-card>
 
-                            <v-card
-                              :class="[
-                                'card-face card-back',
-                                { flipped: isCardFlipped },
-                              ]"
-                              class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                              max-width="320"
-                              min-height="200"
+                            <v-card :class="[
+                              'card-face card-back',
+                              { flipped: isCardFlipped },
+                            ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200"
                               style="
                                 background: linear-gradient(
                                   135deg,
                                   #0067b8 0%,
                                   #6bd0ff 100%
                                 );
-                              "
-                            >
+                              ">
                               <div class="black-stripe mt-4 mb-6"></div>
-                              <div
-                                class="d-flex justify-space-between align-center"
-                              >
+                              <div class="d-flex justify-space-between align-center">
                                 <div class="cvv-area">
-                                  <v-card-text
-                                    class="text-white text-caption pa-0 ma-0 mb-1"
-                                    >CVV</v-card-text
-                                  >
+                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">CVV</v-card-text>
                                   <div class="cvv-box text-black pa-2 rounded">
                                     {{ cvvCode || '***' }}
                                   </div>
                                 </div>
                                 <div class="validity-area">
-                                  <v-card-text
-                                    class="text-white text-caption pa-0 ma-0 mb-1"
-                                    >Validade</v-card-text
-                                  >
-                                  <v-card-text
-                                    class="text-white text-subtitle-2 pa-0 ma-0"
-                                  >
+                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                                  <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                     {{ validadedCartao || 'MM/AA' }}
                                   </v-card-text>
                                 </div>
@@ -303,98 +229,40 @@
 
                         <v-row class="pa-10 mt-3">
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field
-                              class="px-3"
-                              v-model="nomeCartao"
-                              label="Nome do Cartão"
-                              required
-                              variant="outlined"
-                              rounded="xl"
-                              name="nomeDoCartao"
-                              color="blue"
-                              :rules="nomeRules"
-                              validate-on="blur"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="nomeCartao" label="Nome do Cartão" required
+                              variant="outlined" rounded="xl" name="nomeDoCartao" color="blue" :rules="nomeRules"
+                              validate-on="blur"></v-text-field>
                           </v-col>
 
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field
-                              class="px-3"
-                              v-model="numeroCartao"
-                              required
-                              label="Número do Cartão"
-                              variant="outlined"
-                              rounded="xl"
-                              maxlength="19"
-                              placeholder="0000 0000 0000 0000"
-                              name="numeroDoCartao"
-                              color="blue"
-                              :rules="numeroRules"
-                              validate-on="blur"
-                              @input="onNumeroCartaoInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="numeroCartao" required label="Número do Cartão"
+                              variant="outlined" rounded="xl" maxlength="19" placeholder="0000 0000 0000 0000"
+                              name="numeroDoCartao" color="blue" :rules="numeroRules" validate-on="blur"
+                              @input="onNumeroCartaoInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pl-0 pr-2 mb-2" cols="6">
-                            <v-text-field
-                              class="px-3"
-                              v-model="validadedCartao"
-                              required
-                              label="Validade"
-                              variant="outlined"
-                              rounded="xl"
-                              maxlength="5"
-                              placeholder="MM/AA"
-                              name="validadeCartao"
-                              color="blue"
-                              :rules="validadeRules"
-                              validate-on="blur"
-                              @focus="flipCard"
-                              @blur="unflipCard"
-                              @input="onValidadeInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="validadedCartao" required label="Validade"
+                              variant="outlined" rounded="xl" maxlength="5" placeholder="MM/AA" name="validadeCartao"
+                              color="blue" :rules="validadeRules" validate-on="blur" @focus="flipCard"
+                              @blur="unflipCard" @input="onValidadeInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pr-0 pl-2 mb-2" cols="6">
-                            <v-text-field
-                              class="px-3"
-                              v-model="cvvCode"
-                              required
-                              label="CVV"
-                              variant="outlined"
-                              rounded="xl"
-                              :counter="3"
-                              maxlength="3"
-                              name="cvvCartao"
-                              color="blue"
-                              :rules="cvvRules"
-                              validate-on="blur"
-                              @focus="flipCard"
-                              @blur="unflipCard"
-                              @input="onCvvInput"
-                            ></v-text-field>
+                            <v-text-field class="px-3" v-model="cvvCode" required label="CVV" variant="outlined"
+                              rounded="xl" :counter="3" maxlength="3" name="cvvCartao" color="blue" :rules="cvvRules"
+                              validate-on="blur" @focus="flipCard" @blur="unflipCard"
+                              @input="onCvvInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pa-0 mb-0" cols="12">
-                            <v-select
-                              class="px-3"
-                              v-model="metodoPagamentoCartao"
-                              :items="items"
-                              item-title="label"
-                              item-value="value"
-                              label="Método de pagamento"
-                              color="blue"
-                              rounded="xl"
-                              required
-                              variant="outlined"
-                              :rules="requiredRule"
-                              validate-on="blur"
-                            >
+                            <v-select class="px-3" v-model="metodoPagamentoCartao" :items="items" item-title="label"
+                              item-value="value" label="Método de pagamento" color="blue" rounded="xl" required
+                              variant="outlined" :rules="requiredRule" validate-on="blur">
                               {{
                                 metodoPagamentoCartao ||
                                 'Selecione o metodo de pagamento'
-                              }}</v-select
-                            >
+                              }}</v-select>
                           </v-col>
                         </v-row>
                       </v-row>
@@ -403,57 +271,30 @@
 
                   <v-card class="mt-5 py-10 d-flex flex-column justify-center">
                     <v-row class="mx-5 d-flex align-center justify-center">
-                      <v-col
-                        class="pa-0 d-flex flex-column px-5 mb-md-10"
-                        cols="12"
-                        lg="6"
-                      >
-                        <v-card-title
-                          class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
-                        >
+                      <v-col class="pa-0 d-flex flex-column px-5 mb-md-10" cols="12" lg="6">
+                        <v-card-title class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center">
                           Adicionar cupom de desconto
                         </v-card-title>
-                        <v-text-field
-                          v-model="codigoCupom"
-                          required
-                          label="Código do cupom"
-                          variant="outlined"
-                          rounded="lg"
-                          color="blue"
-                          density="comfortable"
-                          height="50"
-                          @input="codigoCupom = codigoCupom.toUpperCase()"
-                        ></v-text-field>
+                        <v-text-field v-model="codigoCupom" required label="Código do cupom" variant="outlined"
+                          rounded="lg" color="blue" density="comfortable" height="50"
+                          @input="codigoCupom = codigoCupom.toUpperCase()"></v-text-field>
 
-                        <v-btn
-                          class="text-lg-subtitle-1 text-subtitle-2"
-                          size="x-large"
-                          color="blue"
-                          rounded="xl"
-                          :loading="loadingCupom"
-                          @click="validarCupom()"
-                        >
+                        <v-btn class="text-lg-subtitle-1 text-subtitle-2" size="x-large" color="blue" rounded="xl"
+                          :loading="loadingCupom" @click="validarCupom()">
                           Validar Cupom
                         </v-btn>
 
                         <template v-if="cupom">
-                          <b class="text-green text-center mt-3"
-                            >Desconto de
+                          <b class="text-green text-center mt-3">Desconto de
                             {{
                               cupom?.porcentagem.toString().replace('.', ',')
                             }}
-                            % aplicado!</b
-                          >
+                            % aplicado!</b>
                         </template>
                       </v-col>
 
-                      <v-col
-                        class="pa-0 d-flex flex-column px-5 mt-10 mt-md-0 justify-space-between"
-                        cols="12"
-                      >
-                        <v-card-title
-                          class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center"
-                        >
+                      <v-col class="pa-0 d-flex flex-column px-5 mt-10 mt-md-0 justify-space-between" cols="12">
+                        <v-card-title class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center">
                           Endereço | Contato
                         </v-card-title>
 
@@ -470,9 +311,7 @@
                               {{ endereco.cep }}
                             </div>
                             <div class="text-body-2">{{ endereco.pais }}</div>
-                            <div
-                              class="text-caption text-grey-darken-1 mt-2 mb-1"
-                            >
+                            <div class="text-caption text-grey-darken-1 mt-2 mb-1">
                               Contato:
                             </div>
                             <div class="text-body-2">
@@ -481,13 +320,8 @@
                           </v-card>
                         </div>
 
-                        <v-btn
-                          class="text-lg-subtitle-1 text-subtitle-2"
-                          size="x-large"
-                          color="blue"
-                          rounded="xl"
-                          @click="showModal = true"
-                        >
+                        <v-btn class="text-lg-subtitle-1 text-subtitle-2" size="x-large" color="blue" rounded="xl"
+                          @click="showModal = true">
                           {{
                             enderecoSalvo
                               ? 'EDITAR ENDEREÇO'
@@ -501,169 +335,76 @@
 
                 <v-dialog v-model="showModal" width="750" min-height="600">
                   <v-card class="bg-gray">
-                    <div
-                      class="d-flex justify-space-between align-center px-7 py-5"
-                      elevation-1
-                    >
-                      <v-card-title
-                        class="d-flex align-center ga-1 text-subtitle-1 text-md-h6 font-weight-black pa-0"
-                      >
-                        <v-icon size="28" color="blue"
-                          >mdi-map-marker-circle</v-icon
-                        >
+                    <div class="d-flex justify-space-between align-center px-7 py-5" elevation-1>
+                      <v-card-title class="d-flex align-center ga-1 text-subtitle-1 text-md-h6 font-weight-black pa-0">
+                        <v-icon size="28" color="blue">mdi-map-marker-circle</v-icon>
                         NOVO ENDEREÇO
                       </v-card-title>
 
-                      <v-btn
-                        rounded="lg"
-                        variant="outlined"
-                        @click="showModal = false"
-                        icon="mdi-window-close"
-                        class="text-blue"
-                      ></v-btn>
+                      <v-btn rounded="lg" variant="outlined" @click="showModal = false" icon="mdi-window-close"
+                        class="text-blue"></v-btn>
                     </div>
 
                     <v-form ref="enderecoFormRef" v-model="enderecoFormValid">
                       <v-row class="d-flex px-10 py-5">
                         <v-col class="pa-0" cols="12">
-                          <v-text-field
-                            v-model="endereco.rua"
-                            required
-                            label="Rua*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            class="mb-2"
-                            :rules="requiredRule"
-                            validate-on="blur"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.rua" required label="Rua*" variant="outlined" rounded="lg"
+                            density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
+                            validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0" cols="12">
-                          <v-text-field
-                            v-model="endereco.complemento"
-                            required
-                            label="Complemento*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            class="mb-2"
-                            :rules="requiredRule"
-                            validate-on="blur"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.complemento" required label="Complemento*" variant="outlined"
+                            rounded="lg" density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
+                            validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pr-2" cols="6">
-                          <v-text-field
-                            v-model="endereco.cep"
-                            required
-                            label="CEP*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="cepRules"
-                            validate-on="blur"
-                            maxlength="9"
-                            class="mb-2"
-                            @input="onCepInput"
-                            @blur="preencherCep"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.cep" required label="CEP*" variant="outlined" rounded="lg"
+                            density="comfortable" color="blue" :rules="cepRules" validate-on="blur" maxlength="9"
+                            class="mb-2" @input="onCepInput" @blur="preencherCep"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pl-2" cols="6">
-                          <v-text-field
-                            v-model="endereco.uf"
-                            required
-                            label="UF*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="ufRules"
-                            validate-on="blur"
-                            maxlength="2"
-                            class="mb-2"
-                            @input="onUfInput"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.uf" required label="UF*" variant="outlined" rounded="lg"
+                            density="comfortable" color="blue" :rules="ufRules" validate-on="blur" maxlength="2"
+                            class="mb-2" @input="onUfInput"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pr-2" cols="6">
-                          <v-text-field
-                            v-model="endereco.cidade"
-                            required
-                            label="Cidade*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="requiredRule"
-                            class="mb-2"
-                            validate-on="blur"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.cidade" required label="Cidade*" variant="outlined"
+                            rounded="lg" density="comfortable" color="blue" :rules="requiredRule" class="mb-2"
+                            validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pl-2" cols="6">
-                          <v-text-field
-                            v-model="endereco.pais"
-                            required
-                            label="País*"
-                            variant="outlined"
-                            rounded="lg"
-                            maxlength="2"
-                            density="comfortable"
-                            color="blue"
-                            class="mb-2"
-                            :rules="requiredRule"
-                            validate-on="blur"
-                            @input="onPaisInput"
-                          ></v-text-field>
+                          <v-text-field v-model="endereco.pais" required label="País*" variant="outlined" rounded="lg"
+                            maxlength="2" density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
+                            validate-on="blur" @input="onPaisInput"></v-text-field>
                         </v-col>
                       </v-row>
 
-                      <div
-                        class="d-flex justify-space-between align-center px-7"
-                        elevation-1
-                      >
+                      <div class="d-flex justify-space-between align-center px-7" elevation-1>
                         <v-card-title
-                          class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5"
-                        >
-                          <v-icon size="28" color="blue"
-                            >mdi-card-account-phone-outline</v-icon
-                          >
+                          class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5">
+                          <v-icon size="28" color="blue">mdi-card-account-phone-outline</v-icon>
                           CONTATO
                         </v-card-title>
                       </div>
 
                       <v-row class="d-flex px-10 pt-5">
                         <v-col class="pa-0" cols="12">
-                          <v-text-field
-                            v-model="mobile_phone.full_number"
-                            required
-                            label="Telefone Completo*"
-                            variant="outlined"
-                            rounded="lg"
-                            density="comfortable"
-                            color="blue"
-                            :rules="telefoneCompletoRules"
-                            validate-on="blur"
-                            placeholder="+55 (21) 9 9999-9999"
-                            @input="onTelefoneCompletoInput"
-                          ></v-text-field>
+                          <v-text-field v-model="mobile_phone.full_number" required label="Telefone Completo*"
+                            variant="outlined" rounded="lg" density="comfortable" color="blue"
+                            :rules="telefoneCompletoRules" validate-on="blur" placeholder="+55 (21) 9 9999-9999"
+                            @input="onTelefoneCompletoInput"></v-text-field>
                         </v-col>
                       </v-row>
                     </v-form>
 
                     <v-row>
                       <v-col class="px-10 py-5" cols="12">
-                        <v-btn
-                          color="blue"
-                          block
-                          size="large"
-                          @click="salvarEndereco"
-                        >
+                        <v-btn color="blue" block size="large" @click="salvarEndereco">
                           SALVAR
                         </v-btn>
                       </v-col>
@@ -675,37 +416,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                        }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -753,35 +484,28 @@
                       </div>
 
                       <div :class="{ 'preco-antigo': cupom }">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
-                    <div
-                      v-if="cupom != null"
-                      class="d-flex justify-space-between align-center"
-                    >
+                    <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{
-                            cupom?.porcentagem.toString().replace('.', ',') ||
-                            '0'
-                          }}%</v-card-text
-                        >
+                        <v-card-text>{{
+                          cupom?.porcentagem.toString().replace('.', ',') ||
+                          '0'
+                        }}%</v-card-text>
                       </div>
                     </div>
 
@@ -791,9 +515,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -802,12 +524,10 @@
                         <v-card-text>Total:</v-card-text>
                       </div>
                       <div class="">
-                        <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
-                          }}{{
+                        <v-card-text>R$ {{ formatarPreco(valorTotal)
+                        }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
                     <div class="bg-grey my-2 mx-4" style="height: 2px"></div>
@@ -832,24 +552,15 @@
           <template #item.3>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-blue text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
                   Finalizar Pagamento
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-2 pa-5">
-                    <v-card-title
-                      class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold"
-                    >
+                    <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold">
                       <v-icon size="24" color="blue">mdi-account</v-icon> DADOS
                       PESSOAIS
                     </v-card-title>
@@ -862,8 +573,7 @@
                       <v-col cols="12" md="6">
                         <div>
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             Nome:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.nome }}
@@ -873,8 +583,7 @@
 
                         <div>
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             Celular:
                             <v-card-text class="text-caption">
                               {{ mobile_phone.full_number }}
@@ -884,8 +593,7 @@
 
                         <div>
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             CEP:
                             <v-card-text class="text-caption">
                               {{ endereco.cep }}
@@ -897,8 +605,7 @@
                       <v-col cols="12" md="6">
                         <div class="">
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             CPF:
                             <v-card-text class="text-caption">
                               {{ formatarCPF(payload?.user?.cpf) }}
@@ -908,8 +615,7 @@
 
                         <div class="">
                           <v-card-text
-                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0"
-                          >
+                            class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
                             E-mail:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.email }}
@@ -921,9 +627,7 @@
                   </v-card>
 
                   <v-card class="mt-5 pa-5">
-                    <v-card-title
-                      class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold flex-wrap"
-                    >
+                    <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold flex-wrap">
                       <v-icon size="24" color="blue">mdi-credit-card</v-icon>
                       CARTÃO DE PAGAMENTO
                     </v-card-title>
@@ -933,25 +637,18 @@
 
                     <div class="d-flex justify-center">
                       <div class="card-container" @click="flipCardStep3">
-                        <v-card
-                          :class="[
-                            'card-face card-front',
-                            { flipped: isCardFlippedStep3 },
-                          ]"
-                          class="d-flex flex-column rounded-xl card-with-bg pa-4 mx-auto"
-                          max-width="320"
-                          min-height="200"
-                          style="
+                        <v-card :class="[
+                          'card-face card-front',
+                          { flipped: isCardFlippedStep3 },
+                        ]" class="d-flex flex-column rounded-xl card-with-bg pa-4 mx-auto" max-width="320"
+                          min-height="200" style="
                             background: linear-gradient(
                               135deg,
                               #0067b8 0%,
                               #6bd0ff 100%
                             );
-                          "
-                        >
-                          <div
-                            class="d-flex justify-space-between text-white flex-1-1"
-                          >
+                          ">
+                          <div class="d-flex justify-space-between text-white flex-1-1">
                             <v-card-title class="pa-0 ma-0">{{
                               getBanco(numeroCartao)
                             }}</v-card-title>
@@ -961,60 +658,38 @@
                           </div>
 
                           <div class="flex-1-3">
-                            <v-card-text
-                              class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3"
-                            >
+                            <v-card-text class="text-white text-subtitle-1 text-md-h6 pa-0 ma-0 mb-3">
                               {{ numeroCartao || '0000 0000 0000 0000' }}
                             </v-card-text>
                             <div class="pr-5 pr-md-7">
-                              <v-card-text class="text-white pa-0 ma-0"
-                                >Nome</v-card-text
-                              >
-                              <v-card-text
-                                class="text-white text-subtitle-1 pa-0 ma-0"
-                                >{{ formatNomeCartao(nomeCartao) }}</v-card-text
-                              >
+                              <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                              <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{ formatNomeCartao(nomeCartao)
+                                }}</v-card-text>
                             </div>
                           </div>
                         </v-card>
 
-                        <v-card
-                          :class="[
-                            'card-face card-back',
-                            { flipped: isCardFlippedStep3 },
-                          ]"
-                          class="d-flex flex-column rounded-xl pa-4 mx-auto"
-                          max-width="320"
-                          min-height="200"
-                          style="
+                        <v-card :class="[
+                          'card-face card-back',
+                          { flipped: isCardFlippedStep3 },
+                        ]" class="d-flex flex-column rounded-xl pa-4 mx-auto" max-width="320" min-height="200" style="
                             background: linear-gradient(
                               135deg,
                               #0067b8 0%,
                               #6bd0ff 100%
                             );
-                          "
-                        >
+                          ">
                           <div class="black-stripe mt-4 mb-6"></div>
-                          <div
-                            class="d-flex justify-space-between align-center"
-                          >
+                          <div class="d-flex justify-space-between align-center">
                             <div class="cvv-area">
-                              <v-card-text
-                                class="text-white text-caption pa-0 ma-0 mb-1"
-                                >CVV</v-card-text
-                              >
+                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">CVV</v-card-text>
                               <div class="cvv-box text-black pa-2 rounded">
                                 {{ cvvCode || '***' }}
                               </div>
                             </div>
                             <div class="validity-area">
-                              <v-card-text
-                                class="text-white text-caption pa-0 ma-0 mb-1"
-                                >Validade</v-card-text
-                              >
-                              <v-card-text
-                                class="text-white text-subtitle-2 pa-0 ma-0"
-                              >
+                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                              <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                 {{ validadedCartao || 'MM/AA' }}
                               </v-card-text>
                             </div>
@@ -1029,37 +704,27 @@
                   <v-card>
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
-                        <v-icon color="white" size="24"
-                          >mdi-note-search-outline</v-icon
-                        >
+                        <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
                         <v-card-title> Resumo </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center"
-                          >{{
-                            planoSelecionado?.nome || 'Plano Selecionado'
-                          }}</v-card-text
-                        >
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{
+                          planoSelecionado?.nome || 'Plano Selecionado'
+                        }}</v-card-text>
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0"
-                          >R$
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -1107,35 +772,28 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$
+                        <v-card-text>R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
-                    <div
-                      v-if="cupom != null"
-                      class="d-flex justify-space-between align-center"
-                    >
+                    <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
                         <v-card-text>Desconto:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{
-                            cupom?.porcentagem.toString().replace('.', ',') ||
-                            '0'
-                          }}%</v-card-text
-                        >
+                        <v-card-text>{{
+                          cupom?.porcentagem.toString().replace('.', ',') ||
+                          '0'
+                        }}%</v-card-text>
                       </div>
                     </div>
 
@@ -1145,9 +803,7 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >{{ planoSelecionado?.duracao }} Meses</v-card-text
-                        >
+                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
                       </div>
                     </div>
 
@@ -1157,12 +813,10 @@
                       </div>
 
                       <div class="">
-                        <v-card-text
-                          >R$ {{ formatarPreco(valorTotal)
-                          }}{{
+                        <v-card-text>R$ {{ formatarPreco(valorTotal)
+                        }}{{
                             planoSelecionado?.precoAno ? '/ano' : '/mês'
-                          }}</v-card-text
-                        >
+                          }}</v-card-text>
                       </div>
                     </div>
 
@@ -1188,20 +842,13 @@
           <template #item.4>
             <v-container>
               <div class="d-flex justify-center mb-md-7">
-                <h1
-                  class="text-green text-h5 text-md-h4 font-weight-medium text-center"
-                >
+                <h1 class="text-green text-h5 text-md-h4 font-weight-medium text-center">
                   Pagamento Realizado com Sucesso!
                 </h1>
               </div>
 
               <v-row class="mb-16">
-                <v-col
-                  class="py-5 py-md-0 px-0 px-md-5"
-                  cols="12"
-                  md="7"
-                  lg="8"
-                >
+                <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-5 text-center">
                     <v-icon size="80" color="green" class="mb-5">
                       mdi-check-circle
@@ -1221,13 +868,7 @@
                       os detalhes da sua compra.
                     </v-card-text>
 
-                    <v-btn
-                      color="blue"
-                      size="large"
-                      rounded="xl"
-                      class="text-white px-8"
-                      @click="irParaHome"
-                    >
+                    <v-btn color="blue" size="large" rounded="xl" class="text-white px-8" @click="irParaHome">
                       Ir para Home
                     </v-btn>
                   </v-card>
@@ -1246,25 +887,19 @@
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text
-                          class="text-h5 font-weight-bold text-center text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-bold text-center text-white">
                           {{ planoSelecionado?.nome || 'Plano Selecionado' }}
                         </v-card-text>
-                        <span
-                          v-if="planoSelecionado?.nome === 'Saúde Ativa'"
-                          class="text-caption font-weight-black mb-2 text-white"
-                        >
+                        <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
+                          class="text-caption font-weight-black mb-2 text-white">
                           ⭐ Mais popular
                         </span>
-                        <v-card-text
-                          class="text-h5 font-weight-medium ma-0 pa-0 text-white"
-                        >
+                        <v-card-text class="text-h5 font-weight-medium ma-0 pa-0 text-white">
                           R$
                           {{
                             formatarPreco(
                               planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoMes
                             )
                           }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
                         </v-card-text>
@@ -1276,9 +911,7 @@
                         <v-card-text>Status:</v-card-text>
                       </div>
                       <div>
-                        <v-card-text
-                          class="text-end text-green font-weight-bold"
-                        >
+                        <v-card-text class="text-end text-green font-weight-bold">
                           Aprovado
                         </v-card-text>
                       </div>
@@ -1318,8 +951,8 @@
                           {{
                             formatarPreco(
                               valorTotal ||
-                                planoSelecionado?.precoAno ||
-                                planoSelecionado?.precoMes
+                              planoSelecionado?.precoAno ||
+                              planoSelecionado?.precoMes
                             )
                           }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
                         </v-card-text>
@@ -1348,35 +981,16 @@
           <template #actions="{ next, prev }">
             <div class="fixed-buttons">
               <v-container>
-                <div
-                  class="d-flex justify-space-between w-100 py-4 flex-column-reverse flex-md-row align-center ga-3"
-                >
-                  <VBtn
-                    v-if="step !== 4"
-                    class="w-100"
-                    :disabled="step === 1 ? true : false"
-                    height="43px"
-                    max-width="237px"
-                    style="color: #00c6fe"
-                    variant="outlined"
-                    @click="handlePrev(prev)"
-                  >
+                <div class="d-flex justify-space-between w-100 py-4 flex-column-reverse flex-md-row align-center ga-3">
+                  <VBtn v-if="step !== 4" class="w-100" :disabled="step === 1 ? true : false" height="43px"
+                    max-width="237px" style="color: #00c6fe" variant="outlined" @click="handlePrev(prev)">
                     Voltar
                   </VBtn>
-                  <VBtn
-                    v-if="step !== 4"
-                    class="text-white w-100"
-                    height="43px"
-                    max-width="237px"
-                    :loading="loading"
-                    :disabled="loading || (step === 1 && !metodoPagamento)"
-                    :style="
-                      step === 3
+                  <VBtn v-if="step !== 4" class="text-white w-100" height="43px" max-width="237px" :loading="loading"
+                    :disabled="loading || (step === 1 && !metodoPagamento)" :style="step === 3
                         ? 'background-color:#88ce0d'
                         : 'background-color: #00c6fe'
-                    "
-                    @click="handleNext(next)"
-                  >
+                      " @click="handleNext(next)">
                     {{
                       step !== 3
                         ? 'Próximo'
@@ -1510,12 +1124,12 @@ const handleNext = async (next) => {
       payment_method: metodoPagamentoCartao.value,
       discounts: cupom.value
         ? [
-            {
-              cycles: '1',
-              value: cupom?.value?.porcentagem.toString(),
-              discount_type: 'percentage',
-            },
-          ]
+          {
+            cycles: '1',
+            value: cupom?.value?.porcentagem.toString(),
+            discount_type: 'percentage',
+          },
+        ]
         : [],
     }
 
@@ -1524,7 +1138,9 @@ const handleNext = async (next) => {
       .then(async (resp) => {
         if (resp?.success && resp?.data?.status == 'active') {
           toast.success('Pagamento realizado com sucesso!')
+          if (cupomNeedUpdate.value === true) {
           await cupomService.updateCupom(cupom.value.id)
+          }
           await refreshUserData()
           next()
         } else {
@@ -1732,6 +1348,7 @@ const cvvRules = [
 ]
 
 const codigoCupom = ref('')
+const cupomNeedUpdate = ref(false)
 
 const irParaHome = async () => {
   await refreshUserData()
@@ -1756,6 +1373,7 @@ const validarCupom = async () => {
     .then((resp) => {
       if (resp?.success && resp?.data?.isValid) {
         toast.success('Cupom aplicado!')
+        cupomNeedUpdate.value = true
         cupom.value = resp?.data?.cupom
       }
     })
