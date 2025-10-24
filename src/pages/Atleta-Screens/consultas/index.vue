@@ -20,9 +20,9 @@
         </v-btn>
         <v-btn
           value="marcado"
-          color="green"
+          color="blue"
           :variant="filtro === 'marcado' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
+          class="px-8 text-body-1 font-weight-medium focus:text-white"
         >
           Marcadas
         </v-btn>
@@ -36,9 +36,12 @@
         </v-btn>
         <v-btn
           value="pendente"
-          color="green"
+          color="orange"
           :variant="filtro === 'pendente' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
+          :class="[
+            'px-8 text-body-1 font-weight-medium',
+            { 'text-white': filtro === 'pendente' },
+          ]"
         >
           Pendentes
         </v-btn>
