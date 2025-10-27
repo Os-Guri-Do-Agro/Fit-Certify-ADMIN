@@ -208,7 +208,7 @@ const contaItems = [
     icon: 'mdi-account-circle',
     title: 'Perfil',
     value: 'dashboard',
-    to: '/Medico-Screens/editarPerfilPúblico' ,
+    to: '/Perfil' ,
   },
 ]
 
