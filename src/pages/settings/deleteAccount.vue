@@ -1,120 +1,52 @@
 <template>
-  <VContainer class="pa-4">
-    <VRow justify="center">
-      <VCol cols="12" md="8" lg="6">
-        <!-- Header -->
-        <div class="text-center mb-8">
-          <h1 class="text-h4 font-weight-bold mb-2" style="color: #00c6fe">
-            Configurações
-          </h1>
-          <p class="text-grey-600">
-            Gerencie sua conta e preferências
-          </p>
+    <VRow >
+      <VCol cols="12">
+        <div class="d-flex align-center mb-6">
+          <VBtn icon="mdi-arrow-left" variant="text" @click="router.back()" class="mr-3" />
+          <h1 class="text-h5 font-weight-bold">Excluir Conta</h1>
         </div>
 
-        <!-- Lista de Configurações -->
-        <VCard class="mb-6" elevation="2" rounded="xl">
-          <VList class="pa-0">
-            <VListItem
-              v-for="(item, index) in listButtons"
-              :key="index"
-              :to="item.to !== 'Login' ? `/settings/${item.to}` : '/login'"
-              class="py-4 px-6"
-              :class="{ 'border-bottom': index < listButtons.length - 1 }"
-              @click="item.to === 'Login' ? handleLogout() : null"
-            >
-              <template #prepend>
-                <VIcon
-                  :icon="`mdi-${item.icon}`"
-                  size="24"
-                  :color="item.title === 'Sair' ? '#ff5252' : '#00c6fe'"
-                />
-              </template>
+        <VAlert type="warning" class="mb-6">
+          <strong>Atenção:</strong> Esta ação é permanente e não pode ser desfeita.
+        </VAlert>
 
-              <VListItemTitle
-                class="font-weight-medium"
-                :class="item.title === 'Sair' ? 'text-red' : 'text-grey-800'"
-              >
-                {{ item.title }}
-              </VListItemTitle>
+        <VCard class="mb-6">
+          <VCardTitle>O que acontece quando você exclui sua conta?</VCardTitle>
+          <VCardText class="pa-6 ml-8">
+            <ul>
+              <li>Todos os seus dados pessoais serão removidos</li>
+              <li>Seu histórico será apagado</li>
+              <li>Você perderá acesso aos serviços</li>
+              <li>Esta ação não pode ser revertida</li>
+            </ul>
 
-              <template #append>
-                <VIcon
-                  :icon="`mdi-${item.arrowIcon}`"
-                  size="20"
-                  color="grey-400"
-                />
-              </template>
-            </VListItem>
-          </VList>
-        </VCard>
-
-        <!-- Informações sobre Exclusão -->
-        <VCard class="mb-4" elevation="1" rounded="xl" color="orange-lighten-5">
-          <VCardText class="text-center pa-4">
-            <VIcon icon="mdi-information-outline" color="orange" class="mb-2" size="32" />
-            <p class="text-body-2 mb-3">
-              Antes de excluir sua conta, recomendamos que leia sobre o processo completo.
-            </p>
-            <VBtn
-              variant="text"
-              color="orange-darken-2"
-              size="small"
-              @click="$router.push('/detalhesExclusaoConta')"
-            >
-              Saiba mais sobre exclusão de conta
+            <VBtn variant="text" color="primary" @click="redirectInfoExclusao()" class="mt-3">
+              Ler política completa
               <VIcon icon="mdi-open-in-new" class="ml-1" size="16" />
             </VBtn>
           </VCardText>
         </VCard>
 
-        <!-- Botão Deletar Conta -->
-        <div class="text-center">
-          <VBtn
-            color="error"
-            variant="outlined"
-            size="large"
-            rounded="xl"
-            class="px-8 py-3"
-            @click="showDeleteDialog = true"
-          >
-            <VIcon icon="mdi-delete-outline" class="mr-2" />
-            Deletar Conta
+        <div class="d-flex gap-5 " >
+          <VBtn color="error" class="mr-5" @click="showDeleteDialog = true">
+            <VIcon icon="mdi-delete" class="mr-2" />
+            Excluir Conta
+          </VBtn>
+          <VBtn variant="outlined" @click="router.back()">
+            Cancelar
           </VBtn>
         </div>
 
-        <!-- Dialog de Confirmação -->
         <VDialog v-model="showDeleteDialog" max-width="400">
-          <VCard rounded="xl" class="pa-4">
-            <VCardTitle class="text-center text-h5 font-weight-bold text-error mb-4">
-              Deletar Conta
-            </VCardTitle>
-
-            <VCardText class="text-center">
-              <VIcon icon="mdi-alert-circle-outline" size="64" color="error" class="mb-4" />
-              <p class="text-body-1 mb-4">
-                Tem certeza que deseja deletar sua conta?
-              </p>
-              <p class="text-body-2 text-grey-600">
-                Esta ação não pode ser desfeita e todos os seus dados serão perdidos permanentemente.
-              </p>
+          <VCard>
+            <VCardTitle>Confirmar Exclusão</VCardTitle>
+            <VCardText>
+              Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.
             </VCardText>
-
-            <VCardActions class="justify-center gap-3 pt-4">
-              <VBtn
-                variant="outlined"
-                color="grey"
-                @click="showDeleteDialog = false"
-                rounded="lg"
-              >
-                Cancelar
-              </VBtn>
-              <VBtn
-                color="error"
-                @click="handleDeleteAccount"
-                :loading="deletingAccount"
-                rounded="lg"
-              >
+            <VCardActions>
+              <VSpacer />
+              <VBtn @click="showDeleteDialog = false">Cancelar</VBtn>
+              <VBtn color="error" @click="handleDeleteAccount" :loading="deletingAccount">
                 Deletar
               </VBtn>
             </VCardActions>
@@ -122,21 +54,10 @@
         </VDialog>
       </VCol>
     </VRow>
-  </VContainer>
 </template>
 
 <style scoped>
-.border-bottom {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.v-list-item {
-  transition: all 0.2s ease;
-}
-
-.v-list-item:hover {
-  background-color: #f5f5f5;
-}
+/* Estilos mínimos */
 </style>
 <script setup lang="ts">
 import { getPayload } from '@/utils/auth';
@@ -149,55 +70,8 @@ const showDeleteDialog = ref(false);
 const deletingAccount = ref(false);
 const router = useRouter();
 
-const listButtons: any[] = [
-  {
-    icon: 'account-outline',
-    title: 'Perfil',
-    to: 'Perfil',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'heart-outline',
-    title: 'Favoritos',
-    to: '404page',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'wallet-outline',
-    title: 'Método de pagamento',
-    to: '404page',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'lock-outline',
-    title: 'Privacidade',
-    to: 'Privacidade',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'cog-outline',
-    title: 'Configurações',
-    to: 'Configurações',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'help',
-    title: 'Ajuda',
-    to: 'Central De Ajuda',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'logout',
-    title: 'Sair',
-    to: 'Login',
-    arrowIcon: 'chevron-right',
-  },
-];
-
-const handleLogout = () => {
-  localStorage.clear();
-  router.push('/login');
-  toast.success('Logout realizado com sucesso!');
+const redirectInfoExclusao = () => {
+  window.open('/detalhesExclusaoConta', '_blank');
 };
 
 const handleDeleteAccount = async () => {
@@ -222,4 +96,3 @@ onMounted(() => {
   payload.value = getPayload();
 });
 </script>
-
