@@ -1,68 +1,55 @@
 <template>
-  <VContainer class="pa-4">
-    <VRow justify="center">
-      <VCol cols="12" md="8" lg="6">
-        <!-- Header -->
-        <div class="text-center mb-8">
-          <h1 class="text-h4 font-weight-bold mb-2" style="color: #00c6fe">
-            Configurações
-          </h1>
-          <p class="text-grey-600">
-            Gerencie sua conta e preferências
-          </p>
-        </div>
+  <div class="pa-4">
+    <VRow>
+      <VCol cols="12">
+        <h1 class="text-h5 font-weight-bold mb-6">Configurações</h1>
 
-        <!-- Lista de Configurações -->
-        <VCard class="mb-6" elevation="2" rounded="xl">
-          <VList class="pa-0">
-            <VListItem
-              v-for="(item, index) in listButtons"
-              :key="index"
-              :to="item.to !== 'Login' ? `/settings/${item.to}` : '/login'"
-              class="py-4 px-6"
-              :class="{ 'border-bottom': index < listButtons.length - 1 }"
-              @click="item.to === 'Login' ? handleLogout() : null"
-            >
+        <VCard class="mb-4">
+          <VList>
+            <VListItem v-for="(item, index) in accountItems" :key="index" @click="handleNavigation(item)">
               <template #prepend>
-                <VIcon
-                  :icon="`mdi-${item.icon}`"
-                  size="24"
-                  :color="item.title === 'Sair' ? '#ff5252' : '#00c6fe'"
-                />
+                <VIcon :icon="`mdi-${item.icon}`" :color="item.title === 'Sair' ? 'error' : 'primary'" />
               </template>
 
-              <VListItemTitle
-                class="font-weight-medium"
-                :class="item.title === 'Sair' ? 'text-red' : 'text-grey-800'"
-              >
+              <VListItemTitle :class="item.title === 'Sair' ? 'text-error' : ''">
                 {{ item.title }}
               </VListItemTitle>
 
               <template #append>
-                <VIcon
-                  :icon="`mdi-${item.arrowIcon}`"
-                  size="20"
-                  color="grey-400"
-                />
+                <VIcon icon="mdi-chevron-right" />
               </template>
             </VListItem>
           </VList>
         </VCard>
 
-        <!-- Botão Deletar Conta -->
-        <div class="text-center">
-          <VBtn
-            color="error"
-            variant="outlined"
-            size="large"
-            rounded="xl"
-            class="px-8 py-3"
-            @click="handleDeleteAccount()"
-          >
-            <VIcon icon="mdi-delete-outline" class="mr-2" />
-            Deletar Conta
-          </VBtn>
-        </div>
+        <VCard class="mb-4">
+          <VList>
+            <VListItem v-for="(item, index) in supportItems" :key="index" @click="router.push(`/settings/${item.to}`)">
+              <template #prepend>
+                <VIcon :icon="`mdi-${item.icon}`" color="primary" />
+              </template>
+
+              <VListItemTitle>{{ item.title }}</VListItemTitle>
+
+              <template #append>
+                <VIcon icon="mdi-chevron-right" />
+              </template>
+            </VListItem>
+          </VList>
+        </VCard>
+
+        <VCard color="error" variant="tonal">
+          <VCardText>
+            <div class="d-flex align-center mb-3">
+              <VIcon icon="mdi-alert" color="error" class="mr-2" />
+              <span class="font-weight-bold">Zona de Perigo</span>
+            </div>
+            <p class="text-body-2 mb-3">Ações que afetam permanentemente sua conta.</p>
+            <VBtn color="error" variant="outlined" @click="handleDeleteAccount()">
+              Excluir Conta
+            </VBtn>
+          </VCardText>
+        </VCard>
 
         <!-- Dialog de Confirmação -->
         <VDialog v-model="showDeleteDialog" max-width="400">
@@ -82,19 +69,10 @@
             </VCardText>
 
             <VCardActions class="justify-center gap-3 pt-4">
-              <VBtn
-                variant="outlined"
-                color="grey"
-                @click="showDeleteDialog = false"
-                rounded="lg"
-              >
+              <VBtn variant="outlined" color="grey" @click="showDeleteDialog = false" rounded="lg">
                 Cancelar
               </VBtn>
-              <VBtn
-                color="error"
-                @click="handleDeleteAccount"
-                rounded="lg"
-              >
+              <VBtn color="error" @click="handleDeleteAccount" rounded="lg">
                 Deletar
               </VBtn>
             </VCardActions>
@@ -102,25 +80,15 @@
         </VDialog>
       </VCol>
     </VRow>
-  </VContainer>
+  </div>
 </template>
 
 <style scoped>
-.border-bottom {
-  border-bottom: 1px solid #e0e0e0;
-}
-
-.v-list-item {
-  transition: all 0.2s ease;
-}
-
-.v-list-item:hover {
-  background-color: #f5f5f5;
-}
+/* Estilos mínimos */
 </style>
 <script setup lang="ts">
-import { getPayload } from '@/utils/auth';
-import { onMounted, ref } from 'vue';
+import { getPayload, getRole } from '@/utils/auth';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 
@@ -128,50 +96,40 @@ const payload = ref<any>();
 const showDeleteDialog = ref(false);
 const deletingAccount = ref(false);
 const router = useRouter();
+const userRole = ref('');
 
-const listButtons: any[] = [
-  {
-    icon: 'account-outline',
-    title: 'Perfil',
-    to: 'Perfil',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'heart-outline',
-    title: 'Favoritos',
-    to: '404page',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'wallet-outline',
-    title: 'Método de pagamento',
-    to: '404page',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'lock-outline',
-    title: 'Privacidade',
-    to: 'Privacidade',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'cog-outline',
-    title: 'Configurações',
-    to: 'Configurações',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'help',
-    title: 'Ajuda',
-    to: 'Central De Ajuda',
-    arrowIcon: 'chevron-right',
-  },
-  {
-    icon: 'logout',
-    title: 'Sair',
-    to: 'Login',
-    arrowIcon: 'chevron-right',
-  },
+const accountItems = computed(() => {
+  const baseItems = [
+    { icon: 'account-outline', title: 'Editar Perfil', to: '/editarPerfil' },
+    { icon: 'lock-outline', title: 'Privacidade', to: '/politicaPrivacidade' },
+  ];
+
+  // Adiciona item específico para médico
+  if (userRole.value === 'medico') {
+    baseItems.push({ icon: 'doctor', title: 'Perfil Público', to: '/Medico-Screens/perfil-publico' });
+    baseItems.push({ icon: 'ticket-percent', title: 'Indicações', to: '/Medico-Screens/cupons' });
+  }
+  if (userRole.value === 'atleta') {
+    baseItems.push({ icon: 'wallet-outline', title: 'Método de pagamento', to: '/404page' },
+    );
+  }
+
+  return baseItems;
+});
+
+const handleNavigation = (item: any) => {
+  if (item.to === '/politicaPrivacidade') {
+    window.open('/politicaPrivacidade', '_blank')
+  }
+  else if (item.to === 'logout') {
+    handleLogout();
+  } else {
+    router.push(item.to);
+  }
+};
+
+const supportItems: any[] = [
+  { icon: 'help-circle-outline', title: 'Central de Ajuda', to: 'Central De Ajuda' },
 ];
 
 const handleLogout = () => {
@@ -180,27 +138,12 @@ const handleLogout = () => {
   toast.success('Logout realizado com sucesso!');
 };
 
-const handleDeleteAccount = async () => {
-  router.push('/settings/deleteAccount')
-  // deletingAccount.value = true;
-
-  // try {
-  //   // Simular chamada da API
-  //   await new Promise(resolve => setTimeout(resolve, 2000));
-
-  //   localStorage.clear();
-  //   router.push('/login');
-  //   toast.success('Conta deletada com sucesso!');
-  // } catch (error) {
-  //   toast.error('Erro ao deletar conta. Tente novamente.');
-  // } finally {
-  //   deletingAccount.value = false;
-  //   showDeleteDialog.value = false;
-  // }
+const handleDeleteAccount = () => {
+  router.push('/settings/deleteAccount');
 };
 
 onMounted(() => {
   payload.value = getPayload();
+  userRole.value = getRole();
 });
 </script>
-
