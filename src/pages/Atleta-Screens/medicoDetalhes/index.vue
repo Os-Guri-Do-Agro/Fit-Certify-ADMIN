@@ -1,11 +1,9 @@
 <template>
   <v-container class="pa-0" fluid>
     <div v-if="loading">
-      <!-- Loading State -->
       <div class="hero-section">
         <div class="hero-overlay"></div>
         <v-container class="position-relative">
-          <!-- Rating Chips Skeleton -->
           <div class="rating-chips">
             <div class="skeleton-rating-chip"></div>
             <div class="skeleton-rating-chip skeleton-rating-chip-wide"></div>
@@ -27,7 +25,6 @@
                   <div class="skeleton-chip mb-4"></div>
                 </div>
 
-                <!-- Focus Section Skeleton -->
                 <div class="skeleton-focus-container mb-4 d-none d-md-block">
                   <div class="skeleton-focus-label mb-2"></div>
                   <div class="skeleton-focus-text mb-1"></div>
@@ -41,11 +38,9 @@
         </v-container>
       </div>
 
-      <!-- Content Section Skeleton -->
       <v-container class="content-section">
         <v-row justify="center">
           <v-col cols="12" lg="10">
-            <!-- Mobile Focus Card Skeleton -->
             <div class="d-flex d-md-none mb-8">
               <v-skeleton-loader
                 type="card"
@@ -55,7 +50,6 @@
               ></v-skeleton-loader>
             </div>
 
-            <!-- Professional Info Skeletons -->
             <v-row class="mb-8">
               <v-col cols="12">
                 <v-skeleton-loader
@@ -80,7 +74,6 @@
               </v-col>
             </v-row>
 
-            <!-- Consultations Skeleton -->
             <v-skeleton-loader
               type="card"
               height="200"
@@ -92,11 +85,9 @@
     </div>
 
     <div v-else>
-      <!-- Hero Section -->
       <div class="hero-section">
         <div class="hero-overlay"></div>
         <v-container class="position-relative">
-          <!-- Rating Chips -->
           <div class="rating-chips">
             <v-chip class="rating-chip" prepend-icon="mdi-star">
               5.0
@@ -158,17 +149,14 @@
         </v-container>
       </div>
 
-      <!-- Content Section -->
       <v-container class="content-section">
         <v-row justify="center">
           <v-col cols="12" lg="10">
 
 
-            <!-- Professional Info -->
             <v-row class="mb-8">
 
               <v-col class="d-flex d-md-none" cols="12">
-                            <!-- Focus Card -->
             <v-card v-if="medico?.foco" class="info-card-2 focus-card mb-8 rounded-xl" elevation="2">
               <v-card-text class="pa-6">
                 <div class="d-flex align-center mb-3 justify-center">
@@ -217,7 +205,6 @@
               </v-col>
             </v-row>
 
-            <!-- Consultations Section -->
             <v-card class="consultations-card rounded-xl info-card-2" elevation="2">
               <v-card-title class="pa-6 pb-0">
                 <div class="d-flex align-center">
@@ -292,8 +279,6 @@
       </v-card-title>
 
       <v-card-text class="pa-6">
-        <!-- Caso nao seja atleta fitcertify -->
-
         <v-alert
           class="mb-1"
           text="Você pode agendar consultas mas tem que aguardar o médico aprovar, assim que fizer o agendamento será encaminhado notificação para ele."

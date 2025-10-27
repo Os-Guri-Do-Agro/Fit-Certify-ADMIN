@@ -1,7 +1,7 @@
 <template>
   <v-container class="pa-4 bg-grey-lighten-5" style="min-height: 100vh">
     <v-row justify="center">
-      <v-col cols="12" lg="10" xl="8">
+      <v-col cols="12">
         <!-- Header -->
         <div class="text-center mb-8">
           <div class="d-flex align-center justify-center mb-4">
@@ -13,13 +13,61 @@
           <p class="text-h6 text-grey-600 font-weight-light">Atualize suas informações profissionais e torne seu perfil mais atrativo</p>
         </div>
 
-        <v-form ref="form" v-model="valid">
+        <!-- Loading Skeleton -->
+        <div v-if="loadingData">
+          <v-card class="mb-6" elevation="4" rounded="xl">
+            <v-card-text class="pa-6">
+              <v-row align="center">
+                <v-col cols="12" md="4" class="text-center">
+                  <div class="skeleton-avatar mx-auto mb-4"></div>
+                  <div class="skeleton-text skeleton-title mb-2"></div>
+                  <div class="skeleton-text skeleton-subtitle"></div>
+                </v-col>
+                <v-col cols="12" md="8">
+                  <v-row>
+                    <v-col cols="12"><div class="skeleton-field"></div></v-col>
+                    <v-col cols="6"><div class="skeleton-field"></div></v-col>
+                    <v-col cols="6"><div class="skeleton-field"></div></v-col>
+                    <v-col cols="6"><div class="skeleton-field"></div></v-col>
+                    <v-col cols="6"><div class="skeleton-field"></div></v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+          
+          <v-card class="mb-6" elevation="4" rounded="xl">
+            <v-card-title><div class="skeleton-text skeleton-title"></div></v-card-title>
+            <v-card-text class="pa-6">
+              <div class="skeleton-text skeleton-paragraph mb-2"></div>
+              <div class="skeleton-text skeleton-paragraph mb-2"></div>
+              <div class="skeleton-text skeleton-paragraph" style="width: 60%"></div>
+            </v-card-text>
+          </v-card>
+          
+          <v-card elevation="4" rounded="xl">
+            <v-card-title><div class="skeleton-text skeleton-title"></div></v-card-title>
+            <v-card-text class="pa-6">
+              <div class="skeleton-text skeleton-paragraph mb-4"></div>
+              <div class="skeleton-text skeleton-paragraph mb-4"></div>
+              <div class="skeleton-text skeleton-paragraph"></div>
+            </v-card-text>
+          </v-card>
+          
+          <div class="text-center mt-8 d-flex justify-center ga-4">
+            <div class="skeleton-button"></div>
+            <div class="skeleton-button"></div>
+          </div>
+        </div>
+
+        <!-- Formulário -->
+        <v-form v-else ref="form" v-model="valid">
           <v-card class="profile-card mb-6" elevation="8" rounded="xl">
             <div class="profile-header">
               <v-row align="center">
                 <v-col cols="12" md="4" class="text-center">
                   <div class="avatar-container">
-                    <v-avatar size="120" class="profile-avatar">
+                    <v-avatar size="150" class="profile-avatar">
                       <img
                         v-if="displayData.avatarUrl"
                         :src="displayData.avatarUrl"
@@ -196,7 +244,7 @@
           </v-card>
 
 
-          <div class="text-center mt-8">
+          <div class="text-center mt-8 d-flex ga-2 flex-column-reverse flex-md-row items-center justify-center">
             <v-btn
               variant="outlined"
               color="grey-darken-1"
@@ -240,6 +288,7 @@ const router = useRouter()
 const form = ref()
 const valid = ref(false)
 const loading = ref(false)
+const loadingData = ref(true)
 
 const formData = ref({
   experiencia: '',
@@ -344,13 +393,12 @@ const cancelar = () => {
 }
 
 const carregarDados = async () => {
+  loadingData.value = true
   try {
     const payload = getPayload()
     const medicoId = payload?.user?.medico?.id
     const response = await medicoService.getMedicoById(medicoId)
     const medicoData = response.data
-    
-
     
     if (medicoData) {
       formData.value.experiencia = medicoData.experiencia ? String(medicoData.experiencia) : ''
@@ -369,6 +417,8 @@ const carregarDados = async () => {
     }
   } catch (error) {
     console.error('Erro ao carregar dados:', error)
+  } finally {
+    loadingData.value = false
   }
 }
 
@@ -468,5 +518,66 @@ onMounted(() => {
 
 .v-select :deep(.v-field--focused .v-field__outline) {
   border-color: #2196F3 !important;
+}
+
+/* Skeleton Styles */
+.skeleton-avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+}
+
+.skeleton-text {
+  height: 16px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 4px;
+}
+
+.skeleton-title {
+  height: 24px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.skeleton-subtitle {
+  height: 16px;
+  width: 60%;
+  margin: 0 auto;
+}
+
+.skeleton-paragraph {
+  height: 16px;
+  width: 100%;
+}
+
+.skeleton-field {
+  height: 56px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 12px;
+}
+
+.skeleton-button {
+  width: 120px;
+  height: 48px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 1.5s infinite;
+  border-radius: 24px;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 </style>
