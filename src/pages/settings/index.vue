@@ -1,5 +1,5 @@
 <template>
-  <VContainer class="pa-4">
+  <div class="pa-4">
     <VRow>
       <VCol cols="12">
         <h1 class="text-h5 font-weight-bold mb-6">Configurações</h1>
@@ -80,7 +80,7 @@
         </VDialog>
       </VCol>
     </VRow>
-  </VContainer>
+  </div>
 </template>
 
 <style scoped>
