@@ -1,42 +1,58 @@
 <template>
   <div class="pa-4">
-    <VCard image="../../../assets/banner-admin-cmed.png" class="mb-8 personacard " elevation="3">
-      <v-row class=" pa-6">
-        <!-- <-->
-        <v-col>
+    <VCard image="../../../assets/banner-admin-cmed.png" class="mb-8 personacard" elevation="3">
+      <VRow class="pa-6">
+        <VCol>
+          <VChip color="white" variant="elevated" class="mb-3" size="small">
+            <VIcon icon="mdi-ticket-percent" size="16" class="mr-1" />
+            Sistema de Cupons
+          </VChip>
+          
           <h2 class="text-h4 font-weight-bold text-white mb-2">
-            Cupons de Desconto <br>
-            Ofereça Descontos Exclusivos
+            Cupons de Desconto
           </h2>
-
-          <p class="text-h6 text-white mb-4 opacity-90">
-            Crie cupons personalizados para seus pacientes
+          <p class="text-body-1 text-white mb-4 opacity-90">
+            Ofereça descontos exclusivos para seus pacientes
           </p>
-          <div class="stats-inline">
-            <div class="stat-item">
-              <span class="stat-number">{{ stats.total }}</span>
-              <span class="stat-label">Cupons</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">{{ stats.used }}</span>
-              <span class="stat-label">Utilizados</span>
-            </div>
-            <div class="stat-divider"></div>
-            <div class="stat-item">
-              <span class="stat-number">10%</span>
-              <span class="stat-label">Desconto</span>
-            </div>
-          </div>
-        </v-col>
-        <v-col class=" d-flex justify-end">
-          <VBtn color="#00B5E8" variant="flat" elevation="10" size="large" @click="showCreateDialog = true"
-            :disabled="cupons.length > 0">
-            <VIcon icon="mdi-ticket-percent" class="mr-2" />
-            Gerar Cupom
+          
+          <VRow class="mt-4">
+            <VCol cols="auto">
+              <div class="text-center">
+                <div class="text-h5 font-weight-bold text-white">{{ stats.total }}</div>
+                <div class="text-caption text-white opacity-80">CUPONS</div>
+              </div>
+            </VCol>
+            <VDivider vertical class="mx-3 opacity-50" />
+            <VCol cols="auto">
+              <div class="text-center">
+                <div class="text-h5 font-weight-bold text-white">{{ stats.used }}</div>
+                <div class="text-caption text-white opacity-80">UTILIZADOS</div>
+              </div>
+            </VCol>
+            <VDivider vertical class="mx-3 opacity-50" />
+            <VCol cols="auto">
+              <div class="text-center">
+                <div class="text-h5 font-weight-bold text-white">10%</div>
+                <div class="text-caption text-white opacity-80">DESCONTO</div>
+              </div>
+            </VCol>
+          </VRow>
+        </VCol>
+        
+        <VCol cols="auto" class="d-flex align-center">
+          <VBtn 
+            color="white" 
+            variant="elevated" 
+            size="large" 
+            @click="showCreateDialog = true"
+            :disabled="cupons.length > 0"
+            prepend-icon="mdi-plus"
+            class="text-primary font-weight-bold"
+          >
+            {{ cupons.length > 0 ? 'Cupom Criado' : 'Gerar Cupom' }}
           </VBtn>
-        </v-col>
-      </v-row>
+        </VCol>
+      </VRow>
     </VCard>
 
     <!-- Cupons Grid -->
@@ -403,46 +419,20 @@ const shareCupom = (cupom) => {
 }
 
 
-.stats-inline {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  margin-top: 20px;
+.personacard {
+  background-size: cover;
+  background-position: center;
+  position: relative;
 }
 
-.stat-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.stat-number {
-  font-size: 24px;
-  font-weight: bold;
-  color: white;
-  line-height: 1;
-}
-
-.stat-label {
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.9);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.stat-divider {
-  width: 1px;
-  height: 30px;
-  background: rgba(255, 255, 255, 0.3);
-}
-
-@media (max-width: 768px) {
-  .stats-inline {
-    gap: 15px;
-  }
-
-  .stat-number {
-    font-size: 20px;
-  }
+.personacard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: inherit;
 }
 </style>
