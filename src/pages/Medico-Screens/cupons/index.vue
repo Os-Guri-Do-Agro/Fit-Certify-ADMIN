@@ -7,14 +7,14 @@
             <VIcon icon="mdi-ticket-percent" size="16" class="mr-1" />
             Sistema de Cupons
           </VChip>
-          
+
           <h2 class="text-h4 font-weight-bold text-white mb-2">
             Cupons de Desconto
           </h2>
           <p class="text-body-1 text-white mb-4 opacity-90">
             Ofereça descontos exclusivos para seus pacientes
           </p>
-          
+
           <VRow class="mt-4">
             <VCol cols="auto">
               <div class="text-center">
@@ -38,16 +38,17 @@
             </VCol>
           </VRow>
         </VCol>
-        
+
         <VCol cols="auto" class="d-flex align-center">
-          <VBtn 
-            color="white" 
-            variant="elevated" 
-            size="large" 
+          <VBtn
+            color="white"
+            density="compact"
+            rounded="xl"
+            variant="elevated"
+            size="large"
             @click="showCreateDialog = true"
             :disabled="cupons.length > 0"
-            prepend-icon="mdi-plus"
-            class="text-primary font-weight-bold"
+            prepend-icon="mdi-ticket"
           >
             {{ cupons.length > 0 ? 'Cupom Criado' : 'Gerar Cupom' }}
           </VBtn>
