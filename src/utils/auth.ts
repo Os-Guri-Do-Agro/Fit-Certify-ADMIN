@@ -84,6 +84,10 @@ export const getRole = () => {
   const payload = getPayload()
   return payload?.role
 }
+export const getUserID = () => {
+  const payload = getPayload()
+  return payload?.userId
+}
 
 export const updateUserPlan = async (planoId: string) => {
   try {

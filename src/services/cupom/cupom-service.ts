@@ -22,12 +22,35 @@ class CupomService {
       'Failed to fetch all categories'
     )
   }
+  getCupomByResponsavelID(responsavelID: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/cupom/byResponsavel/${responsavelID}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
 
   updateCupom(id: string): Promise<any> {
     return this.handleRequest(
       apiClient.patch(`/cupom/updateQuantidadeUsada/${id}`, {
         headers: {
           'Content-Type': 'application/json',
+        }
+      }),
+      'Failed to update cupom'
+    )
+  }
+  createCupomByMedico(data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post(`/cupom/createCupomByMedicoOrInfluence`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         }
       }),
       'Failed to update cupom'

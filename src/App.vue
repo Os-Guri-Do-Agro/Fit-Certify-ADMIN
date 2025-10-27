@@ -7,7 +7,6 @@
       <v-main class="main-content">
         <v-container
           fluid
-          class="fill-height"
           style="background-color: #fffdfc"
         >
           <router-view />
