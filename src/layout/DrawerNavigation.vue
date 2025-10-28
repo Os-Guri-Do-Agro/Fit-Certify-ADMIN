@@ -134,6 +134,15 @@
                 icon="mdi mdi-alert-circle-outline"
               ></v-list-item>
             </template>
+                        <v-list-item
+              v-for="items in notificacoesItems"
+              :key="items.value"
+              :prepend-icon="items.icon"
+              :title="items.title"
+              :value="items.value"
+              :to="items.to"
+              @click="onClickMenu(items.title)"
+            ></v-list-item>
           </v-list-group>
         </v-list>
       </div>
@@ -203,6 +212,15 @@ const $route = useRoute()
 const open = ref(['Analise'])
 const payload = ref<any>()
 
+
+const notificacoesItems = [
+  {
+    icon: 'mdi mdi-bell-outline',
+    title: 'Notificação Geral',
+    value: 'notificacoes',
+    to: '/notificacoes'
+  }
+]
 const contaItems = [
   {
     icon: 'mdi-account-circle',

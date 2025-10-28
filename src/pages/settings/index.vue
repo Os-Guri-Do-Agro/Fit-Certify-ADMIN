@@ -106,7 +106,7 @@ const accountItems = computed(() => {
 
   // Adiciona item específico para médico
   if (userRole.value === 'medico') {
-    baseItems.push({ icon: 'doctor', title: 'Perfil Público', to: '/Medico-Screens/editarPerfilPúblico' });
+    baseItems.push({ icon: 'doctor', title: 'Perfil Público', to: '/Medico-Screens/editarPerfilPublico' });
     baseItems.push({ icon: 'ticket-percent', title: 'Indicações', to: '/Medico-Screens/cupons' });
   }
   if (userRole.value === 'atleta') {
