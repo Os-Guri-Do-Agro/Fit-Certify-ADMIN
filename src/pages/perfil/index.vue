@@ -1,10 +1,9 @@
 <template>
   <v-container class="pa-0" fluid>
-    <!-- Hero Section -->
     <div class="hero-section">
       <div class="hero-overlay"></div>
       <v-container class="position-relative">
-        <v-row align="center" class="min-height-300 d-flex flex-column-reverse">
+        <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12" md="4" class="text-center">
             <div class="profile-avatar-container">
               <v-avatar size="140" class="profile-avatar">
@@ -21,20 +20,25 @@
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between">
-                <div class="d-flex ga-2">
-                                  <v-chip class="info-chip" prepend-icon="mdi-account-circle">
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between ml-md-10">
+                <div class="d-flex ga-2 flex-md-row flex-column">
+                  
+                <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
                   Perfil do Usuário
                 </v-chip>
-                <v-chip class="info-chip" prepend-icon="mdi-shield-check">
+                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-shield-check">
                   Plano Ativo
                 </v-chip>
                 </div>
 
-                <div class="">
-                <v-chip class="info-chip" prepend-icon="mdi-shield-check">
-                  ID: {{ payload?.userId }}
+                <div class="d-flex ga-2 flex-md-row flex-column mr-md-10">
+                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
+                   <p class="textId">ID: {{ payload?.userId }}</p>
                 </v-chip>
+                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE">
+                  <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
+                  <p class="text-white text-subtitle-2">Editar Perfil</p>
+                </v-btn>
                 </div>
               </div>
             </div>
@@ -43,20 +47,17 @@
       </v-container>
     </div>
 
-    <!-- Content Section -->
     <v-container class="content-section">
       <v-row justify="center">
         <v-col cols="12" lg="10">
-          <!-- Health Section Header -->
           <div class="section-header mb-6">
-            <div class="d-flex align-center justify-center">
+            <div class="d-flex flex-column flex-md-row align-center justify-md-center">
               <v-icon color="#00c6fe" size="32" class="mr-3">mdi-heart-pulse</v-icon>
-              <h2 class="text-h5 font-weight-bold text-grey-darken-2">Monitoramento de Saúde</h2>
+              <h2 class="text-h5 font-weight-bold text-grey-darken-2 text-center">Monitoramento de Saúde</h2>
             </div>
-            <p class="text-body-1 text-grey mt-2 mb-0">Acompanhe seus principais indicadores de saúde</p>
+            <p class="text-body-1 text-grey mt-2 mb-0 text-center">Acompanhe seus principais indicadores de saúde</p>
           </div>
 
-          <!-- Health Parameters Grid -->
           <v-row class="mb-8">
             <v-col cols="12" md="6" class="mb-4">
               <v-card class="health-card h-100 rounded-xl" elevation="2">
@@ -162,7 +163,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Hero Section */
 .hero-section {
   background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
   position: relative;
@@ -182,7 +182,6 @@ onMounted(() => {
   min-height: 300px;
 }
 
-/* Profile Avatar */
 .profile-avatar {
   border: 4px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
@@ -203,7 +202,6 @@ onMounted(() => {
   margin: 0;
 }
 
-/* Info Chips */
 .info-chip {
   background: rgba(255, 255, 255, 0.15) !important;
   color: white !important;
@@ -212,7 +210,6 @@ onMounted(() => {
   padding: 8px 16px;
 }
 
-/* Content Section */
 .content-section {
   background: #f8f9fa;
   padding-top: 48px;
@@ -223,7 +220,6 @@ onMounted(() => {
   text-align: center;
 }
 
-/* Health Cards */
 .health-card {
   transition: all 0.3s ease;
   border-left: 4px solid #00c6fe;
@@ -282,7 +278,6 @@ onMounted(() => {
   color: #666;
 }
 
-/* Actions Card */
 .actions-card {
   border-top: 4px solid #00c6fe;
   background: white;
@@ -306,6 +301,9 @@ onMounted(() => {
   background-color: #00c7fe7e;
   width: 50%;
 }
+.textId {
+  font-size: 1em;
+}
 
 @media (max-width: 960px) {
   .profile-info {
@@ -324,5 +322,8 @@ onMounted(() => {
   .parameter-content {
     text-align: left;
   }
+  .textId {
+  font-size: 0.7em;
+}
 }
 </style>
