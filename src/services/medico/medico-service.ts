@@ -75,6 +75,19 @@ class medicoService {
       'Failed to create medico'
     )
   }
+
+  async updateMedico(data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.patch(`/medico/atualizar-perfil-publico/`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to update medico'
+    )
+  }
 }
 
 export default new medicoService()
