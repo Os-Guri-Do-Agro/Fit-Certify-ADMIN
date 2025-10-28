@@ -58,71 +58,127 @@
             <p class="text-body-1 text-grey mt-2 mb-0 text-center">Acompanhe seus principais indicadores de saúde</p>
           </div>
 
-          <v-row class="mb-8">
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart</v-icon>
+          <v-expansion-panels class="mb-8" multiple>
+            <v-expansion-panel class="health-panel mb-4 rounded-xl" elevation="2">
+              <v-expansion-panel-title class="pa-6">
+                <div class="d-flex align-center w-100">
+                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart</v-icon>
+                  <div class="flex-grow-1">
                     <h3 class="text-h6 font-weight-bold text-grey-darken-2">Frequência Cardíaca</h3>
+                    <div class="parameter-value-small">72 <span class="parameter-unit-small">bpm</span></div>
                   </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">72 <span class="parameter-unit">bpm</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 14:30</div>
+                  <div class="parameter-status normal mr-4">Normal</div>
+                </div>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="pa-6 pt-0">
+                <div class="parameter-content">
+                  <div class="parameter-description mb-3">Última medição: Hoje, 14:30</div>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Mínima (24h):</span>
+                    <span class="font-weight-bold">65 bpm</span>
                   </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Máxima (24h):</span>
+                    <span class="font-weight-bold">85 bpm</span>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <span>Média (7 dias):</span>
+                    <span class="font-weight-bold">74 bpm</span>
+                  </div>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
 
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-gauge</v-icon>
+            <v-expansion-panel class="health-panel mb-4 rounded-xl" elevation="2">
+              <v-expansion-panel-title class="pa-6">
+                <div class="d-flex align-center w-100">
+                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-gauge</v-icon>
+                  <div class="flex-grow-1">
                     <h3 class="text-h6 font-weight-bold text-grey-darken-2">Pressão Arterial</h3>
+                    <div class="parameter-value-small">120/80 <span class="parameter-unit-small">mmHg</span></div>
                   </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">120/80 <span class="parameter-unit">mmHg</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 14:25</div>
+                  <div class="parameter-status normal mr-4">Normal</div>
+                </div>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="pa-6 pt-0">
+                <div class="parameter-content">
+                  <div class="parameter-description mb-3">Última medição: Hoje, 14:25</div>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Sistólica (máx 24h):</span>
+                    <span class="font-weight-bold">125 mmHg</span>
                   </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Diastólica (máx 24h):</span>
+                    <span class="font-weight-bold">82 mmHg</span>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <span>Média (7 dias):</span>
+                    <span class="font-weight-bold">118/78 mmHg</span>
+                  </div>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
 
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-scale-bathroom</v-icon>
+            <v-expansion-panel class="health-panel mb-4 rounded-xl" elevation="2">
+              <v-expansion-panel-title class="pa-6">
+                <div class="d-flex align-center w-100">
+                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-scale-bathroom</v-icon>
+                  <div class="flex-grow-1">
                     <h3 class="text-h6 font-weight-bold text-grey-darken-2">Peso Corporal</h3>
+                    <div class="parameter-value-small">75.2 <span class="parameter-unit-small">kg</span></div>
                   </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">75.2 <span class="parameter-unit">kg</span></div>
-                    <div class="parameter-status normal">Ideal</div>
-                    <div class="parameter-description">Última medição: Ontem, 08:00</div>
+                  <div class="parameter-status normal mr-4">Ideal</div>
+                </div>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="pa-6 pt-0">
+                <div class="parameter-content">
+                  <div class="parameter-description mb-3">Última medição: Ontem, 08:00</div>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>IMC:</span>
+                    <span class="font-weight-bold">22.1 kg/m²</span>
                   </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Variação (7 dias):</span>
+                    <span class="font-weight-bold text-green">-0.3 kg</span>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <span>Meta:</span>
+                    <span class="font-weight-bold">74.0 kg</span>
+                  </div>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
 
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-thermometer</v-icon>
+            <v-expansion-panel class="health-panel mb-4 rounded-xl" elevation="2">
+              <v-expansion-panel-title class="pa-6">
+                <div class="d-flex align-center w-100">
+                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-thermometer</v-icon>
+                  <div class="flex-grow-1">
                     <h3 class="text-h6 font-weight-bold text-grey-darken-2">Temperatura</h3>
+                    <div class="parameter-value-small">36.5 <span class="parameter-unit-small">°C</span></div>
                   </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">36.5 <span class="parameter-unit">°C</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 12:00</div>
+                  <div class="parameter-status normal mr-4">Normal</div>
+                </div>
+              </v-expansion-panel-title>
+              <v-expansion-panel-text class="pa-6 pt-0">
+                <div class="parameter-content">
+                  <div class="parameter-description mb-3">Última medição: Hoje, 12:00</div>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Mínima (24h):</span>
+                    <span class="font-weight-bold">36.2 °C</span>
                   </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
+                  <div class="d-flex justify-space-between mb-2">
+                    <span>Máxima (24h):</span>
+                    <span class="font-weight-bold">36.8 °C</span>
+                  </div>
+                  <div class="d-flex justify-space-between">
+                    <span>Média (7 dias):</span>
+                    <span class="font-weight-bold">36.4 °C</span>
+                  </div>
+                </div>
+              </v-expansion-panel-text>
+            </v-expansion-panel>
+          </v-expansion-panels>
 
           <!-- <v-card class="actions-card rounded-xl" elevation="2">
             <v-card-title class="pa-6 pb-0">
@@ -220,15 +276,31 @@ onMounted(() => {
   text-align: center;
 }
 
-.health-card {
-  transition: all 0.3s ease;
+.health-panel {
   border-left: 4px solid #00c6fe;
+  background: white;
+  margin-bottom: 16px;
+}
+
+.health-panel :deep(.v-expansion-panel-title) {
   background: white;
 }
 
-.health-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
+.health-panel :deep(.v-expansion-panel-text__wrapper) {
+  background: #f8f9fa;
+}
+
+.parameter-value-small {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #00c6fe;
+  line-height: 1;
+}
+
+.parameter-unit-small {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #666;
 }
 
 .parameter-content {
