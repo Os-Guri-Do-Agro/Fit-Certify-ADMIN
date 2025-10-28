@@ -7,7 +7,7 @@
         </template>
 
         <template v-slot:append>
-            <v-btn icon variant="text" color="light-blue-accent-3" class="mr-5">
+            <v-btn @click="router.push('/notificacoes')" icon variant="text" color="light-blue-accent-3" class="mr-5">
                 <v-badge dot color="light-blue-accent-3">
                     <v-icon size="28px">mdi-bell-outline</v-icon>   
                 </v-badge>

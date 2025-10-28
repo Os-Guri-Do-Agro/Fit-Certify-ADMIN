@@ -1,107 +1,153 @@
 <template>
-  <v-row class="mx-1 mx-md-5 d-flex ga-5 h-100">
-    <v-col
-      class="d-flex align-center flex-column flex-md-row"
-      cols="12"
-      style="background-color: #dfedc7ba; min-height: 194px"
-    >
-      <v-avatar class="ml-md-10" size="110px" style="background-color: #d9d9d9">
-        <v-img :src="payload?.user?.avatarUrl"></v-img>
-      </v-avatar>
+  <v-container class="pa-0" fluid>
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-overlay"></div>
+      <v-container class="position-relative">
+        <v-row align="center" class="min-height-300 d-flex flex-column-reverse">
+          <v-col cols="12" md="4" class="text-center">
+            <div class="profile-avatar-container">
+              <v-avatar size="140" class="profile-avatar">
+                <v-img
+                  v-if="payload?.user?.avatarUrl"
+                  :src="payload?.user?.avatarUrl"
+                  alt="Foto do perfil"
+                />
+                <v-icon v-else size="70" color="white">mdi-account</v-icon>
+              </v-avatar>
+            </div>
+            <h1 class="profile-name">{{ payload?.user?.nome }}</h1>
+          </v-col>
 
-      <div class="ml-md-10 d-flex flex-column ga-1">
-        <h1 class="text-h6 text-md-h5 text-center text-md-start">
-          {{ payload?.user?.nome }}
-        </h1>
-        <span
-          class="text-subtitle-2 text-md-subtitle-1 text-center text-md-start"
-          style="color: #8c8c8c"
-          >{{ payload?.userId }}</span
-        >
-      </div>
-    </v-col>
+          <v-col cols="12">
+            <div class="profile-info">
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between">
+                <div class="d-flex ga-2">
+                                  <v-chip class="info-chip" prepend-icon="mdi-account-circle">
+                  Perfil do Usuário
+                </v-chip>
+                <v-chip class="info-chip" prepend-icon="mdi-shield-check">
+                  Plano Ativo
+                </v-chip>
+                </div>
 
-    <v-col class="h-100 bg-white rounded-lg" cols="12">
-      <v-row class="pa-2 pa-md-5">
-        <v-col
-          class="d-flex align-center justify-center"
-          cols="12"
-          style="background-color: #88ce0db8; min-height: 81px"
-        >
-          <h2 class="text-white text-h6">Saúde</h2>
-        </v-col>
+                <div class="">
+                <v-chip class="info-chip" prepend-icon="mdi-shield-check">
+                  ID: {{ payload?.userId }}
+                </v-chip>
+                </div>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
 
-        <v-col class="mt-7 justify-end d-flex pa-1 pa-md-4" cols="md-6">
-          <v-card
-            class="w-100"
-            max-width="662px"
-            elevation="0"
-            style="background-color: #e7f8f6; min-height: 378px"
-          >
-            <VCardTitle class="pa-5">
-              <span class="text-h6 ml-md-5" style="color: #00c6fe"
-                >Parâmetro 1</span
-              >
-            </VCardTitle>
-          </v-card>
-        </v-col>
-        <v-col
-          class="mt-7 d-flex justify-start pa-1 pa-md-4"
-          min-height="200px"
-          cols="md-6"
-        >
-          <v-card
-            class="w-100"
-            max-width="662px"
-            elevation="0"
-            style="background-color: #e7f8f6; min-height: 378px"
-          >
-            <VCardTitle class="pa-5">
-              <span class="text-h6 ml-md-5" style="color: #00c6fe"
-                >Parâmetro 2</span
-              >
-            </VCardTitle>
-          </v-card>
-        </v-col>
-        <v-col
-          class="mt-7 d-flex justify-end pa-1 pa-md-4"
-          min-height="200px"
-          cols="md-6"
-        >
-          <v-card
-            class="w-100"
-            max-width="662px"
-            elevation="0"
-            style="background-color: #e7f8f6; min-height: 378px"
-          >
-            <VCardTitle class="pa-5">
-              <span class="text-h6 ml-md-5" style="color: #00c6fe"
-                >Parâmetro 3</span
-              >
-            </VCardTitle>
-          </v-card>
-        </v-col>
-        <v-col
-          class="mt-7 d-flex justify-start pa-1 pa-md-4"
-          min-height="200px"
-          cols="md-6"
-        >
-          <v-card
-            class="w-100"
-            max-width="662px"
-            elevation="0"
-            style="background-color: #e7f8f6; min-height: 378px"
-          >
-            <VCardTitle class="pa-5">
-              <span class="text-h6 ml-md-5" style="color: #00c6fe"
-                >Parâmetro 4</span
-              >
-            </VCardTitle>
-          </v-card>
+    <!-- Content Section -->
+    <v-container class="content-section">
+      <v-row justify="center">
+        <v-col cols="12" lg="10">
+          <!-- Health Section Header -->
+          <div class="section-header mb-6">
+            <div class="d-flex align-center justify-center">
+              <v-icon color="#00c6fe" size="32" class="mr-3">mdi-heart-pulse</v-icon>
+              <h2 class="text-h5 font-weight-bold text-grey-darken-2">Monitoramento de Saúde</h2>
+            </div>
+            <p class="text-body-1 text-grey mt-2 mb-0">Acompanhe seus principais indicadores de saúde</p>
+          </div>
+
+          <!-- Health Parameters Grid -->
+          <v-row class="mb-8">
+            <v-col cols="12" md="6" class="mb-4">
+              <v-card class="health-card h-100 rounded-xl" elevation="2">
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center mb-4">
+                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart</v-icon>
+                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Frequência Cardíaca</h3>
+                  </div>
+                  <div class="parameter-content">
+                    <div class="parameter-value">72 <span class="parameter-unit">bpm</span></div>
+                    <div class="parameter-status normal">Normal</div>
+                    <div class="parameter-description">Última medição: Hoje, 14:30</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12" md="6" class="mb-4">
+              <v-card class="health-card h-100 rounded-xl" elevation="2">
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center mb-4">
+                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-gauge</v-icon>
+                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Pressão Arterial</h3>
+                  </div>
+                  <div class="parameter-content">
+                    <div class="parameter-value">120/80 <span class="parameter-unit">mmHg</span></div>
+                    <div class="parameter-status normal">Normal</div>
+                    <div class="parameter-description">Última medição: Hoje, 14:25</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12" md="6" class="mb-4">
+              <v-card class="health-card h-100 rounded-xl" elevation="2">
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center mb-4">
+                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-scale-bathroom</v-icon>
+                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Peso Corporal</h3>
+                  </div>
+                  <div class="parameter-content">
+                    <div class="parameter-value">75.2 <span class="parameter-unit">kg</span></div>
+                    <div class="parameter-status normal">Ideal</div>
+                    <div class="parameter-description">Última medição: Ontem, 08:00</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+
+            <v-col cols="12" md="6" class="mb-4">
+              <v-card class="health-card h-100 rounded-xl" elevation="2">
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center mb-4">
+                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-thermometer</v-icon>
+                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Temperatura</h3>
+                  </div>
+                  <div class="parameter-content">
+                    <div class="parameter-value">36.5 <span class="parameter-unit">°C</span></div>
+                    <div class="parameter-status normal">Normal</div>
+                    <div class="parameter-description">Última medição: Hoje, 12:00</div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+
+          <!-- <v-card class="actions-card rounded-xl" elevation="2">
+            <v-card-title class="pa-6 pb-0">
+              <div class="d-flex align-center justify-center">
+                <v-icon color="#00c6fe" size="28" class="mr-3">mdi-lightning-bolt</v-icon>
+                <h3 class="text-h6 font-weight-bold text-grey-darken-2">Minhas consultas</h3>
+              </div>
+
+              <div class="w-full d-flex align-center justify-center mt-5">
+                <div class="barraLista"></div>
+              </div>
+            </v-card-title>
+            
+            <v-card-text class="pa-6">
+              <v-row>
+
+                <v-col cols="12">
+
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card> -->
         </v-col>
       </v-row>
-    </v-col>
-  </v-row>
+    </v-container>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -114,3 +160,169 @@ onMounted(() => {
   payload.value = getPayload()
 })
 </script>
+
+<style scoped>
+/* Hero Section */
+.hero-section {
+  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.min-height-300 {
+  min-height: 300px;
+}
+
+/* Profile Avatar */
+.profile-avatar {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-name {
+  color: white;
+  font-size: 1.8rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.profile-id {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Info Chips */
+.info-chip {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
+}
+
+/* Content Section */
+.content-section {
+  background: #f8f9fa;
+  padding-top: 48px;
+  padding-bottom: 48px;
+}
+
+.section-header {
+  text-align: center;
+}
+
+/* Health Cards */
+.health-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid #00c6fe;
+  background: white;
+}
+
+.health-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
+}
+
+.parameter-content {
+  text-align: center;
+}
+
+.parameter-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00c6fe;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.parameter-unit {
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+}
+
+.parameter-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.parameter-status.normal {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.parameter-status.warning {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.parameter-status.danger {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.parameter-description {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+/* Actions Card */
+.actions-card {
+  border-top: 4px solid #00c6fe;
+  background: white;
+}
+
+.action-btn {
+  height: 56px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.2) !important;
+}
+
+.barraLista {
+  height: 1px;
+  background-color: #00c7fe7e;
+  width: 50%;
+}
+
+@media (max-width: 960px) {
+  .profile-info {
+    margin-top: 24px;
+    text-align: center;
+  }
+  
+  .info-chips {
+    justify-content: center;
+  }
+  
+  .section-header {
+    text-align: left;
+  }
+  
+  .parameter-content {
+    text-align: left;
+  }
+}
+</style>
