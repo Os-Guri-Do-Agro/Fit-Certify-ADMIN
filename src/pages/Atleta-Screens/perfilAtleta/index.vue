@@ -144,6 +144,102 @@
             </v-card>
           </v-expansion-panel-text>
         </v-expansion-panel>
+
+        <v-expansion-panel class="custom-expansion-panel">
+          <v-expansion-panel-title>
+            <div class="d-flex align-center">
+              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-account-details</v-icon>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Pessoais</h3>
+            </div>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-card class="metrics-card mb-6" elevation="8" rounded="xl">
+              <div class="metrics-header">
+                <v-row align="center">
+                  <v-col cols="12" md="4" class="text-center d-flex flex-column-reverse flex-md-column">
+                    <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
+                      <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-account-details">
+                        Dados Pessoais
+                      </v-chip>
+                      <v-chip class="info-chip text-center d-flex justify-center text-white">
+                        Informações Cadastrais
+                      </v-chip>
+                    </div>
+                    <div class="avatar-container">
+                      <v-avatar size="190" class="metrics-avatar">
+                        <v-icon size="80" color="white">mdi-account-details</v-icon>
+                      </v-avatar>
+                      <h2 class="text-h5 font-weight-bold text-white mt-4">Dados Cadastrais</h2>
+                      <p class="text-subtitle-1 text-blue-darken-4">Informações pessoais do atleta</p>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" md="8">
+                    <v-card class="" elevation="0" rounded="lg">
+                      <v-card-text class="pa-4">
+                        <v-row>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-email</v-icon>
+                                <span class="metric-label">Email</span>
+                              </div>
+                              <div class="metric-value">{{ atleta?.usuario?.email || 'Não informado' }}</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-phone</v-icon>
+                                <span class="metric-label">Telefone</span>
+                              </div>
+                              <div class="metric-value">{{ atleta?.telefone || 'Não informado' }}</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-card-account-details</v-icon>
+                                <span class="metric-label">CPF</span>
+                              </div>
+                              <div class="metric-value">{{ formatarCpf }}</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-calendar</v-icon>
+                                <span class="metric-label">Data de Nascimento</span>
+                              </div>
+                              <div class="metric-value">{{ formatarData }}</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
+                                <span class="metric-label">Peso</span>
+                              </div>
+                              <div class="metric-value">{{ atleta?.peso ? atleta.peso + ' kg' : 'Não informado' }}</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-human-male-height</v-icon>
+                                <span class="metric-label">Altura</span>
+                              </div>
+                              <div class="metric-value">{{ atleta?.altura ? atleta.altura + ' cm' : 'Não informado' }}</div>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </div>
+            </v-card>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
       </v-expansion-panels>
     </v-container>
   </v-container>
@@ -152,13 +248,23 @@
 <script setup lang="ts">
 import router from '@/router'
 import { getPayload } from '@/utils/auth'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import atletaService from '@/services/atleta/atleta-service'
 import { getAtletaId } from '@/utils/auth'
 
 const payload = ref<any>()
 const atleta = ref<any>()
 let atletaId = ref<any>()
+
+const formatarData = computed(() => {
+  if (!atleta.value?.dataNascimento) return 'Não informado'
+  return new Date(atleta.value.dataNascimento).toLocaleDateString('pt-BR')
+})
+
+const formatarCpf = computed(() => {
+  if (!atleta.value?.usuario?.cpf) return 'Não informado'
+  return atleta.value.usuario.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+})
 
 const buscarAtletaPorId = async (id: any) => {
   try {
@@ -211,6 +317,40 @@ onMounted(() => {
   margin-bottom: 8px;
 }
 
+@media (max-width: 768px) {
+  .profile-name {
+    font-size: 1.2rem;
+  }
+  
+  .metric-label {
+    font-size: 0.75rem;
+  }
+  
+  .metric-value {
+    font-size: 0.75rem;
+  }
+  
+  .parameter-value {
+    font-size: 1.5rem;
+  }
+  
+  .parameter-unit {
+    font-size: 0.875rem;
+  }
+  
+  .custom-expansion-panel .v-expansion-panel-title {
+    font-size: 0.8rem;
+  }
+  
+  .info-chip {
+    font-size: 0.75rem !important;
+  }
+  
+  .textId {
+    font-size: 0.75rem;
+  }
+}
+
 .profile-id {
   color: rgba(255, 255, 255, 0.9);
   font-size: 1rem;
@@ -241,13 +381,14 @@ onMounted(() => {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
   margin-bottom: 16px;
   border: none;
-  border-top: 4px solid #00c6fe;
-  transition: all 0.3s ease;
 }
 
-.custom-expansion-panel:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
+.custom-expansion-panel:first-child {
+  border-top: 4px solid #00c6fe;
+}
+
+.custom-expansion-panel:last-child {
+  border-bottom: 4px solid #00c6fe;
 }
 
 .custom-expansion-panel .v-expansion-panel-title {
@@ -265,15 +406,18 @@ onMounted(() => {
   text-align: center;
 }
 
-.health-card {
+.metric-item {
   transition: all 0.3s ease;
-  border-left: 4px solid #00c6fe;
+  padding: 16px;
+  border-radius: 12px;
   background: white;
+  border: 1px solid rgba(0, 198, 254, 0.1);
 }
 
-.health-card:hover {
+.metric-item:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
+  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.15);
+  border-color: rgba(0, 198, 254, 0.3);
 }
 
 .parameter-content {
