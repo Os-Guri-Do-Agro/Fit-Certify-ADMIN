@@ -6,16 +6,29 @@
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12" md="4" class="text-center">
             <div class="profile-avatar-container">
-              <v-avatar size="190" class="profile-avatar">
+              <v-skeleton-loader
+                v-if="!atleta"
+                type="avatar"
+                width="190"
+                height="190"
+                class="mx-auto mb-4 d-flex align-center justify-center skeleton-avatar"
+              />
+              <v-avatar v-else size="190" class="profile-avatar">
                 <v-img
-                  v-if="payload?.user?.avatarUrl"
-                  :src="payload?.user?.avatarUrl"
+                  v-if="atleta?.usuario?.avatarUrl"
+                  :src="atleta?.usuario?.avatarUrl"
                   alt="Foto do perfil"
                 />
                 <v-icon v-else size="70" color="white">mdi-account</v-icon>
               </v-avatar>
             </div>
-            <h1 class="profile-name">{{ payload?.user?.nome }}</h1>
+            <v-skeleton-loader
+              v-if="!atleta"
+              type="text"
+              width="300"
+              class="mx-auto mb-4 skeleton-nome rounded-xl"
+            />
+            <h1 v-else class="profile-name">{{ atleta?.usuario?.nome }}</h1>
           </v-col>
 
           <v-col cols="12">
@@ -35,7 +48,7 @@
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ payload?.userId }}</p>
                 </v-chip>
-                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE">
+                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/Atleta-Screens/editarPerfilAtleta')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
                   <p class="text-white text-subtitle-2">Editar Perfil</p>
                 </v-btn>
@@ -165,13 +178,35 @@
 </template>
 
 <script setup lang="ts">
+import router from '@/router'
 import { getPayload } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
+import atletaService from '@/services/atleta/atleta-service'
+import { getAtletaId } from '@/utils/auth'
 
 const payload = ref<any>()
+const atleta = ref<any>()
+let atletaId = ref<any>()
+
+const buscarAtletaPorId = async (id: any) => {
+  try {
+    const response = await atletaService.getAtletaById(id)
+    atleta.value = response.data
+  } catch (error) {
+    console.error('Erro ao buscar atleta por ID:', error)
+  }
+}
 
 onMounted(() => {
-  payload.value = getPayload()
+  atletaId = getAtletaId()
+
+  if (atletaId) {
+    buscarAtletaPorId(atletaId)
+    payload.value = getPayload()
+  } else {
+    console.error('ID do atleta não encontrado.')
+  }
+  
 })
 </script>
 
@@ -193,11 +228,6 @@ onMounted(() => {
 
 .min-height-300 {
   min-height: 300px;
-}
-
-.profile-avatar {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .profile-name {
@@ -346,6 +376,13 @@ onMounted(() => {
 }
 .textId {
   font-size: 1em;
+}
+.skeleton-avatar {
+  background-color: #00c6fe;
+  border-radius: 100%;
+}
+.skeleton-nome {
+  background-color: #00c6fe;
 }
 
 @media (max-width: 960px) {
