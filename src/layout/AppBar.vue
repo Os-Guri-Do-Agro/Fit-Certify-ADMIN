@@ -28,14 +28,17 @@
                         style="height: 100%;"
                         >
                         <!-- Avatar -->
-                        <v-avatar size="42" class="mr-3" >
-                            <v-img :src="payload?.user?.avatarUrl"></v-img>
+                        <v-skeleton-loader v-if="loading" type="avatar"></v-skeleton-loader>
+                        <v-avatar v-else size="42" class="mr-3" >
+                            <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl"></v-img>
                         </v-avatar>
 
                         <!-- Nome e profissão -->
                         <div class="d-flex flex-column justify-center text-left">
-                            <span class="font-weight-medium text-body-2">{{ payload?.user?.nome }}</span>
-                            <span class="text-caption text-grey">{{ perfis[payload?.role] }}</span>
+                            <v-skeleton-loader v-if="loading" type="paragraph" width="120" ></v-skeleton-loader>
+                            <span v-else class="font-weight-medium text-body-2">{{ atleta?.usuario?.nome || medico?.usuario?.nome }}</span>
+                            <v-skeleton-loader v-if="loading" type="text" width="80" class="mt-0 d-none"></v-skeleton-loader>
+                            <span v-else class="text-caption text-grey">{{ perfis[payload?.role] }}</span>
                         </div>
                     </v-btn>
                 </template>
@@ -43,7 +46,7 @@
                     <v-list-item @click="router.push('/perfil')">
                         <v-list-item-title>Perfil</v-list-item-title>
                     </v-list-item>
-                    <v-list-item>
+                    <v-list-item @click="router.push('/settings')">
                         <v-list-item-title>Configurações</v-list-item-title>
                     </v-list-item>
                     <v-divider></v-divider>
@@ -61,10 +64,60 @@ import { useLayoutStore } from '@/stores/layout';
 import { getPayload, logout } from '@/utils/auth';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import atletaService from '@/services/atleta/atleta-service';
+import medicoService from '@/services/medico/medico-service';
+import { getAtletaId } from '@/utils/auth';
+import { getMedicoId } from '@/utils/auth';
 
 const layoutStore = useLayoutStore()
 const payload = ref<any>()
 const router = useRouter()
+const atleta = ref<any>()
+const medico = ref<any>()
+let atletaId = ref<any>()
+let medicoId = ref<any>()
+const loading = ref(true)
+
+const buscarAtletaById = async (id: any) => {
+    try {
+        const response = await atletaService.getAtletaById(id)
+        atleta.value = response.data
+        loading.value = false    
+    } catch (error) {
+        console.log(error)
+        loading.value = false
+    }
+} 
+
+const buscarMedicoById = async (id: any) => {
+    try {
+        const response = await medicoService.getMedicoById(id)
+        medico.value = response.data
+        loading.value = false    
+    } catch (error) {
+        console.log(error)
+        loading.value = false
+    }
+} 
+
+onMounted (() => {
+    atletaId = getAtletaId()
+    medicoId = getMedicoId()
+
+    if (atletaId) {
+          console.log(atletaId || medicoId)
+      buscarAtletaById(atletaId)  
+      payload.value = getPayload()
+    } else if (medicoId) {
+        buscarMedicoById(medicoId)
+        payload.value = getPayload()
+    } else {
+        console.log('ID do atleta não encontrado')
+    }
+
+    
+
+})
 
 function sair(){
     logout()
@@ -75,10 +128,6 @@ const perfis: any = {
   'atleta': 'ATLETA',
   'admin': 'ADMINISTRADOR'
 }
-
-onMounted(() => {
-  payload.value = getPayload()
-})
 
 </script>
 
