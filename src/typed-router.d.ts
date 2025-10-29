@@ -32,6 +32,7 @@ declare module 'vue-router/auto-routes' {
     '/Atleta-Screens/visaoGeral/': RouteRecordInfo<'/Atleta-Screens/visaoGeral/', '/Atleta-Screens/visaoGeral', Record<never, never>, Record<never, never>>,
     '/detalhesExclusaoConta': RouteRecordInfo<'/detalhesExclusaoConta', '/detalhesExclusaoConta', Record<never, never>, Record<never, never>>,
     '/detalhesPaciente/': RouteRecordInfo<'/detalhesPaciente/', '/detalhesPaciente', Record<never, never>, Record<never, never>>,
+    '/editarPerfil/': RouteRecordInfo<'/editarPerfil/', '/editarPerfil', Record<never, never>, Record<never, never>>,
     '/esqueceuSenha/[token]': RouteRecordInfo<'/esqueceuSenha/[token]', '/esqueceuSenha/:token', { token: ParamValue<true> }, { token: ParamValue<false> }>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/cupons/': RouteRecordInfo<'/Medico-Screens/cupons/', '/Medico-Screens/cupons', Record<never, never>, Record<never, never>>,

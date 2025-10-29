@@ -2,16 +2,6 @@
   <v-container class="pa-4 bg-grey-lighten-5" style="min-height: 100vh">
     <v-row justify="center">
       <v-col cols="12">
-        <!-- Header -->
-        <div class="text-center mb-8">
-          <div class="d-flex align-center justify-center mb-4">
-            <v-icon size="40" color="#00c6fe" class="mr-3">mdi-account-edit</v-icon>
-            <h1 class="text-h3 font-weight-bold gradient-text">
-              Editar Perfil Público
-            </h1>
-          </div>
-          <p class="text-h6 text-grey-600 font-weight-light">Atualize suas informações profissionais e torne seu perfil mais atrativo</p>
-        </div>
 
         <!-- Loading Skeleton -->
         <div v-if="loadingData">
@@ -62,12 +52,20 @@
 
         <!-- Formulário -->
         <v-form v-else ref="form" v-model="valid">
-          <v-card class="profile-card mb-6" elevation="8" rounded="xl">
+          <v-card class="profile-card no-hover mb-6" elevation="8" rounded="xl">
             <div class="profile-header">
               <v-row align="center">
-                <v-col cols="12" md="4" class="text-center">
+                <v-col cols="12" md="4" class="text-center  d-flex flex-column-reverse flex-md-column">
+                  <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
+                <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-account-edit">
+                  Editar Perfil Público
+                </v-chip>
+                <v-chip class="info-chip text-center d-flex justify-center text-white">
+                  CRM: {{ displayData.crm }}
+                </v-chip>
+                  </div>
                   <div class="avatar-container">
-                    <v-avatar size="150" class="profile-avatar">
+                    <v-avatar size="190" class="profile-avatar">
                       <img
                         v-if="displayData.avatarUrl"
                         :src="displayData.avatarUrl"
@@ -75,12 +73,12 @@
                       />
                       <v-icon v-else size="60" color="white">mdi-account</v-icon>
                     </v-avatar>
-                  </div>
-                  <h2 class="text-h5 font-weight-bold text-white mt-4">{{ displayData.nome }}</h2>
+                                      <h2 class="text-h5 font-weight-bold text-white mt-4">{{ displayData.nome }}</h2>
                   <p class="text-subtitle-1 text-blue-darken-4">{{ displayData.especializacao }}</p>
+                  </div>
                 </v-col>
                 <v-col cols="12" md="8">
-                  <v-card class="info-card" elevation="0" rounded="lg">
+                  <v-card class="" elevation="0" rounded="lg">
                     <v-card-text class="pa-4">
                       <v-row>
                         <v-col cols="12">
@@ -289,6 +287,7 @@ const form = ref()
 const valid = ref(false)
 const loading = ref(false)
 const loadingData = ref(true)
+const medicoCrm = ref('')
 
 const formData = ref({
   experiencia: '',
@@ -306,6 +305,7 @@ const displayData = ref({
   nome: '',
   avatarUrl: '',
   especializacao: '',
+  crm: ''
 })
 
 const diasSemana = [
@@ -377,13 +377,15 @@ const salvar = async () => {
       diaFuncionamentoFim: formData.value.diaFuncionamentoFim
     }
 
-    await medicoService.updateMedico(medicoData)
-    toast.success('Perfil público atualizado com sucesso!')
-    router.push('/medico/perfil')
+    const response = await medicoService.updateMedico(medicoData)
+    if (response.success) {
+         toast.success('Perfil público atualizado com sucesso!',{ autoClose: 4000 }) 
+    }
+
   } catch (error) {
+    toast.error('Erro ao atualizar perfil público. Verifique as informações!')
     console.error('Erro ao salvar:', error)
   } finally {
-    toast.error('Erro ao atualizar perfil público. Verifique as informações!')
     loading.value = false
   }
 }
@@ -392,6 +394,7 @@ const cancelar = () => {
   router.push('/medico/perfil')
 }
 
+
 const carregarDados = async () => {
   loadingData.value = true
   try {
@@ -399,6 +402,8 @@ const carregarDados = async () => {
     const medicoId = payload?.user?.medico?.id
     const response = await medicoService.getMedicoById(medicoId)
     const medicoData = response.data
+   
+    console.log('TESTEEEEEE', payload?.user?.medico?.crm)
     
     if (medicoData) {
       formData.value.experiencia = medicoData.experiencia ? String(medicoData.experiencia) : ''
@@ -414,6 +419,7 @@ const carregarDados = async () => {
       displayData.value.nome = medicoData.usuario?.nome || ''
       displayData.value.avatarUrl = medicoData.usuario?.avatarUrl || ''
       displayData.value.especializacao = medicoData.especializacao || ''
+      displayData.value.crm = medicoData.crm || ''
     }
   } catch (error) {
     console.error('Erro ao carregar dados:', error)
@@ -504,7 +510,7 @@ onMounted(() => {
   transition: all 0.3s ease;
 }
 
-.v-card:hover {
+.v-card:hover:not(.no-hover) {
   transform: translateY(-2px);
 }
 
@@ -570,6 +576,14 @@ onMounted(() => {
   background-size: 200% 100%;
   animation: skeleton-loading 1.5s infinite;
   border-radius: 24px;
+}
+
+.info-chip {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 8px 16px;
 }
 
 @keyframes skeleton-loading {

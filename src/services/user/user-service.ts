@@ -33,6 +33,18 @@ class UserService {
       'ERROR - 404'
     )
   }
+
+  editarUsuario(id: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.put(`/user/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'ERROR - 404'
+    )
+  }
 }
 
 export default new UserService()
