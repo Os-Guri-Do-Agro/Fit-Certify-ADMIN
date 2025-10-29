@@ -213,7 +213,7 @@
 </template>
 
 <script setup lang="ts">
-import atletaService from '@/services/atleta/atleta-service'
+import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload, isTokenValid, logout } from '@/utils/auth'
 import { ref, onMounted, watch, computed } from 'vue'
@@ -229,7 +229,7 @@ const loadingData = ref(true)
 const showPassword = ref(false)
 const showNewPassword = ref(false)
 const showConfirmPassword = ref(false)
-const user = ref<any>({ atleta: { telefone: '' } })
+const user = ref<any>({ medico: { telefone: '' } })
 const emailValidation = ref({ loading: false, exists: false, checked: false })
 const originalEmail = ref('')
 
@@ -366,9 +366,9 @@ const atualizarDadosAtleta = async () => {
     
     data.append('email', formData.value.email.trim() || formData.value.email)
     data.append('nome', formData.value.nome || formData.value.nome)
-    data.append('telefone', formData.value.telefone.trim() || payload.user.atleta.telefone)
+    data.append('telefone', formData.value.telefone.trim() || payload.user.medico.telefone)
     
-    const dataNascimento = formData.value.dataNascimento || payload.user.atleta.dataNascimento
+    const dataNascimento = formData.value.dataNascimento || payload.user.medico.dataNascimento
     const isoDate = dataNascimento ? new Date(dataNascimento).toISOString() : ''
     data.append('dataNascimento', isoDate)
 
@@ -378,17 +378,16 @@ const atualizarDadosAtleta = async () => {
       data.append('avatar', formData.value.avatar)
     }
 
-    const response = await atletaService.editAtletaByProfile(data)
-
+    const response = await medicoService.editMedicoByProfile(data)
+    
     toast.success('Dados atualizados com sucesso!')
     
-if (response.data.success) {
-  if (response.data.token) {
-    localStorage.setItem('token', response.data.token)
-  }
-  toast.success('Dados atualizados com sucesso!')
-  window.location.reload()
-}
+    if (response.data.success) {
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+      }
+      
+    }
     
   } catch (error) {
     toast.error('Erro ao atualizar dados!', { position: 'top-right' })
@@ -405,8 +404,8 @@ const cancelar = () => {
 const carregarDados = async () => {
   try {
     const userData = payload.value?.user
-    if (userData?.atleta?.id) {
-      const response = await atletaService.getAtletaById(userData.atleta.id)
+    if (userData?.medico?.id) {
+      const response = await medicoService.getMedicoById(userData.medico.id)
       const atletaData = response.data
       
       user.value = atletaData
@@ -420,8 +419,8 @@ const carregarDados = async () => {
       }
     }
   } catch (error) {
-    console.error('Erro ao carregar dados do atleta:', error)
-    toast.error('Erro ao carregar dados do atleta')
+    console.error('Erro ao carregar dados do medico:', error)
+    toast.error('Erro ao carregar dados do medico')
   } finally {
     loadingData.value = false
   }

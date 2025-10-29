@@ -36,6 +36,7 @@ declare module 'vue-router/auto-routes' {
     '/esqueceuSenha/[token]': RouteRecordInfo<'/esqueceuSenha/[token]', '/esqueceuSenha/:token', { token: ParamValue<true> }, { token: ParamValue<false> }>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/cupons/': RouteRecordInfo<'/Medico-Screens/cupons/', '/Medico-Screens/cupons', Record<never, never>, Record<never, never>>,
+    '/Medico-Screens/editarPerfilMedico/': RouteRecordInfo<'/Medico-Screens/editarPerfilMedico/', '/Medico-Screens/editarPerfilMedico', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/editarPerfilPublico/': RouteRecordInfo<'/Medico-Screens/editarPerfilPublico/', '/Medico-Screens/editarPerfilPublico', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/perfil-publico/': RouteRecordInfo<'/Medico-Screens/perfil-publico/', '/Medico-Screens/perfil-publico', Record<never, never>, Record<never, never>>,
     '/notificacoes/': RouteRecordInfo<'/notificacoes/', '/notificacoes', Record<never, never>, Record<never, never>>,
