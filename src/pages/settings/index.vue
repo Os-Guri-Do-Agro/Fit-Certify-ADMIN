@@ -100,7 +100,7 @@ const userRole = ref('');
 
 const accountItems = computed(() => {
   const baseItems = [
-    { icon: 'account-outline', title: 'Editar Perfil', to: '/editarPerfil' },
+    { icon: 'account-outline', title: 'Editar Perfil', to: '/editarPerfilAtleta' },
     { icon: 'lock-outline', title: 'Privacidade', to: '/politicaPrivacidade' },
   ];
 

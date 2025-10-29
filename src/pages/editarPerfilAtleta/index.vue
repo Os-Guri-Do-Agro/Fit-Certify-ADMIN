@@ -6,10 +6,10 @@
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12"  class="text-center">
             <div class="profile-avatar-container ">
-              <v-avatar size="140" class="profile-avatar">
+              <v-avatar size="190" class="profile-avatar">
                 <v-img
-                  v-if="formData.avatarUrl"
-                  :src="formData.avatarUrl"
+                  v-if="formData.avatar"
+                  :src="formData.avatar"
                   alt="Foto do perfil"
                 />
                 <v-icon v-else size="70" color="white">mdi-account</v-icon>
@@ -82,13 +82,16 @@
                       rounded="lg"
                       prepend-inner-icon="mdi-email"
                       color="#00c6fe"
-                      :rules="[rules.required, rules.email]"
+                      :rules="[rules.required, rules.email, rules.emailExists]"
+                      :loading="emailValidation.loading"
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                      v-model="formData.telefone"
+                      v-model="user.atleta.telefone"
                       label="Telefone"
+                      v-maska="'(##) #####-####'"
+                      maxlength="15"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -113,7 +116,7 @@
               </v-card-text>
             </v-card>
 
-            <v-card class="mb-6" elevation="4" rounded="xl">
+            <!-- <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
                 <v-icon class="mr-3" color="#00c6fe">mdi-lock</v-icon>
                 Alterar Senha
@@ -166,7 +169,7 @@
                   </v-col>
                 </v-row>
               </v-card-text>
-            </v-card>
+            </v-card> -->
 
             <div class="text-center d-flex ga-4 flex-column flex-md-row justify-center">
               <v-btn
@@ -186,7 +189,7 @@
                 rounded="xl"
                 size="large"
                 class="px-8 save-btn text-white"
-                @click="atualizarDados"
+                @click="atualizarDadosAtleta"
                 :loading="loading"
                 elevation="4"
               >
@@ -202,9 +205,12 @@
 </template>
 
 <script setup lang="ts">
-import { getPayload, isTokenValid, logout } from '@/utils/auth'
-import { ref, onMounted } from 'vue'
+import atletaService from '@/services/atleta/atleta-service'
 import userService from '@/services/user/user-service'
+import { getPayload, isTokenValid, logout } from '@/utils/auth'
+import { ref, onMounted, watch } from 'vue'
+import { toast } from 'vue3-toastify'
+import { vMaska } from 'maska/vue'
 
 const payload = ref<any>()
 const form = ref()
@@ -214,18 +220,11 @@ const loading = ref(false)
 const showPassword = ref(false)
 const showNewPassword = ref(false)
 const showConfirmPassword = ref(false)
+const user = ref<any>({ atleta: { telefone: '' } })
+const emailValidation = ref({ loading: false, exists: false, checked: false })
 
-const formData = ref({
-  email: '',
-  senha: '',
-  nome: '',
-  telefone: '',
-  dataNascimento: '',
-  avatarUrl: '',
-  senhaAtual: '',
-  novaSenha: '',
-  confirmarSenha: ''
-})
+let debounceTimer: number
+
 
 const rules = {
   required: (value: any) => !!value || 'Campo obrigatório',
@@ -233,10 +232,17 @@ const rules = {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return pattern.test(value) || 'E-mail inválido'
   },
+  emailExists: (value: string) => {
+    if (!emailValidation.value.checked) return true
+    if (emailValidation.value.exists) {
+      return 'Este email já está em uso'
+    }
+    return true
+  },
   minLength: (min: number) => (value: string) =>
     !value || value.length >= min || `Mínimo ${min} caracteres`,
-  passwordMatch: (value: string) =>
-    !value || value === formData.value.novaSenha || 'Senhas não coincidem'
+  // passwordMatch: (value: string) =>
+  //   !value || value === formData.value.novaSenha || 'Senhas não coincidem'
 }
 
 const formatPhone = (event: Event) => {
@@ -256,59 +262,119 @@ const handleFileUpload = (event: Event) => {
   if (file) {
     const reader = new FileReader()
     reader.onload = (e) => {
-      formData.value.avatarUrl = e.target?.result as string
+      formData.value.avatar = e.target?.result as string
     }
     reader.readAsDataURL(file)
   }
 }
 
-const atualizarDados = async () => {
-  if (!form.value?.validate()) return
+const formData = ref({
+  email: '',
+  nome: '',
+  telefone: '',
+  dataNascimento: '',
+  avatar: '',
+})
+
+watch(() => formData.value.email, (newEmail) => {
+  if (newEmail === payload.value?.user?.email) {
+    emailValidation.value = { loading: false, exists: false, checked: false }
+    return
+  }
+  
+  clearTimeout(debounceTimer)
+  debounceTimer = setTimeout(() => {
+    if (newEmail && newEmail.includes('@') && newEmail.includes('.')) {
+      validateEmailExists(newEmail)
+    }
+  }, 800)
+})
+
+const validateEmailExists = async (email: string) => {
+  if (!email || email === payload.value?.user?.email) return
+  
+  emailValidation.value.loading = true
+  emailValidation.value.checked = false
+  
+  try {
+    const response = await userService.validarExisteEmail(email)
+    
+    emailValidation.value.exists = response?.data?.existeEmail || false
+    emailValidation.value.checked = true
+    
+    if (form.value) {
+      form.value.validate()
+    }
+  } catch (error) {
+    console.error('Erro na validação:', error)
+    emailValidation.value.exists = false
+    emailValidation.value.checked = true
+  } finally {
+    emailValidation.value.loading = false
+  }
+}
+const atualizarDadosAtleta = async () => {
+
+  const { valid } = await form.value.validate()
+  if (!valid) return
   
   loading.value = true
+
+
   try {
-    const userId = payload.value?.userId
-    if (!userId) {
-      console.error('ID do usuário não encontrado')
-      return
+    const payload = getPayload()
+    const data = new FormData()
+    
+    data.append('email', formData.value.email.trim() || formData.value.email)
+    data.append('nome', formData.value.nome || formData.value.nome)
+    data.append('telefone', formData.value.telefone.trim() || payload.user.atleta.telefone)
+    
+    const dataNascimento = formData.value.dataNascimento || payload.user.atleta.dataNascimento
+    const isoDate = dataNascimento ? new Date(dataNascimento).toISOString() : ''
+    data.append('dataNascimento', isoDate)
+
+
+
+    if (formData.value.avatar && formData.value.avatar.startsWith('data:')) {
+      const response = await fetch(formData.value.avatar)
+      const blob = await response.blob()
+      data.append('avatar', blob, 'avatar.jpg')
+    } else if (formData.value.avatar) {
+      data.append('avatar', formData.value.avatar)
     }
 
-    const updateData: any = {
-      nome: formData.value.nome,
-      email: formData.value.email,
-      telefone: formData.value.telefone,
-      dataNascimento: formData.value.dataNascimento
-    }
+    const response = await atletaService.editAtletaByProfile(data)
 
-    if (formData.value.novaSenha) {
-      updateData.senhaAtual = formData.value.senhaAtual
-      updateData.novaSenha = formData.value.novaSenha
-    }
-
-    await userService.editarUsuario(userId)
-    console.log('Dados atualizados com sucesso!')
+if (response.data.success) {
+  if (response.data.token) {
+    localStorage.setItem('token', response.data.token)
+  }
+  toast.success('Dados atualizados com sucesso!')
+  window.location.reload()
+}
+    
   } catch (error) {
-    console.error('Erro ao atualizar dados:', error)
+    toast.error('Erro ao atualizar dados!', { position: 'top-right' })
+    console.error(error)
   } finally {
     loading.value = false
   }
 }
 
+
 const cancelar = () => {
-  // Voltar para a tela anterior ou resetar formulário
   window.history.back()
 }
-
 const carregarDados = () => {
-  const user = payload.value?.user
-  if (user) {
-    formData.value.nome = user.nome || ''
-    formData.value.email = user.email || ''
-    formData.value.telefone = user.telefone || ''
-    formData.value.avatarUrl = user.avatarUrl || ''
-    // Converter data se necessário
-    if (user.dataNascimento) {
-      formData.value.dataNascimento = new Date(user.dataNascimento).toISOString().split('T')[0]
+  const userData = payload.value?.user
+  if (userData) {
+    user.value = userData
+    formData.value.nome = userData.nome || ''
+    formData.value.email = userData.email || ''
+    formData.value.telefone = userData.atleta?.telefone || ''
+    formData.value.avatar = userData.avatarUrl || ''
+    if (userData.atleta?.dataNascimento) {
+      formData.value.dataNascimento = new Date(userData.atleta.dataNascimento).toISOString().split('T')[0]
     }
   }
 }
@@ -321,6 +387,7 @@ onMounted(() => {
   payload.value = getPayload()
   carregarDados()
 })
+
 </script>
 
 <style scoped>
