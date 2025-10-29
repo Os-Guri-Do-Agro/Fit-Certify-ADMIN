@@ -88,7 +88,7 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <v-text-field
-                      v-model="user.atleta.telefone"
+                      v-model="formData.telefone"
                       label="Telefone"
                       v-maska="'(##) #####-####'"
                       maxlength="15"
@@ -97,6 +97,7 @@
                       rounded="lg"
                       prepend-inner-icon="mdi-phone"
                       color="#00c6fe"
+                      :rules="[rules.phone]"
                       @input="formatPhone"
                     ></v-text-field>
                   </v-col>
@@ -110,6 +111,7 @@
                       prepend-inner-icon="mdi-calendar"
                       color="#00c6fe"
                       type="date"
+                      :rules="[rules.birthDate]"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -239,6 +241,17 @@ const rules = {
     }
     return true
   },
+  phone: (value: string) => {
+    if (!value) return 'Campo obrigatório'
+    const digits = value.replace(/\D/g, '')
+    return digits.length === 11 || 'Telefone deve ter 11 dígitos'
+  },
+  birthDate: (value: string) => {
+    if (!value) return 'Campo obrigatório'
+    const selectedYear = new Date(value).getFullYear()
+    const currentYear = new Date().getFullYear()
+    return selectedYear <= currentYear || 'Data não pode ser no futuro'
+  },
   minLength: (min: number) => (value: string) =>
     !value || value.length >= min || `Mínimo ${min} caracteres`,
   // passwordMatch: (value: string) =>
@@ -314,9 +327,22 @@ const validateEmailExists = async (email: string) => {
   }
 }
 const atualizarDadosAtleta = async () => {
+  // Verifica se há validação de email pendente ou se email existe
+  if (emailValidation.value.loading) {
+    toast.error('Aguarde a validação do email')
+    return
+  }
+  
+  if (emailValidation.value.exists) {
+    toast.error('Corrija os erros no formulário antes de salvar')
+    return
+  }
 
   const { valid } = await form.value.validate()
-  if (!valid) return
+  if (!valid) {
+    toast.error('Preencha todos os campos obrigatórios corretamente')
+    return
+  }
   
   loading.value = true
 
