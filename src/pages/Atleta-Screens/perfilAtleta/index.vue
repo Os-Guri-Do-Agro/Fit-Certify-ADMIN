@@ -37,7 +37,7 @@
                 <div class="d-flex ga-2 flex-md-row flex-column">
                   
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
-                  Perfil do Usuário
+                  Perfil do Atleta
                 </v-chip>
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-shield-check">
                   Plano Ativo
@@ -71,105 +71,77 @@
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
-            <v-row justify="center">
-        <v-col cols="12" lg="10">
-          <div class="section-header mb-6">
-            <div class="d-flex flex-column flex-md-row align-center justify-md-center">
-              <v-icon color="#00c6fe" size="32" class="mr-3">mdi-heart-pulse</v-icon>
-              <h2 class="text-h5 font-weight-bold text-grey-darken-2 text-center">Monitoramento de Saúde</h2>
-            </div>
-            <p class="text-body-1 text-grey mt-2 mb-0 text-center">Acompanhe seus principais indicadores de saúde</p>
-          </div>
-
-          <v-row class="mb-8">
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart</v-icon>
-                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Frequência Cardíaca</h3>
-                  </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">72 <span class="parameter-unit">bpm</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 14:30</div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-gauge</v-icon>
-                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Pressão Arterial</h3>
-                  </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">120/80 <span class="parameter-unit">mmHg</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 14:25</div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-scale-bathroom</v-icon>
-                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Peso Corporal</h3>
-                  </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">75.2 <span class="parameter-unit">kg</span></div>
-                    <div class="parameter-status normal">Ideal</div>
-                    <div class="parameter-description">Última medição: Ontem, 08:00</div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-
-            <v-col cols="12" md="6" class="mb-4">
-              <v-card class="health-card h-100 rounded-xl" elevation="2">
-                <v-card-text class="pa-6">
-                  <div class="d-flex align-center mb-4">
-                    <v-icon color="#00c6fe" size="28" class="mr-3">mdi-thermometer</v-icon>
-                    <h3 class="text-h6 font-weight-bold text-grey-darken-2">Temperatura</h3>
-                  </div>
-                  <div class="parameter-content">
-                    <div class="parameter-value">36.5 <span class="parameter-unit">°C</span></div>
-                    <div class="parameter-status normal">Normal</div>
-                    <div class="parameter-description">Última medição: Hoje, 12:00</div>
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-col>
-          </v-row>
-
-          <!-- <v-card class="actions-card rounded-xl" elevation="2">
-            <v-card-title class="pa-6 pb-0">
-              <div class="d-flex align-center justify-center">
-                <v-icon color="#00c6fe" size="28" class="mr-3">mdi-lightning-bolt</v-icon>
-                <h3 class="text-h6 font-weight-bold text-grey-darken-2">Minhas consultas</h3>
+            <v-card class="metrics-card mb-6" elevation="8" rounded="xl">
+              <div class="metrics-header">
+                <v-row align="center">
+                  <v-col cols="12" md="4" class="text-center d-flex flex-column-reverse flex-md-column">
+                    <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
+                      <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-heart-pulse">
+                        Monitoramento de Saúde
+                      </v-chip>
+                      <v-chip class="info-chip text-center d-flex justify-center text-white">
+                        Última Atualização: Hoje
+                      </v-chip>
+                    </div>
+                    <div class="avatar-container">
+                      <v-avatar size="190" class="metrics-avatar">
+                        <v-icon size="80" color="white">mdi-heart-pulse</v-icon>
+                      </v-avatar>
+                      <h2 class="text-h5 font-weight-bold text-white mt-4">Indicadores de Saúde</h2>
+                      <p class="text-subtitle-1 text-blue-darken-4">Acompanhe seus principais parâmetros</p>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" md="8">
+                    <v-card class="" elevation="0" rounded="lg">
+                      <v-card-text class="pa-4">
+                        <v-row>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-heart</v-icon>
+                                <span class="metric-label">Frequência Cardíaca</span>
+                              </div>
+                              <div class="metric-value">72 <span class="metric-unit">bpm</span></div>
+                              <div class="metric-status normal">Normal</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-gauge</v-icon>
+                                <span class="metric-label">Pressão Arterial</span>
+                              </div>
+                              <div class="metric-value">120/80 <span class="metric-unit">mmHg</span></div>
+                              <div class="metric-status normal">Normal</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
+                                <span class="metric-label">Peso Corporal</span>
+                              </div>
+                              <div class="metric-value">75.2 <span class="metric-unit">kg</span></div>
+                              <div class="metric-status normal">Ideal</div>
+                            </div>
+                          </v-col>
+                          <v-col cols="12" md="6">
+                            <div class="metric-item">
+                              <div class="d-flex align-center mb-2">
+                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-thermometer</v-icon>
+                                <span class="metric-label">Temperatura</span>
+                              </div>
+                              <div class="metric-value">36.5 <span class="metric-unit">°C</span></div>
+                              <div class="metric-status normal">Normal</div>
+                            </div>
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                    </v-card>
+                  </v-col>
+                </v-row>
               </div>
-
-              <div class="w-full d-flex align-center justify-center mt-5">
-                <div class="barraLista"></div>
-              </div>
-            </v-card-title>
-            
-            <v-card-text class="pa-6">
-              <v-row>
-
-                <v-col cols="12">
-
-                </v-col>
-              </v-row>
-            </v-card-text>
-          </v-card> -->
-        </v-col>
-            </v-row>
+            </v-card>
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
@@ -378,11 +350,112 @@ onMounted(() => {
   font-size: 1em;
 }
 .skeleton-avatar {
-  background-color: #00c6fe;
-  border-radius: 100%;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.profile-avatar {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 .skeleton-nome {
   background-color: #00c6fe;
+}
+
+/* Novos estilos para métricas */
+.metrics-card {
+  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  border: none;
+  overflow: hidden;
+}
+
+.metrics-header {
+  padding: 2rem;
+  position: relative;
+}
+
+.metrics-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+  opacity: 0.3;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.metrics-avatar {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 198, 254, 0.2);
+}
+
+.metric-label {
+  font-weight: 600;
+  color: #495057;
+  font-size: 0.9rem;
+}
+
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 8px 0;
+}
+
+.metric-unit {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #7f8c8d;
+}
+
+.metric-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.metric-status.normal {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
 @media (max-width: 960px) {
