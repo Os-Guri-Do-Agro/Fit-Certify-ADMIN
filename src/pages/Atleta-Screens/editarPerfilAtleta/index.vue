@@ -4,8 +4,8 @@
       <div class="hero-overlay"></div>
       <v-container class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
-          <v-col cols="12"  class="text-center">
-            <div class="profile-avatar-container ">
+          <v-col cols="12" class="text-center">
+            <div class="profile-avatar-container">
               <v-avatar size="190" class="profile-avatar">
                 <v-img
                   v-if="formData.avatar"
@@ -53,7 +53,13 @@
     <v-container class="content-section">
       <v-row justify="center">
         <v-col cols="12" lg="8">
-          <v-form ref="form" v-model="valid">
+          <v-skeleton-loader
+            v-if="loadingData"
+            type="card"
+            class="mb-6"
+          />
+          
+          <v-form v-else ref="form" v-model="valid">
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
                 <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
@@ -219,11 +225,13 @@ const form = ref()
 const fileInput = ref<HTMLInputElement>()
 const valid = ref(false)
 const loading = ref(false)
+const loadingData = ref(true)
 const showPassword = ref(false)
 const showNewPassword = ref(false)
 const showConfirmPassword = ref(false)
 const user = ref<any>({ atleta: { telefone: '' } })
 const emailValidation = ref({ loading: false, exists: false, checked: false })
+const originalEmail = ref('')
 
 let debounceTimer: number
 
@@ -290,7 +298,7 @@ const formData = ref({
 })
 
 watch(() => formData.value.email, (newEmail) => {
-  if (newEmail === payload.value?.user?.email) {
+  if (newEmail === originalEmail.value) {
     emailValidation.value = { loading: false, exists: false, checked: false }
     return
   }
@@ -304,7 +312,7 @@ watch(() => formData.value.email, (newEmail) => {
 })
 
 const validateEmailExists = async (email: string) => {
-  if (!email || email === payload.value?.user?.email) return
+  if (!email || email === originalEmail.value) return
   
   emailValidation.value.loading = true
   emailValidation.value.checked = false
@@ -391,27 +399,38 @@ if (response.data.success) {
 const cancelar = () => {
   window.history.back()
 }
-const carregarDados = () => {
-  const userData = payload.value?.user
-  if (userData) {
-    user.value = userData
-    formData.value.nome = userData.nome || ''
-    formData.value.email = userData.email || ''
-    formData.value.telefone = userData.atleta?.telefone || ''
-    formData.value.avatar = userData.avatarUrl || ''
-    if (userData.atleta?.dataNascimento) {
-      formData.value.dataNascimento = new Date(userData.atleta.dataNascimento).toISOString().split('T')[0]
+const carregarDados = async () => {
+  try {
+    const userData = payload.value?.user
+    if (userData?.atleta?.id) {
+      const response = await atletaService.getAtletaById(userData.atleta.id)
+      const atletaData = response.data
+      
+      user.value = atletaData
+      originalEmail.value = atletaData.usuario?.email || ''
+      formData.value.nome = atletaData.usuario?.nome || ''
+      formData.value.email = atletaData.usuario?.email || ''
+      formData.value.telefone = atletaData.telefone || ''
+      formData.value.avatar = atletaData.usuario?.avatarUrl || ''
+      if (atletaData.dataNascimento) {
+        formData.value.dataNascimento = new Date(atletaData.dataNascimento).toISOString().split('T')[0]
+      }
     }
+  } catch (error) {
+    console.error('Erro ao carregar dados do atleta:', error)
+    toast.error('Erro ao carregar dados do atleta')
+  } finally {
+    loadingData.value = false
   }
 }
 
-onMounted(() => {
+onMounted(async () => {
   if (!isTokenValid()) {
     logout()
     return
   }
   payload.value = getPayload()
-  carregarDados()
+  await carregarDados()
 })
 
 </script>
