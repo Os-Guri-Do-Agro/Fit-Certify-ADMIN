@@ -150,6 +150,11 @@ async function alterarSenha() {
     }
          await authService.forgotPassWordLogado(payload)
          toast.success('Senha alterada com sucesso!')
+
+         setTimeout(() => {
+             router.push('/settings')
+        }, 1500)
+
     } catch (error) {
         console.error('Erro ao alterar senha:', error)
         toast.error('Erro ao alterar senha.')
