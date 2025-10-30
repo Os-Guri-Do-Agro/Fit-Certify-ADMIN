@@ -100,7 +100,8 @@ const userRole = ref('');
 
 const accountItems = computed(() => {
   const baseItems = [
-    { icon: 'lock-outline', title: 'Privacidade', to: '/politicaPrivacidade' },
+    { icon: 'lock-reset', title: 'Nova senha', to: '/novaSenhaLogado' },
+    { icon: 'shield-lock-outline', title: 'Privacidade', to: '/politicaPrivacidade' },
   ];
 
   // Adiciona item específico para médico

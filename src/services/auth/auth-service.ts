@@ -60,6 +60,18 @@ class AuthService {
     )
   }
 
+  forgotPassWordLogado(data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post(`/auth/forgot-password-logado`, data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'ERROR - 404'
+    )
+  }
+
 }
 
 

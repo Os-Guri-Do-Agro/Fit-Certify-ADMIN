@@ -42,6 +42,7 @@ declare module 'vue-router/auto-routes' {
     '/Medico-Screens/perfil-publico/': RouteRecordInfo<'/Medico-Screens/perfil-publico/', '/Medico-Screens/perfil-publico', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/perfilMedico/': RouteRecordInfo<'/Medico-Screens/perfilMedico/', '/Medico-Screens/perfilMedico', Record<never, never>, Record<never, never>>,
     '/notificacoes/': RouteRecordInfo<'/notificacoes/', '/notificacoes', Record<never, never>, Record<never, never>>,
+    '/novaSenhaLogado/': RouteRecordInfo<'/novaSenhaLogado/', '/novaSenhaLogado', Record<never, never>, Record<never, never>>,
     '/pacientes/': RouteRecordInfo<'/pacientes/', '/pacientes', Record<never, never>, Record<never, never>>,
     '/pacientesAtendidos/': RouteRecordInfo<'/pacientesAtendidos/', '/pacientesAtendidos', Record<never, never>, Record<never, never>>,
     '/pagamento/': RouteRecordInfo<'/pagamento/', '/pagamento', Record<never, never>, Record<never, never>>,
