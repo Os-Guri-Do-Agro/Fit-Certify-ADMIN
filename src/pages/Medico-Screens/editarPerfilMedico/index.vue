@@ -83,6 +83,7 @@
                     <v-text-field
                       v-model="formData.email"
                       label="E-mail"
+                      disabled
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
