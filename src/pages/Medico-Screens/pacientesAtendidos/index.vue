@@ -145,7 +145,7 @@ const buscarAtletas = async () => {
 }
 
 const verInformacoes = (paciente) => {
-  router.push(`/detalhesPaciente?id=${paciente.id}`)
+  router.push(`/Medico-Screens/detalhesPaciente?id=${paciente.id}`)
 }
 </script>
 

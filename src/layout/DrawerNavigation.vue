@@ -236,13 +236,13 @@ const pacienteItems = [
     icon: 'mdi-clipboard-text-search-outline',
     title: 'Lista de Pacientes',
     value: 'lista de pacientes',
-    to: '/pacientes',
+    to: '/Medico-Screens/pacientes',
   },
   {
     icon: 'mdi-account-group-outline',
     title: 'Meus pacientes',
     value: 'salvos',
-    to: '/pacientesAtendidos',
+    to: '/Medico-Screens/pacientesAtendidos',
   },
 ]
 
