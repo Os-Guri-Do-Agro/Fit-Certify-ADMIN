@@ -71,8 +71,6 @@ const payload = ref<any>()
 const router = useRouter()
 const atleta = ref<any>()
 const medico = ref<any>()
-const atletaId = ref()
-const medicoId = ref()
 const loading = ref(true)
 
 const buscarAtletaById = async (id: string) => {
@@ -100,13 +98,12 @@ const buscarMedicoById = async (id: string) => {
 }
 
 onMounted(async () => {
-  atletaId.value = getAtletaId()
-  medicoId.value = getMedicoId()
-  if (atletaId.value) {
-    await buscarAtletaById(atletaId.value)
+
+  if (getAtletaId()) {
+    await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
-  } else if (medicoId.value) {
-    await buscarMedicoById(medicoId.value)
+  } else if (getMedicoId()) {
+    await buscarMedicoById(getMedicoId())
     payload.value = getPayload()
   } else {
     console.error('ID do atleta não encontrado o')
