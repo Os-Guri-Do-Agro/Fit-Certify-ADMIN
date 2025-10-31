@@ -84,6 +84,14 @@ export const getRole = () => {
   const payload = getPayload()
   return payload?.role
 }
+
+export const isMedico = () => {
+  return getRole() === 'medico'
+}
+
+export const isAtleta = () => {
+  return getRole() === 'atleta'
+}
 export const getUserID = () => {
   const payload = getPayload()
   return payload?.userId

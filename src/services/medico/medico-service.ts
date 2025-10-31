@@ -76,6 +76,19 @@ class medicoService {
     )
   }
 
+    async editMedicoByProfile(data: FormData): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.patch(`/medico/updateProfile`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'Failed to update atleta profile'
+    )
+  }
+
   async updateMedico(data: any): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

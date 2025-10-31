@@ -33,6 +33,7 @@ class UserService {
       'ERROR - 404'
     )
   }
+
 }
 
 export default new UserService()

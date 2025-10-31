@@ -98,7 +98,7 @@
         </v-list>
       </div>
 
-      <div class="mt-4 text-center" v-if="payload?.role == 'medico'">
+      <div class="mt-4 text-center" v-if="isMedico()">
         <v-divider class="mb-3" thickness="2"></v-divider>
         <span class="text-subtitle-1" v-show="!layoutStore.rail">
           {{ perfis[payload?.role] }}
@@ -205,7 +205,8 @@ import { computed, ref, toRaw } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
 import { useRoute } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
-import { getPayload, logout } from '@/utils/auth'
+import { getPayload, logout, isMedico } from '@/utils/auth'
+import { getProfileRoute } from '@/utils/profile'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
@@ -226,7 +227,7 @@ const contaItems = [
     icon: 'mdi-account-circle',
     title: 'Perfil',
     value: 'dashboard',
-    to: '/Perfil' ,
+    to: getProfileRoute(),
   },
 ]
 
@@ -235,13 +236,13 @@ const pacienteItems = [
     icon: 'mdi-clipboard-text-search-outline',
     title: 'Lista de Pacientes',
     value: 'lista de pacientes',
-    to: '/pacientes',
+    to: '/Medico-Screens/pacientes',
   },
   {
     icon: 'mdi-account-group-outline',
     title: 'Meus pacientes',
     value: 'salvos',
-    to: '/pacientesAtendidos',
+    to: '/Medico-Screens/pacientesAtendidos',
   },
 ]
 
@@ -375,7 +376,6 @@ function handleClickOutside(event: MouseEvent) {
 }
 
 function onClickMenu(menu: string) {
-  console.log('Menu clicado:', menu)
   if (menu == 'Sair') {
     logout()
   }
