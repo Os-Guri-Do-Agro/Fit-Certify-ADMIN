@@ -20,14 +20,41 @@ class PagarmeService {
   realizarAssinatura(data: any): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.post(`/pagarme/plans/subscriptions`, data , {
+      apiClient.post(`/pagarme/plans/subscriptions`, data, {
         headers: {
-            'Authorization': `Bearer ${token}`
-          }
+          'Authorization': `Bearer ${token}`
+        }
       }),
       'Falha ao realizar assinatura'
     )
   }
+
+
+  async cancelAtletaSubscriptionPagarme(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/pagarme/plans/subscriptions/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'ERROR - 404'
+    )
+  }
+
+
+  async getInfoSubscription(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/pagarme/plans/subscriptions/by-email`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'ERROR - 404'
+    )
+  }
+
 }
 
 export default new PagarmeService()

@@ -112,8 +112,7 @@ const accountItems = computed(() => {
   }
   if (userRole.value === 'atleta') {
     baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Atleta-Screens/editarPerfilAtleta' });
-    baseItems.push({ icon: 'wallet-outline', title: 'Método de pagamento', to: '/404page' },
-    );
+    baseItems.push({ icon: 'wallet-outline', title: 'Assinatura e Pagamentos', to: '/Atleta-Screens/meuPlano' });
   }
 
   return baseItems;
