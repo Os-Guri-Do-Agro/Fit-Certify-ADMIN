@@ -39,7 +39,7 @@
           </v-btn>
         </template>
         <v-list>
-          <v-list-item @click="router.push('/perfil')">
+          <v-list-item @click="router.push(getProfileRoute())">
             <v-list-item-title>Perfil</v-list-item-title>
           </v-list-item>
           <v-list-item @click="router.push('/settings')">
@@ -56,6 +56,7 @@
 </template>
 
 <script setup lang="ts">
+import { getProfileRoute } from '@/utils/profile';
 import { useLayoutStore } from '@/stores/layout';
 import { getPayload, logout } from '@/utils/auth';
 import { onMounted, ref } from 'vue';
@@ -75,6 +76,7 @@ const medicoId = ref()
 const loading = ref(true)
 
 const buscarAtletaById = async (id: string) => {
+
   try {
     const response = await atletaService.getAtletaById(id)
     atleta.value = response.data
@@ -86,6 +88,7 @@ const buscarAtletaById = async (id: string) => {
 }
 
 const buscarMedicoById = async (id: string) => {
+
   try {
     const response = await medicoService.getMedicoById(id)
     medico.value = response.data
@@ -99,18 +102,15 @@ const buscarMedicoById = async (id: string) => {
 onMounted(async () => {
   atletaId.value = getAtletaId()
   medicoId.value = getMedicoId()
-  if (atletaId) {
+  if (atletaId.value) {
     await buscarAtletaById(atletaId.value)
     payload.value = getPayload()
-  } else if (medicoId) {
+  } else if (medicoId.value) {
     await buscarMedicoById(medicoId.value)
     payload.value = getPayload()
   } else {
-    console.error('ID do atleta não encontrado')
+    console.error('ID do atleta não encontrado o')
   }
-
-
-
 })
 
 function sair() {

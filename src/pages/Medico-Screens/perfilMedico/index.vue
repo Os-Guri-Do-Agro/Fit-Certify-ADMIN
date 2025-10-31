@@ -55,7 +55,7 @@
 
                 <div class="d-flex ga-2 flex-md-row flex-column mr-md-10">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
-                   <p class="textId">ID: {{ payload?.userId }}</p>
+                   <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
                 <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/medico-Screens/editarPerfilMedico')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
@@ -293,15 +293,12 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { getPayload } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
 import medicoService from '@/services/medico/medico-service'
 import { getMedicoId } from '@/utils/auth'
-import { vMaska } from 'maska/vue'
+import { getUserID } from '@/utils/auth'
 
-const payload = ref<any>()
 const medico = ref<any>()
-let medicoId = ref<any>()
 
 const formatarData = (data: string) => {
   if (!data) return null
@@ -338,18 +335,15 @@ const buscarMedicoPorId = async (id: any) => {
   try {
     const response = await medicoService.getMedicoById(id)
     medico.value = response.data
-    console.log('Medico encontrado:', medico.value)
   } catch (error) {
     console.error('Erro ao buscar medico por ID:', error)
   }
 }
 
 onMounted(() => {
-  medicoId = getMedicoId()
 
-  if (medicoId) {
-    buscarMedicoPorId(medicoId)
-    payload.value = getPayload()
+  if (getMedicoId()) {
+    buscarMedicoPorId(getMedicoId())
   } else {
     console.error('ID do medico não encontrado.')
   }

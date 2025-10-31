@@ -402,9 +402,7 @@ const carregarDados = async () => {
     const medicoId = payload?.user?.medico?.id
     const response = await medicoService.getMedicoById(medicoId)
     const medicoData = response.data
-   
-    console.log('TESTEEEEEE', payload?.user?.medico?.crm)
-    
+       
     if (medicoData) {
       formData.value.experiencia = medicoData.experiencia ? String(medicoData.experiencia) : ''
       formData.value.foco = medicoData.foco || ''

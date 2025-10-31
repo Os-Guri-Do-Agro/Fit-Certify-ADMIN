@@ -46,7 +46,7 @@
 
                 <div class="d-flex ga-2 flex-md-row flex-column mr-md-10">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
-                   <p class="textId">ID: {{ payload?.userId }}</p>
+                   <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
                 <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/Atleta-Screens/editarPerfilAtleta')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
@@ -121,7 +121,7 @@
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
                                 <span class="metric-label">Peso Corporal</span>
                               </div>
-                              <div class="metric-value">75.2 <span class="metric-unit">kg</span></div>
+                              <div class="metric-value"> <span>{{ atleta?.peso }}</span> <span class="metric-unit">kg</span></div>
                               <div class="metric-status normal">Ideal</div>
                             </div>
                           </v-col>
@@ -213,16 +213,7 @@
                               <div class="metric-value">{{ formatarData }}</div>
                             </div>
                           </v-col>
-                          <v-col cols="12" md="6">
-                            <div class="metric-item">
-                              <div class="d-flex align-center mb-2">
-                                <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
-                                <span class="metric-label">Peso</span>
-                              </div>
-                              <div class="metric-value">{{ atleta?.peso ? atleta.peso + ' kg' : 'Não informado' }}</div>
-                            </div>
-                          </v-col>
-                          <v-col cols="12" md="6">
+                          <v-col cols="12" >
                             <div class="metric-item">
                               <div class="d-flex align-center mb-2">
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-human-male-height</v-icon>
@@ -247,14 +238,12 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { getPayload } from '@/utils/auth'
 import { onMounted, ref, computed } from 'vue'
 import atletaService from '@/services/atleta/atleta-service'
 import { getAtletaId } from '@/utils/auth'
+import { getUserID } from '@/utils/auth'
 
-const payload = ref<any>()
 const atleta = ref<any>()
-let atletaId = ref<any>()
 
 const formatarData = computed(() => {
   if (!atleta.value?.dataNascimento) return 'Não informado'
@@ -276,11 +265,9 @@ const buscarAtletaPorId = async (id: any) => {
 }
 
 onMounted(() => {
-  atletaId = getAtletaId()
 
-  if (atletaId) {
-    buscarAtletaPorId(atletaId)
-    payload.value = getPayload()
+  if (getAtletaId()) {
+    buscarAtletaPorId(getAtletaId())
   } else {
     console.error('ID do atleta não encontrado.')
   }

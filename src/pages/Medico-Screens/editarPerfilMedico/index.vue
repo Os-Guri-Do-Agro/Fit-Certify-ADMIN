@@ -41,7 +41,7 @@
                   Editar Perfil
                 </v-chip>
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
-                  ID: {{ payload?.userId }}
+                  ID: {{ getUserID() }}
                 </v-chip>
               </div>
             </div>
@@ -217,6 +217,7 @@
 import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload, isTokenValid, logout } from '@/utils/auth'
+import { getUserID } from '@/utils/auth'
 import { ref, onMounted, watch, computed } from 'vue'
 import { toast } from 'vue3-toastify'
 import { vMaska } from 'maska/vue'
@@ -227,9 +228,6 @@ const fileInput = ref<HTMLInputElement>()
 const valid = ref(false)
 const loading = ref(false)
 const loadingData = ref(true)
-const showPassword = ref(false)
-const showNewPassword = ref(false)
-const showConfirmPassword = ref(false)
 const user = ref<any>({ medico: { telefone: '' } })
 const emailValidation = ref({ loading: false, exists: false, checked: false })
 const originalEmail = ref('')

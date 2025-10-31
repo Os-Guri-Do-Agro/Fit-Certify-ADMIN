@@ -205,7 +205,7 @@ import { computed, ref, toRaw } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
 import { useRoute } from 'vue-router'
 import { onMounted, onBeforeUnmount } from 'vue'
-import { getPayload, logout, isMedico, isAtleta } from '@/utils/auth'
+import { getPayload, logout, isMedico } from '@/utils/auth'
 import { getProfileRoute } from '@/utils/profile'
 
 const layoutStore = useLayoutStore()
@@ -376,7 +376,6 @@ function handleClickOutside(event: MouseEvent) {
 }
 
 function onClickMenu(menu: string) {
-  console.log('Menu clicado:', menu)
   if (menu == 'Sair') {
     logout()
   }
