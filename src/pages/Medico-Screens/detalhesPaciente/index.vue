@@ -89,11 +89,20 @@
                   >{{ calcularIdade(paciente.dataNascimento) }} anos</span
                 >
               </div>
-              <div class="mb-3" v-if="temLicencaAtiva">
+              <div class="mb-3">
                 <strong class="text-black">Certificado:</strong>
-                <span class="text-green ml-1 d-inline-flex align-center justify-center">
-                  <v-icon color="success" size="18" class="mr-1">mdi-check-circle</v-icon>
-                  Ativo
+                <span 
+                  :class="temLicencaAtiva ? 'text-green' : 'text-red'"
+                  class="ml-1 d-inline-flex align-center justify-center"
+                >
+                  <v-icon 
+                    :color="temLicencaAtiva ? 'success' : 'error'" 
+                    size="18" 
+                    class="mr-1"
+                  >
+                    {{ temLicencaAtiva ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                  </v-icon>
+                  {{ temLicencaAtiva ? 'Ativo' : 'Inativo' }}
                 </span>
               </div>
               
@@ -696,7 +705,7 @@ const salvarCertificacao = async () => {
         toast.success('Certificado emitido com sucesso!')
         fecharModalCertificacao()
         loading.value = false
-        buscarLicencaPorAtletaId( route.params.id || route.query.id)
+        buscarLicencaPorAtletaId(route.params.id || route.query.id)
       }
     })
     
@@ -769,14 +778,11 @@ const findAllAlergias = async (id) => {
 const buscarLicencaPorAtletaId = async (id) => {
     try {
       const response = await licencaCertificadoService.getByAtletaId(id)
+      console.log(response);
       
-      if (response && response.data && Array.isArray(response.data)) {
-        licenca.value = response.data
-      } else if (response && response.data) {
-        licenca.value = [response.data]
-      } else {
-        licenca.value = []
-      }
+      if (response && response.success) {
+        licenca.value = response.data?.at(-1)
+      } 
     }
       catch (error) {
       toast.error(error.response.data.message)
@@ -785,10 +791,23 @@ const buscarLicencaPorAtletaId = async (id) => {
 }
 
 const temLicencaAtiva = computed(() => {
-  if (!licenca.value || !Array.isArray(licenca.value)) {
+  if (!licenca.value) {
     return false
   }
-  return licenca.value.some(item => item.ativo === true)
+  
+  // Verifica se a licença está ativa
+  if (licenca.value.ativo !== true) {
+    return false
+  }
+  
+  // Verifica se a data de validade ainda não expirou
+  if (licenca.value.validade) {
+    const dataValidade = dayjs(licenca.value.validade)
+    const hoje = dayjs()
+    return dataValidade.isAfter(hoje)
+  }
+  
+  return true
 })
 
 const buscarPaciente = async (id) => {

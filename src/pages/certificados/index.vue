@@ -77,7 +77,7 @@
                     <div class="d-flex gap-4 mt-3">
                       <div>
                         <div class="text-caption text-grey-darken-1 mb-1">
-                          Data upload.
+                          Data de upload.
                         </div>
                         <div class="text-body-2 font-weight-medium">
                           {{ formatarData(certificado?.createdAt) || '--' }}
