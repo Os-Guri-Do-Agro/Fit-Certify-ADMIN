@@ -40,6 +40,8 @@
       </v-row>
     </div>
 
+    <!-- Estado vazio quando não há certificado -->
+
     <!-- Content -->
     <div v-else>
       <v-row>
@@ -57,7 +59,7 @@
               <v-col cols="auto" class="me-4">
                 <v-icon
                   size="64"
-                  color="light-blue-accent-3"
+                  :color="certificadoValidoEAtivo ? 'light-blue-accent-3' : 'error'"
                   class="certificate-icon"
                 >
                   mdi-certificate
@@ -68,9 +70,9 @@
                   <div>
                     <h2
                       class="text-h6 font-weight-bold mb-2"
-                      style="color: #00c6fe"
+                      :style="{ color: certificadoValidoEAtivo ? '#00c6fe' : '#f44336' }"
                     >
-                      Seu Certificado está Ativo
+                      {{ certificadoValidoEAtivo ? 'Seu Certificado está Ativo' : 'Certificado Inativo ou Expirado' }}
                     </h2>
                     <div class="d-flex gap-4 mt-3">
                       <div>
@@ -96,6 +98,7 @@
                     variant="flat"
                     rounded="lg"
                     class="mt-4 mt-md-0"
+                    :disabled="!certificadoValidoEAtivo"
                     @click="showQRDialog = true"
                   >
                     <v-icon class="mr-2">mdi-qrcode</v-icon>
@@ -124,10 +127,10 @@
               Templates gerados para provas parceiras
             </h3>
 
-            <div v-if="templatesFiltrados.length === 0" class="text-center py-8">
+            <div v-if="templatesFiltrados.length === 0 || !certificado || !certificadoValidoEAtivo" class="text-center py-8">
               <v-icon size="48" color="grey-lighten-2">mdi-file-document-outline</v-icon>
               <p class="text-body-2 mt-4 text-grey">
-                Nenhum template encontrado
+                {{ !certificadoValidoEAtivo ? 'Certificado inativo ou expirado' : 'Nenhum template encontrado' }}
               </p>
             </div>
 
@@ -171,22 +174,7 @@
         </v-col>
       </v-row>
 
-      <!-- Estado vazio quando não há certificado -->
-      <v-row v-if="!certificado && !loading">
-        <v-col cols="12">
-          <v-card class="pa-12 text-center" elevation="2" rounded="xl">
-            <v-icon size="80" color="grey-lighten-2" class="mb-4">
-              mdi-certificate-outline
-            </v-icon>
-            <h3 class="text-h6 mb-2 text-grey-darken-1">
-              Nenhum certificado encontrado
-            </h3>
-            <p class="text-body-2 text-grey">
-              Seu certificado aparecerá aqui quando for gerado.
-            </p>
-          </v-card>
-        </v-col>
-      </v-row>
+      
     </div>
 
     <!-- Dialog para QR Code -->
@@ -263,6 +251,20 @@ const templatesFiltrados = computed(() => {
   )
 })
 
+const certificadoValido = computed(() => {
+  if (!certificado.value?.validade) return false
+  const dataValidade = dayjs(certificado.value.validade)
+  return dataValidade.isAfter(dayjs())
+})
+
+const certificadoAtivo = computed(() => {
+  return certificado.value?.ativo === true
+})
+
+const certificadoValidoEAtivo = computed(() => {
+  return certificadoValido.value && certificadoAtivo.value
+})
+
 const formatarData = (data) => {
   if (!data) return '--'
   return dayjs(data).format('DD/MM/YYYY')
@@ -289,7 +291,7 @@ const buscarCertificado = async () => {
 
     const response = await licencaCertificadoService.getByAtletaId(atletaId)
     
-    certificado.value = response.data[0]
+    certificado.value = response.data?.at(-1)
   } catch (error) {
     certificado.value = null
   } finally {
