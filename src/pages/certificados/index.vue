@@ -98,7 +98,7 @@
                     variant="flat"
                     rounded="lg"
                     class="mt-4 mt-md-0"
-                    :disabled="!certificadoValidoEAtivo"
+                    :disabled="!certificadoValidoEAtivo || !certificado?.id"
                     @click="showQRDialog = true"
                   >
                     <v-icon class="mr-2">mdi-qrcode</v-icon>
@@ -190,9 +190,9 @@
         </v-card-title>
 
         <v-card-text>
-          <div v-if="certificado?.qrCode" class="qr-code-container mb-4">
+          <div v-if="qrCodeUrl && certificado?.id" class="qr-code-container mb-4">
             <v-img
-              :src="certificado.qrCode"
+              :src="qrCodeUrl"
               alt="QR Code"
               max-width="300"
               class="mx-auto"
@@ -205,15 +205,29 @@
               QR Code não disponível
             </p>
           </div>
-          <p class="text-body-2 text-grey">
+          <p class="text-body-2 text-grey mb-4">
             Escaneie este código para verificar a autenticidade do certificado.
           </p>
+          
+          <!-- Botão de redirecionamento -->
+          <v-btn
+            v-if="certificado?.id"
+            color="light-blue-accent-3"
+            variant="flat"
+            rounded="lg"
+            block
+            class="mb-2"
+            @click="irParaValidacao"
+          >
+            <v-icon class="mr-2">mdi-shield-check</v-icon>
+            Validar Certificado
+          </v-btn>
         </v-card-text>
 
         <v-card-actions class="justify-center pa-4">
           <v-btn
-            color="light-blue-accent-3"
-            variant="flat"
+            color="grey"
+            variant="outlined"
             rounded="lg"
             @click="showQRDialog = false"
           >
@@ -227,11 +241,14 @@
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import modeloCertificadoService from '@/services/modelo-certificado/modelo-certificado-service'
 import { getAtletaId } from '@/utils/auth'
+
+const router = useRouter()
 
 dayjs.locale('pt-br')
 
@@ -263,6 +280,17 @@ const certificadoAtivo = computed(() => {
 
 const certificadoValidoEAtivo = computed(() => {
   return certificadoValido.value && certificadoAtivo.value
+})
+
+const qrCodeUrl = computed(() => {
+  if (!certificado.value?.id) return null
+  
+  // Gera a URL de validação do certificado
+  const baseUrl = window.location.origin
+  const validationUrl = `${baseUrl}/validarCertificado?id=${certificado.value.id}`
+  
+  // Usa API pública para gerar QR Code
+  return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(validationUrl)}`
 })
 
 const formatarData = (data) => {
@@ -351,6 +379,16 @@ const baixarTemplate = async (template) => {
   } catch (error) {
   } finally {
     downloadingTemplateId.value = null
+  }
+}
+
+const irParaValidacao = () => {
+  if (certificado.value?.id) {
+    showQRDialog.value = false
+    router.push({
+      path: '/validarCertificado',
+      query: { id: certificado.value.id }
+    })
   }
 }
 

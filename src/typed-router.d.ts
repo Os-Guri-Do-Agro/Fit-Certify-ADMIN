@@ -56,5 +56,6 @@ declare module 'vue-router/auto-routes' {
     '/settings/': RouteRecordInfo<'/settings/', '/settings', Record<never, never>, Record<never, never>>,
     '/settings/deleteAccount': RouteRecordInfo<'/settings/deleteAccount', '/settings/deleteAccount', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
+    '/validarCertificado/': RouteRecordInfo<'/validarCertificado/', '/validarCertificado', Record<never, never>, Record<never, never>>,
   }
 }
