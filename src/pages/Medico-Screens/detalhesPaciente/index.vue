@@ -89,17 +89,14 @@
                   >{{ calcularIdade(paciente.dataNascimento) }} anos</span
                 >
               </div>
-              <div class="">
-                <v-btn
-                  class="text-subtitle-1"
-                  block
-                  color="blue"
-                  variant="outlined"
-                >
-                  <v-icon class="mr-2">mdi-qrcode-scan</v-icon>
-                  QR Code do Atleta
-                </v-btn>
+              <div class="mb-3" v-if="temLicencaAtiva">
+                <strong class="text-black">Certificado:</strong>
+                <span class="text-green ml-1 d-inline-flex align-center justify-center">
+                  <v-icon color="success" size="18" class="mr-1">mdi-check-circle</v-icon>
+                  Ativo
+                </span>
               </div>
+              
             </v-card-text>
           </v-card>
         </v-col>
@@ -257,15 +254,27 @@
                       {{ item.medico?.usuario?.nome || 'Médico não informado' }}
                     </v-list-item-title>
 
+                    
+
                     <v-list-item-subtitle>
                       {{
                         item.medico?.especializacao ||
                         'Especialização não informada'
                       }}
-                    </v-list-item-subtitle>
+                    </v-list-item-subtitle> 
 
                     <template #append>
                       <div class="d-flex align-center ga-2">
+                        <v-chip
+                          style="min-width: 120px; max-width: 120px; justify-content: center;"
+                          v-if="item?.situacao"
+                          size="small"
+                          variant="flat"
+                          :color="getSituacaoColor(item.situacao)"
+                          :class="getSituacaoClass(item.situacao)"
+                        >
+                          {{ item.situacao }}
+                        </v-chip>
                         <v-chip
                           size="small"
                           variant="outlined"
@@ -372,6 +381,46 @@
       </v-row>
     </v-container>
 
+    <v-dialog v-model="modalCertificarAtleta" max-width="600px" rounded="lg">
+      <v-card>
+        <v-card-title class="bg-blue text-white pa-4">
+          <v-icon class="mr-2">mdi-certificate</v-icon>
+          Certificar Atleta
+        </v-card-title>
+        <v-card-text class="pa-4">
+          <v-form>
+            <v-select
+              label="Meses de Validade"
+              v-model="opcaoMesesValidade"
+              :items="opcoesMeses"
+              item-title="text"
+              item-value="value"
+              variant="outlined"
+              :class="{ 'mb-3': opcaoMesesValidade === 'outro' }"
+            />
+            <v-text-field 
+              v-if="opcaoMesesValidade === 'outro'"
+              label="Informe a quantidade de meses" 
+              v-model.number="mesesValidadeCustomizado" 
+              type="number"
+              variant="outlined"
+              :rules="[v => !v || (v >= 1 && v <= 24) || 'Informe um valor entre 1 e 24 meses']"
+              v-maska="'##'"
+              hint="Informe quantos meses o certificado estará válido (máximo 24)"
+            />
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pa-4">
+          <v-btn color="grey" variant="outlined" @click="fecharModalCertificacao">
+            Cancelar
+          </v-btn>
+          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loading">
+            Certificar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+    
     <v-dialog v-model="modalExame" max-width="600px" rounded="lg">
       <v-card v-if="exameSelecionado">
         <v-card-title
@@ -475,6 +524,35 @@
               </div>
             </div>
           </div>
+
+          <div v-if="exameSelecionado.situacao == 'Concluido'" class="pa-4">
+            <div class="d-flex align-start">
+              <div class="flex-grow-1">
+                <div class="">
+                <v-btn
+                  class="text-subtitle-1"
+                  block
+                  color="blue"
+                  variant="outlined"
+                  :disabled="temLicencaAtiva"
+                  @click="certificarAtleta"
+                >
+                  <v-icon class="mr-2">mdi-certificate</v-icon>
+                  Certificar atleta
+                </v-btn>
+                <v-alert
+                  v-if="temLicencaAtiva"
+                  type="warning"
+                  variant="tonal"
+                  density="compact"
+                  class="mt-2"
+                >
+                  Este atleta já possui uma certificado ativo. Não é possível emitir um novo certificado.
+                </v-alert>
+              </div>
+              </div>
+            </div>
+          </div>
         </v-card-text>
 
         <v-card-actions class="pa-4">
@@ -489,11 +567,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import alergiasService from '@/services/alergias/alergias-service'
+import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
+import { getMedicoId } from '@/utils/auth'
+import { vMaska } from 'maska/vue'
+import { toast } from 'vue3-toastify'
+import dayjs from 'dayjs'
 
 const router = useRouter()
 const route = useRoute()
@@ -507,6 +590,17 @@ const exameSelecionado = ref(null)
 const consultas = ref([])
 const alergias = ref([])
 const loadingAlergias = ref(true)
+const licenca = ref([])
+const modalCertificarAtleta = ref(false)
+const opcaoMesesValidade = ref(null)
+const mesesValidadeCustomizado = ref(null)
+
+const opcoesMeses = [
+  { text: '1 mês', value: 1 },
+  { text: '3 meses', value: 3 },
+  { text: '6 meses', value: 6 },
+  { text: 'Outro', value: 'outro' }
+]
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return 'N/A'
@@ -519,6 +613,8 @@ const calcularIdade = (dataNascimento) => {
   }
   return idade
 }
+
+
 
 const formatarData = (data) => {
   if (!data) return 'N/A'
@@ -534,6 +630,80 @@ const formatarTelefone = (telefone) => {
     return numero.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
   }
   return telefone
+}
+
+const getSituacaoColor = (situacao) => {
+  if (!situacao) return 'grey'
+  const situacaoLower = situacao.toLowerCase()
+  if (situacaoLower.includes('concluido') || situacaoLower.includes('concluído')) {
+    return 'success'
+  } else if (situacaoLower.includes('pendente')) {
+    return 'warning'
+  } else if (situacaoLower.includes('recusado')) {
+    return 'error'
+  } else if (situacaoLower.includes('ematendimento') || situacaoLower.includes('em atendimento')) {
+    return 'info'
+  }
+  return 'primary'
+}
+
+const getSituacaoClass = (situacao) => {
+  return 'font-weight-medium'
+}
+
+const certificarAtleta = () => {
+  opcaoMesesValidade.value = 1
+  mesesValidadeCustomizado.value = null
+  modalCertificarAtleta.value = true
+}
+
+const fecharModalCertificacao = () => {
+  modalCertificarAtleta.value = false
+  opcaoMesesValidade.value = null
+  mesesValidadeCustomizado.value = null
+}
+
+const salvarCertificacao = async () => {
+  if (!opcaoMesesValidade.value) {
+    alert('Por favor, selecione a validade do certificado.')
+    return
+  }
+
+  let mesesValidade = 0
+  if (opcaoMesesValidade.value === 'outro') {
+    const meses = Number(mesesValidadeCustomizado.value)
+    if (!mesesValidadeCustomizado.value || meses < 1) {
+      alert('Por favor, informe a quantidade de meses válida (mínimo 1).')
+      return
+    }
+    if (meses > 24) {
+      alert('Por favor, informe uma quantidade de meses válida (máximo 24).')
+      return
+    }
+    mesesValidade = meses
+  } else {
+    mesesValidade = opcaoMesesValidade.value
+  }
+  try {
+    loading.value = true
+    await licencaCertificadoService.postLicencaCertificado({
+      atletaId: paciente.value.id,
+      medicoId: getMedicoId(),
+      validade: dayjs().add(mesesValidade, 'month').toISOString(),
+      ativo: true
+    }).then((resp)=> {
+      if(resp.success){
+        toast.success('Certificado emitido com sucesso!')
+        fecharModalCertificacao()
+        loading.value = false
+        buscarLicencaPorAtletaId( route.params.id || route.query.id)
+      }
+    })
+    
+  } catch (error) {
+    toast.error(error.response.data.message)
+    loading.value = false
+  }
 }
 
 const voltarParaLista = () => {
@@ -596,6 +766,31 @@ const findAllAlergias = async (id) => {
   }
 }
 
+const buscarLicencaPorAtletaId = async (id) => {
+    try {
+      const response = await licencaCertificadoService.getByAtletaId(id)
+      
+      if (response && response.data && Array.isArray(response.data)) {
+        licenca.value = response.data
+      } else if (response && response.data) {
+        licenca.value = [response.data]
+      } else {
+        licenca.value = []
+      }
+    }
+      catch (error) {
+      toast.error(error.response.data.message)
+      loading.value = false
+  }
+}
+
+const temLicencaAtiva = computed(() => {
+  if (!licenca.value || !Array.isArray(licenca.value)) {
+    return false
+  }
+  return licenca.value.some(item => item.ativo === true)
+})
+
 const buscarPaciente = async (id) => {
   try {
     loading.value = true
@@ -622,6 +817,7 @@ onMounted(async () => {
      buscarPaciente(pacienteId)
      findAllConsultas(pacienteId)
      findAllAlergias(pacienteId)
+     buscarLicencaPorAtletaId(pacienteId)
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false
@@ -653,3 +849,4 @@ onMounted(async () => {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 </style>
+
