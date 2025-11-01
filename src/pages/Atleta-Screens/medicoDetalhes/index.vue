@@ -1,9 +1,9 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <div class="pa-0" fluid>
     <div v-if="loading">
       <div class="hero-section">
         <div class="hero-overlay"></div>
-        <v-container class="position-relative">
+        <div class="position-relative">
           <div class="rating-chips">
             <div class="skeleton-rating-chip"></div>
             <div class="skeleton-rating-chip skeleton-rating-chip-wide"></div>
@@ -35,12 +35,12 @@
               </div>
             </v-col>
           </v-row>
-        </v-container>
+        </div>
       </div>
 
-      <v-container class="content-section">
+      <div class="content-section">
         <v-row justify="center">
-          <v-col cols="12" lg="10">
+          <v-col cols="12">
             <div class="d-flex d-md-none mb-8">
               <v-skeleton-loader
                 type="card"
@@ -50,7 +50,7 @@
               ></v-skeleton-loader>
             </div>
 
-            <v-row class="mb-8">
+            <v-row class="mb-8 mt-5">
               <v-col cols="12">
                 <v-skeleton-loader
                   type="card"
@@ -81,13 +81,13 @@
             ></v-skeleton-loader>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
 
     <div v-else>
       <div class="hero-section">
         <div class="hero-overlay"></div>
-        <v-container class="position-relative">
+        <div class="position-relative ma-5">
           <div class="rating-chips">
             <v-chip class="rating-chip" prepend-icon="mdi-star">
               5.0
@@ -146,17 +146,17 @@
               </div>
             </v-col>
           </v-row>
-        </v-container>
+        </div>
       </div>
 
-      <v-container class="content-section">
+      <div class="content-section">
         <v-row justify="center">
-          <v-col cols="12" lg="10">
+          <v-col cols="12">
 
 
             <v-row class="mb-8">
 
-              <v-col class="d-flex d-md-none" cols="12">
+              <v-col class=" d-md-none mt-5" cols="12">
             <v-card v-if="medico?.foco" class="info-card-2 focus-card mb-8 rounded-xl" elevation="2">
               <v-card-text class="pa-6">
                 <div class="d-flex align-center mb-3 justify-center">
@@ -168,7 +168,7 @@
             </v-card>
 
               </v-col>
-              <v-col cols="12" v-if="medico?.perfil">
+              <v-col class="mt-md-5" cols="12" v-if="medico?.perfil">
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
@@ -266,9 +266,9 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
-  </v-container>
+  </div>
   <v-dialog v-model="ActiveDialog" max-width="1000">
     <v-card rounded="xl" elevation="8">
       <v-card-title class="pa-6 dialog-header text-white">

@@ -33,10 +33,13 @@
               </v-icon>
             </template></v-text-field>
 
+            <div class="esqueceu-senha mt-2">
           <button type="button" @click="showModal = true"
-            class="text-white text-subtitle-2 mt-1 w-100 d-flex justify-end" to="/forgot-password">
+            class="text-white text-subtitle-2" to="/forgot-password">
             <span>Esqueceu a senha?</span>
           </button>
+            </div>
+
 
           <VRow class="d-flex w-100 mt-5">
             <div class="d-flex flex-column align-center w-100" cols="12">
@@ -150,11 +153,10 @@
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
-import { ref, watch } from 'vue';
-import { RouterLink } from 'vue-router';
-import { toast } from 'vue3-toastify';
-import { useRouter } from 'vue-router'
 import { getPayload, getRole, getStatusMedicoCRM } from '@/utils/auth';
+import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import { toast } from 'vue3-toastify';
 import type { VForm } from 'vuetify/components';
 
 const showPassword = ref(false)
@@ -313,5 +315,11 @@ function confirmarTipoConta() {
 
 .gap-4 {
   gap: 16px;
+}
+
+.esqueceu-senha {
+  display: flex;
+  width: 100%;
+  justify-content: end;
 }
 </style>
