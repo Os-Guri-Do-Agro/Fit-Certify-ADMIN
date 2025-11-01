@@ -33,9 +33,9 @@
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between ml-md-10">
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between">
                 <div class="d-flex ga-2 flex-md-row flex-column">
-                  
+
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
                   Perfil do Atleta
                 </v-chip>
@@ -44,7 +44,7 @@
                 </v-chip>
                 </div>
 
-                <div class="d-flex ga-2 flex-md-row flex-column mr-md-10">
+                <div class="d-flex ga-2 flex-md-row flex-column">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
@@ -60,7 +60,7 @@
       </v-container>
     </div>
 
-    
+
     <v-container class="content-section">
       <v-expansion-panels class="custom-expansion-panels">
         <v-expansion-panel class="custom-expansion-panel">
@@ -238,10 +238,9 @@
 
 <script setup lang="ts">
 import router from '@/router'
-import { onMounted, ref, computed } from 'vue'
 import atletaService from '@/services/atleta/atleta-service'
-import { getAtletaId } from '@/utils/auth'
-import { getUserID } from '@/utils/auth'
+import { getAtletaId, getUserID } from '@/utils/auth'
+import { computed, onMounted, ref } from 'vue'
 
 const atleta = ref<any>()
 
@@ -271,7 +270,7 @@ onMounted(() => {
   } else {
     console.error('ID do atleta não encontrado.')
   }
-  
+
 })
 </script>
 
@@ -308,33 +307,29 @@ onMounted(() => {
   .profile-name {
     font-size: 1.2rem;
   }
-  
+
   .metric-label {
     font-size: 0.75rem;
   }
-  
+
   .metric-value {
     font-size: 0.75rem;
   }
-  
+
   .parameter-value {
     font-size: 1.5rem;
   }
-  
+
   .parameter-unit {
     font-size: 0.875rem;
   }
-  
+
   .custom-expansion-panel .v-expansion-panel-title {
     font-size: 0.8rem;
   }
-  
-  .info-chip {
+
+  .info-chip,.textId {
     font-size: 0.75rem !important;
-  }
-  
-  .textId {
-    font-size: 0.75rem;
   }
 }
 
@@ -594,18 +589,15 @@ onMounted(() => {
     margin-top: 24px;
     text-align: center;
   }
-  
+
   .info-chips {
     justify-content: center;
   }
-  
-  .section-header {
+
+  .section-header, .parameter-content {
     text-align: left;
   }
-  
-  .parameter-content {
-    text-align: left;
-  }
+
   .textId {
   font-size: 0.7em;
 }

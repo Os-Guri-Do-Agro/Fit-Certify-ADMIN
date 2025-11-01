@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0 h-100" fluid>
+  <div class="pa-0 h-100" fluid>
     <div v-if="loading">
       <v-card flat class="pa-0" tile>
         <v-sheet color="blue" class="pa-6 position-relative" rounded="0">
@@ -75,7 +75,7 @@
           </v-row>
         </v-sheet>
       </v-card>
-      <v-container class="mt-6">
+      <div class="mt-6">
         <v-row>
           <v-col cols="12" md="8" offset-md="2">
             <v-skeleton-loader
@@ -89,7 +89,7 @@
             ></v-skeleton-loader>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
 
     <div v-else>
@@ -185,7 +185,7 @@
         </v-sheet>
       </v-card>
 
-      <v-container class="mt-6">
+      <div class="mt-6">
         <v-row>
           <v-col cols="12" md="8" offset-md="2">
             <v-card class="bg-transparent" flat>
@@ -291,9 +291,9 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
-  </v-container>
+  </div>
   <v-dialog v-model="ActiveDialog" max-width="1000">
     <v-card rounded="lg">
       <v-card-title class="bg-blue text-white pa-4">

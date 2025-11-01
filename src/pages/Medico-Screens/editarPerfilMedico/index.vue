@@ -1,8 +1,8 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <div class="pa-0" fluid>
     <div class="hero-section">
       <div class="hero-overlay"></div>
-      <v-container class="position-relative">
+      <div class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12" class="text-center">
             <div class="profile-avatar-container">
@@ -36,7 +36,7 @@
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-space-between">
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-space-between ma-5">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-account-edit">
                   Editar Perfil
                 </v-chip>
@@ -47,10 +47,10 @@
             </div>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
 
-    <v-container class="content-section">
+    <div class="content-section">
       <v-row justify="center">
         <v-col cols="12" lg="8">
           <v-skeleton-loader
@@ -58,7 +58,7 @@
             type="card"
             class="mb-6"
           />
-          
+
           <v-form v-else ref="form" v-model="valid">
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
@@ -180,7 +180,7 @@
               </v-card-text>
             </v-card> -->
 
-            <div class="text-center d-flex ga-4 flex-column flex-md-row justify-center">
+            <div class="text-center d-flex ga-4 flex-column-reverse flex-md-row justify-center">
               <v-btn
                 variant="outlined"
                 color="grey-darken-1"
@@ -209,18 +209,17 @@
           </v-form>
         </v-col>
       </v-row>
-    </v-container>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
-import { getPayload, isTokenValid, logout } from '@/utils/auth'
-import { getUserID } from '@/utils/auth'
-import { ref, onMounted, watch, computed } from 'vue'
-import { toast } from 'vue3-toastify'
+import { getPayload, getUserID, isTokenValid, logout } from '@/utils/auth'
 import { vMaska } from 'maska/vue'
+import { computed, onMounted, ref, watch } from 'vue'
+import { toast } from 'vue3-toastify'
 
 const payload = ref<any>()
 const form = ref()
@@ -268,12 +267,12 @@ const rules = {
 const formatPhone = (event: Event) => {
   const input = event.target as HTMLInputElement
   let value = input.value.replace(/\D/g, '')
-  
+
   if (value.length <= 11) {
     value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
     value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
   }
-  
+
   formData.value.telefone = value
 }
 
@@ -306,7 +305,7 @@ watch(() => formData.value.email, (newEmail) => {
     emailValidation.value = { loading: false, exists: false, checked: false }
     return
   }
-  
+
   clearTimeout(debounceTimer)
   debounceTimer = setTimeout(() => {
     if (newEmail && newEmail.includes('@') && newEmail.includes('.')) {
@@ -317,16 +316,16 @@ watch(() => formData.value.email, (newEmail) => {
 
 const validateEmailExists = async (email: string) => {
   if (!email || email === originalEmail.value) return
-  
+
   emailValidation.value.loading = true
   emailValidation.value.checked = false
-  
+
   try {
     const response = await userService.validarExisteEmail(email)
-    
+
     emailValidation.value.exists = response?.data?.existeEmail || false
     emailValidation.value.checked = true
-    
+
     if (form.value) {
       form.value.validate()
     }
@@ -344,7 +343,7 @@ const atualizarDadosAtleta = async () => {
     toast.error('Aguarde a validação do email')
     return
   }
-  
+
   if (emailValidation.value.exists) {
     toast.error('Corrija os erros no formulário antes de salvar')
     return
@@ -355,18 +354,18 @@ const atualizarDadosAtleta = async () => {
     toast.error('Preencha todos os campos obrigatórios corretamente')
     return
   }
-  
+
   loading.value = true
 
 
   try {
     const payload = getPayload()
     const data = new FormData()
-    
+
     data.append('email', formData.value.email.trim() || formData.value.email)
     data.append('nome', formData.value.nome || formData.value.nome)
     data.append('telefone', formData.value.telefone.trim() || payload.user.medico.telefone)
-    
+
     const dataNascimento = formData.value.dataNascimento || payload.user.medico.dataNascimento
     const isoDate = dataNascimento ? new Date(dataNascimento).toISOString() : ''
     data.append('dataNascimento', isoDate)
@@ -378,16 +377,16 @@ const atualizarDadosAtleta = async () => {
     }
 
     const response = await medicoService.editMedicoByProfile(data)
-    
+
     toast.success('Dados atualizados com sucesso!')
-    
+
     if (response.data.success) {
       if (response.data.token) {
         localStorage.setItem('token', response.data.token)
       }
-      
+
     }
-    
+
   } catch (error) {
     toast.error('Erro ao atualizar dados!', { position: 'top-right' })
     console.error(error)
@@ -406,7 +405,7 @@ const carregarDados = async () => {
     if (userData?.medico?.id) {
       const response = await medicoService.getMedicoById(userData.medico.id)
       const atletaData = response.data
-      
+
       user.value = atletaData
       originalEmail.value = atletaData.usuario?.email || ''
       formData.value.nome = atletaData.usuario?.nome || ''
@@ -528,7 +527,7 @@ onMounted(async () => {
     margin-top: 24px;
     text-align: center;
   }
-  
+
   .info-chips {
     justify-content: center;
   }

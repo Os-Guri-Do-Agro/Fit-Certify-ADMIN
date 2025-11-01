@@ -30,7 +30,7 @@
                   <div class="skeleton-focus-text mb-1"></div>
                   <div class="skeleton-focus-text skeleton-focus-text-short"></div>
                 </div>
-                
+
                 <div class="skeleton-button"></div>
               </div>
             </v-col>
@@ -134,7 +134,7 @@
                   </div>
                   <p class="focus-text">{{ medico?.foco }}</p>
                 </div>
-                
+
                 <v-btn
                   class="schedule-btn"
                   size="x-large"
@@ -179,7 +179,7 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              
+
               <v-col cols="12" v-if="medico?.carreira">
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
@@ -191,7 +191,7 @@
                   </v-card-text>
                 </v-card>
               </v-col>
-              
+
               <v-col cols="12" v-if="medico?.destaques">
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
@@ -212,7 +212,7 @@
                   <h3 class="text-h6 font-weight-bold ">Suas Consultas</h3>
                 </div>
               </v-card-title>
-              
+
               <v-card-text class="pa-6">
                 <div v-if="loadingConsultas" class="text-center py-8">
                   <v-progress-circular color="#00c6fe" indeterminate class="mb-4"></v-progress-circular>
@@ -234,7 +234,7 @@
                             {{ getStatusIcon(consulta.situacao) }}
                           </v-icon>
                         </v-avatar>
-                        
+
                         <div class="flex-grow-1">
                           <h4 class="text-subtitle-1 font-weight-medium mb-1">
                             {{ formatarDataHora(consulta.dataConsulta) }}
@@ -395,17 +395,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import medicoService from '@/services/medico/medico-service'
-import { useRouter, useRoute } from 'vue-router'
-import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-import 'dayjs/locale/pt-br'
-import { getAtletaId } from '@/utils/auth'
-import consultasService from '@/services/consultas/consultas-service'
-import { watch } from 'vue'
 import atletaService from '@/services/atleta/atleta-service'
+import consultasService from '@/services/consultas/consultas-service'
+import medicoService from '@/services/medico/medico-service'
+import { getAtletaId } from '@/utils/auth'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import { onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -833,37 +832,37 @@ onMounted(async () => {
     margin-top: 32px;
     text-align: center;
   }
-  
+
   .rating-chips {
     position: static;
     text-align: center;
     margin-bottom: 24px;
   }
-  
+
   .info-chips {
     text-align: center;
   }
-  
+
   .info-chip {
     display: block;
     margin: 8px auto;
     width: fit-content;
   }
-  
+
   .focus-in-header {
     text-align: left;
   }
-  
+
   .skeleton-focus-container {
     display: none !important;
   }
-  
+
   .rating-chips {
     position: static;
     text-align: center;
     margin-bottom: 24px;
   }
-  
+
   .skeleton-rating-chip {
     margin: 4px;
   }

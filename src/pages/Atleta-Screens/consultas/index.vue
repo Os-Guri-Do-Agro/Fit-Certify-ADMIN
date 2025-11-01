@@ -49,17 +49,44 @@
     </v-row>
 
     <v-row justify="center">
-      <v-col cols="12" md="8">
+      <v-col cols="12">
         <div v-if="loading">
-          <v-skeleton-loader
-            v-for="n in 3"
-            :key="n"
-            class="mb-6 pa-5"
-            type="list-item-avatar-three-line"
-            elevation="2"
-            rounded="xl"
-            height="140"
-          />
+          <v-row>
+            <v-col
+              v-for="n in 12"
+              :key="n"
+              cols="12"
+              md="6"
+              lg="4"
+            >
+              <v-card
+                class="d-flex items-center px-5"
+                elevation="4"
+                rounded="xl"
+                height="180"
+              >
+                <v-row class="d-flex items-center" align="center" no-gutters>
+                  <v-col cols="2">
+                    <v-skeleton-loader
+                    class="h-full"
+                      type="avatar"
+                      width="150"
+                      height="150"
+                    />
+                  </v-col>
+                  <v-col cols="auto">
+                  <v-skeleton-loader
+                    class="h-full"
+                      type="paragraph, text, text"
+                      width="250"
+                      height="150"
+                    />
+                  </v-col>
+
+                </v-row>
+              </v-card>
+            </v-col>
+          </v-row>
         </div>
 
         <div v-else>
@@ -69,9 +96,10 @@
               :key="index"
               cols="12"
               md="6"
+              lg="4"
             >
               <v-card
-                class="mb-6 pa-6 hover-card"
+                class="pa-6 hover-card"
                 elevation="4"
                 rounded="xl"
                 height="100%"
@@ -82,8 +110,8 @@
                 }"
               >
                 <v-row align="center" no-gutters>
-                  <v-col cols="auto" class="me-4">
-                    <v-avatar size="80" class="elevation-2">
+                  <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                    <v-avatar size="120" class="elevation-2">
                       <v-img
                         v-if="consulta?.medico?.usuario?.avatarUrl"
                         :src="consulta?.medico?.usuario?.avatarUrl"
@@ -158,11 +186,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue'
 import consultasService from '@/services/consultas/consultas-service'
 import { getAtletaId } from '@/utils/auth'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import { computed, onMounted, ref, watch } from 'vue'
 dayjs.locale('pt-br')
 
 const filtro = ref('todas')

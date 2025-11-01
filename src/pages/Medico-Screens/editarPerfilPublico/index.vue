@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-4 bg-grey-lighten-5" style="min-height: 100vh">
+  <div class="pa-4 bg-grey-lighten-5" style="min-height: 100vh">
     <v-row justify="center">
       <v-col cols="12">
 
@@ -25,7 +25,7 @@
               </v-row>
             </v-card-text>
           </v-card>
-          
+
           <v-card class="mb-6" elevation="4" rounded="xl">
             <v-card-title><div class="skeleton-text skeleton-title"></div></v-card-title>
             <v-card-text class="pa-6">
@@ -34,7 +34,7 @@
               <div class="skeleton-text skeleton-paragraph" style="width: 60%"></div>
             </v-card-text>
           </v-card>
-          
+
           <v-card elevation="4" rounded="xl">
             <v-card-title><div class="skeleton-text skeleton-title"></div></v-card-title>
             <v-card-text class="pa-6">
@@ -43,7 +43,7 @@
               <div class="skeleton-text skeleton-paragraph"></div>
             </v-card-text>
           </v-card>
-          
+
           <div class="text-center mt-8 d-flex justify-center ga-4">
             <div class="skeleton-button"></div>
             <div class="skeleton-button"></div>
@@ -271,16 +271,16 @@
         </v-form>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { getPayload } from '@/utils/auth'
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import medicoService from '@/services/medico/medico-service'
+import { getPayload } from '@/utils/auth'
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
-import 'vue3-toastify/dist/index.css';
+import 'vue3-toastify/dist/index.css'
 
 const router = useRouter()
 const form = ref()
@@ -342,11 +342,11 @@ const rules = {
 const formatarHora = (campo: 'horarioInicio' | 'horarioFim', event: Event) => {
   const input = event.target as HTMLInputElement
   let valor = input.value.replace(/\D/g, '')
-  
+
   if (valor.length >= 2) {
     valor = valor.substring(0, 2) + ':' + valor.substring(2, 4)
   }
-  
+
   formData.value[campo] = valor
 }
 
@@ -354,7 +354,7 @@ const convertToISOTime = (timeStr: string) => {
   if (!timeStr || timeStr.length < 5) return null
   const [hours, minutes] = timeStr.split(':')
   if (!hours || !minutes) return null
-  
+
   const today = new Date()
   today.setHours(parseInt(hours), parseInt(minutes), 0, 0)
   return today.toISOString()
@@ -379,7 +379,7 @@ const salvar = async () => {
 
     const response = await medicoService.updateMedico(medicoData)
     if (response.success) {
-         toast.success('Perfil público atualizado com sucesso!',{ autoClose: 4000 }) 
+         toast.success('Perfil público atualizado com sucesso!',{ autoClose: 4000 })
     }
 
   } catch (error) {
@@ -402,7 +402,7 @@ const carregarDados = async () => {
     const medicoId = payload?.user?.medico?.id
     const response = await medicoService.getMedicoById(medicoId)
     const medicoData = response.data
-       
+
     if (medicoData) {
       formData.value.experiencia = medicoData.experiencia ? String(medicoData.experiencia) : ''
       formData.value.foco = medicoData.foco || ''

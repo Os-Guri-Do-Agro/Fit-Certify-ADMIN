@@ -1,11 +1,11 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <div class="pa-0" fluid>
     <div class="hero-section">
       <div class="hero-overlay"></div>
-      <v-container class="position-relative">
+      <div class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12" md="4" class="text-center">
-            <div class="profile-avatar-container">
+            <div class="profile-avatar-container mt-5">
               <v-skeleton-loader
                 v-if="!medico"
                 type="avatar"
@@ -30,7 +30,7 @@
             />
             <h1 v-else class="profile-name">{{ medico?.usuario?.nome }}</h1>
             <p v-if="medico" class="profile-specialty">{{ medico?.especializacao }}</p>
-            <div v-if="medico" class="profile-credentials">
+            <div v-if="medico" class="profile-credentials mb-5">
               <v-chip class="credential-chip" prepend-icon="mdi-certificate">
                 CRM: {{ medico?.crm }}
               </v-chip>
@@ -42,9 +42,9 @@
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between ml-md-10">
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between ma-5">
                 <div class="d-flex ga-2 flex-md-row flex-column">
-                  
+
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
                   Perfil Médico
                 </v-chip>
@@ -53,7 +53,7 @@
                 </v-chip>
                 </div>
 
-                <div class="d-flex ga-2 flex-md-row flex-column mr-md-10">
+                <div class="d-flex ga-2 flex-md-row flex-column">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
@@ -66,11 +66,11 @@
             </div>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
 
-    
-    <v-container class="content-section">
+
+    <div class="content-section">
       <v-expansion-panels class="custom-expansion-panels">
         <v-expansion-panel class="custom-expansion-panel">
           <v-expansion-panel-title>
@@ -128,7 +128,7 @@
             </v-row>
           </v-expansion-panel-text>
         </v-expansion-panel>
-        
+
         <v-expansion-panel class="custom-expansion-panel-center">
           <v-expansion-panel-title>
             <div class="d-flex align-center">
@@ -207,7 +207,7 @@
             </v-row>
           </v-expansion-panel-text>
         </v-expansion-panel>
-        
+
         <v-expansion-panel class="custom-expansion-panel-bottom">
           <v-expansion-panel-title>
             <div class="d-flex align-center">
@@ -287,16 +287,15 @@
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-container>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import router from '@/router'
-import { onMounted, ref } from 'vue'
 import medicoService from '@/services/medico/medico-service'
-import { getMedicoId } from '@/utils/auth'
-import { getUserID } from '@/utils/auth'
+import { getMedicoId, getUserID } from '@/utils/auth'
+import { onMounted, ref } from 'vue'
 
 const medico = ref<any>()
 
@@ -347,7 +346,7 @@ onMounted(() => {
   } else {
     console.error('ID do medico não encontrado.')
   }
-  
+
 })
 </script>
 
@@ -421,7 +420,7 @@ onMounted(() => {
   border: none;
   padding: 5px 0px;
   border-right: 3px solid #00c6fe;
-  border-left: 3px solid #00c6fe; 
+  border-left: 3px solid #00c6fe;
 }
 
 .custom-expansion-panel-bottom {
@@ -719,15 +718,15 @@ onMounted(() => {
     margin-top: 24px;
     text-align: center;
   }
-  
+
   .info-chips {
     justify-content: center;
   }
-  
+
   .section-header {
     text-align: left;
   }
-  
+
   .parameter-content {
     text-align: left;
   }
