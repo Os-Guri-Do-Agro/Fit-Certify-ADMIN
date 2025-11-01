@@ -1,8 +1,8 @@
 <template>
-  <v-container class="pa-0" fluid>
+  <div class="pa-0" fluid>
     <div class="hero-section">
       <div class="hero-overlay"></div>
-      <v-container class="position-relative">
+      <div class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
           <v-col cols="12" md="4" class="text-center">
             <div class="profile-avatar-container">
@@ -57,11 +57,11 @@
             </div>
           </v-col>
         </v-row>
-      </v-container>
+      </div>
     </div>
 
 
-    <v-container class="content-section">
+    <div class="content-section">
       <v-expansion-panels class="custom-expansion-panels">
         <v-expansion-panel class="custom-expansion-panel">
           <v-expansion-panel-title>
@@ -232,8 +232,8 @@
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
-    </v-container>
-  </v-container>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
