@@ -120,7 +120,7 @@
               :title="items.title"
               :value="items.value"
               :to="items.to"
-              class="paciente-item"
+              class="paciente-item text-wrap"
             ></v-list-item>
           </v-list-group>
         </v-list>
@@ -240,7 +240,7 @@ const pacienteItems = [
   },
   {
     icon: 'mdi-account-group-outline',
-    title: 'Meus pacientes',
+    title: 'Recentes',
     value: 'salvos',
     to: '/Medico-Screens/pacientesAtendidos',
   },

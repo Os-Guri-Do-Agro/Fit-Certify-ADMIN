@@ -2,13 +2,7 @@
   <div class="w-100 h-100 ma-0">
     <v-container fluid>
       <div class="d-flex align-center mb-5">
-        <v-btn
-          icon
-          variant="outlined"
-          color="blue"
-          class="mr-3"
-          @click="voltarParaLista"
-        >
+        <v-btn icon variant="outlined" color="blue" class="mr-3" @click="voltarParaLista">
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <h1 class="text-h5 font-weight-bold">Detalhes do Paciente</h1>
@@ -32,41 +26,28 @@
       <v-row v-else-if="paciente">
         <v-col cols="12" lg="5">
           <v-card rounded="lg" variant="outlined" color="blue">
-            <div
-              class="bg-blue pa-4 d-flex flex-column flex-md-row ga-2 justify-space-between align-center"
-            >
+            <div class="bg-blue pa-4 d-flex flex-column flex-md-row ga-2 justify-space-between align-center">
               <div class="">
-                <v-card-title
-                  class="text-white pa-0 text-subtitle-1 d-flex align-center flex-column flex-md-row"
-                >
+                <v-card-title class="text-white pa-0 text-subtitle-1 d-flex align-center flex-column flex-md-row">
                   <v-icon class="mr-md-2">mdi-account</v-icon>
                   Informações Pessoais
                 </v-card-title>
               </div>
               <div class="d-flex ga-1">
-                <span
-                  class="bg-white px-2 rounded-lg d-flex align-center justify-center"
-                  ><v-icon color="blue" size="18">mdi-star</v-icon>
-                  <strong class="ml-1">0</strong></span
-                >
-                <span
-                  class="bg-white px-2 rounded-lg d-flex align-center justify-center"
-                  ><v-icon color="blue" size="18"
-                    >mdi-chat-processing-outline</v-icon
-                  >
-                  <strong class="ml-1">0</strong></span
-                >
+                <span class="bg-white px-2 rounded-lg d-flex align-center justify-center"><v-icon color="blue"
+                    size="18">mdi-star</v-icon>
+                  <strong class="ml-1">0</strong></span>
+                <span class="bg-white px-2 rounded-lg d-flex align-center justify-center"><v-icon color="blue"
+                    size="18">mdi-chat-processing-outline</v-icon>
+                  <strong class="ml-1">0</strong></span>
               </div>
             </div>
 
             <v-card-text class="pa-4">
               <div class="text-center mb-4">
                 <v-avatar size="150">
-                  <v-img
-                    v-if="paciente.usuario?.avatarUrl"
-                    :src="paciente.usuario.avatarUrl"
-                    :alt="paciente.usuario?.nome"
-                  />
+                  <v-img v-if="paciente.usuario?.avatarUrl" :src="paciente.usuario.avatarUrl"
+                    :alt="paciente.usuario?.nome" />
                   <v-icon v-else size="150">mdi-account-circle</v-icon>
                 </v-avatar>
               </div>
@@ -85,27 +66,19 @@
               </div>
               <div class="mb-3">
                 <strong class="text-black">Idade:</strong>
-                <span class="text-black ml-1"
-                  >{{ calcularIdade(paciente.dataNascimento) }} anos</span
-                >
+                <span class="text-black ml-1">{{ calcularIdade(paciente.dataNascimento) }} anos</span>
               </div>
               <div class="mb-3">
                 <strong class="text-black">Certificado:</strong>
-                <span 
-                  :class="temLicencaAtiva ? 'text-green' : 'text-red'"
-                  class="ml-1 d-inline-flex align-center justify-center"
-                >
-                  <v-icon 
-                    :color="temLicencaAtiva ? 'success' : 'error'" 
-                    size="18" 
-                    class="mr-1"
-                  >
+                <span :class="temLicencaAtiva ? 'text-green' : 'text-red'"
+                  class="ml-1 d-inline-flex align-center justify-center">
+                  <v-icon :color="temLicencaAtiva ? 'success' : 'error'" size="18" class="mr-1">
                     {{ temLicencaAtiva ? 'mdi-check-circle' : 'mdi-close-circle' }}
                   </v-icon>
                   {{ temLicencaAtiva ? 'Ativo' : 'Inativo' }}
                 </span>
               </div>
-              
+
             </v-card-text>
           </v-card>
         </v-col>
@@ -113,9 +86,7 @@
         <v-col cols="12" lg="7">
           <v-card rounded="lg" variant="outlined" color="blue">
             <div class="pa-4 bg-blue d-flex align-center">
-              <v-card-title
-                class="text-white text-subtitle-2 text-md-subtitle-1 pa-0"
-              >
+              <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0">
                 <v-icon class="mr-2">mdi-clipboard-text</v-icon>
                 Informações Médicas
               </v-card-title>
@@ -169,47 +140,31 @@
           <v-col cols="12" class="pa-0 mt-5">
             <v-card variant="outlined" rounded="lg" color="blue">
               <div class="d-flex align-center pa-4 bg-blue">
-                <v-icon size="24" color="white" class="mr-2"
-                  >mdi-clipboard-plus-outline</v-icon
-                >
-                <v-card-title
-                  class="text-white text-subtitle-2 text-md-subtitle-1 pa-0"
-                  >Adicionar Consultas</v-card-title
-                >
+                <v-icon size="24" color="white" class="mr-2">mdi-clipboard-plus-outline</v-icon>
+                <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0">Adicionar
+                  Consultas</v-card-title>
               </div>
               <div class="">
                 <v-card-text>
                   <v-row>
                     <v-col class="d-flex align-center py-2 py-lg-4" cols="12">
-                      <v-btn
-                        class="text-subtitle-2 text-md-subtitle-1"
-                        block
-                        color="blue"
-                        variant="outlined"
-                        @click="
-                          $router.push({
-                            name: '/adicionarConsulta/',
-                            query: { pacienteId: paciente.id },
-                          })
-                        "
-                      >
+                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
+                        $router.push({
+                          name: '/adicionarConsulta/',
+                          query: { pacienteId: paciente.id },
+                        })
+                        ">
                         <v-icon left>mdi-stethoscope</v-icon>
                         Adicionar Consulta
                       </v-btn>
                     </v-col>
                     <v-col class="d-flex align-center py-0 pb-2" cols="12">
-                      <v-btn
-                        class="text-subtitle-2 text-md-subtitle-1"
-                        block
-                        color="blue"
-                        variant="outlined"
-                        @click="
-                          $router.push({
-                            name: '/analises/',
-                            query: { pacienteId: paciente.id },
-                          })
-                        "
-                      >
+                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
+                        $router.push({
+                          name: '/analises/',
+                          query: { pacienteId: paciente.id },
+                        })
+                        ">
                         <v-icon left>mdi-flask-outline</v-icon>
                         Análises
                       </v-btn>
@@ -225,13 +180,8 @@
       <v-row v-if="!loading && paciente">
         <v-col cols="12" md="12">
           <v-card rounded="lg" variant="outlined" color="blue">
-            <div
-              class="pa-4 bg-blue d-flex align-center cursor-pointer"
-              @click="toggleHistoricoMedico"
-            >
-              <v-card-title
-                class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center"
-              >
+            <div class="pa-4 bg-blue d-flex align-center cursor-pointer" @click="toggleHistoricoMedico">
+              <v-card-title class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center">
                 <v-spacer />
                 <v-icon class="mr-2">mdi-clipboard-pulse-outline</v-icon>
                 Histórico Médico
@@ -249,12 +199,8 @@
             <v-expand-transition>
               <v-card-text v-show="historicoMedicoExpanded" class="pa-0">
                 <v-list>
-                  <v-list-item
-                    v-for="(item, index) in consultas"
-                    :key="index"
-                    class="px-4 py-2 cursor-pointer list-item-hover"
-                    @click="abrirModalExame(item)"
-                  >
+                  <v-list-item v-for="(item, index) in consultas" :key="index"
+                    class="px-4 py-2 cursor-pointer list-item-hover" @click="abrirModalExame(item)">
                     <template #prepend>
                       <v-icon color="blue"> mdi-stethoscope </v-icon>
                     </template>
@@ -263,51 +209,33 @@
                       {{ item.medico?.usuario?.nome || 'Médico não informado' }}
                     </v-list-item-title>
 
-                    
+
 
                     <v-list-item-subtitle>
                       {{
                         item.medico?.especializacao ||
                         'Especialização não informada'
                       }}
-                    </v-list-item-subtitle> 
+                    </v-list-item-subtitle>
 
                     <template #append>
                       <div class="d-flex align-center ga-2">
-                        <v-chip
-                          style="min-width: 120px; max-width: 120px; justify-content: center;"
-                          v-if="item?.situacao"
-                          size="small"
-                          variant="flat"
-                          :color="getSituacaoColor(item.situacao)"
-                          :class="getSituacaoClass(item.situacao)"
-                        >
+                        <v-chip style="min-width: 120px; max-width: 120px; justify-content: center;"
+                          v-if="item?.situacao" size="small" variant="flat" :color="getSituacaoColor(item.situacao)"
+                          :class="getSituacaoClass(item.situacao)">
                           {{ item.situacao }}
                         </v-chip>
-                        <v-chip
-                          size="small"
-                          variant="outlined"
-                          class="d-none d-sm-flex"
-                        >
+                        <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
                           {{ formatarData(item.createdAt) }}
                         </v-chip>
-                        <v-btn
-                          :icon="
-                            item.favorito ? 'mdi-heart' : 'mdi-heart-outline'
-                          "
-                          :color="item.favorito ? 'red' : 'grey'"
-                          variant="text"
-                          size="small"
-                          @click.stop="toggleFavorito(item)"
-                        />
+                        <v-btn :icon="item.favorito ? 'mdi-heart' : 'mdi-heart-outline'
+                          " :color="item.favorito ? 'red' : 'grey'" variant="text" size="small"
+                          @click.stop="toggleFavorito(item)" />
                       </div>
                     </template>
                   </v-list-item>
 
-                  <v-list-item
-                    v-if="consultas.length === 0"
-                    class="text-center py-8"
-                  >
+                  <v-list-item v-if="consultas.length === 0" class="text-center py-8">
                     <v-list-item-title class="text-grey">
                       Nenhum histórico médico encontrado
                     </v-list-item-title>
@@ -322,13 +250,8 @@
       <v-row v-if="!loading && paciente">
         <v-col cols="12" md="12">
           <v-card rounded="lg" variant="outlined" color="blue">
-            <div
-              class="pa-4 bg-blue d-flex align-center cursor-pointer"
-              @click="toggleAlergias"
-            >
-              <v-card-title
-                class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center"
-              >
+            <div class="pa-4 bg-blue d-flex align-center cursor-pointer" @click="toggleAlergias">
+              <v-card-title class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center">
                 <v-spacer />
                 <v-icon class="mr-2">mdi-alert-circle-outline</v-icon>
                 Alergias
@@ -349,11 +272,7 @@
                   </template>
 
                   <template v-else>
-                    <v-list-item
-                      v-for="(alergia, index) in alergias"
-                      :key="index"
-                      class="px-4 py-2"
-                    >
+                    <v-list-item v-for="(alergia, index) in alergias" :key="index" class="px-4 py-2">
                       <template #prepend>
                         <v-icon color="blue">mdi-alert-circle</v-icon>
                       </template>
@@ -373,10 +292,7 @@
                       </template>
                     </v-list-item>
 
-                    <v-list-item
-                      v-if="alergias.length === 0"
-                      class="text-center py-8"
-                    >
+                    <v-list-item v-if="alergias.length === 0" class="text-center py-8">
                       <v-list-item-title class="text-grey">
                         Nenhuma alergia registrada
                       </v-list-item-title>
@@ -390,33 +306,20 @@
       </v-row>
     </v-container>
 
-    <v-dialog v-model="modalCertificarAtleta" max-width="600px" rounded="lg">
-      <v-card>
+    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog">
+      <v-card rounded="lg">
         <v-card-title class="bg-blue text-white pa-4">
           <v-icon class="mr-2">mdi-certificate</v-icon>
           Certificar Atleta
         </v-card-title>
         <v-card-text class="pa-4">
           <v-form>
-            <v-select
-              label="Meses de Validade"
-              v-model="opcaoMesesValidade"
-              :items="opcoesMeses"
-              item-title="text"
-              item-value="value"
-              variant="outlined"
-              :class="{ 'mb-3': opcaoMesesValidade === 'outro' }"
-            />
-            <v-text-field 
-              v-if="opcaoMesesValidade === 'outro'"
-              label="Informe a quantidade de meses" 
-              v-model.number="mesesValidadeCustomizado" 
-              type="number"
-              variant="outlined"
-              :rules="[v => !v || (v >= 1 && v <= 24) || 'Informe um valor entre 1 e 24 meses']"
-              v-maska="'##'"
-              hint="Informe quantos meses o certificado estará válido (máximo 24)"
-            />
+            <v-select label="Meses de Validade" v-model="opcaoMesesValidade" :items="opcoesMeses" item-title="text"
+              item-value="value" variant="outlined" :class="{ 'mb-3': opcaoMesesValidade === 'outro' }" />
+            <v-text-field v-if="opcaoMesesValidade === 'outro'" label="Informe a quantidade de meses"
+              v-model.number="mesesValidadeCustomizado" type="number" variant="outlined"
+              :rules="[v => !v || (v >= 1 && v <= 24) || 'Informe um valor entre 1 e 24 meses']" v-maska="'##'"
+              hint="Informe quantos meses o certificado estará válido (máximo 24)" />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-4">
@@ -429,13 +332,10 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    
+
     <v-dialog v-model="modalExame" max-width="600px" rounded="lg">
       <v-card v-if="exameSelecionado">
-        <v-card-title
-          :class="exameSelecionado.tipo === 'consulta' ? 'bg-blue' : 'bg-green'"
-          class="text-white pa-4"
-        >
+        <v-card-title :class="exameSelecionado.tipo === 'consulta' ? 'bg-blue' : 'bg-green'" class="text-white pa-4">
           <v-icon class="mr-2">{{
             exameSelecionado.tipo === 'consulta'
               ? 'mdi-stethoscope'
@@ -461,12 +361,8 @@
               </v-col>
               <v-col cols="6">
                 <div class="d-flex align-center mb-2">
-                  <v-icon
-                    :color="
-                      exameSelecionado.tipo === 'consulta' ? 'blue' : 'green'
-                    "
-                    class="mr-2"
-                  >
+                  <v-icon :color="exameSelecionado.tipo === 'consulta' ? 'blue' : 'green'
+                    " class="mr-2">
                     {{
                       exameSelecionado.tipo === 'consulta'
                         ? 'mdi-stethoscope'
@@ -486,33 +382,22 @@
 
           <div class="pa-4 border-b">
             <div class="d-flex align-start">
-              <v-icon color="orange" class="mr-2 mt-1"
-                >mdi-clipboard-pulse</v-icon
-              >
+              <v-icon color="orange" class="mr-2 mt-1">mdi-clipboard-pulse</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Diagnóstico</div>
-                <p
-                  class="text-body-2 mb-0"
-                  style="word-break: break-word; overflow-wrap: break-word"
-                >
+                <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
                   {{ exameSelecionado.diagnostico }}
                 </p>
               </div>
             </div>
           </div>
 
-          <div
-            v-if="exameSelecionado.medicamentosReceitados"
-            class="pa-4 border-b"
-          >
+          <div v-if="exameSelecionado.medicamentosReceitados" class="pa-4 border-b">
             <div class="d-flex align-start">
               <v-icon color="green" class="mr-2 mt-1">mdi-pill</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Medicamentos Receitados</div>
-                <p
-                  class="text-body-2 mb-0"
-                  style="word-break: break-word; overflow-wrap: break-word"
-                >
+                <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
                   {{ exameSelecionado.medicamentosReceitados }}
                 </p>
               </div>
@@ -524,10 +409,7 @@
               <v-icon color="purple" class="mr-2 mt-1">mdi-note-text</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Situação</div>
-                <p
-                  class="text-body-2 mb-0"
-                  style="word-break: break-word; overflow-wrap: break-word"
-                >
+                <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
                   {{ exameSelecionado.situacao }}
                 </p>
               </div>
@@ -538,27 +420,15 @@
             <div class="d-flex align-start">
               <div class="flex-grow-1">
                 <div class="">
-                <v-btn
-                  class="text-subtitle-1"
-                  block
-                  color="blue"
-                  variant="outlined"
-                  :disabled="temLicencaAtiva"
-                  @click="certificarAtleta"
-                >
-                  <v-icon class="mr-2">mdi-certificate</v-icon>
-                  Certificar atleta
-                </v-btn>
-                <v-alert
-                  v-if="temLicencaAtiva"
-                  type="warning"
-                  variant="tonal"
-                  density="compact"
-                  class="mt-2"
-                >
-                  Este atleta já possui uma certificado ativo. Não é possível emitir um novo certificado.
-                </v-alert>
-              </div>
+                  <v-btn class="text-subtitle-1" block color="blue" variant="outlined" :disabled="temLicencaAtiva"
+                    @click="certificarAtleta">
+                    <v-icon class="mr-2">mdi-certificate</v-icon>
+                    Certificar atleta
+                  </v-btn>
+                  <v-alert v-if="temLicencaAtiva" type="warning" variant="tonal" density="compact" class="mt-2">
+                    Este atleta já possui uma certificado ativo. Não é possível emitir um novo certificado.
+                  </v-alert>
+                </div>
               </div>
             </div>
           </div>
@@ -700,15 +570,15 @@ const salvarCertificacao = async () => {
       medicoId: getMedicoId(),
       validade: dayjs().add(mesesValidade, 'month').toISOString(),
       ativo: true
-    }).then((resp)=> {
-      if(resp.success){
+    }).then((resp) => {
+      if (resp.success) {
         toast.success('Certificado emitido com sucesso!')
         fecharModalCertificacao()
         loading.value = false
         buscarLicencaPorAtletaId(route.params.id || route.query.id)
       }
     })
-    
+
   } catch (error) {
     toast.error(error.response.data.message)
     loading.value = false
@@ -776,17 +646,16 @@ const findAllAlergias = async (id) => {
 }
 
 const buscarLicencaPorAtletaId = async (id) => {
-    try {
-      const response = await licencaCertificadoService.getByAtletaId(id)
-      console.log(response);
-      
-      if (response && response.success) {
-        licenca.value = response.data?.at(-1)
-      } 
+  try {
+    const response = await licencaCertificadoService.getByAtletaId(id)
+
+    if (response && response.success) {
+      licenca.value = response.data?.at(-1)
     }
-      catch (error) {
-      toast.error(error.response.data.message)
-      loading.value = false
+  }
+  catch (error) {
+    toast.error(error.response.data.message)
+    loading.value = false
   }
 }
 
@@ -794,19 +663,19 @@ const temLicencaAtiva = computed(() => {
   if (!licenca.value) {
     return false
   }
-  
+
   // Verifica se a licença está ativa
   if (licenca.value.ativo !== true) {
     return false
   }
-  
+
   // Verifica se a data de validade ainda não expirou
   if (licenca.value.validade) {
     const dataValidade = dayjs(licenca.value.validade)
     const hoje = dayjs()
     return dataValidade.isAfter(hoje)
   }
-  
+
   return true
 })
 
@@ -833,10 +702,10 @@ onMounted(async () => {
   const pacienteId = route.params.id || route.query.id
 
   if (pacienteId) {
-     buscarPaciente(pacienteId)
-     findAllConsultas(pacienteId)
-     findAllAlergias(pacienteId)
-     buscarLicencaPorAtletaId(pacienteId)
+    buscarPaciente(pacienteId)
+    findAllConsultas(pacienteId)
+    findAllAlergias(pacienteId)
+    buscarLicencaPorAtletaId(pacienteId)
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false
@@ -867,5 +736,8 @@ onMounted(async () => {
 .border-b {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
-</style>
 
+:deep(.certification-dialog .v-overlay__scrim) {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+</style>
