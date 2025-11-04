@@ -240,7 +240,7 @@
                       </v-card-text>
                     </v-card>
                     
-                    <div class="mt-4" v-if="certificadoValidoEAtivo && certificado?.id">
+                    <div class="mt-4">
                       <v-btn
                         color="light-blue-accent-3"
                         variant="flat"
