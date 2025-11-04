@@ -220,6 +220,18 @@
                     </div>
                   </v-col>
                 </v-row>
+                <v-row dense>
+                  <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        Telefone
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ medico.telefone }}
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card-text>
             </v-card>
 
