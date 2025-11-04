@@ -107,6 +107,7 @@
                     </v-card>
                     
                     <v-card
+                      v-if="certificadoValidoEAtivo && certificado?.id"
                       variant="outlined"
                       class="mb-4"
                       rounded="lg"
@@ -177,6 +178,7 @@
                     </v-card>
                     
                     <v-card
+                      v-if="certificadoValidoEAtivo && certificado?.id"
                       variant="outlined"
                       class="mb-2"
                       rounded="lg"
@@ -238,7 +240,7 @@
                       </v-card-text>
                     </v-card>
                     
-                    <div class="mt-4">
+                    <div class="mt-4" v-if="certificadoValidoEAtivo && certificado?.id">
                       <v-btn
                         color="light-blue-accent-3"
                         variant="flat"
@@ -260,7 +262,7 @@
       </v-row>
 
       <!-- Seção de Templates -->
-      <v-row class="mt-6">
+      <v-row class="mt-6" v-if="certificadoValidoEAtivo && certificado?.id">
         <v-col cols="12">
           <v-card
             class="pa-6 templates-card"
