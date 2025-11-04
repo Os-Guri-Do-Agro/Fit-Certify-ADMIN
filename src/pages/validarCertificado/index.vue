@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex align-center justify-center" :class="containerClass">
     <v-row justify="center" class="w-100 ma-0">
-      <v-col cols="12" sm="10" md="8" lg="6" class="pa-2 pa-sm-4">
+      <v-col cols="12" sm="12" md="11" lg="9" xl="8" class="pa-2 pa-sm-4">
         <v-card
           class="pa-4 pa-sm-6"
           elevation="3"
@@ -65,69 +65,162 @@
               </p>
             </div>
 
-            <!-- Informações da Licença -->
             <v-card
               variant="outlined"
               class="pa-3 pa-sm-4 mb-4"
               rounded="lg"
+              style="background-color: rgba(0, 198, 254, 0.05); border-color: rgba(0, 198, 254, 0.2) !important;"
             >
-              <v-row>
-                <v-col cols="12" class="pb-2 pb-sm-3">
-                  <div class="d-flex align-center justify-space-between">
-                    <div class="flex-grow-1">
+              <div class="d-flex flex-wrap gap-4 gap-sm-6">
+                <div class="flex-grow-1" style="min-width: 150px">
+                  <div class="d-flex align-center mb-2">
+                    <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-upload</v-icon>
+                    <span class="text-caption text-grey-darken-1 font-weight-medium">
+                      Data de Upload
+                    </span>
+                  </div>
+                  <div class="text-body-2 text-sm-body-1 font-weight-bold">
+                    {{ formatarData(licenca.createdAt) || '--' }}
+                  </div>
+                </div>
+                <v-divider vertical class="mx-2 d-none d-sm-flex" />
+                <div class="flex-grow-1" style="min-width: 150px">
+                  <div class="d-flex align-center mb-2">
+                    <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-calendar-check</v-icon>
+                    <span class="text-caption text-grey-darken-1 font-weight-medium">
+                      Data de Validade
+                    </span>
+                  </div>
+                  <div
+                    class="text-body-2 text-sm-body-1 font-weight-bold"
+                    :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
+                  >
+                    {{ formatarData(licenca.validade) || '--' }}
+                  </div>
+                </div>
+              </div>
+            </v-card>
+
+            <v-card
+              v-if="atleta"
+              variant="outlined"
+              class="mb-4"
+              rounded="lg"
+              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+            >
+              <v-card-title class="pa-3 pa-sm-4 pb-2">
+                <div class="d-flex align-center">
+                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                    Atleta
+                  </span>
+                </div>
+              </v-card-title>
+              <v-card-text class="pa-3 pa-sm-4 pt-2">
+                <v-row dense>
+                  <v-col cols="12" sm="6" md="6">
+                    <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Data de Upload
+                        Nome
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ formatarData(licenca.createdAt) || '--' }}
+                        {{ atleta?.usuario?.nome || '--' }}
                       </div>
                     </div>
-                    <v-icon color="light-blue-accent-3" :size="display.mobile ? 20 : 24" class="ml-2">mdi-upload</v-icon>
-                  </div>
-                </v-col>
-
-                <v-divider class="my-2" />
-
-                <v-col cols="12" class="pb-2 pb-sm-3">
-                  <div class="d-flex align-center justify-space-between">
-                    <div class="flex-grow-1">
+                  </v-col>
+                  <v-col cols="12" sm="6" md="6" v-if="atleta?.usuario?.email">
+                    <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Data de Validade
+                        Email
                       </div>
-                      <div
-                        class="text-body-2 text-sm-body-1 font-weight-medium"
-                        :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
-                      >
-                        {{ formatarData(licenca.validade) || '--' }}
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium" style="word-break: break-all; white-space: normal;">
+                        {{ atleta.usuario.email }}
                       </div>
                     </div>
-                    <v-icon :color="isValido ? 'success' : 'error'" :size="display.mobile ? 20 : 24" class="ml-2">
-                      mdi-calendar-check
-                    </v-icon>
-                  </div>
-                </v-col>
-
-                <v-divider class="my-2" />
-
-                <v-col cols="12">
-                  <div class="d-flex align-center justify-space-between">
-                    <div class="flex-grow-1">
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
+                    <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Status
+                        Data de Nascimento
                       </div>
-                      <div
-                        class="text-body-2 text-sm-body-1 font-weight-medium"
-                        :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
-                      >
-                        {{ isValido ? 'Ativo' : 'Inativo ou Expirado' }}
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ formatarData(atleta.dataNascimento) }}
                       </div>
                     </div>
-                    <v-icon :color="isValido ? 'success' : 'error'" :size="display.mobile ? 20 : 24" class="ml-2">
-                      {{ isValido ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                    </v-icon>
-                  </div>
-                </v-col>
-              </v-row>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        Idade
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ calcularIdade(atleta.dataNascimento) }} anos
+                      </div>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="atleta?.telefone">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        Telefone
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ atleta.telefone }}
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
+            </v-card>
+
+            <v-card
+              v-if="medico"
+              variant="outlined"
+              class="mb-4"
+              rounded="lg"
+              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+            >
+              <v-card-title class="pa-3 pa-sm-4 pb-2">
+                <div class="d-flex align-center">
+                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-doctor</v-icon>
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                    Médico
+                  </span>
+                </div>
+              </v-card-title>
+              <v-card-text class="pa-3 pa-sm-4 pt-2">
+                <v-row dense>
+                  <v-col cols="12" sm="6" md="4">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        Nome
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ medico?.usuario?.nome || medico?.nome || '--' }}
+                      </div>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="medico?.crm">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        CRM
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ medico.crm }}
+                      </div>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
+                    <div class="info-field">
+                      <div class="text-caption text-grey-darken-1 mb-1">
+                        Especialização
+                      </div>
+                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
+                        {{ medico.especializacao }}
+                      </div>
+                    </div>
+                  </v-col>
+                </v-row>
+              </v-card-text>
             </v-card>
 
             <!-- Botão Voltar -->
@@ -158,12 +251,16 @@ import { useDisplay } from 'vuetify'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
+import atletaService from '@/services/atleta/atleta-service'
+import medicoService from '@/services/medico/medico-service'
 
 const route = useRoute()
 const display = useDisplay()
 const loading = ref(true)
 const licenca = ref(null)
 const error = ref(null)
+const atleta = ref(null)
+const medico = ref(null)
 
 const containerClass = computed(() => {
   return display.mobile ? 'px-2 py-4' : 'px-4 py-8'
@@ -189,6 +286,40 @@ const formatarData = (data) => {
   return dayjs(data).format('DD/MM/YYYY')
 }
 
+const calcularIdade = (dataNascimento) => {
+  if (!dataNascimento) return '--'
+  const hoje = dayjs()
+  const nascimento = dayjs(dataNascimento)
+  let idade = hoje.diff(nascimento, 'year')
+  const mes = hoje.diff(nascimento, 'month') % 12
+  if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
+    idade--
+  }
+  return idade
+}
+
+const buscarAtleta = async (atletaId) => {
+  try {
+    if (!atletaId) return
+    const response = await atletaService.getAtletaById(atletaId)
+    atleta.value = response.data || response
+  } catch (error) {
+    console.error('Erro ao buscar atleta:', error)
+    atleta.value = null
+  }
+}
+
+const buscarMedico = async (medicoId) => {
+  try {
+    if (!medicoId) return
+    const response = await medicoService.getMedicoById(medicoId)
+    medico.value = response.data || response
+  } catch (error) {
+    console.error('Erro ao buscar médico:', error)
+    medico.value = null
+  }
+}
+
 const buscarLicenca = async () => {
   try {
     loading.value = true
@@ -204,6 +335,16 @@ const buscarLicenca = async () => {
     const response = await licencaCertificadoService.getLicencaCertificadoById(licencaId)
     
     licenca.value = response.data || response
+    
+    if (licenca.value) {
+      if (licenca.value.atletaId) {
+        await buscarAtleta(licenca.value.atletaId)
+      }
+      
+      if (licenca.value.medicoId) {
+        await buscarMedico(licenca.value.medicoId)
+      }
+    }
   } catch (err) {
     error.value = err.response?.data?.message || 'Não foi possível carregar as informações do certificado'
     licenca.value = null
@@ -226,6 +367,10 @@ onMounted(() => {
   width: 100%;
 }
 
+.info-field {
+  padding: 8px 0;
+}
+
 @media (max-width: 599px) {
   .v-container {
     min-height: calc(100vh - 56px) !important;
@@ -238,4 +383,5 @@ onMounted(() => {
   }
 }
 </style>
+
 

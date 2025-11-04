@@ -318,8 +318,8 @@
               item-value="value" variant="outlined" :class="{ 'mb-3': opcaoMesesValidade === 'outro' }" />
             <v-text-field v-if="opcaoMesesValidade === 'outro'" label="Informe a quantidade de meses"
               v-model.number="mesesValidadeCustomizado" type="number" variant="outlined"
-              :rules="[v => !v || (v >= 1 && v <= 24) || 'Informe um valor entre 1 e 24 meses']" v-maska="'##'"
-              hint="Informe quantos meses o certificado estará válido (máximo 24)" />
+              :rules="[v => !v || (v >= 1 && v <= 12) || 'Informe um valor entre 1 e 12 meses']" v-maska="'##'"
+              hint="Informe quantos meses o certificado estará válido (máximo 12)" />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-4">
@@ -420,7 +420,7 @@
             <div class="d-flex align-start">
               <div class="flex-grow-1">
                 <div class="">
-                  <v-btn class="text-subtitle-1" block color="blue" variant="outlined" :disabled="temLicencaAtiva"
+                  <v-btn class="text-subtitle-1" block color="blue" variant="outlined" :disabled="temLicencaAtiva || medicoId != exameSelecionado.medicoId"
                     @click="certificarAtleta">
                     <v-icon class="mr-2">mdi-certificate</v-icon>
                     Certificar atleta
@@ -461,6 +461,7 @@ const router = useRouter()
 const route = useRoute()
 
 const paciente = ref(null)
+const medicoId = ref(null)
 const loading = ref(true)
 const historicoMedicoExpanded = ref(false)
 const alergiasExpanded = ref(true)
@@ -478,6 +479,8 @@ const opcoesMeses = [
   { text: '1 mês', value: 1 },
   { text: '3 meses', value: 3 },
   { text: '6 meses', value: 6 },
+  { text: '9 meses', value: 9 },
+  { text: '12 meses', value: 12 },
   { text: 'Outro', value: 'outro' }
 ]
 
@@ -555,8 +558,8 @@ const salvarCertificacao = async () => {
       alert('Por favor, informe a quantidade de meses válida (mínimo 1).')
       return
     }
-    if (meses > 24) {
-      alert('Por favor, informe uma quantidade de meses válida (máximo 24).')
+    if (meses > 12) {
+      alert('Por favor, informe uma quantidade de meses válida (máximo 12).')
       return
     }
     mesesValidade = meses
@@ -700,7 +703,7 @@ const buscarPaciente = async (id) => {
 
 onMounted(async () => {
   const pacienteId = route.params.id || route.query.id
-
+  medicoId.value = getMedicoId()
   if (pacienteId) {
     buscarPaciente(pacienteId)
     findAllConsultas(pacienteId)
