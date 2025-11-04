@@ -248,7 +248,6 @@
                         size="large"
                         block
                         class="elevation-2"
-                        :disabled="!certificadoValidoEAtivo || !certificado?.id"
                         @click="showQRDialog = true"
                       >
                         <v-icon size="24" class="mr-2">mdi-qrcode</v-icon>
