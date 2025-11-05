@@ -47,6 +47,8 @@
                 :loading="loading">
                 Entrar</VBtn>
             </div>
+            agora: {{ data }}
+            timezone: {{ timezone }}
           </VRow>
         </v-form>
 
@@ -154,10 +156,11 @@
 import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
 import { getPayload, getRole, getStatusMedicoCRM } from '@/utils/auth';
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import type { VForm } from 'vuetify/components';
+import dayjs from 'dayjs';
 
 const showPassword = ref(false)
 const email = ref('');
@@ -175,8 +178,22 @@ const showModal = ref(false)
 const clicouEnviar = ref(false)
 const showTipoContaModal = ref(false)
 const tipoContaSelecionado = ref('')
-
+const data = ref(dayjs().format('DD/MM/YYYY HH:mm:ss'))
+const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
 let debounceTimer: number
+let intervalId: number | null = null
+
+onMounted(() => {
+  intervalId = setInterval(() => {
+    data.value = dayjs().format('DD/MM/YYYY HH:mm:ss')
+  }, 1000)
+})
+
+onUnmounted(() => {
+  if (intervalId !== null) {
+    clearInterval(intervalId)
+  }
+})
 
 watch(emailModal, (newEmail) => {
   clearTimeout(debounceTimer)
