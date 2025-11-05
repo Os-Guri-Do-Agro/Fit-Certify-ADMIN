@@ -161,7 +161,7 @@
             </v-card-text>
           </v-card>
           <v-col cols="12" class="pa-0 mt-5">
-            <v-card variant="outlined" rounded="lg" color="blue">
+            <!-- <v-card variant="outlined" rounded="lg" color="blue">
               <div class="d-flex align-center pa-4 bg-blue">
                 <v-icon size="24" color="white" class="mr-2"
                   >mdi-clipboard-plus-outline</v-icon
@@ -211,7 +211,56 @@
                   </v-row>
                 </v-card-text>
               </div>
-            </v-card>
+            </v-card> -->
+          <v-card variant="outlined" rounded="lg" color="blue">
+            <div
+              class="pa-4 bg-blue d-flex align-center cursor-pointer"
+              @click="toggleModulos"
+            >
+              <v-icon class="mr-2" color="white">mdi-apps</v-icon>
+              <v-card-title
+                class="text-white text-subtitle-1 pa-0 flex-grow-1"
+              >
+                Módulos contratador
+              </v-card-title>
+              <v-icon color="white">
+                {{ modulosExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+              </v-icon>
+            </div>
+
+            <v-expand-transition>
+              <v-card-text v-show="modulosExpanded" class="pa-0">
+                <v-list>
+                  <v-list-item
+                    v-for="(modulo, index) in modulos"
+                    :key="index"
+                    class="px-4 py-2"
+                  >
+                    <template #prepend>
+                      <v-radio
+                        :model-value="modulo.contratado"
+                        @update:model-value="toggleModulo(modulo)"
+                        color="blue"
+                      />
+                    </template>
+
+                    <v-list-item-title class="font-weight-medium">
+                      {{ modulo.titulo }}
+                    </v-list-item-title>
+                  </v-list-item>
+
+                  <v-list-item
+                    v-if="modulos.length === 0"
+                    class="text-center py-8"
+                  >
+                    <v-list-item-title class="text-grey">
+                      Nenhum módulo contratado
+                    </v-list-item-title>
+                  </v-list-item>
+                </v-list>
+              </v-card-text>
+            </v-expand-transition>
+          </v-card>
           </v-col>
         </v-col>
       </v-row>
@@ -282,6 +331,7 @@
                           size="small"
                           @click.stop="toggleFavorito(item)"
                         />
+                        <v-icon color="grey">mdi-chevron-right</v-icon>
                       </div>
                     </template>
                   </v-list-item>
@@ -489,11 +539,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
-import alergiasService from '@/services/alergias/alergias-service'
+import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 
 const router = useRouter()
 const route = useRoute()
@@ -502,11 +552,13 @@ const paciente = ref(null)
 const loading = ref(true)
 const historicoMedicoExpanded = ref(false)
 const alergiasExpanded = ref(true)
+const modulosExpanded = ref(false)
 const modalExame = ref(false)
 const exameSelecionado = ref(null)
 const consultas = ref([])
 const alergias = ref([])
 const loadingAlergias = ref(true)
+const modulos = ref([])
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return 'N/A'
@@ -546,6 +598,14 @@ const toggleHistoricoMedico = () => {
 
 const toggleAlergias = () => {
   alergiasExpanded.value = !alergiasExpanded.value
+}
+
+const toggleModulos = () => {
+  modulosExpanded.value = !modulosExpanded.value
+}
+
+const toggleModulo = (modulo) => {
+  modulo.contratado = !modulo.contratado
 }
 
 const abrirModalExame = (item) => {
