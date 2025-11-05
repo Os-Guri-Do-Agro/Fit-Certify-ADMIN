@@ -31,6 +31,7 @@ router.beforeEach((to, from, next) => {
     '/politicaPrivacidade',
     '/detalhesExclusaoConta',
     '/pagamento',
+    '/validarCertificado',
   ]
   const isAuthenticated = isTokenValid()
 

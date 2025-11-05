@@ -2,7 +2,7 @@
   <div class="w-100 h-100 ma-0">
     <v-container fluid>
       <v-row>
-        <h1 class="mb-5 text-h5 font-weight-bold">Meus pacientes</h1>
+        <h1 class="mb-5 text-h5 font-weight-bold">Pacientes atendidos recentemente</h1>
         <v-col cols="12">
           <v-card rounded="lg" variant="outlined" color="blue" class="pa-0 ma-0">
             <v-row no-gutters class="pa-5 bg-blue" justify="space-between">

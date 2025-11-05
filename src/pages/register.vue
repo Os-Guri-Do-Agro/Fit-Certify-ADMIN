@@ -386,7 +386,7 @@
   </VRow>
 </template>
 
-<script setup>
+<script setup >
 import { useField, useForm } from 'vee-validate'
 import { onMounted, ref, toRaw, computed } from 'vue'
 import { useRouter } from 'vue-router'
@@ -691,14 +691,14 @@ const buscarSintoma = async () => {
 const submitAtleta = handleSubmit(async () => {
 
   try {
-  loading.value = true
-  const values = toRaw(form.value)
-  const sintomas = toRaw(formSintomas.value)
-  const doencas = toRaw(formDoencas.value)
-  const arquivos = toRaw(formPdfImage.value)
-  const formData = new FormData()
+    loading.value = true
+    const values = toRaw(form.value)
+    const sintomas = toRaw(formSintomas.value)
+    const doencas = toRaw(formDoencas.value)
+    const arquivos = toRaw(formPdfImage.value)
+    const formData = new FormData()
 
-  //STRING NESSA BOMBA
+    //STRING NESSA BOMBA
     formData.append('nome', values.nome || '')
     formData.append('senha', values.senha || '')
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')

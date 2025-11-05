@@ -33,7 +33,7 @@
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between">
+              <div class="info-chips  ma-3 d-flex ga-3 flex-column flex-md-row justify-center justify-space-between">
                 <div class="d-flex ga-2 flex-md-row flex-column">
 
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">

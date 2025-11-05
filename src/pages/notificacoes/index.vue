@@ -24,7 +24,7 @@
 
     <v-container class="content-section">
       <v-row justify="center">
-        <v-col cols="12" >
+        <v-col cols="12">
           <v-card class="notifications-card rounded-xl" elevation="2">
             <v-card-title class="pa-6 pb-0">
               <div class="d-flex align-center justify-space-between">
@@ -32,44 +32,28 @@
                   <v-icon color="#00c6fe" size="28" class="mr-3">mdi-bell-ring</v-icon>
                   <h3 class="text-h6 font-weight-bold">Suas Notificações</h3>
                 </div>
-                <v-btn 
-                  v-if="notificacoesNaoLidas > 0"
-                  variant="outlined" 
-                  color="#00c6fe" 
-                  size="small"
-                  @click="marcarTodasComoLidas"
-                >
+                <v-btn v-if="notificacoesNaoLidas > 0" variant="outlined" color="#00c6fe" size="small"
+                  @click="marcarTodasComoLidas">
                   <v-icon size="16" class="mr-1">mdi-check-all</v-icon>
                   Marcar todas como lidas
                 </v-btn>
               </div>
             </v-card-title>
-            
+
             <v-card-text class="pa-6">
               <div v-if="notificacoes.length > 0">
-                <v-card
-                  v-for="notificacao in notificacoes"
-                  :key="notificacao.id"
-                  elevation="1"
-                  :class="[
-                    'notification-item mb-3 rounded-xl',
-                    { 'unread': !notificacao.visualizado }
-                  ]"
-                  variant="outlined"
-                  :color="notificacao.visualizado ? 'grey-lighten-4' : 'blue'"
-                >
+                <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="1" :class="[
+                  'notification-item mb-3 rounded-xl',
+                  { 'unread': !notificacao.visualizado }
+                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-4' : 'blue'">
                   <v-card-text class="pa-4">
                     <div class="d-flex align-center">
-                      <v-avatar 
-                        :color="getNotificationColor(notificacao.tipo)" 
-                        size="48" 
-                        class="mr-4"
-                      >
+                      <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
                         <v-icon color="white" size="24">
                           {{ getNotificationIcon(notificacao.tipo) }}
                         </v-icon>
                       </v-avatar>
-                      
+
                       <div class="flex-grow-1">
                         <div class="d-flex align-center justify-space-between mb-1">
                           <h4 class="text-subtitle-1 font-weight-medium text-black">
@@ -79,20 +63,10 @@
                             <span class="text-caption text-grey mr-2">
                               {{ formatarData(notificacao.data) }}
                             </span>
-                            <v-chip
-                              v-if="!notificacao.visualizado"
-                              color="#00c6fe"
-                              size="x-small"
-                              class="mr-2"
-                            >
+                            <v-chip v-if="!notificacao.visualizado" color="#00c6fe" size="x-small" class="mr-2">
                               Nova
                             </v-chip>
-                            <v-btn
-                              icon
-                              size="small"
-                              variant="text"
-                              @click="toggleVisualizacao(notificacao)"
-                            >
+                            <v-btn icon size="small" variant="text" @click="toggleVisualizacao(notificacao)">
                               <v-icon size="16">
                                 {{ notificacao.visualizado ? 'mdi-eye-off' : 'mdi-eye' }}
                               </v-icon>
@@ -127,7 +101,6 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 dayjs.locale('pt-br')
 
-console.log('Componente Notificações montado!')
 
 const notificacoes = ref([
   {
@@ -288,11 +261,11 @@ const marcarTodasComoLidas = () => {
     text-align: center;
     margin-bottom: 24px;
   }
-  
+
   .stat-chip {
     margin: 4px;
   }
-  
+
   .notification-title {
     font-size: 2rem;
   }

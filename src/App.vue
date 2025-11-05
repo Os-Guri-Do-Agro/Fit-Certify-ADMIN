@@ -38,6 +38,7 @@ const authRoutes = [
   '/politicaPrivacidade',
   '/pagamento',
   '/detalhesExclusaoConta',
+  '/validarCertificado',
 ]
 const isAuthRoute = computed(() => {
   return (

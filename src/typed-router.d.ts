@@ -33,6 +33,7 @@ declare module 'vue-router/auto-routes' {
     '/Atleta-Screens/meusMedicos/': RouteRecordInfo<'/Atleta-Screens/meusMedicos/', '/Atleta-Screens/meusMedicos', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/perfilAtleta/': RouteRecordInfo<'/Atleta-Screens/perfilAtleta/', '/Atleta-Screens/perfilAtleta', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/visaoGeral/': RouteRecordInfo<'/Atleta-Screens/visaoGeral/', '/Atleta-Screens/visaoGeral', Record<never, never>, Record<never, never>>,
+    '/certificados/': RouteRecordInfo<'/certificados/', '/certificados', Record<never, never>, Record<never, never>>,
     '/detalhesExclusaoConta': RouteRecordInfo<'/detalhesExclusaoConta', '/detalhesExclusaoConta', Record<never, never>, Record<never, never>>,
     '/esqueceuSenha/[token]': RouteRecordInfo<'/esqueceuSenha/[token]', '/esqueceuSenha/:token', { token: ParamValue<true> }, { token: ParamValue<false> }>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
@@ -55,5 +56,6 @@ declare module 'vue-router/auto-routes' {
     '/settings/': RouteRecordInfo<'/settings/', '/settings', Record<never, never>, Record<never, never>>,
     '/settings/deleteAccount': RouteRecordInfo<'/settings/deleteAccount', '/settings/deleteAccount', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
+    '/validarCertificado/': RouteRecordInfo<'/validarCertificado/', '/validarCertificado', Record<never, never>, Record<never, never>>,
   }
 }
