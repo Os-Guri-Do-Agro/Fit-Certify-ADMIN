@@ -306,7 +306,7 @@
       </v-row>
     </v-container>
 
-    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog">
+    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog" persistent>
       <v-card rounded="lg">
         <v-card-title class="bg-blue text-white pa-4">
           <v-icon class="mr-2">mdi-certificate</v-icon>
@@ -326,7 +326,7 @@
           <v-btn color="grey" variant="outlined" @click="fecharModalCertificacao">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loading">
+          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loadingSubmit">
             Certificar
           </v-btn>
         </v-card-actions>
@@ -474,6 +474,7 @@ const licenca = ref([])
 const modalCertificarAtleta = ref(false)
 const opcaoMesesValidade = ref(null)
 const mesesValidadeCustomizado = ref(null)
+const loadingSubmit = ref(false)
 
 const opcoesMeses = [
   { text: '1 mês', value: 1 },
@@ -567,7 +568,7 @@ const salvarCertificacao = async () => {
     mesesValidade = opcaoMesesValidade.value
   }
   try {
-    loading.value = true
+    loadingSubmit.value = true
     await licencaCertificadoService.postLicencaCertificado({
       atletaId: paciente.value.id,
       medicoId: getMedicoId(),
@@ -577,14 +578,14 @@ const salvarCertificacao = async () => {
       if (resp.success) {
         toast.success('Certificado emitido com sucesso!')
         fecharModalCertificacao()
-        loading.value = false
+        loadingSubmit.value = false
         buscarLicencaPorAtletaId(route.params.id || route.query.id)
       }
     })
 
   } catch (error) {
     toast.error(error.response.data.message)
-    loading.value = false
+    loadingSubmit.value = false
   }
 }
 
