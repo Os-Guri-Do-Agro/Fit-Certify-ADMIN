@@ -139,39 +139,27 @@
           </v-card>
           <v-col cols="12" class="pa-0 mt-5">
             <v-card variant="outlined" rounded="lg" color="blue">
-              <div class="d-flex align-center pa-4 bg-blue">
-                <v-icon size="24" color="white" class="mr-2">mdi-clipboard-plus-outline</v-icon>
-                <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0">Adicionar
-                  Consultas</v-card-title>
+              <div class="d-flex align-center pa-4 bg-blue cursor-pointer" @click="toggleModulosContratados">
+                <v-icon size="24" color="white" class="mr-2">mdi-package-variant</v-icon>
+                <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0 flex-grow-1">Módulos Contratados</v-card-title>
+                <v-chip size="small" color="white" variant="outlined" class="mr-2">
+                  0 módulos
+                </v-chip>
+                <v-icon color="white">
+                  {{ modulosContratadosExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
               </div>
-              <div class="">
-                <v-card-text>
-                  <v-row>
-                    <v-col class="d-flex align-center py-2 py-lg-4" cols="12">
-                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
-                        $router.push({
-                          name: '/adicionarConsulta/',
-                          query: { pacienteId: paciente.id },
-                        })
-                        ">
-                        <v-icon left>mdi-stethoscope</v-icon>
-                        Adicionar Consulta
-                      </v-btn>
-                    </v-col>
-                    <v-col class="d-flex align-center py-0 pb-2" cols="12">
-                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
-                        $router.push({
-                          name: '/analises/',
-                          query: { pacienteId: paciente.id },
-                        })
-                        ">
-                        <v-icon left>mdi-flask-outline</v-icon>
-                        Análises
-                      </v-btn>
-                    </v-col>
-                  </v-row>
+              <v-expand-transition>
+                <v-card-text v-show="modulosContratadosExpanded" class="pa-4">
+                  <div class="text-center py-8">
+                    <v-icon size="64" color="grey-lighten-1" class="mb-4">
+                      mdi-package-variant
+                    </v-icon>
+                    <p class="text-h6 text-grey-darken-1 mb-2">Nenhum módulo contratado</p>
+                    <p class="text-body-2 text-grey">Este atleta ainda não possui módulos contratados.</p>
+                  </div>
                 </v-card-text>
-              </div>
+              </v-expand-transition>
             </v-card>
           </v-col>
         </v-col>
@@ -306,7 +294,7 @@
       </v-row>
     </v-container>
 
-    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog">
+    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog" persistent>
       <v-card rounded="lg">
         <v-card-title class="bg-blue text-white pa-4">
           <v-icon class="mr-2">mdi-certificate</v-icon>
@@ -326,7 +314,7 @@
           <v-btn color="grey" variant="outlined" @click="fecharModalCertificacao">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loading">
+          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loadingSubmit">
             Certificar
           </v-btn>
         </v-card-actions>
@@ -446,16 +434,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
-import alergiasService from '@/services/alergias/alergias-service'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import { getMedicoId } from '@/utils/auth'
-import { vMaska } from 'maska/vue'
-import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
+import { vMaska } from 'maska/vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const route = useRoute()
@@ -464,6 +452,8 @@ const paciente = ref(null)
 const medicoId = ref(null)
 const loading = ref(true)
 const historicoMedicoExpanded = ref(false)
+const modulosContratadosExpanded = ref(false)
+const moduloSelecionado = ref(null)
 const alergiasExpanded = ref(true)
 const modalExame = ref(false)
 const exameSelecionado = ref(null)
@@ -474,6 +464,7 @@ const licenca = ref([])
 const modalCertificarAtleta = ref(false)
 const opcaoMesesValidade = ref(null)
 const mesesValidadeCustomizado = ref(null)
+const loadingSubmit = ref(false)
 
 const opcoesMeses = [
   { text: '1 mês', value: 1 },
@@ -567,7 +558,7 @@ const salvarCertificacao = async () => {
     mesesValidade = opcaoMesesValidade.value
   }
   try {
-    loading.value = true
+    loadingSubmit.value = true
     await licencaCertificadoService.postLicencaCertificado({
       atletaId: paciente.value.id,
       medicoId: getMedicoId(),
@@ -577,14 +568,14 @@ const salvarCertificacao = async () => {
       if (resp.success) {
         toast.success('Certificado emitido com sucesso!')
         fecharModalCertificacao()
-        loading.value = false
+        loadingSubmit.value = false
         buscarLicencaPorAtletaId(route.params.id || route.query.id)
       }
     })
 
   } catch (error) {
     toast.error(error.response.data.message)
-    loading.value = false
+    loadingSubmit.value = false
   }
 }
 
@@ -594,6 +585,10 @@ const voltarParaLista = () => {
 
 const toggleHistoricoMedico = () => {
   historicoMedicoExpanded.value = !historicoMedicoExpanded.value
+}
+
+const toggleModulosContratados = () => {
+  modulosContratadosExpanded.value = !modulosContratadosExpanded.value
 }
 
 const toggleAlergias = () => {
