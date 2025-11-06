@@ -7,9 +7,9 @@
         <v-row align="center" class="min-height-300">
           <v-col cols="12" md="6">
             <div class="text-center text-md-left">
-              <h1 class="profile-name mb-3">Resumo Médico</h1>
-              <p class="profile-subtitle mb-4">Acompanhe suas métricas e atividades em tempo real</p>
-              <div class="d-flex flex-column flex-md-row gap-3 justify-center justify-md-start">
+              <h1 class="text-h3 text-white text-md-h2 text-lg font-weight-bold mb-3">Resumo Médico</h1>
+              <p class="text-body-1 text-md-h6 mb-4 text-white">Acompanhe suas métricas e atividades em tempo real</p>
+              <div class="d-flex flex-column flex-md-row ga-3 justify-center justify-md-start">
                 <v-chip class="info-chip" prepend-icon="mdi-chart-line">
                   Análise em Tempo Real
                 </v-chip>
@@ -86,13 +86,13 @@
               <v-icon size="24">mdi-certificate</v-icon>
             </v-avatar>
             <div>
-              <div class="text-h6 font-weight-bold">Certificados Emitidos</div>
+              <div class="text-body-1 text-md-h6 font-weight-bold">Certificados Emitidos</div>
               <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
             </div>
           </v-card-title>
           <v-card-text class="pt-0">
             <div class="text-center mb-4">
-              <h2 class="text-h1 font-weight-bold text-success mb-2">
+              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-success mb-2">
                 {{ metricas.certificadosEmitidos }}
               </h2>
             </div>
@@ -125,13 +125,13 @@
               <v-icon size="24">mdi-calendar-check</v-icon>
             </v-avatar>
             <div>
-              <div class="text-h6 font-weight-bold">Consultas Marcadas</div>
+              <div class="text-body-1 text-md-h6 font-weight-bold">Consultas Marcadas</div>
               <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
             </div>
           </v-card-title>
           <v-card-text class="pt-0">
             <div class="text-center mb-4">
-              <h2 class="text-h1 font-weight-bold text-primary mb-2">
+              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-primary mb-2">
                 {{ metricas.consultasMarcadas }}
               </h2>
             </div>
@@ -164,13 +164,13 @@
               <v-icon size="24">mdi-account-heart</v-icon>
             </v-avatar>
             <div>
-              <div class="text-h6 font-weight-bold">Pacientes Atendidos</div>
+              <div class="text-body-1 text-md-h6 font-weight-bold">Pacientes Atendidos</div>
               <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
             </div>
           </v-card-title>
           <v-card-text class="pt-0">
             <div class="text-center mb-4">
-              <h2 class="text-h1 font-weight-bold text-info mb-2">
+              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-info mb-2">
                 {{ metricas.pacientesAtendidos }}
               </h2>
             </div>
@@ -206,13 +206,13 @@
               <v-icon size="24">mdi-calendar-multiple</v-icon>
             </v-avatar>
             <div>
-              <div class="text-h6 font-weight-bold">Consultas Totais</div>
+              <div class="text-body-1 text-md-h6 font-weight-bold">Consultas Totais</div>
               <div class="text-caption text-grey-darken-1">Histórico completo</div>
             </div>
           </v-card-title>
           <v-card-text class="pt-0">
             <div class="text-center">
-              <h2 class="text-h1 font-weight-bold text-teal">
+              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-teal">
                 {{ consultas?.length || 0 }}
               </h2>
             </div>
@@ -342,11 +342,10 @@ const atualizarMetricas = () => {
 const buscarConsultas = async () => {
   try {
     const dataInicio = dayjs().startOf('year').format('YYYY-MM-DD') + 'T00:00:00.000Z'
-    const dataFim = dayjs().endOf('year').format('YYYY-MM-DD') + 'T23:59:59.999Z'
+    const dataFim = dayjs().endOf('year').format('YYYY-MM-DD') + 'T23:59:59.000Z'
 
     const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
     consultas.value = resp.data || []
-    console.log(consultas.value)
   } catch (error) {
     console.error('Erro ao buscar consultas', error)
   }

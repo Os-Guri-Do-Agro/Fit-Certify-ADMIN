@@ -201,12 +201,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRaw } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
-import { useRoute } from 'vue-router'
-import { onMounted, onBeforeUnmount } from 'vue'
-import { getPayload, logout, isMedico } from '@/utils/auth'
+import { getPayload, isMedico, logout } from '@/utils/auth'
 import { getProfileRoute } from '@/utils/profile'
+import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
+import { useRoute } from 'vue-router'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
@@ -284,13 +283,7 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/resumo',
       children: [],
     },
-    {
-      icon: 'mdi-chart-bar',
-      title: 'MRP',
-      value: 'mrp',
-      to: '/rmp',
-      children: [],
-    },
+
   ],
   atleta: [
     {
