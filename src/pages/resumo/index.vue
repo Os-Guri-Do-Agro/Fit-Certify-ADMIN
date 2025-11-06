@@ -1,254 +1,248 @@
 <template>
-  <v-container fluid class="pa-6">
-    <!-- Hero Section -->
-    <div class="hero-section">
-      <div class="hero-overlay"></div>
-      <div class="position-relative">
-        <v-row align="center" class="min-height-300">
-          <v-col cols="12" md="6">
-            <div class="text-center text-md-left">
-              <h1 class="text-h3 text-white text-md-h2 text-lg font-weight-bold mb-3">Resumo Médico</h1>
-              <p class="text-body-1 text-md-h6 mb-4 text-white">Acompanhe suas métricas e atividades em tempo real</p>
-              <div class="d-flex flex-column flex-md-row ga-3 justify-center justify-md-start">
-                <v-chip class="info-chip" prepend-icon="mdi-chart-line">
-                  Análise em Tempo Real
-                </v-chip>
-                <v-chip class="info-chip" prepend-icon="mdi-shield-check">
-                  Sistema Ativo
-                </v-chip>
-              </div>
+  <div class="pa-0" fluid>
+    <v-sheet
+      color="blue-gradient"
+      class="position-relative overflow-hidden"
+      style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); min-height: 200px"
+    >
+      <v-sheet
+        class="position-absolute w-100 h-100"
+        style="background: rgba(0, 0, 0, 0.1)"
+      ></v-sheet>
+      <v-container class="position-relative">
+        <v-row align="center" class="d-flex flex-md-column-reverse">
+          <v-col cols="12" md="4" class="text-center">
+            <div>
+              <v-avatar
+                size="120"
+                class="elevation-8"
+                style="border: 4px solid rgba(255, 255, 255, 0.3)"
+              >
+                <v-icon size="50" color="white">mdi-chart-line</v-icon>
+              </v-avatar>
             </div>
+            <h1 class="text-h4 font-weight-bold text-white mt-4 mb-2" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)">
+              Resumo
+            </h1>
+            <p class="text-body-1 text-white mb-5" style="opacity: 0.9; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)">
+              Visão geral das suas métricas
+            </p>
           </v-col>
-          <v-col cols="12" md="6">
-            <v-card class="control-card" elevation="8" rounded="xl">
-              <v-card-text class="pa-4">
-                <div class="d-flex flex-column gap-3">
-                  <v-select
-                    v-model="filtroTempo"
-                    :items="opcoesTempoFiltro"
-                    item-title="label"
-                    item-value="value"
-                    label="Período de Análise"
-                    variant="outlined"
-                    density="comfortable"
-                    hide-details
-                    @update:model-value="atualizarMetricas"
-                    prepend-inner-icon="mdi-calendar"
-                    color="#00c6fe"
-                  ></v-select>
-
-                  <v-text-field
-                  class="mt-5"
-                    v-if="filtroTempo === 'personalizado'"
-                    v-model="dataPersonalizada"
-                    type="date"
-                    label="Data específica"
-                    variant="outlined"
-                    density="comfortable"
-                    hide-details
-                    @change="atualizarMetricas"
-                    color="#00c6fe"
-                  ></v-text-field>
-
-                  <v-btn
-                    color="#00c6fe"
-                    variant="flat"
-                    @click="atualizarMetricas"
-                    :loading="loading"
-                    prepend-icon="mdi-refresh"
-                    size="large"
-                    rounded="xl"
-                    class="font-weight-bold text-white mt-5"
-                    block
-                  >
-                    Atualizar Dados
-                  </v-btn>
-                </div>
-              </v-card-text>
-            </v-card>
+          <v-col cols="12">
+            <div class="d-flex justify-center ma-5">
+              <v-chip
+                class="d-none d-md-flex"
+                prepend-icon="mdi-account-circle"
+                style="background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px)"
+              >
+                Resumo Médico
+              </v-chip>
+            </div>
           </v-col>
         </v-row>
-      </div>
-    </div>
+      </v-container>
+    </v-sheet>
 
-    <div class="content-section">
-      <v-row class="mb-6">
-      <v-col cols="12" md="4">
-        <v-card
-          elevation="3"
-          :loading="loading"
-          class="h-100 position-relative overflow-hidden"
-          rounded="xl"
-        >
-          <div class="bg-success position-absolute" style="top: 0; left: 0; right: 0; height: 4px;"></div>
-          <v-card-title class="d-flex align-center pb-3 pt-6">
-            <v-avatar color="success" variant="tonal" size="48" class="mr-4">
-              <v-icon size="24">mdi-certificate</v-icon>
-            </v-avatar>
-            <div>
-              <div class="text-body-1 text-md-h6 font-weight-bold">Certificados Emitidos</div>
-              <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
-            </div>
-          </v-card-title>
-          <v-card-text class="pt-0">
-            <div class="text-center mb-4">
-              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-success mb-2">
-                {{ metricas.certificadosEmitidos }}
-              </h2>
-            </div>
-            <v-divider class="mb-4"></v-divider>
-            <div class="d-flex align-center justify-space-between">
-              <div class="text-body-2 text-grey-darken-1">Comparado ao período anterior</div>
-              <v-chip
-                :color="calcularVariacao('certificadosEmitidos') >= 0 ? 'success' : 'error'"
-                variant="tonal"
-                size="small"
-                :prepend-icon="calcularVariacao('certificadosEmitidos') >= 0 ? 'mdi-trending-up' : 'mdi-trending-down'"
-              >
-                {{ calcularVariacao('certificadosEmitidos') >= 0 ? '+' : '' }}{{ calcularVariacao('certificadosEmitidos') }}
-              </v-chip>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="4">
-        <v-card
-          elevation="3"
-          :loading="loading"
-          class="h-100 position-relative overflow-hidden"
-          rounded="xl"
-        >
-          <div class="bg-primary position-absolute" style="top: 0; left: 0; right: 0; height: 4px;"></div>
-          <v-card-title class="d-flex align-center pb-3 pt-6">
-            <v-avatar color="primary" variant="tonal" size="48" class="mr-4">
-              <v-icon size="24">mdi-calendar-check</v-icon>
-            </v-avatar>
-            <div>
-              <div class="text-body-1 text-md-h6 font-weight-bold">Consultas Marcadas</div>
-              <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
-            </div>
-          </v-card-title>
-          <v-card-text class="pt-0">
-            <div class="text-center mb-4">
-              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-primary mb-2">
-                {{ metricas.consultasMarcadas }}
-              </h2>
-            </div>
-            <v-divider class="mb-4"></v-divider>
-            <div class="d-flex align-center justify-space-between">
-              <div class="text-body-2 text-grey-darken-1">Comparado ao período anterior</div>
-              <v-chip
-                :color="calcularVariacao('consultasMarcadas') >= 0 ? 'success' : 'error'"
-                variant="tonal"
-                size="small"
-                :prepend-icon="calcularVariacao('consultasMarcadas') >= 0 ? 'mdi-trending-up' : 'mdi-trending-down'"
-              >
-                {{ calcularVariacao('consultasMarcadas') >= 0 ? '+' : '' }}{{ calcularVariacao('consultasMarcadas') }}
-              </v-chip>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="4">
-        <v-card
-          elevation="3"
-          :loading="loading"
-          class="h-100 position-relative overflow-hidden"
-          rounded="xl"
-        >
-          <div class="bg-info position-absolute" style="top: 0; left: 0; right: 0; height: 4px;"></div>
-          <v-card-title class="d-flex align-center pb-3 pt-6">
-            <v-avatar color="info" variant="tonal" size="48" class="mr-4">
-              <v-icon size="24">mdi-account-heart</v-icon>
-            </v-avatar>
-            <div>
-              <div class="text-body-1 text-md-h6 font-weight-bold">Pacientes Atendidos</div>
-              <div class="text-caption text-grey-darken-1">{{ obterDescricaoPeriodo() }}</div>
-            </div>
-          </v-card-title>
-          <v-card-text class="pt-0">
-            <div class="text-center mb-4">
-              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-info mb-2">
-                {{ metricas.pacientesAtendidos }}
-              </h2>
-            </div>
-            <v-divider class="mb-4"></v-divider>
-            <div class="d-flex align-center justify-space-between">
-              <div class="text-body-2 text-grey-darken-1">Comparado ao período anterior</div>
-              <v-chip
-                :color="calcularVariacao('pacientesAtendidos') >= 0 ? 'success' : 'error'"
-                variant="tonal"
-                size="small"
-                :prepend-icon="calcularVariacao('pacientesAtendidos') >= 0 ? 'mdi-trending-up' : 'mdi-trending-down'"
-              >
-                {{ calcularVariacao('pacientesAtendidos') >= 0 ? '+' : '' }}{{ calcularVariacao('pacientesAtendidos') }}
-              </v-chip>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+    <v-container class="py-6">
+      <v-row class="mb-4">
+        <v-col cols="12">
+          <v-card class="pa-4" variant="text" rounded="lg">
+            <v-row class=" d-flex align-center justify-center">
+              <v-col cols="12" md="4">
+                <v-select
+                  v-model="filtroTempo"
+                  :items="opcoesTempoFiltro"
+                  item-title="label"
+                  item-value="value"
+                  label="Período"
+                  prepend-inner-icon="mdi-calendar"
+                  variant="outlined"
+                  density="compact"
+                  @update:model-value="atualizarMetricas"
+                ></v-select>
+              </v-col>
+              <v-col cols="12" md="4" v-if="filtroTempo === 'personalizado'">
+                <v-text-field
+                  v-model="dataPersonalizada"
+                  type="date"
+                  label="Data específica"
+                  prepend-inner-icon="mdi-calendar-range"
+                  variant="outlined"
+                  density="compact"
+                  @update:model-value="atualizarMetricas"
+                ></v-text-field>
+              </v-col>
+              <v-col class="d-flex align-center justify-center" cols="12">
+                <div class="text-body-2 text-grey-darken-1">
+                  <v-icon size="small" class="me-1">mdi-information</v-icon>
+                  Período: {{ obterDescricaoPeriodo() }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
       </v-row>
-
-      <!-- Secondary Metrics -->
       <v-row>
-      <v-col cols="12" md="6">
-        <v-card
-          elevation="3"
-          :loading="loading"
-          class="h-100 position-relative overflow-hidden"
-          rounded="xl"
-        >
-          <div class="bg-teal position-absolute" style="top: 0; left: 0; right: 0; height: 4px;"></div>
-          <v-card-title class="d-flex align-center pb-3 pt-6">
-            <v-avatar color="teal" variant="tonal" size="48" class="mr-4">
-              <v-icon size="24">mdi-calendar-multiple</v-icon>
-            </v-avatar>
-            <div>
-              <div class="text-body-1 text-md-h6 font-weight-bold">Consultas Totais</div>
-              <div class="text-caption text-grey-darken-1">Histórico completo</div>
-            </div>
-          </v-card-title>
-          <v-card-text class="pt-0">
-            <div class="text-center">
-              <h2 class="text-h3 text-md-h2 text-lg-h1 font-weight-bold text-teal">
-                {{ consultas?.length || 0 }}
-              </h2>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="12" md="6">
-        <v-card
-          elevation="3"
-          :loading="loading"
-          class="h-100 position-relative overflow-hidden"
-          rounded="xl"
-        >
-          <div class="bg-orange position-absolute" style="top: 0; left: 0; right: 0; height: 4px;"></div>
-          <v-card-title class="d-flex align-center pb-3 pt-6">
-            <v-avatar color="orange" variant="tonal" size="48" class="mr-4">
-              <v-icon size="24">mdi-clock-outline</v-icon>
-            </v-avatar>
-            <div>
-              <div class="text-h6 font-weight-bold">Consultas Pendentes</div>
-              <div class="text-caption text-grey-darken-1">Aguardando atendimento</div>
-            </div>
-          </v-card-title>
-          <v-card-text class="pt-0">
-            <div class="text-center">
-              <h2 class="text-h1 font-weight-bold text-orange">
-                {{ consultasPendentes?.length || 0 }}
-              </h2>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-col>
+        <v-col cols="12" md="4">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="100%"
+            hover
+            :style="{
+              borderLeft: '4px solid #2196F3',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <v-skeleton-loader v-if="loading" type="list-item-avatar-two-line"></v-skeleton-loader>
+            <v-row v-else align="center" no-gutters>
+              <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-avatar size="80" class="elevation-2" color="blue">
+                  <v-icon size="40" color="white">mdi-certificate</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
+                  Certificados Emitidos
+                </div>
+                <div class="text-h4 font-weight-bold text-blue">
+                  {{ metricas.certificadosEmitidos }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="100%"
+            hover
+            :style="{
+              borderLeft: '4px solid #4CAF50',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <v-skeleton-loader v-if="loading" type="list-item-avatar-two-line"></v-skeleton-loader>
+            <v-row v-else align="center" no-gutters>
+              <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-avatar size="80" class="elevation-2" color="green">
+                  <v-icon size="40" color="white">mdi-account-heart</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
+                  Pacientes Atendidos
+                </div>
+                <div class="text-h4 font-weight-bold text-green">
+                  {{ metricas.pacientesAtendidos }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="100%"
+            hover
+            :style="{
+              borderLeft: '4px solid #FF9800',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <v-skeleton-loader v-if="loading" type="list-item-avatar-two-line"></v-skeleton-loader>
+            <v-row v-else align="center" no-gutters>
+              <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-avatar size="80" class="elevation-2" color="orange">
+                  <v-icon size="40" color="white">mdi-calendar-check</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
+                  Consultas Marcadas
+                </div>
+                <div class="text-h4 font-weight-bold text-orange">
+                  {{ metricas.consultasMarcadas }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
       </v-row>
-    </div>
-  </v-container>
+
+      <v-row>
+        <v-col cols="12" md="6">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="100%"
+            hover
+            :style="{
+              borderLeft: '4px solid #9C27B0',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <v-skeleton-loader v-if="loading" type="list-item-avatar-two-line"></v-skeleton-loader>
+            <v-row v-else align="center" no-gutters>
+              <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-avatar size="80" class="elevation-2" color="purple">
+                  <v-icon size="40" color="white">mdi-stethoscope</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
+                  Consultas Totais
+                </div>
+                <div class="text-h4 font-weight-bold text-purple">
+                  {{ consultas.length }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+        <v-col cols="12" md="6">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="100%"
+            hover
+            :style="{
+              borderLeft: '4px solid #F44336',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <v-skeleton-loader v-if="loading" type="list-item-avatar-two-line"></v-skeleton-loader>
+            <v-row v-else align="center" no-gutters>
+              <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-avatar size="80" class="elevation-2" color="red">
+                  <v-icon size="40" color="white">mdi-clock-alert</v-icon>
+                </v-avatar>
+              </v-col>
+              <v-col>
+                <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
+                  Consultas Pendentes
+                </div>
+                <div class="text-h4 font-weight-bold text-red">
+                  {{ consultasPendentes.length }}
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
+
+
+
+
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -288,12 +282,6 @@ const obterDescricaoPeriodo = () => {
     'personalizado': dataPersonalizada.value ? new Date(dataPersonalizada.value).toLocaleDateString('pt-BR') : 'Data específica'
   }
   return opcoes[filtroTempo.value] || 'Período selecionado'
-}
-
-const calcularVariacao = (metrica: string) => {
-  const atual = metricas.value[metrica as keyof typeof metricas.value]
-  const anterior = metricasAnterior.value[metrica as keyof typeof metricasAnterior.value]
-  return atual - anterior
 }
 
 const buscarMetricas = async () => {
@@ -366,85 +354,3 @@ onMounted(() => {
   buscarConsultasPendentes()
 })
 </script>
-
-<style scoped>
-.hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
-  position: relative;
-  overflow: hidden;
-  padding: 2rem 1.5rem;
-}
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.min-height-300 {
-  min-height: 300px;
-}
-
-.profile-name {
-  color: white;
-  font-size: 2.5rem;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-.profile-subtitle {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.2rem;
-  font-weight: 400;
-}
-
-.info-chip {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  padding: 8px 16px;
-}
-
-.control-card {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.content-section {
-  background: #f8f9fa;
-  padding: 3rem 1.5rem;
-}
-
-.metrics-card {
-  transition: all 0.3s ease;
-  border: 1px solid rgba(0, 198, 254, 0.1);
-}
-
-.metrics-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
-}
-
-@media (max-width: 960px) {
-  .profile-name {
-    font-size: 2rem;
-  }
-
-  .profile-subtitle {
-    font-size: 1rem;
-  }
-
-  .hero-section {
-    padding: 1.5rem 1rem;
-  }
-
-  .content-section {
-    padding: 2rem 1rem;
-  }
-}
-</style>

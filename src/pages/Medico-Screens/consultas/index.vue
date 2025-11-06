@@ -8,45 +8,7 @@
       </v-col>
     </v-row>
 
-    <v-row justify="center" class="mb-10">
-      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
-        <v-btn
-          value="todas"
-          color="green"
-          :variant="filtro === 'todas' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
-        >
-          Todas as Consultas
-        </v-btn>
-        <v-btn
-          value="marcado"
-          color="blue"
-          :variant="filtro === 'marcado' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium focus:text-white"
-        >
-          Marcadas
-        </v-btn>
-        <v-btn
-          value="realizadas"
-          color="green"
-          :variant="filtro === 'realizadas' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
-        >
-          Realizadas
-        </v-btn>
-        <v-btn
-          value="pendente"
-          color="orange"
-          :variant="filtro === 'pendente' ? 'flat' : 'outlined'"
-          :class="[
-            'px-8 text-body-1 font-weight-medium',
-            { 'text-white': filtro === 'pendente' },
-          ]"
-        >
-          Pendentes
-        </v-btn>
-      </v-btn-toggle>
-    </v-row>
+
 
     <v-row justify="center">
       <v-col cols="12">
@@ -92,7 +54,7 @@
         <div v-else>
           <v-row>
             <v-col
-              v-for="(consulta, index) in consultasFiltradas"
+              v-for="(consulta, index) in consultas"
               :key="index"
               cols="12"
               md="6"
@@ -105,35 +67,30 @@
                 height="100%"
                 :style="{
                   borderLeft: `4px solid ${getStatusColor(consulta?.situacao)}`,
-                  background:
-                    'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
                 }"
               >
                 <v-row align="center" no-gutters>
                   <v-col cols="auto" class="me-4 d-flex align-center justify-center">
                     <v-avatar size="120" class="elevation-2">
                       <v-img
-                        v-if="consulta?.medico?.usuario?.avatarUrl"
-                        :src="consulta?.medico?.usuario?.avatarUrl"
+                        v-if="consulta?.atleta?.avatarUrl"
+                        :src="consulta?.atleta?.avatarUrl"
                         cover
                       ></v-img>
-                      <v-icon v-else size="40" color="green">mdi-doctor</v-icon>
+                      <v-icon v-else size="40" color="green">mdi-use</v-icon>
                     </v-avatar>
                   </v-col>
 
-                  <v-col>
+                  <v-col class="bg-red">
                     <div
                       class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
                     >
-                      Dr. {{ consulta?.medico?.usuario?.nome }}
+                     {{ consulta?.atleta?.usuario?.nome || 'Paciente Externo' }}
                     </div>
                     <div
                       class="text-body-2 text-grey-darken-1 mb-3 d-flex align-center"
                     >
-                      <v-icon size="16" class="me-1" color="green"
-                        >mdi-stethoscope</v-icon
-                      >
-                      {{ consulta?.medico?.especializacao }}
+                      {{ consulta?.atleta?.genero }}
                     </div>
 
                     <div class="d-flex flex-column gap-1 mb-3">
@@ -163,13 +120,16 @@
                     >
                       {{ consulta?.situacao }}
                     </v-chip>
+                    <div class="">
+                      v-btn
+                    </div>
                   </v-col>
                 </v-row>
               </v-card>
             </v-col>
           </v-row>
 
-          <div v-if="consultasFiltradas.length === 0" class="text-center py-8">
+          <div v-if="consultas.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
             <p class="text-h6 mt-4 text-grey">Nenhuma consulta encontrada</p>
           </div>
@@ -187,46 +147,31 @@
 
 <script setup>
 import consultasService from '@/services/consultas/consultas-service'
-import { getAtletaId } from '@/utils/auth'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
-import { computed, onMounted, ref, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+
 dayjs.locale('pt-br')
 
-const filtro = ref('todas')
-const page = ref(1)
-const pageSize = ref(10)
-const totalPages = ref(0)
 const loading = ref(true)
 const consultas = ref([])
 
-const consultasFiltradas = computed(() => {
-  if (filtro.value === 'todas') return consultas.value
-  if (filtro.value === 'marcado')
-    return consultas.value.filter((c) => c.situacao === 'Marcado')
-  if (filtro.value === 'pendente')
-    return consultas.value.filter((c) => c.situacao === 'Pendente')
-  if (filtro.value === 'realizadas')
-    return consultas.value.filter((c) => c.situacao === 'Concluido')
-  return consultas.value
-})
-
 const buscarConsultas = async () => {
+  loading.value = true
   try {
-    loading.value = true
-    const response =
-      await consultasService.getConsultasByAtletaId(getAtletaId())
-    // Handle nested structure: response.data[0].consultas
-    const data = response.data
-    if (Array.isArray(data) && data.length > 0 && data[0].consultas) {
-      consultas.value = data[0].consultas
+    const dataInicio = dayjs().startOf('year').format('YYYY-MM-DD') + 'T00:00:00.000Z'
+    const dataFim = dayjs().endOf('year').format('YYYY-MM-DD') + 'T23:59:59.000Z'
+
+    const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
+
+    if (Array.isArray(resp.data) && resp.data.length > 0 && resp.data[0].consultas) {
+      consultas.value = resp.data.flatMap(item => item.consultas || []).filter(c => c.situacao === 'Marcado')
     } else {
-      consultas.value = response.data.itens || response.data || []
+      consultas.value = (resp.data || []).filter(c => c.situacao === 'Marcado')
     }
-    totalPages.value = response.data.totalPages || 1
+    console.log(resp.data)
   } catch (error) {
-    console.error('Erro ao buscar consultas:', error)
-    consultas.value = []
+    console.error('Erro ao buscar consultas', error)
   } finally {
     loading.value = false
   }
@@ -241,21 +186,15 @@ const formatarHorario = (data) => {
 }
 
 const getStatusColor = (status) => {
-  if (status === 'Pendente') return 'orange'
-  if (status === 'Marcado') return '#00C6FE'
-  if (status === 'Concluido') return 'green'
-  if (status === 'Recusado') return 'red'
-  return 'grey'
+  const cores = {
+    'Marcado': '#42A5F5',
+    'Concluido': 'green',
+    'Pendente': 'orange',
+    'Recusado': 'red',
+    'Cancelada': 'red'
+  }
+  return cores[status] || 'grey'
 }
-
-const mudarPagina = (novaPagina) => {
-  page.value = novaPagina
-  buscarConsultas()
-}
-
-watch(filtro, () => {
-  page.value = 1
-})
 
 onMounted(() => {
   buscarConsultas()

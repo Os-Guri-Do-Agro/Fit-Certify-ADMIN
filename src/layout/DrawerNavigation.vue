@@ -269,6 +269,12 @@ const menusPorPerfil: Record<string, any[]> = {
           to: '/agendaMedica',
         },
         {
+          icon: 'mdi mdi-clipboard-list-outline',
+          title: 'Consultas',
+          value: 'consultas',
+          to: '/Medico-Screens/consultas',
+        },
+        {
           icon: 'mdi mdi-calendar-month-outline',
           title: 'Pendentes',
           value: 'agendaMedica/consultasPendentes',
