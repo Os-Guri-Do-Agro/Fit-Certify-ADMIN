@@ -2,7 +2,7 @@
   <v-container class="py-10">
     <v-row justify="center" class="text-center mb-8">
       <v-col cols="12">
-        <h2 class="text-h5 text-md-h4 font-weight-bold" style="color: green">
+        <h2 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1" >
           Minhas Consultas
         </h2>
       </v-col>
@@ -61,34 +61,34 @@
               lg="4"
             >
               <v-card
-                class="pa-6 hover-card"
+                class="pa-5 hover-card d-flex flex-column"
                 elevation="4"
                 rounded="xl"
-                height="100%"
                 :style="{
                   borderLeft: `4px solid ${getStatusColor(consulta?.situacao)}`,
                 }"
               >
-                <v-row align="center" no-gutters>
+                <v-row align="center" no-gutters class="flex-grow-1">
                   <v-col cols="auto" class="me-4 d-flex align-center justify-center">
-                    <v-avatar size="120" class="elevation-2">
+                    <v-avatar size="100" class="elevation-2">
                       <v-img
                         v-if="consulta?.atleta?.avatarUrl"
                         :src="consulta?.atleta?.avatarUrl"
                         cover
                       ></v-img>
-                      <v-icon v-else size="40" color="green">mdi-use</v-icon>
+                      <v-icon v-else size="40" color="green">mdi-account</v-icon>
                     </v-avatar>
                   </v-col>
 
-                  <v-col class="bg-red">
+                  <v-col class="d-flex flex-column justify-center">
                     <div
                       class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
                     >
-                     {{ consulta?.atleta?.usuario?.nome || 'Paciente Externo' }}
+                      {{ consulta?.atleta?.usuario?.nome || 'Paciente Externo' }}
                     </div>
                     <div
-                      class="text-body-2 text-grey-darken-1 mb-3 d-flex align-center"
+                      v-if="consulta?.atleta?.genero"
+                      class="text-body-2 text-grey-darken-1 mb-2"
                     >
                       {{ consulta?.atleta?.genero }}
                     </div>
@@ -112,16 +112,26 @@
                       </div>
                     </div>
 
-                    <v-chip
-                      :color="getStatusColor(consulta?.situacao)"
-                      size="small"
-                      variant="flat"
-                      class="font-weight-medium text-white"
-                    >
-                      {{ consulta?.situacao }}
-                    </v-chip>
-                    <div class="">
-                      v-btn
+                    <div class="d-flex align-center justify-space-between flex-wrap ga-2">
+                      <v-chip
+                        :color="getStatusColor(consulta?.situacao)"
+                        size="small"
+                        variant="flat"
+                        class="font-weight-medium text-white"
+                      >
+                        {{ consulta?.situacao }}
+                      </v-chip>
+                      <v-btn
+                        color="red"
+                        variant="outlined"
+                        size="small"
+                        rounded="xl"
+                        :loading="loadingCancelarIds.has(consulta.id)"
+                        prepend-icon="mdi-close"
+                        @click="cancelarConsulta(consulta.id)"
+                      >
+                        Cancelar
+                      </v-btn>
                     </div>
                   </v-col>
                 </v-row>
@@ -150,17 +160,22 @@ import consultasService from '@/services/consultas/consultas-service'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { ref, computed, onMounted } from 'vue'
+import { toast } from 'vue3-toastify'
 
 dayjs.locale('pt-br')
 
 const loading = ref(true)
 const consultas = ref([])
+const loadingCancelarIds = ref(new Set())
 
 const buscarConsultas = async () => {
   loading.value = true
   try {
-    const dataInicio = dayjs().startOf('year').format('YYYY-MM-DD') + 'T00:00:00.000Z'
-    const dataFim = dayjs().endOf('year').format('YYYY-MM-DD') + 'T23:59:59.000Z'
+    const inicioAno = dayjs().startOf('year')
+    const fimAno = dayjs().endOf('year')
+    
+    const dataInicio = inicioAno.format('YYYY-MM-DD') + 'T00:00:00.000Z'
+    const dataFim = fimAno.format('YYYY-MM-DD') + 'T23:59:59.999Z'
 
     const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
 
@@ -169,7 +184,6 @@ const buscarConsultas = async () => {
     } else {
       consultas.value = (resp.data || []).filter(c => c.situacao === 'Marcado')
     }
-    console.log(resp.data)
   } catch (error) {
     console.error('Erro ao buscar consultas', error)
   } finally {
@@ -196,6 +210,23 @@ const getStatusColor = (status) => {
   return cores[status] || 'grey'
 }
 
+const cancelarConsulta = async (consultaId) => {
+  loadingCancelarIds.value.add(consultaId)
+  try {
+    const data = {
+      situacao: 'Cancelada'
+    }
+    await consultasService.aceitarOrRejeitarConsultaById(consultaId, data)
+    await buscarConsultas()
+    toast.success('Consulta cancelada com sucesso!')
+  } catch (error) {
+    toast.error('Erro ao cancelar consulta!')
+    console.error('Erro ao cancelar consulta:', error)
+  } finally {
+    loadingCancelarIds.value.delete(consultaId)
+  }
+}
+
 onMounted(() => {
   buscarConsultas()
 })
@@ -209,6 +240,7 @@ onMounted(() => {
 
 .hover-card {
   transition: all 0.3s ease;
+  min-height: 200px;
 }
 
 .hover-card:hover {
@@ -218,5 +250,13 @@ onMounted(() => {
 
 .gap-1 {
   gap: 4px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
 }
 </style>

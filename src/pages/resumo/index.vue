@@ -329,8 +329,11 @@ const atualizarMetricas = () => {
 
 const buscarConsultas = async () => {
   try {
-    const dataInicio = dayjs().startOf('year').format('YYYY-MM-DD') + 'T00:00:00.000Z'
-    const dataFim = dayjs().endOf('year').format('YYYY-MM-DD') + 'T23:59:59.000Z'
+    const inicioAno = dayjs().startOf('year')
+    const fimAno = dayjs().endOf('year')
+    
+    const dataInicio = inicioAno.format('YYYY-MM-DD') + 'T00:00:00.000Z'
+    const dataFim = fimAno.format('YYYY-MM-DD') + 'T23:59:59.999Z'
 
     const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
     consultas.value = resp.data || []
