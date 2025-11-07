@@ -109,8 +109,8 @@
                     'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
                 }"
               >
-                <v-row align="center" no-gutters>
-                  <v-col cols="auto" class="me-4 d-flex align-center justify-center">
+                <v-row  no-gutters>
+                  <v-col cols="3" class="me-4 d-flex align-center justify-center">
                     <v-avatar size="120" class="elevation-2">
                       <v-img
                         v-if="consulta?.medico?.usuario?.avatarUrl"
@@ -121,7 +121,7 @@
                     </v-avatar>
                   </v-col>
 
-                  <v-col>
+                  <v-col cols="8" class="d-flex flex-column align-center align-sm-start justify-center">
                     <div
                       class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
                     >
@@ -155,14 +155,22 @@
                       </div>
                     </div>
 
-                    <v-chip
+                    <div class="d-flex align-center justify-space-between w-100">
+                                         <v-chip
                       :color="getStatusColor(consulta?.situacao)"
                       size="small"
                       variant="flat"
                       class="font-weight-medium text-white"
                     >
                       {{ consulta?.situacao }}
-                    </v-chip>
+                    </v-chip> 
+                    <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="cancelarConsulta(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
+                      <v-icon>mdi-cancel</v-icon>
+                      Cancelar
+                    </v-btn>
+                    </div>
+
+
                   </v-col>
                 </v-row>
               </v-card>
@@ -191,6 +199,7 @@ import { getAtletaId } from '@/utils/auth'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { computed, onMounted, ref, watch } from 'vue'
+import { toast } from 'vue3-toastify'
 dayjs.locale('pt-br')
 
 const filtro = ref('todas')
@@ -199,6 +208,7 @@ const pageSize = ref(10)
 const totalPages = ref(0)
 const loading = ref(true)
 const consultas = ref([])
+const loadingCancelarIds = ref(new Set())
 
 const consultasFiltradas = computed(() => {
   if (filtro.value === 'todas') return consultas.value
@@ -229,6 +239,23 @@ const buscarConsultas = async () => {
     consultas.value = []
   } finally {
     loading.value = false
+  }
+}
+
+const cancelarConsulta = async (consultaId) => {
+  loadingCancelarIds.value.add(consultaId)
+  try {
+    const data = {
+      situacao: 'Cancelada'
+    }
+    await consultasService.aceitarOrRejeitarConsultaById(consultaId, data)
+    toast.success('Consulta cancelada com sucesso!')
+    await buscarConsultas()
+  } catch (error) {
+    toast.error('Erro ao cancelar consulta!')
+    console.error('Erro ao cancelar consulta:', error)
+  } finally {
+    loadingCancelarIds.value.delete(consultaId)
   }
 }
 
