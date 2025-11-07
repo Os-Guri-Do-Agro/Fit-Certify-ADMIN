@@ -299,31 +299,19 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/saude',
       children: [
         {
-          icon: 'mdi-calendar-check',
-          title: 'Treinos',
-          value: 'treinos',
-          to: '/agenda/treinos',
-        },
-        {
           icon: 'mdi-calendar-star',
-          title: 'Competições',
-          value: 'competicoes',
-          to: '/agenda/competicoes',
+          title: 'Eventos',
+          value: 'eventos',
+          to: '/Atleta-Screens/eventos',
         },
       ],
     },
-    {
-      icon: 'mdi mdi-exclamation',
-      title: 'Alertas',
-      value: 'alertas',
-      to: '/alertas',
-    },
-    {
-      icon: 'mdi mdi-web',
-      title: 'Visão Geral',
-      value: 'visaoGeral',
-      to: '/visao-geral',
-    },
+    // {
+    //   icon: 'mdi mdi-web',
+    //   title: 'Visão Geral',
+    //   value: 'visaoGeral',
+    //   to: '/visao-geral',
+    // },
     {
       icon: 'mdi mdi-calendar',
       title: 'Consultas',
@@ -344,6 +332,12 @@ const menusPorPerfil: Record<string, any[]> = {
       value: 'certificados',
       to: '/certificados',
       children: [],
+    },
+    {
+      icon: 'mdi mdi-bell-outline',
+      title: 'Notificações',
+      value: 'notificacoes',
+      to: '/notificacoes',
     },
     {
       icon: 'mdi-clipboard-pulse-outline',
