@@ -45,6 +45,28 @@
         >
           Pendentes
         </v-btn>
+        <v-btn
+          value="recusadas"
+          color="red"
+          :variant="filtro === 'recusadas' ? 'flat' : 'outlined'"
+          :class="[
+            'px-8 text-body-1 font-weight-medium',
+            { 'text-white': filtro === 'recusadas' },
+          ]"
+        >
+          Recusado
+        </v-btn>
+        <v-btn
+          value="canceladas"
+          color="grey"
+          :variant="filtro === 'canceladas' ? 'flat' : 'outlined'"
+          :class="[
+            'px-8 text-body-1 font-weight-medium',
+            { 'text-white': filtro === 'canceladas' },
+          ]"
+        >
+          Cancelada
+        </v-btn>
       </v-btn-toggle>
     </v-row>
 
@@ -267,6 +289,11 @@ const consultasFiltradas = computed(() => {
     return consultas.value.filter((c) => c.situacao === 'Pendente')
   if (filtro.value === 'realizadas')
     return consultas.value.filter((c) => c.situacao === 'Concluido')
+    if (filtro.value === 'recusadas')
+    return consultas.value.filter((c) => c.situacao === 'Recusado')
+    if (filtro.value === 'canceladas')
+    return consultas.value.filter((c) => c.situacao === 'Cancelada')
+  
   return consultas.value
 })
 

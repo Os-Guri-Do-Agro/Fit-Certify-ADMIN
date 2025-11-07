@@ -44,7 +44,7 @@
               </template>
 
               <v-list-item-title class="font-weight-bold">
-                {{ consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta.usuario.nome }}
+                {{ consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta?.usuario?.nome }}
               </v-list-item-title>
 
               <v-list-item-subtitle>
