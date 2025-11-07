@@ -300,6 +300,10 @@ const buscarMetricas = async () => {
       response = await medicoService.getMonthlyMetricsById(diaAtual)
       responseAnterior = await medicoService.getMonthlyMetricsById(dayjs().subtract(1, 'month').format('YYYY-MM-DD') + 'T00:00:00.000Z')
     } else {
+      if (!dataPersonalizada.value) {
+        loading.value = false
+        return
+      }
       response = await medicoService.getMetricsById(dataPersonalizada.value + 'T00:00:00.000Z')
       responseAnterior = await medicoService.getMetricsById(dayjs(dataPersonalizada.value).subtract(1, 'day').format('YYYY-MM-DD') + 'T00:00:00.000Z')
     }
