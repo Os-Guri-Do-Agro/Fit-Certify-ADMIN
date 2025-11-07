@@ -69,16 +69,6 @@
                 }"
               >
                 <v-row align="center" no-gutters class="flex-grow-1">
-                  <v-col cols="auto" class="me-4 d-flex align-center justify-center">
-                    <v-avatar size="100" class="elevation-2">
-                      <v-img
-                        v-if="consulta?.atleta?.avatarUrl"
-                        :src="consulta?.atleta?.avatarUrl"
-                        cover
-                      ></v-img>
-                      <v-icon v-else size="40" color="green">mdi-account</v-icon>
-                    </v-avatar>
-                  </v-col>
 
                   <v-col class="d-flex flex-column justify-center">
                     <div
@@ -117,7 +107,8 @@
                         :color="getStatusColor(consulta?.situacao)"
                         size="small"
                         variant="flat"
-                        class="font-weight-medium text-white"
+                        class="font-weight-medium text-white cursor-pointer"
+                        @click="verInfoAtleta(consulta?.atletaId)"
                       >
                         {{ consulta?.situacao }}
                       </v-chip>
@@ -128,7 +119,7 @@
                         rounded="xl"
                         :loading="loadingCancelarIds.has(consulta.id)"
                         prepend-icon="mdi-close"
-                        @click="cancelarConsulta(consulta.id)"
+                        @click="abrirModalConfirmacao(consulta.id)"
                       >
                         Cancelar
                       </v-btn>
@@ -143,15 +134,56 @@
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
             <p class="text-h6 mt-4 text-grey">Nenhuma consulta encontrada</p>
           </div>
-
-          <!-- Paginação -->
-          <!-- <v-row v-if="!loading && totalPages > 1" justify="center" class="mt-4">
-            <v-pagination v-model="page" :length="totalPages" active-color="green" total-visible="4" size="small"
-              @update:model-value="mudarPagina" />
-          </v-row> -->
         </div>
       </v-col>
     </v-row>
+
+    <!-- Modal de Confirmação -->
+    <v-dialog v-model="modalConfirmacao" max-width="450" persistent>
+      <v-card class="modal-confirmacao" rounded="xl">
+        <v-card-text class="text-center pa-8">
+          <div class="mb-6">
+            <v-avatar size="80" color="red-lighten-4" class="mb-4">
+              <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
+            </v-avatar>
+          </div>
+          
+          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
+            Cancelar Consulta?
+          </h3>
+          
+          <p class="text-body-1 text-grey-darken-1 mb-6">
+            Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.
+          </p>
+          
+          <div class="d-flex gap-3 justify-center">
+            <v-btn
+              color="grey-lighten-1"
+              variant="outlined"
+              size="large"
+              rounded="xl"
+              min-width="120"
+              @click="modalConfirmacao = false"
+            >
+              <v-icon start>mdi-close</v-icon>
+              Cancelar
+            </v-btn>
+            
+            <v-btn
+              color="red"
+              variant="flat"
+              size="large"
+              rounded="xl"
+              min-width="120"
+              @click="confirmarCancelamento"
+            >
+              <v-icon start>mdi-check</v-icon>
+              Confirmar
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -161,12 +193,17 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { ref, computed, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
+import atletaService from '@/services/atleta/atleta-service'
 
 dayjs.locale('pt-br')
 
 const loading = ref(true)
 const consultas = ref([])
 const loadingCancelarIds = ref(new Set())
+const infoAtleta = ref(null)
+const modalConfirmacao = ref(false)
+const consultaParaCancelar = ref(null)
+
 
 const buscarConsultas = async () => {
   loading.value = true
@@ -178,7 +215,6 @@ const buscarConsultas = async () => {
     const dataFim = fimAno.format('YYYY-MM-DD') + 'T23:59:59.999Z'
 
     const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
-
     if (Array.isArray(resp.data) && resp.data.length > 0 && resp.data[0].consultas) {
       consultas.value = resp.data.flatMap(item => item.consultas || []).filter(c => c.situacao === 'Marcado')
     } else {
@@ -188,6 +224,22 @@ const buscarConsultas = async () => {
     console.error('Erro ao buscar consultas', error)
   } finally {
     loading.value = false
+    
+    for (const consulta of consultas.value) {
+      if (consulta.atletaId) {
+        await buscarAtletaId(consulta.atletaId)
+      }
+    }
+  }
+}
+
+const buscarAtletaId = async (atletaId) => {
+  try {
+    const resp = await atletaService.getAtletaById(atletaId)
+    return resp
+  } catch (error) {
+    console.error('Erro ao buscar atleta', error)
+    return null
   }
 }
 
@@ -210,7 +262,26 @@ const getStatusColor = (status) => {
   return cores[status] || 'grey'
 }
 
-const cancelarConsulta = async (consultaId) => {
+const verInfoAtleta = async (atletaId) => {
+  console.log('AtletaId recebido:', atletaId)
+  const atleta = await buscarAtletaId(atletaId)
+  console.log('Resultado de buscarAtletaId:', atleta)
+  if (atleta) {
+    infoAtleta.value = atleta
+    console.log('Informações do atleta:', atleta)
+  } else {
+    console.log('Nenhum atleta encontrado')
+  }
+}
+
+const abrirModalConfirmacao = (consultaId) => {
+  consultaParaCancelar.value = consultaId
+  modalConfirmacao.value = true
+}
+
+const confirmarCancelamento = async () => {
+  modalConfirmacao.value = false
+  const consultaId = consultaParaCancelar.value
   loadingCancelarIds.value.add(consultaId)
   try {
     const data = {
@@ -224,6 +295,7 @@ const cancelarConsulta = async (consultaId) => {
     console.error('Erro ao cancelar consulta:', error)
   } finally {
     loadingCancelarIds.value.delete(consultaId)
+    consultaParaCancelar.value = null
   }
 }
 
@@ -250,6 +322,14 @@ onMounted(() => {
 
 .gap-1 {
   gap: 4px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.modal-confirmacao {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
 }
 
 .gap-3 {

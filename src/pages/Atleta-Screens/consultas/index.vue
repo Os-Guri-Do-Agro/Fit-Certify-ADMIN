@@ -164,7 +164,7 @@
                     >
                       {{ consulta?.situacao }}
                     </v-chip> 
-                    <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="cancelarConsulta(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
+                    <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="abrirModalConfirmacao(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
                       <v-icon>mdi-cancel</v-icon>
                       Cancelar
                     </v-btn>
@@ -190,6 +190,53 @@
         </div>
       </v-col>
     </v-row>
+
+    <!-- Modal de Confirmação -->
+    <v-dialog v-model="modalConfirmacao" max-width="450" persistent>
+      <v-card class="modal-confirmacao" rounded="xl">
+        <v-card-text class="text-center pa-8">
+          <div class="mb-6">
+            <v-avatar size="80" color="red-lighten-4" class="mb-4">
+              <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
+            </v-avatar>
+          </div>
+          
+          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
+            Cancelar Consulta?
+          </h3>
+          
+          <p class="text-body-1 text-grey-darken-1 mb-6">
+            Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.
+          </p>
+          
+          <div class="d-flex gap-3 justify-center">
+            <v-btn
+              color="grey-lighten-1"
+              variant="outlined"
+              size="large"
+              rounded="xl"
+              min-width="120"
+              @click="modalConfirmacao = false"
+            >
+              <v-icon start>mdi-close</v-icon>
+              Cancelar
+            </v-btn>
+            
+            <v-btn
+              color="red"
+              variant="flat"
+              size="large"
+              rounded="xl"
+              min-width="120"
+              @click="confirmarCancelamento"
+            >
+              <v-icon start>mdi-check</v-icon>
+              Confirmar
+            </v-btn>
+          </div>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -209,6 +256,8 @@ const totalPages = ref(0)
 const loading = ref(true)
 const consultas = ref([])
 const loadingCancelarIds = ref(new Set())
+const modalConfirmacao = ref(false)
+const consultaParaCancelar = ref(null)
 
 const consultasFiltradas = computed(() => {
   if (filtro.value === 'todas') return consultas.value
@@ -242,7 +291,14 @@ const buscarConsultas = async () => {
   }
 }
 
-const cancelarConsulta = async (consultaId) => {
+const abrirModalConfirmacao = (consultaId) => {
+  consultaParaCancelar.value = consultaId
+  modalConfirmacao.value = true
+}
+
+const confirmarCancelamento = async () => {
+  modalConfirmacao.value = false
+  const consultaId = consultaParaCancelar.value
   loadingCancelarIds.value.add(consultaId)
   try {
     const data = {
@@ -256,6 +312,7 @@ const cancelarConsulta = async (consultaId) => {
     console.error('Erro ao cancelar consulta:', error)
   } finally {
     loadingCancelarIds.value.delete(consultaId)
+    consultaParaCancelar.value = null
   }
 }
 
@@ -306,5 +363,13 @@ onMounted(() => {
 
 .gap-1 {
   gap: 4px;
+}
+
+.modal-confirmacao {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
+}
+
+.gap-3 {
+  gap: 12px;
 }
 </style>
