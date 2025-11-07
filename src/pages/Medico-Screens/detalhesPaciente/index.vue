@@ -42,7 +42,7 @@
                 class="text-center pa-5 mb-5 position-relative"
                 style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
               >
-                <div class="position-absolute" style="top: 16px; right: 16px;">
+                <div class="position-absolute d-none d-md-flex" style="top: 16px; right: 16px;">
                   <v-chip
                     :color="temLicencaAtiva ? 'success' : 'error'"
                     size="small"
@@ -289,13 +289,6 @@
                             <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
                               {{ formatarData(item.createdAt) }}
                             </v-chip>
-                            <v-btn
-                              :icon="item.favorito ? 'mdi-heart' : 'mdi-heart-outline'"
-                              :color="item.favorito ? 'blue-darken-1' : 'grey'"
-                              variant="text"
-                              size="small"
-                              @click.stop="toggleFavorito(item)"
-                            />
                           </div>
                         </template>
                       </v-list-item>
