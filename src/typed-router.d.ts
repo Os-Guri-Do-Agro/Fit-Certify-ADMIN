@@ -20,8 +20,6 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/adicionarConsulta/': RouteRecordInfo<'/adicionarConsulta/', '/adicionarConsulta', Record<never, never>, Record<never, never>>,
-    '/agendaMedica/': RouteRecordInfo<'/agendaMedica/', '/agendaMedica', Record<never, never>, Record<never, never>>,
-    '/agendaMedica/consultasPendentes/': RouteRecordInfo<'/agendaMedica/consultasPendentes/', '/agendaMedica/consultasPendentes', Record<never, never>, Record<never, never>>,
     '/analises/': RouteRecordInfo<'/analises/', '/analises', Record<never, never>, Record<never, never>>,
     '/artigos/': RouteRecordInfo<'/artigos/', '/artigos', Record<never, never>, Record<never, never>>,
     '/artigos/form': RouteRecordInfo<'/artigos/form', '/artigos/form', Record<never, never>, Record<never, never>>,
@@ -37,7 +35,9 @@ declare module 'vue-router/auto-routes' {
     '/detalhesExclusaoConta': RouteRecordInfo<'/detalhesExclusaoConta', '/detalhesExclusaoConta', Record<never, never>, Record<never, never>>,
     '/esqueceuSenha/[token]': RouteRecordInfo<'/esqueceuSenha/[token]', '/esqueceuSenha/:token', { token: ParamValue<true> }, { token: ParamValue<false> }>,
     '/login': RouteRecordInfo<'/login', '/login', Record<never, never>, Record<never, never>>,
+    '/Medico-Screens/agendaMedica/': RouteRecordInfo<'/Medico-Screens/agendaMedica/', '/Medico-Screens/agendaMedica', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/consultas/': RouteRecordInfo<'/Medico-Screens/consultas/', '/Medico-Screens/consultas', Record<never, never>, Record<never, never>>,
+    '/Medico-Screens/consultasPendentes/': RouteRecordInfo<'/Medico-Screens/consultasPendentes/', '/Medico-Screens/consultasPendentes', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/cupons/': RouteRecordInfo<'/Medico-Screens/cupons/', '/Medico-Screens/cupons', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/detalhesPaciente/': RouteRecordInfo<'/Medico-Screens/detalhesPaciente/', '/Medico-Screens/detalhesPaciente', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/editarPerfilMedico/': RouteRecordInfo<'/Medico-Screens/editarPerfilMedico/', '/Medico-Screens/editarPerfilMedico', Record<never, never>, Record<never, never>>,

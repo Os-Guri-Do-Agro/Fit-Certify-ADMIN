@@ -237,6 +237,57 @@
           </v-card>
         </v-col>
       </v-row>
+
+      <!-- Seção de Gráficos -->
+      <v-row class="mt-6">
+        <v-col cols="12">
+          <h2 class="text-h5 font-weight-bold text-grey-darken-3 mb-4">Análise Gráfica</h2>
+        </v-col>
+        
+        <v-col cols="12" md="6">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="400"
+            hover
+            :style="{
+              borderLeft: '4px solid #2196F3',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <div class="text-h6 font-weight-bold text-grey-darken-3 mb-4">
+              Consultas por Período
+            </div>
+            <v-chart
+              :option="lineChartOption"
+              style="height: 300px;"
+            />
+          </v-card>
+        </v-col>
+        
+        <v-col cols="12" md="6">
+          <v-card
+            class="pa-6"
+            elevation="4"
+            rounded="xl"
+            height="400"
+            hover
+            :style="{
+              borderLeft: '4px solid #FF5722',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+            }"
+          >
+            <div class="text-h6 font-weight-bold text-grey-darken-3 mb-4">
+              Distribuição de Métricas
+            </div>
+            <v-chart
+              :option="pieChartOption"
+              style="height: 300px;"
+            />
+          </v-card>
+        </v-col>
+      </v-row>
     </v-container>
 
 
@@ -249,7 +300,22 @@
 import consultasService from '@/services/consultas/consultas-service'
 import medicoService from '@/services/medico/medico-service'
 import dayjs from 'dayjs'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
+import VChart from 'vue-echarts'
+import { use } from 'echarts/core'
+import { CanvasRenderer } from 'echarts/renderers'
+import { LineChart, PieChart } from 'echarts/charts'
+import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
+
+use([
+  CanvasRenderer,
+  LineChart,
+  PieChart,
+  TitleComponent,
+  TooltipComponent,
+  LegendComponent,
+  GridComponent
+])
 
 const loading = ref(false)
 const filtroTempo = ref('hoje')
@@ -354,6 +420,76 @@ const buscarConsultasPendentes = async () => {
     console.error('Erro ao buscar consultas pendentes:', error)
   }
 }
+
+const consultasPorMes = computed(() => {
+  const meses = Array(12).fill(0)
+  consultas.value.forEach((consulta: any) => {
+    const mes = dayjs(consulta.dataConsulta).month()
+    meses[mes]++
+  })
+  return meses
+})
+
+const lineChartOption = computed(() => ({
+  tooltip: {
+    trigger: 'axis'
+  },
+  grid: {
+    left: '3%',
+    right: '4%',
+    bottom: '3%',
+    containLabel: true
+  },
+  xAxis: {
+    type: 'category',
+    data: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+  },
+  yAxis: {
+    type: 'value'
+  },
+  series: [{
+    name: 'Consultas',
+    type: 'line',
+    data: consultasPorMes.value,
+    smooth: true,
+    lineStyle: {
+      color: '#2196F3'
+    },
+    itemStyle: {
+      color: '#2196F3'
+    }
+  }]
+}))
+
+const pieChartOption = computed(() => ({
+  tooltip: {
+    trigger: 'item',
+    formatter: '{a} <br/>{b}: {c} ({d}%)'
+  },
+  legend: {
+    bottom: '5%',
+    left: 'center'
+  },
+  series: [{
+    name: 'Métricas',
+    type: 'pie',
+    radius: ['40%', '70%'],
+    center: ['50%', '45%'],
+    data: [
+      { value: metricas.value.certificadosEmitidos, name: 'Certificados', itemStyle: { color: '#2196F3' } },
+      { value: metricas.value.pacientesAtendidos, name: 'Pacientes', itemStyle: { color: '#4CAF50' } },
+      { value: metricas.value.consultasMarcadas, name: 'Consultas', itemStyle: { color: '#FF9800' } },
+      { value: consultasPendentes.value.length, name: 'Pendentes', itemStyle: { color: '#F44336' } }
+    ],
+    emphasis: {
+      itemStyle: {
+        shadowBlur: 10,
+        shadowOffsetX: 0,
+        shadowColor: 'rgba(0, 0, 0, 0.5)'
+      }
+    }
+  }]
+}))
 
 onMounted(() => {
   buscarMetricas()

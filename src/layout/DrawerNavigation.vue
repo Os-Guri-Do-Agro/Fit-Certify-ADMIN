@@ -266,7 +266,7 @@ const menusPorPerfil: Record<string, any[]> = {
           icon: 'mdi mdi-calendar-month-outline',
           title: 'Calendário',
           value: 'calendario',
-          to: '/agendaMedica',
+          to: '/Medico-Screens/agendaMedica',
         },
         {
           icon: 'mdi mdi-clipboard-list-outline',
@@ -277,8 +277,8 @@ const menusPorPerfil: Record<string, any[]> = {
         {
           icon: 'mdi mdi-calendar-month-outline',
           title: 'Pendentes',
-          value: 'agendaMedica/consultasPendentes',
-          to: '/agendaMedica/consultasPendentes',
+          value: 'Medico-Screens/consultasPendentes',
+          to: '/Medico-Screens/consultasPendentes',
         },
       ],
     },

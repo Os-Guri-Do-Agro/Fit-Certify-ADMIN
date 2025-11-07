@@ -85,7 +85,7 @@
             }}
             </div>
 
-           <v-btn variant="outline" color="blue" class=" text-subtitle-2" @click="router.push('/Medico-Screens/consultasMarcadas')">
+           <v-btn variant="outline" color="blue" class=" text-subtitle-2" @click="router.push('/Medico-Screens/consultas')">
             Ver mais
            </v-btn>
           </v-card-title>
