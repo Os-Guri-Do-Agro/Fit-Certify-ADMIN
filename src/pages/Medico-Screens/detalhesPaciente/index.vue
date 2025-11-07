@@ -699,11 +699,12 @@ const toggleFavorito = (item) => {
 const findAllConsultas = async (id) => {
   try {
     const response = await consultasService.getConsultasByAtletaId(id)
-    if (response && response.data) {
-      consultas.value = response.data
-    } else {
-      consultas.value = response
-    }
+    let consultasData = response && response.data ? response.data : response
+    
+    consultas.value = consultasData.filter(consulta => {
+      const situacao = consulta.situacao?.toLowerCase()
+      return situacao?.includes('concluido') || situacao?.includes('pendente') || situacao?.includes('marcado')
+    })
   } catch (error) {
     if (error.response?.status === 404) {
       consultas.value = []
