@@ -185,7 +185,7 @@
       return 'warning'
     } else if (situacaoLower.includes('recusado')) {
       return 'error'
-    } else if (situacaoLower.includes('ematendimento') || situacaoLower.includes('em atendimento')) {
+    } else if (situacaoLower.includes('cancelada') || situacaoLower.includes('cancelada')) {
       return 'info'
     } else if (situacaoLower.includes('cancelada')) { 
       return 'grey'

@@ -442,15 +442,14 @@ const getStatusColor = (situacao) => {
   if (situacao === 'Marcado') return '#00C6FE'
   if (situacao === 'Concluido') return 'green'
   if (situacao === 'Recusado' || situacao === 'Recusada') return 'red'
-  if (situacao === 'EmAtendimento') return 'purple'
+  if (situacao === 'Cancelada') return 'grey'
   return 'grey'
 }
 
 const situacoes = {
   Pendente: 'Pendente',
   Marcado: 'Marcado',
-  EmAtendimento: 'Em Atendimento',
-  Recusada: 'Recusada',
+  Cancelada: 'Cancelada',
   Recusado: 'Recusado',
   Concluido: 'Concluído',
 }
@@ -460,7 +459,7 @@ const getStatusIcon = (situacao) => {
   if (situacao === 'Marcado') return 'mdi-calendar-check'
   if (situacao === 'Concluido') return 'mdi-check-circle'
   if (situacao === 'Recusado' || situacao === 'Recusada') return 'mdi-close-circle'
-  if (situacao === 'EmAtendimento') return 'mdi-account-clock'
+  if (situacao === 'Cancelada') return 'mdi-account-clock'
   return 'mdi-help-circle'
 }
 
