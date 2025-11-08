@@ -323,7 +323,7 @@ const menusPorPerfil: Record<string, any[]> = {
       icon: 'mdi-chart-bar',
       title: 'Registros Médicos',
       value: 'registrosMedicos',
-      to: '/registros-medicos',
+      to: '/Atleta-Screens/registrosMedicos',
       children: [],
     },
     {
