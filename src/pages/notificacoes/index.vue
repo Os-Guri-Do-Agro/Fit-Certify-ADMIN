@@ -44,8 +44,8 @@
               <div v-if="notificacoes.length > 0">
                 <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="1" :class="[
                   'notification-item mb-3 rounded-xl',
-                  { 'unread': !notificacao.visualizado }
-                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-4' : 'blue'">
+                  { 'unread': !notificacao.visualizado, 'read': notificacao.visualizado }
+                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-5' : 'blue'">
                   <v-card-text class="pa-4">
                     <div class="d-flex align-center">
                       <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
@@ -96,9 +96,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import { computed, ref } from 'vue'
 dayjs.locale('pt-br')
 
 
@@ -247,6 +247,10 @@ const marcarTodasComoLidas = () => {
 .notification-item.unread {
   border-left-color: #00c6fe;
   background: rgba(0, 198, 254, 0.02);
+}
+
+.notification-item.read {
+  background: rgba(0, 0, 0, 0.05) !important;
 }
 
 .notification-item:hover {

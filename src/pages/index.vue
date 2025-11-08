@@ -6,8 +6,8 @@
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import Resumo from '../pages/resumo/index.vue'
-import Calendario from '../pages/agendaMedica/index.vue'
+import Resumo from '../pages/Atleta-Screens/registrosMedicos'
+import Calendario from '../pages/Medico-Screens/agendaMedica/index.vue'
 import { getRole } from '@/utils/auth';
 const validationScreenByRole = ref()
 
