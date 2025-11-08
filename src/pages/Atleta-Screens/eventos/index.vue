@@ -66,7 +66,7 @@
                                 </div>
                             </div>
                             
-                            <v-btn :href="`https://fitcertify365.com/#/evento/${evento.id}`" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mt-4">
+                            <v-btn :href="`https://fitcertify365.com/#/evento/${evento.id}`" target="_blank" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mt-4">
                                 <v-icon class="mr-2">mdi-eye</v-icon>
                                 Ver Detalhes
                             </v-btn>

@@ -102,40 +102,7 @@ import { computed, ref } from 'vue'
 dayjs.locale('pt-br')
 
 
-const notificacoes = ref([
-  {
-    id: 1,
-    titulo: 'Nova consulta agendada',
-    descricao: 'Você tem uma consulta marcada para amanhã às 14:00 com Dr. João Silva.',
-    data: '2024-01-15T10:30:00',
-    visualizado: false,
-    tipo: 'consulta'
-  },
-  {
-    id: 2,
-    titulo: 'Resultado de exame disponível',
-    descricao: 'Os resultados do seu exame de sangue já estão disponíveis para visualização.',
-    data: '2024-01-14T16:45:00',
-    visualizado: true,
-    tipo: 'exame'
-  },
-  {
-    id: 3,
-    titulo: 'Lembrete de medicação',
-    descricao: 'Não se esqueça de tomar sua medicação às 20:00.',
-    data: '2024-01-14T08:00:00',
-    visualizado: false,
-    tipo: 'medicacao'
-  },
-  {
-    id: 4,
-    titulo: 'Consulta cancelada',
-    descricao: 'Sua consulta de hoje foi cancelada. Entre em contato para reagendar.',
-    data: '2024-01-13T12:20:00',
-    visualizado: true,
-    tipo: 'cancelamento'
-  }
-])
+const notificacoes = ref<any[]>([])
 
 const notificacoesNaoLidas = computed(() => {
   return notificacoes.value.filter(n => !n.visualizado).length

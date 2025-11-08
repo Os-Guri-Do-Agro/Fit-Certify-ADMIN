@@ -436,7 +436,7 @@ const selectDay = async (day) => {
 }
 
 const formatStatus = (status) => {
-  if (status === 'ematendimento') return 'Em Atendimento'
+  if (status === 'cancelada') return 'Cancelada'
   if (status === 'concluido') return 'Concluído'
   if (status === 'marcado') return 'Marcado'
   if (status === 'pendente') return 'Pendente'
@@ -446,7 +446,7 @@ const formatStatus = (status) => {
 
 const getStatusColor = (status) => {
   if (status === 'recusado') return 'red'
-  if (status === 'ematendimento') return 'yellow'
+  if (status === 'cancelada') return 'grey'
   if (status === 'concluido') return 'green'
   if (status === 'marcado') return 'blue'
   if (status === 'pendente') return 'orange'
