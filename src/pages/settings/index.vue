@@ -102,13 +102,13 @@ const accountItems = computed(() => {
   const baseItems = [
     { icon: 'lock-reset', title: 'Nova senha', to: '/novaSenhaLogado' },
     { icon: 'shield-lock-outline', title: 'Privacidade', to: '/politicaPrivacidade' },
+    { icon: 'ticket-percent', title: 'Indicações', to: '/cupons' }
   ];
 
   // Adiciona item específico para médico
   if (userRole.value === 'medico') {
     baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Medico-Screens/editarPerfilMedico' });
     baseItems.push({ icon: 'doctor', title: 'Perfil Público', to: '/Medico-Screens/editarPerfilPublico' });
-    baseItems.push({ icon: 'ticket-percent', title: 'Indicações', to: '/Medico-Screens/cupons' });
   }
   if (userRole.value === 'atleta') {
     baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Atleta-Screens/editarPerfilAtleta' });

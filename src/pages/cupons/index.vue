@@ -1,6 +1,6 @@
 <template>
   <div class="pa-4">
-    <VCard image="../../../assets/banner-admin-cmed.png" class="mb-8 personacard" elevation="3">
+    <VCard image="../../assets/banner-admin-cmed.png" class="mb-8 personacard" elevation="3">
       <VRow class="pa-6">
         <VCol>
           <VChip color="white" variant="elevated" class="mb-3" size="small">
@@ -334,7 +334,7 @@ const createCupom = async () => {
     creating.value = false;
     showCreateDialog.value = false;
     await getMyCupom()
-    toast.success('Cupom criado com sucesso! Compartilhe com seus pacientes.', {
+    toast.success('Cupom criado com sucesso!', {
       duration: 4000
     });
   }, 1500);
@@ -396,7 +396,7 @@ const shareCupom = (cupom) => {
 };
 
 const navigateToInfo = () => {
-  router.push('/cupom-info')
+  window.open('/cupom-info', '_blank')
 };
 </script>
 
