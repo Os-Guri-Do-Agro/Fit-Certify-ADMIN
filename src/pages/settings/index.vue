@@ -24,7 +24,7 @@
 
         <VCard class="mb-4">
           <VList>
-            <VListItem v-for="(item, index) in supportItems" :key="index" @click="router.push(`/settings/${item.to}`)">
+            <VListItem v-for="(item, index) in supportItems" :key="index" @click="router.push(item.to)">
               <template #prepend>
                 <VIcon :icon="`mdi-${item.icon}`" color="primary" />
               </template>
@@ -130,7 +130,7 @@ const handleNavigation = (item: any) => {
 };
 
 const supportItems: any[] = [
-  { icon: 'help-circle-outline', title: 'Central de Ajuda', to: 'Central De Ajuda' },
+  { icon: 'help-circle-outline', title: 'Central de Ajuda', to: '/centralAjuda' },
 ];
 
 const handleLogout = () => {

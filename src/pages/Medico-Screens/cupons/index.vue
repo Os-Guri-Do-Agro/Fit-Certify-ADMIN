@@ -56,6 +56,41 @@
       </VRow>
     </VCard>
 
+    <!-- Filtros -->
+    <div class="filter-section mb-6">
+      <VRow align="center" justify="space-between">
+        <VCol cols="auto">
+          <div class="d-flex align-center">
+            <VAvatar size="32" color="primary" class="mr-3">
+              <VIcon icon="mdi-filter-variant" color="white" size="18" />
+            </VAvatar>
+            <div>
+              <div class="text-h6 font-weight-bold">Resumo: {{ getSelectedMonthName() }}</div>
+              <div class="text-caption text-grey-600">Visualização por período</div>
+            </div>
+          </div>
+        </VCol>
+        <VCol cols="auto">
+          <VCard class="filter-card" elevation="2" rounded="lg">
+            <VCardText class="pa-3">
+              <VSelect
+                v-model="selectedMonth"
+                :items="monthOptions"
+                label="Período"
+                variant="solo"
+                density="compact"
+                hide-details
+                style="min-width: 220px;"
+                prepend-inner-icon="mdi-calendar-month"
+                color="primary"
+                bg-color="grey-lighten-5"
+              />
+            </VCardText>
+          </VCard>
+        </VCol>
+      </VRow>
+    </div>
+
     <!-- Cupons Grid -->
     <VRow>
       <VCol v-for="(cupom, index) in cupons" :key="index" cols="12" md="6" lg="4">
@@ -106,6 +141,36 @@
         </div>
       </VCol>
     </VRow>
+
+    <!-- Informações Importantes -->
+    <VCard class="mt-6" elevation="2" color="info" variant="tonal">
+      <VCardText>
+        <VRow align="center">
+          <VCol>
+            <div class="d-flex align-center mb-3">
+              <VIcon icon="mdi-information" size="24" class="mr-3" color="info" />
+              <div class="text-h6 font-weight-bold">Informações Importantes</div>
+            </div>
+            <div class="text-body-2 mb-3">
+              • Cupons têm validade de 2 anos a partir da criação<br>
+              • Desconto de 10% aplicado automaticamente no checkout<br>
+              • Limite máximo de 999 usos por cupom<br>
+              • Apenas 1 cupom ativo por usuário
+            </div>
+          </VCol>
+          <VCol cols="auto">
+            <VBtn 
+              color="info" 
+              variant="outlined" 
+              @click="navigateToInfo"
+              prepend-icon="mdi-arrow-right"
+            >
+              Ver Mais
+            </VBtn>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
 
     <!-- Create Cupom Dialog -->
     <VDialog v-model="showCreateDialog" max-width="500">
@@ -203,8 +268,11 @@
 import dayjs from 'dayjs';
 import { ref, computed, onMounted } from 'vue';
 import { toast } from 'vue3-toastify';
+import { useRouter } from 'vue-router';
 import { getUserID } from '@/utils/auth'
 import cupomService from '@/services/cupom/cupom-service';
+
+const router = useRouter();
 
 const showCreateDialog = ref(false);
 const showDetailsDialog = ref(false);
@@ -213,23 +281,46 @@ const creating = ref(false);
 const formRef = ref(null);
 
 onMounted(async () => {
+  selectedMonth.value = dayjs().format('MM')
   await getMyCupom()
 })
 
+const getSelectedMonthName = () => {
+  const month = monthOptions.find(m => m.value === selectedMonth.value)
+  return month ? month.title : 'Mês Atual'
+}
+
 const getMyCupom = async () => {
   const response = await cupomService.getCupomByResponsavelID(getUserID())
-  cupons.value = response.data ? [response.data] : []
+  cupons.value = (response.data && !Array.isArray(response.data) && Object.keys(response.data).length > 0) ? [response.data] : []
 }
 
 const newCupom = {
   codigo: 'MEDADMIN',
-  limiteMaximoDeUso: 10,
-  validade: dayjs('2026-12-31').toISOString(),
+  limiteMaximoDeUso: 999,
+  validade: dayjs().add(2, 'year').toISOString(),
   porcentagem: 10,
   responsavelID: getUserID()
 };
 
 const cupons = ref([]);
+const selectedMonth = ref(dayjs().format('MM'));
+
+const monthOptions = [
+  { title: 'Todos os meses', value: 'todos' },
+  { title: 'Janeiro', value: '01' },
+  { title: 'Fevereiro', value: '02' },
+  { title: 'Março', value: '03' },
+  { title: 'Abril', value: '04' },
+  { title: 'Maio', value: '05' },
+  { title: 'Junho', value: '06' },
+  { title: 'Julho', value: '07' },
+  { title: 'Agosto', value: '08' },
+  { title: 'Setembro', value: '09' },
+  { title: 'Outubro', value: '10' },
+  { title: 'Novembro', value: '11' },
+  { title: 'Dezembro', value: '12' }
+];
 
 
 const createCupom = async () => {
@@ -302,6 +393,10 @@ const shareCupom = (cupom) => {
     navigator.clipboard.writeText(text);
     toast.success('Cupom copiado para compartilhar!');
   }
+};
+
+const navigateToInfo = () => {
+  router.push('/cupom-info')
 };
 </script>
 
@@ -435,5 +530,19 @@ const shareCupom = (cupom) => {
   bottom: 0;
   background: rgba(0, 0, 0, 0.3);
   border-radius: inherit;
+}
+
+.filter-section {
+  padding: 16px 0;
+}
+
+.filter-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.filter-card:hover {
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 </style>
