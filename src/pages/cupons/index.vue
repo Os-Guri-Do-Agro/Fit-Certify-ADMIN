@@ -12,7 +12,7 @@
             Cupons de Desconto
           </h2>
           <p class="text-body-1 text-white mb-4 opacity-90">
-            Ofereça descontos exclusivos para seus pacientes
+            Ofereça descontos exclusivos
           </p>
 
           <VRow class="mt-4">
