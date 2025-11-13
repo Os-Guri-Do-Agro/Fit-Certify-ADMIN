@@ -17,8 +17,14 @@ class CupomService {
   }
 
   validarCupom(codigo: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
-      apiClient.get(`/cupom/validar-cupom?codigo=${codigo}`),
+
+      apiClient.get(`/cupom/validar-cupom?codigo=${codigo}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
       'Failed to fetch all categories'
     )
   }
@@ -34,16 +40,18 @@ class CupomService {
     )
   }
 
-  updateCupom(id: string): Promise<any> {
+  updateCupom(id: string, planoId: string, usuarioId: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
-      apiClient.patch(`/cupom/updateQuantidadeUsada/${id}`, {
+      apiClient.patch(`/cupom/updateQuantidadeUsada/${id}?planoId=${planoId}&usuarioId=${usuarioId}`, {}, {
         headers: {
-          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       }),
       'Failed to update cupom'
     )
   }
+
   createCupomByMedico(data: any): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(
