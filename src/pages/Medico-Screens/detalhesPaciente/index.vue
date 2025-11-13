@@ -287,7 +287,7 @@
                               {{ item.situacao }}
                             </v-chip>
                             <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
-                              {{ formatarData(item.createdAt) }}
+                              {{ formatarDataLocal(item.createdAt) }}
                             </v-chip>
                           </div>
                         </template>
@@ -370,7 +370,7 @@
 
                         <template #append>
                           <v-chip size="small" variant="outlined">
-                            {{ formatarData(alergia.createdAt) }}
+                            {{ formatarDataLocal(alergia.createdAt) }}
                           </v-chip>
                         </template>
                       </v-list-item>
@@ -432,7 +432,7 @@
                   <div>
                     <div class="text-caption text-grey">Data da Consulta</div>
                     <div class="font-weight-medium">
-                      {{ formatarData(exameSelecionado.createdAt) }}
+                      {{ formatarDataLocal(exameSelecionado.createdAt) }}
                     </div>
                   </div>
                 </div>
@@ -524,6 +524,7 @@
 </template>
 
 <script setup>
+import { formatarData, formatarDataHoraLocal, formatarDataLocal } from '@/utils/date.utils'
 import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
@@ -579,10 +580,6 @@ const calcularIdade = (dataNascimento) => {
 
 
 
-const formatarData = (data) => {
-  if (!data) return 'N/A'
-  return new Date(data).toLocaleDateString('pt-BR')
-}
 
 const formatarTelefone = (telefone) => {
   if (!telefone) return null

@@ -120,7 +120,7 @@
                               {{ item.situacao }}
                             </v-chip>
                             <v-chip size="small" variant="outlined">
-                              {{ formatarData(item.createdAt) }}
+                              {{ formatarDataHoraLocal(item.createdAt) }}
                             </v-chip>
                           </div>
                           <v-icon :color="expandedItems[index] ? 'blue-darken-1' : 'grey'">
@@ -162,6 +162,7 @@
   </template>
   
   <script setup>
+  import { formatarData, formatarDataHoraLocal } from '@/utils/date.utils'
   import consultasService from '@/services/consultas/consultas-service'
   import { getAtletaId } from '@/utils/auth'
   import { onMounted, ref } from 'vue'
@@ -171,10 +172,6 @@
   const historicoMedicoExpanded = ref(false)
   const expandedItems = ref({})
   
-  const formatarData = (data) => {
-    if (!data) return 'N/A'
-    return new Date(data).toLocaleDateString('pt-BR')
-  }
   
   const getSituacaoColor = (situacao) => {
     if (!situacao) return 'grey'

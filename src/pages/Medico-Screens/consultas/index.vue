@@ -90,7 +90,7 @@
                         <v-icon size="16" class="me-2" color="blue"
                           >mdi-calendar</v-icon
                         >
-                        {{ formatarData(consulta?.dataConsulta) }}
+                        {{ formatarDataLocal(consulta?.dataConsulta) }}
                       </div>
                       <div
                         class="text-body-2 text-grey-darken-2 d-flex align-center"
@@ -98,7 +98,7 @@
                         <v-icon size="16" class="me-2" color="orange"
                           >mdi-clock-outline</v-icon
                         >
-                        {{ formatarHorario(consulta?.dataConsulta) }}
+                        {{ formatarHorarioLocal(consulta?.dataConsulta) }}
                       </div>
                     </div>
 
@@ -189,6 +189,7 @@
 
 <script setup>
 import consultasService from '@/services/consultas/consultas-service'
+import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { ref, computed, onMounted } from 'vue'
@@ -243,13 +244,6 @@ const buscarAtletaId = async (atletaId) => {
   }
 }
 
-const formatarData = (data) => {
-  return dayjs(data).format('DD/MM/YYYY')
-}
-
-const formatarHorario = (data) => {
-  return dayjs(data).format('HH:mm')
-}
 
 const getStatusColor = (status) => {
   const cores = {

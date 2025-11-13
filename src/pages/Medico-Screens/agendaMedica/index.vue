@@ -196,11 +196,11 @@
                         }}
                       </v-icon>
                       <div class="text-body-2 font-weight-medium">
-                        {{ dayjs(hora.horario).utcOffset(0).format('HH:mm') }}
+                        {{ formatarHorarioLocal(hora.horario) }}
                       </div>
                       <div class="text-caption text-grey">
                         {{
-                          dayjs(hora.horarioFim).utcOffset(0).format('HH:mm')
+                          formatarHorarioLocal(hora.horarioFim)
                         }}
                       </div>
                     </v-card-text>
@@ -247,6 +247,7 @@
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import { getMedicoId, getRole } from '@/utils/auth'
+import { formatarDataHoraLocal, formatarHorarioLocal, formatarDataLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import timezone from 'dayjs/plugin/timezone'
@@ -256,7 +257,6 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 dayjs.extend(utc)
 dayjs.extend(timezone)
-dayjs.locale('pt-br')
 const loading = ref(false)
 const atletaSelected = ref(null)
 const ActiveDialog = ref(false)
