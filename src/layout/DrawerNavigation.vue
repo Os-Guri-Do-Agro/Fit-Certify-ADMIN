@@ -201,12 +201,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, toRaw } from 'vue'
 import { useLayoutStore } from '@/stores/layout'
-import { useRoute } from 'vue-router'
-import { onMounted, onBeforeUnmount } from 'vue'
-import { getPayload, logout, isMedico } from '@/utils/auth'
+import { getPayload, isMedico, logout } from '@/utils/auth'
 import { getProfileRoute } from '@/utils/profile'
+import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
+import { useRoute } from 'vue-router'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
@@ -267,13 +266,19 @@ const menusPorPerfil: Record<string, any[]> = {
           icon: 'mdi mdi-calendar-month-outline',
           title: 'Calendário',
           value: 'calendario',
-          to: '/agendaMedica',
+          to: '/Medico-Screens/agendaMedica',
+        },
+        {
+          icon: 'mdi mdi-clipboard-list-outline',
+          title: 'Consultas',
+          value: 'consultas',
+          to: '/Medico-Screens/consultas',
         },
         {
           icon: 'mdi mdi-calendar-month-outline',
           title: 'Pendentes',
-          value: 'agendaMedica/consultasPendentes',
-          to: '/agendaMedica/consultasPendentes',
+          value: 'Medico-Screens/consultasPendentes',
+          to: '/Medico-Screens/consultasPendentes',
         },
       ],
     },
@@ -284,13 +289,7 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/resumo',
       children: [],
     },
-    {
-      icon: 'mdi-chart-bar',
-      title: 'MRP',
-      value: 'mrp',
-      to: '/rmp',
-      children: [],
-    },
+
   ],
   atleta: [
     {
@@ -300,31 +299,19 @@ const menusPorPerfil: Record<string, any[]> = {
       to: '/saude',
       children: [
         {
-          icon: 'mdi-calendar-check',
-          title: 'Treinos',
-          value: 'treinos',
-          to: '/agenda/treinos',
-        },
-        {
           icon: 'mdi-calendar-star',
-          title: 'Competições',
-          value: 'competicoes',
-          to: '/agenda/competicoes',
+          title: 'Eventos',
+          value: 'eventos',
+          to: '/Atleta-Screens/eventos',
         },
       ],
     },
-    {
-      icon: 'mdi mdi-exclamation',
-      title: 'Alertas',
-      value: 'alertas',
-      to: '/alertas',
-    },
-    {
-      icon: 'mdi mdi-web',
-      title: 'Visão Geral',
-      value: 'visaoGeral',
-      to: '/visao-geral',
-    },
+    // {
+    //   icon: 'mdi mdi-web',
+    //   title: 'Visão Geral',
+    //   value: 'visaoGeral',
+    //   to: '/visao-geral',
+    // },
     {
       icon: 'mdi mdi-calendar',
       title: 'Consultas',
@@ -336,7 +323,7 @@ const menusPorPerfil: Record<string, any[]> = {
       icon: 'mdi-chart-bar',
       title: 'Registros Médicos',
       value: 'registrosMedicos',
-      to: '/registros-medicos',
+      to: '/Atleta-Screens/registrosMedicos',
       children: [],
     },
     {
@@ -345,6 +332,12 @@ const menusPorPerfil: Record<string, any[]> = {
       value: 'certificados',
       to: '/certificados',
       children: [],
+    },
+    {
+      icon: 'mdi mdi-bell-outline',
+      title: 'Notificações',
+      value: 'notificacoes',
+      to: '/notificacoes',
     },
     {
       icon: 'mdi-clipboard-pulse-outline',

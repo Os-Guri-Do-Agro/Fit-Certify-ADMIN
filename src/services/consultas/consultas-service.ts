@@ -23,6 +23,20 @@ class consultasService {
       'Failed to get consultas by atleta ID'
     )
   }
+
+  async findConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post(`/consulta/findConsultasByMedico`,
+        { dataInicio, dataFim },
+        { headers: { Authorization: `Bearer ${token}` } }
+      ),
+      'Failed to get consultas by doctor'
+    )
+  }
+
+
+
   async getConsultasPendentesByMedico(): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

@@ -664,7 +664,7 @@
                             <div class="pr-5 pr-md-7">
                               <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
                               <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{ formatNomeCartao(nomeCartao)
-                                }}</v-card-text>
+                              }}</v-card-text>
                             </div>
                           </div>
                         </v-card>
@@ -988,8 +988,8 @@
                   </VBtn>
                   <VBtn v-if="step !== 4" class="text-white w-100" height="43px" max-width="237px" :loading="loading"
                     :disabled="loading || (step === 1 && !metodoPagamento)" :style="step === 3
-                        ? 'background-color:#88ce0d'
-                        : 'background-color: #00c6fe'
+                      ? 'background-color:#88ce0d'
+                      : 'background-color: #00c6fe'
                       " @click="handleNext(next)">
                     {{
                       step !== 3
@@ -1017,7 +1017,7 @@ import { getPayload, refreshUserData } from '@/utils/auth'
 import { toast } from 'vue3-toastify'
 import cupomService from '@/services/cupom/cupom-service'
 import pagarmeService from '@/services/pagarme/pagarme-service'
-
+import { getUserID } from '@/utils/auth'
 const step = ref(1)
 const router = useRouter()
 const loading = ref(false)
@@ -1056,6 +1056,7 @@ const formatarTelefone = (telefone) => {
 }
 
 onMounted(() => {
+  console.log(planoSelecionado.value)
   if (!planoSelecionado.value) {
     router.push('/registerPlanos')
   }
@@ -1132,14 +1133,13 @@ const handleNext = async (next) => {
         ]
         : [],
     }
-
     await pagarmeService
       .realizarAssinatura(data)
       .then(async (resp) => {
         if (resp?.success && resp?.data?.status == 'active') {
           toast.success('Pagamento realizado com sucesso!')
           if (cupomNeedUpdate.value === true) {
-          await cupomService.updateCupom(cupom.value.id)
+             await cupomService.updateCupom(cupom.value.id, planoSelecionado.value.id, getUserID())
           }
           await refreshUserData()
           next()

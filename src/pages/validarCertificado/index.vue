@@ -261,10 +261,15 @@ import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import dayjs from 'dayjs'
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import 'dayjs/locale/pt-br'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import atletaService from '@/services/atleta/atleta-service'
 import medicoService from '@/services/medico/medico-service'
+
+dayjs.extend(utc)
+dayjs.extend(timezone)
 
 const route = useRoute()
 const display = useDisplay()
@@ -278,6 +283,26 @@ const containerClass = computed(() => {
   return display.mobile ? 'px-2 py-4' : 'px-4 py-8'
 })
 
+const getUserTimezone = () => {
+  try {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    return timeZone
+  } catch (e) {
+    try {
+      return dayjs.tz.guess()
+    } catch (e2) {
+      return 'America/Sao_Paulo'
+    }
+  }
+}
+
+const temTimezone = (dataString) => {
+  if (typeof dataString !== 'string') return false
+  return dataString.includes('Z') || 
+         dataString.match(/[+-]\d{2}:\d{2}$/) !== null ||
+         dataString.match(/[+-]\d{4}$/) !== null
+}
+
 const isValido = computed(() => {
   if (!licenca.value) return false
   
@@ -286,8 +311,35 @@ const isValido = computed(() => {
   }
   
   if (licenca.value.validade) {
-    const dataValidade = dayjs(licenca.value.validade)
-    return dataValidade.isAfter(dayjs())
+    try {
+      const userTimezone = getUserTimezone()
+      const dataValidadeString = licenca.value.validade.toString()
+      let dataValidade
+      
+      // Se a data tem timezone explícito, dayjs já detecta automaticamente
+      if (temTimezone(dataValidadeString)) {
+        dataValidade = dayjs(licenca.value.validade)
+      } else {
+        // Se não tem timezone, assume UTC (padrão de APIs REST)
+        dataValidade = dayjs.utc(licenca.value.validade)
+      }
+      
+      // Se não é válida, tenta parse normal como fallback
+      if (!dataValidade.isValid()) {
+        dataValidade = dayjs(licenca.value.validade)
+      }
+      
+      // Converte para o timezone do dispositivo do usuário
+      if (dataValidade.isValid()) {
+        const dataValidadeUsuario = dataValidade.tz(userTimezone)
+        const agoraUsuario = dayjs().tz(userTimezone)
+        return dataValidadeUsuario.isAfter(agoraUsuario)
+      }
+    } catch (e) {
+      console.error('Erro ao validar data:', e)
+      // Fallback: validação simples sem timezone
+      return dayjs(licenca.value.validade).isAfter(dayjs())
+    }
   }
   
   return false
@@ -295,19 +347,65 @@ const isValido = computed(() => {
 
 const formatarData = (data) => {
   if (!data) return '--'
-  return dayjs(data).format('DD/MM/YYYY')
+  try {
+    const userTimezone = getUserTimezone()
+    const dataString = data.toString()
+    let dataParsed
+    
+    // Se a data tem timezone explícito, dayjs já detecta automaticamente
+    if (temTimezone(dataString)) {
+      dataParsed = dayjs(data)
+    } else {
+      // Se não tem timezone, assume UTC (padrão de APIs REST)
+      dataParsed = dayjs.utc(data)
+    }
+    
+    // Se não é válida, tenta parse normal como fallback
+    if (!dataParsed.isValid()) {
+      dataParsed = dayjs(data)
+    }
+    
+    // Converte para o timezone do dispositivo do usuário e formata
+    if (dataParsed.isValid()) {
+      return dataParsed.tz(userTimezone).format('DD/MM/YYYY')
+    }
+    
+    return '--'
+  } catch (e) {
+    console.error('Erro ao formatar data:', e)
+    // Fallback: formata sem conversão de timezone
+    return dayjs(data).isValid() ? dayjs(data).format('DD/MM/YYYY') : '--'
+  }
 }
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return '--'
-  const hoje = dayjs()
-  const nascimento = dayjs(dataNascimento)
-  let idade = hoje.diff(nascimento, 'year')
-  const mes = hoje.diff(nascimento, 'month') % 12
-  if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
-    idade--
+  try {
+    const userTimezone = getUserTimezone()
+    const hoje = dayjs().tz(userTimezone)
+    // Para calcular idade, usamos apenas a data (sem hora), então não precisa converter timezone
+    const nascimento = dayjs(dataNascimento)
+    
+    if (!nascimento.isValid()) return '--'
+    
+    let idade = hoje.diff(nascimento, 'year')
+    const mes = hoje.diff(nascimento, 'month') % 12
+    if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
+      idade--
+    }
+    return idade
+  } catch (e) {
+    console.error('Erro ao calcular idade:', e)
+    // Fallback: cálculo simples sem timezone
+    const hoje = dayjs()
+    const nascimento = dayjs(dataNascimento)
+    let idade = hoje.diff(nascimento, 'year')
+    const mes = hoje.diff(nascimento, 'month') % 12
+    if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
+      idade--
+    }
+    return idade
   }
-  return idade
 }
 
 const buscarAtleta = async (atletaId) => {

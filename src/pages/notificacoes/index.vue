@@ -44,8 +44,8 @@
               <div v-if="notificacoes.length > 0">
                 <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="1" :class="[
                   'notification-item mb-3 rounded-xl',
-                  { 'unread': !notificacao.visualizado }
-                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-4' : 'blue'">
+                  { 'unread': !notificacao.visualizado, 'read': notificacao.visualizado }
+                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-5' : 'blue'">
                   <v-card-text class="pa-4">
                     <div class="d-flex align-center">
                       <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
@@ -61,7 +61,7 @@
                           </h4>
                           <div class="d-flex align-center">
                             <span class="text-caption text-grey mr-2">
-                              {{ formatarData(notificacao.data) }}
+                              {{ formatarDataLocal(notificacao.data) }}
                             </span>
                             <v-chip v-if="!notificacao.visualizado" color="#00c6fe" size="x-small" class="mr-2">
                               Nova
@@ -96,54 +96,19 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { formatarDataHora , formatarDataLocal} from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import { computed, ref } from 'vue'
 dayjs.locale('pt-br')
 
 
-const notificacoes = ref([
-  {
-    id: 1,
-    titulo: 'Nova consulta agendada',
-    descricao: 'Você tem uma consulta marcada para amanhã às 14:00 com Dr. João Silva.',
-    data: '2024-01-15T10:30:00',
-    visualizado: false,
-    tipo: 'consulta'
-  },
-  {
-    id: 2,
-    titulo: 'Resultado de exame disponível',
-    descricao: 'Os resultados do seu exame de sangue já estão disponíveis para visualização.',
-    data: '2024-01-14T16:45:00',
-    visualizado: true,
-    tipo: 'exame'
-  },
-  {
-    id: 3,
-    titulo: 'Lembrete de medicação',
-    descricao: 'Não se esqueça de tomar sua medicação às 20:00.',
-    data: '2024-01-14T08:00:00',
-    visualizado: false,
-    tipo: 'medicacao'
-  },
-  {
-    id: 4,
-    titulo: 'Consulta cancelada',
-    descricao: 'Sua consulta de hoje foi cancelada. Entre em contato para reagendar.',
-    data: '2024-01-13T12:20:00',
-    visualizado: true,
-    tipo: 'cancelamento'
-  }
-])
+const notificacoes = ref<any[]>([])
 
 const notificacoesNaoLidas = computed(() => {
   return notificacoes.value.filter(n => !n.visualizado).length
 })
 
-const formatarData = (data: string) => {
-  return dayjs(data).format('DD/MM/YYYY [às] HH:mm')
-}
 
 const getNotificationColor = (tipo: string) => {
   switch (tipo) {
@@ -247,6 +212,10 @@ const marcarTodasComoLidas = () => {
 .notification-item.unread {
   border-left-color: #00c6fe;
   background: rgba(0, 198, 254, 0.02);
+}
+
+.notification-item.read {
+  background: rgba(0, 0, 0, 0.05) !important;
 }
 
 .notification-item:hover {

@@ -201,7 +201,7 @@
                     </div>
                     <h4 class="card-title">Horários de Trabalho</h4>
                   </div>
-                  <p class="card-content">{{ formatarHorario(medico?.horarioInicio) }} - {{ formatarHorario(medico?.horarioFim) }}</p>
+                  <p class="card-content">{{ formatarHorarioLocal(medico?.horarioInicio) }} - {{ formatarHorarioLocal(medico?.horarioFim) }}</p>
                 </div>
               </v-col>
             </v-row>
@@ -292,6 +292,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatarData, formatarHorarioLocal } from '@/utils/date.utils'
 import router from '@/router'
 import medicoService from '@/services/medico/medico-service'
 import { getMedicoId, getUserID } from '@/utils/auth'
@@ -299,15 +300,6 @@ import { onMounted, ref } from 'vue'
 
 const medico = ref<any>()
 
-const formatarData = (data: string) => {
-  if (!data) return null
-  return new Date(data).toLocaleDateString('pt-BR')
-}
-
-const formatarHorario = (horario: string) => {
-  if (!horario) return null
-  return new Date(horario).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-}
 
 const formatarTelefone = (telefone: string) => {
   if (!telefone) return null

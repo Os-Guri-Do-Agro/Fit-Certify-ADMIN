@@ -123,7 +123,7 @@
                     {{ medico?.diaFuncionamentoInicio }} - {{ medico?.diaFuncionamentoFim }}
                   </v-chip>
                   <v-chip class="info-chip" prepend-icon="mdi-calendar">
-                    {{ formatarHorario(medico?.horarioInicio) }} - {{ formatarHorario(medico?.horarioFim) }}
+                    {{ formatarHorarioLocal(medico?.horarioInicio) }} - {{ formatarHorarioLocal(medico?.horarioFim) }}
                   </v-chip>
                 </div>
 
@@ -334,10 +334,10 @@
                       }}
                     </v-icon>
                     <div class="text-body-2 font-weight-medium">
-                      {{ dayjs(hora.horario).utcOffset(0).format('HH:mm') }}
+                      {{ formatarHorario(hora.horario) }}
                     </div>
                     <div class="text-caption text-grey">
-                      {{ dayjs(hora.horarioFim).utcOffset(0).format('HH:mm') }}
+                      {{ formatarHorario(hora.horarioFim) }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -399,6 +399,7 @@ import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import medicoService from '@/services/medico/medico-service'
 import { getAtletaId } from '@/utils/auth'
+import { formatarDataHoraLocal, formatarHorario, formatarDataHora, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import timezone from 'dayjs/plugin/timezone'
@@ -408,7 +409,6 @@ import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 dayjs.extend(utc)
 dayjs.extend(timezone)
-dayjs.locale('pt-br')
 
 // const router = useRouter()
 const route = useRoute()
@@ -426,31 +426,20 @@ const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const consultasMedicoAtleta = ref([])
 const loadingConsultas = ref(false)
 
-const formatarHorario = (horario) => {
-  if (!horario) return ''
-  const hora = horario.substring(11, 16)
-  return hora.replace(/^0/, '')
-}
-
-const formatarDataHora = (dataHora) => {
-  if (!dataHora) return ''
-  return dayjs(dataHora).format('DD/MM/YYYY [às] HH:mm')
-}
 
 const getStatusColor = (situacao) => {
   if (situacao === 'Pendente') return 'orange'
   if (situacao === 'Marcado') return '#00C6FE'
   if (situacao === 'Concluido') return 'green'
   if (situacao === 'Recusado' || situacao === 'Recusada') return 'red'
-  if (situacao === 'EmAtendimento') return 'purple'
+  if (situacao === 'Cancelada') return 'grey'
   return 'grey'
 }
 
 const situacoes = {
   Pendente: 'Pendente',
   Marcado: 'Marcado',
-  EmAtendimento: 'Em Atendimento',
-  Recusada: 'Recusada',
+  Cancelada: 'Cancelada',
   Recusado: 'Recusado',
   Concluido: 'Concluído',
 }
@@ -460,7 +449,7 @@ const getStatusIcon = (situacao) => {
   if (situacao === 'Marcado') return 'mdi-calendar-check'
   if (situacao === 'Concluido') return 'mdi-check-circle'
   if (situacao === 'Recusado' || situacao === 'Recusada') return 'mdi-close-circle'
-  if (situacao === 'EmAtendimento') return 'mdi-account-clock'
+  if (situacao === 'Cancelada') return 'mdi-account-clock'
   return 'mdi-help-circle'
 }
 

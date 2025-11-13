@@ -51,10 +51,22 @@ class medicoService {
 
 
 
-  async getMetricsById(data:any): Promise<any> {
-   const token = sessionStorage.getItem('token')
+  async getMetricsById(data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.get(`/medico/getMetricsByMedicoId?data=${data}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to get all metrics by day '
+    )
+  }
+
+  async getMonthlyMetricsById(data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/medico/getMonthlyMetricsByMedicoId?data=${data}`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -76,7 +88,7 @@ class medicoService {
     )
   }
 
-    async editMedicoByProfile(data: FormData): Promise<any> {
+  async editMedicoByProfile(data: FormData): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(
       apiClient.patch(`/medico/updateProfile`, data, {

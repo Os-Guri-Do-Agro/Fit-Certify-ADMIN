@@ -7,14 +7,10 @@
           <h1 class="text-h4 text-md-h3 font-weight-bold mb-4" style="color: #00c6fe">
             Acesse seus certificados gerados aqui
           </h1>
-          <v-text-field v-model="searchQuery" placeholder="Buscar..." prepend-inner-icon="mdi-magnify"
-            variant="outlined" rounded="lg" density="comfortable" hide-details class="search-field"
-            style="max-width: 600px" />
         </div>
       </v-col>
     </v-row>
 
-    <!-- Loading State -->
     <div v-if="loading">
       <v-row>
         <v-col cols="12">
@@ -67,7 +63,7 @@
                         </span>
                       </div>
                       <div class="text-body-1 font-weight-bold">
-                        {{ formatarData(certificado?.createdAt) || '--' }}
+                        {{ formatarDataLocal(certificado?.createdAt) || '--' }}
                       </div>
                     </div>
                     <v-divider vertical class="mx-2" />
@@ -80,7 +76,7 @@
                       </div>
                       <div class="text-body-1 font-weight-bold"
                         :style="{ color: certificadoValido ? '#00c6fe' : '#f44336' }">
-                        {{ formatarData(certificado?.validade) || '--' }}
+                        {{ formatarDataLocal(certificado?.validade) || '--' }}
                       </div>
                     </div>
                   </div>
@@ -241,7 +237,7 @@
               Templates gerados para provas parceiras
             </h3>
 
-            <div v-if="templatesFiltrados.length === 0 || !certificado || !certificadoValidoEAtivo"
+            <div v-if="modelosCertificado.length === 0 || !certificado || !certificadoValidoEAtivo"
               class="text-center py-8">
               <v-icon size="48" color="grey-lighten-2">mdi-file-document-outline</v-icon>
               <p class="text-body-2 mt-4 text-grey">
@@ -311,7 +307,7 @@
             </v-expansion-panels>
 
             <v-list v-else class="bg-transparent">
-              <v-list-item v-for="(template, index) in templatesFiltrados" :key="index" class="px-0 py-2 template-item">
+              <v-list-item v-for="(template, index) in modelosCertificado" :key="index" class="px-0 py-2 template-item">
                 <template v-slot:prepend>
                   <v-icon color="light-blue-accent-3" class="mr-3">
                     mdi-file-document
@@ -327,7 +323,7 @@
                     Download
                   </v-btn>
                 </template>
-                <v-divider v-if="index < templatesFiltrados.length - 1" class="mt-2" />
+                <v-divider v-if="index < modelosCertificado.length - 1" class="mt-2" />
               </v-list-item>
             </v-list>
           </v-card>
@@ -382,6 +378,7 @@
 </template>
 
 <script setup>
+import { formatarDataLocal, formatarData } from '@/utils/date.utils'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
@@ -398,28 +395,19 @@ dayjs.locale('pt-br')
 
 const loading = ref(true)
 const certificado = ref(null)
-const searchQuery = ref('')
+
 const showQRDialog = ref(false)
 const modelosCertificado = ref([])
 const downloadingTemplateId = ref(null)
 const atleta = ref(null)
 const medico = ref(null)
 
-const templatesFiltrados = computed(() => {
-  if (!searchQuery.value) return modelosCertificado.value
-
-  const query = searchQuery.value.toLowerCase()
-  return modelosCertificado.value.filter(
-    (template) => template.nome?.toLowerCase().includes(query)
-  )
-})
-
 const templatesGerais = computed(() => {
-  return templatesFiltrados.value.filter(template => !template.eventoId)
+  return modelosCertificado.value.filter(template => !template.eventoId)
 })
 
 const templatesComEvento = computed(() => {
-  return templatesFiltrados.value.filter(template => template.eventoId)
+  return modelosCertificado.value.filter(template => template.eventoId)
 })
 
 const temEventos = computed(() => {
@@ -451,10 +439,6 @@ const qrCodeUrl = computed(() => {
   return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(validationUrl)}`
 })
 
-const formatarData = (data) => {
-  if (!data) return '--'
-  return dayjs(data).format('DD/MM/YYYY')
-}
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return '--'

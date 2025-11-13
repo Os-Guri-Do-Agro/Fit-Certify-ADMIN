@@ -1,312 +1,390 @@
 <template>
   <div class="w-100 h-100 ma-0">
-    <v-container fluid>
-      <div class="d-flex align-center mb-5">
-        <v-btn icon variant="outlined" color="blue" class="mr-3" @click="voltarParaLista">
+    <v-container class="py-6">
+      <div class="d-flex align-center mb-6">
+        <v-btn 
+          icon 
+          variant="outlined" 
+          color="blue" 
+          class="mr-3" 
+          @click="voltarParaLista"
+        >
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
-        <h1 class="text-h5 font-weight-bold">Detalhes do Paciente</h1>
+        <h1 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1">
+          Detalhes do Paciente
+        </h1>
       </div>
-
       <v-row v-if="loading">
-        <v-col cols="12" md="5">
-          <v-skeleton-loader type="card" />
-        </v-col>
-        <v-col cols="12" md="7">
-          <v-skeleton-loader type="card" />
+        <v-col cols="12">
+          <v-skeleton-loader type="card" height="500" />
         </v-col>
         <v-col cols="12">
-          <v-skeleton-loader type="card" />
+          <v-skeleton-loader type="card" height="300" />
         </v-col>
         <v-col cols="12">
-          <v-skeleton-loader type="card" />
+          <v-skeleton-loader type="card" height="300" />
         </v-col>
       </v-row>
 
-      <v-row v-else-if="paciente">
-        <v-col cols="12" lg="5">
-          <v-card rounded="lg" variant="outlined" color="blue">
-            <div class="bg-blue pa-4 d-flex flex-column flex-md-row ga-2 justify-space-between align-center">
-              <div class="">
-                <v-card-title class="text-white pa-0 text-subtitle-1 d-flex align-center flex-column flex-md-row">
-                  <v-icon class="mr-md-2">mdi-account</v-icon>
-                  Informações Pessoais
-                </v-card-title>
-              </div>
-              <div class="d-flex ga-1">
-                <span class="bg-white px-2 rounded-lg d-flex align-center justify-center"><v-icon color="blue"
-                    size="18">mdi-star</v-icon>
-                  <strong class="ml-1">0</strong></span>
-                <span class="bg-white px-2 rounded-lg d-flex align-center justify-center"><v-icon color="blue"
-                    size="18">mdi-chat-processing-outline</v-icon>
-                  <strong class="ml-1">0</strong></span>
-              </div>
-            </div>
-
-            <v-card-text class="pa-4">
-              <div class="text-center mb-4">
-                <v-avatar size="150">
-                  <v-img v-if="paciente.usuario?.avatarUrl" :src="paciente.usuario.avatarUrl"
-                    :alt="paciente.usuario?.nome" />
-                  <v-icon v-else size="150">mdi-account-circle</v-icon>
+      <template v-else-if="paciente">
+        <v-row>
+          <v-col cols="12">
+            <v-card
+              class="info-card"
+              elevation="4"
+              rounded="xl"
+              :style="{
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              }"
+            >
+              <div 
+                class="text-center pa-5 mb-5 position-relative"
+                style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
+              >
+                <div class="position-absolute d-none d-md-flex" style="top: 16px; right: 16px;">
+                  <v-chip
+                    :color="temLicencaAtiva ? 'success' : 'error'"
+                    size="small"
+                    variant="flat"
+                    class="text-white"
+                  >
+                    <v-icon start size="16">
+                      {{ temLicencaAtiva ? 'mdi-check-circle' : 'mdi-close-circle' }}
+                    </v-icon>
+                    {{ temLicencaAtiva ? 'Ativo' : 'Certificado inativo' }}
+                  </v-chip>
+                </div>
+                <v-avatar 
+                  size="160" 
+                  class="elevation-3 mb-3"
+                  style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
+                >
+                  <v-img 
+                    v-if="paciente.usuario?.avatarUrl" 
+                    :src="paciente.usuario.avatarUrl"
+                    :alt="paciente.usuario?.nome"
+                    cover
+                  />
+                  <v-icon v-else size="80" color="white">mdi-account-circle</v-icon>
                 </v-avatar>
+                <div class="text-h6 font-weight-bold text-white mb-1">
+                  {{ paciente.usuario?.nome || 'N/A' }}
+                </div>
+                <div class="text-body-2 text-white mb-3" style="opacity: 0.9;">
+                  {{ paciente.usuario?.email || 'N/A' }}
+                </div>
+                <div class="d-flex justify-center ga-2">
+                  <v-chip 
+                    size="small" 
+                    variant="flat" 
+                    class="text-white"
+                    style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);"
+                  >
+                    <v-icon start size="16">mdi-star</v-icon>
+                    0
+                  </v-chip>
+                  <v-chip 
+                    size="small" 
+                    variant="flat" 
+                    class="text-white"
+                    style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);"
+                  >
+                    <v-icon start size="16">mdi-chat-processing-outline</v-icon>
+                    0
+                  </v-chip>
+                </div>
               </div>
 
-              <div class="mb-3">
-                <strong class="text-black">Nome:</strong>
-                <span class="text-black ml-1">{{
-                  paciente.usuario?.nome || 'N/A'
-                }}</span>
-              </div>
-              <div class="mb-3">
-                <strong class="text-black">Email:</strong>
-                <span class="text-black ml-1">{{
-                  paciente.usuario?.email || 'N/A'
-                }}</span>
-              </div>
-              <div class="mb-3">
-                <strong class="text-black">Idade:</strong>
-                <span class="text-black ml-1">{{ calcularIdade(paciente.dataNascimento) }} anos</span>
-              </div>
-              <div class="mb-3">
-                <strong class="text-black">Certificado:</strong>
-                <span :class="temLicencaAtiva ? 'text-green' : 'text-red'"
-                  class="ml-1 d-inline-flex align-center justify-center">
-                  <v-icon :color="temLicencaAtiva ? 'success' : 'error'" size="18" class="mr-1">
-                    {{ temLicencaAtiva ? 'mdi-check-circle' : 'mdi-close-circle' }}
-                  </v-icon>
-                  {{ temLicencaAtiva ? 'Ativo' : 'Inativo' }}
-                </span>
-              </div>
+              <div class="pa-5">
 
-            </v-card-text>
-          </v-card>
-        </v-col>
-
-        <v-col cols="12" lg="7">
-          <v-card rounded="lg" variant="outlined" color="blue">
-            <div class="pa-4 bg-blue d-flex align-center">
-              <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0">
-                <v-icon class="mr-2">mdi-clipboard-text</v-icon>
-                Informações Médicas
-              </v-card-title>
-            </div>
-
-            <v-card-text class="pa-4">
               <v-row>
-                <v-col cols="12" md="6">
-                  <div class="mb-3">
-                    <strong class="text-black">Altura:</strong>
-                    <span class="text-black ml-1">{{
-                      paciente.altura ? `${paciente.altura} cm` : 'N/A'
-                    }}</span>
+                <v-col cols="12" md="4">
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Idade</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ calcularIdade(paciente.dataNascimento) }} anos
+                    </div>
                   </div>
-                  <div class="mb-3">
-                    <strong class="text-black">Peso:</strong>
-                    <span class="text-black ml-1">{{
-                      paciente.peso ? `${paciente.peso} kg` : 'N/A'
-                    }}</span>
-                  </div>
-                  <div class="mb-3">
-                    <strong class="text-black">Gênero:</strong>
-                    <span class="text-black ml-1">{{
-                      paciente.genero || 'N/A'
-                    }}</span>
+
+                  <div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Data de Nascimento</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ formatarData(paciente.dataNascimento) }}
+                    </div>
                   </div>
                 </v-col>
-                <v-col cols="12" md="6">
-                  <div class="mb-3">
-                    <strong class="text-black">Telefone:</strong>
-                    <span class="text-black ml-1">{{
-                      formatarTelefone(paciente.telefone) || 'N/A'
-                    }}</span>
+
+                <v-col cols="12" md="4">
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Altura</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.altura ? `${paciente.altura} cm` : 'N/A' }}
+                    </div>
                   </div>
-                  <div class="mb-3">
-                    <strong class="text-black">Tipo Sanguíneo:</strong>
-                    <span class="text-black ml-1">{{
-                      paciente.tipoSanguineo || 'N/A'
-                    }}</span>
+
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Peso</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.peso ? `${paciente.peso} kg` : 'N/A' }}
+                    </div>
                   </div>
-                  <div class="mb-3">
-                    <strong class="text-black">Data de Nascimento:</strong>
-                    <span class="text-black ml-1">{{
-                      formatarData(paciente.dataNascimento)
-                    }}</span>
+
+                  <div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.genero || 'N/A' }}
+                    </div>
+                  </div>
+                </v-col>
+
+                <v-col cols="12" md="4">
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Telefone</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ formatarTelefone(paciente.telefone) || 'N/A' }}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.tipoSanguineo || 'N/A' }}
+                    </div>
                   </div>
                 </v-col>
               </v-row>
-            </v-card-text>
-          </v-card>
-          <v-col cols="12" class="pa-0 mt-5">
-            <v-card variant="outlined" rounded="lg" color="blue">
-              <div class="d-flex align-center pa-4 bg-blue">
-                <v-icon size="24" color="white" class="mr-2">mdi-clipboard-plus-outline</v-icon>
-                <v-card-title class="text-white text-subtitle-2 text-md-subtitle-1 pa-0">Adicionar
-                  Consultas</v-card-title>
-              </div>
-              <div class="">
-                <v-card-text>
-                  <v-row>
-                    <v-col class="d-flex align-center py-2 py-lg-4" cols="12">
-                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
-                        $router.push({
-                          name: '/adicionarConsulta/',
-                          query: { pacienteId: paciente.id },
-                        })
-                        ">
-                        <v-icon left>mdi-stethoscope</v-icon>
-                        Adicionar Consulta
-                      </v-btn>
-                    </v-col>
-                    <v-col class="d-flex align-center py-0 pb-2" cols="12">
-                      <v-btn class="text-subtitle-2 text-md-subtitle-1" block color="blue" variant="outlined" @click="
-                        $router.push({
-                          name: '/analises/',
-                          query: { pacienteId: paciente.id },
-                        })
-                        ">
-                        <v-icon left>mdi-flask-outline</v-icon>
-                        Análises
-                      </v-btn>
-                    </v-col>
-                  </v-row>
-                </v-card-text>
               </div>
             </v-card>
           </v-col>
-        </v-col>
-      </v-row>
+        </v-row>
 
-      <v-row v-if="!loading && paciente">
-        <v-col cols="12" md="12">
-          <v-card rounded="lg" variant="outlined" color="blue">
-            <div class="pa-4 bg-blue d-flex align-center cursor-pointer" @click="toggleHistoricoMedico">
-              <v-card-title class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center">
-                <v-spacer />
-                <v-icon class="mr-2">mdi-clipboard-pulse-outline</v-icon>
-                Histórico Médico
-                <v-spacer />
-                <v-icon class="ml-2">
-                  {{
-                    historicoMedicoExpanded
-                      ? 'mdi-chevron-up'
-                      : 'mdi-chevron-down'
-                  }}
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <v-card
+              class="expandable-card"
+              elevation="4"
+              rounded="xl"
+              :style="{
+                borderLeft: '4px solid #1E88E5',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              }"
+            >
+              <div 
+                class="pa-6 cursor-pointer d-flex align-center" 
+                @click="toggleModulosContratados"
+              >
+                <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
+                  <v-icon size="30" color="white">mdi-package-variant</v-icon>
+                </v-avatar>
+                <div class="flex-grow-1">
+                  <div class="text-h6 font-weight-bold text-grey-darken-3">
+                    Módulos Contratados
+                  </div>
+                  <div class="text-caption text-grey-darken-1">
+                    0 módulos disponíveis
+                  </div>
+                </div>
+                <v-chip size="small" color="blue-darken-1" variant="flat" class="text-white me-2">
+                  0 módulos
+                </v-chip>
+                <v-icon :color="modulosContratadosExpanded ? 'blue-darken-1' : 'grey'">
+                  {{ modulosContratadosExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
                 </v-icon>
-              </v-card-title>
-            </div>
+              </div>
 
-            <v-expand-transition>
-              <v-card-text v-show="historicoMedicoExpanded" class="pa-0">
-                <v-list>
-                  <v-list-item v-for="(item, index) in consultas" :key="index"
-                    class="px-4 py-2 cursor-pointer list-item-hover" @click="abrirModalExame(item)">
-                    <template #prepend>
-                      <v-icon color="blue"> mdi-stethoscope </v-icon>
+              <v-expand-transition>
+                <div v-if="modulosContratadosExpanded">
+                  <v-divider />
+                  <div class="pa-6 scrollable-content">
+                    <div class="text-center py-8">
+                      <v-icon size="64" color="grey-lighten-1" class="mb-4">
+                        mdi-package-variant
+                      </v-icon>
+                      <p class="text-h6 text-grey-darken-1 mb-2">Nenhum módulo contratado</p>
+                      <p class="text-body-2 text-grey">Este atleta ainda não possui módulos contratados.</p>
+                    </div>
+                  </div>
+                </div>
+              </v-expand-transition>
+            </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <v-card
+              class="expandable-card"
+              elevation="4"
+              rounded="xl"
+              :style="{
+                borderLeft: '4px solid #1E88E5',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              }"
+            >
+              <div 
+                class="pa-6 cursor-pointer d-flex align-center" 
+                @click="toggleHistoricoMedico"
+              >
+                <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
+                  <v-icon size="30" color="white">mdi-clipboard-pulse-outline</v-icon>
+                </v-avatar>
+                <div class="flex-grow-1">
+                  <div class="text-h6 font-weight-bold text-grey-darken-3">
+                    Histórico Médico
+                  </div>
+                  <div class="text-caption text-grey-darken-1">
+                    {{ consultas.length }} {{ consultas.length === 1 ? 'consulta registrada' : 'consultas registradas' }}
+                  </div>
+                </div>
+                <v-icon :color="historicoMedicoExpanded ? 'blue-darken-1' : 'grey'">
+                  {{ historicoMedicoExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
+              </div>
+
+              <v-expand-transition>
+                <div v-if="historicoMedicoExpanded">
+                  <v-divider />
+                  <v-list class="pa-0 scrollable-content">
+                    <template v-if="consultas.length === 0">
+                      <v-list-item class="text-center py-8">
+                        <v-list-item-title class="text-grey">
+                          Nenhum histórico médico encontrado
+                        </v-list-item-title>
+                      </v-list-item>
                     </template>
+                    <template v-else>
+                      <v-list-item 
+                        v-for="(item, index) in consultas" 
+                        :key="index"
+                        class="px-6 py-3 cursor-pointer list-item-hover" 
+                        @click="abrirModalExame(item)"
+                      >
+                        <template #prepend>
+                          <v-avatar size="40" color="blue-darken-1" class="me-3">
+                            <v-icon color="white" size="20">mdi-stethoscope</v-icon>
+                          </v-avatar>
+                        </template>
 
-                    <v-list-item-title class="font-weight-medium">
-                      {{ item.medico?.usuario?.nome || 'Médico não informado' }}
-                    </v-list-item-title>
+                        <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
+                          {{ item.medico?.usuario?.nome || 'Médico não informado' }}
+                        </v-list-item-title>
 
+                        <v-list-item-subtitle class="text-grey-darken-1">
+                          {{ item.medico?.especializacao || 'Especialização não informada' }}
+                        </v-list-item-subtitle>
 
-
-                    <v-list-item-subtitle>
-                      {{
-                        item.medico?.especializacao ||
-                        'Especialização não informada'
-                      }}
-                    </v-list-item-subtitle>
-
-                    <template #append>
-                      <div class="d-flex align-center ga-2">
-                        <v-chip style="min-width: 120px; max-width: 120px; justify-content: center;"
-                          v-if="item?.situacao" size="small" variant="flat" :color="getSituacaoColor(item.situacao)"
-                          :class="getSituacaoClass(item.situacao)">
-                          {{ item.situacao }}
-                        </v-chip>
-                        <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
-                          {{ formatarData(item.createdAt) }}
-                        </v-chip>
-                        <v-btn :icon="item.favorito ? 'mdi-heart' : 'mdi-heart-outline'
-                          " :color="item.favorito ? 'red' : 'grey'" variant="text" size="small"
-                          @click.stop="toggleFavorito(item)" />
-                      </div>
+                        <template #append>
+                          <div class="d-flex align-center ga-2">
+                            <v-chip
+                              v-if="item?.situacao"
+                              size="small"
+                              variant="flat"
+                              :color="getSituacaoColor(item.situacao)"
+                              class="font-weight-medium text-white"
+                              style="min-width: 120px; justify-content: center;"
+                            >
+                              {{ item.situacao }}
+                            </v-chip>
+                            <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
+                              {{ formatarDataLocal(item.createdAt) }}
+                            </v-chip>
+                          </div>
+                        </template>
+                      </v-list-item>
                     </template>
-                  </v-list-item>
+                  </v-list>
+                </div>
+              </v-expand-transition>
+            </v-card>
+          </v-col>
+        </v-row>
 
-                  <v-list-item v-if="consultas.length === 0" class="text-center py-8">
-                    <v-list-item-title class="text-grey">
-                      Nenhum histórico médico encontrado
-                    </v-list-item-title>
-                  </v-list-item>
-                </v-list>
-              </v-card-text>
-            </v-expand-transition>
-          </v-card>
-        </v-col>
-      </v-row>
-
-      <v-row v-if="!loading && paciente">
-        <v-col cols="12" md="12">
-          <v-card rounded="lg" variant="outlined" color="blue">
-            <div class="pa-4 bg-blue d-flex align-center cursor-pointer" @click="toggleAlergias">
-              <v-card-title class="text-white text-subtitle-1 pa-0 d-flex align-center w-100 text-center">
-                <v-spacer />
-                <v-icon class="mr-2">mdi-alert-circle-outline</v-icon>
-                Alergias
-                <v-spacer />
-                <v-icon class="ml-2">
+        <!-- Alergias -->
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <v-card
+              class="expandable-card"
+              elevation="4"
+              rounded="xl"
+              :style="{
+                borderLeft: '4px solid #1E88E5',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              }"
+            >
+              <div 
+                class="pa-6 cursor-pointer d-flex align-center" 
+                @click="toggleAlergias"
+              >
+                <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
+                  <v-icon size="30" color="white">mdi-alert-circle-outline</v-icon>
+                </v-avatar>
+                <div class="flex-grow-1">
+                  <div class="text-h6 font-weight-bold text-grey-darken-3">
+                    Alergias
+                  </div>
+                  <div class="text-caption text-grey-darken-1">
+                    {{ alergias.length }} {{ alergias.length === 1 ? 'alergia registrada' : 'alergias registradas' }}
+                  </div>
+                </div>
+                <v-icon :color="alergiasExpanded ? 'blue-darken-1' : 'grey'">
                   {{ alergiasExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
                 </v-icon>
-              </v-card-title>
-            </div>
+              </div>
 
-            <v-expand-transition>
-              <v-card-text v-show="alergiasExpanded" class="pa-0">
-                <v-list>
-                  <template v-if="loadingAlergias">
-                    <v-list-item v-for="n in 3" :key="n" class="px-4 py-2">
-                      <v-skeleton-loader type="list-item-two-line" />
-                    </v-list-item>
-                  </template>
+              <v-expand-transition>
+                <div v-if="alergiasExpanded">
+                  <v-divider />
+                  <v-list class="pa-0 scrollable-content">
+                    <template v-if="loadingAlergias">
+                      <v-list-item v-for="n in 3" :key="n" class="px-6 py-3">
+                        <v-skeleton-loader type="list-item-avatar-two-line" />
+                      </v-list-item>
+                    </template>
+                    <template v-else-if="alergias.length === 0">
+                      <v-list-item class="text-center py-8">
+                        <v-list-item-title class="text-grey">
+                          Nenhuma alergia registrada
+                        </v-list-item-title>
+                      </v-list-item>
+                    </template>
+                    <template v-else>
+                      <v-list-item 
+                        v-for="(alergia, index) in alergias" 
+                        :key="index" 
+                        class="px-6 py-3"
+                      >
+                        <template #prepend>
+                          <v-avatar size="40" color="red-darken-1" class="me-3">
+                            <v-icon color="white" size="20">mdi-alert-circle</v-icon>
+                          </v-avatar>
+                        </template>
 
-                  <template v-else>
-                    <v-list-item v-for="(alergia, index) in alergias" :key="index" class="px-4 py-2">
-                      <template #prepend>
-                        <v-icon color="blue">mdi-alert-circle</v-icon>
-                      </template>
+                        <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
+                          {{ alergia.titulo || 'Alergia sem título' }}
+                        </v-list-item-title>
 
-                      <v-list-item-title class="font-weight-medium">
-                        {{ alergia.titulo || 'Alergia sem título' }}
-                      </v-list-item-title>
+                        <v-list-item-subtitle class="text-grey-darken-1">
+                          {{ alergia.descricao || 'Sem descrição' }}
+                        </v-list-item-subtitle>
 
-                      <v-list-item-subtitle>
-                        {{ alergia.descricao || 'Sem descrição' }}
-                      </v-list-item-subtitle>
-
-                      <template #append>
-                        <v-chip size="small" variant="outlined">
-                          {{ formatarData(alergia.createdAt) }}
-                        </v-chip>
-                      </template>
-                    </v-list-item>
-
-                    <v-list-item v-if="alergias.length === 0" class="text-center py-8">
-                      <v-list-item-title class="text-grey">
-                        Nenhuma alergia registrada
-                      </v-list-item-title>
-                    </v-list-item>
-                  </template>
-                </v-list>
-              </v-card-text>
-            </v-expand-transition>
-          </v-card>
-        </v-col>
-      </v-row>
+                        <template #append>
+                          <v-chip size="small" variant="outlined">
+                            {{ formatarDataLocal(alergia.createdAt) }}
+                          </v-chip>
+                        </template>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </div>
+              </v-expand-transition>
+            </v-card>
+          </v-col>
+        </v-row>
+      </template>
     </v-container>
 
-    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog">
+    <v-dialog v-model="modalCertificarAtleta" max-width="600px" class="certification-dialog" persistent>
       <v-card rounded="lg">
         <v-card-title class="bg-blue text-white pa-4">
           <v-icon class="mr-2">mdi-certificate</v-icon>
@@ -326,7 +404,7 @@
           <v-btn color="grey" variant="outlined" @click="fecharModalCertificacao">
             Cancelar
           </v-btn>
-          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loading">
+          <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loadingSubmit">
             Certificar
           </v-btn>
         </v-card-actions>
@@ -354,7 +432,7 @@
                   <div>
                     <div class="text-caption text-grey">Data da Consulta</div>
                     <div class="font-weight-medium">
-                      {{ formatarData(exameSelecionado.createdAt) }}
+                      {{ formatarDataLocal(exameSelecionado.createdAt) }}
                     </div>
                   </div>
                 </div>
@@ -382,7 +460,7 @@
 
           <div class="pa-4 border-b">
             <div class="d-flex align-start">
-              <v-icon color="orange" class="mr-2 mt-1">mdi-clipboard-pulse</v-icon>
+              <v-icon color="blue-darken-1" class="mr-2 mt-1">mdi-clipboard-pulse</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Diagnóstico</div>
                 <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
@@ -406,7 +484,7 @@
 
           <div v-if="exameSelecionado.situacao" class="pa-4">
             <div class="d-flex align-start">
-              <v-icon color="purple" class="mr-2 mt-1">mdi-note-text</v-icon>
+              <v-icon color="blue-darken-1" class="mr-2 mt-1">mdi-note-text</v-icon>
               <div class="flex-grow-1">
                 <div class="text-subtitle-2 mb-2">Situação</div>
                 <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
@@ -446,16 +524,17 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { formatarData, formatarDataHoraLocal, formatarDataLocal } from '@/utils/date.utils'
+import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
-import alergiasService from '@/services/alergias/alergias-service'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import { getMedicoId } from '@/utils/auth'
-import { vMaska } from 'maska/vue'
-import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
+import { vMaska } from 'maska/vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 
 const router = useRouter()
 const route = useRoute()
@@ -464,6 +543,8 @@ const paciente = ref(null)
 const medicoId = ref(null)
 const loading = ref(true)
 const historicoMedicoExpanded = ref(false)
+const modulosContratadosExpanded = ref(false)
+const moduloSelecionado = ref(null)
 const alergiasExpanded = ref(true)
 const modalExame = ref(false)
 const exameSelecionado = ref(null)
@@ -474,6 +555,7 @@ const licenca = ref([])
 const modalCertificarAtleta = ref(false)
 const opcaoMesesValidade = ref(null)
 const mesesValidadeCustomizado = ref(null)
+const loadingSubmit = ref(false)
 
 const opcoesMeses = [
   { text: '1 mês', value: 1 },
@@ -498,10 +580,6 @@ const calcularIdade = (dataNascimento) => {
 
 
 
-const formatarData = (data) => {
-  if (!data) return 'N/A'
-  return new Date(data).toLocaleDateString('pt-BR')
-}
 
 const formatarTelefone = (telefone) => {
   if (!telefone) return null
@@ -523,10 +601,12 @@ const getSituacaoColor = (situacao) => {
     return 'warning'
   } else if (situacaoLower.includes('recusado')) {
     return 'error'
-  } else if (situacaoLower.includes('ematendimento') || situacaoLower.includes('em atendimento')) {
+  } else if (situacaoLower.includes('cancelada') || situacaoLower.includes('cancelada')) {
     return 'info'
+  } else if (situacaoLower.includes('cancelada')) { 
+    return 'grey'
   }
-  return 'primary'
+  return 'blue-darken-1'
 }
 
 const getSituacaoClass = (situacao) => {
@@ -567,7 +647,7 @@ const salvarCertificacao = async () => {
     mesesValidade = opcaoMesesValidade.value
   }
   try {
-    loading.value = true
+    loadingSubmit.value = true
     await licencaCertificadoService.postLicencaCertificado({
       atletaId: paciente.value.id,
       medicoId: getMedicoId(),
@@ -577,14 +657,14 @@ const salvarCertificacao = async () => {
       if (resp.success) {
         toast.success('Certificado emitido com sucesso!')
         fecharModalCertificacao()
-        loading.value = false
+        loadingSubmit.value = false
         buscarLicencaPorAtletaId(route.params.id || route.query.id)
       }
     })
 
   } catch (error) {
     toast.error(error.response.data.message)
-    loading.value = false
+    loadingSubmit.value = false
   }
 }
 
@@ -594,6 +674,10 @@ const voltarParaLista = () => {
 
 const toggleHistoricoMedico = () => {
   historicoMedicoExpanded.value = !historicoMedicoExpanded.value
+}
+
+const toggleModulosContratados = () => {
+  modulosContratadosExpanded.value = !modulosContratadosExpanded.value
 }
 
 const toggleAlergias = () => {
@@ -612,11 +696,12 @@ const toggleFavorito = (item) => {
 const findAllConsultas = async (id) => {
   try {
     const response = await consultasService.getConsultasByAtletaId(id)
-    if (response && response.data) {
-      consultas.value = response.data
-    } else {
-      consultas.value = response
-    }
+    let consultasData = response && response.data ? response.data : response
+    
+    consultas.value = consultasData.filter(consulta => {
+      const situacao = consulta.situacao?.toLowerCase()
+      return situacao?.includes('concluido') || situacao?.includes('pendente') || situacao?.includes('marcado')
+    })
   } catch (error) {
     if (error.response?.status === 404) {
       consultas.value = []
@@ -717,16 +802,39 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.v-card-title {
-  font-weight: bold;
-}
-
 .cursor-pointer {
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cursor-pointer:hover {
+  opacity: 0.9;
+}
+
+.info-card {
+  transition: all 0.3s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.expandable-card {
+  transition: all 0.3s ease;
+}
+
+.expandable-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.info-item {
+  transition: all 0.2s ease;
 }
 
 .list-item-hover {
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   border-radius: 8px;
 }
 
@@ -742,5 +850,33 @@ onMounted(async () => {
 
 :deep(.certification-dialog .v-overlay__scrim) {
   background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+.ga-2 {
+  gap: 8px;
+}
+
+.scrollable-content {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.scrollable-content::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollable-content::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.scrollable-content::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

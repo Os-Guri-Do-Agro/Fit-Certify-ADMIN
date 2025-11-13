@@ -44,7 +44,7 @@
               </template>
 
               <v-list-item-title class="font-weight-bold">
-                {{ consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta.usuario.nome }}
+                {{ consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta?.usuario?.nome }}
               </v-list-item-title>
 
               <v-list-item-subtitle>
@@ -53,17 +53,32 @@
                     class="mr-2">
                     {{ consulta.consultaExterna ? 'Externo' : 'FitCertify365' }}
                   </v-chip>
-                  <span>{{ dayjs(consulta.dataConsulta).utc().format('DD/MM/YYYY - HH:mm') }}</span>
+                  <span>{{ formatarDataHoraLocal(consulta.dataConsulta) }}</span>
                 </div>
               </v-list-item-subtitle>
 
               <template v-slot:append>
                 <div class="gap-4 ">
-                  <v-btn color="green" variant="flat" size="small" class="mr-2" @click="aceitarConsulta(consulta.id)">
+                  <v-btn 
+                    color="green" 
+                    variant="flat" 
+                    size="small" 
+                    class="mr-2" 
+                    :loading="loadingAceitar === consulta.id"
+                    :disabled="loadingAceitar === consulta.id || loadingRecusar === consulta.id"
+                    @click="aceitarConsulta(consulta.id)"
+                  >
                     <v-icon class="mr-1">mdi-check</v-icon>
                     Aceitar
                   </v-btn>
-                  <v-btn color="red" variant="flat" size="small" @click="recusarConsulta(consulta.id)">
+                  <v-btn 
+                    color="red" 
+                    variant="flat" 
+                    size="small" 
+                    :loading="loadingRecusar === consulta.id"
+                    :disabled="loadingAceitar === consulta.id || loadingRecusar === consulta.id"
+                    @click="recusarConsulta(consulta.id)"
+                  >
                     <v-icon class="mr-1">mdi-close</v-icon>
                     Recusar
                   </v-btn>
@@ -84,17 +99,21 @@
 </template>
 
 <script setup>
+import { formatarDataHoraLocal } from '@/utils/date.utils'
 import consultasService from '@/services/consultas/consultas-service';
 import { onMounted, ref } from 'vue';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/pt-br';
+import { toast } from 'vue3-toastify'
 
 dayjs.extend(utc);
 dayjs.locale('pt-br');
 
 const consultasPendentes = ref([])
 const loading = ref(true)
+const loadingAceitar = ref(null)
+const loadingRecusar = ref(null)
 
 onMounted(async () => {
   await buscarConsultasPendentes()
@@ -113,26 +132,36 @@ const buscarConsultasPendentes = async () => {
 }
 
 const aceitarConsulta = async (consultaId) => {
+  loadingAceitar.value = consultaId
   try {
     const data = {
       situacao: 'Marcado'
     }
     await consultasService.aceitarOrRejeitarConsultaById(consultaId, data)
+    toast.success('Consulta aceita com sucesso!')
     await buscarConsultasPendentes()
   } catch (error) {
     console.error('Erro ao aceitar consulta:', error)
+    toast.error('Erro ao aceitar consulta')
+  } finally {
+    loadingAceitar.value = null
   }
 }
 
 const recusarConsulta = async (consultaId) => {
-   try {
+  loadingRecusar.value = consultaId
+  try {
     const data = {
       situacao: 'Recusado'
     }
     await consultasService.aceitarOrRejeitarConsultaById(consultaId, data)
+    toast.success('Consulta recusada com sucesso!')
     await buscarConsultasPendentes()
   } catch (error) {
-    console.error('Erro ao aceitar consulta:', error)
+    console.error('Erro ao recusar consulta:', error)
+    toast.error('Erro ao recusar consulta')
+  } finally {
+    loadingRecusar.value = null
   }
 }
 </script>
