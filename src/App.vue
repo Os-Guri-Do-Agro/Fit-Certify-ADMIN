@@ -39,10 +39,12 @@ const authRoutes = [
   '/pagamento',
   '/detalhesExclusaoConta',
   '/validarCertificado',
+  '/detalhesAtleta',
 ]
 const isAuthRoute = computed(() => {
   return (
-    authRoutes.includes(route.path) || route.path.startsWith('/esqueceuSenha')
+    authRoutes.includes(route.path) || 
+    route.path.startsWith('/esqueceuSenha') 
   )
 })
 </script>
