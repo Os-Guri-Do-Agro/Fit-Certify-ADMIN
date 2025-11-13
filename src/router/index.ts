@@ -40,7 +40,8 @@ router.beforeEach((to, from, next) => {
     return next('/')
   }
 
-  if (publicRoutes.includes(to.path)) {
+  // Verifica se é uma rota pública (incluindo rotas dinâmicas)
+  if (publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta')) {
     return next()
   }
 
