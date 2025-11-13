@@ -459,8 +459,8 @@ const getStatusColor = (situacao) => {
   const cores = {
     Pendente: 'orange',
     Marcado: 'blue',
-    EmAtendimento: 'purple',
-    Recusada: 'red',
+    Cancelada: 'grey',
+    Recusado: 'red',
     Concluido: 'green',
   }
   return cores[situacao] || 'grey'
@@ -469,8 +469,8 @@ const getStatusColor = (situacao) => {
 const situacoes = {
   Pendente: 'Pendente',
   Marcado: 'Marcado',
-  EmAtendimento: 'Em Atendimento',
-  Recusada: 'Recusada',
+  Cancelada: 'Canceclada',
+  Recusado: 'Recusada',
   Concluido: 'Concluido',
 }
 
@@ -478,8 +478,8 @@ const getStatusIcon = (situacao) => {
   const icones = {
     Pendente: 'mdi-clock-outline',
     Marcado: 'mdi-check-all',
-    EmAtendimento: 'mdi-account-clock',
-    Recusada: 'mdi-close-circle',
+    Cancelada: 'mdi-account-clock',
+    Recusado: 'mdi-close-circle',
     Concluido: 'mdi-check-circle',
   }
   return icones[situacao] || 'mdi-help-circle'

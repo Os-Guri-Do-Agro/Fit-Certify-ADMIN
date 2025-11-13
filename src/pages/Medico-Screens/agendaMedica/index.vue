@@ -74,15 +74,22 @@
       <v-col cols="4">
         <!-- Consultas do Dia Selecionado -->
         <v-card elevation="2" rounded="lg">
-          <v-card-title class="pa-4 bg-green-lighten-5">
-            <v-icon class="mr-2" color="green">mdi-clock-outline</v-icon>
+          <v-card-title class="pa-4 bg-green-lighten-5 d-flex align-center justify-space-between flex-wrap ga-2">
+            <div class="">
+              <v-icon class="mr-2" color="green">mdi-clock-outline</v-icon>
             {{
               selectedDayAppointments.date
                 ? `Consultas - ${selectedDayAppointments.date}`
                 : `Hoje -
             ${dayjs().format('DD/MM')}`
             }}
+            </div>
+
+           <v-btn variant="outline" color="blue" class=" text-subtitle-2" @click="router.push('/Medico-Screens/consultas')">
+            Ver mais
+           </v-btn>
           </v-card-title>
+
           <v-card-text class="pa-4">
             <div class="appointment-list">
               <div v-for="appointment in selectedDayAppointments.appointments" :key="appointment.id"
@@ -240,12 +247,13 @@
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import { getMedicoId, getRole } from '@/utils/auth'
-import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
-import utc from 'dayjs/plugin/utc'
-import timezone from 'dayjs/plugin/timezone'
-import { toast } from 'vue3-toastify'
 import 'dayjs/locale/pt-br'
+import timezone from 'dayjs/plugin/timezone'
+import utc from 'dayjs/plugin/utc'
+import { onMounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import { toast } from 'vue3-toastify'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.locale('pt-br')
@@ -268,6 +276,7 @@ const selectedDayAppointments = ref({
   appointments: [],
 })
 
+const router = useRouter()
 const appointmentsByDay = ref({})
 
 onMounted(async () => {
@@ -427,7 +436,7 @@ const selectDay = async (day) => {
 }
 
 const formatStatus = (status) => {
-  if (status === 'ematendimento') return 'Em Atendimento'
+  if (status === 'cancelada') return 'Cancelada'
   if (status === 'concluido') return 'Concluído'
   if (status === 'marcado') return 'Marcado'
   if (status === 'pendente') return 'Pendente'
@@ -437,7 +446,7 @@ const formatStatus = (status) => {
 
 const getStatusColor = (status) => {
   if (status === 'recusado') return 'red'
-  if (status === 'ematendimento') return 'yellow'
+  if (status === 'cancelada') return 'grey'
   if (status === 'concluido') return 'green'
   if (status === 'marcado') return 'blue'
   if (status === 'pendente') return 'orange'
