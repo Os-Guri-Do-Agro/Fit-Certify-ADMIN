@@ -12,7 +12,7 @@
             Cupons de Desconto
           </h2>
           <p class="text-body-1 text-white mb-4 opacity-90">
-            Ofereça descontos exclusivos
+            Ofereça descontos exclusivos para seus pacientes
           </p>
 
           <VRow class="mt-4">
@@ -141,6 +141,36 @@
         </div>
       </VCol>
     </VRow>
+
+    <!-- Seção de Ganhos -->
+    <VCard class="mt-6 earnings-card" elevation="3">
+      <VCardTitle class="d-flex align-center">
+        <VIcon icon="mdi-cash" class="mr-2" color="success" />
+        Ganhos Totais
+      </VCardTitle>
+      <VCardText>
+        <div class="d-flex justify-space-between align-center">
+          <div>
+            <div class="text-h3 font-weight-bold text-success mb-2">
+              R$ 0,00
+            </div>
+            <div class="text-grey-600">
+              Valor disponível para resgate
+            </div>
+          </div>
+          <VBtn 
+            color="success" 
+            size="large" 
+            variant="elevated"
+            @click="solicitarResgate"
+            :disabled="true"
+          >
+            <VIcon icon="mdi-bank-transfer" class="mr-2" />
+            Solicitar Resgate
+          </VBtn>
+        </div>
+      </VCardText>
+    </VCard>
 
     <!-- Informações Importantes -->
     <VCard class="mt-6" elevation="2" color="info" variant="tonal">
@@ -307,7 +337,6 @@ const cupons = ref([]);
 const selectedMonth = ref(dayjs().format('MM'));
 
 const monthOptions = [
-  { title: 'Todos os meses', value: 'todos' },
   { title: 'Janeiro', value: '01' },
   { title: 'Fevereiro', value: '02' },
   { title: 'Março', value: '03' },
@@ -397,6 +426,10 @@ const shareCupom = (cupom) => {
 
 const navigateToInfo = () => {
   window.open('/cupom-info', '_blank')
+};
+
+const solicitarResgate = () => {
+  toast.info('Funcionalidade em desenvolvimento');
 };
 </script>
 
@@ -544,5 +577,15 @@ const navigateToInfo = () => {
 
 .filter-card:hover {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.earnings-card {
+  background: linear-gradient(135deg, #f8fff8 0%, #ffffff 100%);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+  transition: all 0.3s ease;
+}
+
+.earnings-card:hover {
+  box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
 }
 </style>
