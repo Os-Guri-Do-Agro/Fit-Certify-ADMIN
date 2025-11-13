@@ -48,6 +48,13 @@ const handleError = (error: AxiosError) => {
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const authHeader = getAuthHeader()
+    
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+    
+    if (config.headers) {
+      config.headers['Timezone'] = userTimezone
+    }
+    
     if (authHeader) {
       config.headers = {
         ...config.headers,

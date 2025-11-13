@@ -159,8 +159,8 @@
                     {{ medico?.diaFuncionamentoInicio }} -
                     {{ medico?.diaFuncionamentoFim }}
 
-                    {{ formatarHorario(medico?.horarioInicio) }} -
-                    {{ formatarHorario(medico?.horarioFim) }}
+                    {{ formatarHorarioLocal(medico?.horarioInicio) }} -
+                    {{ formatarHorarioLocal(medico?.horarioFim) }}
                   </v-chip>
                 </v-col>
               </v-row>
@@ -359,10 +359,10 @@
                       }}
                     </v-icon>
                     <div class="text-body-2 font-weight-medium">
-                      {{ dayjs(hora.horario).utcOffset(0).format('HH:mm') }}
+                      {{ formatarHorarioLocal(hora.horario) }}
                     </div>
                     <div class="text-caption text-grey">
-                      {{ dayjs(hora.horarioFim).utcOffset(0).format('HH:mm') }}
+                      {{ formatarHorarioLocal(hora.horarioFim) }}
                     </div>
                   </v-card-text>
                 </v-card>
@@ -415,6 +415,7 @@
 import { ref, onMounted } from 'vue'
 import medicoService from '@/services/medico/medico-service'
 import { useRouter, useRoute } from 'vue-router'
+import { formatarHorario, formatarDataHora, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -444,16 +445,6 @@ const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const consultasMedicoAtleta = ref([])
 const loadingConsultas = ref(false)
 
-const formatarHorario = (horario) => {
-  if (!horario) return ''
-  const hora = horario.substring(11, 16)
-  return hora.replace(/^0/, '')
-}
-
-const formatarDataHora = (dataHora) => {
-  if (!dataHora) return ''
-  return dayjs(dataHora).format('DD/MM/YYYY [às] HH:mm')
-}
 
 const getStatusColor = (situacao) => {
   const cores = {

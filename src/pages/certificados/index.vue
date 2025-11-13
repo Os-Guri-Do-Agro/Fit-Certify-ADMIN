@@ -63,7 +63,7 @@
                         </span>
                       </div>
                       <div class="text-body-1 font-weight-bold">
-                        {{ formatarData(certificado?.createdAt) || '--' }}
+                        {{ formatarDataLocal(certificado?.createdAt) || '--' }}
                       </div>
                     </div>
                     <v-divider vertical class="mx-2" />
@@ -76,7 +76,7 @@
                       </div>
                       <div class="text-body-1 font-weight-bold"
                         :style="{ color: certificadoValido ? '#00c6fe' : '#f44336' }">
-                        {{ formatarData(certificado?.validade) || '--' }}
+                        {{ formatarDataLocal(certificado?.validade) || '--' }}
                       </div>
                     </div>
                   </div>
@@ -378,6 +378,7 @@
 </template>
 
 <script setup>
+import { formatarDataLocal, formatarData } from '@/utils/date.utils'
 import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
@@ -438,10 +439,6 @@ const qrCodeUrl = computed(() => {
   return `https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=${encodeURIComponent(validationUrl)}`
 })
 
-const formatarData = (data) => {
-  if (!data) return '--'
-  return dayjs(data).format('DD/MM/YYYY')
-}
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return '--'

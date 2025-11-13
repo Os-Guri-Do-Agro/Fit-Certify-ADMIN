@@ -53,7 +53,7 @@
                     class="mr-2">
                     {{ consulta.consultaExterna ? 'Externo' : 'FitCertify365' }}
                   </v-chip>
-                  <span>{{ dayjs(consulta.dataConsulta).utc().format('DD/MM/YYYY - HH:mm') }}</span>
+                  <span>{{ formatarDataHoraLocal(consulta.dataConsulta) }}</span>
                 </div>
               </v-list-item-subtitle>
 
@@ -99,6 +99,7 @@
 </template>
 
 <script setup>
+import { formatarDataHoraLocal } from '@/utils/date.utils'
 import consultasService from '@/services/consultas/consultas-service';
 import { onMounted, ref } from 'vue';
 import dayjs from 'dayjs';

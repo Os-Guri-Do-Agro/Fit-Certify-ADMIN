@@ -61,7 +61,7 @@
                           </h4>
                           <div class="d-flex align-center">
                             <span class="text-caption text-grey mr-2">
-                              {{ formatarData(notificacao.data) }}
+                              {{ formatarDataLocal(notificacao.data) }}
                             </span>
                             <v-chip v-if="!notificacao.visualizado" color="#00c6fe" size="x-small" class="mr-2">
                               Nova
@@ -96,6 +96,7 @@
 </template>
 
 <script setup lang="ts">
+import { formatarDataHora , formatarDataLocal} from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { computed, ref } from 'vue'
@@ -108,9 +109,6 @@ const notificacoesNaoLidas = computed(() => {
   return notificacoes.value.filter(n => !n.visualizado).length
 })
 
-const formatarData = (data: string) => {
-  return dayjs(data).format('DD/MM/YYYY [às] HH:mm')
-}
 
 const getNotificationColor = (tipo: string) => {
   switch (tipo) {
