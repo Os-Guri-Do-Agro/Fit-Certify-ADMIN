@@ -50,40 +50,7 @@
       </VRow>
     </VCard>
 
-    <!-- Filtros -->
-    <div class="filter-section mb-6">
-      <VRow align="center" justify="space-between">
-        <VCol cols="auto">
-          <div class="d-flex align-center">
-            <VAvatar size="32" color="primary" class="mr-3">
-              <VIcon icon="mdi-filter-variant" color="white" size="18" />
-            </VAvatar>
-            <div>
-              <div class="text-h6 font-weight-bold">Resumo: {{ getSelectedMonthName() }}</div>
-              <div class="text-caption text-grey-600">Visualização por período</div>
-            </div>
-          </div>
-        </VCol>
-        <VCol cols="auto">
-          <VCard class="filter-card" elevation="2" rounded="lg">
-            <VCardText class="pa-3">
-              <VSelect
-                v-model="selectedMonth"
-                :items="monthOptions"
-                label="Período"
-                variant="solo"
-                density="compact"
-                hide-details
-                style="min-width: 220px;"
-                prepend-inner-icon="mdi-calendar-month"
-                color="primary"
-                bg-color="grey-lighten-5"
-              />
-            </VCardText>
-          </VCard>
-        </VCol>
-      </VRow>
-    </div>
+
 
     <!-- Cupons e Ganhos -->
     <VRow>
@@ -287,7 +254,7 @@
                   <div class="text-h3 font-weight-bold mb-3" :class="minhasSolicitacoes?.length > 0 ? 'text-grey-500' : 'text-success'">
                      R$ {{ saldoFormatado }} 
                   </div>
-                  <div class="text-body-1 font-weight-medium text-success" :class="minhasSolicitacoes?.length > 0 ? 'text-orange-darken-1' : 'text-grey-700'">
+                  <div class="text-body-1 font-weight-medium" :class="minhasSolicitacoes?.length > 0 ? 'text-orange-darken-1' : 'text-success'">
                     {{ minhasSolicitacoes?.length > 0 ? 'Existe uma solicitação de resgate pendente' : 'Saldo disponível para resgate' }}
                   </div>
                 </VCardText>
