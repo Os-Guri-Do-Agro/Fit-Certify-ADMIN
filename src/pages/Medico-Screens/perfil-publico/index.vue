@@ -556,6 +556,7 @@ const criarConsulta = async () => {
     selectedTimeSlot.value = null
     dayselect.value = null
     datinhas.value = []
+    await buscarConsultasAtleta()
   } catch (error) {
     ;(toast.error('Erro ao marcar consulta!'),
       {
