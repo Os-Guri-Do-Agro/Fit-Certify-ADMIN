@@ -16,16 +16,10 @@
           </p>
 
           <VRow class="mt-4">
-            <VCol cols="auto">
-              <div class="text-center">
-                <div class="text-h5 font-weight-bold text-white">{{ stats.total }}</div>
-                <div class="text-caption text-white opacity-80">CUPONS</div>
-              </div>
-            </VCol>
             <VDivider vertical class="mx-3 opacity-50" />
             <VCol cols="auto">
               <div class="text-center">
-                <div class="text-h5 font-weight-bold text-white">{{ stats.used }}</div>
+                <div class="text-h5 font-weight-bold text-white">{{ cupomMetricas?.resumo?.totalUsos || '0' }}</div>
                 <div class="text-caption text-white opacity-80">UTILIZADOS</div>
               </div>
             </VCol>
@@ -91,86 +85,115 @@
       </VRow>
     </div>
 
-    <!-- Cupons Grid -->
+    <!-- Cupons e Ganhos -->
     <VRow>
-      <VCol v-for="(cupom, index) in cupons" :key="index" cols="12" md="6" lg="4">
-        <div class="ticket-container" @click="selectCupom(cupom)">
-          <div class="ticket" :class="getTicketClass(isValidCupom(cupom))">
-            <!-- Ticket Header -->
-            <div class="ticket-header">
-              <div class="d-flex align-center justify-space-between">
-                <div class="d-flex align-center">
-                  <VIcon icon="mdi-brightness-percent" size="24" class="mr-2" />
-                  <span class="font-weight-bold ">{{ cupom.porcentagem }}% OFF</span>
+      <!-- Cupons Grid -->
+      <VCol cols="12" sm="12" md="4">
+        <VRow>
+          <!-- Skeleton Loading -->
+          <VCol v-if="dataLoading" cols="12">
+            <VSkeletonLoader type="card" height="200" />
+          </VCol>
+          
+          <!-- Cupons -->
+          <VCol v-else v-for="(cupom, index) in cupons" :key="index" cols="12">
+            <div class="ticket-container">
+              <div class="ticket" :class="getTicketClass(isValidCupom(cupom))">
+                <!-- Ticket Header -->
+                <div class="ticket-header">
+                  <div class="d-flex align-center justify-space-between">
+                    <div class="d-flex align-center">
+                      <VIcon icon="mdi-brightness-percent" size="24" class="mr-2" />
+                      <span class="font-weight-bold ">{{ cupom.porcentagem }}% OFF</span>
+                    </div>
+
+                  </div>
                 </div>
 
+                <!-- Ticket Body -->
+                <div class="ticket-body">
+                  <div class="text-body-2 text-grey-600 mb-3">{{ cupom.descricao }}</div>
+
+                  <div class="coupon-code">
+                    <div class="text-caption text-grey-500 mb-1">Código do Cupom</div>
+                    <div class="code-display">
+                      <span class="font-weight-bold text-h6">{{ cupom.codigo }}</span>
+                      <VBtn icon="mdi-content-copy" size="x-small" variant="text" @click.stop="copyCoupon(cupom.codigo)" />
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ticket Footer -->
+                <div class="ticket-footer">
+                  <div class="d-flex align-center justify-space-between">
+                    <div class="text-caption">
+                      <VIcon icon="mdi-calendar" size="16" class="mr-1" />
+                      Válido até {{ formatDate(cupom.validade) }}
+                    </div>
+                    <div class="text-caption">
+                      <VIcon icon="mdi-account-group" size="16" class="mr-1" />
+                      {{ cupom.quantidadeUtilizada }}/{{ cupom.limiteMaximoDeUso }} usos
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Ticket Perforations -->
+                <div class="perforation perforation-left"></div>
+                <div class="perforation perforation-right"></div>
               </div>
             </div>
+          </VCol>
+        </VRow>
+      </VCol>
 
-            <!-- Ticket Body -->
-            <div class="ticket-body">
-              <div class="text-body-2 text-grey-600 mb-3">{{ cupom.descricao }}</div>
-
-              <div class="coupon-code">
-                <div class="text-caption text-grey-500 mb-1">Código do Cupom</div>
-                <div class="code-display">
-                  <span class="font-weight-bold text-h6">{{ cupom.codigo }}</span>
-                  <VBtn icon="mdi-content-copy" size="x-small" variant="text" @click.stop="copyCoupon(cupom.codigo)" />
+      <!-- Seção de Ganhos -->
+      <VCol cols="12" sm="12" md="8" class="d-flex">
+        <VCard class="earnings-card flex-grow-1" elevation="3">
+          <VCardTitle class="d-flex align-center">
+            <VIcon icon="mdi-cash" class="mr-2" color="success" />
+            Saldo total
+          </VCardTitle>
+          <VCardText class="d-flex flex-column justify-center flex-grow-1">
+            <!-- Skeleton Loading -->
+            <div v-if="dataLoading" class="d-flex justify-space-between align-center">
+              <div>
+                <VSkeletonLoader type="heading" width="150" class="mb-2" />
+                <VSkeletonLoader type="text" width="200" />
+              </div>
+              <VSkeletonLoader type="button" width="150" height="40" />
+            </div>
+            
+            <!-- Content -->
+            <div v-else class="d-flex justify-space-between align-center">
+              <div>
+                <div class="text-h3 font-weight-bold text-success mb-2">
+                  R$ {{ saldo?.totalAcumulado || '0,00' }}
+                </div>
+                <div class="text-grey-600">
+                  Valor disponível para resgate
                 </div>
               </div>
+              <VBtn 
+                color="success" 
+                size="large" 
+                variant="elevated"
+                @click="solicitarResgate"
+                :disabled="(cupomMetricas?.resumo?.totalGanhos || 0) <= 10"
+              >
+                <VIcon icon="mdi-bank-transfer" class="mr-2" />
+                Solicitar Resgate
+              </VBtn>
             </div>
-
-            <!-- Ticket Footer -->
-            <div class="ticket-footer">
-              <div class="d-flex align-center justify-space-between">
-                <div class="text-caption">
-                  <VIcon icon="mdi-calendar" size="16" class="mr-1" />
-                  Válido até {{ formatDate(cupom.validade) }}
-                </div>
-                <div class="text-caption">
-                  <VIcon icon="mdi-account-group" size="16" class="mr-1" />
-                  {{ cupom.quantidadeUtilizada }}/{{ cupom.limiteMaximoDeUso }} usos
-                </div>
-              </div>
+            <div class="mt-5">
+              <v-chip color="success" variant="tonal">
+                <v-icon icon="mdi-information" class="mr-2"></v-icon>
+                Seu saldo será acumulado ao mês atual caso não seja resgatado.
+              </v-chip>
             </div>
-
-            <!-- Ticket Perforations -->
-            <div class="perforation perforation-left"></div>
-            <div class="perforation perforation-right"></div>
-          </div>
-        </div>
+          </VCardText>
+        </VCard>
       </VCol>
     </VRow>
-
-    <!-- Seção de Ganhos -->
-    <VCard class="mt-6 earnings-card" elevation="3">
-      <VCardTitle class="d-flex align-center">
-        <VIcon icon="mdi-cash" class="mr-2" color="success" />
-        Ganhos Totais
-      </VCardTitle>
-      <VCardText>
-        <div class="d-flex justify-space-between align-center">
-          <div>
-            <div class="text-h3 font-weight-bold text-success mb-2">
-              R$ 0,00
-            </div>
-            <div class="text-grey-600">
-              Valor disponível para resgate
-            </div>
-          </div>
-          <VBtn 
-            color="success" 
-            size="large" 
-            variant="elevated"
-            @click="solicitarResgate"
-            :disabled="true"
-          >
-            <VIcon icon="mdi-bank-transfer" class="mr-2" />
-            Solicitar Resgate
-          </VBtn>
-        </div>
-      </VCardText>
-    </VCard>
 
     <!-- Informações Importantes -->
     <VCard class="mt-6" elevation="2" color="info" variant="tonal">
@@ -182,10 +205,8 @@
               <div class="text-h6 font-weight-bold">Informações Importantes</div>
             </div>
             <div class="text-body-2 mb-3">
-              • Cupons têm validade de 2 anos a partir da criação<br>
-              • Desconto de 10% aplicado automaticamente no checkout<br>
-              • Limite máximo de 999 usos por cupom<br>
-              • Apenas 1 cupom ativo por usuário
+              • Este cupom é válido apenas para consultas presenciais. Não pode ser combinado com outras promoções...
+
             </div>
           </VCol>
           <VCol cols="auto">
@@ -240,53 +261,71 @@
       </VCard>
     </VDialog>
 
-    <VDialog v-model="showDetailsDialog" max-width="500">
-      <VCard v-if="selectedCupom">
-        <VCardTitle class="d-flex align-center justify-space-between">
-          <div class="d-flex align-center">
-            <VIcon icon="mdi-ticket" class="mr-2" color="primary" />
-            {{ selectedCupom.nome }}
-          </div>
 
+
+    <!-- Dialog de Resgate -->
+    <VDialog v-model="showResgateDialog" max-width="800">
+      <VCard class="pa-8" rounded="xl">
+        <VCardTitle class="text-center mb-6 bg-success">
+          <VIcon icon="mdi-bank-transfer" size="80" color="white" class="mb-4" />
+          <h2 class="text-h4 font-weight-bold">
+            Solicitar Resgate
+          </h2>
         </VCardTitle>
 
         <VCardText>
-          <div class="mb-4">
-            <div class="text-h4 font-weight-bold text-center text-primary mb-2">
-              {{ selectedCupom.porcentagem }}% OFF
-            </div>
-            <div class="text-center text-grey-600 mb-4">{{ selectedCupom.descricao }}</div>
-
-            <div class="coupon-code-large text-center mb-4">
-              <div class="text-caption text-grey-500 mb-1">Código do Cupom</div>
-              <div class="code-display-large">
-                <span class="font-weight-bold text-h5">{{ selectedCupom.codigo }}</span>
-                <VBtn icon="mdi-content-copy" variant="text" @click="copyCoupon(selectedCupom.codigo)" />
+          <VRow>
+            <VCol cols="12">
+              <VCard  variant="tonal" class="mb-6 bg-grey-lighten-5">
+                <VCardText class="text-center">
+                  <div class="text-h3 font-weight-bold text-success mb-2">
+                     R$ {{ saldo?.totalAcumulado }} 
+                  </div>
+                  <div class="text-body-1 text-grey-700">
+                    Saldo disponível para resgate
+                  </div>
+                </VCardText>
+              </VCard>
+            </VCol>
+            
+            <VCol cols="12">
+              <div class="text-caption text-grey-600 mb-1">
+                CPF, CNPJ, e-mail, telefone ou chave aleatória
               </div>
-            </div>
-          </div>
+              <VTextField
+                v-model="chavePixDigitada"
+                label="Chave PIX"
+                placeholder="Digite sua chave PIX"
+                variant="outlined"
+                :rules="[
+                  v => !!v || 'Chave PIX é obrigatória',
+                  v => validarChavePix(v) || 'Chave PIX inválida'
+                ]"
+                required
+                @input="chavePixDigitada = aplicarMascara($event.target.value)"
+              />
+            </VCol>
+          </VRow>
 
-          <VDivider class="mb-4" />
-
-          <div class="details-grid">
-            <div class="detail-item">
-              <VIcon icon="mdi-calendar" class="mr-2" />
-              <span>Válido até: {{ formatDate(selectedCupom.validade) }}</span>
-            </div>
-            <div class="detail-item">
-              <VIcon icon="mdi-account-group" class="mr-2" />
-              <span>Usos: {{ selectedCupom.quantidadeUtilizada }}/{{ selectedCupom.limiteMaximoDeUso }}</span>
-            </div>
-
-          </div>
+          <VAlert type="info" class="mb-3">
+            <strong>Informações importantes:</strong><br>
+            • O valor será transferido em até 30 dias úteis<br>
+            • Valor mínimo para resgate: R$ 10,00<br>
+          </VAlert>
         </VCardText>
 
-        <VCardActions>
-          <VSpacer />
-          <VBtn @click="showDetailsDialog = false">Fechar</VBtn>
-          <VBtn color="primary" variant="outlined" @click="shareCupom(selectedCupom)">
-            <VIcon icon="mdi-share" class="mr-2" />
-            Compartilhar
+        <VCardActions class="d-flex flex-column-reverse pa-6">
+          <VBtn class="w-100 btn-cancelar"  size="large" @click="showResgateDialog = false" :disabled="processandoResgate">
+            Cancelar
+          </VBtn>
+          <VBtn 
+          class="w-100 bg-success"
+            @click="resgatarSaldo" 
+            :loading="processandoResgate" 
+            size="large"
+            :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada)"
+          >
+            Confirmar Resgate
           </VBtn>
         </VCardActions>
       </VCard>
@@ -296,7 +335,7 @@
 
 <script setup>
 import dayjs from 'dayjs';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router';
 import { getUserID } from '@/utils/auth'
@@ -305,15 +344,85 @@ import cupomService from '@/services/cupom/cupom-service';
 const router = useRouter();
 
 const showCreateDialog = ref(false);
-const showDetailsDialog = ref(false);
-const selectedCupom = ref(null);
+const showResgateDialog = ref(false);
+const chavePixDigitada = ref('');
+const processandoResgate = ref(false);
 const creating = ref(false);
 const formRef = ref(null);
+const loading = ref(false)
+const dataLoading = ref(true)
+const meuCupom = ref(null)
+const cupomMetricas = ref(null)
+const metricasFinanceiras = ref(null)
+const selectedMonth = ref(dayjs().format('MM'))
+const saldo = ref(0)
+const minhasSolicitacoes = ref(null)
+
 
 onMounted(async () => {
-  selectedMonth.value = dayjs().format('MM')
   await getMyCupom()
+  saldoDisponivel()
+  buscarMetricasFinanceiras()
+  verMinhasSolicitacoes()
 })
+
+watch([selectedMonth, () => meuCupom.value?.id], async () => {
+  if (meuCupom.value?.id) {
+    await buscarCupomMetricas()
+  }
+}, { immediate: true })
+
+const buscarMetricasFinanceiras = async () => {
+  try {
+    const userId = getUserID()
+    const response = await cupomService.metricasFinanceiras(userId)
+    metricasFinanceiras.value = response.data
+    console.log('Métricas financeiras:', response.data)
+  } catch (error) {
+    console.error('Erro ao buscar métricas do cupom:', error)
+  }
+}
+
+const verMinhasSolicitacoes = async () => {
+  try {
+    const response = await cupomService.getSolicitacoesResgate()
+    minhasSolicitacoes.value = response.data 
+  } catch (error) {
+    console.error('Erro ao buscar métricas do cupom:', error)
+  }
+}
+
+const resgatarSaldo = async () => {
+  try {
+    const chavePix = chavePixDigitada.value
+    const valorSolicitado = saldo?.totalAcumulado
+    await cupomService.postResgate(chavePix, valorSolicitado)
+  } catch (error) {
+    console.error('Erro ao resgatar saldo:', error)
+  }
+}
+
+const saldoDisponivel = async () => {
+  try {
+    const response = await cupomService.getSaldo()
+    saldo.value = response.data 
+  } catch (error) {
+    console.error('Erro ao buscar métricas do cupom:', error)
+  }
+}
+
+const buscarCupomMetricas = async () => {
+  if (meuCupom.value?.id) {
+    try {
+      const cupomId = meuCupom.value.id
+      const mes = parseInt(selectedMonth.value)
+      const response = await cupomService.cupomMetricas(cupomId, mes)
+      cupomMetricas.value = response.data
+    } catch (error) {
+      console.error('Erro ao buscar métricas do cupom:', error)
+    }
+  }
+}
 
 const getSelectedMonthName = () => {
   const month = monthOptions.find(m => m.value === selectedMonth.value)
@@ -321,8 +430,17 @@ const getSelectedMonthName = () => {
 }
 
 const getMyCupom = async () => {
-  const response = await cupomService.getCupomByResponsavelID(getUserID())
-  cupons.value = (response.data && !Array.isArray(response.data) && Object.keys(response.data).length > 0) ? [response.data] : []
+  dataLoading.value = true
+  try {
+    const response = await cupomService.getCupomByResponsavelID(getUserID())
+    meuCupom.value = response.data && response.data.id ? response.data : null
+    cupons.value = meuCupom.value ? [meuCupom.value] : []
+  } catch (error) {
+    console.error('Erro ao carregar cupom:', error)
+    cupons.value = []
+  } finally {
+    dataLoading.value = false
+  }
 }
 
 const newCupom = {
@@ -334,7 +452,6 @@ const newCupom = {
 };
 
 const cupons = ref([]);
-const selectedMonth = ref(dayjs().format('MM'));
 
 const monthOptions = [
   { title: 'Janeiro', value: '01' },
@@ -352,22 +469,88 @@ const monthOptions = [
 ];
 
 
+const aplicarMascara = (valor) => {
+  const numeros = valor.replace(/\D/g, '');
+  
+  // Se contém @ é email
+  if (valor.includes('@')) {
+    return valor;
+  }
+  
+  // Se tem 14 dígitos é CNPJ
+  if (numeros.length === 14) {
+    return numeros.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
+  }
+  
+  // Se tem 11 dígitos, verifica se é celular (começa com 1) ou CPF
+  if (numeros.length === 11) {
+    // Se começa com 1 é celular: (11) 91907-2667
+    if (numeros.startsWith('1')) {
+      return numeros.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    }
+    // Senão é CPF: 000.000.000-00
+    return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+  }
+  
+  // Se tem 10 dígitos é celular fixo: (11) 9190-7266
+  if (numeros.length === 10) {
+    return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+  }
+  
+  return valor;
+};
+
+const validarChavePix = (chave) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const chaveAleatoria = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
+  
+  const numeros = chave.replace(/\D/g, '');
+
+  // Email
+  if (chave.includes('@')) {
+    return emailRegex.test(chave);
+  }
+  
+  // Chave aleatória
+  if (chaveAleatoria.test(chave)) {
+    return true;
+  }
+  
+  // CPF (11 dígitos)
+  if (numeros.length === 11) {
+    return true;
+  }
+  
+  // CNPJ (14 dígitos)
+  if (numeros.length === 14) {
+    return true;
+  }
+  
+  // Telefone (10 ou 11 dígitos)
+  if (numeros.length === 10) {
+    return true;
+  }
+
+  return false;
+};
+
 const createCupom = async () => {
   if (cupons.value?.length > 0) {
-    toast.error('Você já possui um cupom ativo!');
-    return;
+    toast.error('Você já possui um cupom ativo!')
+    return
   }
-  creating.value = true;
-   await cupomService.createCupomByMedico(newCupom)
-  setTimeout(async () => {
-    creating.value = false;
-    showCreateDialog.value = false;
+  loading.value = true
+  try {
+    await cupomService.createCupomByMedico(newCupom)
     await getMyCupom()
-    toast.success('Cupom criado com sucesso!', {
-      duration: 4000
-    });
-  }, 1500);
-};
+    toast.success('Cupom criado com sucesso!')
+  } catch (error) {
+    toast.error('Erro ao gerar cupom')
+  } finally {
+    loading.value = false
+    showCreateDialog.value = false
+  }
+}
 
 const isValidCupom = (cupom) => {
   const hoje = new Date();
@@ -395,10 +578,7 @@ const formatDate = (date) => {
   return new Date(date).toLocaleDateString('pt-BR');
 };
 
-const selectCupom = (cupom) => {
-  selectedCupom.value = cupom;
-  showDetailsDialog.value = true;
-};
+
 
 const copyCoupon = async (codigo) => {
   try {
@@ -410,26 +590,29 @@ const copyCoupon = async (codigo) => {
 };
 
 
-const shareCupom = (cupom) => {
-  const text = `🎫 Cupom de Desconto: ${cupom.porcentagem}% OFF\nCódigo: ${cupom.codigo}\nVálido até: ${formatDate(cupom.validade)}`;
 
-  if (navigator.share) {
-    navigator.share({
-      title: 'Cupom de Desconto',
-      text: text
-    });
-  } else {
-    navigator.clipboard.writeText(text);
-    toast.success('Cupom copiado para compartilhar!');
-  }
-};
 
 const navigateToInfo = () => {
   window.open('/cupom-info', '_blank')
 };
 
 const solicitarResgate = () => {
-  toast.info('Funcionalidade em desenvolvimento');
+  showResgateDialog.value = true;
+};
+
+const confirmarResgate = async () => {
+  processandoResgate.value = true;
+  try {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+    toast.success('Solicitação de resgate enviada com sucesso!');
+    showResgateDialog.value = false;
+    chavePixDigitada.value = '';
+    await buscarCupomMetricas();
+  } catch (error) {
+    toast.error('Erro ao processar resgate');
+  } finally {
+    processandoResgate.value = false;
+  }
 };
 </script>
 
@@ -587,5 +770,10 @@ const solicitarResgate = () => {
 
 .earnings-card:hover {
   box-shadow: 0 8px 25px rgba(76, 175, 80, 0.15);
+}
+
+.btn-cancelar {
+  background-color: #27ae5f86;
+  color: #fff;
 }
 </style>

@@ -65,6 +65,68 @@ class CupomService {
     )
   }
 
+  async cupomMetricas(cupomId: string, mes: number): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/cupom/metricas/${cupomId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        params: {
+          mes: mes
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
+
+  async metricasFinanceiras(usuarioParceiroId: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/cupom/metricas-financeiras/${usuarioParceiroId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
+
+  async getSaldo(): Promise<any>{
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/cupom/saldo`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
+
+  postResgate(chavePix: string, valorSolicitado: number): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post(`/cupom/solicitar-resgate`, { chavePix, valorSolicitado }, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
+
+  getSolicitacoesResgate(): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/cupom/solicitacoes/ver-pedidos`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch all categories'
+    )
+  }
 
 }
 
