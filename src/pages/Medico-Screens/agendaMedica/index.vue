@@ -247,7 +247,7 @@
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import { getMedicoId, getRole } from '@/utils/auth'
-import { formatarDataHoraLocal, formatarHorarioLocal, formatarDataLocal } from '@/utils/date.utils'
+import { formatarDataHoraLocal, formatarHorarioLocal, formatarDataLocal, removerOffsetTimezone } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import timezone from 'dayjs/plugin/timezone'
@@ -327,7 +327,7 @@ const criarConsulta = async () => {
         ? nomePacienteExterno.value
         : null,
       consultaExterna: ConsultaExterna.value,
-      dataConsulta: selectedTimeSlot.value.horario,
+      dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
 
     await consultasService.createConsultaByMedico(data)
