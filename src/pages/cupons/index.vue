@@ -134,7 +134,7 @@
             <div v-else class="d-flex justify-space-between align-center">
               <div>
                 <div class="text-h3 font-weight-bold text-success mb-2">
-                  R$ {{ saldo?.totalAcumulado || '0,00' }}
+                  R$ {{ saldo?.saldoDisponivel || '0,00' }}
                 </div>
                 <div class="text-grey-600">
                   Valor disponível para resgate
@@ -152,9 +152,9 @@
               </VBtn>
             </div>
             <div class="mt-5 d-flex flex-column ga-2">
-              <v-chip :color="minhasSolicitacoes?.length > 0 ? 'orange' : 'success'" variant="tonal" style="max-width: 100%;">
+              <v-chip :color="temSolicitacaoPendente ? 'orange' : 'success'" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2" ></v-icon>
-                {{ minhasSolicitacoes?.length > 0 ? 'Você tem uma solicitação de resgate pendente, espera a conclusão antes de uma nova solicitação.' : 'Seu saldo está disponível para resgate, realize uma solicitação de resgate para retirá-lo' }}
+                {{ temSolicitacaoPendente ? 'Você tem uma solicitação de resgate pendente, espera a conclusão antes de uma nova solicitação.' : 'Seu saldo está disponível para resgate, realize uma solicitação de resgate para retirá-lo' }}
               </v-chip>
               <v-chip color="blue-lighten-2" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2"></v-icon>
@@ -250,18 +250,18 @@
             <VCol cols="12">
               <VCard  class="mb-6 bg-white" elevation="4">
                 <VCardText class="text-center pa-6">
-                  <VIcon icon="mdi-wallet" size="32" :color="minhasSolicitacoes?.length > 0 ? 'grey' : 'success'" class="mb-3" />
-                  <div class="text-h3 font-weight-bold mb-3" :class="minhasSolicitacoes?.length > 0 ? 'text-grey-500' : 'text-success'">
-                     R$ {{ saldoFormatado }} 
+                  <VIcon icon="mdi-wallet" size="32" :color="temSolicitacaoPendente ? 'grey' : 'success'" class="mb-3" />
+                  <div class="text-h3 font-weight-bold mb-3" :class="temSolicitacaoPendente ? 'text-grey-500' : 'text-success'">
+                     R$ {{ temSolicitacaoPendente ? saldoFormatado : saldo?.saldoDisponivel }} 
                   </div>
-                  <div class="text-body-1 font-weight-medium" :class="minhasSolicitacoes?.length > 0 ? 'text-orange-darken-1' : 'text-success'">
-                    {{ minhasSolicitacoes?.length > 0 ? 'Existe uma solicitação de resgate pendente' : 'Saldo disponível para resgate' }}
+                  <div class="text-body-1 font-weight-medium" :class="temSolicitacaoPendente ? 'text-orange-darken-1' : 'text-success'">
+                    {{ temSolicitacaoPendente ? 'Existe uma solicitação de resgate pendente' : 'Saldo disponível para resgate' }}
                   </div>
                 </VCardText>
               </VCard>
             </VCol>
             
-            <VCol cols="12" v-if="minhasSolicitacoes?.length > 0">
+            <VCol cols="12" v-if="temSolicitacaoPendente">
               <VCard variant="outlined" color="orange" class="mb-6 bg-orange-lighten-5" elevation="2">
                 <VCardText class="pa-4">
                   <div class="d-flex align-center mb-3">
@@ -295,7 +295,7 @@
                   ]"
                   required
                   @input="chavePixDigitada = aplicarMascara($event.target.value)"
-                  :disabled="minhasSolicitacoes?.length > 0"
+                  :disabled="temSolicitacaoPendente"
                 />
               </div>
             </VCol>
@@ -330,7 +330,7 @@
             class="w-100 mb-3 bg-success text-white"
             @click="resgatarSaldo" 
             :loading="processandoResgate" 
-            :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada) || minhasSolicitacoes?.length > 0"
+            :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada) || temSolicitacaoPendente || saldo?.saldoDisponivel == 0"
           >
             <VIcon icon="mdi-send" color="white" class="mr-2" />
             Confirmar Resgate
@@ -368,9 +368,13 @@ const minhasSolicitacoes = ref()
 const saldoBruto = computed(() => saldo.value?.totalAcumulado || 0)
 const saldoPendendete = computed(() => minhasSolicitacoes.value?.[0]?.valorTotal || 0)
 const saldoAtual = computed(() => saldoBruto.value - saldoPendendete.value)
+const temSolicitacaoPendente = computed(() => 
+  minhasSolicitacoes.value?.some(solicitacao => solicitacao.status === 'PENDENTE') || false
+)
 
 const saldoFormatado = computed(() => {
-  const valor = !minhasSolicitacoes.value ? saldo.value?.totalAcumulado : saldoAtual.value || 0
+  const saldoDisponivel = (saldo.value?.totalAcumulado || 0) - (saldo.value?.totalResgatado || 0)
+  const valor = !temSolicitacaoPendente.value ? saldoDisponivel : saldoDisponivel - saldoPendendete.value
   return Number(valor).toFixed(2).replace('.', ',')
 })
 
@@ -414,7 +418,9 @@ const resgatarSaldo = async () => {
   processandoResgate.value = true
   try {
     const chavePix = chavePixDigitada.value
-    const valorSolicitado = saldo?.totalAcumulado
+    const saldoDisponivel = (saldo.value?.totalAcumulado || 0) - (saldo.value?.totalResgatado || 0)
+    const valorCalculado = temSolicitacaoPendente.value ? saldoDisponivel - saldoPendendete.value : saldoDisponivel
+    const valorSolicitado = Math.round(valorCalculado * 100) / 100
     await cupomService.postResgate(chavePix, valorSolicitado)
     toast.success('Solicitação de resgate enviada com sucesso!')
     showResgateDialog.value = false
@@ -448,11 +454,6 @@ const buscarCupomMetricas = async () => {
       console.error('Erro ao buscar métricas do cupom:', error)
     }
   }
-}
-
-const getSelectedMonthName = () => {
-  const month = monthOptions.find(m => m.value === selectedMonth.value)
-  return month ? month.title : 'Mês Atual'
 }
 
 const getMyCupom = async () => {
