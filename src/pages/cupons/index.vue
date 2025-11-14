@@ -184,8 +184,12 @@
                 Solicitar Resgate
               </VBtn>
             </div>
-            <div class="mt-5">
-              <v-chip color="success" variant="tonal">
+            <div class="mt-5 d-flex flex-column ga-2">
+              <v-chip :color="minhasSolicitacoes?.length > 0 ? 'orange' : 'success'" variant="tonal" style="max-width: 100%;">
+                <v-icon icon="mdi-information" class="mr-2" ></v-icon>
+                {{ minhasSolicitacoes?.length > 0 ? 'Você tem uma solicitação de resgate pendente, espera a conclusão antes de uma nova solicitação.' : 'Seu saldo está disponível para resgate, realize uma solicitação de resgate para retirá-lo' }}
+              </v-chip>
+              <v-chip color="blue-lighten-2" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2"></v-icon>
                 Seu saldo será acumulado ao mês atual caso não seja resgatado.
               </v-chip>
@@ -264,67 +268,104 @@
 
 
     <!-- Dialog de Resgate -->
-    <VDialog v-model="showResgateDialog" max-width="800">
-      <VCard class="pa-8" rounded="xl">
-        <VCardTitle class="text-center mb-6 bg-success">
-          <VIcon icon="mdi-bank-transfer" size="80" color="white" class="mb-4" />
-          <h2 class="text-h4 font-weight-bold">
+    <VDialog v-model="showResgateDialog" max-width="800" scrollable>
+      <VCard class="bg-blue-lighten-5" rounded="xl">
+        <VCardTitle class="text-center pa-6 bg-success text-white">
+          <VIcon icon="mdi-bank-transfer" size="64" color="white" class="mb-4" />
+          <h2 class="text-h4 font-weight-bold mb-2">
             Solicitar Resgate
           </h2>
+          <p class="text-body-1">Transfira seu saldo para sua conta PIX</p>
         </VCardTitle>
 
-        <VCardText>
+        <VCardText class="pa-6">
           <VRow>
             <VCol cols="12">
-              <VCard  variant="tonal" class="mb-6 bg-grey-lighten-5">
-                <VCardText class="text-center">
-                  <div class="text-h3 font-weight-bold text-success mb-2">
-                     R$ {{ saldo?.totalAcumulado }} 
+              <VCard  class="mb-6 bg-white" elevation="4">
+                <VCardText class="text-center pa-6">
+                  <VIcon icon="mdi-wallet" size="32" :color="minhasSolicitacoes?.length > 0 ? 'grey' : 'success'" class="mb-3" />
+                  <div class="text-h3 font-weight-bold mb-3" :class="minhasSolicitacoes?.length > 0 ? 'text-grey-500' : 'text-success'">
+                     R$ {{ saldoFormatado }} 
                   </div>
-                  <div class="text-body-1 text-grey-700">
-                    Saldo disponível para resgate
+                  <div class="text-body-1 font-weight-medium text-success" :class="minhasSolicitacoes?.length > 0 ? 'text-orange-darken-1' : 'text-grey-700'">
+                    {{ minhasSolicitacoes?.length > 0 ? 'Existe uma solicitação de resgate pendente' : 'Saldo disponível para resgate' }}
+                  </div>
+                </VCardText>
+              </VCard>
+            </VCol>
+            
+            <VCol cols="12" v-if="minhasSolicitacoes?.length > 0">
+              <VCard variant="outlined" color="orange" class="mb-6 bg-orange-lighten-5" elevation="2">
+                <VCardText class="pa-4">
+                  <div class="d-flex align-center mb-3">
+                    <VIcon icon="mdi-clock-outline" color="orange-darken-2" size="20" class="mr-2" />
+                    <div class="text-subtitle-1 font-weight-bold text-orange-darken-2">Resgate Pendente</div>
+                  </div>
+                  <div class="text-body-2 mb-2"><strong>Chave PIX:</strong> {{ minhasSolicitacoes[0].chavePix }}</div>
+                  <div class="text-body-2 mb-2"><strong>Valor:</strong> R$ {{ minhasSolicitacoes[0].valorTotal?.toFixed(2).replace('.', ',') }}</div>
+                  <div class="text-body-2"><strong>Status:</strong> 
+                    <VChip size="small" color="orange" variant="tonal" class="ml-2">{{ minhasSolicitacoes[0].status }}</VChip>
                   </div>
                 </VCardText>
               </VCard>
             </VCol>
             
             <VCol cols="12">
-              <div class="text-caption text-grey-600 mb-1">
-                CPF, CNPJ, e-mail, telefone ou chave aleatória
+              <div class="mb-6">
+                <div class="text-h6 font-weight-bold mb-2">Dados para Transferência</div>
+                <div class="text-caption text-grey-600 mb-4">
+                  CPF, CNPJ, e-mail, telefone ou chave aleatória
+                </div>
+                <VTextField
+                  v-model="chavePixDigitada"
+                  label="Chave PIX"
+                  placeholder="Digite sua chave PIX"
+                  variant="outlined"
+                  prepend-inner-icon="mdi-key"
+                  :rules="[
+                    v => !!v || 'Chave PIX é obrigatória',
+                    v => validarChavePix(v) || 'Chave PIX inválida'
+                  ]"
+                  required
+                  @input="chavePixDigitada = aplicarMascara($event.target.value)"
+                  :disabled="minhasSolicitacoes?.length > 0"
+                />
               </div>
-              <VTextField
-                v-model="chavePixDigitada"
-                label="Chave PIX"
-                placeholder="Digite sua chave PIX"
-                variant="outlined"
-                :rules="[
-                  v => !!v || 'Chave PIX é obrigatória',
-                  v => validarChavePix(v) || 'Chave PIX inválida'
-                ]"
-                required
-                @input="chavePixDigitada = aplicarMascara($event.target.value)"
-              />
             </VCol>
           </VRow>
 
-          <VAlert type="info" class="mb-3">
-            <strong>Informações importantes:</strong><br>
-            • O valor será transferido em até 30 dias úteis<br>
-            • Valor mínimo para resgate: R$ 10,00<br>
+          <VAlert type="info" variant="tonal" class="mb-6" border="start">
+            <template v-slot:prepend>
+              <VIcon icon="mdi-information" />
+            </template>
+            <div class="text-body-2">
+              <strong>Informações importantes:</strong><br>
+              • O valor será transferido em até 30 dias úteis<br>
+              • Valor mínimo para resgate: R$ 10,00<br>
+              • Verifique se a chave PIX está correta antes de confirmar
+            </div>
           </VAlert>
         </VCardText>
 
         <VCardActions class="d-flex flex-column-reverse pa-6">
-          <VBtn class="w-100 btn-cancelar"  size="large" @click="showResgateDialog = false" :disabled="processandoResgate">
+          <VBtn 
+            variant="outlined" 
+            size="large" 
+            class="w-100" 
+            @click="showResgateDialog = false" 
+            :disabled="processandoResgate"
+          >
             Cancelar
           </VBtn>
           <VBtn 
-          class="w-100 bg-success"
+            color="white"
+            size="large"
+            class="w-100 mb-3 bg-success text-white"
             @click="resgatarSaldo" 
             :loading="processandoResgate" 
-            size="large"
-            :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada)"
+            :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada) || minhasSolicitacoes?.length > 0"
           >
+            <VIcon icon="mdi-send" color="white" class="mr-2" />
             Confirmar Resgate
           </VBtn>
         </VCardActions>
@@ -335,7 +376,7 @@
 
 <script setup>
 import dayjs from 'dayjs';
-import { ref, computed, onMounted, watch } from 'vue';
+import { ref, computed, onMounted, watch, watchEffect } from 'vue';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router';
 import { getUserID } from '@/utils/auth'
@@ -356,14 +397,25 @@ const cupomMetricas = ref(null)
 const metricasFinanceiras = ref(null)
 const selectedMonth = ref(dayjs().format('MM'))
 const saldo = ref(0)
-const minhasSolicitacoes = ref(null)
+const minhasSolicitacoes = ref()
+const saldoBruto = computed(() => saldo.value?.totalAcumulado || 0)
+const saldoPendendete = computed(() => minhasSolicitacoes.value?.[0]?.valorTotal || 0)
+const saldoAtual = computed(() => saldoBruto.value - saldoPendendete.value)
+
+const saldoFormatado = computed(() => {
+  const valor = !minhasSolicitacoes.value ? saldo.value?.totalAcumulado : saldoAtual.value || 0
+  return Number(valor).toFixed(2).replace('.', ',')
+})
+
 
 
 onMounted(async () => {
-  await getMyCupom()
-  saldoDisponivel()
-  buscarMetricasFinanceiras()
-  verMinhasSolicitacoes()
+  await Promise.all([
+    getMyCupom(),
+    saldoDisponivel(),
+    buscarMetricasFinanceiras(),
+    verMinhasSolicitacoes()
+  ])
 })
 
 watch([selectedMonth, () => meuCupom.value?.id], async () => {
@@ -377,7 +429,6 @@ const buscarMetricasFinanceiras = async () => {
     const userId = getUserID()
     const response = await cupomService.metricasFinanceiras(userId)
     metricasFinanceiras.value = response.data
-    console.log('Métricas financeiras:', response.data)
   } catch (error) {
     console.error('Erro ao buscar métricas do cupom:', error)
   }
@@ -393,12 +444,20 @@ const verMinhasSolicitacoes = async () => {
 }
 
 const resgatarSaldo = async () => {
+  processandoResgate.value = true
   try {
     const chavePix = chavePixDigitada.value
     const valorSolicitado = saldo?.totalAcumulado
     await cupomService.postResgate(chavePix, valorSolicitado)
+    toast.success('Solicitação de resgate enviada com sucesso!')
+    showResgateDialog.value = false
+    chavePixDigitada.value = ''
+    await verMinhasSolicitacoes()
   } catch (error) {
     console.error('Erro ao resgatar saldo:', error)
+    toast.error('Erro ao processar resgate')
+  } finally {
+    processandoResgate.value = false
   }
 }
 
