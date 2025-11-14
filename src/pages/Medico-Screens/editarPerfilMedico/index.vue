@@ -217,6 +217,7 @@
 import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload, getUserID, isTokenValid, logout } from '@/utils/auth'
+import { removerOffsetTimezone } from '@/utils/date.utils'
 import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
@@ -367,7 +368,7 @@ const atualizarDadosAtleta = async () => {
     data.append('telefone', formData.value.telefone.trim() || payload.user.medico.telefone)
 
     const dataNascimento = formData.value.dataNascimento || payload.user.medico.dataNascimento
-    const isoDate = dataNascimento ? new Date(dataNascimento).toISOString() : ''
+    const isoDate = dataNascimento ? removerOffsetTimezone(new Date(dataNascimento).toISOString()) : ''
     data.append('dataNascimento', isoDate)
 
 

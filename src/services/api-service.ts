@@ -52,7 +52,7 @@ apiClient.interceptors.request.use(
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
     
     if (config.headers) {
-      config.headers['Timezone'] = userTimezone
+      config.headers['timezone'] = userTimezone
     }
     
     if (authHeader) {

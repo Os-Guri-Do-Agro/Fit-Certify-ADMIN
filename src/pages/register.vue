@@ -400,6 +400,7 @@ import userService from '@/services/user/user-service'
 import { vMaska } from 'maska/vue'
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { isValidDate } from '@/utils/isValidDate'
+import { removerOffsetTimezone } from '@/utils/date.utils'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -532,7 +533,7 @@ function formatarDataParaISO(dataDigitada) {
   if (!dataDigitada) return "";
   const data = dayjs(dataDigitada, "DD/MM/YYYY", true);
 
-  return data.isValid() ? data.startOf("day").toISOString() : "";
+  return data.isValid() ? removerOffsetTimezone(data.startOf("day").toISOString()) : "";
 }
 
 

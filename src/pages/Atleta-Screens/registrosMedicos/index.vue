@@ -120,7 +120,7 @@
                               {{ item.situacao }}
                             </v-chip>
                             <v-chip size="small" variant="outlined">
-                              {{ formatarDataHoraLocal(item.createdAt) }}
+                              {{ formatarDataHoraLocal(item.dataConsulta) }}
                             </v-chip>
                           </div>
                           <v-icon :color="expandedItems[index] ? 'blue-darken-1' : 'grey'">
