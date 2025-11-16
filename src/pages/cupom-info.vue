@@ -23,37 +23,34 @@
     <VRow>
       <VCol cols="12" md="6">
         <VCard class="h-100" elevation="2">
-          <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-5">
-            <VIcon icon="mdi-help-circle" color="blue" class="mr-3" />
-            Como Funciona
+          <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-1">
+            <VIcon icon="mdi-ticket-percent" color="white" class="mr-3" />
+            <span class="text-white">Como Gerar um Cupom</span>
           </VCardTitle>
           <VCardText class="pa-6">
             <div class="info-list">
               <div class="info-item">
-                <VIcon icon="mdi-numeric-1-circle" color="blue" class="mr-3" />
+                <VIcon icon="mdi-plus-circle" color="blue" class="mr-3" />
                 <div>
-                  <strong>Criação do Cupom</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Usuários cadastrados (médicos e atletas) podem gerar um cupom exclusivo de 10% de desconto
-                  </p>
+                  <strong>Toque no botão "Gerar Cupom" na tela principal</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-numeric-2-circle" color="blue" class="mr-3" />
+                <VIcon icon="mdi-auto-fix" color="blue" class="mr-3" />
                 <div>
-                  <strong>Compartilhamento</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    O código pode ser compartilhado com pacientes e atletas
-                  </p>
+                  <strong>O sistema criará automaticamente um código único</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-numeric-3-circle" color="blue" class="mr-3" />
+                <VIcon icon="mdi-calendar-check" color="blue" class="mr-3" />
                 <div>
-                  <strong>Aplicação do Desconto</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Desconto aplicado automaticamente no checkout da plataforma
-                  </p>
+                  <strong>O cupom terá validade e limite de uso definidos</strong>
+                </div>
+              </div>
+              <div class="info-item">
+                <VIcon icon="mdi-share" color="blue" class="mr-3" />
+                <div>
+                  <strong>Você pode compartilhar o código com todos</strong>
                 </div>
               </div>
             </div>
@@ -63,37 +60,40 @@
 
       <VCol cols="12" md="6">
         <VCard class="h-100" elevation="2">
-          <VCardTitle class="d-flex align-center pa-6 bg-orange-lighten-5">
-            <VIcon icon="mdi-alert-circle" color="orange" class="mr-3" />
-            Regras e Limitações
+          <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-1">
+            <VIcon icon="mdi-information" color="white" class="mr-3" />
+            <span class="text-white">Informações do Cupom</span>
           </VCardTitle>
           <VCardText class="pa-6">
             <div class="info-list">
               <div class="info-item">
-                <VIcon icon="mdi-account-check" color="orange" class="mr-3" />
+                <VIcon icon="mdi-barcode" color="blue" class="mr-3" />
                 <div>
-                  <strong>1 Cupom por Usuário</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Cada usuário pode ter apenas um cupom ativo por vez
-                  </p>
+                  <strong>Código: Sequência única para identificação</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-counter" color="orange" class="mr-3" />
+                <VIcon icon="mdi-percent" color="blue" class="mr-3" />
                 <div>
-                  <strong>Limite de Uso</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Máximo de 999 utilizações por cupom
-                  </p>
+                  <strong>Desconto: Porcentagem aplicada no valor da assinatura</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-calendar-clock" color="orange" class="mr-3" />
+                <VIcon icon="mdi-calendar-clock" color="blue" class="mr-3" />
                 <div>
-                  <strong>Validade</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    2 anos a partir da data de criação
-                  </p>
+                  <strong>Validade: Data limite para uso do cupom</strong>
+                </div>
+              </div>
+              <div class="info-item">
+                <VIcon icon="mdi-counter" color="blue" class="mr-3" />
+                <div>
+                  <strong>Limite de uso: Quantidade máxima de resgates</strong>
+                </div>
+              </div>
+              <div class="info-item">
+                <VIcon icon="mdi-chart-line" color="blue" class="mr-3" />
+                <div>
+                  <strong>Utilizações: Quantas vezes já foi usado</strong>
                 </div>
               </div>
             </div>
@@ -103,37 +103,34 @@
 
       <VCol cols="12" md="6">
         <VCard class="h-100" elevation="2">
-          <VCardTitle class="d-flex align-center pa-6 bg-green-lighten-5">
-            <VIcon icon="mdi-star-circle" color="green" class="mr-3" />
-            Benefícios
+          <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-1">
+            <VIcon icon="mdi-check-circle" color="white" class="mr-3" />
+            <span class="text-white">Regras de Uso</span>
           </VCardTitle>
           <VCardText class="pa-6">
             <div class="info-list">
               <div class="info-item">
-                <VIcon icon="mdi-percent" color="green" class="mr-3" />
+                <VIcon icon="mdi-credit-card-check" color="blue" class="mr-3" />
                 <div>
-                  <strong>10% de Desconto</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Desconto fixo em todos os serviços da plataforma
-                  </p>
+                  <strong>Válido apenas após confirmar pagamento</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-share-variant" color="green" class="mr-3" />
+                <VIcon icon="mdi-close-circle" color="blue" class="mr-3" />
                 <div>
-                  <strong>Fácil Compartilhamento</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Compartilhe via WhatsApp, email ou redes sociais
-                  </p>
+                  <strong>Não pode ser combinado com outras promoções</strong>
                 </div>
               </div>
               <div class="info-item">
-                <VIcon icon="mdi-chart-line" color="green" class="mr-3" />
+                <VIcon icon="mdi-check-decagram" color="blue" class="mr-3" />
                 <div>
-                  <strong>Acompanhamento</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    Monitore quantas vezes seu cupom foi utilizado
-                  </p>
+                  <strong>Só é válido para a FitCertify365</strong>
+                </div>
+              </div>
+              <div class="info-item">
+                <VIcon icon="mdi-calendar-alert" color="blue" class="mr-3" />
+                <div>
+                  <strong>Cupom deve estar dentro da validade</strong>
                 </div>
               </div>
             </div>
@@ -143,14 +140,14 @@
 
       <VCol cols="12" md="6">
         <VCard class="h-100" elevation="2">
-          <VCardTitle class="d-flex align-center pa-6 bg-purple-lighten-5">
-            <VIcon icon="mdi-help-circle-outline" color="purple" class="mr-3" />
-            Suporte e Contato
+          <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-1">
+            <VIcon icon="mdi-help-circle-outline" color="white" class="mr-3" />
+            <span class="text-white">Suporte e Contato</span>
           </VCardTitle>
           <VCardText class="pa-6">
             <div class="info-list">
               <div class="info-item">
-                <VIcon icon="mdi-email" color="purple" class="mr-3" />
+                <VIcon icon="mdi-email" color="blue" class="mr-3" />
                 <div>
                   <strong>Email</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
@@ -160,7 +157,7 @@
               </div>
 
               <div class="info-item">
-                <VIcon icon="mdi-phone" color="purple" class="mr-3" />
+                <VIcon icon="mdi-phone" color="blue" class="mr-3" />
                 <div>
                   <strong>Telefone</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
@@ -169,7 +166,7 @@
                 </div>
               </div>
               <div class="info-item" style="cursor: pointer;" @click="$router.push('/centralAjuda')">
-                <VIcon icon="mdi-help-circle-outline" color="purple" class="mr-3" />
+                <VIcon icon="mdi-help-circle-outline" color="blue" class="mr-3" />
                 <div>
                   <strong>Central de Ajuda</strong>
                   <p class="text-body-2 text-grey-600 mt-1">

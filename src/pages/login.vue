@@ -153,7 +153,7 @@
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
-import { getPayload, getRole, getStatusMedicoCRM } from '@/utils/auth';
+import { getPayload, getPayloadFromToken, getRole, getStatusMedicoCRM } from '@/utils/auth';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
@@ -206,11 +206,10 @@ async function handleSubmit() {
     };
 
     const response = await authService.login(data);
-
     if (response.data?.access_token) {
       sessionStorage.setItem("token", response.data?.access_token)
       loading.value = false
-      const payload = getPayload()
+      const payload = getPayloadFromToken(response.data?.access_token)
       const user = payload?.user
       let path = '/'
       if (getRole() === 'admin') {
