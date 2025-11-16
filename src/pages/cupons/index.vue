@@ -529,7 +529,6 @@ const verMinhasSolicitacoes = async () => {
   try {
     const response = await cupomService.getSolicitacoesResgate()
     minhasSolicitacoes.value = response.data 
-    console.log('Minhas Solicitações:', minhasSolicitacoes.value)
   } catch (error) {
     console.error('Erro ao buscar métricas do cupom:', error)
   } finally {
