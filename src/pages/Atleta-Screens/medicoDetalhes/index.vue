@@ -399,7 +399,7 @@ import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import medicoService from '@/services/medico/medico-service'
 import { getAtletaId } from '@/utils/auth'
-import { formatarDataHoraLocal, formatarHorario, formatarDataHora, formatarHorarioLocal } from '@/utils/date.utils'
+import { formatarDataHoraLocal, formatarHorario, formatarDataHora, formatarHorarioLocal, removerOffsetTimezone } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import timezone from 'dayjs/plugin/timezone'
@@ -510,6 +510,7 @@ const selectTimeSlot = (hora) => {
 const criarConsulta = async () => {
   loading.value = true
   try {
+    
     const data = {
       medicoId: medicoId.value,
       atletaId: getAtletaId(),
@@ -518,9 +519,9 @@ const criarConsulta = async () => {
       situacao: 'Pendente',
       nomePacienteExterno: null,
       consultaExterna: false,
-      dataConsulta: selectedTimeSlot.value.horario,
+      dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
-
+    
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
     ;(toast.success('Consulta marcada com sucesso!'),
@@ -533,6 +534,7 @@ const criarConsulta = async () => {
     selectedTimeSlot.value = null
     dayselect.value = null
     datinhas.value = []
+    await buscarConsultasAtleta()
   } catch (error) {
     ;(toast.error('Erro ao marcar consulta!'),
       {

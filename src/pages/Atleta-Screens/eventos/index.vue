@@ -30,6 +30,14 @@
 
 
 
+            <div v-else-if="eventos.length === 0" class="d-flex flex-column align-center justify-center py-16">
+                <v-icon size="120" color="grey-lighten-1" class="mb-4">
+                    mdi-calendar-remove
+                </v-icon>
+                <h3 class="text-h5 text-grey-darken-1 mb-2">Nenhum evento encontrado</h3>
+                <p class="text-body-1 text-grey">Não há eventos disponíveis no momento</p>
+            </div>
+
             <v-row v-else class="">
                 <v-col cols="12" md="4" v-for="evento in eventos" :key="evento">
                     <v-card elevation="8" rounded="xl"  class="event-card">
@@ -62,7 +70,7 @@
                                     <v-icon size="20" color="grey-darken-1" class="mr-2">
                                         mdi-run
                                     </v-icon>
-                                    <span class="text-body-1">{{ evento.distanciaEventos.map(d => d.distancia + 'km').join(' / ') }}</span>
+                                    <span class="text-body-1">{{ evento.distanciaEventos?.map(d => d.distancia + 'km').join(' / ') || 'N/A' }}</span>
                                 </div>
                             </div>
                             
@@ -138,7 +146,6 @@
             const response = await eventoService.findAllEventosPagined(page.value, pageSize.value, '', searchForLocalidade.value, selectedMes.value, search.value)
             eventos.value = response.data.itens
             totalPages.value = response.data.totalPages
-            console.log(response.data)
         } catch (error) {
             console.error(error)
         } finally {

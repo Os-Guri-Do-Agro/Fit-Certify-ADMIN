@@ -393,6 +393,7 @@ import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { isValidDate } from '@/utils/isValidDate'
+import { removerOffsetTimezone } from '@/utils/date.utils'
 import medicoService from '@/services/medico/medico-service'
 import { vMaska } from 'maska/vue'
 import userService from '@/services/user/user-service'
@@ -486,7 +487,7 @@ async function onBlurEmail(email) {
 function formatarDataParaISO(dataDigitada) {
   if (!dataDigitada) return "";
   const data = dayjs(dataDigitada, "DD/MM/YYYY", true);
-  return data.isValid() ? data.startOf("day").toISOString() : "";
+  return data.isValid() ? removerOffsetTimezone(data.startOf("day").toISOString()) : "";
 }
 
 
@@ -501,7 +502,7 @@ const formatarHorarioParaISO = (horario) => {
   const dataBase = '2000-01-01'
   const [hora, minuto] = horario.split(':')
   const dataComHorario = new Date(dataBase + 'T' + hora + ':' + minuto + ':00.000Z')
-  return dataComHorario.toISOString()
+  return removerOffsetTimezone(dataComHorario.toISOString())
 }
 
 const validarHorario = (horario) => {
@@ -796,7 +797,6 @@ const submitMedico = async () => {
     formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim)
     formData.append('horarioInicio', formatarHorarioParaISO(form.value.horarioInicio))
     formData.append('horarioFim', formatarHorarioParaISO(form.value.horarioFim))
-    formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
     formData.append('declaraVeracidade', form.value.declaraVeracidade)
     formData.append('aceitaCompartilharDados', form.value.aceitaCompartilharDados)
     formData.append('aceitaTermos', form.value.aceitaTermos)
