@@ -128,6 +128,18 @@ class CupomService {
     )
   }
 
+  async cancelarSolicitacao(id: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.patch(`/cupom/solicitacao-resgate/${id}/cancelar`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to cancel rescue request'
+    )
+  }
+
 }
 
 export default new CupomService()

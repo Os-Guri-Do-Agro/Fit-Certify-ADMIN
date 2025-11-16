@@ -117,7 +117,7 @@
       <VCol cols="12" sm="12" md="8" class="d-flex">
         <VCard class="earnings-card flex-grow-1" elevation="3">
           <VCardTitle class="d-flex align-center">
-            <VIcon icon="mdi-cash" class="mr-2" color="success" />
+            <VIcon icon="mdi-cash" class="mr-2" color="blue-lighten-1" />
             Saldo total
           </VCardTitle>
           <VCardText class="d-flex flex-column justify-center flex-grow-1">
@@ -133,7 +133,7 @@
             <!-- Content -->
             <div v-else class="d-flex justify-space-between align-center">
               <div>
-                <div class="text-h3 font-weight-bold text-success mb-2">
+                <div class="text-h3 font-weight-bold text-blue-lighten-1 mb-2">
                   R$ {{ saldo?.saldoDisponivel || '0,00' }}
                 </div>
                 <div class="text-grey-600">
@@ -141,7 +141,7 @@
                 </div>
               </div>
               <VBtn 
-                color="success" 
+                color="blue-lighten-1" 
                 size="large" 
                 variant="elevated"
                 @click="solicitarResgate"
@@ -156,7 +156,7 @@
                 <v-icon icon="mdi-information" class="mr-2" ></v-icon>
                 {{ temSolicitacaoPendente ? 'Você tem uma solicitação de resgate pendente, espera a conclusão antes de uma nova solicitação.' : 'Seu saldo está disponível para resgate, realize uma solicitação de resgate para retirá-lo' }}
               </v-chip>
-              <v-chip color="blue-lighten-2" variant="tonal" style="max-width: 100%;">
+              <v-chip color="blue-lighten-1" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2"></v-icon>
                 Seu saldo será acumulado ao mês atual caso não seja resgatado.
               </v-chip>
@@ -166,8 +166,76 @@
       </VCol>
     </VRow>
 
+    <v-card class="mt-5">
+      <v-expansion-panels>
+        <v-expansion-panel>
+          <v-expansion-panel-title class="text-h6">
+            <v-icon icon="mdi-history" class="mr-2"></v-icon>
+            Histórico
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <!-- Skeleton Loading -->
+            <div v-if="solicitacoesLoading">
+              <VSkeletonLoader type="list-item-avatar-two-line" class="mb-2" />
+              <VSkeletonLoader type="list-item-avatar-two-line" class="mb-2" />
+              <VSkeletonLoader type="list-item-avatar-two-line" />
+            </div>
+            
+            <!-- Lista de Solicitações -->
+            <v-expansion-panels v-else variant="accordion">
+              <v-expansion-panel v-for="item in minhasSolicitacoes" :key="item.id">
+                <v-expansion-panel-title>
+                  <div class="d-flex align-center justify-space-between w-100">
+                    <div class="d-flex align-center">
+                      <div class="">
+                        <v-icon icon="mdi-bank-transfer" class="mr-2" size="38" :color="getStatusColor(item?.status)"></v-icon>
+                      </div>
+                      <div class="d-flex flex-column justify-center">
+                        <span class="font-weight-black tex-h6">Resgate - R$ {{ item?.valorTotal }}</span>
+                        <span class="text-subtitle-2">{{ formatDate(item?.dataFechamento) }}</span>
+                      </div>
+                    </div>
+                    <div class="d-flex align-center ga-2">
+                      <v-btn 
+                        v-if="item?.status === 'PENDENTE'"
+                        color="error" 
+                        variant="text" 
+                        size="small"
+                        icon="mdi-cancel"
+                        @click.stop="abrirModalCancelamento(item)"
+                      ></v-btn>
+                      <v-chip :color="getStatusColor(item?.status)" size="small">{{ item?.status }}</v-chip>
+                    </div>
+                  </div>
+                </v-expansion-panel-title>
+                <v-expansion-panel-text>
+                  <div class="pa-2">
+                    <p><strong>Data:</strong> {{ formatDate(item?.dataFechamento) }}</p>
+                    <p><strong>Valor:</strong> R$ {{ item?.valorTotal }}</p>
+                    <p><strong>Status:</strong> {{ item?.status }}</p>
+                    <p><strong>PIX:</strong> {{ item?.chavePix }}</p>
+                    <v-btn 
+                      v-if="item?.status === 'PENDENTE'"
+                      color="error" 
+                      variant="outlined" 
+                      size="small" 
+                      class="mt-3"
+                      prepend-icon="mdi-cancel"
+                      @click="abrirModalCancelamento(item)"
+                    >
+                      Cancelar Solicitação
+                    </v-btn>
+                  </div>
+                </v-expansion-panel-text>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels> 
+    </v-card>
+
     <!-- Informações Importantes -->
-    <VCard class="mt-6" elevation="2" color="info" variant="tonal">
+    <VCard class="mt-6"  color="info" variant="tonal">
       <VCardText>
         <VRow align="center">
           <VCol>
@@ -175,10 +243,20 @@
               <VIcon icon="mdi-information" size="24" class="mr-3" color="info" />
               <div class="text-h6 font-weight-bold">Informações Importantes</div>
             </div>
-            <div class="text-body-2 mb-3">
-              • Este cupom é válido apenas para consultas presenciais. Não pode ser combinado com outras promoções...
-
-            </div>
+            <ul class="text-body-2 mb-3 mx-5">
+              <li>
+                <strong>Saldo acumulado:</strong> Seus ganhos se acumulam automáticamente.
+              </li>
+              <li>
+                <strong>Aprovação:</strong> Cada solicitação entra em análise e é paga em até 30 dias úteis.
+              </li>
+              <li>
+                <strong>Nova solicitação:</strong> Só é possível após a aprovação da anterior.
+              </li>
+              <li>
+                <strong>Valor mínimo: </strong> R$ 10,00 para solicitar resgate.
+              </li>
+            </ul>
           </VCol>
           <VCol cols="auto">
             <VBtn 
@@ -189,6 +267,22 @@
             >
               Ver Mais
             </VBtn>
+          </VCol>
+        </VRow>
+      </VCardText>
+    </VCard>
+
+    <VCard class="mt-6"  color="success" variant="tonal" border="sucess sm">
+      <VCardText>
+        <VRow align="center">
+          <VCol>
+            <div class="d-flex align-center mb-3">
+              <VIcon icon="mdi-heart" size="24" class="mr-3" color="sucess" />
+              <div class="text-h6 font-weight-bold">Informações Importantes</div>
+            </div>
+            <div class="text-body-2 mb-3 mx-5">
+              <span><strong>Como funciona: </strong>Seu saldo cresce automáticamente com novos ganhos. Você pode solicitar resgate quando atingir o valor mínimo - o valor será o disponível no momento da solicitação. Após a aprovação, poderá realizar uma nova solicitação com os ganhos acumulados. Obrigado pela confiança!</span>
+            </div>
           </VCol>
         </VRow>
       </VCardText>
@@ -237,7 +331,7 @@
     <!-- Dialog de Resgate -->
     <VDialog v-model="showResgateDialog" max-width="800" scrollable>
       <VCard class="bg-blue-lighten-5" rounded="xl">
-        <VCardTitle class="text-center pa-6 bg-success text-white">
+        <VCardTitle class="text-center pa-6 bg-blue-lighten-1 text-white">
           <VIcon icon="mdi-bank-transfer" size="64" color="white" class="mb-4" />
           <h2 class="text-h4 font-weight-bold mb-2">
             Solicitar Resgate
@@ -250,12 +344,12 @@
             <VCol cols="12">
               <VCard  class="mb-6 bg-white" elevation="4">
                 <VCardText class="text-center pa-6">
-                  <VIcon icon="mdi-wallet" size="32" :color="temSolicitacaoPendente ? 'grey' : 'success'" class="mb-3" />
-                  <div class="text-h3 font-weight-bold mb-3" :class="temSolicitacaoPendente ? 'text-grey-500' : 'text-success'">
+                  <VIcon icon="mdi-wallet" size="32" :color="temSolicitacaoPendente ? 'grey' : 'blue-lighten-1'" class="mb-3" />
+                  <div class="text-h3 font-weight-bold mb-3" :class="temSolicitacaoPendente ? 'text-grey-500' : 'text-blue-lighten-1'">
                      R$ {{ temSolicitacaoPendente ? saldoFormatado : saldo?.saldoDisponivel }} 
                   </div>
-                  <div class="text-body-1 font-weight-medium" :class="temSolicitacaoPendente ? 'text-orange-darken-1' : 'text-success'">
-                    {{ temSolicitacaoPendente ? 'Existe uma solicitação de resgate pendente' : 'Saldo disponível para resgate' }}
+                  <div class="text-body-1 font-weight-medium" :class="temSolicitacaoPendente ? 'text-orange-darken-1' : 'text-blue-lighten-1'">
+                    {{ temSolicitacaoPendente ? 'Existe uma solicitação de resgate pendente' : 'Saldo Total Disponível' }}
                   </div>
                 </VCardText>
               </VCard>
@@ -281,7 +375,7 @@
               <div class="mb-6">
                 <div class="text-h6 font-weight-bold mb-2">Dados para Transferência</div>
                 <div class="text-caption text-grey-600 mb-4">
-                  CPF, CNPJ, e-mail, telefone ou chave aleatória
+                  CPF/CNPJ, celular ou e-mail
                 </div>
                 <VTextField
                   v-model="chavePixDigitada"
@@ -327,7 +421,7 @@
           <VBtn 
             color="white"
             size="large"
-            class="w-100 mb-3 bg-success text-white"
+            class="w-100 mb-3 bg-blue-lighten-1 text-white"
             @click="resgatarSaldo" 
             :loading="processandoResgate" 
             :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada) || temSolicitacaoPendente || saldo?.saldoDisponivel == 0"
@@ -336,6 +430,27 @@
             Confirmar Resgate
           </VBtn>
         </VCardActions>
+      </VCard>
+    </VDialog>
+
+    <!-- Modal de Confirmação de Cancelamento -->
+    <VDialog v-model="showCancelDialog" max-width="400">
+      <VCard class="text-center pa-6">
+        <div class="d-flex justify-center mb-4">
+          <VIcon icon="mdi-alert-circle" size="64" color="error" />
+        </div>
+        <h2 class="text-h5 font-weight-bold mb-2">Cancelar Solicitação</h2>
+        <p class="text-body-1 text-grey-600 mb-4">
+          Tem certeza que deseja cancelar esta solicitação de resgate?
+        </p>
+        <div class="d-flex gap-3 justify-space-between">
+          <VBtn variant="outlined" @click="showCancelDialog = false" :disabled="cancelandoSolicitacao">
+            Não
+          </VBtn>
+          <VBtn color="error" @click="confirmarCancelamento" :loading="cancelandoSolicitacao">
+            Sim, Cancelar
+          </VBtn>
+        </div>
       </VCard>
     </VDialog>
   </div>
@@ -353,12 +468,16 @@ const router = useRouter();
 
 const showCreateDialog = ref(false);
 const showResgateDialog = ref(false);
+const showCancelDialog = ref(false);
+const itemParaCancelar = ref(null);
+const cancelandoSolicitacao = ref(false);
 const chavePixDigitada = ref('');
 const processandoResgate = ref(false);
 const creating = ref(false);
 const formRef = ref(null);
 const loading = ref(false)
 const dataLoading = ref(true)
+const solicitacoesLoading = ref(true)
 const meuCupom = ref(null)
 const cupomMetricas = ref(null)
 const metricasFinanceiras = ref(null)
@@ -406,11 +525,15 @@ const buscarMetricasFinanceiras = async () => {
 }
 
 const verMinhasSolicitacoes = async () => {
+  solicitacoesLoading.value = true
   try {
     const response = await cupomService.getSolicitacoesResgate()
     minhasSolicitacoes.value = response.data 
+    console.log('Minhas Solicitações:', minhasSolicitacoes.value)
   } catch (error) {
     console.error('Erro ao buscar métricas do cupom:', error)
+  } finally {
+    solicitacoesLoading.value = false
   }
 }
 
@@ -422,7 +545,7 @@ const resgatarSaldo = async () => {
     const valorCalculado = temSolicitacaoPendente.value ? saldoDisponivel - saldoPendendete.value : saldoDisponivel
     const valorSolicitado = Math.round(valorCalculado * 100) / 100
     await cupomService.postResgate(chavePix, valorSolicitado)
-    toast.success('Solicitação de resgate enviada com sucesso!')
+    toast.blue-lighten-1('Solicitação de resgate enviada com sucesso!')
     showResgateDialog.value = false
     chavePixDigitada.value = ''
     await verMinhasSolicitacoes()
@@ -570,7 +693,7 @@ const createCupom = async () => {
   try {
     await cupomService.createCupomByMedico(newCupom)
     await getMyCupom()
-    toast.success('Cupom criado com sucesso!')
+    toast.blue-lighten-1('Cupom criado com sucesso!')
   } catch (error) {
     toast.error('Erro ao gerar cupom')
   } finally {
@@ -610,7 +733,7 @@ const formatDate = (date) => {
 const copyCoupon = async (codigo) => {
   try {
     await navigator.clipboard.writeText(codigo);
-    toast.success('Código copiado!');
+    toast.blue-lighten-1('Código copiado!');
   } catch (err) {
     toast.error('Erro ao copiar código');
   }
@@ -631,7 +754,7 @@ const confirmarResgate = async () => {
   processandoResgate.value = true;
   try {
     await new Promise(resolve => setTimeout(resolve, 2000));
-    toast.success('Solicitação de resgate enviada com sucesso!');
+    toast.blue-lighten-1('Solicitação de resgate enviada com sucesso!');
     showResgateDialog.value = false;
     chavePixDigitada.value = '';
     await buscarCupomMetricas();
@@ -641,6 +764,44 @@ const confirmarResgate = async () => {
     processandoResgate.value = false;
   }
 };
+
+const getStatusColor = (status) => {
+  const colors = {
+    'APROVADO': '#28a745',
+    'REJEITADO': '#dc3545', 
+    'PENDENTE': '#ffc107',
+    'CANCELADO': '#6c757d'
+  }
+  return colors[status] || '#6c757d'
+}
+
+const abrirModalCancelamento = (item) => {
+  itemParaCancelar.value = item
+  showCancelDialog.value = true
+}
+
+const cancelarSolicitacao = async (id) => {
+  cancelandoSolicitacao.value = true
+  try {
+    await cupomService.cancelarSolicitacao(id);
+    toast.blue-lighten-1('Solicitação cancelada com sucesso!');
+    await verMinhasSolicitacoes();
+    await buscarMetricasFinanceiras();
+  } catch (error) {
+    toast.error('Não foi possível cancelar a solicitação');
+    console.error(error);
+  } finally {
+    cancelandoSolicitacao.value = false
+  }
+};
+
+const confirmarCancelamento = async () => {
+  if (itemParaCancelar.value?.id) {
+    await cancelarSolicitacao(itemParaCancelar.value.id)
+  }
+  showCancelDialog.value = false
+  itemParaCancelar.value = null
+}
 </script>
 
 <style scoped>
@@ -665,8 +826,8 @@ const confirmarResgate = async () => {
 }
 
 .ticket-active {
-  background: #27ae60;
-  border-color: #2ecc71;
+  background: #42A5F5;
+  border-color: #42A5F5;
 }
 
 .ticket-expired {
