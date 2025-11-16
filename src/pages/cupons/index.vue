@@ -170,7 +170,7 @@
       <v-expansion-panels>
         <v-expansion-panel>
           <v-expansion-panel-title class="text-h6">
-            <v-icon icon="mdi-history" class="mr-2"></v-icon>
+            <v-icon icon="mdi-history" color="blue-lighten-1"  class="mr-2"></v-icon>
             Histórico
           </v-expansion-panel-title>
           <v-expansion-panel-text>
