@@ -21,6 +21,83 @@
       </v-btn-toggle>
     </v-row>
 
+    <!-- Seção de Busca por Proximidade -->
+    <v-row justify="center" class="mb-8">
+      <v-col cols="12" md="10">
+        <v-card variant="text" rounded="xl">
+          <v-card-text class="pa-6">
+            <div class="text-center mb-4">
+              <v-icon size="32" color="green" class="mb-2">mdi-map-marker-radius</v-icon>
+              <h3 class="text-h6 font-weight-bold mb-1">Busca por Proximidade</h3>
+              <p class="text-body-2 text-medium-emphasis mb-0">
+                Digite seu CEP para encontrar médicos próximos a você
+              </p>
+            </div>
+
+            <div class="d-flex justify-center">
+              <v-text-field
+                v-model="userCep"
+                @input="cepError = ''"
+                @keyup.enter="orderByDistance"
+                placeholder="00000-000"
+                label="Seu CEP"
+                :error="!!cepError"
+                :error-messages="cepError"
+                variant="outlined"
+                rounded="lg"
+                density="comfortable"
+                color="green"
+                class="cep-input-centered"
+                prepend-inner-icon="mdi-home-map-marker"
+                style="max-width: 400px;"
+              >
+                <template #append-inner>
+                  <v-btn
+                    @click="orderByDistance"
+                    :disabled="loadingDistance || !userCep.trim()"
+                    :loading="loadingDistance"
+                    color="green"
+                    variant="flat"
+                    size="small"
+                    rounded="lg"
+                    class="me-2"
+                  >
+                    <v-icon class="me-1">mdi-map-marker-distance</v-icon>
+                    Buscar
+                  </v-btn>
+                </template>
+              </v-text-field>
+            </div>
+
+            <v-expand-transition>
+              <v-alert
+                v-if="cepError"
+                type="error"
+                variant="tonal"
+                class="mt-3"
+                rounded="lg"
+              >
+                {{ cepError }}
+              </v-alert>
+            </v-expand-transition>
+
+            <v-expand-transition>
+              <v-alert
+                v-if="isDistanceSearch && medico.length > 0"
+                type="success"
+                variant="tonal"
+                class="mt-3"
+                rounded="lg"
+              >
+                <v-icon class="me-2">mdi-check-circle</v-icon>
+                Encontrados {{ medico.length }} médicos próximos ordenados por distância
+              </v-alert>
+            </v-expand-transition>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
+
     <v-row align="start" justify="center" no-gutters>
       <v-col cols="12" md="7" class="pe-md-8">
         <div v-if="loading">
@@ -62,8 +139,12 @@
                 <div class="text-body-2" style="color: black">
                   CRM: {{ medico.crm }}
                 </div>
-                <div class="text-body-2" style="color: black">
-                  KM: {{ buscouCep === true ? kmTotal : '0'  }}
+                <!-- Mostrar distância se calculada -->
+                <div
+                  v-if="medico.distance !== undefined && medico.distance !== null"
+                  class="distance-text"
+                >
+                  📍 {{ medico.distance.toFixed(1) }} km de distância
                 </div>
 
                 <v-row align="center" class="mt-3">
@@ -87,22 +168,104 @@
       </v-col>
 
       <v-col cols="12" md="5">
-        <v-text-field v-model="cep" label="Insira seu CEP" variant="outlined" density="comfortable" class="mb-4 mt-10 mt-md-0"
-          rounded="xl" color="green" append-inner-icon="mdi-map-search" @click:append-inner="buscarEnderecoPorCep(cep)"
-          @keyup.enter="buscarEnderecoPorCep(cep)"></v-text-field>
+        <!-- Seção de Localização -->
+        <v-card class="mb-4 mt-10 mt-md-0" rounded="xl" elevation="3">
+          <v-card-title class="d-flex align-center pa-4">
+            <v-icon color="green" class="me-2">mdi-map-marker-radius</v-icon>
+            <span class="text-h6">Localização</span>
+          </v-card-title>
 
-        <v-card v-if="endereco" class="mb-4 pa-4" rounded="xl">
-          <div class="text-subtitle-2 font-weight-bold mb-2">Endereço:</div>
-          <div class="text-body-2">{{ endereco }}</div>
-          <v-btn color="green" variant="flat" size="small" class="mt-2" @click="abrirGoogleMaps">
-            <v-icon start>mdi-map</v-icon>
-            Ver no Google Maps
-          </v-btn>
+          <v-card-text class="pa-4">
+            <v-text-field
+              v-model="cep"
+              label="CEP do consultório"
+              variant="outlined"
+              density="comfortable"
+              rounded="lg"
+              color="green"
+              :disabled="!cep && !endereco"
+              append-inner-icon="mdi-map-search"
+              @click:append-inner="buscarEnderecoPorCep(cep)"
+              @keyup.enter="buscarEnderecoPorCep(cep)"
+              class="mb-3"
+            />
+
+            <v-expand-transition>
+              <v-card v-if="endereco" variant="tonal" color="green" class="mb-3">
+                <v-card-text class="pa-3">
+                  <div class="text-subtitle-2 font-weight-bold mb-2 d-flex align-center">
+                    <v-icon size="small" class="me-2">mdi-map-marker</v-icon>
+                    Endereço Encontrado:
+                  </div>
+                  <div class="text-body-2 mb-3">{{ endereco }}</div>
+                  <v-btn
+                    color="green"
+                    variant="flat"
+                    size="small"
+                    @click="abrirGoogleMaps"
+                    prepend-icon="mdi-google-maps"
+                  >
+                    Abrir no Google Maps
+                  </v-btn>
+                </v-card-text>
+              </v-card>
+            </v-expand-transition>
+          </v-card-text>
         </v-card>
 
-        <v-img v-if="!mapaUrl" src="../../../assets/mapa.jpg" height="500" rounded="xl" cover></v-img>
+        <!-- Seção do Mapa -->
+        <v-card rounded="xl" elevation="3" class="map-container">
+          <v-card-title class="d-flex align-center justify-space-between pa-4">
+            <div class="d-flex align-center">
+              <v-icon color="green" class="me-2">mdi-map</v-icon>
+              <span class="text-h6">Visualização</span>
+            </div>
+            <v-btn
+              v-if="mapaUrl"
+              icon="mdi-fullscreen"
+              variant="text"
+              size="small"
+              @click="abrirGoogleMaps"
+            />
+          </v-card-title>
 
-        <v-img v-else :src="mapaUrl" height="500" rounded="xl" cover></v-img>
+          <v-card-text class="pa-0">
+            <div v-if="!mapaUrl" class="map-placeholder">
+              <div class="text-center pa-8">
+                <v-icon size="64" color="green-lighten-2">mdi-map-outline</v-icon>
+                <div class="text-h6 mt-4 mb-2">Mapa Interativo</div>
+                <div class="text-body-2 text-medium-emphasis">
+                  Clique no ícone 📍 de um médico ou digite um CEP<br>
+                  para visualizar a localização no mapa
+                </div>
+              </div>
+            </div>
+
+            <div v-else class="map-image-container">
+              <v-img
+                :src="mapaUrl"
+                height="400"
+                cover
+                class="map-image"
+              >
+                <template #placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="green" indeterminate />
+                  </div>
+                </template>
+              </v-img>
+
+              <v-btn
+                class="map-expand-btn"
+                icon="mdi-fullscreen"
+                color="green"
+                variant="flat"
+                size="small"
+                @click="abrirGoogleMaps"
+              />
+            </div>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -132,6 +295,105 @@ const mapKey = ref(import.meta.env.VITE_MAP_KEY)
 const buscouCep = ref(false)
 const kmTotal = ref(10)
 
+// Estados para busca por distância
+const userCep = ref('')
+const loadingDistance = ref(false)
+const cepError = ref('')
+const isDistanceSearch = ref(false)
+
+// Função de cálculo de distância (Haversine)
+const calculateDistance = (lat1, lon1, lat2, lon2) => {
+  const R = 6371; // Raio da Terra em km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLon = (lon2 - lon1) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+    Math.sin(dLon/2) * Math.sin(dLon/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
+};
+
+// Função para buscar coordenadas do CEP
+const getCoordsFromCEP = async (cep) => {
+  try {
+    const response = await fetch(
+      `https://maps.googleapis.com/maps/api/geocode/json?address=${cep}&key=${mapKey.value}`
+    );
+    const data = await response.json();
+
+    if (data.results[0]) {
+      const { lat, lng } = data.results[0].geometry.location;
+      return { latitude: lat, longitude: lng };
+    }
+    return null;
+  } catch (error) {
+    console.error('Erro ao buscar coordenadas:', error);
+    return null;
+  }
+};
+
+// Função principal de ordenação por distância
+const orderByDistance = async () => {
+  if (!userCep.value.trim()) return;
+
+  cepError.value = '';
+  loadingDistance.value = true;
+
+  try {
+    // 1. Buscar coordenadas do CEP do usuário
+    const userCoords = await getCoordsFromCEP(userCep.value);
+    if (!userCoords) {
+      cepError.value = 'CEP inválido ou não encontrado';
+      return;
+    }
+
+    // 2. Buscar todos os médicos primeiro
+    const allMedicosResponse = await medicoService.getMedicoFindAllPagined(1, 1000);
+    let allMedicos = allMedicosResponse.data.itens;
+
+    // Buscar dados do usuário para cada médico
+    for (let i = 0; i < allMedicos.length; i++) {
+      if (allMedicos[i].usuarioId) {
+        try {
+          const userResponse = await userService.userById(allMedicos[i].usuarioId);
+          allMedicos[i].usuario = userResponse.data;
+        } catch (error) {
+          console.error('Erro ao buscar usuário do médico:', error);
+        }
+      }
+    }
+
+    // 3. Calcular distância para cada médico
+    const medicosWithDistance = await Promise.all(
+      allMedicos.map(async (medicoItem) => {
+        const coords = await getCoordsFromCEP(medicoItem.cep);
+        const distance = coords
+          ? calculateDistance(userCoords.latitude, userCoords.longitude, coords.latitude, coords.longitude)
+          : 999999;
+
+        return { ...medicoItem, distance };
+      })
+    );
+
+    // 4. Ordenar por distância e filtrar médicos com distância > 800km
+    const filteredMedicos = medicosWithDistance
+      .filter(medicoItem => medicoItem.distance <= 800)
+      .sort((a, b) => a.distance - b.distance);
+
+    medico.value = filteredMedicos;
+    isDistanceSearch.value = true;
+    pageSize.value = 20;
+    page.value = 1;
+    totalPages.value = Math.ceil(filteredMedicos.length / 20);
+
+  } catch (error) {
+    console.error('Erro ao ordenar por distância:', error);
+    cepError.value = 'Erro ao buscar médicos por distância';
+  } finally {
+    loadingDistance.value = false;
+  }
+};
+
 const buscarUsuario = async () => {
   try {
     const payload = getPayload()
@@ -147,9 +409,11 @@ const buscarUsuario = async () => {
 const buscarMedico = async () => {
   try {
     loading.value = true
+    // Se não é busca por distância, usar paginação normal (3 por página)
+    const currentPageSize = isDistanceSearch.value ? 20 : 3
     const response = await medicoService.getMedicoFindAllPagined(
       page.value,
-      pageSize.value
+      currentPageSize
     )
     medico.value = response.data.itens
     totalPages.value = response.data.totalPages
@@ -197,6 +461,7 @@ function detalhesMedico(id) {
 const buscarEnderecoPorCep = async (cepValue) => {
   if (!cepValue) return
   buscouCep.value = true
+
   try {
     const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${cepValue}&key=${mapKey.value}`)
     const data = await response.json()
@@ -206,8 +471,15 @@ const buscarEnderecoPorCep = async (cepValue) => {
       endereco.value = result.formatted_address
       coordenadas.value = result.geometry.location
 
+      // Atualizar o campo CEP também
+      cep.value = cepValue
+
       // Gerar URL do mapa estático
       mapaUrl.value = `https://maps.googleapis.com/maps/api/staticmap?center=${coordenadas.value.lat},${coordenadas.value.lng}&zoom=15&size=600x500&markers=color:green%7C${coordenadas.value.lat},${coordenadas.value.lng}&key=${mapKey.value}`
+
+      console.log('Mapa atualizado:', mapaUrl.value)
+    } else {
+      console.log('Nenhum resultado encontrado para o CEP:', cepValue)
     }
   } catch (error) {
     console.error('Erro ao buscar endereço:', error)
@@ -221,3 +493,69 @@ const abrirGoogleMaps = () => {
   }
 }
 </script>
+
+<style scoped>
+.cep-input-centered {
+  width: 100%;
+}
+
+.cep-input-centered .v-btn {
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+}
+
+.cep-input-centered .v-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.distance-text {
+  font-size: 12px;
+  color: #28a745;
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+.v-text-field--error {
+  border-color: #ff4444 !important;
+}
+
+.v-btn--disabled {
+  background-color: #ccc !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+.map-container {
+  overflow: hidden;
+}
+
+.map-placeholder {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border: 2px dashed #dee2e6;
+  border-radius: 12px;
+  margin: 16px;
+}
+
+.map-image-container {
+  position: relative;
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+}
+
+.map-image {
+  transition: transform 0.3s ease;
+}
+
+.map-image:hover {
+  transform: scale(1.02);
+}
+
+.map-expand-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+</style>

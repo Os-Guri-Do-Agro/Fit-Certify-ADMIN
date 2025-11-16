@@ -709,7 +709,6 @@ const submitAtleta = handleSubmit(async () => {
     formData.append('objetivo', objetivoAtividade.value || '')
     formData.append('outrasCondicoesMedicas', values.outrasCondicoes || '')
     formData.append('tomaMedicamentoContinuo', values.tomaMedicamento || '')
-    formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
     formData.append('ultimaProva', values.ultimaProva || '')
     formData.append('historicoSaudeDoencas', doencas)
     formData.append('historicoSaudeSintomas', sintomas)

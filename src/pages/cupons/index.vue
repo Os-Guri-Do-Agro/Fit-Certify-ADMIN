@@ -170,7 +170,7 @@
       <v-expansion-panels>
         <v-expansion-panel>
           <v-expansion-panel-title class="text-h6">
-            <v-icon icon="mdi-history" class="mr-2"></v-icon>
+            <v-icon icon="mdi-history" color="blue-lighten-1"  class="mr-2"></v-icon>
             Histórico
           </v-expansion-panel-title>
           <v-expansion-panel-text>
@@ -544,7 +544,7 @@ const resgatarSaldo = async () => {
     const valorCalculado = temSolicitacaoPendente.value ? saldoDisponivel - saldoPendendete.value : saldoDisponivel
     const valorSolicitado = Math.round(valorCalculado * 100) / 100
     await cupomService.postResgate(chavePix, valorSolicitado)
-    toast.blue-lighten-1('Solicitação de resgate enviada com sucesso!')
+    toast.success('Solicitação de resgate enviada com sucesso!')
     showResgateDialog.value = false
     chavePixDigitada.value = ''
     await verMinhasSolicitacoes()
@@ -692,7 +692,7 @@ const createCupom = async () => {
   try {
     await cupomService.createCupomByMedico(newCupom)
     await getMyCupom()
-    toast.blue-lighten-1('Cupom criado com sucesso!')
+    toast.success('Cupom criado com sucesso!')
   } catch (error) {
     toast.error('Erro ao gerar cupom')
   } finally {
@@ -732,7 +732,7 @@ const formatDate = (date) => {
 const copyCoupon = async (codigo) => {
   try {
     await navigator.clipboard.writeText(codigo);
-    toast.blue-lighten-1('Código copiado!');
+    toast.success('Código copiado!');
   } catch (err) {
     toast.error('Erro ao copiar código');
   }
@@ -753,7 +753,7 @@ const confirmarResgate = async () => {
   processandoResgate.value = true;
   try {
     await new Promise(resolve => setTimeout(resolve, 2000));
-    toast.blue-lighten-1('Solicitação de resgate enviada com sucesso!');
+    toast.success('Solicitação de resgate enviada com sucesso!');
     showResgateDialog.value = false;
     chavePixDigitada.value = '';
     await buscarCupomMetricas();
@@ -783,7 +783,7 @@ const cancelarSolicitacao = async (id) => {
   cancelandoSolicitacao.value = true
   try {
     await cupomService.cancelarSolicitacao(id);
-    toast.blue-lighten-1('Solicitação cancelada com sucesso!');
+    toast.success('Solicitação cancelada com sucesso!');
     await verMinhasSolicitacoes();
     await buscarMetricasFinanceiras();
   } catch (error) {

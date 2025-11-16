@@ -797,7 +797,6 @@ const submitMedico = async () => {
     formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim)
     formData.append('horarioInicio', formatarHorarioParaISO(form.value.horarioInicio))
     formData.append('horarioFim', formatarHorarioParaISO(form.value.horarioFim))
-    formData.append('timezone', Intl.DateTimeFormat().resolvedOptions().timeZone)
     formData.append('declaraVeracidade', form.value.declaraVeracidade)
     formData.append('aceitaCompartilharDados', form.value.aceitaCompartilharDados)
     formData.append('aceitaTermos', form.value.aceitaTermos)
