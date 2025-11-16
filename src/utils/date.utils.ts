@@ -95,3 +95,16 @@ export function formatarDataHoraComTraco(dataISO: string | null | undefined): st
   return dayjs(semOffset).format("DD/MM/YYYY - HH:mm")
 }
 
+/**
+ * Remove o offset de timezone de uma string ISO, retornando apenas a data/hora sem offset
+ * Útil para enviar datas para APIs sem informação de timezone
+ * @param dataISO - String de data no formato ISO (ex: "2025-11-14T06:30:00-04:00")
+ * @returns String no formato ISO sem offset (ex: "2025-11-14T06:30:00") ou string vazia se dataISO for inválido
+ */
+export function removerOffsetTimezone(dataISO: string | null | undefined): string {
+  if (!dataISO) return ""
+
+  // Remove o offset do final da string (ex: "-04:00", "+03:00", "-0300", "+0000")
+  return dataISO.replace(/([+-]\d{2}:?\d{2})$/, "")
+}
+

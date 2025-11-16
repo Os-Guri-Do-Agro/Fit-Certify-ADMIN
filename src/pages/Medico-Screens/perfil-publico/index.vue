@@ -415,7 +415,7 @@
 import { ref, onMounted } from 'vue'
 import medicoService from '@/services/medico/medico-service'
 import { useRouter, useRoute } from 'vue-router'
-import { formatarHorario, formatarDataHora, formatarHorarioLocal } from '@/utils/date.utils'
+import { formatarHorario, formatarDataHora, formatarHorarioLocal, removerOffsetTimezone } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -541,7 +541,7 @@ const criarConsulta = async () => {
       situacao: 'Pendente',
       nomePacienteExterno: null,
       consultaExterna: false,
-      dataConsulta: selectedTimeSlot.value.horario,
+      dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
 
     await consultasService.createConsultaByAtleta(data)
@@ -556,6 +556,7 @@ const criarConsulta = async () => {
     selectedTimeSlot.value = null
     dayselect.value = null
     datinhas.value = []
+    await buscarConsultasAtleta()
   } catch (error) {
     ;(toast.error('Erro ao marcar consulta!'),
       {

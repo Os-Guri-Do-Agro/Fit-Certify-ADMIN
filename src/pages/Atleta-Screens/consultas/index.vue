@@ -133,7 +133,7 @@
               >
                 <v-row  no-gutters>
                   <v-col cols="3" class="me-4 d-flex align-center justify-center">
-                    <v-avatar size="120" class="elevation-2">
+                    <v-avatar size="90" class="elevation-2">
                       <v-img
                         v-if="consulta?.medico?.usuario?.avatarUrl"
                         :src="consulta?.medico?.usuario?.avatarUrl"
