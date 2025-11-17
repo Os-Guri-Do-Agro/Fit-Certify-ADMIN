@@ -112,17 +112,30 @@
                       >
                         {{ consulta?.situacao }}
                       </v-chip>
-                      <v-btn
-                        color="red"
-                        variant="outlined"
-                        size="small"
-                        rounded="xl"
-                        :loading="loadingCancelarIds.has(consulta.id)"
-                        prepend-icon="mdi-close"
-                        @click="abrirModalConfirmacao(consulta.id)"
-                      >
-                        Cancelar
-                      </v-btn>
+                      <div class="d-flex gap-2">
+                        <v-btn
+                          color="green"
+                          variant="outlined"
+                          size="small"
+                          rounded="xl"
+                          prepend-icon="mdi-check"
+                          @click="abrirModalFinalizar(consulta.id)"
+                        >
+                          Finalizar
+                        </v-btn>
+                        <v-btn
+                          color="red"
+                          variant="outlined"
+                          size="small"
+                          rounded="xl"
+                          :loading="loadingCancelarIds.has(consulta.id)"
+                          prepend-icon="mdi-close"
+                          @click="abrirModalConfirmacao(consulta.id)"
+                          class="ml-1"
+                        >
+                          Cancelar
+                        </v-btn>
+                      </div>
                     </div>
                   </v-col>
                 </v-row>
@@ -184,6 +197,62 @@
         </v-card-text>
       </v-card>
     </v-dialog>
+
+    <!-- Modal de Finalizar Consulta -->
+    <v-dialog v-model="modalFinalizar" max-width="500" persistent>
+      <v-card rounded="xl">
+        <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
+          Finalizar Consulta
+        </v-card-title>
+        
+        <v-card-text class="pa-6">
+          <v-form ref="formFinalizar" v-model="formValid">
+            <v-textarea
+              v-model="dadosFinalizacao.diagnostico"
+              label="Diagnóstico"
+              variant="outlined"
+              rounded="lg"
+              rows="3"
+              :rules="[v => !!v || 'Diagnóstico é obrigatório']"
+              placeholder="Descreva o diagnóstico..."
+              class="mb-4"
+            />
+            
+            <v-textarea
+              v-model="dadosFinalizacao.medicamentosReceitados"
+              label="Medicamentos Receitados"
+              variant="outlined"
+              rounded="lg"
+              rows="4"
+              placeholder="Descreva os medicamentos receitados..."
+            />
+          </v-form>
+        </v-card-text>
+        
+        <v-card-actions class="pa-6 pt-0">
+          <v-spacer />
+          <v-btn
+            color="grey-lighten-1"
+            variant="outlined"
+            rounded="xl"
+            @click="fecharModalFinalizar"
+          >
+            Cancelar
+          </v-btn>
+          
+          <v-btn
+            color="green"
+            variant="flat"
+            rounded="xl"
+            :loading="loadingFinalizar"
+            :disabled="!formValid"
+            @click="confirmarFinalizacao"
+          >
+            Finalizar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -204,6 +273,14 @@ const loadingCancelarIds = ref(new Set())
 const infoAtleta = ref(null)
 const modalConfirmacao = ref(false)
 const consultaParaCancelar = ref(null)
+const modalFinalizar = ref(false)
+const consultaParaFinalizar = ref(null)
+const formValid = ref(false)
+const loadingFinalizar = ref(false)
+const dadosFinalizacao = ref({
+  diagnostico: '',
+  medicamentosReceitados: ''
+})
 
 
 const buscarConsultas = async () => {
@@ -257,12 +334,9 @@ const getStatusColor = (status) => {
 }
 
 const verInfoAtleta = async (atletaId) => {
-  console.log('AtletaId recebido:', atletaId)
   const atleta = await buscarAtletaId(atletaId)
-  console.log('Resultado de buscarAtletaId:', atleta)
   if (atleta) {
     infoAtleta.value = atleta
-    console.log('Informações do atleta:', atleta)
   } else {
     console.log('Nenhum atleta encontrado')
   }
@@ -290,6 +364,44 @@ const confirmarCancelamento = async () => {
   } finally {
     loadingCancelarIds.value.delete(consultaId)
     consultaParaCancelar.value = null
+  }
+}
+
+const abrirModalFinalizar = (consultaId) => {
+  consultaParaFinalizar.value = consultaId
+  dadosFinalizacao.value = {
+    diagnostico: '',
+    medicamentosReceitados: ''
+  }
+  modalFinalizar.value = true
+}
+
+const fecharModalFinalizar = () => {
+  modalFinalizar.value = false
+  consultaParaFinalizar.value = null
+  dadosFinalizacao.value = {
+    diagnostico: '',
+    medicamentosReceitados: ''
+  }
+}
+
+const confirmarFinalizacao = async () => {
+  loadingFinalizar.value = true
+  try {
+    const data = {
+      situacao: 'Concluido',
+      diagnostico: dadosFinalizacao.value.diagnostico,
+      medicamentosReceitados: dadosFinalizacao.value.medicamentosReceitados
+    }
+    await consultasService.aceitarOrRejeitarConsultaById(consultaParaFinalizar.value, data)
+    await buscarConsultas()
+    toast.success('Consulta finalizada com sucesso!')
+    fecharModalFinalizar()
+  } catch (error) {
+    toast.error('Erro ao finalizar consulta!')
+    console.error('Erro ao finalizar consulta:', error)
+  } finally {
+    loadingFinalizar.value = false
   }
 }
 

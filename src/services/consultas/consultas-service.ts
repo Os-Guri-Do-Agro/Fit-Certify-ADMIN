@@ -98,6 +98,7 @@ class consultasService {
       'Failed to get horarios disponiveis'
     )
   }
+
   async createConsultaByMedico(data: {
     medicoId: string
     atletaId?: string
@@ -116,6 +117,7 @@ class consultasService {
       'Failed to create consulta'
     )
   }
+
   async createConsultaByAtleta(data: {
     medicoId: string
     atletaId?: string
