@@ -510,7 +510,7 @@ const selectTimeSlot = (hora) => {
 const criarConsulta = async () => {
   loading.value = true
   try {
-    
+
     const data = {
       medicoId: medicoId.value,
       atletaId: getAtletaId(),
@@ -521,10 +521,10 @@ const criarConsulta = async () => {
       consultaExterna: false,
       dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
-    
+
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    ;(toast.success('Consulta marcada com sucesso!'),
+    ;(toast.success('Solicitação de consulta enviada!'),
       {
         autoClose: 2000,
         position: toast.POSITION.BOTTOM_RIGHT,
