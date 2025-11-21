@@ -524,11 +524,10 @@ const criarConsulta = async () => {
 
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    ;(toast.success('Solicitação de consulta enviada!'),
-      {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      })
+    toast.success('Solicitação de consulta enviada!', {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
 
     // Reset form
     selectedTimeSlot.value = null
@@ -536,11 +535,10 @@ const criarConsulta = async () => {
     datinhas.value = []
     await buscarConsultasAtleta()
   } catch (error) {
-    ;(toast.error('Erro ao marcar consulta!'),
-      {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      })
+    toast.error('Erro ao marcar consulta!', {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
     console.error('Erro ao criar consulta:', error)
   } finally {
     loading.value = false
