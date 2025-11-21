@@ -113,6 +113,32 @@ class medicoService {
       'Failed to update medico'
     )
   }
+
+  async validarCrm(validateCrmDto: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/medico/validar-crm', validateCrmDto, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to validate CRM'
+    )
+  }
+
+  async consultarCrm(consultarCrmDto: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/medico/consultar-crm', consultarCrmDto, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to consult CRM'
+    )
+  }
 }
 
 export default new medicoService()
