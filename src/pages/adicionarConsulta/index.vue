@@ -99,6 +99,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { getPayload } from '@/utils/auth'
 import consultasService from '@/services/consultas/consultas-service'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 
 const route = useRoute()
@@ -139,7 +140,7 @@ const salvarConsultaFunc = async () => {
     router.back()
   } catch (error) {
     console.error('Erro ao salvar:', error)
-    toast.error('Erro ao salvar consulta.')
+    toast.error('Erro ao salvar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loading.value = false
   }

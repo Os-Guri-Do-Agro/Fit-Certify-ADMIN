@@ -159,6 +159,7 @@ import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import type { VForm } from 'vuetify/components';
 import dayjs from 'dayjs';
+import { getErrorMessage } from '@/common/error.utils';
 
 const showPassword = ref(false)
 const email = ref('');
@@ -218,7 +219,7 @@ async function handleSubmit() {
       }
       if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
 
-        toast.error(response?.message || "Sua conta médica está inativa. Entre em contato com o suporte.'");
+        toast.error(response?.message || "Médico aguardando validação do CRM");
       }
 
       if (user?.atleta && !user.atleta.planoId) {
@@ -234,7 +235,7 @@ async function handleSubmit() {
       loading.value = false
     }
   } catch (err: any) {
-    toast.error(err?.response?.data?.message || "Erro no servidor");
+    toast.error(getErrorMessage(err, "Erro no servidor"));
     loading.value = false
   }
 }
@@ -254,7 +255,7 @@ async function onBlurEmailModal(email: string) {
       toast.success('Email encontrado! Clique em enviar para enviarmos o código de verificação.');
     }
   } catch (error) {
-    toast.error('Erro ao verificar email');
+    toast.error('Erro ao verificar email: ' + getErrorMessage(error, 'Erro desconhecido'));
   } finally {
     loadingEmailModal.value = false;
   }
@@ -272,7 +273,7 @@ async function enviarCodigo() {
     })
 
   } catch (error) {
-    toast.error('Erro ao enviar código');
+    toast.error('Erro ao enviar código: ' + getErrorMessage(error, 'Erro desconhecido'));
   }
 }
 

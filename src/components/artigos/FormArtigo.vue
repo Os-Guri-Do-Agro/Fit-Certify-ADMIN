@@ -73,6 +73,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import artigoService from '@/services/artigo/artigo-service'
+import { getErrorMessage } from '@/common/error.utils'
 import categoriaArtigoService from '@/services/categoria-artigo/categoria-artigo-service'
 import 'vue3-toastify/dist/index.css';
 
@@ -133,7 +134,7 @@ const submitForm = async () => {
     }, 2500)
 
   } catch (error) {
-    toast.error('Erro ao criar artigo')
+    toast.error('Erro ao criar artigo: ' + getErrorMessage(error, 'Erro desconhecido'))
     console.error('Error creating artigo:', error)
   } finally {
     loading.value = false

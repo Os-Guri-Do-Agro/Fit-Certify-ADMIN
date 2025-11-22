@@ -106,6 +106,7 @@ import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import 'dayjs/locale/pt-br';
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 dayjs.extend(utc);
 dayjs.locale('pt-br');
@@ -142,7 +143,7 @@ const aceitarConsulta = async (consultaId) => {
     await buscarConsultasPendentes()
   } catch (error) {
     console.error('Erro ao aceitar consulta:', error)
-    toast.error('Erro ao aceitar consulta')
+    toast.error('Erro ao aceitar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loadingAceitar.value = null
   }
@@ -159,7 +160,7 @@ const recusarConsulta = async (consultaId) => {
     await buscarConsultasPendentes()
   } catch (error) {
     console.error('Erro ao recusar consulta:', error)
-    toast.error('Erro ao recusar consulta')
+    toast.error('Erro ao recusar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loadingRecusar.value = null
   }

@@ -280,6 +280,7 @@ import { getPayload } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 import 'vue3-toastify/dist/index.css'
 
 const router = useRouter()
@@ -383,7 +384,7 @@ const salvar = async () => {
     }
 
   } catch (error) {
-    toast.error('Erro ao atualizar perfil público. Verifique as informações!')
+    toast.error('Erro ao atualizar perfil público: ' + getErrorMessage(error, 'Erro desconhecido'))
     console.error('Erro ao salvar:', error)
   } finally {
     loading.value = false
