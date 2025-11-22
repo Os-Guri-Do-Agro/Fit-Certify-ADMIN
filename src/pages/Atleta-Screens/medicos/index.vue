@@ -441,6 +441,12 @@ const buscarMedico = async () => {
 onMounted(() => {
   buscarUsuario()
   buscarMedico()
+  
+  // Mostrar modal se vier de outro site
+  const urlParams = new URLSearchParams(window.location.search)
+  if (urlParams.get('showModal') === 'true') {
+    showTipoContaModal.value = true
+  }
 })
 
 const mudarPagina = (novaPagina) => {

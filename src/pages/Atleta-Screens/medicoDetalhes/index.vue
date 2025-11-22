@@ -525,11 +525,10 @@ const criarConsulta = async () => {
 
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    ;(toast.success('Solicitação de consulta enviada!'),
-      {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      })
+    toast.success('Solicitação de consulta enviada!', {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
 
     // Reset form
     selectedTimeSlot.value = null

@@ -155,7 +155,7 @@ import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
 import { getPayload, getPayloadFromToken, getRole, getStatusMedicoCRM } from '@/utils/auth';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import type { VForm } from 'vuetify/components';
 import dayjs from 'dayjs';
@@ -171,6 +171,7 @@ const loadingEmailModal = ref(false);
 
 const formRef = ref<VForm | null>(null)
 const router = useRouter()
+const route = useRoute()
 const loading = ref(false)
 
 const showModal = ref(false)
@@ -178,6 +179,12 @@ const clicouEnviar = ref(false)
 const showTipoContaModal = ref(false)
 const tipoContaSelecionado = ref('')
 let debounceTimer: number
+
+onMounted(() => {
+  if (route.query['tipo-cadastro'] !== undefined) {
+    showTipoContaModal.value = true
+  }
+})
 
 watch(emailModal, (newEmail) => {
   clearTimeout(debounceTimer)
