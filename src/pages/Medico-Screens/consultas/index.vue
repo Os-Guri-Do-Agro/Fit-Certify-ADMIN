@@ -264,6 +264,7 @@ import 'dayjs/locale/pt-br'
 import { ref, computed, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import atletaService from '@/services/atleta/atleta-service'
+import { getErrorMessage } from '@/common/error.utils'
 
 dayjs.locale('pt-br')
 
@@ -359,7 +360,7 @@ const confirmarCancelamento = async () => {
     await buscarConsultas()
     toast.success('Consulta cancelada com sucesso!')
   } catch (error) {
-    toast.error('Erro ao cancelar consulta!')
+    toast.error('Erro ao cancelar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
     console.error('Erro ao cancelar consulta:', error)
   } finally {
     loadingCancelarIds.value.delete(consultaId)
@@ -398,7 +399,7 @@ const confirmarFinalizacao = async () => {
     toast.success('Consulta finalizada com sucesso!')
     fecharModalFinalizar()
   } catch (error) {
-    toast.error('Erro ao finalizar consulta!')
+    toast.error('Erro ao finalizar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
     console.error('Erro ao finalizar consulta:', error)
   } finally {
     loadingFinalizar.value = false

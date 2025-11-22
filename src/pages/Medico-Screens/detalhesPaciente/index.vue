@@ -535,6 +535,7 @@ import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 const router = useRouter()
 const route = useRoute()
@@ -663,7 +664,7 @@ const salvarCertificacao = async () => {
     })
 
   } catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(getErrorMessage(error, 'Erro desconhecido'))
     loadingSubmit.value = false
   }
 }
@@ -742,7 +743,7 @@ const buscarLicencaPorAtletaId = async (id) => {
     }
   }
   catch (error) {
-    toast.error(error.response.data.message)
+    toast.error(getErrorMessage(error, 'Erro desconhecido'))
     loading.value = false
   }
 }

@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
   }
     if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
       sessionStorage.clear()
-      toast.error('Sua conta médica está inativa. Entre em contato com o suporte.', {
+      toast.error('Médico aguardando validação do CRM', {
         autoClose: 5000,
 
       })
