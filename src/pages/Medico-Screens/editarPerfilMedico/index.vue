@@ -221,6 +221,7 @@ import { removerOffsetTimezone } from '@/utils/date.utils'
 import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 const payload = ref<any>()
 const form = ref()
@@ -389,7 +390,7 @@ const atualizarDadosAtleta = async () => {
     }
 
   } catch (error) {
-    toast.error('Erro ao atualizar dados!', { position: 'top-right' })
+    toast.error('Erro ao atualizar dados: ' + getErrorMessage(error, 'Erro desconhecido'), { position: 'top-right' })
     console.error(error)
   } finally {
     loading.value = false
@@ -419,7 +420,7 @@ const carregarDados = async () => {
     }
   } catch (error) {
     console.error('Erro ao carregar dados do medico:', error)
-    toast.error('Erro ao carregar dados do medico')
+    toast.error('Erro ao carregar dados do medico: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loadingData.value = false
   }

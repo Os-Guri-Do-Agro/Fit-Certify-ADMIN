@@ -1018,6 +1018,7 @@ import { toast } from 'vue3-toastify'
 import cupomService from '@/services/cupom/cupom-service'
 import pagarmeService from '@/services/pagarme/pagarme-service'
 import { getUserID } from '@/utils/auth'
+import { getErrorMessage } from '@/common/error.utils'
 const step = ref(1)
 const router = useRouter()
 const loading = ref(false)
@@ -1148,7 +1149,7 @@ const handleNext = async (next) => {
         }
       })
       .catch((err) => {
-        toast.error('Erro ao processar pagamento! Tente novamente.')
+        toast.error('Erro ao processar pagamento: ' + getErrorMessage(err, 'Erro desconhecido'))
       })
       .finally(() => (loading.value = false))
   } else if (step.value === 4) {
@@ -1378,7 +1379,7 @@ const validarCupom = async () => {
       }
     })
     .catch((err) => {
-      toast.error(err.response.data.message)
+      toast.error(getErrorMessage(err, 'Erro ao aplicar cupom'))
     })
     .finally(() => (loadingCupom.value = false))
 }
@@ -1475,7 +1476,7 @@ const preencherCep = async () => {
       pais: 'BR',
     }
   } catch (error) {
-    toast.error('Erro ao buscar CEP. Tente novamente.')
+    toast.error('Erro ao buscar CEP: ' + getErrorMessage(error, 'Erro desconhecido'))
   }
 }
 
@@ -1531,7 +1532,7 @@ const salvarEndereco = async () => {
     toast.success('Endereço salvo com sucesso!')
     showModal.value = false
   } catch (error) {
-    toast.error('Erro ao validar CEP. Tente novamente.')
+    toast.error('Erro ao validar CEP: ' + getErrorMessage(error, 'Erro desconhecido'))
   }
 }
 </script>

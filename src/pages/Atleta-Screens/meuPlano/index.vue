@@ -135,6 +135,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import pagarmeService from '@/services/pagarme/pagarme-service'
+import { getErrorMessage } from '@/common/error.utils'
 
 const router = useRouter()
 
@@ -160,7 +161,7 @@ const handleCancelarPlano = async () => {
     showCancelModal.value = false
     await loadSubscriptionInfo()
   } catch (error) {
-    toast.error('Erro ao cancelar plano')
+    toast.error('Erro ao cancelar plano: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loading.value = false
   }
@@ -171,7 +172,7 @@ const loadSubscriptionInfo = async () => {
     const response = await pagarmeService.getInfoSubscription()
     planoInfo.value = response.data.subscriptions[0]
   } catch (error) {
-    toast.error('Erro ao carregar informações do plano')
+    toast.error('Erro ao carregar informações do plano: ' + getErrorMessage(error, 'Erro desconhecido'))
   }
 }
 

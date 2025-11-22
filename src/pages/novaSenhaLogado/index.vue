@@ -121,6 +121,7 @@ import { getPayload, isTokenValid, logout } from '@/utils/auth'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 const router = useRouter()
 const valid = ref(false)
@@ -157,7 +158,7 @@ async function alterarSenha() {
 
     } catch (error) {
         console.error('Erro ao alterar senha:', error)
-        toast.error('Erro ao alterar senha.')
+        toast.error('Erro ao alterar senha: ' + getErrorMessage(error, 'Erro desconhecido'))
     } finally {
         loading.value = false
     }

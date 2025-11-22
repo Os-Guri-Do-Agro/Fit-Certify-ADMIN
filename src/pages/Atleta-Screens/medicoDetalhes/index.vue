@@ -407,6 +407,7 @@ import utc from 'dayjs/plugin/utc'
 import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -510,7 +511,7 @@ const selectTimeSlot = (hora) => {
 const criarConsulta = async () => {
   loading.value = true
   try {
-    
+
     const data = {
       medicoId: medicoId.value,
       atletaId: getAtletaId(),
@@ -521,10 +522,10 @@ const criarConsulta = async () => {
       consultaExterna: false,
       dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
-    
+
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    ;(toast.success('Consulta marcada com sucesso!'),
+    ;(toast.success('Solicitação de consulta enviada!'),
       {
         autoClose: 2000,
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -536,11 +537,10 @@ const criarConsulta = async () => {
     datinhas.value = []
     await buscarConsultasAtleta()
   } catch (error) {
-    ;(toast.error('Erro ao marcar consulta!'),
-      {
-        autoClose: 2000,
-        position: toast.POSITION.BOTTOM_RIGHT,
-      })
+    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), {
+      autoClose: 2000,
+      position: toast.POSITION.BOTTOM_RIGHT,
+    })
     console.error('Erro ao criar consulta:', error)
   } finally {
     loading.value = false

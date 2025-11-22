@@ -401,6 +401,7 @@ import { vMaska } from 'maska/vue'
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { isValidDate } from '@/utils/isValidDate'
 import { removerOffsetTimezone } from '@/utils/date.utils'
+import { getErrorMessage } from '@/common/error.utils'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -676,7 +677,7 @@ const buscarDoenca = async () => {
     const res = await DoencaService.getAllDoencas()
     doencas.value = res.data || []
   } catch (error) {
-    console.error('Erro ao carregar doenças', error)
+    console.error('Erro ao carregar doenças:', getErrorMessage(error, 'Erro desconhecido'))
   }
 }
 
@@ -685,7 +686,7 @@ const buscarSintoma = async () => {
     const res = await SintomaService.getAllSintomas()
     sintomas.value = res.data || []
   } catch (error) {
-    console.error('Erro ao carregar sintomas', error)
+    console.error('Erro ao carregar sintomas:', getErrorMessage(error, 'Erro desconhecido'))
   }
 }
 
@@ -779,7 +780,6 @@ const submitAtleta = handleSubmit(async () => {
     }
   } catch (error) {
     loading.value = false
-    toast.error('Erro ao cadastrar. Tente novamente!', { autoClose: 3000 })
     console.error(error)
   }
 })
@@ -797,7 +797,7 @@ const handleNext = async (next) => {
     try {
       await submitAtleta()
     } catch (error) {
-      console.error('Erro ao enviar formulário:', error)
+      console.error('Erro ao enviar formulário:', getErrorMessage(error, 'Erro desconhecido'))
     }
   } else {
     next()

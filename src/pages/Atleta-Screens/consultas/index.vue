@@ -270,6 +270,7 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 dayjs.locale('pt-br')
 
 const filtro = ref('todas')
@@ -336,7 +337,7 @@ const confirmarCancelamento = async () => {
     toast.success('Consulta cancelada com sucesso!')
     await buscarConsultas()
   } catch (error) {
-    toast.error('Erro ao cancelar consulta!')
+    toast.error('Erro ao cancelar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
     console.error('Erro ao cancelar consulta:', error)
   } finally {
     loadingCancelarIds.value.delete(consultaId)

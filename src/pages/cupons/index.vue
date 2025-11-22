@@ -463,6 +463,7 @@ import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router';
 import { getUserID } from '@/utils/auth'
 import cupomService from '@/services/cupom/cupom-service';
+import { getErrorMessage } from '@/common/error.utils';
 
 const router = useRouter();
 
@@ -550,7 +551,7 @@ const resgatarSaldo = async () => {
     await verMinhasSolicitacoes()
   } catch (error) {
     console.error('Erro ao resgatar saldo:', error)
-    toast.error('Erro ao processar resgate')
+    toast.error('Erro ao processar resgate: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     processandoResgate.value = false
   }
@@ -694,7 +695,7 @@ const createCupom = async () => {
     await getMyCupom()
     toast.success('Cupom criado com sucesso!')
   } catch (error) {
-    toast.error('Erro ao gerar cupom')
+    toast.error('Erro ao gerar cupom: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loading.value = false
     showCreateDialog.value = false
@@ -734,7 +735,7 @@ const copyCoupon = async (codigo) => {
     await navigator.clipboard.writeText(codigo);
     toast.success('Código copiado!');
   } catch (err) {
-    toast.error('Erro ao copiar código');
+    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'));
   }
 };
 
@@ -758,7 +759,7 @@ const confirmarResgate = async () => {
     chavePixDigitada.value = '';
     await buscarCupomMetricas();
   } catch (error) {
-    toast.error('Erro ao processar resgate');
+    toast.error('Erro ao processar resgate: ' + getErrorMessage(error, 'Erro desconhecido'));
   } finally {
     processandoResgate.value = false;
   }
@@ -787,7 +788,7 @@ const cancelarSolicitacao = async (id) => {
     await verMinhasSolicitacoes();
     await buscarMetricasFinanceiras();
   } catch (error) {
-    toast.error('Não foi possível cancelar a solicitação');
+    toast.error('Não foi possível cancelar a solicitação: ' + getErrorMessage(error, 'Erro desconhecido'));
     console.error(error);
   } finally {
     cancelandoSolicitacao.value = false

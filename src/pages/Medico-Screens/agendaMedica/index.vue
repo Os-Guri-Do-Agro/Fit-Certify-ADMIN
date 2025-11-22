@@ -255,6 +255,7 @@ import utc from 'dayjs/plugin/utc'
 import { onMounted, ref, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const loading = ref(false)
@@ -346,7 +347,7 @@ const criarConsulta = async () => {
     await buscarHorariosDisponiveis()
     await buscarConsultasDoDia(selectedDay.value)
   } catch (error) {
-    toast.error('Erro ao marcar consulta!', {
+    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), {
       position: toast.POSITION.TOP_RIGHT,
     })
     console.error('Erro ao criar consulta:', error)

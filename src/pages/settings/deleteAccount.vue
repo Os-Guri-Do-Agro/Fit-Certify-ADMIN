@@ -64,6 +64,7 @@ import { getPayload } from '@/utils/auth';
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
+import { getErrorMessage } from '@/common/error.utils';
 
 const payload = ref<any>();
 const showDeleteDialog = ref(false);
@@ -85,7 +86,7 @@ const handleDeleteAccount = async () => {
     router.push('/login');
     toast.success('Conta deletada com sucesso!');
   } catch (error) {
-    toast.error('Erro ao deletar conta. Tente novamente.');
+    toast.error('Erro ao deletar conta: ' + getErrorMessage(error, 'Erro desconhecido'));
   } finally {
     deletingAccount.value = false;
     showDeleteDialog.value = false;

@@ -397,6 +397,8 @@ import { removerOffsetTimezone } from '@/utils/date.utils'
 import medicoService from '@/services/medico/medico-service'
 import { vMaska } from 'maska/vue'
 import userService from '@/services/user/user-service'
+import { getErrorMessage } from '@/common/error.utils'
+
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
 
@@ -633,7 +635,7 @@ const buscarCep = async (cep) => {
 
 
   } catch (error) {
-    toast.error('Erro ao buscar CEP', { autoClose: 3000 })
+    toast.error('Erro ao buscar CEP: ' + getErrorMessage(error, 'Erro desconhecido'), { autoClose: 3000 })
   } finally {
     loadingCep.value = false
   }
@@ -753,7 +755,7 @@ const handleNext = async (next) => {
     try {
       await submitMedico()
     } catch (error) {
-      toast.error("Erro ao realizar cadastro", { autoClose: 3000 })
+      toast.error("Erro ao realizar cadastro: " + getErrorMessage(error, 'Erro desconhecido'), { autoClose: 3000 })
     }
   } else {
     next()
@@ -815,7 +817,7 @@ const submitMedico = async () => {
     }
 
   } catch (error) {
-    toast.error("Erro ao realizar cadastro: " + (error?.message || 'Erro desconhecido'), { autoClose: 5000 })
+    toast.error("Erro ao realizar cadastro: " + getErrorMessage(error, 'Erro desconhecido'), { autoClose: 5000 })
   } finally {
     loading.value = false
   }
