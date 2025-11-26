@@ -309,6 +309,7 @@
                   variant="flat"
                   size="large"
                   @click="handleNext(() => step++)"
+                  :disabled="!isCurrentStepValid"
                   class="px-8">
                   Próximo
                   <v-icon end>mdi-arrow-right</v-icon>
@@ -451,6 +452,76 @@ const showModalTerms = ref(false)
 const validationErrors = computed(() => getValidationErrors())
 
 const disabled = computed(() => validationErrors.value.length > 0)
+
+const isStep1Valid = computed(() => {
+  return (
+    form.value.nome &&
+    form.value.cpf &&
+    validarCPF(form.value.cpf) &&
+    form.value.email &&
+    validarEmail(form.value.email) &&
+    !emailError.value &&
+    form.value.telefone &&
+    form.value.dataNascimento &&
+    isValidDate(form.value.dataNascimento) &&
+    form.value.senha &&
+    validarSenhaForte(form.value.senha)
+  )
+})
+
+const isStep2Valid = computed(() => {
+  return (
+    form.value.crm &&
+    form.value.ufCrm &&
+    form.value.especializacao &&
+    form.value.experiencia &&
+    form.value.foco &&
+    form.value.perfil &&
+    form.value.carreira &&
+    form.value.destaques
+  )
+})
+
+const isStep3Valid = computed(() => {
+  return (
+    form.value.cep &&
+    form.value.rua &&
+    form.value.bairro &&
+    form.value.numero &&
+    form.value.cidade &&
+    form.value.uf
+  )
+})
+
+const isStep4Valid = computed(() => {
+  return (
+    form.value.diaFuncionamentoInicio &&
+    form.value.diaFuncionamentoFim &&
+    form.value.horarioInicio &&
+    form.value.horarioFim &&
+    validarHorario(form.value.horarioInicio) &&
+    validarHorario(form.value.horarioFim) &&
+    form.value.horarioInicio < form.value.horarioFim &&
+    form.value.declaraVeracidade &&
+    form.value.aceitaCompartilharDados &&
+    form.value.aceitaTermos
+  )
+})
+
+const isCurrentStepValid = computed(() => {
+  switch (step.value) {
+    case 1:
+      return isStep1Valid.value
+    case 2:
+      return isStep2Valid.value
+    case 3:
+      return isStep3Valid.value
+    case 4:
+      return isStep4Valid.value
+    default:
+      return false
+  }
+})
 const loadingEmail = ref(false)
 const emailError = ref('')
 const UFlist = [
