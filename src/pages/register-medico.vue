@@ -184,7 +184,7 @@
                     :rules="[rules.requiredCidadeObrigatorio]" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
-                  <label for="linkInstagram">Link do Instagram:</label>
+                  <label for="linkInstagram">Link do Instagram: (Opicional)</label>
                   <VTextField id="linkInstagram" density="compact" v-model="form.linkInstagram" name="linkInstagram"
                     variant="outlined" :rules="[rules.validarInstagram]"
                     placeholder="https://instagram.com/seu_usuario" />
@@ -193,7 +193,7 @@
                   </div>
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
-                  <label for="linkFacebook">Link do Facebook:</label>
+                  <label for="linkFacebook">Link do Facebook: (Opicional)</label>
                   <VTextField id="linkFacebook" density="compact" v-model="form.linkFacebook" name="linkFacebook"
                     variant="outlined" :rules="[rules.validarFacebook]"
                     placeholder="https://facebook.com/seu_usuario" />

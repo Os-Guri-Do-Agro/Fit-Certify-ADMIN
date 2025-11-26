@@ -132,6 +132,11 @@
                         <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
                           abaixo?</span>
                       </div>
+                      <div class="" v-if="formDoencas <= 0">
+                        <span class="text-red text-subtitle-2">
+                          Marque uma das opções abaixo para prosseguir:
+                        </span>
+                      </div>
                       <v-checkbox v-for="(item, index) in doencas" :key="index" v-model="formDoencas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
                         density="compact" color="success" @change="handleDoencaChange(item)" />
@@ -139,7 +144,7 @@
                       <VRow>
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Outras condições médicas:</span>
+                            <span class="text-black">Outras condições médicas: (Opicional)</span>
                             <v-textarea v-model="form.outrasCondicoes" class="text-black" color="black"
                               :error-messages="errors.outrasCondicoes" no-resize rows="2" variant="outlined" />
                           </div>
@@ -148,7 +153,7 @@
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
                             <span class="text-black">Toma algum medicamento contínuo? Se sim,
-                              qual?</span>
+                              qual? (Opicional)</span>
                             <v-textarea v-model="form.tomaMedicamento" class="text-black custom-textarea" color="black"
                               :error-messages="errors.tomaMedicamento" max-height="20px" no-resize rows="2"
                               variant="outlined" />
@@ -168,6 +173,11 @@
                       <div class="mb-5">
                         <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
                           abaixo?</span>
+                      </div>
+                      <div class="" v-if="formSintomas <= 0">
+                        <span class="text-red text-subtitle-2">
+                          Marque uma das opções abaixo para prosseguir:
+                        </span>
                       </div>
                       <v-checkbox v-for="(item, index) in sintomas" :key="index" v-model="formSintomas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
@@ -194,7 +204,7 @@
                           </VCol>
 
                           <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a
-                              última?</label>
+                              última? (Opicional)</label>
                             <VTextField id="ultimasprovas" v-model="form.ultimaProva" density="compact"
                               name="ultimasprovas" variant="outlined" />
                           </VCol>
@@ -227,7 +237,7 @@
                         ]" name="check" id="check" placeholder="Selecione" variant="outlined"></v-select></VCol>
 
                     <VCol cols="12" class="my-0 py-0 font-weight-medium">
-                      <label for="arquivos">Anexar exames (PDF ou imagem):</label>
+                      <label for="arquivos">Anexar exames (PDF ou imagem): (Opicional)</label>
                       <VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"
                         accept=".pdf, image/*" @update:model-value="handleFileChange" />
                     </VCol>
