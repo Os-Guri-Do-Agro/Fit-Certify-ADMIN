@@ -8,8 +8,8 @@ import axios, {
 //   import { useAuthStore } from '@/stores/auth'
 
   const apiClient: AxiosInstance = axios.create({
-    // baseURL:  import.meta.env.VITE_BASE_URL,
-    baseURL:  'http://localhost:5555/',
+     baseURL:  import.meta.env.VITE_BASE_URL,
+    // baseURL:  'http://localhost:5555/',
     headers: {
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": "*",
@@ -48,13 +48,13 @@ const handleError = (error: AxiosError) => {
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     const authHeader = getAuthHeader()
-    
+
     const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone
-    
+
     if (config.headers) {
       config.headers['timezone'] = userTimezone
     }
-    
+
     if (authHeader) {
       config.headers = {
         ...config.headers,
