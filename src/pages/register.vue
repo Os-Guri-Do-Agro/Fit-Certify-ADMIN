@@ -360,24 +360,48 @@
           </template>
 
           <template #actions="{ next, prev }">
-            <div class="d-flex justify-space-between w-100 px-6 mb-5 flex-column-reverse flex-md-row align-center ga-3">
-              <VBtn class="w-100" :disabled="step === 1 ? true : false" height="43px" max-width="237px"
-                style="color: #00c6fe" variant="outlined" @click="prev">
-                Voltar
-              </VBtn>
-              <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
-                :disabled="loading || disabled || !isCurrentStepValid" :style="step === 3
-                  ? 'background-color:#88ce0d'
-                  : 'background-color: #00c6fe'
-                  " @click="handleNext(next)">
-                {{
-                  step !== 3
-                    ? 'Próximo'
-                    : loading
-                      ? 'Enviando...'
-                      : 'Enviar Formulário'
-                }}
-              </VBtn>
+            <div class="pa-6">
+              <!-- Campos pendentes -->
+              <v-alert v-if="step === 3 && validationErrors.length > 0"
+                type="warning"
+                variant="tonal"
+                class="mb-6"
+                rounded="lg">
+                <template #prepend>
+                  <v-icon>mdi-alert-circle</v-icon>
+                </template>
+                <div class="text-subtitle-1 font-weight-medium mb-3">Campos pendentes:</div>
+                <div class="d-flex flex-wrap ga-2">
+                  <v-chip v-for="error in validationErrors"
+                    :key="error"
+                    size="small"
+                    color="warning"
+                    variant="outlined">
+                    {{ error }}
+                  </v-chip>
+                </div>
+              </v-alert>
+
+              <!-- Botões -->
+              <div class="d-flex justify-space-between w-100 flex-column-reverse flex-md-row align-center ga-3">
+                <VBtn class="w-100" :disabled="step === 1 ? true : false" height="43px" max-width="237px"
+                  style="color: #00c6fe" variant="outlined" @click="prev">
+                  Voltar
+                </VBtn>
+                <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
+                  :disabled="loading || disabled || !isCurrentStepValid" :style="step === 3
+                    ? 'background-color:#88ce0d'
+                    : 'background-color: #00c6fe'
+                    " @click="handleNext(next)">
+                  {{
+                    step !== 3
+                      ? 'Próximo'
+                      : loading
+                        ? 'Enviando...'
+                        : 'Enviar Formulário'
+                  }}
+                </VBtn>
+              </div>
             </div>
           </template>
         </VStepper>
@@ -646,6 +670,42 @@ const isStep3Valid = computed(() => {
   )
 })
 
+const getValidationErrors = () => {
+  const errors = []
+
+  if (!form.value.nome.trim()) errors.push('Nome completo')
+  if (!form.value.cpf.replace(/\D/g, '')) errors.push('CPF')
+  if (!validarCPF(form.value.cpf) && form.value.cpf.replace(/\D/g, '')) errors.push('CPF válido')
+  if (!form.value.email.trim()) errors.push('Email')
+  if (!validarEmail(form.value.email) && form.value.email.trim()) errors.push('Email válido')
+  if (!form.value.senha) errors.push('Senha')
+  if (!validarSenhaForte(form.value.senha) && form.value.senha) errors.push('Senha válida')
+  if (!form.value.telefone.replace(/\D/g, '')) errors.push('Telefone')
+  if (!form.value.dataNascimento) errors.push('Data de nascimento')
+  if (!isValidDate(form.value.dataNascimento) && form.value.dataNascimento) errors.push('Data de nascimento válida')
+  if (!form.value.altura) errors.push('Altura')
+  if (!form.value.peso) errors.push('Peso')
+  if (form.value.genero === null) errors.push('Gênero')
+  if (form.value.tipoSanguineo === null) errors.push('Tipo sanguíneo')
+  if (form.value.praticaAtividadeFisicaRegularmente === null) errors.push('Pratica atividade física')
+
+  if (formDoencas.value.length === 0) errors.push('Histórico de doenças')
+  if (formSintomas.value.length === 0) errors.push('Sintomas recentes')
+  if (!objetivoAtividade.value) errors.push('Objetivo com atividade física')
+  if (form.value.participouProva === null) errors.push('Participou de provas')
+
+  if (form.value.fezcheckUp === null) errors.push('Fez check-up')
+  if (form.value.possuiSmartwatch === null) errors.push('Possui smartwatch')
+  if (!form.value.integrarDados) errors.push('Integrar dados com FitCertify365')
+  if (!form.value.declaroInformacoes) errors.push('Declarar veracidade das informações')
+  if (!form.value.aceitoCompartilhar) errors.push('Aceitar compartilhamento de dados')
+  if (!form.value.concordoTermos) errors.push('Aceitar termos de uso')
+
+  return errors
+}
+
+const validationErrors = computed(() => getValidationErrors())
+
 const isCurrentStepValid = computed(() => {
   switch (step.value) {
     case 1:
@@ -788,8 +848,7 @@ const { value: objetivoAtividade } = useField('objetivosItens')
 
 const objetivos = ref([
   { title: 'Saúde Geral', value: 'Saúde Geral' },
-  { title: 'Objetivo 02', value: 'Objetivo 02' },
-  { title: 'Objetivo 03', value: 'Objetivo 03' },
+  { title: 'Outros', value: 'Outros' },
 ])
 
 const handleNext = async (next) => {
