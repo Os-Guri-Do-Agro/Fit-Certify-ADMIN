@@ -137,7 +137,7 @@
                           Marque uma das opções abaixo para prosseguir:
                         </span>
                       </div>
-                      <v-checkbox v-for="(item, index) in doencas" :key="index" v-model="formDoencas"
+                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="formDoencas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
                         density="compact" color="success" @change="handleDoencaChange(item)" />
 
@@ -179,7 +179,7 @@
                           Marque uma das opções abaixo para prosseguir:
                         </span>
                       </div>
-                      <v-checkbox v-for="(item, index) in sintomas" :key="index" v-model="formSintomas"
+                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="formSintomas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
                         density="compact" color="success" @change="handleSintomaChange(item)" />
 
@@ -760,6 +760,18 @@ const buscarSintoma = async () => {
   }
 }
 
+const doencasOrdenadas = computed(() => {
+  const outros = doencas.value.filter(d => d.descricao !== 'Nenhuma das anteriores')
+  const nenhuma = doencas.value.filter(d => d.descricao === 'Nenhuma das anteriores')
+  return [...outros, ...nenhuma]
+})
+
+const sintomasOrdenados = computed(() => {
+  const outros = sintomas.value.filter(s => s.descricao !== 'Nenhum desses')
+  const nenhum = sintomas.value.filter(s => s.descricao === 'Nenhum desses')
+  return [...outros, ...nenhum]
+})
+
 const submitAtleta = handleSubmit(async () => {
 
   try {
@@ -858,6 +870,8 @@ const { value: objetivoAtividade } = useField('objetivosItens')
 
 const objetivos = ref([
   { title: 'Saúde Geral', value: 'Saúde Geral' },
+  { title: 'Melhorar a estética corporal', value: 'Melhorar a estética corporal' },
+  { title: 'Condicionamento Físico e a Disposição', value: 'Condicionamento Físico e a Disposição' },
   { title: 'Outros', value: 'Outros' },
 ])
 
