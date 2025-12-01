@@ -143,7 +143,7 @@
 
       <!-- Coluna da direita -->
       <v-col md="8" class="pa-0 hidden-sm-and-down">
-        <v-img src="../assets/Login/login-banner.jpg" cover height="100vh" width="100%" </v-img>
+        <v-img src="../assets/Login/login-banner.jpg" cover height="100vh" width="100%"> </v-img>
       </v-col>
     </v-row>
 

@@ -184,7 +184,7 @@
                     :rules="[rules.requiredCidadeObrigatorio]" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
-                  <label for="linkInstagram">Link do Instagram:</label>
+                  <label for="linkInstagram">Link do Instagram: (Opcional)</label>
                   <VTextField id="linkInstagram" density="compact" v-model="form.linkInstagram" name="linkInstagram"
                     variant="outlined" :rules="[rules.validarInstagram]"
                     placeholder="https://instagram.com/seu_usuario" />
@@ -193,7 +193,7 @@
                   </div>
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
-                  <label for="linkFacebook">Link do Facebook:</label>
+                  <label for="linkFacebook">Link do Facebook: (Opcional)</label>
                   <VTextField id="linkFacebook" density="compact" v-model="form.linkFacebook" name="linkFacebook"
                     variant="outlined" :rules="[rules.validarFacebook]"
                     placeholder="https://facebook.com/seu_usuario" />
@@ -269,25 +269,65 @@
 
           <!-- Botões de navegação -->
           <template #actions>
-            <v-card-actions class="pa-6 mt-4">
-              <VBtn v-if="step > 1" color="grey" variant="outlined" size="large" @click="step--" class="px-8">
-                <v-icon left>mdi-arrow-left</v-icon>
-                Voltar
-              </VBtn>
-              <v-spacer></v-spacer>
+            <div class="pa-6">
+              <!-- Campos pendentes -->
+              <v-alert v-if="step === 4 && validationErrors.length > 0"
+                type="warning"
+                variant="tonal"
+                class="mb-6"
+                rounded="lg">
+                <template #prepend>
+                  <v-icon>mdi-alert-circle</v-icon>
+                </template>
+                <div class="text-subtitle-1 font-weight-medium mb-3">Campos pendentes:</div>
+                <div class="d-flex flex-wrap ga-2">
+                  <v-chip v-for="error in validationErrors"
+                    :key="error"
+                    size="small"
+                    color="warning"
+                    variant="outlined">
+                    {{ error }}
+                  </v-chip>
+                </div>
+              </v-alert>
 
-              <VBtn v-if="step < 4" color="#1976d2" variant="flat" size="large" @click="handleNext(() => step++)"
-                class="px-8">
-                Próximo
-                <v-icon right>mdi-arrow-right</v-icon>
-              </VBtn>
+              <!-- Botões -->
+              <div class="d-flex justify-space-between align-center pb-5">
+                <VBtn v-if="step > 1"
+                  color="grey"
+                  variant="outlined"
+                  size="large"
+                  @click="step--"
+                  class="px-8">
+                  <v-icon start>mdi-arrow-left</v-icon>
+                  Voltar
+                </VBtn>
+                <div v-else></div>
 
-              <VBtn :disabled="loading || disabled" v-else color="#1976d2" variant="flat" size="large"
-                @click="submitMedico" :loading="loading" class="px-8">
-                <v-icon left>mdi-check</v-icon>
-                Finalizar Cadastro
-              </VBtn>
-            </v-card-actions>
+                <VBtn v-if="step < 4"
+                  color="#1976d2"
+                  variant="flat"
+                  size="large"
+                  @click="handleNext(() => step++)"
+                  :disabled="!isCurrentStepValid"
+                  class="px-8">
+                  Próximo
+                  <v-icon end>mdi-arrow-right</v-icon>
+                </VBtn>
+
+                <VBtn v-else
+                  :disabled="loading || disabled"
+                  color="#1976d2"
+                  variant="flat"
+                  size="large"
+                  @click="submitMedico"
+                  :loading="loading"
+                  class="px-8">
+                  <v-icon start>mdi-check</v-icon>
+                  Finalizar Cadastro
+                </VBtn>
+              </div>
+            </div>
           </template>
         </VStepper>
       </v-container>
@@ -409,34 +449,78 @@ const loadingCep = ref(false)
 const formAssinatura = ref(null)
 const showAnalysisModal = ref(false)
 const showModalTerms = ref(false)
-const disabled = computed(() => {
-  return !form.value.nome ||
-    !form.value.cpf ||
-    !form.value.email ||
-    !form.value.telefone ||
-    !form.value.dataNascimento ||
-    !form.value.senha ||
-    !form.value.crm ||
-    !form.value.ufCrm ||
-    !form.value.especializacao ||
-    !form.value.experiencia ||
-    !form.value.foco ||
-    !form.value.perfil ||
-    !form.value.carreira ||
-    !form.value.destaques ||
-    !form.value.cep ||
-    !form.value.rua ||
-    !form.value.bairro ||
-    !form.value.numero ||
-    !form.value.cidade ||
-    !form.value.uf ||
-    !form.value.diaFuncionamentoInicio ||
-    !form.value.diaFuncionamentoFim ||
-    !form.value.horarioInicio ||
-    !form.value.horarioFim ||
-    !form.value.declaraVeracidade ||
-    !form.value.aceitaCompartilharDados ||
-    !form.value.aceitaTermos
+const validationErrors = computed(() => getValidationErrors())
+
+const disabled = computed(() => validationErrors.value.length > 0)
+
+const isStep1Valid = computed(() => {
+  return (
+    form.value.nome &&
+    form.value.cpf &&
+    validarCPF(form.value.cpf) &&
+    form.value.email &&
+    validarEmail(form.value.email) &&
+    !emailError.value &&
+    form.value.telefone &&
+    form.value.dataNascimento &&
+    isValidDate(form.value.dataNascimento) &&
+    form.value.senha &&
+    validarSenhaForte(form.value.senha)
+  )
+})
+
+const isStep2Valid = computed(() => {
+  return (
+    form.value.crm &&
+    form.value.ufCrm &&
+    form.value.especializacao &&
+    form.value.experiencia &&
+    form.value.foco &&
+    form.value.perfil &&
+    form.value.carreira &&
+    form.value.destaques
+  )
+})
+
+const isStep3Valid = computed(() => {
+  return (
+    form.value.cep &&
+    form.value.rua &&
+    form.value.bairro &&
+    form.value.numero &&
+    form.value.cidade &&
+    form.value.uf
+  )
+})
+
+const isStep4Valid = computed(() => {
+  return (
+    form.value.diaFuncionamentoInicio &&
+    form.value.diaFuncionamentoFim &&
+    form.value.horarioInicio &&
+    form.value.horarioFim &&
+    validarHorario(form.value.horarioInicio) &&
+    validarHorario(form.value.horarioFim) &&
+    form.value.horarioInicio < form.value.horarioFim &&
+    form.value.declaraVeracidade &&
+    form.value.aceitaCompartilharDados &&
+    form.value.aceitaTermos
+  )
+})
+
+const isCurrentStepValid = computed(() => {
+  switch (step.value) {
+    case 1:
+      return isStep1Valid.value
+    case 2:
+      return isStep2Valid.value
+    case 3:
+      return isStep3Valid.value
+    case 4:
+      return isStep4Valid.value
+    default:
+      return false
+  }
 })
 const loadingEmail = ref(false)
 const emailError = ref('')
@@ -762,12 +846,52 @@ const handleNext = async (next) => {
   }
 }
 
+const getValidationErrors = () => {
+  const errors = []
+
+  if (!form.value.nome.trim()) errors.push('Nome completo')
+  if (!form.value.cpf.replace(/\D/g, '')) errors.push('CPF')
+  if (!validarCPF(form.value.cpf) && form.value.cpf.replace(/\D/g, '')) errors.push('CPF válido')
+  if (!form.value.email.trim()) errors.push('Email')
+  if (!validarEmail(form.value.email) && form.value.email.trim()) errors.push('Email válido')
+  if (!form.value.crm.trim()) errors.push('Número do CRM')
+  if (!form.value.ufCrm) errors.push('UF do CRM')
+  if (!form.value.telefone.replace(/\D/g, '')) errors.push('Telefone')
+  if (!form.value.dataNascimento) errors.push('Data de nascimento')
+  if (!isValidDate(form.value.dataNascimento) && form.value.dataNascimento) errors.push('Data de nascimento válida')
+
+  if (!form.value.senha) errors.push('Senha')
+  if (!validarSenhaForte(form.value.senha) && form.value.senha) errors.push('Senha válida')
+  if (!form.value.especializacao.trim()) errors.push('Especialização')
+  if (!form.value.foco.trim()) errors.push('Foco de atuação')
+
+  if (!form.value.perfil.trim()) errors.push('Perfil profissional')
+  if (!form.value.carreira.trim()) errors.push('Carreira')
+  if (!form.value.destaques.trim()) errors.push('Destaques')
+  if (!form.value.horarioInicio) errors.push('Horário de funcionamento - Início')
+  if (!form.value.horarioFim) errors.push('Horário de funcionamento - Fim')
+
+  if (!form.value.diaFuncionamentoInicio) errors.push('Dia de funcionamento - Início')
+  if (!form.value.diaFuncionamentoFim) errors.push('Dia de funcionamento - Fim')
+  if (!form.value.cep.trim()) errors.push('CEP')
+  if (!form.value.rua.trim()) errors.push('Rua')
+  if (!form.value.bairro.trim()) errors.push('Bairro')
+  if (!form.value.numero.trim()) errors.push('Número')
+  if (!form.value.cidade.trim()) errors.push('Cidade')
+  if (!form.value.uf) errors.push('UF')
+
+  if (!form.value.aceitaCompartilharDados) errors.push('Aceitar compartilhamento de dados')
+  if (!form.value.aceitaTermos) errors.push('Aceitar termos de uso')
+  if (!form.value.declaraVeracidade) errors.push('Declarar veracidade das informações')
+
+  return errors
+}
+
 const submitMedico = async () => {
   try {
     loading.value = true
 
     const formData = new FormData()
-    // Informações Pessoais
     formData.append('nome', form.value.nome)
     formData.append('cpf', form.value.cpf.replace(/\D/g, '') || '')
     formData.append('email', form.value.email)
@@ -775,7 +899,6 @@ const submitMedico = async () => {
     formData.append('dataNascimento', formatarDataParaISO(form.value.dataNascimento))
     formData.append('senha', form.value.senha)
 
-    // Informações Profissionais
     formData.append('crm', form.value.crm + '/' + form.value.ufCrm)
     formData.append('especializacao', form.value.especializacao)
     formData.append('experiencia', form.value.experiencia)
@@ -784,7 +907,6 @@ const submitMedico = async () => {
     formData.append('carreira', form.value.carreira)
     formData.append('destaques', form.value.destaques)
 
-    // Endereço e Redes Sociais
     formData.append('cep', form.value.cep)
     formData.append('rua', form.value.rua)
     formData.append('bairro', form.value.bairro)
@@ -794,7 +916,6 @@ const submitMedico = async () => {
     formData.append('linkInstagram', form.value.linkInstagram || '')
     formData.append('linkFacebook', form.value.linkFacebook || '')
 
-    // Documentação e Assinatura
     formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio)
     formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim)
     formData.append('horarioInicio', formatarHorarioParaISO(form.value.horarioInicio))

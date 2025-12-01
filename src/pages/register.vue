@@ -132,14 +132,19 @@
                         <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
                           abaixo?</span>
                       </div>
-                      <v-checkbox v-for="(item, index) in doencas" :key="index" v-model="formDoencas"
+                      <div class="" v-if="formDoencas <= 0">
+                        <span class="text-red text-subtitle-2">
+                          Marque uma das opções abaixo para prosseguir:
+                        </span>
+                      </div>
+                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="formDoencas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
                         density="compact" color="success" @change="handleDoencaChange(item)" />
 
                       <VRow>
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Outras condições médicas:</span>
+                            <span class="text-black">Outras condições médicas: (Opcional)</span>
                             <v-textarea v-model="form.outrasCondicoes" class="text-black" color="black"
                               :error-messages="errors.outrasCondicoes" no-resize rows="2" variant="outlined" />
                           </div>
@@ -148,7 +153,7 @@
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
                             <span class="text-black">Toma algum medicamento contínuo? Se sim,
-                              qual?</span>
+                              qual? (Opcional)</span>
                             <v-textarea v-model="form.tomaMedicamento" class="text-black custom-textarea" color="black"
                               :error-messages="errors.tomaMedicamento" max-height="20px" no-resize rows="2"
                               variant="outlined" />
@@ -169,7 +174,12 @@
                         <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições
                           abaixo?</span>
                       </div>
-                      <v-checkbox v-for="(item, index) in sintomas" :key="index" v-model="formSintomas"
+                      <div class="" v-if="formSintomas <= 0">
+                        <span class="text-red text-subtitle-2">
+                          Marque uma das opções abaixo para prosseguir:
+                        </span>
+                      </div>
+                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="formSintomas"
                         :rules="[rules.requiredCheckObrigatorio]" :label="item.descricao" :value="item.id" hide-details
                         density="compact" color="success" @change="handleSintomaChange(item)" />
 
@@ -194,7 +204,7 @@
                           </VCol>
 
                           <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a
-                              última?</label>
+                              última? (Opcional)</label>
                             <VTextField id="ultimasprovas" v-model="form.ultimaProva" density="compact"
                               name="ultimasprovas" variant="outlined" />
                           </VCol>
@@ -227,7 +237,7 @@
                         ]" name="check" id="check" placeholder="Selecione" variant="outlined"></v-select></VCol>
 
                     <VCol cols="12" class="my-0 py-0 font-weight-medium">
-                      <label for="arquivos">Anexar exames (PDF ou imagem):</label>
+                      <label for="arquivos">Anexar exames (PDF ou imagem): (Opcional)</label>
                       <VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"
                         accept=".pdf, image/*" @update:model-value="handleFileChange" />
                     </VCol>
@@ -360,24 +370,48 @@
           </template>
 
           <template #actions="{ next, prev }">
-            <div class="d-flex justify-space-between w-100 px-6 mb-5 flex-column-reverse flex-md-row align-center ga-3">
-              <VBtn class="w-100" :disabled="step === 1 ? true : false" height="43px" max-width="237px"
-                style="color: #00c6fe" variant="outlined" @click="prev">
-                Voltar
-              </VBtn>
-              <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
-                :disabled="loading || disabled || !isCurrentStepValid" :style="step === 3
-                  ? 'background-color:#88ce0d'
-                  : 'background-color: #00c6fe'
-                  " @click="handleNext(next)">
-                {{
-                  step !== 3
-                    ? 'Próximo'
-                    : loading
-                      ? 'Enviando...'
-                      : 'Enviar Formulário'
-                }}
-              </VBtn>
+            <div class="pa-6">
+              <!-- Campos pendentes -->
+              <v-alert v-if="step === 3 && validationErrors.length > 0"
+                type="warning"
+                variant="tonal"
+                class="mb-6"
+                rounded="lg">
+                <template #prepend>
+                  <v-icon>mdi-alert-circle</v-icon>
+                </template>
+                <div class="text-subtitle-1 font-weight-medium mb-3">Campos pendentes:</div>
+                <div class="d-flex flex-wrap ga-2">
+                  <v-chip v-for="error in validationErrors"
+                    :key="error"
+                    size="small"
+                    color="warning"
+                    variant="outlined">
+                    {{ error }}
+                  </v-chip>
+                </div>
+              </v-alert>
+
+              <!-- Botões -->
+              <div class="d-flex justify-space-between w-100 flex-column-reverse flex-md-row align-center ga-3">
+                <VBtn class="w-100" :disabled="step === 1 ? true : false" height="43px" max-width="237px"
+                  style="color: #00c6fe" variant="outlined" @click="prev">
+                  Voltar
+                </VBtn>
+                <VBtn class="text-white w-100" height="43px" max-width="237px" :loading="loading"
+                  :disabled="loading || disabled || !isCurrentStepValid" :style="step === 3
+                    ? 'background-color:#88ce0d'
+                    : 'background-color: #00c6fe'
+                    " @click="handleNext(next)">
+                  {{
+                    step !== 3
+                      ? 'Próximo'
+                      : loading
+                        ? 'Enviando...'
+                        : 'Enviar Formulário'
+                  }}
+                </VBtn>
+              </div>
             </div>
           </template>
         </VStepper>
@@ -646,6 +680,42 @@ const isStep3Valid = computed(() => {
   )
 })
 
+const getValidationErrors = () => {
+  const errors = []
+
+  if (!form.value.nome.trim()) errors.push('Nome completo')
+  if (!form.value.cpf.replace(/\D/g, '')) errors.push('CPF')
+  if (!validarCPF(form.value.cpf) && form.value.cpf.replace(/\D/g, '')) errors.push('CPF válido')
+  if (!form.value.email.trim()) errors.push('Email')
+  if (!validarEmail(form.value.email) && form.value.email.trim()) errors.push('Email válido')
+  if (!form.value.senha) errors.push('Senha')
+  if (!validarSenhaForte(form.value.senha) && form.value.senha) errors.push('Senha válida')
+  if (!form.value.telefone.replace(/\D/g, '')) errors.push('Telefone')
+  if (!form.value.dataNascimento) errors.push('Data de nascimento')
+  if (!isValidDate(form.value.dataNascimento) && form.value.dataNascimento) errors.push('Data de nascimento válida')
+  if (!form.value.altura) errors.push('Altura')
+  if (!form.value.peso) errors.push('Peso')
+  if (form.value.genero === null) errors.push('Gênero')
+  if (form.value.tipoSanguineo === null) errors.push('Tipo sanguíneo')
+  if (form.value.praticaAtividadeFisicaRegularmente === null) errors.push('Pratica atividade física')
+
+  if (formDoencas.value.length === 0) errors.push('Histórico de doenças')
+  if (formSintomas.value.length === 0) errors.push('Sintomas recentes')
+  if (!objetivoAtividade.value) errors.push('Objetivo com atividade física')
+  if (form.value.participouProva === null) errors.push('Participou de provas')
+
+  if (form.value.fezcheckUp === null) errors.push('Fez check-up')
+  if (form.value.possuiSmartwatch === null) errors.push('Possui smartwatch')
+  if (!form.value.integrarDados) errors.push('Integrar dados com FitCertify365')
+  if (!form.value.declaroInformacoes) errors.push('Declarar veracidade das informações')
+  if (!form.value.aceitoCompartilhar) errors.push('Aceitar compartilhamento de dados')
+  if (!form.value.concordoTermos) errors.push('Aceitar termos de uso')
+
+  return errors
+}
+
+const validationErrors = computed(() => getValidationErrors())
+
 const isCurrentStepValid = computed(() => {
   switch (step.value) {
     case 1:
@@ -689,6 +759,18 @@ const buscarSintoma = async () => {
     console.error('Erro ao carregar sintomas:', getErrorMessage(error, 'Erro desconhecido'))
   }
 }
+
+const doencasOrdenadas = computed(() => {
+  const outros = doencas.value.filter(d => d.descricao !== 'Nenhuma das anteriores')
+  const nenhuma = doencas.value.filter(d => d.descricao === 'Nenhuma das anteriores')
+  return [...outros, ...nenhuma]
+})
+
+const sintomasOrdenados = computed(() => {
+  const outros = sintomas.value.filter(s => s.descricao !== 'Nenhum desses')
+  const nenhum = sintomas.value.filter(s => s.descricao === 'Nenhum desses')
+  return [...outros, ...nenhum]
+})
 
 const submitAtleta = handleSubmit(async () => {
 
@@ -788,8 +870,9 @@ const { value: objetivoAtividade } = useField('objetivosItens')
 
 const objetivos = ref([
   { title: 'Saúde Geral', value: 'Saúde Geral' },
-  { title: 'Objetivo 02', value: 'Objetivo 02' },
-  { title: 'Objetivo 03', value: 'Objetivo 03' },
+  { title: 'Melhorar a estética corporal', value: 'Melhorar a estética corporal' },
+  { title: 'Condicionamento Físico e a Disposição', value: 'Condicionamento Físico e a Disposição' },
+  { title: 'Outros', value: 'Outros' },
 ])
 
 const handleNext = async (next) => {
