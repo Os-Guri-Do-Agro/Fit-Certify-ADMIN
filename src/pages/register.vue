@@ -144,7 +144,7 @@
                       <VRow>
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Outras condições médicas: (Opicional)</span>
+                            <span class="text-black">Outras condições médicas: (Opcional)</span>
                             <v-textarea v-model="form.outrasCondicoes" class="text-black" color="black"
                               :error-messages="errors.outrasCondicoes" no-resize rows="2" variant="outlined" />
                           </div>
@@ -153,7 +153,7 @@
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
                             <span class="text-black">Toma algum medicamento contínuo? Se sim,
-                              qual? (Opicional)</span>
+                              qual? (Opcional)</span>
                             <v-textarea v-model="form.tomaMedicamento" class="text-black custom-textarea" color="black"
                               :error-messages="errors.tomaMedicamento" max-height="20px" no-resize rows="2"
                               variant="outlined" />
@@ -204,7 +204,7 @@
                           </VCol>
 
                           <VCol class="my-0 py-0 font-weight-medium" cols="12"><label for="ultimasprovas">Se sim, qual a
-                              última? (Opicional)</label>
+                              última? (Opcional)</label>
                             <VTextField id="ultimasprovas" v-model="form.ultimaProva" density="compact"
                               name="ultimasprovas" variant="outlined" />
                           </VCol>
@@ -237,7 +237,7 @@
                         ]" name="check" id="check" placeholder="Selecione" variant="outlined"></v-select></VCol>
 
                     <VCol cols="12" class="my-0 py-0 font-weight-medium">
-                      <label for="arquivos">Anexar exames (PDF ou imagem): (Opicional)</label>
+                      <label for="arquivos">Anexar exames (PDF ou imagem): (Opcional)</label>
                       <VFileInput density="comfortable" prepend-icon="" name="arquivos" id="arquivos" variant="outlined"
                         accept=".pdf, image/*" @update:model-value="handleFileChange" />
                     </VCol>
