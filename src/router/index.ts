@@ -6,11 +6,9 @@
 
 // Composables
 import {
-  // getPayload,
   getRole,
   isTokenValid,
   atletaTemPlano,
-  medicoLogin,
   getStatusMedicoCRM
 } from '@/utils/auth'
 import { createRouter, createWebHistory } from 'vue-router/auto'
@@ -23,9 +21,11 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // PASSO 1: Definir rotas públicas (não precisam de autenticação)
   const publicRoutes = [
     '/login',
     '/register',
+    '/registers',
     '/register-medico',
     '/esqueceuSenha',
     '/politicaPrivacidade',
@@ -33,50 +33,45 @@ router.beforeEach((to, from, next) => {
     '/pagamento',
     '/validarCertificado',
   ]
+  
+  const isPublicRoute = publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta')
+  
+  // PASSO 2: Se é rota pública, permitir acesso SEM verificações
+  if (isPublicRoute) {
+    return next()
+  }
+  
+  // PASSO 3: Verificar se tem token válido
   const isAuthenticated = isTokenValid()
 
-  // Impede usuários logados de acessar login, register e registerPlanos
-  if (isAuthenticated && (to.path === '/login' || to.path === '/register' || to.path === '/register-medico')) {
-    return next('/')
-  }
-
-  // Verifica se é uma rota pública (incluindo rotas dinâmicas)
-  if (publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta')) {
-    return next()
-  }
-
+  // PASSO 4: Se não tem token válido, redirecionar para login
   if (!isAuthenticated) {
-    sessionStorage.clear()
-    if (to.path.includes('/esqueceuSenha')) {
-      return next()
-    }
-
-    if (to.path !== '/login') {
-      router.push('/login').then(() => {
-        toast.error('Usuário não autenticado, redirecionando para login', {
-          autoClose: 3000,
-        })
-      })
-    }
-    return next()
-  }
-
-  if (getRole() === 'admin') {
-    sessionStorage.clear()
     return next('/login')
   }
 
-  if (!medicoLogin && !atletaTemPlano() && to.path !== '/registerPlanos') {
+  // PASSO 5: Usuário está autenticado, verificar permissões
+  const role = getRole()
+  
+  // PASSO 5.1: Bloquear admin
+  if (role === 'admin') {
+    toast.error('Este painel é exclusivo para médicos e atletas')
+    sessionStorage.removeItem('token')
+    return next('/login')
+  }
+
+  // PASSO 5.2: Verificar médico sem CRM validado
+  if (role === 'medico' && getStatusMedicoCRM() === false) {
+    toast.error('Médico aguardando validação do CRM', { autoClose: 5000 })
+    sessionStorage.removeItem('token')
+    return next('/login')
+  }
+
+  // PASSO 5.3: Verificar atleta sem plano
+  if (role === 'atleta' && !atletaTemPlano() && to.path !== '/registerPlanos') {
     return next('/registerPlanos')
   }
-    if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
-      sessionStorage.clear()
-      toast.error('Médico aguardando validação do CRM', {
-        autoClose: 5000,
-
-      })
-      return next('/login')
-    }
+  
+  // PASSO 6: Tudo OK, permitir acesso
   next()
 })
 

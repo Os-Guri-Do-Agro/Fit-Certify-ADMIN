@@ -33,6 +33,7 @@ const route = useRoute()
 const authRoutes = [
   '/login',
   '/register',
+  '/registers',
   '/register-medico',
   '/registerPlanos',
   '/politicaPrivacidade',
@@ -43,8 +44,8 @@ const authRoutes = [
 ]
 const isAuthRoute = computed(() => {
   return (
-    authRoutes.includes(route.path) || 
-    route.path.startsWith('/esqueceuSenha') 
+    authRoutes.includes(route.path) ||
+    route.path.startsWith('/esqueceuSenha')
   )
 })
 </script>
