@@ -100,7 +100,7 @@
                     placeholder="1234567 ou 123456-7" />
                   <label for="experiencia">Anos de experiência:</label>
                   <VTextField id="experiencia" density="compact" v-model="form.experiencia" name="experiencia"
-                    :rules="[rules.requiredExperienciaObrigatorio]" variant="outlined" v-maska="'##'"
+                    variant="outlined" v-maska="'##'"
                     placeholder="00" />
 
                 </VCol>
@@ -110,29 +110,29 @@
                   <VCombobox variant="outlined" density="compact" :items="UFlist" v-model="form.ufCrm" />
                   <label for="especializacao">Especialização:</label>
                   <VTextField id="especializacao" density="compact" v-model="form.especializacao" name="especializacao"
-                    :rules="[rules.requiredEspecializacaoObrigatorio]" variant="outlined" />
+                    variant="outlined" />
                 </VCol>
 
 
                 <VCol class="my-0 py-0 font-weight-medium" cols="12">
                   <label for="foco">Foco de atuação:</label>
                   <VTextField id="foco" density="compact" v-model="form.foco" name="foco"
-                    :rules="[rules.requiredFocoObrigatorio]" variant="outlined" />
+                    variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12">
                   <label for="perfil">Perfil profissional:</label>
                   <VTextarea id="perfil" density="compact" v-model="form.perfil" name="perfil"
-                    :rules="[rules.requiredPerfilObrigatorio]" variant="outlined" rows="3" />
+                    variant="outlined" rows="3" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12">
                   <label for="carreira">Carreira:</label>
                   <VTextarea id="carreira" density="compact" v-model="form.carreira" name="carreira"
-                    :rules="[rules.requiredCarreiraObrigatorio]" variant="outlined" rows="3" />
+                    variant="outlined" rows="3" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12">
                   <label for="destaques">Destaques:</label>
                   <VTextarea id="destaques" density="compact" v-model="form.destaques" name="destaques"
-                    :rules="[rules.requiredDestaquesObrigatorio]" variant="outlined" rows="3" />
+                    variant="outlined" rows="3" />
                 </VCol>
               </VRow>
             </v-form>
@@ -217,25 +217,24 @@
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
                   <label for="diaFuncionamentoInicio">Dia de funcionamento (início):</label>
                   <v-select id="diaFuncionamentoInicio" density="compact" v-model="form.diaFuncionamentoInicio"
-                    name="diaFuncionamentoInicio" :items="diasSemana" :rules="[rules.requiredDiaInicioObrigatorio]"
+                    name="diaFuncionamentoInicio" :items="diasSemana"
                     variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
                   <label for="diaFuncionamentoFim">Dia de funcionamento (fim):</label>
                   <v-select id="diaFuncionamentoFim" density="compact" v-model="form.diaFuncionamentoFim"
-                    name="diaFuncionamentoFim" :items="diasSemana" :rules="[rules.requiredDiaFimObrigatorio]"
+                    name="diaFuncionamentoFim" :items="diasSemana"
                     variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
                   <label for="horarioInicio">Horário de início:</label>
                   <VTextField id="horarioInicio" density="compact" v-model="form.horarioInicio" name="horarioInicio"
-                    :rules="[rules.requiredHorarioInicioObrigatorio]" type="time" variant="outlined" />
+                    type="time" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" md="6">
                   <label for="horarioFim">Horário de fim:</label>
                   <VTextField id="horarioFim" density="compact" v-model="form.horarioFim" name="horarioFim"
-                    :rules="[rules.requiredHorarioFimObrigatorio, rules.validarHorarioFim]" type="time"
-                    variant="outlined" />
+                    type="time" variant="outlined" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12">
                   <label for="assinatura">Assinatura digital: (Opcional)</label>
@@ -472,13 +471,7 @@ const isStep1Valid = computed(() => {
 const isStep2Valid = computed(() => {
   return (
     form.value.crm &&
-    form.value.ufCrm &&
-    form.value.especializacao &&
-    form.value.experiencia &&
-    form.value.foco &&
-    form.value.perfil &&
-    form.value.carreira &&
-    form.value.destaques
+    form.value.ufCrm
   )
 })
 
@@ -495,13 +488,6 @@ const isStep3Valid = computed(() => {
 
 const isStep4Valid = computed(() => {
   return (
-    form.value.diaFuncionamentoInicio &&
-    form.value.diaFuncionamentoFim &&
-    form.value.horarioInicio &&
-    form.value.horarioFim &&
-    validarHorario(form.value.horarioInicio) &&
-    validarHorario(form.value.horarioFim) &&
-    form.value.horarioInicio < form.value.horarioFim &&
     form.value.declaraVeracidade &&
     form.value.aceitaCompartilharDados &&
     form.value.aceitaTermos
@@ -862,17 +848,17 @@ const getValidationErrors = () => {
 
   if (!form.value.senha) errors.push('Senha')
   if (!validarSenhaForte(form.value.senha) && form.value.senha) errors.push('Senha válida')
-  if (!form.value.especializacao.trim()) errors.push('Especialização')
-  if (!form.value.foco.trim()) errors.push('Foco de atuação')
+  // if (!form.value.especializacao.trim()) errors.push('Especialização')
+  // if (!form.value.foco.trim()) errors.push('Foco de atuação')
 
-  if (!form.value.perfil.trim()) errors.push('Perfil profissional')
-  if (!form.value.carreira.trim()) errors.push('Carreira')
-  if (!form.value.destaques.trim()) errors.push('Destaques')
-  if (!form.value.horarioInicio) errors.push('Horário de funcionamento - Início')
-  if (!form.value.horarioFim) errors.push('Horário de funcionamento - Fim')
+  // if (!form.value.perfil.trim()) errors.push('Perfil profissional')
+  // if (!form.value.carreira.trim()) errors.push('Carreira')
+  // if (!form.value.destaques.trim()) errors.push('Destaques')
+  // if (!form.value.horarioInicio) errors.push('Horário de funcionamento - Início')
+  // if (!form.value.horarioFim) errors.push('Horário de funcionamento - Fim')
 
-  if (!form.value.diaFuncionamentoInicio) errors.push('Dia de funcionamento - Início')
-  if (!form.value.diaFuncionamentoFim) errors.push('Dia de funcionamento - Fim')
+  // if (!form.value.diaFuncionamentoInicio) errors.push('Dia de funcionamento - Início')
+  // if (!form.value.diaFuncionamentoFim) errors.push('Dia de funcionamento - Fim')
   if (!form.value.cep.trim()) errors.push('CEP')
   if (!form.value.rua.trim()) errors.push('Rua')
   if (!form.value.bairro.trim()) errors.push('Bairro')
@@ -900,12 +886,12 @@ const submitMedico = async () => {
     formData.append('senha', form.value.senha)
 
     formData.append('crm', form.value.crm + '/' + form.value.ufCrm)
-    formData.append('especializacao', form.value.especializacao)
-    formData.append('experiencia', form.value.experiencia)
-    formData.append('foco', form.value.foco)
-    formData.append('perfil', form.value.perfil)
-    formData.append('carreira', form.value.carreira)
-    formData.append('destaques', form.value.destaques)
+    formData.append('especializacao', form.value.especializacao || 'Não informado')
+    formData.append('experiencia', parseInt(form.value.experiencia) || 0)
+    formData.append('foco', form.value.foco || 'Não informado')
+    formData.append('perfil', form.value.perfil || 'Não informado')
+    formData.append('carreira', form.value.carreira || 'Não informado')
+    formData.append('destaques', form.value.destaques || 'Não informado')
 
     formData.append('cep', form.value.cep)
     formData.append('rua', form.value.rua)
@@ -916,10 +902,10 @@ const submitMedico = async () => {
     formData.append('linkInstagram', form.value.linkInstagram || '')
     formData.append('linkFacebook', form.value.linkFacebook || '')
 
-    formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio)
-    formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim)
-    formData.append('horarioInicio', formatarHorarioParaISO(form.value.horarioInicio))
-    formData.append('horarioFim', formatarHorarioParaISO(form.value.horarioFim))
+    formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio || 'Segunda-feira')
+    formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim || 'Sexta-feira')
+    formData.append('horarioInicio', form.value.horarioInicio ? formatarHorarioParaISO(form.value.horarioInicio) : formatarHorarioParaISO('00:00'))
+    formData.append('horarioFim', form.value.horarioFim ? formatarHorarioParaISO(form.value.horarioFim) : formatarHorarioParaISO('00:00'))
     formData.append('declaraVeracidade', form.value.declaraVeracidade)
     formData.append('aceitaCompartilharDados', form.value.aceitaCompartilharDados)
     formData.append('aceitaTermos', form.value.aceitaTermos)
