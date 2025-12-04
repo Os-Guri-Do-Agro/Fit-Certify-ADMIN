@@ -850,13 +850,11 @@ const getValidationErrors = () => {
   if (!validarSenhaForte(form.value.senha) && form.value.senha) errors.push('Senha válida')
   // if (!form.value.especializacao.trim()) errors.push('Especialização')
   // if (!form.value.foco.trim()) errors.push('Foco de atuação')
-
   // if (!form.value.perfil.trim()) errors.push('Perfil profissional')
   // if (!form.value.carreira.trim()) errors.push('Carreira')
   // if (!form.value.destaques.trim()) errors.push('Destaques')
   // if (!form.value.horarioInicio) errors.push('Horário de funcionamento - Início')
   // if (!form.value.horarioFim) errors.push('Horário de funcionamento - Fim')
-
   // if (!form.value.diaFuncionamentoInicio) errors.push('Dia de funcionamento - Início')
   // if (!form.value.diaFuncionamentoFim) errors.push('Dia de funcionamento - Fim')
   if (!form.value.cep.trim()) errors.push('CEP')
@@ -865,7 +863,6 @@ const getValidationErrors = () => {
   if (!form.value.numero.trim()) errors.push('Número')
   if (!form.value.cidade.trim()) errors.push('Cidade')
   if (!form.value.uf) errors.push('UF')
-
   if (!form.value.aceitaCompartilharDados) errors.push('Aceitar compartilhamento de dados')
   if (!form.value.aceitaTermos) errors.push('Aceitar termos de uso')
   if (!form.value.declaraVeracidade) errors.push('Declarar veracidade das informações')
@@ -902,8 +899,8 @@ const submitMedico = async () => {
     formData.append('linkInstagram', form.value.linkInstagram || '')
     formData.append('linkFacebook', form.value.linkFacebook || '')
 
-    formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio || 'Segunda-feira')
-    formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim || 'Sexta-feira')
+    formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio || 'Pend')
+    formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim || 'Pend')
     formData.append('horarioInicio', form.value.horarioInicio ? formatarHorarioParaISO(form.value.horarioInicio) : formatarHorarioParaISO('00:00'))
     formData.append('horarioFim', form.value.horarioFim ? formatarHorarioParaISO(form.value.horarioFim) : formatarHorarioParaISO('00:00'))
     formData.append('declaraVeracidade', form.value.declaraVeracidade)
