@@ -165,27 +165,32 @@ function confirmarTipoConta() {
   justify-content: center;
   margin: 0 auto;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.selected-card .icon-circle {
+  transform: scale(1.08);
 }
 
 .selection-card {
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
   border: 3px solid #f5f5f5;
   background: #fafafa;
   height: 100%;
 }
 
 .selection-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
   border-color: #e0e0e0;
 }
 
 .selected-card {
   border: 3px solid #00c6fe !important;
-  background: linear-gradient(135deg, rgba(0, 198, 254, 0.05) 0%, rgba(0, 153, 204, 0.05) 100%) !important;
-  box-shadow: 0 8px 32px rgba(0, 198, 254, 0.25) !important;
-  transform: translateY(-4px);
+  background: linear-gradient(135deg, rgba(0, 198, 254, 0.08) 0%, rgba(0, 153, 204, 0.08) 100%) !important;
+  box-shadow: 0 8px 32px rgba(0, 198, 254, 0.3) !important;
+  transform: translateY(-2px) scale(1.02);
 }
 
 .continue-btn {
