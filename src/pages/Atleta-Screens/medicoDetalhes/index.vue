@@ -140,8 +140,9 @@
                   size="x-large"
                   prepend-icon="mdi-calendar-plus"
                   @click="ActiveDialog = true"
+                  :disabled="medicoSemHorario"
                 >
-                  Marcar Consulta
+                  {{ medicoSemHorario ? 'Sem Horários Disponíveis' : 'Marcar Consulta' }}
                 </v-btn>
               </div>
             </v-col>
@@ -288,7 +289,18 @@
         ></v-alert>
 
         <div></div>
-        <v-row>
+        <v-row v-if="medicoSemHorario">
+          <v-col cols="12">
+            <v-card rounded="lg" variant="outlined" color="grey" class="pa-8">
+              <div class="text-center">
+                <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-calendar-remove</v-icon>
+                <h3 class="text-h5 mb-3 text-grey-darken-1">Médico sem horários configurados</h3>
+                <p class="text-body-1 text-grey">Este médico ainda não configurou seus horários de atendimento.</p>
+              </div>
+            </v-card>
+          </v-col>
+        </v-row>
+        <v-row v-else>
           <v-col cols="6">
             <v-date-picker
               v-model="dayselect"
@@ -379,6 +391,7 @@
           Cancelar
         </v-btn>
         <v-btn
+          v-if="!medicoSemHorario"
           color="#00c6fe"
           rounded="lg"
           size="large"
@@ -417,6 +430,7 @@ const medico = ref(null)
 const loading = ref(true)
 const atletaSelected = ref(null)
 const ActiveDialog = ref(false)
+const medicoSemHorario = ref(false)
 const ConsultaExterna = ref(false)
 const atletas = ref([])
 const dayselect = ref()
@@ -476,11 +490,14 @@ const buscarConsultasAtleta = async () => {
 const buscarMedicoById = async (id) => {
   try {
     const response = await medicoService.getMedicoById(id)
+    console.log(response)
 
     if (response && response.data) {
       medico.value = response.data
+      medicoSemHorario.value = response.data.diaFuncionamentoInicio === 'Pend'
     } else {
       medico.value = response
+      medicoSemHorario.value = response.diaFuncionamentoInicio === 'Pend'
     }
   } catch (error) {
     console.error('Erro ao buscar medicoId:', error)
@@ -498,6 +515,7 @@ const buscarHorariosDisponiveis = async () => {
 
   try {
     const response = await consultasService.findHorariosDisponiveis(data)
+    console.log(response)
     datinhas.value = response.data
   } catch (error) {
     console.error('Erro ao buscar horários:', error)
