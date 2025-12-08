@@ -51,8 +51,8 @@
                   </div>
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="tiposPerfil"
-                    :rules="[rules.requiredSelectObrigatorio]" item-title="title" item-value="value"
+                  <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="tiposPerfil.slice(0, 2)"
+                    :rules="[rules.requiredSelectObrigatorio]" item-title="nome" item-value="id"
                     placeholder="Selecione" label="Perfil*" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" @update:model-value="onPerfilChange" />
                 </VCol>
@@ -117,7 +117,7 @@
           <!--Segundo slide-->
           <template #item.2>
             <PacienteForm
-              v-if="form.tipoPerfil === 'Paciente'"
+              v-if="perfilSelecionado?.nome === 'Atleta'"
               :current-step="2"
               :form="form"
               v-model:form-doencas="formDoencas"
@@ -129,7 +129,7 @@
               :errors="errors"
             />
             <MedicoForm
-              v-if="form.tipoPerfil === 'Médico'"
+              v-if="perfilSelecionado?.nome === 'Médico'"
               :current-step="2"
               :form="form"
               :loading-cep="loadingCep"
@@ -141,7 +141,7 @@
           <!--Terceiro slide-->
           <template #item.3>
             <PacienteForm
-              v-if="form.tipoPerfil === 'Paciente'"
+              v-if="perfilSelecionado?.nome === 'Atleta'"
               :current-step="3"
               :form="form"
               v-model:form-doencas="formDoencas"
@@ -153,7 +153,7 @@
               :errors="errors"
             />
             <MedicoForm
-              v-if="form.tipoPerfil === 'Médico'"
+              v-if="perfilSelecionado?.nome === 'Médico'"
               :current-step="3"
               :form="form"
               :loading-cep="loadingCep"
@@ -165,7 +165,7 @@
           <!--Quarto slide-->
           <template #item.4>
             <PacienteForm
-              v-if="form.tipoPerfil === 'Paciente'"
+              v-if="perfilSelecionado?.nome === 'Atleta'"
               :current-step="4"
               :form="form"
               v-model:form-doencas="formDoencas"
@@ -177,7 +177,7 @@
               :errors="errors"
             />
             <MedicoForm
-              v-if="form.tipoPerfil === 'Médico'"
+              v-if="perfilSelecionado?.nome === 'Médico'"
               :current-step="4"
               :form="form"
               :loading-cep="loadingCep"
@@ -222,7 +222,7 @@
 
 <script setup>
 import { useField, useForm } from 'vee-validate'
-import { ref, toRaw, computed } from 'vue'
+import { ref, toRaw, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import medicoService from '@/services/medico/medico-service'
@@ -239,6 +239,8 @@ import PacienteForm from '@/components/PacienteForm.vue'
 import MedicoForm from '@/components/MedicoForm.vue'
 import DoencaService from '@/services/cadastro-service/doenca-service'
 import SintomaService from '@/services/cadastro-service/sintoma-service'
+import perfilService from '@/services/perfil/perfil-service'
+import cadastromSimplificadoService from '@/services/cadastro-simplificado/cadastromSimplificado-service'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -324,10 +326,53 @@ const generos = ref([
   { title: 'Outros', value: 'Outros' },
 ])
 
-const tiposPerfil = ref([
-  { title: 'Paciente', value: 'Paciente' },
-  { title: 'Médico', value: 'Médico' },
-])
+const criarCadastroSimplificado = async () => {
+  if (!form.value.nome || !form.value.email || !form.value.telefone || !form.value.tipoPerfil) {
+    return
+  }
+  try {
+    const data = {
+      nome: form.value.nome,
+      email: form.value.email,
+      telefone: form.value.telefone,
+      perfilId: form.value.tipoPerfil
+    }
+    await cadastromSimplificadoService.createCdastroSimples(data)
+  } catch (error) {
+    console.error('Erro ao criar cadastro simplificado:', getErrorMessage(error, 'Erro desconhecido'))
+  }
+}
+
+watch(
+  () => [form.value.nome, form.value.email, form.value.telefone, form.value.tipoPerfil, disabled.value],
+  () => {
+    if (form.value?.nome && form.value?.email && form.value?.telefone && form.value?.tipoPerfil && !disabled.value && !loadingEmail.value && onBlurEmail) {
+      criarCadastroSimplificado()
+    }
+  },
+  { deep: true }
+)
+
+const tiposPerfil = ref([])
+
+const perfilSelecionado = computed(() => {
+  return tiposPerfil.value.find(p => p.id === form.value.tipoPerfil)
+})
+
+const buscarPerfis = async () => {
+  try {
+    const response = await perfilService.getPerfis()
+    tiposPerfil.value = response.data || []
+    console.log(tiposPerfil.value)
+  } catch (error) {
+    console.error('Erro ao carregar perfis:', getErrorMessage(error, 'Erro desconhecido'))
+  }
+}
+
+onMounted(() => {
+  buscarPerfis()
+})
+
 
 const formPdfImage = ref([])
 
@@ -531,7 +576,7 @@ const isStep1Valid = computed(() => {
 })
 
 const isStep2Valid = computed(() => {
-  if (form.value.tipoPerfil === 'Paciente') {
+  if (perfilSelecionado.value?.nome === 'Atleta') {
     return (
       form.value.altura &&
       form.value.peso &&
@@ -539,7 +584,7 @@ const isStep2Valid = computed(() => {
       form.value.tipoSanguineo !== null &&
       form.value.praticaAtividadeFisicaRegularmente !== null
     )
-  } else if (form.value.tipoPerfil === 'Médico') {
+  } else if (perfilSelecionado.value?.nome === 'Médico') {
     return (
       form.value.crm &&
       form.value.ufCrm
@@ -549,14 +594,14 @@ const isStep2Valid = computed(() => {
 })
 
 const isStep3Valid = computed(() => {
-  if (form.value.tipoPerfil === 'Paciente') {
+  if (perfilSelecionado.value?.nome === 'Atleta') {
     return (
       formDoencas.value.length > 0 &&
       formSintomas.value.length > 0 &&
       objetivoAtividade.value &&
       form.value.participouProva !== null
     )
-  } else if (form.value.tipoPerfil === 'Médico') {
+  } else if (perfilSelecionado.value?.nome === 'Médico') {
     return (
       form.value.cep &&
       form.value.rua &&
@@ -570,7 +615,7 @@ const isStep3Valid = computed(() => {
 })
 
 const isStep4Valid = computed(() => {
-  if (form.value.tipoPerfil === 'Paciente') {
+  if (perfilSelecionado.value?.nome === 'Atleta') {
     return (
       form.value.fezcheckUp !== null &&
       form.value.possuiSmartwatch !== null &&
@@ -579,7 +624,7 @@ const isStep4Valid = computed(() => {
       form.value.aceitoCompartilhar &&
       form.value.concordoTermos
     )
-  } else if (form.value.tipoPerfil === 'Médico') {
+  } else if (perfilSelecionado.value?.nome === 'Médico') {
     return (
       form.value.declaraVeracidade &&
       form.value.aceitaCompartilharDados &&
@@ -762,8 +807,9 @@ const submitMedico = handleSubmit(async () => {
 
 const { value: objetivoAtividade } = useField('objetivosItens')
 
-const onPerfilChange = async (perfil) => {
-  if (perfil === 'Paciente') {
+const onPerfilChange = async (perfilId) => {
+  const perfil = tiposPerfil.value.find(p => p.id === perfilId)
+  if (perfil?.nome === 'Atleta') {
     await carregarDadosPaciente()
   }
 }
@@ -771,7 +817,7 @@ const onPerfilChange = async (perfil) => {
 const handleNext = async (next) => {
   if (step.value === 4) {
     try {
-      if (form.value.tipoPerfil === 'Médico') {
+      if (perfilSelecionado.value?.nome === 'Médico') {
         await submitMedico()
       } else {
         await submitAtleta()
