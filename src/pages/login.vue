@@ -25,13 +25,18 @@
           </v-text-field>
 
           <v-text-field v-model="senha" :type="showPassword ? 'text' : 'password'" placeholder="Senha" hide-details
-            variant="solo" bg-color="white" density="comfortable" class="w-100"
+            variant="solo" bg-color="white" density="comfortable" class="mb-4 w-100"
             :rules="[value => !!value || 'Campo obrigatório']" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword = !showPassword" class="cursor-pointer">
                 {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
               </v-icon>
             </template></v-text-field>
+
+          <v-select v-if="showPerfilSelect" v-model="perfilId" :items="perfis" item-title="nome" item-value="id"
+            placeholder="Selecione o tipo de perfil" hide-details variant="solo" bg-color="white" density="comfortable"
+            class="w-100" :rules="[value => !!value || 'Campo obrigatório']" style="border-radius: 5px; color: #1f2937;">
+          </v-select>
 
             <div class="esqueceu-senha mt-2">
           <button type="button" @click="showModal = true"
@@ -45,7 +50,7 @@
             <div class="d-flex flex-column align-center w-100" cols="12">
               <VBtn class="text-white" block height="47px" style="background-color: #88CE0D;" type="submit"
                 :loading="loading">
-                Entrar</VBtn>
+                {{ showPerfilSelect ? 'Entrar' : 'Continuar' }}</VBtn>
             </div>
           </VRow>
         </v-form>
@@ -116,7 +121,10 @@ import { getErrorMessage } from '@/common/error.utils';
 const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
+const perfilId = ref(null);
+const perfis = ref([]);
 const isMobile = ref(false)
+const showPerfilSelect = ref(false)
 
 const emailModal = ref('');
 const loadingEmailModal = ref(false);
@@ -158,44 +166,64 @@ async function handleSubmit() {
   }
 
   try {
-    loading.value = true
-    const data = {
-      email: email.value,
-      senha: senha.value,
-      isMobile: isMobile.value,
-    };
+    loading.value = true;
 
-    const response = await authService.login(data);
-    if (response.data?.access_token) {
-      sessionStorage.setItem("token", response.data?.access_token)
-      loading.value = false
-      const payload = getPayloadFromToken(response.data?.access_token)
-      const user = payload?.user
-      let path = '/'
-      if (getRole() === 'admin') {
-        toast.error(response?.message || "Este painel é exclusivo para médicos e atletas");
-        return
-      }
-      if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
+    if (!showPerfilSelect.value) {
+      // Primeira etapa: verificar credenciais e obter perfis
+      const data = {
+        email: email.value,
+        senha: senha.value,
+        isMobile: isMobile.value,
+      };
 
-        toast.error(response?.message || "Médico aguardando validação do CRM");
+      const response = await authService.login(data);
+      if (response.success && response.data?.perfis) {
+        perfis.value = response.data.perfis;
+        showPerfilSelect.value = true;
+        toast.success("Credenciais válidas! Selecione seu perfil.", { autoClose: 2500 });
+      } else {
+        toast.error(response?.message || "Credenciais inválidas");
       }
-
-      if (user?.atleta && !user.atleta.planoId) {
-        path = '/registerPlanos'
-      } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
-        path = '/'
-      }
-      router.push(path).then(() => {
-        toast.success("Login realizado com sucesso!", { autoClose: 2500 });
-      });
     } else {
-      toast.error(response?.message || "Não foi possível fazer login");
-      loading.value = false
+
+      const response = await authService.loginComPerfil({
+        email: email.value,
+        perfilId: perfilId.value,
+        isMobile: isMobile.value
+      });
+
+      if (response.data?.access_token) {
+        sessionStorage.setItem("token", response.data?.access_token);
+        const payload = getPayloadFromToken(response.data?.access_token);
+        const user = payload?.user;
+        let path = '/';
+
+        if (getRole() === 'admin') {
+          toast.error(response?.message || "Este painel é exclusivo para médicos e atletas");
+          return;
+        }
+
+        if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
+          toast.error(response?.message || "Médico aguardando validação do CRM");
+        }
+
+        if (user?.atleta && !user.atleta.planoId) {
+          path = '/registerPlanos';
+        } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
+          path = '/';
+        }
+
+        router.push(path).then(() => {
+          toast.success("Login realizado com sucesso!", { autoClose: 2500 });
+        });
+      } else {
+        toast.error(response?.message || "Não foi possível fazer login");
+      }
     }
   } catch (err: any) {
     toast.error(getErrorMessage(err, "Erro no servidor"));
-    loading.value = false
+  } finally {
+    loading.value = false;
   }
 }
 

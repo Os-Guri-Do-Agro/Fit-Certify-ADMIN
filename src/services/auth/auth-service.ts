@@ -29,6 +29,13 @@ class AuthService {
     )
   }
 
+  loginComPerfil(data: any): Promise<any> {
+    return this.handleRequest(
+      apiClient.post('/auth/login/select-profile', data),
+      'Erro no login com perfil'
+    )
+  }
+
   enviarCodigo(email: string): Promise<any> {
     return this.handleRequest(
       apiClient.post(`/auth/enviar-codigo-email?email=${email}&isAdmin=true&isCmAdmin=false&isMobile=false`),
