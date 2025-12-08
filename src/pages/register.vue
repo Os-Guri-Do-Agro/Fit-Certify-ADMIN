@@ -695,7 +695,7 @@ const submitAtleta = handleSubmit(async () => {
 
     if (response.success) {
       loading.value = false
-      router.push('/login').then(() => {
+      router.push('/thank-you?type=paciente').then(() => {
         toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
       })
     } else {
@@ -750,7 +750,7 @@ const submitMedico = handleSubmit(async () => {
     const response = await medicoService.createMedico(formData)
 
     loading.value = false
-    router.push('/login').then(() => {
+    router.push('/thank-you?type=medico').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
     })
   } catch (error) {

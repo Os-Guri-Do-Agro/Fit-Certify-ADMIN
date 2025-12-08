@@ -32,6 +32,7 @@ router.beforeEach((to, from, next) => {
     '/detalhesExclusaoConta',
     '/pagamento',
     '/validarCertificado',
+    '/thank-you',
   ]
   
   const isPublicRoute = publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta')
