@@ -54,7 +54,7 @@
                   <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="tiposPerfil"
                     :rules="[rules.requiredSelectObrigatorio]" item-title="title" item-value="value"
                     placeholder="Selecione" label="Perfil*" variant="outlined" rounded="lg"
-                    bg-color="white" class="custom-field" />
+                    bg-color="white" class="custom-field" @update:model-value="onPerfilChange" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="8">
                   <VTextField id="nomeCompleto" v-model="form.nome" name="nomeCompleto"
@@ -124,6 +124,8 @@
               v-model:form-sintomas="formSintomas"
               v-model:objetivo-atividade="objetivoAtividade"
               v-model:form-pdf-image="formPdfImage"
+              :doencas="doencas"
+              :sintomas="sintomas"
               :errors="errors"
             />
             <MedicoForm
@@ -146,6 +148,8 @@
               v-model:form-sintomas="formSintomas"
               v-model:objetivo-atividade="objetivoAtividade"
               v-model:form-pdf-image="formPdfImage"
+              :doencas="doencas"
+              :sintomas="sintomas"
               :errors="errors"
             />
             <MedicoForm
@@ -168,6 +172,8 @@
               v-model:form-sintomas="formSintomas"
               v-model:objetivo-atividade="objetivoAtividade"
               v-model:form-pdf-image="formPdfImage"
+              :doencas="doencas"
+              :sintomas="sintomas"
               :errors="errors"
             />
             <MedicoForm
@@ -231,6 +237,8 @@ import { removerOffsetTimezone } from '@/utils/date.utils'
 import { getErrorMessage } from '@/common/error.utils'
 import PacienteForm from '@/components/PacienteForm.vue'
 import MedicoForm from '@/components/MedicoForm.vue'
+import DoencaService from '@/services/cadastro-service/doenca-service'
+import SintomaService from '@/services/cadastro-service/sintoma-service'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -327,6 +335,9 @@ const formDoencas = ref([])
 
 const formSintomas = ref([])
 
+const doencas = ref([])
+const sintomas = ref([])
+
 async function onBlurEmail(email) {
   loadingEmail.value = true
   await userService
@@ -343,6 +354,28 @@ async function onBlurEmail(email) {
       }
     })
     .finally(() => (loadingEmail.value = false))
+}
+
+const buscarDoenca = async () => {
+  try {
+    const res = await DoencaService.getAllDoencas()
+    doencas.value = res.data || []
+  } catch (error) {
+    console.error('Erro ao carregar doenças:', getErrorMessage(error, 'Erro desconhecido'))
+  }
+}
+
+const buscarSintoma = async () => {
+  try {
+    const res = await SintomaService.getAllSintomas()
+    sintomas.value = res.data || []
+  } catch (error) {
+    console.error('Erro ao carregar sintomas:', getErrorMessage(error, 'Erro desconhecido'))
+  }
+}
+
+const carregarDadosPaciente = async () => {
+  await Promise.all([buscarDoenca(), buscarSintoma()])
 }
 
 function validarCPF(cpf) {
@@ -728,6 +761,12 @@ const submitMedico = handleSubmit(async () => {
 })
 
 const { value: objetivoAtividade } = useField('objetivosItens')
+
+const onPerfilChange = async (perfil) => {
+  if (perfil === 'Paciente') {
+    await carregarDadosPaciente()
+  }
+}
 
 const handleNext = async (next) => {
   if (step.value === 4) {

@@ -332,10 +332,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
-import DoencaService from '../services/cadastro-service/doenca-service'
-import SintomaService from '../services/cadastro-service/sintoma-service'
-import { getErrorMessage } from '@/common/error.utils'
+import { ref, computed } from 'vue'
 
 const props = defineProps({
   currentStep: {
@@ -361,6 +358,14 @@ const props = defineProps({
     type: Array,
     required: true
   },
+  doencas: {
+    type: Array,
+    default: () => []
+  },
+  sintomas: {
+    type: Array,
+    default: () => []
+  },
   errors: {
     type: Object,
     default: () => ({})
@@ -369,8 +374,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:formDoencas', 'update:formSintomas', 'update:objetivoAtividade', 'update:formPdfImage'])
 
-const doencas = ref([])
-const sintomas = ref([])
+
 const showModal = ref(false)
 
 const objetivos = ref([
@@ -406,43 +410,22 @@ const rules = {
   requiredPesoObrigatorio: (value) => !!value || 'Peso obrigatório',
 }
 
-onMounted(async () => {
-  await buscarDoenca()
-  await buscarSintoma()
-})
 
-const buscarDoenca = async () => {
-  try {
-    const res = await DoencaService.getAllDoencas()
-    doencas.value = res.data || []
-  } catch (error) {
-    console.error('Erro ao carregar doenças:', getErrorMessage(error, 'Erro desconhecido'))
-  }
-}
-
-const buscarSintoma = async () => {
-  try {
-    const res = await SintomaService.getAllSintomas()
-    sintomas.value = res.data || []
-  } catch (error) {
-    console.error('Erro ao carregar sintomas:', getErrorMessage(error, 'Erro desconhecido'))
-  }
-}
 
 const doencasOrdenadas = computed(() => {
-  const outros = doencas.value.filter(d => d.descricao !== 'Nenhuma das anteriores')
-  const nenhuma = doencas.value.filter(d => d.descricao === 'Nenhuma das anteriores')
+  const outros = props.doencas.filter(d => d.descricao !== 'Nenhuma das anteriores')
+  const nenhuma = props.doencas.filter(d => d.descricao === 'Nenhuma das anteriores')
   return [...outros, ...nenhuma]
 })
 
 const sintomasOrdenados = computed(() => {
-  const outros = sintomas.value.filter(s => s.descricao !== 'Nenhum desses')
-  const nenhum = sintomas.value.filter(s => s.descricao === 'Nenhum desses')
+  const outros = props.sintomas.filter(s => s.descricao !== 'Nenhum desses')
+  const nenhum = props.sintomas.filter(s => s.descricao === 'Nenhum desses')
   return [...outros, ...nenhum]
 })
 
 const handleDoencaChange = (item) => {
-  const nenhumaId = doencas.value.find(
+  const nenhumaId = props.doencas.find(
     (d) => d.descricao === 'Nenhuma das anteriores'
   )?.id
 
@@ -460,7 +443,7 @@ const handleDoencaChange = (item) => {
 }
 
 const handleSintomaChange = (item) => {
-  const nenhumId = sintomas.value.find(
+  const nenhumId = props.sintomas.find(
     (s) => s.descricao === 'Nenhum desses'
   )?.id
   if (!nenhumId) return
