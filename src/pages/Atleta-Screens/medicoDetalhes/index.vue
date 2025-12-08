@@ -90,10 +90,10 @@
         <div class="position-relative ma-5">
           <div class="rating-chips">
             <v-chip class="rating-chip" prepend-icon="mdi-star">
-              5.0
+              0
             </v-chip>
             <v-chip class="rating-chip" prepend-icon="mdi-comment">
-              40 avaliações
+              0 avaliações
             </v-chip>
           </div>
 

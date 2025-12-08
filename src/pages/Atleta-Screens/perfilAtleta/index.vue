@@ -48,7 +48,7 @@
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
-                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/Atleta-Screens/editarPerfilAtleta')">
+                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="$router.push('/Atleta-Screens/editarPerfilAtleta')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
                   <p class="text-white text-subtitle-2">Editar Perfil</p>
                 </v-btn>
@@ -101,8 +101,8 @@
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-heart</v-icon>
                                 <span class="metric-label">Frequência Cardíaca</span>
                               </div>
-                              <div class="metric-value">72 <span class="metric-unit">bpm</span></div>
-                              <div class="metric-status normal">Normal</div>
+                              <div class="metric-value">0 <span class="metric-unit">bpm</span></div>
+                              <div class="metric-status normal">Sem dados</div>
                             </div>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -111,8 +111,8 @@
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-gauge</v-icon>
                                 <span class="metric-label">Pressão Arterial</span>
                               </div>
-                              <div class="metric-value">120/80 <span class="metric-unit">mmHg</span></div>
-                              <div class="metric-status normal">Normal</div>
+                              <div class="metric-value">0 <span class="metric-unit">mmHg</span></div>
+                              <div class="metric-status normal">Sem dados</div>
                             </div>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -121,8 +121,8 @@
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
                                 <span class="metric-label">Peso Corporal</span>
                               </div>
-                              <div class="metric-value"> <span>{{ atleta?.peso }}</span> <span class="metric-unit">kg</span></div>
-                              <div class="metric-status normal">Ideal</div>
+                              <div class="metric-value"> <span>0</span> <span class="metric-unit">kg</span></div>
+                              <div class="metric-status normal">Sem dados</div>
                             </div>
                           </v-col>
                           <v-col cols="12" md="6">
@@ -131,8 +131,8 @@
                                 <v-icon color="#00c6fe" size="24" class="mr-2">mdi-thermometer</v-icon>
                                 <span class="metric-label">Temperatura</span>
                               </div>
-                              <div class="metric-value">36.5 <span class="metric-unit">°C</span></div>
-                              <div class="metric-status normal">Normal</div>
+                              <div class="metric-value">0 <span class="metric-unit">°C</span></div>
+                              <div class="metric-status normal">Sem dados</div>
                             </div>
                           </v-col>
                         </v-row>
@@ -580,7 +580,7 @@ onMounted(() => {
 
 .metric-status.normal {
   background: rgba(76, 175, 80, 0.1);
-  color: #4caf50;
+  color: grey;
   border: 1px solid rgba(76, 175, 80, 0.3);
 }
 
