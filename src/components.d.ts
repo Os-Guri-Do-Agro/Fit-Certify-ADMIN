@@ -11,6 +11,8 @@ declare module 'vue' {
     CadastroB: typeof import('./components/register-steps/cadastroB.vue')['default']
     FormArtigo: typeof import('./components/artigos/FormArtigo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
+    MedicoForm: typeof import('./components/MedicoForm.vue')['default']
+    PacienteForm: typeof import('./components/PacienteForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
