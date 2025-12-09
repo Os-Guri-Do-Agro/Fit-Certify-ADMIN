@@ -38,12 +38,17 @@
             class="w-100" :rules="[value => !!value || 'Campo obrigatório']" style="border-radius: 5px; color: #1f2937;">
           </v-select>
 
-            <div class="esqueceu-senha mt-2">
-          <button type="button" @click="showModal = true"
-            class="text-white text-subtitle-2" to="/forgot-password">
+            <v-row class="d-flex justify-space-between w-100 align-center">
+              <v-col class="d-flex justify-center justify-md-start ma-0 pa-0" cols="12" md="6">
+           <v-checkbox class="pa-0 ma-0 text-white flex-shrink-0 text-subtitle-2" label="Manter login" v-model="isMobile" hide-details></v-checkbox>
+              </v-col>
+              <v-col class="d-flex justify-center justify-md-end ma-0 pa-0" cols="12" md="6">
+                <button type="button" @click="showModal = true"
+            class="text-white text-subtitle-2 flex-shrink-0" to="/forgot-password">
             <span>Esqueceu a senha?</span>
           </button>
-            </div>
+              </v-col>
+        </v-row>
 
 
           <VRow class="d-flex w-100 mt-5">
@@ -55,7 +60,7 @@
           </VRow>
         </v-form>
 
-        <div class="d-flex flex-column flex-md-row align-center justify-center mt-4">
+        <div class="d-flex flex-column flex-md-row align-center justify-center mt-8">
           <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">Não tem uma conta?</span>
           <button @click="router.push('/register')"
             class="font-weight-bold ml-2 text-subtitle-1 text-align-center text-white"
@@ -191,7 +196,6 @@ async function handleSubmit() {
         perfilId: perfilId.value,
         isMobile: isMobile.value
       });
-
       if (response.data?.access_token) {
         sessionStorage.setItem("token", response.data?.access_token);
         const payload = getPayloadFromToken(response.data?.access_token);
@@ -302,11 +306,5 @@ function confirmarTipoConta() {
 
 .gap-4 {
   gap: 16px;
-}
-
-.esqueceu-senha {
-  display: flex;
-  width: 100%;
-  justify-content: end;
 }
 </style>
