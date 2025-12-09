@@ -326,6 +326,8 @@ const generos = ref([
   { title: 'Outros', value: 'Outros' },
 ])
 
+let debounceTimer = null
+
 const criarCadastroSimplificado = async () => {
   if (!form.value.nome || !form.value.email || !form.value.telefone || !form.value.tipoPerfil) {
     return
@@ -347,7 +349,10 @@ watch(
   () => [form.value.nome, form.value.email, form.value.telefone, form.value.tipoPerfil, disabled.value],
   () => {
     if (form.value?.nome && form.value?.email && form.value?.telefone && form.value?.tipoPerfil && !disabled.value && !loadingEmail.value && onBlurEmail) {
-      criarCadastroSimplificado()
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        criarCadastroSimplificado()
+      }, 3000)
     }
   },
   { deep: true }
