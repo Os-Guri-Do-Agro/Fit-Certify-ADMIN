@@ -11,11 +11,12 @@
         <v-badge dot color="light-blue-accent-3">
           <v-icon size="28px">mdi-bell-outline</v-icon>
         </v-badge>
-
       </v-btn>
 
-      <v-sheet width="65px" height="100%" class="bg-red d-flex align-center justify-center mr-3">
-        <v-icon size="38px">mdi-alert-outline</v-icon>
+      <v-sheet width="65px" height="100%" class=" d-flex align-center justify-center mr-3">
+        <v-btn @click="dialogPerfil = true" icon variant="text" color="light-blue-accent-3" class="mr-5">
+          <v-icon size="38px" color="light-blue-accent-3">mdi-account-convert</v-icon>
+        </v-btn>
       </v-sheet>
 
 
@@ -53,6 +54,8 @@
       </v-menu>
     </template>
   </v-app-bar>
+
+  <TrocarPerfilDialog v-model="dialogPerfil" />
 </template>
 
 <script setup lang="ts">
@@ -65,6 +68,7 @@ import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
+import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
 
 const layoutStore = useLayoutStore()
 const payload = ref<any>()
@@ -74,6 +78,7 @@ const medico = ref<any>()
 const atletaId = ref()
 const medicoId = ref()
 const loading = ref(true)
+const dialogPerfil = ref(false)
 
 const buscarAtletaById = async (id: string) => {
 

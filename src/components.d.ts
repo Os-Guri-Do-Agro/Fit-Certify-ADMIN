@@ -15,5 +15,6 @@ declare module 'vue' {
     PacienteForm: typeof import('./components/PacienteForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TrocarPerfilDialog: typeof import('./components/TrocarPerfilDialog.vue')['default']
   }
 }
