@@ -123,6 +123,7 @@
                 <!-- Preço -->
                 <div class="d-flex flex-column flex-lg-row">
                   <v-card-subtitle
+                  v-if="!plano.maisPopular"
                     class="font-weight-black text-md-h6"
                     style="
                       color: #88ce0d;
@@ -147,8 +148,8 @@
                         sans-serif;
                     "
                   >
-                    (R$
-                    {{ plano.precoAno.toFixed(2).replace('.', ',') }}/ano)
+                    R$
+                    {{ plano.precoAno.toFixed(2).replace('.', ',') }}/ano
                   </v-card-subtitle>
                 </div>
 
