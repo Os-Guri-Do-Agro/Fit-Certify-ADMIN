@@ -67,6 +67,7 @@
               id="experiencia"
               :model-value="form.experiencia"
               @update:model-value="form.experiencia = $event"
+              type="number"
               name="experiencia"
               placeholder="Descreva sua experiência profissional"
               label="Tempo de Experiência"

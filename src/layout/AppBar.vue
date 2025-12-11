@@ -114,7 +114,7 @@ onMounted(async () => {
     await buscarMedicoById(medicoId.value)
     payload.value = getPayload()
   } else {
-    console.error('ID do atleta não encontrado o')
+    return
   }
 })
 

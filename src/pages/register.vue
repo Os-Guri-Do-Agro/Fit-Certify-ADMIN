@@ -361,7 +361,6 @@ const buscarPerfis = async () => {
   try {
     const response = await perfilService.getPerfis()
     tiposPerfil.value = response.data || []
-    console.log(tiposPerfil.value)
   } catch (error) {
     console.error('Erro ao carregar perfis:', getErrorMessage(error, 'Erro desconhecido'))
   }
