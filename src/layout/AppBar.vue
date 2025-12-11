@@ -26,13 +26,13 @@
             <!-- Avatar -->
             <v-skeleton-loader v-if="loading" type="avatar"></v-skeleton-loader>
             <v-avatar v-else size="42" class="mr-3">
-              <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl || fisioterapeuta?.usuario?.avatarUrl"></v-img>
+              <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl || fisioterapeuta?.usuario?.avatarUrl || treinador?.usuario?.avatarUrl"></v-img>
             </v-avatar>
 
             <!-- Nome e profissão -->
             <div class="d-flex flex-column justify-center text-left">
               <v-skeleton-loader v-if="loading" type="paragraph" width="120"></v-skeleton-loader>
-              <span v-else class="font-weight-medium text-body-2">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome
+              <span v-else class="font-weight-medium text-body-2">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome || treinador?.usuario?.nome
               }}</span>
               <v-skeleton-loader v-if="loading" type="text" width="80" class="mt-0 d-none"></v-skeleton-loader>
               <span v-else class="text-caption text-grey">{{ perfis[payload?.role] }}</span>
@@ -66,11 +66,13 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import treinadorService from '@/services/treinador/treinador-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
 import { getFisioterapeutaId } from '@/utils/auth';
+import { getTreinadorId } from '@/utils/auth';
 import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
-import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
 import { ca } from 'vuetify/locale';
 
 const layoutStore = useLayoutStore()
@@ -79,9 +81,7 @@ const router = useRouter()
 const atleta = ref<any>()
 const medico = ref<any>()
 const fisioterapeuta = ref<any>()
-const atletaId = ref()
-const medicoId = ref()
-const fisioterapeutaId = ref()
+const treinador = ref<any>()
 const loading = ref(true)
 const dialogPerfil = ref(false)
 
@@ -120,20 +120,31 @@ const buscarFisioterapeutaById = async (id: string) => {
   }
 }
 
+const buscarTreinadorById = async (id: string) => {
+  try {
+    const response = await treinadorService.getTreinadorById(id)
+    treinador.value = response.data
+    loading.value = false
+  } catch (error) {
+    console.error(error)
+    loading.value = false
+  }
+}
+
 onMounted(async () => {
-  atletaId.value = getAtletaId()
-  medicoId.value = getMedicoId()
-  fisioterapeutaId.value = getFisioterapeutaId()
-  if (atletaId.value) {
-    await buscarAtletaById(atletaId.value)
+  if (getAtletaId()) {
+    await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
-  } else if (medicoId.value) {
-    await buscarMedicoById(medicoId.value)
+  } else if (getMedicoId()) {
+    await buscarMedicoById(getMedicoId())
     payload.value = getPayload()
-  } else if (fisioterapeutaId.value) {
-    await buscarFisioterapeutaById(fisioterapeutaId.value)
+  } else if (getFisioterapeutaId()) {
+    await buscarFisioterapeutaById(getFisioterapeutaId())
     payload.value = getPayload()
-  } else {
+  } else if (getTreinadorId()) {
+    await buscarTreinadorById(getTreinadorId())
+    payload.value = getPayload()
+  } else{
     return
   }
 })
@@ -146,6 +157,7 @@ const perfis: any = {
   'medico': 'MÉDICO',
   'atleta': 'ATLETA',
   'fisioterapeuta': 'FISIOTERAPEUTA',
+  'treinador': 'TREINADOR',
   'admin': 'ADMINISTRADOR'
 }
 

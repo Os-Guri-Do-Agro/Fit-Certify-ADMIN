@@ -32,7 +32,6 @@ class fisioterapeutaService {
     return this.handleRequest(
       apiClient.get(`/fisioterapeuta/${id}`, {
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
       }),

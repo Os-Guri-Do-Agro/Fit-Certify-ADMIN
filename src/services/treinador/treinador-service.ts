@@ -26,6 +26,18 @@ class treinadorService {
       'Erro ao criar treinador'
     )
   }
+
+  getTreinadorById(id: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/treinador/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao obter treinador por ID'
+    )
+  }
 }
 
 export default new treinadorService()

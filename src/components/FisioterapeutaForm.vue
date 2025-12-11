@@ -343,24 +343,9 @@
                 <v-icon color="white" size="20">mdi-file-document</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Código de Convite
+                Termos e Políticas
               </h2>
             </div>
-          </VCol>
-
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField
-              id="codigoConvite"
-              :model-value="form.codigoConvite"
-              @update:model-value="form.codigoConvite = $event"
-              name="codigoConvite"
-              placeholder=""
-              label="Código"
-              variant="outlined"
-              rounded="lg"
-              bg-color="white"
-              class="custom-field"
-            />
           </VCol>
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">

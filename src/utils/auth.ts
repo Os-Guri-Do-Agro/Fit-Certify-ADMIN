@@ -167,6 +167,12 @@ export const getFisioterapeutaId = () => {
     return payload?.user?.fisioterapeutaId
   }
 }
+export const getTreinadorId = () => {
+  const payload = getPayload()
+  if(payload?.role == 'treinador') {
+    return payload?.user?.treinadorId
+  }
+}
 
 export const getRole = () => {
   const payload = getPayload()
@@ -183,6 +189,10 @@ export const isAtleta = () => {
 
 export const isFisioterapeuta = () => {
   return getRole() === 'fisioterapeuta'
+}
+
+export const isTreinador = () => {
+  return getRole() === 'treinador'
 }
 
 export const getUserID = () => {
