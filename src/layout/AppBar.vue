@@ -26,13 +26,13 @@
             <!-- Avatar -->
             <v-skeleton-loader v-if="loading" type="avatar"></v-skeleton-loader>
             <v-avatar v-else size="42" class="mr-3">
-              <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl"></v-img>
+              <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl || fisioterapeuta?.usuario?.avatarUrl"></v-img>
             </v-avatar>
 
             <!-- Nome e profissão -->
             <div class="d-flex flex-column justify-center text-left">
               <v-skeleton-loader v-if="loading" type="paragraph" width="120"></v-skeleton-loader>
-              <span v-else class="font-weight-medium text-body-2">{{ atleta?.usuario?.nome || medico?.usuario?.nome
+              <span v-else class="font-weight-medium text-body-2">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome
               }}</span>
               <v-skeleton-loader v-if="loading" type="text" width="80" class="mt-0 d-none"></v-skeleton-loader>
               <span v-else class="text-caption text-grey">{{ perfis[payload?.role] }}</span>
@@ -68,15 +68,20 @@ import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
+import { getFisioterapeutaId } from '@/utils/auth';
 import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import { ca } from 'vuetify/locale';
 
 const layoutStore = useLayoutStore()
 const payload = ref<any>()
 const router = useRouter()
 const atleta = ref<any>()
 const medico = ref<any>()
+const fisioterapeuta = ref<any>()
 const atletaId = ref()
 const medicoId = ref()
+const fisioterapeutaId = ref()
 const loading = ref(true)
 const dialogPerfil = ref(false)
 
@@ -104,14 +109,29 @@ const buscarMedicoById = async (id: string) => {
   }
 }
 
+const buscarFisioterapeutaById = async (id: string) => {
+  try {
+    const response = await fisioterapeutaService.getFisioterapeutaById(id)
+    fisioterapeuta.value = response.data
+    loading.value = false
+  } catch (error) {
+    console.error(error)
+    loading.value = false
+  }
+}
+
 onMounted(async () => {
   atletaId.value = getAtletaId()
   medicoId.value = getMedicoId()
+  fisioterapeutaId.value = getFisioterapeutaId()
   if (atletaId.value) {
     await buscarAtletaById(atletaId.value)
     payload.value = getPayload()
   } else if (medicoId.value) {
     await buscarMedicoById(medicoId.value)
+    payload.value = getPayload()
+  } else if (fisioterapeutaId.value) {
+    await buscarFisioterapeutaById(fisioterapeutaId.value)
     payload.value = getPayload()
   } else {
     return
@@ -125,6 +145,7 @@ function sair() {
 const perfis: any = {
   'medico': 'MÉDICO',
   'atleta': 'ATLETA',
+  'fisioterapeuta': 'FISIOTERAPEUTA',
   'admin': 'ADMINISTRADOR'
 }
 

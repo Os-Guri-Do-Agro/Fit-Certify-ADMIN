@@ -9,6 +9,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CadastroB: typeof import('./components/register-steps/cadastroB.vue')['default']
+    FisioterapeutaForm: typeof import('./components/FisioterapeutaForm.vue')['default']
     FormArtigo: typeof import('./components/artigos/FormArtigo.vue')['default']
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MedicoForm: typeof import('./components/MedicoForm.vue')['default']

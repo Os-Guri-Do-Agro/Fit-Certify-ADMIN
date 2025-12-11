@@ -3,7 +3,7 @@ const decodeJwtPayload = (base64Url: string): any => {
   try {
     // Substitui caracteres URL-safe do base64
     let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
-    
+
     // Adiciona padding se necessário
     while (base64.length % 4) {
       base64 += '='
@@ -17,7 +17,7 @@ const decodeJwtPayload = (base64Url: string): any => {
 
     // Decodifica o base64
     const decoded = atob(base64)
-    
+
     // Tenta parsear diretamente (método mais simples)
     try {
       return JSON.parse(decoded)
@@ -161,6 +161,12 @@ export const getAtletaId = () => {
   const payload = getPayload()
   return payload?.role === 'atleta' ? payload?.user?.atletaId : null
 }
+export const getFisioterapeutaId = () => {
+  const payload = getPayload()
+  if(payload?.role == 'fisioterapeuta') {
+    return payload?.user?.fisioterapeutaId
+  }
+}
 
 export const getRole = () => {
   const payload = getPayload()
@@ -174,6 +180,11 @@ export const isMedico = () => {
 export const isAtleta = () => {
   return getRole() === 'atleta'
 }
+
+export const isFisioterapeuta = () => {
+  return getRole() === 'fisioterapeuta'
+}
+
 export const getUserID = () => {
   const payload = getPayload()
   return payload?.userId

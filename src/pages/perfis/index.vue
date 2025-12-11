@@ -92,6 +92,7 @@ const getPerfilIcon = (nome) => {
     'Atleta': 'mdi-run',
     'Médico': 'mdi-stethoscope',
     'Treinador': 'mdi-whistle',
+    'Fisioterapeuta': 'mdi-human-male-female-child'
   }
   return icons[nome] || 'mdi-account-circle'
 }
@@ -101,6 +102,7 @@ const getPerfilGradient = (nome) => {
     'Médico': 'linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%)',
     'Atleta': 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)',
     'Treinador': 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)',
+    'Fisioterapeuta': 'linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%)',
   }
   return gradients[nome] || 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)'
 }
@@ -151,7 +153,8 @@ const buscarPerfis = async () => {
     const roleParaPerfil = {
       'atleta': 'Atleta',
       'medico': 'Médico',
-      'treinador': 'Treinador'
+      'treinador': 'Treinador',
+      'fisioterapeuta': 'Fisioterapeuta'
     }
 
     const nomePerfilAtual = roleParaPerfil[roleAtual]

@@ -359,6 +359,9 @@ const menusPorPerfil: Record<string, any[]> = {
       ],
     },
   ],
+  fisioterapeuta: [
+
+  ]
 }
 
 function handleClickOutside(event: MouseEvent) {
@@ -377,6 +380,7 @@ function onClickMenu(menu: string) {
 const perfis: any = {
   medico: 'MÉDICO',
   atleta: 'ATLETA',
+  fisioterapeuta: 'FISIOTERAPEUTA',
   admin: 'ADMINISTRADOR',
 }
 

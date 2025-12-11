@@ -136,6 +136,14 @@
               @buscar-cep="buscarCep"
               @handle-file-change="handleFileChange"
             />
+            <FisioterapeutaForm
+              v-if="perfilSelecionado?.nome === 'Fisioterapeuta'"
+              :current-step="2"
+              :form="form"
+              :loading-cep="loadingCep"
+              @buscar-cep="buscarCep"
+              @handle-file-change="handleFileChange"
+            />
           </template>
 
           <!--Terceiro slide-->
@@ -160,6 +168,14 @@
               @buscar-cep="buscarCep"
               @handle-file-change="handleFileChange"
             />
+            <FisioterapeutaForm
+              v-if="perfilSelecionado?.nome === 'Fisioterapeuta'"
+              :current-step="3"
+              :form="form"
+              :loading-cep="loadingCep"
+              @buscar-cep="buscarCep"
+              @handle-file-change="handleFileChange"
+            />
           </template>
 
           <!--Quarto slide-->
@@ -178,6 +194,14 @@
             />
             <MedicoForm
               v-if="perfilSelecionado?.nome === 'Médico'"
+              :current-step="4"
+              :form="form"
+              :loading-cep="loadingCep"
+              @buscar-cep="buscarCep"
+              @handle-file-change="handleFileChange"
+            />
+            <FisioterapeutaForm
+              v-if="perfilSelecionado?.nome === 'Fisioterapeuta'"
               :current-step="4"
               :form="form"
               :loading-cep="loadingCep"
@@ -237,10 +261,12 @@ import { removerOffsetTimezone } from '@/utils/date.utils'
 import { getErrorMessage } from '@/common/error.utils'
 import PacienteForm from '@/components/PacienteForm.vue'
 import MedicoForm from '@/components/MedicoForm.vue'
+import FisioterapeutaForm from '@/components/FisioterapeutaForm.vue'
 import DoencaService from '@/services/cadastro-service/doenca-service'
 import SintomaService from '@/services/cadastro-service/sintoma-service'
 import perfilService from '@/services/perfil/perfil-service'
 import cadastromSimplificadoService from '@/services/cadastro-simplificado/cadastromSimplificado-service'
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -305,7 +331,9 @@ const form = ref({
   declaraVeracidade: false,
   aceitaCompartilharDados: false,
   aceitaTermos: false,
-  assinatura: null
+  assinatura: null,
+  //Campos específicos do fisioterapeuta
+  codigoConvite: '',
 })
 
 const tiposSanguineos = ref([
@@ -350,7 +378,7 @@ const criarCadastroSimplificado = async () => {
 const tiposPerfil = ref([])
 
 const perfilOptions = computed(() => {
-  return [{ id: null, nome: 'Selecionar Perfil' }, ...tiposPerfil.value.slice(0, 2)]
+  return [{ id: null, nome: 'Selecionar Perfil' }, ...tiposPerfil.value]
 })
 
 const perfilSelecionado = computed(() => {
@@ -398,7 +426,7 @@ const carregarCadastroCache = () => {
   if (cadastroCache) {
     const { form: formCache, formDoencas: doencasCache, formSintomas: sintomasCache, objetivoAtividade: objetivoCache, timestamp } = JSON.parse(cadastroCache)
     if (Date.now() - timestamp <= EXPIRES_IN) {
-      form.value = formCache
+      form.value = { ...form.value, ...formCache }
       if (doencasCache) formDoencas.value = doencasCache
       if (sintomasCache) formSintomas.value = sintomasCache
       if (objetivoCache) objetivoAtividade.value = objetivoCache
@@ -628,6 +656,8 @@ const isStep2Valid = computed(() => {
       form.value.crm &&
       form.value.ufCrm
     )
+  } else if (perfilSelecionado.value?.nome === 'Fisioterapeuta') {
+    return true
   }
   return false
 })
@@ -640,7 +670,7 @@ const isStep3Valid = computed(() => {
       objetivoAtividade.value &&
       form.value.participouProva !== null
     )
-  } else if (perfilSelecionado.value?.nome === 'Médico') {
+  } else if (perfilSelecionado.value?.nome === 'Médico' || perfilSelecionado.value?.nome === 'Fisioterapeuta') {
     return (
       form.value.cep &&
       form.value.rua &&
@@ -663,7 +693,7 @@ const isStep4Valid = computed(() => {
       form.value.aceitoCompartilhar &&
       form.value.concordoTermos
     )
-  } else if (perfilSelecionado.value?.nome === 'Médico') {
+  } else if (perfilSelecionado.value?.nome === 'Médico' || perfilSelecionado.value?.nome === 'Fisioterapeuta') {
     return (
       form.value.declaraVeracidade &&
       form.value.aceitaCompartilharDados &&
@@ -793,6 +823,7 @@ const submitAtleta = handleSubmit(async () => {
   }
 })
 
+//SUBMIT MÉDICO
 const submitMedico = handleSubmit(async () => {
   try {
     loading.value = true
@@ -805,11 +836,10 @@ const submitMedico = handleSubmit(async () => {
     formData.append('email', values.email || '')
     formData.append('telefone', values.telefone.replace(/\D/g, '') || '')
     formData.append('dataNascimento', formatarDataParaISO(values.dataNascimento))
-    formData.append('crm', `${values.crm || ''}/${values.ufCrm || ''}`)
-    formData.append('especializacao', values.especializacao || 'Não informado')
     formData.append('experiencia', values.experiencia || '0')
     formData.append('foco', values.foco || 'Não informado')
     formData.append('perfil', values.perfil || 'Não informado')
+    formData.append('codigoConvite', values.codigoConvite || 'Não informado')
     formData.append('carreira', values.carreira || 'Não informado')
     formData.append('destaques', values.destaques || 'Não informado')
     formData.append('diaFuncionamentoInicio', values.diaFuncionamentoInicio || 'Pend')
@@ -828,11 +858,58 @@ const submitMedico = handleSubmit(async () => {
     formData.append('aceitaCompartilharDados', values.aceitaCompartilharDados ? 'true' : 'false')
     formData.append('aceitaTermos', values.aceitaTermos ? 'true' : 'false')
 
-    if (values.assinatura) {
-      formData.append('assinatura', values.assinatura)
-    }
 
-    const response = await medicoService.createMedico(formData)
+    await medicoService.createMedico(formData)
+
+    sessionStorage.removeItem('cadastro_cache')
+    loading.value = false
+    router.push('/thank-you?type=medico').then(() => {
+      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+    })
+  } catch (error) {
+    loading.value = false
+    toast.error(getErrorMessage(error, 'Não foi possível concluir o cadastro'))
+    console.error(error)
+  }
+})
+
+
+// SUBMIT FISIOTERAPEUTA
+const submitFisioterapeuta = handleSubmit(async () => {
+  try {
+    loading.value = true
+    const values = toRaw(form.value)
+    const formData = new FormData()
+
+    formData.append('nome', values.nome)
+    formData.append('senha', values.senha)
+    formData.append('cpf', values.cpf.replace(/\D/g, ''))
+    formData.append('email', values.email)
+    formData.append('telefone', values.telefone.replace(/\D/g, ''))
+    formData.append('dataNascimento', formatarDataParaISO(values.dataNascimento))
+    formData.append('codigoConvite', values.codigoConvite || 'Não informado')
+    formData.append('experiencia', values.experiencia ? Number(values.experiencia) : 0)
+    formData.append('foco', values.foco)
+    formData.append('perfil', values.perfil)
+    formData.append('carreira', values.carreira)
+    formData.append('destaques', values.destaques)
+    formData.append('diaFuncionamentoInicio', values.diaFuncionamentoInicio)
+    formData.append('diaFuncionamentoFim', values.diaFuncionamentoFim)
+    formData.append('horarioInicio', formatarHorarioParaISO(values.horarioInicio))
+    formData.append('horarioFim', formatarHorarioParaISO(values.horarioFim))
+    formData.append('cep', values.cep)
+    formData.append('rua', values.rua)
+    formData.append('bairro', values.bairro)
+    formData.append('numero', values.numero)
+    formData.append('cidade', values.cidade)
+    formData.append('uf', values.uf)
+    formData.append('linkInstagram', values.linkInstagram || '')
+    formData.append('linkFacebook', values.linkFacebook || '')
+    formData.append('declaraVeracidade', values.declaraVeracidade ? 'true' : 'false')
+    formData.append('aceitaCompartilharDados', values.aceitaCompartilharDados ? 'true' : 'false')
+    formData.append('aceitaTermos', values.aceitaTermos ? 'true' : 'false')
+
+    await fisioterapeutaService.createFisioterapeuta(formData)
 
     sessionStorage.removeItem('cadastro_cache')
     loading.value = false
@@ -847,7 +924,7 @@ const submitMedico = handleSubmit(async () => {
 })
 
 const onPerfilChange = async (perfilId) => {
-  // Doenças e sintomas já carregados no onMounted
+  sessionStorage.removeItem('cadastro_cache')
 }
 
 const handleNext = async (next) => {
@@ -855,6 +932,8 @@ const handleNext = async (next) => {
     try {
       if (perfilSelecionado.value?.nome === 'Médico') {
         await submitMedico()
+      } else if (perfilSelecionado.value?.nome === 'Fisioterapeuta') {
+        await submitFisioterapeuta()
       } else {
         await submitAtleta()
       }
