@@ -67,14 +67,14 @@
                     label="CPF*" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                 </VCol>
 
-                <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
+                <VCol class="my-2 py-0 font-weight-medium" cols="12" :md="perfilSelecionado?.nome !== 'Treinador' ? 6 : 12">
                   <VTextField id="formEmail" v-model="form.email"
                     @blur="(e) => onBlurEmail(e.target.value)" :rules="[rules.requiredEmailObrigatorio]"
                     placeholder="exemplo@dominio.com" type="email" label="E-mail*" variant="outlined" rounded="lg"
                     bg-color="white" :loading="loadingEmail" class="custom-field" />
                 </VCol>
 
-                <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
+                <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6" v-if="perfilSelecionado?.nome !== 'Treinador'">
                   <VTextField id="telefone" v-model="form.telefone" v-maska="'(##) #####-####'"
                     :rules="[rules.requiredTelefoneObrigatorio]" name="telefone" placeholder="(99) 9 9999-9999"
                     type="tel" label="Telefone*" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
@@ -105,7 +105,7 @@
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VTextField id="nascimento" v-model="form.dataNascimento"
+                  <VTextField id="nascimento" v-model="form.dataNascimento" v-if="perfilSelecionado?.nome !== 'Treinador'"
                     :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento" v-maska="'##/##/####'"
                     placeholder="DD/MM/AAAA" label="Data de nascimento*" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" />
@@ -223,17 +223,17 @@
                 </VBtn>
                 <VBtn class="text-white w-100" height="50px" max-width="237px" :loading="loading"
                   :disabled="loading || disabled || !isCurrentStepValid"
-                  :color="step === 4 ? '#88ce0d' : '#00c6fe'"
+                  :color="(step === 4 || perfilSelecionado?.nome === 'Treinador') ? '#88ce0d' : '#00c6fe'"
                   rounded="xl" elevation="4" @click="handleNext(next)"
                   style="font-weight: 600; text-transform: none; letter-spacing: 0;">
                   {{
-                    step !== 4
+                    (step !== 4 && perfilSelecionado?.nome !== 'Treinador')
                       ? 'Próximo'
                       : loading
                         ? 'Enviando...'
                         : 'Enviar Formulário'
                   }}
-                  <v-icon v-if="step !== 4" end>mdi-arrow-right</v-icon>
+                  <v-icon v-if="step !== 4 && perfilSelecionado?.nome !== 'Treinador'" end>mdi-arrow-right</v-icon>
                   <v-icon v-else end>mdi-check</v-icon>
                 </VBtn>
               </div>
@@ -267,6 +267,7 @@ import SintomaService from '@/services/cadastro-service/sintoma-service'
 import perfilService from '@/services/perfil/perfil-service'
 import cadastromSimplificadoService from '@/services/cadastro-simplificado/cadastromSimplificado-service'
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
+import treinadorService from '@/services/treinador/treinador-service'
 
 dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
@@ -356,6 +357,7 @@ const generos = ref([
 
 let debounceTimer = null
 
+// CADASTRO DE TREINADOR
 const criarCadastroSimplificado = async () => {
   if (!form.value.nome || !form.value.email || !form.value.telefone || !form.value.tipoPerfil) {
     return
@@ -372,8 +374,6 @@ const criarCadastroSimplificado = async () => {
     console.error('Erro ao criar cadastro simplificado:', getErrorMessage(error, 'Erro desconhecido'))
   }
 }
-
-
 
 const tiposPerfil = ref([])
 
@@ -624,21 +624,29 @@ const rules = {
 
 // Validações para cada step
 const isStep1Valid = computed(() => {
-  return (
+  const baseValidation = (
     form.value.tipoPerfil !== null &&
     form.value.nome &&
     form.value.cpf &&
     validarCPF(form.value.cpf) &&
     form.value.email &&
     validarEmail(form.value.email) &&
-    form.value.telefone &&
     form.value.senha &&
     validarSenhaForte(form.value.senha) &&
     form.value.confirmarSenha &&
     form.value.senha === form.value.confirmarSenha &&
-    form.value.dataNascimento &&
-    isValidDate(form.value.dataNascimento) &&
     !disabled.value
+  )
+
+  if (perfilSelecionado.value?.nome === 'Treinador') {
+    return baseValidation
+  }
+
+  return (
+    baseValidation &&
+    form.value.telefone &&
+    form.value.dataNascimento &&
+    isValidDate(form.value.dataNascimento)
   )
 })
 
@@ -913,7 +921,33 @@ const submitFisioterapeuta = handleSubmit(async () => {
 
     sessionStorage.removeItem('cadastro_cache')
     loading.value = false
-    router.push('/thank-you?type=medico').then(() => {
+    router.push('/thank-you?type=atleta').then(() => {
+      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+    })
+  } catch (error) {
+    loading.value = false
+    toast.error(getErrorMessage(error, 'Não foi possível concluir o cadastro'))
+    console.error(error)
+  }
+})
+
+// SUBMIT TREINADOR
+const submitTreinador = handleSubmit(async () => {
+  try {
+    loading.value = true
+    const values = toRaw(form.value)
+    const formData = new FormData()
+
+    formData.append('nome', values.nome)
+    formData.append('senha', values.senha)
+    formData.append('cpf', values.cpf.replace(/\D/g, ''))
+    formData.append('email', values.email)
+
+    await treinadorService.createTreinador(formData)
+
+    sessionStorage.removeItem('cadastro_cache')
+    loading.value = false
+    router.push('/thank-you?type=atleta').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
     })
   } catch (error) {
@@ -928,6 +962,11 @@ const onPerfilChange = async (perfilId) => {
 }
 
 const handleNext = async (next) => {
+  if (perfilSelecionado.value?.nome === 'Treinador') {
+    await submitTreinador()
+    return
+  }
+
   if (step.value === 4) {
     try {
       if (perfilSelecionado.value?.nome === 'Médico') {
