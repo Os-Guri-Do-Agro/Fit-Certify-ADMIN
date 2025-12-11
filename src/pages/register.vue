@@ -51,7 +51,7 @@
                   </div>
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="tiposPerfil.slice(0, 2)"
+                  <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="perfilOptions"
                     :rules="[rules.requiredSelectObrigatorio]" item-title="nome" item-value="id"
                     placeholder="Selecione" label="Perfil*" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" @update:model-value="onPerfilChange" />
@@ -345,20 +345,13 @@ const criarCadastroSimplificado = async () => {
   }
 }
 
-watch(
-  () => [form.value.nome, form.value.email, form.value.telefone, form.value.tipoPerfil, disabled.value],
-  () => {
-    if (form.value?.nome && form.value?.email && form.value?.telefone && form.value?.tipoPerfil && !disabled.value && !loadingEmail.value && onBlurEmail) {
-      clearTimeout(debounceTimer)
-      debounceTimer = setTimeout(() => {
-        criarCadastroSimplificado()
-      }, 3000)
-    }
-  },
-  { deep: true }
-)
+
 
 const tiposPerfil = ref([])
+
+const perfilOptions = computed(() => {
+  return [{ id: null, nome: 'Selecionar Perfil' }, ...tiposPerfil.value.slice(0, 2)]
+})
 
 const perfilSelecionado = computed(() => {
   return tiposPerfil.value.find(p => p.id === form.value.tipoPerfil)
@@ -376,17 +369,59 @@ const buscarPerfis = async () => {
 
 onMounted(() => {
   buscarPerfis()
+  carregarDadosPaciente()
+  carregarCadastroCache()
 })
 
 
 const formPdfImage = ref([])
-
 const formDoencas = ref([])
-
 const formSintomas = ref([])
-
 const doencas = ref([])
 const sintomas = ref([])
+
+const { value: objetivoAtividade } = useField('objetivosItens')
+
+const EXPIRES_IN = 7200000 * 2
+
+const saveForm = () => {
+  sessionStorage.setItem('cadastro_cache', JSON.stringify({
+    form: form.value,
+    formDoencas: formDoencas.value,
+    formSintomas: formSintomas.value,
+    objetivoAtividade: objetivoAtividade.value,
+    timestamp: Date.now()
+  }))
+}
+
+const carregarCadastroCache = () => {
+  const cadastroCache = sessionStorage.getItem('cadastro_cache')
+  if (cadastroCache) {
+    const { form: formCache, formDoencas: doencasCache, formSintomas: sintomasCache, objetivoAtividade: objetivoCache, timestamp } = JSON.parse(cadastroCache)
+    if (Date.now() - timestamp <= EXPIRES_IN) {
+      form.value = formCache
+      if (doencasCache) formDoencas.value = doencasCache
+      if (sintomasCache) formSintomas.value = sintomasCache
+      if (objetivoCache) objetivoAtividade.value = objetivoCache
+    } else {
+      sessionStorage.removeItem('cadastro_cache')
+    }
+  }
+}
+
+watch(
+  () => [form.value, formDoencas.value, formSintomas.value, objetivoAtividade.value],
+  () => {
+    saveForm()
+    if (form.value?.nome && form.value?.email && form.value?.telefone && form.value?.tipoPerfil && !disabled.value && !loadingEmail.value && onBlurEmail) {
+      clearTimeout(debounceTimer)
+      debounceTimer = setTimeout(() => {
+        criarCadastroSimplificado()
+      }, 3000)
+    }
+  },
+  { deep: true }
+)
 
 async function onBlurEmail(email) {
   loadingEmail.value = true
@@ -744,6 +779,7 @@ const submitAtleta = handleSubmit(async () => {
     const response = await AtletaService.createAtleta(formData)
 
     if (response.success) {
+      sessionStorage.removeItem('cadastro_cache')
       loading.value = false
       router.push('/thank-you?type=paciente').then(() => {
         toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -799,6 +835,7 @@ const submitMedico = handleSubmit(async () => {
 
     const response = await medicoService.createMedico(formData)
 
+    sessionStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=medico').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -810,13 +847,8 @@ const submitMedico = handleSubmit(async () => {
   }
 })
 
-const { value: objetivoAtividade } = useField('objetivosItens')
-
 const onPerfilChange = async (perfilId) => {
-  const perfil = tiposPerfil.value.find(p => p.id === perfilId)
-  if (perfil?.nome === 'Atleta') {
-    await carregarDadosPaciente()
-  }
+  // Doenças e sintomas já carregados no onMounted
 }
 
 const handleNext = async (next) => {
