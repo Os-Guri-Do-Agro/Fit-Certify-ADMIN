@@ -229,9 +229,9 @@ const contaItems = [
     to: getProfileRoute(),
   },
   {
-    icon: 'mdi-account-circle',
+    icon: 'mdi-link-circle',
     title: 'Conexões',
-    value: 'dashboard',
+    value: 'conexoes',
     to: getListaConexaoRoute(),
   },
 ]
