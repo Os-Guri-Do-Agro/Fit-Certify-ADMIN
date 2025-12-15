@@ -15,7 +15,7 @@
 
       <v-sheet width="65px" height="100%" class=" d-flex align-center justify-center mr-3">
         <v-btn @click="dialogPerfil = true" icon variant="text" color="light-blue-accent-3" class="mr-5">
-          <v-icon size="38px" color="light-blue-accent-3">mdi-account-convert</v-icon>
+          <v-icon size="28px" color="light-blue-accent-3">mdi-account-convert</v-icon>
         </v-btn>
       </v-sheet>
 

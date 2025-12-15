@@ -11,6 +11,25 @@ export const getProfileRoute = () => {
       case 'fisioterapeuta':
         return '/Fisioterapeuta-Screens/perfilFisioterapeuta'
     default:
+      case 'treinador':
+        return 'Treinador-Screens/perfilTreinador'
+      return '/Perfil'
+  }
+}
+
+export const getListaConexaoRoute = () => {
+  const role = getRole()
+
+  switch (role) {
+    case 'medico':
+      return '/Medico-Screens/conexoes'
+    case 'atleta':
+      return '/Atleta-Screens/conexoes'
+      case 'fisioterapeuta':
+        return '/Fisioterapeuta-Screens/conexoes'
+    default:
+      case 'treinador':
+        return 'Treinador-Screens/conexoes'
       return '/Perfil'
   }
 }

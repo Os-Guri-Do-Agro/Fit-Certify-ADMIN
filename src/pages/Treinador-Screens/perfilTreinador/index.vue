@@ -93,7 +93,7 @@
                       :loading="emailValidation.loading"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" md="6">
+                  <!-- <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.telefone"
                       label="Telefone"
@@ -120,7 +120,7 @@
                       type="date"
                       :rules="[rules.birthDate]"
                     ></v-text-field>
-                  </v-col>
+                  </v-col> -->
                 </v-row>
 
                 <v-divider class="my-4"></v-divider>
@@ -283,31 +283,29 @@
 </template>
 
 <script setup lang="ts">
-import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
+import treinadorService from '@/services/treinador/treinador-service'
 import userService from '@/services/user/user-service'
-import { getPayload, getUserID, isTokenValid, logout, getFisioterapeutaId } from '@/utils/auth'
+import { getPayload, getUserID, isTokenValid, logout, getTreinadorId } from '@/utils/auth'
 import { removerOffsetTimezone } from '@/utils/date.utils'
 import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
+import { getErrorMessage } from '@/common/error.utils'
 
 const codigoConvite = ref('')
 const codigoInserir = ref('')
-import { getErrorMessage } from '@/common/error.utils'
-
+const loadingCodigo = ref(false)
 const payload = ref<any>()
 const form = ref()
 const fileInput = ref<HTMLInputElement>()
 const valid = ref(false)
 const loading = ref(false)
-const loadingCodigo = ref(false)
 const loadingData = ref(true)
-const user = ref<any>({ fisioterapeuta: { telefone: '' } })
+const user = ref<any>({ medico: { telefone: '' } })
 const emailValidation = ref({ loading: false, exists: false, checked: false })
 const originalEmail = ref('')
 
 let debounceTimer: number
-
 
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true
@@ -317,7 +315,7 @@ const gerarCodigoConvite = async () => {
     return
   }
   try {
-    const response = await fisioterapeutaService.gerarCodigoConvite()
+    const response = await treinadorService.gerarCodigoConvite()
     codigoConvite.value = response.data.codigoConvite
     toast.success('Código gerado com sucesso!')
   } catch (error) {
@@ -467,9 +465,9 @@ const atualizarDadosAtleta = async () => {
 
     data.append('email', formData.value.email.trim() || formData.value.email)
     data.append('nome', formData.value.nome || formData.value.nome)
-    data.append('telefone', formData.value.telefone.trim() || payload.user.fisioterapeuta.telefone)
+    data.append('telefone', formData.value.telefone.trim() || payload.user.medico.telefone)
 
-    const dataNascimento = formData.value.dataNascimento || payload.user.fisioterapeuta.dataNascimento
+    const dataNascimento = formData.value.dataNascimento || payload.user.medico.dataNascimento
     const isoDate = dataNascimento ? removerOffsetTimezone(new Date(dataNascimento).toISOString()) : ''
     data.append('dataNascimento', isoDate)
 
@@ -479,9 +477,9 @@ const atualizarDadosAtleta = async () => {
       data.append('avatar', formData.value.avatar)
     }
 
-    const id = getFisioterapeutaId()
+    const id = getTreinadorId()
 
-    const response = await fisioterapeutaService.updateFisioterapeuta(id, data)
+    const response = await treinadorService.updateTreinador(id, data)
 
     toast.success('Dados atualizados com sucesso!')
 
@@ -507,9 +505,9 @@ const cancelar = () => {
 const carregarDados = async () => {
   try {
     const userData = payload.value?.user
-    if (getFisioterapeutaId()) {
-      const id = getFisioterapeutaId()
-      const response = await fisioterapeutaService.getFisioterapeutaById(id)
+    if (getTreinadorId()) {
+      const id = getTreinadorId()
+      const response = await treinadorService.getTreinadorById(id)
       const atletaData = response.data
 
       user.value = atletaData
@@ -524,8 +522,8 @@ const carregarDados = async () => {
       }
     }
   } catch (error) {
-    console.error('Erro ao carregar dados do fisioterapeuta:', error)
-    toast.error('Erro ao carregar dados do fisioterapeuta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    console.error('Erro ao carregar dados do medico:', error)
+    toast.error('Erro ao carregar dados do medico: ' + getErrorMessage(error, 'Erro desconhecido'))
   } finally {
     loadingData.value = false
   }

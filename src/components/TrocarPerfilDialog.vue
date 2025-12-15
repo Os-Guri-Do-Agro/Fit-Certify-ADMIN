@@ -115,7 +115,7 @@ const getPerfilGradient = (nome: string) => {
     'Médico': 'linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%)',
     'Atleta': 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)',
     'Treinador': 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)',
-    'Fisioterapeuta': 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)',
+    'Fisioterapeuta': 'linear-gradient(135deg, #AA3BFF 0%, #8D20E0 100%)',
   }
   return gradients[nome] || 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)'
 }

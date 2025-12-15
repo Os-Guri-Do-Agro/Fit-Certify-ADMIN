@@ -52,6 +52,18 @@ class fisioterapeutaService {
     )
   }
 
+  gerarCodigoConvite(): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/fisioterapeuta/gerar-codigo-convite', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao gerar código de convite'
+    )
+  }
+
 
 }
 

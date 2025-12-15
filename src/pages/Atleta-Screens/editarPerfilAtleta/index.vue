@@ -121,6 +121,75 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+
+                <v-divider class="my-4"></v-divider>
+
+                <v-row>
+                  <v-col cols="12" md="6">
+                    <div class="d-flex align-center justify-space-between mb-3">
+                      <div class="d-flex align-center">
+                        <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
+                        <span class="text-h6">Código de Convite</span>
+                      </div>
+                      <v-btn
+                        color="#00c6fe"
+                        variant="tonal"
+                        rounded="lg"
+                        size="small"
+                        prepend-icon="mdi-refresh"
+                        @click="gerarCodigoConvite()"
+                        :loading="loadingCodigo"
+                      >
+                        Gerar Código
+                      </v-btn>
+                    </div>
+                    <v-text-field
+                      :model-value="codigoConvite"
+                      label="Seu código de convite"
+                      variant="outlined"
+                      density="comfortable"
+                      rounded="lg"
+                      prepend-inner-icon="mdi-qrcode"
+                      color="#00c6fe"
+                      readonly
+                    >
+                      <template v-slot:append-inner>
+                        <v-btn
+                          icon="mdi-content-copy"
+                          variant="text"
+                          size="small"
+                          color="#00c6fe"
+                          @click="copiarCodigo"
+                        ></v-btn>
+                      </template>
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6">
+                    <div class="d-flex align-center mb-3">
+                      <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
+                      <span class="text-h6">Inserir Código</span>
+                    </div>
+                    <v-text-field
+                      v-model="codigoInserir"
+                      label="Digite o código de convite"
+                      variant="outlined"
+                      density="comfortable"
+                      rounded="lg"
+                      prepend-inner-icon="mdi-keyboard"
+                      color="#00c6fe"
+                      placeholder="Ex: FIT2024ABC123"
+                    >
+                      <template v-slot:append-inner>
+                        <v-btn
+                          icon="mdi-check"
+                          variant="text"
+                          size="small"
+                          color="#00c6fe"
+                        ></v-btn>
+                      </template>
+                    </v-text-field>
+                  </v-col>
+                </v-row>
               </v-card-text>
             </v-card>
 
@@ -221,6 +290,9 @@ import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
 
+const codigoConvite = ref('')
+const codigoInserir = ref('')
+const loadingCodigo = ref(false)
 const payload = ref<any>()
 const form = ref()
 const fileInput = ref<HTMLInputElement>()
@@ -236,6 +308,34 @@ const originalEmail = ref('')
 
 let debounceTimer: number
 
+const gerarCodigoConvite = async () => {
+  loadingCodigo.value = true
+  if (codigoConvite.value) {
+    toast.info('Você já possui um código de convite gerado')
+    loadingCodigo.value = false
+    return
+  }
+  try {
+    const response = await atletaService.gerarCodigoConvite()
+    codigoConvite.value = response.data.codigoConvite
+    toast.success('Código gerado com sucesso!')
+  } catch (error) {
+    console.error('Erro ao gerar código de convite:', error)
+    toast.error('Erro ao gerar código de convite')
+  } finally {
+    loadingCodigo.value = false
+  }
+}
+
+const copiarCodigo = async () => {
+  if (!codigoConvite.value) return
+  try {
+    await navigator.clipboard.writeText(codigoConvite.value)
+    toast.success('Código copiado!')
+  } catch (err) {
+    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'))
+  }
+}
 
 const rules = {
   required: (value: any) => !!value || 'Campo obrigatório',
@@ -417,6 +517,7 @@ const carregarDados = async () => {
       formData.value.email = atletaData.usuario?.email || ''
       formData.value.telefone = atletaData.telefone || ''
       formData.value.avatar = atletaData.usuario?.avatarUrl || ''
+      codigoConvite.value = atletaData.codigoConvite || ''
       if (atletaData.dataNascimento) {
         formData.value.dataNascimento = new Date(atletaData.dataNascimento).toISOString().split('T')[0]
       }

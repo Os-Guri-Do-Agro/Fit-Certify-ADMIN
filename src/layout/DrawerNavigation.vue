@@ -98,7 +98,7 @@
         </v-list>
       </div>
 
-      <div class="mt-4 text-center" v-if="isMedico()">
+      <div class="mt-4 text-center" v-if="isMedico() || isFisioterapeuta() || isTreinador()">
         <v-divider class="mb-3" thickness="2"></v-divider>
         <span class="text-subtitle-1" v-show="!layoutStore.rail">
           {{ perfis[payload?.role] }}
@@ -202,8 +202,8 @@
 
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout'
-import { getPayload, isMedico, logout } from '@/utils/auth'
-import { getProfileRoute } from '@/utils/profile'
+import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout } from '@/utils/auth'
+import { getProfileRoute, getListaConexaoRoute } from '@/utils/profile'
 import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -227,6 +227,12 @@ const contaItems = [
     title: 'Perfil',
     value: 'dashboard',
     to: getProfileRoute(),
+  },
+  {
+    icon: 'mdi-account-circle',
+    title: 'Conexões',
+    value: 'dashboard',
+    to: getListaConexaoRoute(),
   },
 ]
 
@@ -359,9 +365,6 @@ const menusPorPerfil: Record<string, any[]> = {
       ],
     },
   ],
-  fisioterapeuta: [
-
-  ]
 }
 
 function handleClickOutside(event: MouseEvent) {
@@ -381,6 +384,7 @@ const perfis: any = {
   medico: 'MÉDICO',
   atleta: 'ATLETA',
   fisioterapeuta: 'FISIOTERAPEUTA',
+  treinador: 'TREINADOR',
   admin: 'ADMINISTRADOR',
 }
 

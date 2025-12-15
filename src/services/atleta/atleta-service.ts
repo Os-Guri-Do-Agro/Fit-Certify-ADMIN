@@ -37,6 +37,18 @@ class atletaService {
     )
   }
 
+  gerarCodigoConvite(): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/atleta/gerar-codigo-convite', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao gerar código de convite'
+    )
+  }
+
   async editAtletaByProfile(data: FormData): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

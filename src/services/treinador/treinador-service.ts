@@ -38,6 +38,31 @@ class treinadorService {
       'Erro ao obter treinador por ID'
     )
   }
+
+  updateTreinador(id: string, data: any): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.patch(`/treinador/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao atualizar treinador'
+    )
+  }
+
+  gerarCodigoConvite(): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.post('/treinador/gerar-codigo-convite', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao gerar código de convite'
+    )
+  }
 }
 
 export default new treinadorService()
