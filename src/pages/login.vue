@@ -140,7 +140,7 @@
         <v-btn class="w-100 text-white" height="50px" color="#00c6fe"
           :loading="loadingEmailModal" @click="enviarCodigo" rounded="xl" elevation="4"
           :disabled="loadingEmailModal || !validarEmail(emailModal) || !clicouEnviar"
-          style="font-weight: 600; text-transform: none; letter-spacing: 0;">
+          style="font-weight: 600; text-transform: none; letter-spacing: 0; background-color: #00c6fe;">
           Enviar link de recuperação
         </v-btn>
       </v-card-actions>
