@@ -49,8 +49,6 @@ class medicoService {
     )
   }
 
-
-
   async getMetricsById(data: any): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

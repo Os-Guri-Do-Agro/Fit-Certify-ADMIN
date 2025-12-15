@@ -218,6 +218,15 @@
                         <p class="text-body-1 text-grey-darken-1">Você ainda não possui atletas conectados.</p>
                       </v-card>
                     </div>
+
+                    <div v-if="minhasConexoes.length > 0" class="d-flex justify-center mt-6">
+                      <v-pagination
+                        v-model="page"
+                        :length="totalPages"
+                        :total-visible="5"
+                        @update:model-value="buscarConexoesPagined"
+                      ></v-pagination>
+                    </div>
                   </div>
                 </div>
               </v-window-item>
@@ -268,15 +277,32 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
 
 const tab = ref('pendentes')
 const loading = ref(false)
 const dialogDesvincular = ref(false)
 const conexaoSelecionada = ref(null)
+const page = ref(1)
+const pageSize = ref(10)
+const totalPages = ref(1)
 
 const conexoesPendentes = ref([])
 
 const minhasConexoes = ref([])
+
+const buscarConexoesPagined = async () => {
+  loading.value = true
+  try {
+    const response = await fisioterapeutaService.getConexoesPagined(page.value, pageSize.value)
+    minhasConexoes.value = response.data
+    totalPages.value = response.totalPages || 1
+  } catch (error) {
+    console.error('Erro ao buscar conexões:', error)
+  } finally {
+    loading.value = false
+  }
+}
 
 const aceitarConexao = (id) => {
   console.log('Aceitar conexão:', id)
@@ -305,6 +331,7 @@ const confirmarDesvincular = () => {
 
 onMounted(() => {
   // TODO: Buscar conexões da API quando disponível
+  buscarConexoesPagined()
 })
 </script>
 

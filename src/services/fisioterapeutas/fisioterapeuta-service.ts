@@ -52,6 +52,17 @@ class fisioterapeutaService {
     )
   }
 
+  getConexoesPagined(page: number, pageSize: number): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/fisioterapeuta/conexoes/findAllpagined`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, pageSize },
+      }),
+      'Falha ao buscar fisioterapeutas paginados'
+    )
+  }
+
   gerarCodigoConvite(): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

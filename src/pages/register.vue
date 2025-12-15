@@ -334,7 +334,7 @@ const form = ref({
   aceitaTermos: false,
   assinatura: null,
   //Campos específicos do fisioterapeuta
-  codigoConvite: '',
+  codigoConvite: null,
 })
 
 const tiposSanguineos = ref([
@@ -847,7 +847,6 @@ const submitMedico = handleSubmit(async () => {
     formData.append('experiencia', values.experiencia || '0')
     formData.append('foco', values.foco || 'Não informado')
     formData.append('perfil', values.perfil || 'Não informado')
-    formData.append('codigoConvite', values.codigoConvite || 'Não informado')
     formData.append('carreira', values.carreira || 'Não informado')
     formData.append('destaques', values.destaques || 'Não informado')
     formData.append('diaFuncionamentoInicio', values.diaFuncionamentoInicio || 'Pend')
@@ -896,6 +895,7 @@ const submitFisioterapeuta = handleSubmit(async () => {
     formData.append('telefone', values.telefone.replace(/\D/g, ''))
     formData.append('dataNascimento', formatarDataParaISO(values.dataNascimento))
     formData.append('experiencia', values.experiencia ? Number(values.experiencia) : 0)
+    formData.append('codigoConvite', values.codigoConvite || null)
     formData.append('foco', values.foco || 'Não informado')
     formData.append('perfil', values.perfil || 'Não informado')
     formData.append('carreira', values.carreira || 'Não informado')
