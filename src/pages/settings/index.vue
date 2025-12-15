@@ -114,6 +114,14 @@ const accountItems = computed(() => {
     baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Atleta-Screens/editarPerfilAtleta' });
     baseItems.push({ icon: 'wallet-outline', title: 'Assinatura e Pagamentos', to: '/Atleta-Screens/meuPlano' });
   }
+  if (userRole.value === 'fisioterapeuta') {
+    baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta' });
+    baseItems.push({ icon: 'wallet-outline', title: 'Assinatura e Pagamentos', to: '/Atleta-Screens/meuPlano' });
+  }
+  if (userRole.value === 'treinador') {
+    baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Fisioterapeuta-Screens/perfilTreinador' });
+    baseItems.push({ icon: 'wallet-outline', title: 'Assinatura e Pagamentos', to: '/Atleta-Screens/meuPlano' });
+  }
 
   return baseItems;
 });

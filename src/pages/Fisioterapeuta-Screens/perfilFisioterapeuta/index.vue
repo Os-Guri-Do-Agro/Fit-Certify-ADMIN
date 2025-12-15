@@ -4,45 +4,52 @@
       <div class="hero-overlay"></div>
       <div class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
-          <v-col cols="12" class="text-center">
-            <div class="profile-avatar-container">
-              <v-avatar size="190" class="profile-avatar">
+          <v-col cols="12" md="4" class="text-center">
+            <div class="profile-avatar-container mt-5">
+              <v-skeleton-loader
+                v-if="!fisioterapeuta"
+                type="avatar"
+                width="190"
+                height="190"
+                class="mx-auto mb-4 d-flex align-center justify-center skeleton-avatar"
+              />
+              <v-avatar v-else size="190" class="profile-avatar">
                 <v-img
-                  v-if="displayAvatar"
-                  :src="displayAvatar"
+                  v-if="fisioterapeuta?.usuario?.avatarUrl"
+                  :src="fisioterapeuta?.usuario?.avatarUrl"
                   alt="Foto do perfil"
                 />
                 <v-icon v-else size="70" color="white">mdi-account</v-icon>
               </v-avatar>
-              <v-btn
-                icon
-                size="small"
-                color="white"
-                class="avatar-edit-btn"
-                @click="fileInput?.click()"
-              >
-                <v-icon>mdi-camera</v-icon>
-              </v-btn>
-              <input
-                ref="fileInput"
-                type="file"
-                accept="image/*"
-                style="display: none"
-                @change="handleFileUpload"
-              />
             </div>
-            <h1 class="profile-name">{{ formData.nome }}</h1>
+            <v-skeleton-loader
+              v-if="!fisioterapeuta"
+              type="text"
+              width="300"
+              class="mx-auto mb-4 skeleton-nome rounded-xl"
+            />
+            <h1 v-else class="profile-name">{{ fisioterapeuta?.usuario?.nome }}</h1>
           </v-col>
 
           <v-col cols="12">
             <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-space-between ma-5">
-                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-account-edit">
-                  Editar Perfil
+              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-center justify-space-between ma-5">
+                <div class="d-flex ga-2 flex-md-row flex-column">
+
+                <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
+                  Perfil Fisioterapeuta
                 </v-chip>
+                </div>
+
+                <div class="d-flex ga-2 flex-md-row flex-column">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
-                  ID: {{ getUserID() }}
+                   <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
+                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/Fisioterapeuta-Screens/editarPerfilFisioterapeuta')">
+                  <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
+                  <p class="text-white text-subtitle-2">Editar Perfil</p>
+                </v-btn>
+                </div>
               </div>
             </div>
           </v-col>
@@ -50,496 +57,277 @@
       </div>
     </div>
 
+
     <div class="content-section">
-      <v-row justify="center">
-        <v-col cols="12" lg="8">
-          <v-skeleton-loader
-            v-if="loadingData"
-            type="card"
-            class="mb-6"
-          />
-
-          <v-form v-else ref="form" v-model="valid">
-            <v-card class="mb-6" elevation="4" rounded="xl">
-              <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
-                Informações Pessoais
-              </v-card-title>
-              <v-card-text class="pa-6">
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.nome"
-                      label="Nome Completo"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-account"
-                      color="#00c6fe"
-                      :rules="[rules.required]"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.email"
-                      label="E-mail"
-                      disabled
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-email"
-                      color="#00c6fe"
-                      :rules="[rules.required, rules.email, rules.emailExists]"
-                      :loading="emailValidation.loading"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.telefone"
-                      label="Telefone"
-                      v-maska="'(##) #####-####'"
-                      maxlength="15"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-phone"
-                      color="#00c6fe"
-                      :rules="[rules.phone]"
-                      @input="formatPhone"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.dataNascimento"
-                      label="Data de Nascimento"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-calendar"
-                      color="#00c6fe"
-                      type="date"
-                      :rules="[rules.birthDate]"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-
-                <v-divider class="my-4"></v-divider>
-
-                <v-row>
-                  <v-col cols="12" md="6">
-                    <div class="d-flex align-center justify-space-between mb-3">
-                      <div class="d-flex align-center">
-                        <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
-                        <span class="text-h6">Código de Convite</span>
-                      </div>
-                      <v-btn
-                        color="#00c6fe"
-                        variant="tonal"
-                        rounded="lg"
-                        size="small"
-                        prepend-icon="mdi-refresh"
-                        @click="gerarCodigoConvite()"
-                        :loading="loadingCodigo"
-                      >
-                        Gerar Código
-                      </v-btn>
-                    </div>
-                    <v-text-field
-                      :model-value="codigoConvite"
-                      label="Seu código de convite"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-qrcode"
-                      color="#00c6fe"
-                      readonly
-                    >
-                      <template v-slot:append-inner>
-                        <v-btn
-                          icon="mdi-content-copy"
-                          variant="text"
-                          size="small"
-                          color="#00c6fe"
-                          @click="copiarCodigo"
-                        ></v-btn>
-                      </template>
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
-                      <span class="text-h6">Inserir Código</span>
-                    </div>
-                    <v-text-field
-                      v-model="codigoInserir"
-                      label="Digite o código de convite"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-keyboard"
-                      color="#00c6fe"
-                      placeholder="Ex: FIT2024ABC123"
-                    >
-                      <template v-slot:append-inner>
-                        <v-btn
-                          icon="mdi-check"
-                          variant="text"
-                          size="small"
-                          color="#00c6fe"
-                        ></v-btn>
-                      </template>
-                    </v-text-field>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-
-            <!-- <v-card class="mb-6" elevation="4" rounded="xl">
-              <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-lock</v-icon>
-                Alterar Senha
-              </v-card-title>
-              <v-card-text class="pa-6">
-                <v-row>
-                  <v-col cols="12">
-                    <v-text-field
-                      v-model="formData.senhaAtual"
-                      label="Senha Atual"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-lock"
-                      color="#00c6fe"
-                      :type="showPassword ? 'text' : 'password'"
-                      :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append-inner="showPassword = !showPassword"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.novaSenha"
-                      label="Nova Senha"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-lock-plus"
-                      color="#00c6fe"
-                      :type="showNewPassword ? 'text' : 'password'"
-                      :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append-inner="showNewPassword = !showNewPassword"
-                      :rules="formData.novaSenha ? [rules.minLength(6)] : []"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="6">
-                    <v-text-field
-                      v-model="formData.confirmarSenha"
-                      label="Confirmar Nova Senha"
-                      variant="outlined"
-                      density="comfortable"
-                      rounded="lg"
-                      prepend-inner-icon="mdi-lock-check"
-                      color="#00c6fe"
-                      :type="showConfirmPassword ? 'text' : 'password'"
-                      :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
-                      @click:append-inner="showConfirmPassword = !showConfirmPassword"
-                      :rules="formData.confirmarSenha ? [rules.passwordMatch] : []"
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card> -->
-
-            <div class="text-center d-flex ga-4 flex-column-reverse flex-md-row justify-center">
-              <v-btn
-                variant="outlined"
-                color="grey-darken-1"
-                rounded="xl"
-                size="large"
-                class="px-8"
-                @click="cancelar"
-                :disabled="loading"
-              >
-                <v-icon left>mdi-close</v-icon>
-                Cancelar
-              </v-btn>
-              <v-btn
-                color="#00c6fe"
-                rounded="xl"
-                size="large"
-                class="px-8 save-btn text-white"
-                @click="atualizarDadosAtleta"
-                :loading="loading"
-                elevation="4"
-              >
-                <v-icon left>mdi-check</v-icon>
-                Salvar Alterações
-              </v-btn>
+      <v-expansion-panels class="custom-expansion-panels">
+        <v-expansion-panel class="custom-expansion-panel">
+          <v-expansion-panel-title>
+            <div class="d-flex align-center">
+              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-account</v-icon>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Pessoais</h3>
             </div>
-          </v-form>
-        </v-col>
-      </v-row>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-row>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-email</v-icon>
+                    </div>
+                    <h4 class="card-title">Email</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.usuario?.email || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-phone</v-icon>
+                    </div>
+                    <h4 class="card-title">Telefone</h4>
+                  </div>
+                  <p class="card-content">{{ formatarTelefone(fisioterapeuta?.telefone) || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-card-account-details</v-icon>
+                    </div>
+                    <h4 class="card-title">CPF</h4>
+                  </div>
+                  <p class="card-content">{{ formatarCPF(fisioterapeuta?.usuario?.cpf) || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-calendar</v-icon>
+                    </div>
+                    <h4 class="card-title">Data de Nascimento</h4>
+                  </div>
+                  <p class="card-content">{{ formatarData(fisioterapeuta?.dataNascimento) || 'Não informado' }}</p>
+                </div>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+
+        <v-expansion-panel class="custom-expansion-panel-center">
+          <v-expansion-panel-title>
+            <div class="d-flex align-center">
+              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-briefcase</v-icon>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Profissionais</h3>
+            </div>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-row>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-target</v-icon>
+                    </div>
+                    <h4 class="card-title">Foco Principal</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.foco || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-account-circle</v-icon>
+                    </div>
+                    <h4 class="card-title">Perfil Profissional</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.perfil || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-briefcase</v-icon>
+                    </div>
+                    <h4 class="card-title">Trajetória Profissional</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.carreira || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-star</v-icon>
+                    </div>
+                    <h4 class="card-title">Principais Conquistas</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.destaques || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-calendar-week</v-icon>
+                    </div>
+                    <h4 class="card-title">Dias de Trabalho</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.diaFuncionamentoInicio }} - {{ fisioterapeuta?.diaFuncionamentoFim }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-clock</v-icon>
+                    </div>
+                    <h4 class="card-title">Horários de Trabalho</h4>
+                  </div>
+                  <p class="card-content">{{ formatarHorarioLocal(fisioterapeuta?.horarioInicio) }} - {{ formatarHorarioLocal(fisioterapeuta?.horarioFim) }}</p>
+                </div>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+
+        <v-expansion-panel class="custom-expansion-panel-bottom">
+          <v-expansion-panel-title>
+            <div class="d-flex align-center">
+              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-map-marker</v-icon>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Endereço</h3>
+            </div>
+          </v-expansion-panel-title>
+          <v-expansion-panel-text>
+            <v-row>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-home</v-icon>
+                    </div>
+                    <h4 class="card-title">Logradouro</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.rua || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-numeric</v-icon>
+                    </div>
+                    <h4 class="card-title">Número</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.numero || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-city</v-icon>
+                    </div>
+                    <h4 class="card-title">Cidade</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.cidade || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-mailbox</v-icon>
+                    </div>
+                    <h4 class="card-title">CEP</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.cep || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-map</v-icon>
+                    </div>
+                    <h4 class="card-title">Bairro</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.bairro || 'Não informado' }}</p>
+                </div>
+              </v-col>
+              <v-col cols="12" md="6">
+                <div class="professional-card">
+                  <div class="card-header">
+                    <div class="icon-wrapper">
+                      <v-icon color="white" size="20">mdi-flag</v-icon>
+                    </div>
+                    <h4 class="card-title">UF</h4>
+                  </div>
+                  <p class="card-content">{{ fisioterapeuta?.uf || 'Não informado' }}</p>
+                </div>
+              </v-col>
+            </v-row>
+          </v-expansion-panel-text>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { formatarData, formatarHorarioLocal } from '@/utils/date.utils'
+import router from '@/router'
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
-import userService from '@/services/user/user-service'
-import { getPayload, getUserID, isTokenValid, logout, getFisioterapeutaId } from '@/utils/auth'
-import { removerOffsetTimezone } from '@/utils/date.utils'
-import { vMaska } from 'maska/vue'
-import { computed, onMounted, ref, watch } from 'vue'
-import { toast } from 'vue3-toastify'
+import { getFisioterapeutaId, getUserID } from '@/utils/auth'
+import { onMounted, ref } from 'vue'
 
-const codigoConvite = ref('')
-const codigoInserir = ref('')
-import { getErrorMessage } from '@/common/error.utils'
-
-const payload = ref<any>()
-const form = ref()
-const fileInput = ref<HTMLInputElement>()
-const valid = ref(false)
-const loading = ref(false)
-const loadingCodigo = ref(false)
-const loadingData = ref(true)
-const user = ref<any>({ fisioterapeuta: { telefone: '' } })
-const emailValidation = ref({ loading: false, exists: false, checked: false })
-const originalEmail = ref('')
-
-let debounceTimer: number
+const fisioterapeuta = ref<any>()
 
 
-const gerarCodigoConvite = async () => {
-  loadingCodigo.value = true
-  if (codigoConvite.value) {
-    toast.info('Você já possui um código de convite gerado')
-    loadingCodigo.value = false
-    return
+const formatarTelefone = (telefone: string) => {
+  if (!telefone) return null
+  const numeros = telefone.replace(/\D/g, '')
+  if (numeros.length === 11) {
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 7)}-${numeros.slice(7)}`
   }
+  if (numeros.length === 10) {
+    return `(${numeros.slice(0, 2)}) ${numeros.slice(2, 6)}-${numeros.slice(6)}`
+  }
+  return telefone
+}
+
+const formatarCPF = (cpf: string) => {
+  if (!cpf) return null
+  const numeros = cpf.replace(/\D/g, '')
+  if (numeros.length === 11) {
+    return `${numeros.slice(0, 3)}.${numeros.slice(3, 6)}.${numeros.slice(6, 9)}-${numeros.slice(9)}`
+  }
+  return cpf
+}
+
+const buscarMedicoPorId = async (id: string) => {
   try {
-    const response = await fisioterapeutaService.gerarCodigoConvite()
-    codigoConvite.value = response.data.codigoConvite
-    toast.success('Código gerado com sucesso!')
+    const response = await fisioterapeutaService.getFisioterapeutaById(id)
+    fisioterapeuta.value = response.data
   } catch (error) {
-    console.error('Erro ao gerar código de convite:', error)
-    toast.error('Erro ao gerar código de convite')
-  } finally {
-    loadingCodigo.value = false
+    console.error('Erro ao buscar fisioterapeuta por ID:', error)
   }
 }
 
-const copiarCodigo = async () => {
-  if (!codigoConvite.value) return
-  try {
-    await navigator.clipboard.writeText(codigoConvite.value)
-    toast.success('Código copiado!')
-  } catch (err) {
-    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'))
-  }
-}
+onMounted(() => {
 
-const rules = {
-  required: (value: any) => !!value || 'Campo obrigatório',
-  email: (value: string) => {
-    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return pattern.test(value) || 'E-mail inválido'
-  },
-  emailExists: (value: string) => {
-    if (!emailValidation.value.checked) return true
-    if (emailValidation.value.exists) {
-      return 'Este email já está em uso'
-    }
-    return true
-  },
-  phone: (value: string) => {
-    if (!value) return 'Campo obrigatório'
-    const digits = value.replace(/\D/g, '')
-    return digits.length === 11 || 'Telefone deve ter 11 dígitos'
-  },
-  birthDate: (value: string) => {
-    if (!value) return 'Campo obrigatório'
-    const selectedYear = new Date(value).getFullYear()
-    const currentYear = new Date().getFullYear()
-    return selectedYear <= currentYear || 'Data não pode ser no futuro'
-  },
-  minLength: (min: number) => (value: string) =>
-    !value || value.length >= min || `Mínimo ${min} caracteres`,
-  // passwordMatch: (value: string) =>
-  //   !value || value === formData.value.novaSenha || 'Senhas não coincidem'
-}
-
-const formatPhone = (event: Event) => {
-  const input = event.target as HTMLInputElement
-  let value = input.value.replace(/\D/g, '')
-
-  if (value.length <= 11) {
-    value = value.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
-    value = value.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3')
+  if (getFisioterapeutaId()) {
+    buscarMedicoPorId(getFisioterapeutaId())
+  } else {
+    console.error('ID do fisioterapeuta não encontrado.')
   }
 
-  formData.value.telefone = value
-}
-
-const avatarUrl = ref('')
-
-const handleFileUpload = (event: Event) => {
-  const file = (event.target as HTMLInputElement).files?.[0]
-  if (file) {
-    formData.value.avatar = file
-    avatarUrl.value = URL.createObjectURL(file)
-  }
-}
-
-const displayAvatar = computed(() => {
-  if (avatarUrl.value) return avatarUrl.value
-  if (typeof formData.value.avatar === 'string') return formData.value.avatar
-  return ''
 })
-
-const formData = ref({
-  email: '',
-  nome: '',
-  telefone: '',
-  dataNascimento: '',
-  avatar: '' as string | File,
-})
-
-watch(() => formData.value.email, (newEmail) => {
-  if (newEmail === originalEmail.value) {
-    emailValidation.value = { loading: false, exists: false, checked: false }
-    return
-  }
-
-  clearTimeout(debounceTimer)
-  debounceTimer = setTimeout(() => {
-    if (newEmail && newEmail.includes('@') && newEmail.includes('.')) {
-      validateEmailExists(newEmail)
-    }
-  }, 800)
-})
-
-const validateEmailExists = async (email: string) => {
-  if (!email || email === originalEmail.value) return
-
-  emailValidation.value.loading = true
-  emailValidation.value.checked = false
-
-  try {
-    const response = await userService.validarExisteEmail(email)
-
-    emailValidation.value.exists = response?.data?.existeEmail || false
-    emailValidation.value.checked = true
-
-    if (form.value) {
-      form.value.validate()
-    }
-  } catch (error) {
-    console.error('Erro na validação:', error)
-    emailValidation.value.exists = false
-    emailValidation.value.checked = true
-  } finally {
-    emailValidation.value.loading = false
-  }
-}
-const atualizarDadosAtleta = async () => {
-  if (emailValidation.value.loading) {
-    toast.error('Aguarde a validação do email')
-    return
-  }
-
-  if (emailValidation.value.exists) {
-    toast.error('Corrija os erros no formulário antes de salvar')
-    return
-  }
-
-  const { valid } = await form.value.validate()
-  if (!valid) {
-    toast.error('Preencha todos os campos obrigatórios corretamente')
-    return
-  }
-
-  loading.value = true
-
-
-  try {
-    const payload = getPayload()
-    const data = new FormData()
-
-    data.append('email', formData.value.email.trim() || formData.value.email)
-    data.append('nome', formData.value.nome || formData.value.nome)
-    data.append('telefone', formData.value.telefone.trim() || payload.user.fisioterapeuta.telefone)
-
-    const dataNascimento = formData.value.dataNascimento || payload.user.fisioterapeuta.dataNascimento
-    const isoDate = dataNascimento ? removerOffsetTimezone(new Date(dataNascimento).toISOString()) : ''
-    data.append('dataNascimento', isoDate)
-
-
-
-    if (formData.value.avatar instanceof File) {
-      data.append('avatar', formData.value.avatar)
-    }
-
-    const id = getFisioterapeutaId()
-
-    const response = await fisioterapeutaService.updateFisioterapeuta(id, data)
-
-    toast.success('Dados atualizados com sucesso!')
-
-    if (response.data.success) {
-      if (response.data.token) {
-        localStorage.setItem('token', response.data.token)
-      }
-
-    }
-
-  } catch (error) {
-    toast.error('Erro ao atualizar dados: ' + getErrorMessage(error, 'Erro desconhecido'), { position: 'top-right' })
-    console.error(error)
-  } finally {
-    loading.value = false
-  }
-}
-
-
-const cancelar = () => {
-  window.history.back()
-}
-const carregarDados = async () => {
-  try {
-    const userData = payload.value?.user
-    if (getFisioterapeutaId()) {
-      const id = getFisioterapeutaId()
-      const response = await fisioterapeutaService.getFisioterapeutaById(id)
-      const atletaData = response.data
-
-      user.value = atletaData
-      originalEmail.value = atletaData.usuario?.email || ''
-      formData.value.nome = atletaData.usuario?.nome || ''
-      formData.value.email = atletaData.usuario?.email || ''
-      formData.value.telefone = atletaData.telefone || ''
-      formData.value.avatar = atletaData.usuario?.avatarUrl || ''
-      codigoConvite.value = atletaData.codigoConvite || ''
-      if (atletaData.dataNascimento) {
-        formData.value.dataNascimento = new Date(atletaData.dataNascimento).toISOString().split('T')[0]
-      }
-    }
-  } catch (error) {
-    console.error('Erro ao carregar dados do fisioterapeuta:', error)
-    toast.error('Erro ao carregar dados do fisioterapeuta: ' + getErrorMessage(error, 'Erro desconhecido'))
-  } finally {
-    loadingData.value = false
-  }
-}
-
-onMounted(async () => {
-  if (!isTokenValid()) {
-    logout()
-    return
-  }
-  payload.value = getPayload()
-  await carregarDados()
-})
-
 </script>
 
 <style scoped>
@@ -562,23 +350,6 @@ onMounted(async () => {
   min-height: 300px;
 }
 
-.profile-avatar-container {
-  position: relative;
-  display: inline-block;
-}
-
-.profile-avatar {
-  border: 4px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-}
-
-.avatar-edit-btn {
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  background: #00c6fe !important;
-}
-
 .profile-name {
   color: white;
   font-size: 1.8rem;
@@ -586,6 +357,12 @@ onMounted(async () => {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   margin-top: 16px;
   margin-bottom: 8px;
+}
+
+.profile-id {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+  margin: 0;
 }
 
 .info-chip {
@@ -602,31 +379,318 @@ onMounted(async () => {
   padding-bottom: 48px;
 }
 
-.section-title {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-bottom: 1px solid #dee2e6;
+.custom-expansion-panels {
+  box-shadow: none;
+}
+
+.custom-expansion-panel {
+  background: white;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 16px;
+  border: none;
+  border-top: 4px solid #00c6fe;
+}
+
+.custom-expansion-panel-center {
+   background: white;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 16px;
+  border: none;
+  padding: 5px 0px;
+  border-right: 3px solid #00c6fe;
+  border-left: 3px solid #00c6fe;
+}
+
+.custom-expansion-panel-bottom {
+  background: white;
+  border-radius: 16px !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 16px;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: 4px solid #00c6fe;
+}
+
+.custom-expansion-panel .v-expansion-panel-title,
+.custom-expansion-panel-center .v-expansion-panel-title,
+.custom-expansion-panel-bottom .v-expansion-panel-title {
+  background: white;
+  color: #00c6fe;
   font-weight: 600;
+  padding: 24px;
+}
+
+.custom-expansion-panel .v-expansion-panel-text {
+  padding: 0;
+}
+
+.section-header {
+  text-align: center;
+}
+
+.health-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid #00c6fe;
+  background: white;
+}
+
+.health-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 198, 254, 0.15) !important;
+}
+
+.parameter-content {
+  text-align: center;
+}
+
+.parameter-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #00c6fe;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.parameter-unit {
   font-size: 1.2rem;
+  font-weight: 400;
+  color: #666;
+}
+
+.parameter-status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.parameter-status.normal {
+  background: #e8f5e8;
+  color: #2e7d32;
+}
+
+.parameter-status.warning {
+  background: #fff3e0;
+  color: #f57c00;
+}
+
+.parameter-status.danger {
+  background: #ffebee;
+  color: #d32f2f;
+}
+
+.parameter-description {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.actions-card {
+  border-top: 4px solid #00c6fe;
+  background: white;
+}
+
+.action-btn {
+  height: 56px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+  transition: all 0.3s ease !important;
+}
+
+.action-btn:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.2) !important;
+}
+
+.barraLista {
+  height: 1px;
+  background-color: #00c7fe7e;
+  width: 50%;
+}
+.textId {
+  font-size: 1em;
+}
+.skeleton-avatar {
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.profile-avatar {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.profile-specialty {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+  margin: 8px 0 16px 0;
+}
+
+.profile-credentials {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.credential-chip {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(10px);
+  font-size: 0.875rem;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.skeleton-nome {
+  background-color: #00c6fe;
+}
+
+/* Novos estilos para métricas */
+.metrics-card {
+  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  border: none;
+  overflow: hidden;
+}
+
+.metrics-header {
+  position: relative;
+}
+
+.metrics-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="50" cy="50" r="1" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>') repeat;
+  opacity: 0.3;
+}
+
+.avatar-container {
+  position: relative;
+  display: inline-block;
+}
+
+.metrics-avatar {
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.metric-item {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.metric-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(0, 198, 254, 0.2);
+}
+
+.metric-label {
+  font-weight: 600;
   color: #495057;
+  font-size: 0.9rem;
 }
 
-.save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
-  box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
+.metric-value {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 8px 0;
+}
+
+.metric-unit {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #7f8c8d;
+}
+
+.metric-status {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  display: inline-block;
+}
+
+.metric-status.normal {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  border: 1px solid rgba(76, 175, 80, 0.3);
+}
+
+.professional-card {
+  background: white;
+  border-radius: 16px;
+  padding: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
+  overflow: hidden;
+  border: 1px solid rgba(0, 198, 254, 0.1);
 }
 
-.save-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px rgba(0, 198, 254, 0.4) !important;
+.professional-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 198, 254, 0.15);
 }
 
-.v-card {
-  transition: all 0.3s ease;
+.card-header {
+  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.v-card:hover {
-  transform: translateY(-2px);
+.icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-title {
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.card-content {
+  padding: 20px;
+  color: #495057;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+  min-height: 80px;
+  display: flex;
+  align-items: flex-start;
 }
 
 @media (max-width: 960px) {
@@ -638,5 +702,16 @@ onMounted(async () => {
   .info-chips {
     justify-content: center;
   }
+
+  .section-header {
+    text-align: left;
+  }
+
+  .parameter-content {
+    text-align: left;
+  }
+  .textId {
+  font-size: 0.7em;
+}
 }
 </style>

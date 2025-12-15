@@ -49,6 +49,17 @@ class atletaService {
     )
   }
 
+  async getConexoesFindAllPagined(page: number, pageSize: number, perfilId: string): Promise<any> {
+    const token = sessionStorage.getItem('token')
+    return this.handleRequest(
+      apiClient.get(`/medico/findAllpagined`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { page, pageSize, perfilId },
+      }),
+      'Falha ao buscar médicos paginados'
+    )
+  }
+
   async editAtletaByProfile(data: FormData): Promise<any> {
     const token = sessionStorage.getItem('token')
     return this.handleRequest(

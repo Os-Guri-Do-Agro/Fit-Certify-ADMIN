@@ -50,7 +50,7 @@
 
                   <div v-else>
                     <v-card
-                      v-for="(conexao, index) in conexoesPendentes"
+                      v-for="(conexao, index) in conexoesPendentesFiltered"
                       :key="index"
                       class="conexao-card mb-4"
                       elevation="2"
@@ -124,7 +124,7 @@
                       </v-card-text>
                     </v-card>
 
-                    <div v-if="conexoesPendentes.length === 0" class="empty-state">
+                    <div v-if="conexoesPendentesFiltered.length === 0" class="empty-state">
                       <v-card class="pa-12 text-center" rounded="xl" elevation="0" color="grey-lighten-5">
                         <v-icon size="120" color="grey-lighten-1" class="mb-6">mdi-clock-check</v-icon>
                         <h3 class="text-h5 font-weight-bold mb-3">Nenhuma solicitação pendente</h3>
@@ -138,6 +138,22 @@
               <!-- Tab Minhas Conexões -->
               <v-window-item value="minhas">
                 <div class="pa-4">
+                  <v-row class="mb-4">
+                    <v-col cols="12" sm="6" md="4">
+                      <v-select
+                        v-model="perfilSelecionado"
+                        :items="[
+                          { title: 'Todos', value: '' },
+                          { title: 'Fisioterapeuta', value: getFisioterapeutaId() },
+                          { title: 'Treinador', value: getTreinadorId() }
+                        ]"
+                        label="Filtrar por tipo"
+                        variant="outlined"
+                        density="comfortable"
+                        @update:model-value="conexoesFindAllPagined"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
                   <div v-if="loading">
                     <v-skeleton-loader
                       v-for="n in 3"
@@ -218,6 +234,14 @@
                         <p class="text-body-1 text-grey-darken-1">Você ainda não possui conexões estabelecidas.</p>
                       </v-card>
                     </div>
+
+                    <div v-if="minhasConexoes.length > 0" class="d-flex justify-center mt-6">
+                      <v-pagination
+                        v-model="page"
+                        :length="totalPages"
+                        @update:model-value="conexoesFindAllPagined"
+                      ></v-pagination>
+                    </div>
                   </div>
                 </div>
               </v-window-item>
@@ -267,16 +291,26 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
+import atletaService from '@/services/atleta/atleta-service'
+import { getTreinadorId, getFisioterapeutaId } from '@/utils/auth'
 
+const page = ref(1)
+const pageSize = ref(3)
+const totalPages = ref(0)
 const tab = ref('pendentes')
 const loading = ref(false)
 const dialogDesvincular = ref(false)
 const conexaoSelecionada = ref(null)
+const perfilSelecionado = ref('')
 
 const conexoesPendentes = ref([])
 
 const minhasConexoes = ref([])
+
+const conexoesPendentesFiltered = computed(() => {
+  return minhasConexoes.value.filter(c => c.status === 'pendente')
+})
 
 const aceitarConexao = (id) => {
   console.log('Aceitar conexão:', id)
@@ -303,8 +337,23 @@ const confirmarDesvincular = () => {
   conexaoSelecionada.value = null
 }
 
+const conexoesFindAllPagined = async () => {
+  const perfilId = perfilSelecionado.value
+  loading.value = true
+  try {
+    const response = await atletaService.getConexoesFindAllPagined(page.value, pageSize.value, perfilId)
+    minhasConexoes.value = response.data
+    totalPages.value = response.totalPages || 0
+  } catch (error) {
+    console.error('Erro ao buscar conexões:', error)
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
   // TODO: Buscar conexões da API quando disponível
+  conexoesFindAllPagined()
 })
 </script>
 

@@ -48,9 +48,6 @@
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
                   Perfil Médico
                 </v-chip>
-                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-shield-check">
-                  Plano Ativo
-                </v-chip>
                 </div>
 
                 <div class="d-flex ga-2 flex-md-row flex-column">
