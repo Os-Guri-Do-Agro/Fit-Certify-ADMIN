@@ -10,10 +10,8 @@ export const getProfileRoute = () => {
       return '/Atleta-Screens/perfilAtleta'
       case 'fisioterapeuta':
         return '/Fisioterapeuta-Screens/perfilFisioterapeuta'
-    default:
       case 'treinador':
-        return 'Treinador-Screens/perfilTreinador'
-      return '/Perfil'
+        return '/Treinador-Screens/editarPerfilTreinador'
   }
 }
 
@@ -27,10 +25,8 @@ export const getListaConexaoRoute = () => {
       return '/Atleta-Screens/conexoes'
       case 'fisioterapeuta':
         return '/Fisioterapeuta-Screens/conexoes'
-    default:
       case 'treinador':
-        return 'Treinador-Screens/conexoes'
-      return '/Perfil'
+        return '/Treinador-Screens/conexoes'
   }
 }
 
@@ -42,7 +38,9 @@ export const getEditProfileRoute = () => {
       return '/Medico-Screens/editarPerfilMedico'
     case 'atleta':
       return '/Atleta-Screens/editarPerfilAtleta'
-    default:
-      return '/editarPerfil'
+    case 'fisioterapeuta':
+      return '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta'
+      case 'treinador':
+        return '/Treinador-Screens/editarPerfilTreinador'
   }
 }

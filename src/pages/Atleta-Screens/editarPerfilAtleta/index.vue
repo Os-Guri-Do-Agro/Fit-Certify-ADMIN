@@ -486,7 +486,8 @@ const atualizarDadosAtleta = async () => {
 
 if (response.data.success) {
   if (response.data.token) {
-    localStorage.setItem('token', response.data.token)
+    const storage = localStorage.getItem('token') ? localStorage : sessionStorage
+    storage.setItem('token', response.data.token)
   }
   toast.success('Dados atualizados com sucesso!')
   window.location.reload()

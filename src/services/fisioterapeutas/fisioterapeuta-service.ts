@@ -40,6 +40,19 @@ class fisioterapeutaService {
     )
   }
 
+  solicitarConexao(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/solicitacao-conexao/enviar', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to solicitar conexão'
+    )
+  }
+
   updateFisioterapeuta(id: string, formData: FormData): Promise<any> {
     const token = getToken()
     return this.handleRequest(

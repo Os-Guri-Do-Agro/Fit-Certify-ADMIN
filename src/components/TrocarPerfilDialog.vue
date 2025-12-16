@@ -68,7 +68,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 import authService from '@/services/auth/auth-service'
-import { getPayload } from '@/utils/auth'
+import { getPayload, getToken } from '@/utils/auth'
 import { toast } from 'vue3-toastify'
 
 interface Perfil {
@@ -145,7 +145,8 @@ const confirmarPerfil = async () => {
     const novoToken = response?.data?.access_token
 
     if (novoToken) {
-      sessionStorage.setItem('token', novoToken)
+      const storage = localStorage.getItem('token') ? localStorage : sessionStorage
+      storage.setItem('token', novoToken)
       toast.success('Perfil trocado com sucesso!', { autoClose: 1500 })
       setTimeout(() => {
         window.location.href = '/'

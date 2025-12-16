@@ -186,6 +186,7 @@
                           variant="text"
                           size="small"
                           color="#00c6fe"
+                          @click="enviarCodigoConvite()"
                         ></v-btn>
                       </template>
                     </v-text-field>
@@ -308,6 +309,30 @@ const originalEmail = ref('')
 
 let debounceTimer: number
 
+
+const enviarCodigoConvite = async () => {
+  if (!codigoInserir.value) {
+    toast.error('Digite o código de convite')
+    return
+  }
+
+  try {
+    const data = {
+      codigoConvite: codigoInserir.value,
+      destinatarioTipo: 'atleta'
+    }
+    await fisioterapeutaService.solicitarConexao(data)
+  } catch (error: any) {
+    const statusCode = error?.response?.status
+    const message = error?.response?.data?.message
+
+    if (statusCode === 400) {
+      toast.error(message)
+    } else {
+      toast.error('Erro ao enviar código de convite')
+    }
+  }
+}
 
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true
@@ -487,7 +512,8 @@ const atualizarDadosAtleta = async () => {
 
     if (response.data.success) {
       if (response.data.token) {
-        localStorage.setItem('token', response.data.token)
+        const storage = localStorage.getItem('token') ? localStorage : sessionStorage
+        storage.setItem('token', response.data.token)
       }
 
     }

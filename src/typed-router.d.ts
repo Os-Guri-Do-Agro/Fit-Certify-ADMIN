@@ -70,7 +70,8 @@ declare module 'vue-router/auto-routes' {
     '/thank-you': RouteRecordInfo<'/thank-you', '/thank-you', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/conexoes/': RouteRecordInfo<'/Treinador-Screens/conexoes/', '/Treinador-Screens/conexoes', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/detalhesAtleta/': RouteRecordInfo<'/Treinador-Screens/detalhesAtleta/', '/Treinador-Screens/detalhesAtleta', Record<never, never>, Record<never, never>>,
-    '/Treinador-Screens/perfilTreinador/': RouteRecordInfo<'/Treinador-Screens/perfilTreinador/', '/Treinador-Screens/perfilTreinador', Record<never, never>, Record<never, never>>,
+    '/Treinador-Screens/editarPerfilTreinador/': RouteRecordInfo<'/Treinador-Screens/editarPerfilTreinador/', '/Treinador-Screens/editarPerfilTreinador', Record<never, never>, Record<never, never>>,
+    '/Treinador-Screens/EditarPerfilTreinador/': RouteRecordInfo<'/Treinador-Screens/EditarPerfilTreinador/', '/Treinador-Screens/EditarPerfilTreinador', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
     '/validarCertificado/': RouteRecordInfo<'/validarCertificado/', '/validarCertificado', Record<never, never>, Record<never, never>>,
   }
