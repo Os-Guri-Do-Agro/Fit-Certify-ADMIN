@@ -182,12 +182,23 @@
                       <template v-slot:append-inner>
                         <v-btn
                           icon="mdi-check"
-                          variant="text"
+                          variant="tonal"
                           size="small"
                           color="#00c6fe"
+                          @click="solicitarConexao"
                         ></v-btn>
                       </template>
                     </v-text-field>
+                    <v-select
+                      v-model="perfilCodigo"
+                      label="Tipo de Perfil do Destinatário"
+                      variant="outlined"
+                      density="comfortable"
+                      rounded="lg"
+                      prepend-inner-icon="mdi-account-group"
+                      color="#00c6fe"
+                      :items="[{title: 'Fisioterapeuta', value: 'fisioterapeuta'}, {title: 'Treinador', value: 'treinador'}]"
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-card-text>
@@ -292,6 +303,7 @@ import { getErrorMessage } from '@/common/error.utils'
 
 const codigoConvite = ref('')
 const codigoInserir = ref('')
+const perfilCodigo = ref('')
 const loadingCodigo = ref(false)
 const payload = ref<any>()
 const form = ref()
@@ -307,6 +319,31 @@ const emailValidation = ref({ loading: false, exists: false, checked: false })
 const originalEmail = ref('')
 
 let debounceTimer: number
+
+const solicitarConexao = async () => {
+  if (!codigoInserir.value) {
+    toast.error('Por favor, insira um código de convite')
+    return
+  } else if (!perfilCodigo) {
+    toast.error('Por favor, selecione o perfil do usuário que deseja realizar a conexão')
+  }
+  try {
+    const data = {
+      codigoConvite: codigoInserir.value,
+      destinatarioTipo: perfilCodigo.value
+    }
+    await atletaService.solicitarConexao(data)
+  } catch (error: any) {
+    const statusCode = error.response?.status
+    const message = error.response?.data?.message
+
+    if (statusCode === 400) {
+      toast.error(message)
+    } else {
+      toast.error('Erro ao solicitar conexão')
+    }
+  }
+}
 
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true
@@ -471,7 +508,7 @@ const atualizarDadosAtleta = async () => {
 
     const dataNascimento = formData.value.dataNascimento || payload.user.atleta.dataNascimento
     const isoDate = dataNascimento ? removerOffsetTimezone(new Date(dataNascimento).toISOString()) : ''
-    
+
     data.append('dataNascimento', isoDate)
 
 

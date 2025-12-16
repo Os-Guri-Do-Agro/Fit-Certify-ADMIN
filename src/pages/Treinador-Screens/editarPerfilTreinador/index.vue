@@ -183,9 +183,10 @@
                       <template v-slot:append-inner>
                         <v-btn
                           icon="mdi-check"
-                          variant="text"
+                          variant="tonal"
                           size="small"
                           color="#00c6fe"
+                          @click="solicitarConexao()"
                         ></v-btn>
                       </template>
                     </v-text-field>
@@ -306,6 +307,29 @@ const emailValidation = ref({ loading: false, exists: false, checked: false })
 const originalEmail = ref('')
 
 let debounceTimer: number
+
+const solicitarConexao = async () => {
+  if (!codigoInserir.value) {
+    toast.error('Digite o código de convite')
+    return
+  }
+  try {
+    const data = {
+      codigoConvite: codigoInserir.value,
+      destinatarioTipo: 'atleta',
+    }
+    await treinadorService.solicitarConexao(data)
+  } catch (error: any) {
+    const statusCode = error?.response?.status
+    const message = error?.response?.data?.message
+
+    if (statusCode === 400) {
+      toast.error(message)
+    } else {
+      toast.error('Erro ao solicitar conexão')
+    }
+  }
+}
 
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true

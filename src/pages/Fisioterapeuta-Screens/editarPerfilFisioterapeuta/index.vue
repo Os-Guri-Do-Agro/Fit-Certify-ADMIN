@@ -183,7 +183,7 @@
                       <template v-slot:append-inner>
                         <v-btn
                           icon="mdi-check"
-                          variant="text"
+                          variant="tonal"
                           size="small"
                           color="#00c6fe"
                           @click="enviarCodigoConvite()"

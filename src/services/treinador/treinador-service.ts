@@ -53,6 +53,19 @@ class treinadorService {
     )
   }
 
+  solicitarConexao(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/solicitacao-conexao/enviar', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao solicitar conexão'
+    )
+  }
+
   getConexoesPagined(page: number, pageSize: number): Promise<any> {
     const token = getToken()
     return this.handleRequest(
