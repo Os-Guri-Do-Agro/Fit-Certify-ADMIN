@@ -106,7 +106,7 @@
 
         <v-list style="text-align: start" v-model:opened="open">
           <v-list-group prepend-icon="mdi mdi-account-group-outline">
-            <template v-slot:activator="{ props }">
+            <template v-slot:activator="{ props }" v-if="isMedico()">
               <v-list-item
                 v-bind="props"
                 title="Pacientes"
