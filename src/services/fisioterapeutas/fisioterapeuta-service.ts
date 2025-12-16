@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class fisioterapeutaService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class fisioterapeutaService {
   }
 
     createFisioterapeuta(formData: FormData): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/fisioterapeuta', formData, {
         headers: {
@@ -28,7 +29,7 @@ class fisioterapeutaService {
   }
 
   getFisioterapeutaById(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/fisioterapeuta/${id}`, {
         headers: {
@@ -40,7 +41,7 @@ class fisioterapeutaService {
   }
 
   updateFisioterapeuta(id: string, formData: FormData): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/fisioterapeuta/${id}`, formData, {
         headers: {
@@ -53,7 +54,7 @@ class fisioterapeutaService {
   }
 
   getConexoesPagined(page: number, pageSize: number): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/fisioterapeuta/conexoes/findAllpagined`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -64,7 +65,7 @@ class fisioterapeutaService {
   }
 
   gerarCodigoConvite(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/fisioterapeuta/gerar-codigo-convite', {}, {
         headers: {

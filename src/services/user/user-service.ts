@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class UserService {
   private async handleRequest<T>(
@@ -23,7 +24,7 @@ class UserService {
   }
 
   userById(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/user/${id}`, {
         headers: {

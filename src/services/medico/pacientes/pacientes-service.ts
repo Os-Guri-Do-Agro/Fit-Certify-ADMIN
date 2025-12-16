@@ -1,4 +1,5 @@
 import apiClient from '../../api-service'
+import { getToken } from '@/utils/auth'
 
 class pacientesService {
   private async handleRequest<T>(
@@ -19,7 +20,7 @@ class pacientesService {
     pageSize?: number,
     nome?: string,
   ): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     const params: Record<string, any> = {}
 
     if (page !== undefined) params.page = page
@@ -42,7 +43,7 @@ class pacientesService {
     pageSize?: number,
     nome?: string,
   ): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     const params: Record<string, any> = {}
 
     if (page !== undefined) params.page = page

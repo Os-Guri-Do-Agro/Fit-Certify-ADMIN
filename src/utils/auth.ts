@@ -251,3 +251,8 @@ export const refreshUserData = async () => {
 export const getToken = () => {
   return localStorage.getItem('token') || sessionStorage.getItem('token')
 }
+
+export const getAuthHeaders = () => {
+  const token = getToken()
+  return token ? { 'Authorization': `Bearer ${token}` } : {}
+}

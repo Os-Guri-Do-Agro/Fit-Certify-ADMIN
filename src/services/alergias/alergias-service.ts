@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class alergiaService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class alergiaService {
   }
 
   async getAlergiaAtletaId(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/alergia-atleta/findByAtletaId/${id}`, {
         headers: { Authorization: `Bearer ${token}` },

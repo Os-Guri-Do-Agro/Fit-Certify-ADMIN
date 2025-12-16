@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 // import { CategoryEntity, CreateCategoryDto, UpdateCategoryDto } from '@/common/types/category'
 
 class CupomService {
@@ -17,7 +18,7 @@ class CupomService {
   }
 
   validarCupom(codigo: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
 
       apiClient.get(`/cupom/validar-cupom?codigo=${codigo}`, {
@@ -29,7 +30,7 @@ class CupomService {
     )
   }
   getCupomByResponsavelID(responsavelID: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/cupom/byResponsavel/${responsavelID}`, {
         headers: {
@@ -41,7 +42,7 @@ class CupomService {
   }
 
   updateCupom(id: string, planoId: string, usuarioId: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/cupom/updateQuantidadeUsada/${id}?planoId=${planoId}&usuarioId=${usuarioId}`, {}, {
         headers: {
@@ -53,7 +54,7 @@ class CupomService {
   }
 
   createCupomByMedico(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post(`/cupom/createCupomByMedicoOrInfluence`, data, {
         headers: {
@@ -66,7 +67,7 @@ class CupomService {
   }
 
   async cupomMetricas(cupomId: string, mes: number): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/cupom/metricas/${cupomId}`, {
         headers: {
@@ -81,7 +82,7 @@ class CupomService {
   }
 
   async metricasFinanceiras(usuarioParceiroId: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/cupom/metricas-financeiras/${usuarioParceiroId}`, {
         headers: {
@@ -93,7 +94,7 @@ class CupomService {
   }
 
   async getSaldo(): Promise<any>{
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/cupom/saldo`, {
         headers: {
@@ -105,7 +106,7 @@ class CupomService {
   }
 
   postResgate(chavePix: string, valorSolicitado: number): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post(`/cupom/solicitar-resgate`, { chavePix, valorSolicitado }, {
         headers: {
@@ -117,7 +118,7 @@ class CupomService {
   }
 
   getSolicitacoesResgate(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/cupom/solicitacoes/ver-pedidos`, {
         headers: {
@@ -129,7 +130,7 @@ class CupomService {
   }
 
   async cancelarSolicitacao(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/cupom/solicitacao-resgate/${id}/cancelar`, {}, {
         headers: {

@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class ModeloCertificadoService {
     private async handleRequest<T>(
@@ -16,7 +17,7 @@ class ModeloCertificadoService {
     }
 
     getAll(): Promise<any> {
-        const token = sessionStorage.getItem('token')
+        const token = getToken()
         return this.handleRequest(
             apiClient.get(`/modelo-certificado`, {
                 headers: {
@@ -30,7 +31,7 @@ class ModeloCertificadoService {
     }
 
     downloadTemplate(id: string): Promise<any> {
-        const token = sessionStorage.getItem('token')
+        const token = getToken()
         return apiClient.post(`/certificado/baixar-certificado?modeloCertificadoId=${id}`, {}, {
             headers: {
                 'Authorization': `Bearer ${token}`,

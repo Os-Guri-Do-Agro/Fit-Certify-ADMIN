@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class LicencaCertificadoService {
     private async handleRequest<T>(
@@ -16,7 +17,7 @@ class LicencaCertificadoService {
     }
 
     postLicencaCertificado(data: any): Promise<any> {
-        const token = sessionStorage.getItem('token')
+        const token = getToken()
         return this.handleRequest(
             apiClient.post(`/licenca-certificado`, data, {
                 headers: {
@@ -29,7 +30,7 @@ class LicencaCertificadoService {
     }
 
     getLicencaCertificadoById(id: string): Promise<any> {
-        const token = sessionStorage.getItem('token')
+        const token = getToken()
         return this.handleRequest(
             apiClient.get(`/licenca-certificado/${id}`, {
                 headers: {
@@ -42,7 +43,7 @@ class LicencaCertificadoService {
     }
 
     getByAtletaId(atletaId: string): Promise<any> {
-        const token = sessionStorage.getItem('token')
+        const token = getToken()
         return this.handleRequest(
             apiClient.get(`/licenca-certificado/findByAtletaId/${atletaId}`, {
                 headers: {

@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class EventoService {
   private async handleRequest<T>(
@@ -16,7 +17,7 @@ class EventoService {
   }
 
   findAllEventosPagined(page: number, pageSize: number, tipoEventoId: string, localidade: string, mes: string, titulo: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/evento/findAllPagined`, {
         params: {

@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class atletaService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class atletaService {
   }
 
   async getAtletaById(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/atleta/${id}`, {
         headers: {
@@ -26,7 +27,7 @@ class atletaService {
     )
   }
   async getAllAtletas(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/atleta`, {
         headers: {
@@ -38,7 +39,7 @@ class atletaService {
   }
 
   gerarCodigoConvite(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/atleta/gerar-codigo-convite', {}, {
         headers: {
@@ -50,7 +51,7 @@ class atletaService {
   }
 
   async getConexoesFindAllPagined(page: number, pageSize: number, perfilId: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico/findAllpagined`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -61,7 +62,7 @@ class atletaService {
   }
 
   async editAtletaByProfile(data: FormData): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/atleta/updateProfile`, data, {
         headers: {
@@ -73,7 +74,7 @@ class atletaService {
     )
   }
   async findMedicosComConsultasPagined(page = 1, pageSize = 5): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/atleta/findMedicosComConsultasPagined`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -84,7 +85,7 @@ class atletaService {
   }
 
   async deleteAtleta(id: string) {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.delete(`atleta/inativar-atleta/${id}`, {
         headers: {
@@ -100,7 +101,7 @@ class atletaService {
     pageSize?: number,
     nome?: string
   ): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     const params: Record<string, any> = {}
 
     if (page !== undefined) params.page = page
@@ -119,7 +120,7 @@ class atletaService {
   }
 
   async getConsultasByAtletaIdAndMedicoId(atletaId: string, medicoId: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/atleta/findConsultasByMedicoAtleta`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -130,7 +131,7 @@ class atletaService {
   }
 
   async getAllInfos(atletaId: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/atleta/getAllInfos/${atletaId}`, {
         headers: { Authorization: `Bearer ${token}` },

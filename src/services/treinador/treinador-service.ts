@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class treinadorService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class treinadorService {
   }
 
   createTreinador(data: any): Promise<any> {
-  const token = sessionStorage.getItem('token')
+  const token = getToken()
     return this.handleRequest(
       apiClient.post('/treinador', data, {
         headers: {
@@ -28,7 +29,7 @@ class treinadorService {
   }
 
   getTreinadorById(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/treinador/${id}`, {
         headers: {
@@ -40,7 +41,7 @@ class treinadorService {
   }
 
   updateTreinador(id: string, data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/treinador/${id}`, data, {
         headers: {
@@ -53,7 +54,7 @@ class treinadorService {
   }
 
   getConexoesPagined(page: number, pageSize: number): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/treinador/conexoes/findAllpagined`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -64,7 +65,7 @@ class treinadorService {
   }
 
   gerarCodigoConvite(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/treinador/gerar-codigo-convite', {}, {
         headers: {

@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class medicoService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class medicoService {
   }
 
   async getMedicoById(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico/${id}`, {
         headers: {
@@ -27,7 +28,7 @@ class medicoService {
   }
 
   async getAllMedicos(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico`, {
         headers: {
@@ -39,7 +40,7 @@ class medicoService {
   }
 
   async getMedicoFindAllPagined(page = 1, pageSize = 5): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico/findAllpagined`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -50,7 +51,7 @@ class medicoService {
   }
 
   async getMetricsById(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico/getMetricsByMedicoId?data=${data}`, {
         headers: {
@@ -62,7 +63,7 @@ class medicoService {
   }
 
   async getMonthlyMetricsById(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/medico/getMonthlyMetricsByMedicoId?data=${data}`, {
         headers: {
@@ -74,7 +75,7 @@ class medicoService {
   }
 
   async createMedico(formData: FormData): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/medico', formData, {
         headers: {
@@ -87,7 +88,7 @@ class medicoService {
   }
 
   async editMedicoByProfile(data: FormData): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/medico/updateProfile`, data, {
         headers: {
@@ -100,7 +101,7 @@ class medicoService {
   }
 
   async updateMedico(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/medico/atualizar-perfil-publico/`, data, {
         headers: {
@@ -113,7 +114,7 @@ class medicoService {
   }
 
    async validarCrm(validateCrmDto: any): Promise<any> {
-     const token = sessionStorage.getItem('token')
+     const token = getToken()
      return this.handleRequest(
        apiClient.post('/medico/validar-crm', validateCrmDto, {
          headers: {
@@ -126,7 +127,7 @@ class medicoService {
    }
 
    async consultarCrm(consultarCrmDto: any): Promise<any> {
-     const token = sessionStorage.getItem('token')
+     const token = getToken()
      return this.handleRequest(
        apiClient.post('/medico/consultar-crm', consultarCrmDto, {
          headers: {

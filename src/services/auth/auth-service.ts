@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 // import { CategoryEntity, CreateCategoryDto, UpdateCategoryDto } from '@/common/types/category'
 
 interface LoginCredentials {
@@ -37,7 +38,7 @@ class AuthService {
   }
 
   buscarPerfisLogado(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get('/auth/profiles', {
         headers: {
@@ -49,7 +50,7 @@ class AuthService {
   }
 
   trocarPerfilLogado(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.put('/auth/change-profile', data, {
         headers: {
@@ -92,7 +93,7 @@ class AuthService {
   }
 
   forgotPassWordLogado(data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post(`/auth/forgot-password-logado`, data, {
         headers: {

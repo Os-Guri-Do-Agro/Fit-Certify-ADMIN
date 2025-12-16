@@ -1,4 +1,5 @@
 import apiClient from '../api-service'
+import { getToken } from '@/utils/auth'
 
 class consultasService {
   private async handleRequest<T>(
@@ -15,7 +16,7 @@ class consultasService {
   }
 
   async getConsultasByAtletaId(id: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/consulta/findByAtletaId/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -25,7 +26,7 @@ class consultasService {
   }
 
   async findConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post(`/consulta/findConsultasByMedico`,
         { dataInicio, dataFim },
@@ -38,7 +39,7 @@ class consultasService {
 
 
   async getConsultasPendentesByMedico(): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/consulta/findConsultasPendentes`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -48,7 +49,7 @@ class consultasService {
   }
 
   async aceitarOrRejeitarConsultaById(id: string, data: any): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.patch(`/consulta/${id}`, data, {
         headers: {
@@ -67,7 +68,7 @@ class consultasService {
     medicamentosReceitados: string
     situacao: string
   }): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     if (!token) throw new Error('Usuário não autenticado')
 
     return this.handleRequest(
@@ -80,7 +81,7 @@ class consultasService {
 
 
   async findHorariosDisponiveis(data: { medicoId: string, data: string }): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/consulta/findHorariosDisponiveis', data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -90,7 +91,7 @@ class consultasService {
   }
   async findConsultasByDayForMedico(data:
     { dataInicio: string, dataFim: string }): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/consulta/findConsultasByMedico', data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -109,7 +110,7 @@ class consultasService {
     consultaExterna: boolean
     dataConsulta: string
   }): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/consulta', data, {
         headers: { Authorization: `Bearer ${token}` },
@@ -128,7 +129,7 @@ class consultasService {
     consultaExterna: boolean
     dataConsulta: string
   }): Promise<any> {
-    const token = sessionStorage.getItem('token')
+    const token = getToken()
     return this.handleRequest(
       apiClient.post('/consulta', data, {
         headers: { Authorization: `Bearer ${token}` },
