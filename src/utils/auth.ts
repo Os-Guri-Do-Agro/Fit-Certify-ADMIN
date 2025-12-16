@@ -38,7 +38,7 @@ const decodeJwtPayload = (base64Url: string): any => {
 }
 
 export const isTokenValid = (): boolean => {
-  const token = sessionStorage.getItem('token')
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
   if (!token || typeof token !== 'string') return false
 
@@ -65,6 +65,7 @@ export const isTokenValid = (): boolean => {
 
 export const logout = (): void => {
   sessionStorage.removeItem('token')
+  localStorage.removeItem('token')
   window.location.href = '/login'
 }
 
@@ -104,7 +105,7 @@ export const getPayloadFromToken = (token: string) => {
 }
 
 export const getPayload = () => {
-  const token = sessionStorage.getItem('token')
+  const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
   if (!token) return false
 
@@ -215,13 +216,14 @@ export const updateUserPlan = async (planoId: string) => {
         },
       }
 
-      // Update token in sessionStorage with new plan data
-      const token = sessionStorage.getItem('token')
+      // Update token in storage with new plan data
+      const token = localStorage.getItem('token') || sessionStorage.getItem('token')
       if (token) {
         const [header, , signature] = token.split('.')
         const newPayload = btoa(JSON.stringify(updatedUserData))
         const newToken = `${header}.${newPayload}.${signature}`
-        sessionStorage.setItem('token', newToken)
+        const storage = localStorage.getItem('token') ? localStorage : sessionStorage
+        storage.setItem('token', newToken)
       }
     }
   } catch (error) {
@@ -247,5 +249,5 @@ export const refreshUserData = async () => {
 }
 
 export const getToken = () => {
-  return sessionStorage.getItem('token')
+  return localStorage.getItem('token') || sessionStorage.getItem('token')
 }

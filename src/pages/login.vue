@@ -185,6 +185,10 @@ onMounted(() => {
   if (route.query['tipo-cadastro'] !== undefined) {
     showTipoContaModal.value = true
   }
+  const savedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
+  if (savedToken) {
+    router.push('/');
+  }
 })
 
 watch(emailModal, (newEmail) => {
@@ -233,7 +237,8 @@ async function handleSubmit() {
         isMobile: isMobile.value
       });
       if (response.data?.access_token) {
-        sessionStorage.setItem("token", response.data?.access_token);
+        const storage = isMobile.value ? localStorage : sessionStorage;
+        storage.setItem("token", response.data?.access_token);
         const payload = getPayloadFromToken(response.data?.access_token);
         const user = payload?.user;
         let path = '/';
