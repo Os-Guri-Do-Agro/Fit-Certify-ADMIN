@@ -412,7 +412,7 @@ const { value: objetivoAtividade } = useField('objetivosItens')
 const EXPIRES_IN = 7200000 * 2
 
 const saveForm = () => {
-  sessionStorage.setItem('cadastro_cache', JSON.stringify({
+  localStorage.setItem('cadastro_cache', JSON.stringify({
     form: form.value,
     formDoencas: formDoencas.value,
     formSintomas: formSintomas.value,
@@ -422,7 +422,7 @@ const saveForm = () => {
 }
 
 const carregarCadastroCache = () => {
-  const cadastroCache = sessionStorage.getItem('cadastro_cache')
+  const cadastroCache = localStorage.getItem('cadastro_cache')
   if (cadastroCache) {
     const { form: formCache, formDoencas: doencasCache, formSintomas: sintomasCache, objetivoAtividade: objetivoCache, timestamp } = JSON.parse(cadastroCache)
     if (Date.now() - timestamp <= EXPIRES_IN) {
@@ -431,7 +431,7 @@ const carregarCadastroCache = () => {
       if (sintomasCache) formSintomas.value = sintomasCache
       if (objetivoCache) objetivoAtividade.value = objetivoCache
     } else {
-      sessionStorage.removeItem('cadastro_cache')
+      localStorage.removeItem('cadastro_cache')
     }
   }
 }
@@ -816,7 +816,7 @@ const submitAtleta = handleSubmit(async () => {
     const response = await AtletaService.createAtleta(formData)
 
     if (response.success) {
-      sessionStorage.removeItem('cadastro_cache')
+      localStorage.removeItem('cadastro_cache')
       loading.value = false
       router.push('/thank-you?type=paciente').then(() => {
         toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -868,7 +868,7 @@ const submitMedico = handleSubmit(async () => {
 
     await medicoService.createMedico(formData)
 
-    sessionStorage.removeItem('cadastro_cache')
+    localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=medico').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -918,7 +918,7 @@ const submitFisioterapeuta = handleSubmit(async () => {
 
     await fisioterapeutaService.createFisioterapeuta(formData)
 
-    sessionStorage.removeItem('cadastro_cache')
+    localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -944,7 +944,7 @@ const submitTreinador = handleSubmit(async () => {
 
     await treinadorService.createTreinador(formData)
 
-    sessionStorage.removeItem('cadastro_cache')
+    localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {
       toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
@@ -957,7 +957,7 @@ const submitTreinador = handleSubmit(async () => {
 })
 
 const onPerfilChange = async (perfilId) => {
-  sessionStorage.removeItem('cadastro_cache')
+  localStorage.removeItem('cadastro_cache')
 }
 
 const handleNext = async (next) => {
