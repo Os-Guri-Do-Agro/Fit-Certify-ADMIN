@@ -228,12 +228,6 @@ const contaItems = [
     value: 'dashboard',
     to: getProfileRoute(),
   },
-  {
-    icon: 'mdi-link-circle',
-    title: 'Conexões',
-    value: 'conexoes',
-    to: getListaConexaoRoute(),
-  },
 ]
 
 const pacienteItems = [
@@ -326,6 +320,12 @@ const menusPorPerfil: Record<string, any[]> = {
       children: [],
     },
     {
+          icon: 'mdi-link',
+          title: 'Conexões',
+          value: 'conexoes',
+          to: '/solicitacoesConexoes'
+        },
+    {
       icon: 'mdi-chart-bar',
       title: 'Registros Médicos',
       value: 'registrosMedicos',
@@ -365,6 +365,22 @@ const menusPorPerfil: Record<string, any[]> = {
       ],
     },
   ],
+  fisioterapeuta: [
+  {
+          icon: 'mdi-link',
+          title: 'Conexões',
+          value: 'conexoes',
+          to: '/solicitacoesConexoes'
+        },
+  ],
+  treinador: [
+  {
+          icon: 'mdi-link',
+          title: 'Conexões',
+          value: 'conexoes',
+          to: '/solicitacoesConexoes'
+        },
+  ]
 }
 
 function handleClickOutside(event: MouseEvent) {

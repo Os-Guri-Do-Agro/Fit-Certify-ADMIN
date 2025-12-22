@@ -38,31 +38,6 @@ class atletaService {
     )
   }
 
-  gerarCodigoConvite(): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.post('/atleta/gerar-codigo-convite', {}, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      }),
-      'Erro ao gerar código de convite'
-    )
-  }
-
-  solicitarConexao(data: any): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.post('/solicitacao-conexao/enviar', data, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        }
-      }),
-      'Erro ao solicitar conexão'
-    )
-  }
-
   async getConexoesFindAllPagined(page: number, pageSize: number, perfilId: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
@@ -150,6 +125,31 @@ class atletaService {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to get all infos'
+    )
+  }
+
+  async solicitarConexao(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/solicitacao-conexao/enviar', data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Erro ao solicitar conexão'
+    )
+  }
+
+  async gerarCodigoConvite(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/atleta/gerar-codigo-convite', {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao gerar código de convite'
     )
   }
 }
