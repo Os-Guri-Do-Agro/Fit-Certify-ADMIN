@@ -366,12 +366,44 @@ const menusPorPerfil: Record<string, any[]> = {
     },
   ],
   fisioterapeuta: [
-  {
-          icon: 'mdi-link',
-          title: 'Conexões',
-          value: 'conexoes',
-          to: '/solicitacoesConexoes'
+    {
+      icon: 'mdi-calendar-blank-multiple',
+      title: 'Consultas',
+      value: '',
+      children: [
+        {
+          icon: 'mdi mdi-calendar-month-outline',
+          title: 'Calendário',
+          value: 'calendario',
+          to: '/Fisioterapeuta-Screens/agendaFisioterapeutica',
         },
+        {
+          icon: 'mdi mdi-clipboard-list-outline',
+          title: 'Consultas',
+          value: 'consultas',
+          to: '/Fisioterapeuta-Screens/consultas',
+        },
+        {
+          icon: 'mdi mdi-calendar-month-outline',
+          title: 'Pendentes',
+          value: 'Fisioterapeuta-Screens/consultasPendentes',
+          to: '/Fisioterapeuta-Screens/consultasPendentes',
+        },
+      ],
+    },
+    {
+      icon: 'mdi mdi-compass-outline',
+      title: 'Resumo',
+      value: 'resumo',
+      to: '/resumo',
+      children: [],
+    },
+    {
+      icon: 'mdi-link',
+      title: 'Conexões',
+      value: 'conexoes',
+      to: '/solicitacoesConexoes'
+    },
   ],
   treinador: [
   {

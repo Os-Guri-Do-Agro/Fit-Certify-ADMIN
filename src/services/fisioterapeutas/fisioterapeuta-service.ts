@@ -122,20 +122,8 @@ class fisioterapeutaService {
     )
   }
 
-  async getFisioFindPacientesPagined(page: number, pageSize: number, nome: string): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.get(`/fisioterapeuta/findPacientesPagined?page=${page}&pageSize=${pageSize}&nome=${nome}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-      'Falha ao buscar pacientes paginados'
-    );
-  }
-
   async getMetricsById(data: any): Promise<any> {
-  const token = getToken()
+    const token = getToken()
     return this.handleRequest(
       apiClient.get(`/fisioterapeuta/getMetricsByFisioterapeutaId?data=${data}`, {
         headers: {
@@ -146,7 +134,132 @@ class fisioterapeutaService {
     );
   }
 
+  async getMonthlyMetricsById(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/fisioterapeuta/getMonthlyMetricsByFisioterapeutaId?data=${data}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to get monthly metrics'
+    )
+  }
 
+  async getAllFisioterapeutas(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/fisioterapeuta`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'Failed to get all fisioterapeutas'
+    )
+  }
+
+  async validarCrefito(validateCrefitoDto: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/fisioterapeuta/validar-crefito', validateCrefitoDto, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to validate CREFITO'
+    )
+  }
+
+  async consultarCrefito(consultarCrefitoDto: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/fisioterapeuta/consultar-crefito', consultarCrefitoDto, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to consult CREFITO'
+    )
+  }
+
+  async findConsultasByFisioterapeuta(dataInicio: string, dataFim: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post(`/consulta/findConsultasByFisioterapeuta`,
+        { dataInicio, dataFim },
+        { headers: { Authorization: `Bearer ${token}` } }
+      ),
+      'Failed to get consultas by fisioterapeuta'
+    )
+  }
+
+  async getConsultasPendentesByFisioterapeuta(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/consulta/findConsultasPendentesFisioterapeuta`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get consultas pendentes'
+    )
+  }
+
+  async aceitarOrRejeitarConsultaById(id: string, data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.patch(`/consulta/${id}`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to update consulta'
+    )
+  }
+
+  async findHorariosDisponiveis(requestData: { fisioterapeutaId: string, data: string }): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/consulta/findHorariosDisponiveis', {
+        medicoId: '',
+        fisioterapeutaId: requestData.fisioterapeutaId,
+        data: requestData.data
+      }, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get horarios disponiveis'
+    )
+  }
+
+  async findConsultasByDayForFisioterapeuta(data: { dataInicio: string, dataFim: string }): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/consulta/findConsultasByFisioterapeuta', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get consultas by day'
+    )
+  }
+
+  async createConsultaByFisioterapeuta(data: {
+    fisioterapeutaId: string
+    atletaId?: string
+    diagnostico: string
+    medicamentosReceitados: string
+    situacao: string
+    nomePacienteExterno?: string
+    consultaExterna: boolean
+    dataConsulta: string
+  }): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/consulta/fisioterapeuta', data, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to create consulta'
+    )
+  }
 }
 
 export default new fisioterapeutaService();

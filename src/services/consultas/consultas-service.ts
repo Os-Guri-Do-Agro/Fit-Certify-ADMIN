@@ -63,6 +63,7 @@ class consultasService {
 
   async postConsulta(data: {
     medicoId: string
+    fisioterapeutaId: string,
     atletaId: string
     diagnostico: string
     medicamentosReceitados: string
@@ -80,7 +81,7 @@ class consultasService {
   }
 
 
-  async findHorariosDisponiveis(data: { medicoId: string, data: string }): Promise<any> {
+  async findHorariosDisponiveis(data: { medicoId: string, fisioterapeutaId: string,  data: string }): Promise<any> {
     const token = getToken()
     return this.handleRequest(
       apiClient.post('/consulta/findHorariosDisponiveis', data, {
