@@ -51,6 +51,19 @@ class exercicioService {
     )
   }
 
+  async getExerciciosByTreinoId(treinoId: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/exercicio/findByTipoTreinoId/${treinoId}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao buscar exercícios'
+    )
+  }
+
 }
 
 export default new exercicioService();

@@ -37,6 +37,7 @@
                   variant="outlined"
                   rounded="xl"
                   prepend-icon="mdi-dumbbell"
+                  @click="criarTreino"
                   class="btn-top-right"
                 >
                   Criar Treino
@@ -424,6 +425,11 @@ const calcularIdade = (dataNascimento) => {
     idade--
   }
   return idade
+}
+
+function criarTreino() {
+  const id = route.params.id || route.query.id
+  router.push({ path: '/criarTreino', query: { atletaId: id } })
 }
 
 const formatarTelefone = (telefone) => {
