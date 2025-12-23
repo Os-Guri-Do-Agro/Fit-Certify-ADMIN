@@ -1,20 +1,6 @@
 <template>
   <div class="w-100 h-100 ma-0">
     <v-container class="py-6">
-      <div class="d-flex align-center mb-6">
-        <v-btn
-          icon
-          variant="outlined"
-          color="blue"
-          class="mr-3"
-          @click="voltarParaLista"
-        >
-          <v-icon>mdi-arrow-left</v-icon>
-        </v-btn>
-        <h1 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1">
-          Detalhes do Paciente
-        </h1>
-      </div>
       <v-row v-if="loading">
         <v-col cols="12">
           <v-skeleton-loader type="card" height="500" />
@@ -39,6 +25,22 @@
                 class="text-center pa-5 mb-5 position-relative"
                 style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
               >
+                <v-btn
+                  icon="mdi-arrow-left"
+                  color="white"
+                  variant="outlined"
+                  class="btn-top-left"
+                  @click="voltarParaLista"
+                />
+                <v-btn
+                  color="white"
+                  variant="outlined"
+                  rounded="xl"
+                  prepend-icon="mdi-dumbbell"
+                  class="btn-top-right"
+                >
+                  Criar Treino
+                </v-btn>
                 <v-avatar
                   size="160"
                   class="elevation-3 mb-3"
@@ -70,10 +72,17 @@
                     </div>
                   </div>
 
-                  <div>
+                  <div class="mb-4">
                     <div class="text-caption text-grey-darken-1 mb-1">Data de Nascimento</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ formatarData(paciente.dataNascimento) }}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.genero || 'N/A' }}
                     </div>
                   </div>
                 </v-col>
@@ -94,9 +103,9 @@
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ paciente.genero || 'N/A' }}
+                      {{ paciente.tipoSanguineo || 'N/A' }}
                     </div>
                   </div>
                 </v-col>
@@ -109,10 +118,24 @@
                     </div>
                   </div>
 
-                  <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Atividade Física Regular</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ paciente.tipoSanguineo || 'N/A' }}
+                      {{ paciente.praticaAtividadeFisicaRegularmente ? 'Sim' : 'Não' }}
+                    </div>
+                  </div>
+
+                  <div class="mb-4">
+                    <div class="text-caption text-grey-darken-1 mb-1">Checkup Recente</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.fezCheckupUltimosMeses ? 'Sim' : 'Não' }}
+                    </div>
+                  </div>
+
+                  <div>
+                    <div class="text-caption text-grey-darken-1 mb-1">Possui Smartwatch</div>
+                    <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                      {{ paciente.possuiSmartwatch ? 'Sim' : 'Não' }}
                     </div>
                   </div>
                 </v-col>
@@ -512,6 +535,44 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.btn-top-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 10;
+  border-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-top-left:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.btn-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  border-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-top-right:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
 .cursor-pointer {
   cursor: pointer;
   transition: all 0.3s ease;

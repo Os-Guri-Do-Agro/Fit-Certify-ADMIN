@@ -11,8 +11,8 @@
 import { onMounted, ref } from 'vue';
 import Resumo from '../pages/Atleta-Screens/registrosMedicos'
 import Calendario from '../pages/Medico-Screens/agendaMedica/index.vue'
-import ConexoesFisio from '../pages/Fisioterapeuta-Screens/conexoes'
-import ConexoesTreinador from '../pages/Treinador-Screens/conexoes'
+import ConexoesFisio from '../pages/solicitacoesConexoes'
+import ConexoesTreinador from '../pages/solicitacoesConexoes'
 import { getRole } from '@/utils/auth';
 const validationScreenByRole = ref()
 
