@@ -535,36 +535,23 @@ const baixarTemplate = async (template) => {
     if (!template?.id) {
       return
     }
-
     downloadingTemplateId.value = template.id
-
     const response = await modeloCertificadoService.downloadTemplate(template.id)
-
-    const base64String = response.data?.data || response.data?.base64 || response.data || response
-
-    if (!base64String) {
-      return
-    }
-
-    const blob = base64ToBlob(base64String)
-
+    const blob = response.data
     const url = window.URL.createObjectURL(blob)
     const link = document.createElement('a')
     link.href = url
-
-    let filename = template.nome || 'template-certificado.pdf'
-
+    let filename = template.nome || 'atestado-aptidao.pdf'
     if (!filename.toLowerCase().endsWith('.pdf')) {
       filename += '.pdf'
     }
-
     link.setAttribute('download', filename)
     document.body.appendChild(link)
     link.click()
-
     link.remove()
     window.URL.revokeObjectURL(url)
   } catch (error) {
+    console.error('Erro ao baixar template:', error)
   } finally {
     downloadingTemplateId.value = null
   }

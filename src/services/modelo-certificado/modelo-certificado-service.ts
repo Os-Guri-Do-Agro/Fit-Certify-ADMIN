@@ -30,14 +30,19 @@ class ModeloCertificadoService {
         )
     }
 
-    downloadTemplate(id: string): Promise<any> {
-        const token = getToken()
-        return apiClient.post(`/certificado/baixar-certificado?modeloCertificadoId=${id}`, {}, {
+   downloadTemplate(id: string): Promise<any> {
+    const token = getToken()
+    return apiClient.post(
+        `/certificado/baixar-certificado?modeloCertificadoId=${id}`,
+        {},
+        {
             headers: {
                 'Authorization': `Bearer ${token}`,
             },
-        })
-    }
+            responseType: 'blob',
+        }
+    )
+}
 }
 
 export default new ModeloCertificadoService()
