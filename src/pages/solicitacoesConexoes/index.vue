@@ -3,6 +3,9 @@
     <div class="hero-section">
       <div class="hero-overlay"></div>
       <v-container class="position-relative w-100">
+        <v-btn v-if="!isAtleta" color="white" variant="outlined" rounded="xl" prepend-icon="mdi-qrcode" @click="router.push('/gerenciarCodigos')" class="btn-top-right">
+          Gerenciar Códigos
+        </v-btn>
         <v-row align="center" class="min-height-300">
           <v-col cols="12" class="text-center">
             <v-icon color="white" size="80" class="mb-4">mdi-account-multiple-plus</v-icon>
@@ -285,7 +288,7 @@
                             </div>
                           </v-col>
 
-                          <v-col cols="12" sm="auto" class="text-center">
+                          <v-col cols="12" sm="auto" class="text-center d-flex flex-column-reverse ga-2">
                             <v-btn
                               variant="outlined"
                               color="red"
@@ -297,6 +300,17 @@
                             >
                               <v-icon start>mdi-link-off</v-icon>
                               Desvincular
+                            </v-btn>
+                            <v-btn
+                              variant="outlined"
+                              color="blue-lighten-1"
+                              size="large"
+                              class="px-8"
+                              rounded="lg"
+                              @click="verPerfil(conexao)"
+                            >
+                              <v-icon start>mdi-account-outline</v-icon>
+                              Perfil
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -444,10 +458,13 @@
 
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
 import conexoesService from '@/services/solicitacaoConexao/conexao-service'
 import { formatarDataLocal } from '@/utils/date.utils'
 import { toast } from 'vue3-toastify'
 import { getPayload } from '@/utils/auth'
+
+const router = useRouter()
 
 const activeTab = ref('pendentes')
 const solicitacoesPendentes = ref<any[]>([])
@@ -456,6 +473,7 @@ const conexoes = ref<any[]>([])
 
 const payload = getPayload()
 const isAtleta = payload?.role === 'atleta'
+const atletaId = ref('')
 
 const loadingPendentes = ref(false)
 const loadingSolicitacoesEnviadas = ref(false)
@@ -510,10 +528,12 @@ const carregarConexoes = async () => {
       'Aceita',
       filtroTipo.value
     )
-    conexoes.value = response.data.itens || []
-    totalConexoes.value = response.total || 0
+    conexoes.value = response.data?.itens || response.itens || []
+    totalConexoes.value = response.data?.total || response.total || 0
   } catch (error) {
-    toast.error('Erro ao carregar conexões', { autoClose: 3000 })
+    console.error('Erro ao carregar conexões:', error)
+    conexoes.value = []
+    totalConexoes.value = 0
   } finally {
     loadingConexoes.value = false
   }
@@ -606,6 +626,11 @@ const getStatusColor = (status: string) => {
   return colors[status] || '#94a3b8'
 }
 
+const verPerfil = (conexao: any) => {
+  const id = isAtleta ? getProfissional(conexao)?.id : conexao?.solicitante?.id
+  router.push({ path: '/detalhesPaciente', query: { id } })
+}
+
 onMounted(() => {
   carregarSolicitacoesPendentes()
   carregarSolicitacoesEnviadas()
@@ -677,6 +702,29 @@ onMounted(() => {
 
 .ga-3 {
   gap: 12px;
+}
+
+.gap-3 {
+  gap: 12px;
+}
+
+.btn-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 10;
+  border-color: rgba(255, 255, 255, 0.6);
+  color: white;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.15);
+  transition: all 0.3s ease;
+}
+
+.btn-top-right:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 600px) {

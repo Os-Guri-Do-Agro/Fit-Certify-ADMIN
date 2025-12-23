@@ -139,6 +139,15 @@ class consultasService {
     )
   }
 
+  async getConsultaByAtletaId(atletaId: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/consulta/findByAtletaId/${atletaId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      }),
+      'Failed to get consulta by atleta ID'
+    )
+  }
 }
 
 export default new consultasService()

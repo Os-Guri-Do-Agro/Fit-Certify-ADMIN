@@ -62,16 +62,16 @@ class fisioterapeutaService {
     )
   }
 
-  async getConexoesPagined(page: number, pageSize: number): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.get(`/fisioterapeuta/conexoes/findAllpagined`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page, pageSize },
-      }),
-      'Falha ao buscar fisioterapeutas paginados'
-    )
-  }
+  // async getConexoesPagined(page: number, pageSize: number): Promise<any> {
+  //   const token = getToken()
+  //   return this.handleRequest(
+  //     apiClient.get(`/fisioterapeuta/conexoes/findAllpagined`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //       params: { page, pageSize },
+  //     }),
+  //     'Falha ao buscar fisioterapeutas paginados'
+  //   )
+  // }
 
   async gerarCodigoConvite(): Promise<any> {
     const token = getToken()
@@ -111,16 +111,16 @@ class fisioterapeutaService {
     )
   }
 
-  async getFisioterapeutasPagined(page: number, pageSize: number): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.get(`/fisioterapeuta/findAllPagined`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page, pageSize },
-      }),
-      'Falha ao buscar fisioterapeutas paginados'
-    )
-  }
+  // async getFisioterapeutasPagined(page: number, pageSize: number): Promise<any> {
+  //   const token = getToken()
+  //   return this.handleRequest(
+  //     apiClient.get(`/fisioterapeuta/findAllPagined`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //       params: { page, pageSize },
+  //     }),
+  //     'Falha ao buscar fisioterapeutas paginados'
+  //   )
+  // }
 
   async getMetricsById(data: any): Promise<any> {
     const token = getToken()

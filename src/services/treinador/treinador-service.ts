@@ -66,16 +66,16 @@ class treinadorService {
     )
   }
 
-  getConexoesPagined(page: number, pageSize: number): Promise<any> {
-    const token = getToken()
-    return this.handleRequest(
-      apiClient.get(`/treinador/conexoes/findAllpagined`, {
-        headers: { Authorization: `Bearer ${token}` },
-        params: { page, pageSize },
-      }),
-      'Falha ao buscar fisioterapeutas paginados'
-    )
-  }
+  // getConexoesPagined(page: number, pageSize: number): Promise<any> {
+  //   const token = getToken()
+  //   return this.handleRequest(
+  //     apiClient.get(`/treinador/conexoes/findAllpagined`, {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //       params: { page, pageSize },
+  //     }),
+  //     'Falha ao buscar fisioterapeutas paginados'
+  //   )
+  // }
 
   gerarCodigoConvite(): Promise<any> {
     const token = getToken()

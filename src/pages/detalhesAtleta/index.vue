@@ -786,7 +786,7 @@ const getUserTimezone = () => {
 // Verifica se a string de data tem timezone explícito
 const temTimezone = (dataString) => {
   if (typeof dataString !== 'string') return false
-  return dataString.includes('Z') || 
+  return dataString.includes('Z') ||
          dataString.match(/[+-]\d{2}:\d{2}$/) !== null ||
          dataString.match(/[+-]\d{4}$/) !== null
 }
@@ -797,7 +797,7 @@ const formatarData = (data) => {
     const userTimezone = getUserTimezone()
     const dataString = data.toString()
     let dataParsed
-    
+
     // Se a data tem timezone explícito, dayjs já detecta automaticamente
     if (temTimezone(dataString)) {
       dataParsed = dayjs(data)
@@ -805,17 +805,17 @@ const formatarData = (data) => {
       // Se não tem timezone, assume UTC (padrão de APIs REST)
       dataParsed = dayjs.utc(data)
     }
-    
+
     // Se não é válida, tenta parse normal como fallback
     if (!dataParsed.isValid()) {
       dataParsed = dayjs(data)
     }
-    
+
     // Converte para o timezone do dispositivo do usuário e formata
     if (dataParsed.isValid()) {
       return dataParsed.tz(userTimezone).format('DD/MM/YYYY')
     }
-    
+
     return '--'
   } catch (e) {
     console.error('Erro ao formatar data:', e)
@@ -830,7 +830,7 @@ const formatarDataHora = (data) => {
     const userTimezone = getUserTimezone()
     const dataString = data.toString()
     let dataParsed
-    
+
     // Se a data tem timezone explícito, dayjs já detecta automaticamente
     if (temTimezone(dataString)) {
       dataParsed = dayjs(data)
@@ -838,17 +838,17 @@ const formatarDataHora = (data) => {
       // Se não tem timezone, assume UTC (padrão de APIs REST)
       dataParsed = dayjs.utc(data)
     }
-    
+
     // Se não é válida, tenta parse normal como fallback
     if (!dataParsed.isValid()) {
       dataParsed = dayjs(data)
     }
-    
+
     // Converte para o timezone do dispositivo do usuário e formata
     if (dataParsed.isValid()) {
       return dataParsed.tz(userTimezone).format('DD/MM/YYYY HH:mm')
     }
-    
+
     return '--'
   } catch (e) {
     console.error('Erro ao formatar data/hora:', e)
@@ -870,9 +870,9 @@ const calcularIdade = (dataNascimento) => {
     const hoje = dayjs().tz(timezone)
     // Para calcular idade, usamos apenas a data (sem hora), então não precisa converter timezone
     const nascimento = dayjs(dataNascimento)
-    
+
     if (!nascimento.isValid()) return '--'
-    
+
     let idade = hoje.diff(nascimento, 'year')
     const mes = hoje.diff(nascimento, 'month') % 12
     if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
@@ -912,7 +912,7 @@ const getSituacaoColor = (situacao) => {
 // Verifica se o arquivo é uma imagem
 const isImagem = (url, contentType) => {
   if (!url) return false
-  
+
   if (contentType) {
     const contentTypeLower = contentType.toLowerCase()
     if (contentTypeLower.startsWith('image/')) {
@@ -922,33 +922,33 @@ const isImagem = (url, contentType) => {
       return false
     }
   }
-  
+
   const urlLower = url.toLowerCase()
   const extensoesImagem = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.jfif']
-  
+
   if (urlLower.includes('.pdf')) {
     return false
   }
-  
+
   return extensoesImagem.some(ext => urlLower.includes(ext))
 }
 
 const isPDF = (url, contentType) => {
   if (!url) return false
-  
+
   if (contentType) {
     const contentTypeLower = contentType.toLowerCase().trim()
     if (contentTypeLower === 'application/pdf' || contentTypeLower.includes('application/pdf')) {
       return true
     }
   }
-  
+
   const urlLower = url.toLowerCase()
-  
+
   if (urlLower.endsWith('.pdf')) {
     return true
   }
-  
+
   if (urlLower.includes('.pdf')) {
     const match = urlLower.match(/\.pdf(\?|$|#)/)
     if (match) {
@@ -960,7 +960,7 @@ const isPDF = (url, contentType) => {
       return true
     }
   }
-  
+
   return false
 }
 
@@ -968,9 +968,9 @@ const buscarAtletaInfos = async () => {
   try {
     loading.value = true
     error.value = null
-    
+
     const atletaId = route.query.id || route.params.id
-    
+
     if (!atletaId || (Array.isArray(atletaId) && atletaId.length === 0)) {
       error.value = 'ID do atleta não fornecido'
       loading.value = false
@@ -980,10 +980,10 @@ const buscarAtletaInfos = async () => {
     const id = Array.isArray(atletaId) ? atletaId[0] : atletaId
 
     const response = await atletaService.getAllInfos(id)
-    
+
     if (response && response.success && response.data) {
       atletaData.value = response.data
-    } 
+    }
   } catch (err) {
     console.error('Erro ao buscar informações do atleta:', err)
     error.value = err.response?.data?.message || 'Não foi possível carregar as informações do atleta'
@@ -1130,24 +1130,24 @@ onMounted(() => {
   .v-container {
     min-height: calc(100vh - 56px) !important;
   }
-  
+
   .alergia-card .file-container,
   .exame-card .file-container {
     min-height: 160px;
     max-height: 160px;
   }
-  
+
   .file-content {
     padding: 8px;
   }
-  
+
   .file-content .file-icon {
     font-size: 48px !important;
     height: 48px !important;
     width: 48px !important;
     margin-bottom: 8px !important;
   }
-  
+
   .file-name {
     font-size: 11px !important;
     line-height: 1.3;
@@ -1155,14 +1155,14 @@ onMounted(() => {
     margin-bottom: 8px !important;
     padding: 0 4px;
   }
-  
+
   .file-content .file-btn {
     font-size: 12px !important;
     padding: 6px 12px !important;
     height: auto !important;
     margin-top: 4px !important;
   }
-  
+
   .file-content .file-btn .v-icon {
     font-size: 16px !important;
     height: 16px !important;
@@ -1183,7 +1183,7 @@ onMounted(() => {
     min-height: 200px;
     max-height: 200px;
   }
-  
+
   .exame-card .file-container {
     min-height: 220px;
     max-height: 220px;

@@ -2,11 +2,11 @@
   <div class="w-100 h-100 ma-0">
     <v-container class="py-6">
       <div class="d-flex align-center mb-6">
-        <v-btn 
-          icon 
-          variant="outlined" 
-          color="blue" 
-          class="mr-3" 
+        <v-btn
+          icon
+          variant="outlined"
+          color="blue"
+          class="mr-3"
           @click="voltarParaLista"
         >
           <v-icon>mdi-arrow-left</v-icon>
@@ -35,17 +35,17 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
+              <div
                 class="text-center pa-5 mb-5 position-relative"
                 style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
               >
-                <v-avatar 
-                  size="160" 
+                <v-avatar
+                  size="160"
                   class="elevation-3 mb-3"
                   style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
-                  <v-img 
-                    v-if="paciente.usuario?.avatarUrl" 
+                  <v-img
+                    v-if="paciente.usuario?.avatarUrl"
                     :src="paciente.usuario.avatarUrl"
                     :alt="paciente.usuario?.nome"
                     cover
@@ -133,8 +133,8 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
-                class="pa-6 cursor-pointer d-flex align-center" 
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
                 @click="toggleAlergias"
               >
                 <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
@@ -170,9 +170,9 @@
                       </v-list-item>
                     </template>
                     <template v-else>
-                      <v-list-item 
-                        v-for="(alergia, index) in alergias" 
-                        :key="index" 
+                      <v-list-item
+                        v-for="(alergia, index) in alergias"
+                        :key="index"
                         class="px-6 py-3"
                       >
                         <template #prepend>
@@ -202,8 +202,168 @@
             </v-card>
           </v-col>
         </v-row>
+
+        <v-row class="mt-4">
+          <v-col cols="12">
+            <v-card
+              class="expandable-card"
+              elevation="4"
+              rounded="xl"
+              :style="{
+                borderLeft: '4px solid #4CAF50',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
+              }"
+            >
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
+                @click="toggleConsultas"
+              >
+                <v-avatar size="60" class="elevation-2 me-4" color="green-darken-1">
+                  <v-icon size="30" color="white">mdi-stethoscope</v-icon>
+                </v-avatar>
+                <div class="flex-grow-1">
+                  <div class="text-h6 font-weight-bold text-grey-darken-3">
+                    Consultas Concluídas
+                  </div>
+                  <div class="text-caption text-grey-darken-1">
+                    {{ consultasConcluidas.length }} {{ consultasConcluidas.length === 1 ? 'consulta concluída' : 'consultas concluídas' }}
+                  </div>
+                </div>
+                <v-icon :color="consultasExpanded ? 'green-darken-1' : 'grey'">
+                  {{ consultasExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
+                </v-icon>
+              </div>
+
+              <v-expand-transition>
+                <div v-if="consultasExpanded">
+                  <v-divider />
+                  <v-list class="pa-0 scrollable-content">
+                    <template v-if="loadingConsultas">
+                      <v-list-item v-for="n in 3" :key="n" class="px-6 py-3">
+                        <v-skeleton-loader type="list-item-avatar-two-line" />
+                      </v-list-item>
+                    </template>
+                    <template v-else-if="consultasConcluidas.length === 0">
+                      <v-list-item class="text-center py-8">
+                        <v-list-item-title class="text-grey">
+                          Nenhuma consulta concluída
+                        </v-list-item-title>
+                      </v-list-item>
+                    </template>
+                    <template v-else>
+                      <v-list-item
+                        v-for="consulta in consultasConcluidas"
+                        :key="consulta.id"
+                        class="px-6 py-3 list-item-hover"
+                        @click="abrirDetalhesConsulta(consulta)"
+                      >
+                        <template #prepend>
+                          <v-avatar size="40" color="green-darken-1" class="me-3">
+                            <v-icon color="white" size="20">mdi-check-circle</v-icon>
+                          </v-avatar>
+                        </template>
+
+                        <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
+                          {{ getNomeProfissional(consulta) }}
+                        </v-list-item-title>
+
+                        <v-list-item-subtitle class="text-grey-darken-1">
+                          Data: {{ formatarDataLocal(consulta.updatedAt) }}
+                        </v-list-item-subtitle>
+
+                        <template #append>
+                          <v-icon color="grey">mdi-chevron-right</v-icon>
+                        </template>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </div>
+              </v-expand-transition>
+            </v-card>
+          </v-col>
+        </v-row>
       </template>
     </v-container>
+
+    <v-dialog v-model="dialogConsulta" max-width="700">
+      <v-card>
+        <v-card-title class="d-flex align-center pa-6" style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)">
+          <v-icon color="white" size="30" class="me-3">mdi-stethoscope</v-icon>
+          <span class="text-h5 font-weight-bold text-white">Detalhes da Consulta</span>
+          <v-spacer />
+          <v-btn icon="mdi-close" variant="text" color="white" @click="dialogConsulta = false" />
+        </v-card-title>
+
+        <v-card-text class="pa-6" v-if="consultaSelecionada">
+          <v-row>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Profissional</div>
+                <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                  {{ getNomeProfissional(consultaSelecionada) }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Data da Consulta</div>
+                <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                  {{ formatarDataLocal(consultaSelecionada.dataConsulta) }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Atualizado em</div>
+                <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                  {{ formatarDataLocal(consultaSelecionada.updatedAt) }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Atualizado por</div>
+                <div class="text-body-1 font-weight-medium text-grey-darken-3">
+                  {{ consultaSelecionada.updatedBy || 'N/A' }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Diagnóstico</div>
+                <div class="text-body-1 text-grey-darken-3">
+                  {{ consultaSelecionada.diagnostico || 'Sem diagnóstico' }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Medicamentos Receitados</div>
+                <div class="text-body-1 text-grey-darken-3">
+                  {{ consultaSelecionada.medicamentosReceitados || 'Sem medicamentos' }}
+                </div>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Situação</div>
+                <v-chip color="green" size="small">
+                  {{ consultaSelecionada.situacao }}
+                </v-chip>
+              </div>
+            </v-col>
+            <v-col cols="12" md="6">
+              <div class="mb-4">
+                <div class="text-caption text-grey-darken-1 mb-1">Consulta Externa</div>
+                <v-chip :color="consultaSelecionada.consultaExterna ? 'blue' : 'grey'" size="small">
+                  {{ consultaSelecionada.consultaExterna ? 'Sim' : 'Não' }}
+                </v-chip>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
 
 
   </div>
@@ -213,8 +373,9 @@
 import { formatarData, formatarDataLocal } from '@/utils/date.utils'
 import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
-import { onMounted, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import consultasService from '@/services/consultas/consultas-service'
 
 const router = useRouter()
 const route = useRoute()
@@ -224,6 +385,11 @@ const loading = ref(true)
 const alergiasExpanded = ref(true)
 const alergias = ref([])
 const loadingAlergias = ref(true)
+const consultas = ref([])
+const consultasExpanded = ref(true)
+const loadingConsultas = ref(true)
+const dialogConsulta = ref(false)
+const consultaSelecionada = ref(null)
 
 const calcularIdade = (dataNascimento) => {
   if (!dataNascimento) return 'N/A'
@@ -256,6 +422,29 @@ const toggleAlergias = () => {
   alergiasExpanded.value = !alergiasExpanded.value
 }
 
+const toggleConsultas = () => {
+  consultasExpanded.value = !consultasExpanded.value
+}
+
+const consultasConcluidas = computed(() => {
+  return consultas.value.filter(c => c.situacao === 'Concluido')
+})
+
+const getNomeProfissional = (consulta) => {
+  if (consulta.medico?.usuario?.nome) {
+    return consulta.medico.usuario.nome
+  }
+  if (consulta.fisioterapeuta?.usuario?.nome) {
+    return consulta.fisioterapeuta.usuario.nome
+  }
+  return 'Profissional não identificado'
+}
+
+const abrirDetalhesConsulta = (consulta) => {
+  consultaSelecionada.value = consulta
+  dialogConsulta.value = true
+}
+
 const findAllAlergias = async (id) => {
   try {
     loadingAlergias.value = true
@@ -274,6 +463,20 @@ const findAllAlergias = async (id) => {
     }
   } finally {
     loadingAlergias.value = false
+  }
+}
+
+const buscarConsultas = async () => {
+  try {
+    loadingConsultas.value = true
+    const atletaId = route.params.id || route.query.id
+    const response = await consultasService.getConsultaByAtletaId(atletaId)
+    consultas.value = response.data || []
+  } catch (error) {
+    console.error('Erro ao buscar consultas:', error)
+    consultas.value = []
+  } finally {
+    loadingConsultas.value = false
   }
 }
 
@@ -300,6 +503,7 @@ onMounted(async () => {
   if (pacienteId) {
     buscarPaciente(pacienteId)
     findAllAlergias(pacienteId)
+    buscarConsultas()
   } else {
     console.error('ID do paciente não encontrado na rota')
     loading.value = false
