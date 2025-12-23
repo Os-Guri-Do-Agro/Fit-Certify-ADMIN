@@ -41,7 +41,7 @@ class exercicioService {
   async getExerciciosPagined(page: number, pageSize: number): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.get(`/exercicio/findAllPagined?page=${page}&size=${pageSize}`, {
+      apiClient.get(`/exercicio/findAllPagined?page=${page}&pageSize=${pageSize}`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`

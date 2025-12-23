@@ -32,13 +32,62 @@ class EventoService {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json'
         }
-    
+
     }),
       'Failed to get eventos'
     )
   }
-  
 
+  getByEventoId(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/evento/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      'Failed to get evento'
+    )
+  }
+
+  getAllTipoEventos(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/evento/tipo-evento`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      'Failed to get tipo eventos'
+    )
+  }
+
+  getTipoEventoById(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/tipo-evento/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      'Failed to get tipo evento'
+    )
+  }
+
+  getByData(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/evento/getByData/${data}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'Erro ao buscar eventos paginados'
+    );
+  }
 
 }
 

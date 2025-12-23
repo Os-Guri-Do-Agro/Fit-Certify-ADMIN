@@ -392,6 +392,12 @@ const menusPorPerfil: Record<string, any[]> = {
       ],
     },
     {
+      icon: 'mdi-link',
+      title: 'Conexões',
+      value: 'conexoes',
+      to: '/solicitacoesConexoes'
+    },
+    {
       icon: 'mdi mdi-compass-outline',
       title: 'Resumo',
       value: 'resumo',
@@ -399,19 +405,39 @@ const menusPorPerfil: Record<string, any[]> = {
       children: [],
     },
     {
-      icon: 'mdi-link',
-      title: 'Conexões',
-      value: 'conexoes',
-      to: '/solicitacoesConexoes'
+      icon: 'mdi mdi-human-handsup',
+      title: 'Biblioteca de Exercícios',
+      value: 'bibliotecaExercicios',
+      to: '/exercicios',
     },
   ],
   treinador: [
+  {
+      icon: 'mdi mdi-heart-outline',
+      title: 'Saúde',
+      value: 'saude',
+      to: '/saude',
+      children: [
+        {
+          icon: 'mdi-calendar-star',
+          title: 'Eventos',
+          value: 'eventos',
+          to: '/Atleta-Screens/eventos',
+        },
+      ],
+    },
   {
           icon: 'mdi-link',
           title: 'Conexões',
           value: 'conexoes',
           to: '/solicitacoesConexoes'
         },
+        {
+      icon: 'mdi mdi-human-handsup',
+      title: 'Biblioteca de Exercícios',
+      value: 'bibliotecaExercicios',
+      to: '/exercicios',
+    },
   ]
 }
 

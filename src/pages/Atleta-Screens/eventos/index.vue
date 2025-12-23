@@ -40,52 +40,52 @@
 
             <v-row v-else class="">
                 <v-col cols="12" md="4" v-for="evento in eventos" :key="evento">
-                    <v-card elevation="8" rounded="xl"  class="event-card">
+                    <v-card elevation="8" rounded="xl" class="event-card">
                         <v-card-text class="pa-6">
                             <div class="d-flex align-center mb-4">
                                 <v-icon size="32" color="light-blue-accent-3" class="mr-3">
                                     mdi-calendar-star
                                 </v-icon>
-                                <h3 class="text-h5 font-weight-bold" style="color: #00c6fe">
+                                <h3 class="text-h5 font-weight-bold event-title" style="color: #00c6fe">
                                     {{ evento.titulo }}
                                 </h3>
                             </div>
-                            
+
                             <div class="event-details">
                                 <div class="d-flex align-center mb-3">
                                     <v-icon size="20" color="grey-darken-1" class="mr-2">
                                         mdi-map-marker
                                     </v-icon>
-                                    <span class="text-body-1">{{ evento.local }}</span>
+                                    <span class="text-body-1 event-text">{{ evento.local }}</span>
                                 </div>
-                                
+
                                 <div class="d-flex align-center mb-3">
                                     <v-icon size="20" color="grey-darken-1" class="mr-2">
                                         mdi-calendar
                                     </v-icon>
                                     <span class="text-body-1">{{ new Date(evento.data).toLocaleDateString('pt-BR') }}</span>
                                 </div>
-                                
+
                                 <div class="d-flex align-center mb-4">
                                     <v-icon size="20" color="grey-darken-1" class="mr-2">
                                         mdi-run
                                     </v-icon>
-                                    <span class="text-body-1">{{ evento.distanciaEventos?.map(d => d.distancia + 'km').join(' / ') || 'N/A' }}</span>
+                                    <span class="text-body-1 event-text">{{ evento.distanciaEventos?.map(d => d.distancia + 'km').join(' / ') || 'N/A' }}</span>
                                 </div>
                             </div>
-                            
-                            <v-btn :href="`https://fitcertify365.com/#/evento/${evento.id}`" target="_blank" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mt-4">
+
+                            <v-btn @click="verDetalhes(evento.id)" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mt-4">
                                 <v-icon class="mr-2">mdi-eye</v-icon>
                                 Ver Detalhes
                             </v-btn>
                         </v-card-text>
-                    </v-card>  
+                    </v-card>
                 </v-col>
             </v-row>
 
             <v-row class="justify-center mt-6">
-                <v-pagination 
-                    v-model="page" 
+                <v-pagination
+                    v-model="page"
                     :length="totalPages"
                     @update:model-value="bunscarEventoPagined"
                     color="light-blue-accent-3"
@@ -99,14 +99,16 @@
 
 <script setup>
     import { onMounted, ref, watch, computed } from 'vue'
+    import { useRouter } from 'vue-router'
     import eventoService from '@/services/eventos/eventos-service';
 
+    const router = useRouter()
     const eventos = ref([])
     const loading = ref(false)
     const search = ref('')
     const searchForLocalidade = ref('')
     const selectedMes = ref('')
-    
+
     const meses = [
         { nome: 'Janeiro', valor: '01' },
         { nome: 'Fevereiro', valor: '02' },
@@ -162,10 +164,39 @@
         bunscarEventoPagined()
     })
 
+    const verDetalhes = (eventoId) => {
+        console.log('Navegando para evento:', eventoId)
+        console.log('Rota:', `/Atleta-Screens/eventos/${eventoId}`)
+        router.push(`/Atleta-Screens/eventos/${eventoId}`)
+    }
+
 </script>
 
 
 <style scoped>
+.event-card {
+  min-height: 275px;
+}
+
+.event-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-height: 1.3;
+}
+
+.event-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
 .event-details {
   border-left: 3px solid #00c6fe;
   padding-left: 16px;
