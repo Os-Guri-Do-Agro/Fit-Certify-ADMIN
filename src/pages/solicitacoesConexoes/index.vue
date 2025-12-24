@@ -627,8 +627,17 @@ const getStatusColor = (status: string) => {
 }
 
 const verPerfil = (conexao: any) => {
-  const id = isAtleta ? getProfissional(conexao)?.id : conexao?.solicitante?.id
-  router.push({ path: '/detalhesPaciente', query: { id } })
+  const profissional = isAtleta ? getProfissional(conexao) : conexao?.solicitante
+  const id = profissional?.id
+  const tipo = profissional?.tipo
+
+  if (tipo === 'atleta') {
+    router.push({ path: '/detalhesPaciente', query: { id } })
+  } else if (tipo === 'treinador') {
+    router.push({ path: '/Atleta-Screens/treinadorDetalhes', query: { id } })
+  } else if (tipo === 'fisioterapeuta') {
+    router.push({ path: '/Atleta-Screens/fisioterapeutaDetalhes', query: { id } })
+  }
 }
 
 onMounted(() => {

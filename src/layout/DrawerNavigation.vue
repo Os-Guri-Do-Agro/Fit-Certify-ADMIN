@@ -553,6 +553,16 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.clean-drawer :deep(.v-navigation-drawer__content) {
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.clean-drawer :deep(.v-navigation-drawer__content)::-webkit-scrollbar {
+  display: none;
+}
+
 .v-list-item:hover {
   background-color: white !important;
   color: #1976d2 !important;
