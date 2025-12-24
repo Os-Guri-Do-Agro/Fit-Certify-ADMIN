@@ -1,17 +1,11 @@
 <template>
   <div style="background: #f8f9fa; min-height: 100vh;">
     <!-- Banner com Overlay -->
-    <div class="banner-container" :style="{ backgroundImage: evento?.imagemUrl ? `url(${evento.imagemUrl})` : 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)' }">
+    <div class="banner-container"
+      :style="{ backgroundImage: evento?.imagemUrl ? `url(${evento.imagemUrl})` : 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)' }">
       <div class="banner-overlay">
         <v-container>
-          <v-btn
-            icon
-            variant="text"
-            color="white"
-            @click="voltarParaLista"
-            class="mb-4"
-            size="large"
-          >
+          <v-btn icon variant="text" color="white" @click="voltarParaLista" class="mb-4" size="large">
             <v-icon size="32">mdi-arrow-left</v-icon>
           </v-btn>
         </v-container>
@@ -39,34 +33,15 @@
               </div>
 
               <div class="d-flex flex-wrap ga-3 mb-6">
-                <v-btn
-                  v-if="evento.linkEnviarCertificado && isUserAtleta"
-                  @click="abrirDialogTermos"
-                  color="#88ce0d"
-                  variant="flat"
-                  size="large"
-                  prepend-icon="mdi-email"
-                  rounded="lg"
-                  elevation="3"
-                  class="text-white px-6"
-                  style="font-weight: 600; text-transform: none;"
-                >
+                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" color="#88ce0d"
+                  variant="flat" size="large" prepend-icon="mdi-email" rounded="lg" elevation="3"
+                  class="text-white px-6" style="font-weight: 600; text-transform: none;">
                   Enviar Certificado
                 </v-btn>
 
-                <v-btn
-                  v-if="evento.linkSiteProva"
-                  :href="evento.linkSiteProva"
-                  target="_blank"
-                  color="#00c6fe"
-                  variant="flat"
-                  size="large"
-                  prepend-icon="mdi-web"
-                  rounded="lg"
-                  elevation="3"
-                  class="text-white px-6"
-                  style="font-weight: 600; text-transform: none;"
-                >
+                <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#00c6fe"
+                  variant="flat" size="large" prepend-icon="mdi-web" rounded="lg" elevation="3" class="text-white px-6"
+                  style="font-weight: 600; text-transform: none;">
                   Site da Prova
                 </v-btn>
               </div>
@@ -74,11 +49,7 @@
 
             <v-col cols="12" md="4" class="d-flex justify-center align-center">
               <v-avatar size="200" rounded="lg" class="logo-avatar">
-                <v-img
-                  v-if="evento.logoUrl"
-                  :src="evento.logoUrl"
-                  cover
-                />
+                <v-img v-if="evento.logoUrl" :src="evento.logoUrl" cover />
                 <v-icon v-else size="80" color="#00c6fe">mdi-image</v-icon>
               </v-avatar>
             </v-col>
@@ -176,21 +147,12 @@
           </div>
           <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
           <div class="d-flex flex-wrap ga-6">
-            <v-card
-              v-for="(orgEvento, index) in evento.organizacaoEvento"
-              :key="index"
-              elevation="2"
-              rounded="lg"
-              class="org-card"
-            >
-              <v-img
-                v-if="orgEvento.organizacao?.logoUrl"
-                :src="orgEvento.organizacao.logoUrl"
-                width="150"
-                height="80"
-                cover
-              />
-              <div v-else class="d-flex align-center justify-center" style="width: 150px; height: 80px; background: #f0f0f0;">
+            <v-card v-for="(orgEvento, index) in evento.organizacaoEvento" :key="index" elevation="2" rounded="lg"
+              class="org-card">
+              <v-img v-if="orgEvento.organizacao?.logoUrl" :src="orgEvento.organizacao.logoUrl" width="150" height="80"
+                cover />
+              <div v-else class="d-flex align-center justify-center"
+                style="width: 150px; height: 80px; background: #f0f0f0;">
                 <v-icon size="40" color="#00c6fe">mdi-office-building</v-icon>
               </div>
             </v-card>
@@ -201,25 +163,14 @@
 
     <!-- Erro -->
     <v-container v-else>
-      <v-card
-        class="text-center py-16 mt-8"
-        elevation="4"
-        rounded="xl"
-      >
+      <v-card class="text-center py-16 mt-8" elevation="4" rounded="xl">
         <div class="empty-icon-container mx-auto mb-6">
           <v-icon size="80" color="#ff5252">mdi-alert-circle</v-icon>
         </div>
         <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">Evento não encontrado</h3>
         <p class="text-h6 text-grey-darken-1 mb-8">O evento solicitado não existe ou foi removido</p>
-        <v-btn
-          color="#00c6fe"
-          rounded="xl"
-          elevation="4"
-          size="x-large"
-          @click="voltarParaLista"
-          class="text-white px-8"
-          style="font-weight: 600; text-transform: none;"
-        >
+        <v-btn color="#00c6fe" rounded="xl" elevation="4" size="x-large" @click="voltarParaLista"
+          class="text-white px-8" style="font-weight: 600; text-transform: none;">
           <v-icon class="mr-2">mdi-arrow-left</v-icon>
           Voltar para Lista
         </v-btn>
@@ -229,48 +180,40 @@
     <!-- Dialog Termos -->
     <v-dialog v-model="dialogTermos" max-width="800" persistent>
       <v-card rounded="xl">
-        <v-card-title class="pa-6 d-flex align-center" style="background: #00c6fe; color: white;">
+        <v-card-title v-if="evento.possuiTermo && termos?.termo" class="pa-6 d-flex align-center"
+          style="background: #00c6fe; color: white;">
           <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
           <span class="text-h5 font-weight-bold">Termo de Responsabilidade</span>
         </v-card-title>
 
+        <v-card-title v-else class="pa-6 d-flex align-center" style="background: #00c6fe; color: white;">
+          <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
+          <span class="text-h5 font-weight-bold">Envio de Certificado</span>
+        </v-card-title>
+
         <v-card-text class="pa-6">
-          <div
-            v-if="evento.possuiTermo && termos?.termo"
-            @scroll="onScroll"
-            style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;"
-          >
+          <div v-if="evento.possuiTermo && termos?.termo" @scroll="onScroll"  
+            style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
             {{ termos.termo }}
           </div>
           <div v-else class="text-center py-8">
-            <v-icon size="64" color="#ff9800">mdi-alert-circle-outline</v-icon>
-            <p class="text-h6 mt-4" style="color: #666;">Este evento não possui termo de responsabilidade.</p>
+            <v-icon size="80" color="#00c6fe" class="mb-4">mdi-cloud-upload-outline</v-icon>
+            <h3 class="text-h5 font-weight-bold mb-2" style="color: #2c3e50;">Quase lá!</h3>
+            <p class="text-body-1 px-6" style="color: #666;">
+              Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar
+              sua participação.
+            </p>
           </div>
         </v-card-text>
 
         <v-card-actions class="pa-6">
-          <v-btn
-            @click="dialogTermos = false"
-            variant="outlined"
-            color="#666"
-            rounded="lg"
-            size="large"
-            class="px-6"
-          >
+          <v-btn @click="dialogTermos = false" variant="outlined" color="#666" rounded="lg" size="large" class="px-6">
             Cancelar
           </v-btn>
           <v-spacer />
-          <v-btn
-            @click="confirmarEnvio"
-            :disabled="(evento.possuiTermo && !scrolledToBottom) || loadingTermos"
-            :loading="loadingTermos"
-            color="#88ce0d"
-            variant="flat"
-            rounded="lg"
-            size="large"
-            class="text-white px-6"
-            style="font-weight: 600;"
-          >
+          <v-btn @click="confirmarEnvio" :disabled="(evento.possuiTermo && !scrolledToBottom) || loadingTermos"
+            :loading="loadingTermos" color="#88ce0d" variant="flat" rounded="lg" size="large" class="text-white px-6"
+            style="font-weight: 600;">
             Confirmar Envio
           </v-btn>
         </v-card-actions>
@@ -329,7 +272,7 @@ const aceitarTermos = async () => {
     }
     await termosService.aceitarTermos(data)
     toast.success('Termos e certificado enviados para o e-mail cadastrado.')
-    } catch (error) {
+  } catch (error) {
     console.error('Erro ao aceitar termos:', error)
     toast.error('Erro ao aceitar termos')
   } finally {
@@ -394,7 +337,7 @@ const onScroll = (e: Event) => {
 const confirmarEnvio = async () => {
   try {
     await aceitarTermos()
-    window.location.href = `mailto:${evento.value.linkEnviarCertificado}`
+    // window.location.href = `mailto:${evento.value.linkEnviarCertificado}`
     dialogTermos.value = false
   } catch (error) {
     console.error('Erro ao confirmar envio:', error)
