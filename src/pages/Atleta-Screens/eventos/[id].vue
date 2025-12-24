@@ -39,20 +39,22 @@
               </div>
 
               <div class="d-flex flex-wrap ga-3 mb-6">
-                <v-chip
-                  v-if="evento.linkEnviarCertificado"
-                  :href="`mailto:${evento.linkEnviarCertificado}`"
+                <v-btn
+                  v-if="evento.linkEnviarCertificado && isUserAtleta"
+                  @click="abrirDialogTermos"
                   color="#88ce0d"
                   variant="flat"
                   size="large"
                   prepend-icon="mdi-email"
-                  class="text-white"
-                  style="cursor: pointer;"
+                  rounded="lg"
+                  elevation="3"
+                  class="text-white px-6"
+                  style="font-weight: 600; text-transform: none;"
                 >
                   Enviar Certificado
-                </v-chip>
+                </v-btn>
 
-                <v-chip
+                <v-btn
                   v-if="evento.linkSiteProva"
                   :href="evento.linkSiteProva"
                   target="_blank"
@@ -60,11 +62,13 @@
                   variant="flat"
                   size="large"
                   prepend-icon="mdi-web"
-                  class="text-white"
-                  style="cursor: pointer;"
+                  rounded="lg"
+                  elevation="3"
+                  class="text-white px-6"
+                  style="font-weight: 600; text-transform: none;"
                 >
                   Site da Prova
-                </v-chip>
+                </v-btn>
               </div>
             </v-col>
 
@@ -221,22 +225,80 @@
         </v-btn>
       </v-card>
     </v-container>
+
+    <!-- Dialog Termos -->
+    <v-dialog v-model="dialogTermos" max-width="800" persistent>
+      <v-card rounded="xl">
+        <v-card-title class="pa-6 d-flex align-center" style="background: #00c6fe; color: white;">
+          <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
+          <span class="text-h5 font-weight-bold">Termo de Responsabilidade</span>
+        </v-card-title>
+
+        <v-card-text class="pa-6">
+          <div
+            v-if="evento.possuiTermo && termos?.termo"
+            @scroll="onScroll"
+            style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;"
+          >
+            {{ termos.termo }}
+          </div>
+          <div v-else class="text-center py-8">
+            <v-icon size="64" color="#ff9800">mdi-alert-circle-outline</v-icon>
+            <p class="text-h6 mt-4" style="color: #666;">Este evento não possui termo de responsabilidade.</p>
+          </div>
+        </v-card-text>
+
+        <v-card-actions class="pa-6">
+          <v-btn
+            @click="dialogTermos = false"
+            variant="outlined"
+            color="#666"
+            rounded="lg"
+            size="large"
+            class="px-6"
+          >
+            Cancelar
+          </v-btn>
+          <v-spacer />
+          <v-btn
+            @click="confirmarEnvio"
+            :disabled="(evento.possuiTermo && !scrolledToBottom) || loadingTermos"
+            :loading="loadingTermos"
+            color="#88ce0d"
+            variant="flat"
+            rounded="lg"
+            size="large"
+            class="text-white px-6"
+            style="font-weight: 600;"
+          >
+            Confirmar Envio
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import eventoService from '@/services/eventos/eventos-service'
+import termosService from '@/services/eventos/termos/termos-service'
 import { toast } from 'vue3-toastify'
+import { isAtleta } from '@/utils/auth'
 
 const router = useRouter()
 const route = useRoute()
 
 const evento = ref<any>(null)
 const loading = ref(false)
+const loadingTermos = ref(false)
+const termos = ref<any>(null)
+const dialogTermos = ref(false)
+const scrolledToBottom = ref(false)
 
 const tipoEvento = ref<any>(null)
+const isUserAtleta = computed(() => isAtleta())
 
 const formatarData = (data: string) => {
   if (!data) return 'Não informado'
@@ -249,6 +311,32 @@ const formatarData = (data: string) => {
     minute: '2-digit'
   })
 }
+
+const buscarTermos = async () => {
+  try {
+    const response = await termosService.getTermosByEventoId(evento.value.id)
+    termos.value = response.data || response
+  } catch (error) {
+    console.error('Não foi possível carregar termos:', error)
+  }
+}
+
+const aceitarTermos = async () => {
+  loadingTermos.value = true
+  try {
+    const data = {
+      eventoId: evento.value.id,
+    }
+    await termosService.aceitarTermos(data)
+    toast.success('Termos e certificado enviados para o e-mail cadastrado.')
+    } catch (error) {
+    console.error('Erro ao aceitar termos:', error)
+    toast.error('Erro ao aceitar termos')
+  } finally {
+    loadingTermos.value = false
+  }
+}
+
 
 const formatDistancias = (distanciasEvento: any[]) => {
   if (!distanciasEvento || distanciasEvento.length === 0) {
@@ -277,6 +365,8 @@ const carregarEvento = async () => {
     } catch (tipoError) {
       console.error('Não foi possível carregar tipos de eventos:', tipoError)
     }
+
+    await buscarTermos()
   } catch (error) {
     console.error('Erro ao carregar evento:', error)
     toast.error('Erro ao carregar detalhes do evento')
@@ -288,6 +378,27 @@ const carregarEvento = async () => {
 
 const voltarParaLista = () => {
   router.push('/Atleta-Screens/eventos')
+}
+
+const abrirDialogTermos = () => {
+  scrolledToBottom.value = false
+  dialogTermos.value = true
+}
+
+const onScroll = (e: Event) => {
+  const target = e.target as HTMLElement
+  const bottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 10
+  if (bottom) scrolledToBottom.value = true
+}
+
+const confirmarEnvio = async () => {
+  try {
+    await aceitarTermos()
+    window.location.href = `mailto:${evento.value.linkEnviarCertificado}`
+    dialogTermos.value = false
+  } catch (error) {
+    console.error('Erro ao confirmar envio:', error)
+  }
 }
 
 onMounted(() => {

@@ -7,7 +7,7 @@
     class="clean-drawer position-fixed"
     color="blue"
     rail-width="65"
-    width="280"
+    width="320"
   >
     <!-- Header -->
     <div class="pa-4 text-center header-section">
@@ -158,15 +158,35 @@
                 icon="mdi-search"
               ></v-list-item>
             </template>
-            <v-list-item
-              v-for="items in contaItems"
-              :key="items.value"
-              :prepend-icon="items.icon"
-              :title="items.title"
-              :value="items.value"
-              :to="items.to"
-              @click="onClickMenu(items.title)"
-            ></v-list-item>
+            
+            <template v-for="item in contaItems">
+              <v-list-group
+                v-if="item.children && item.children.length"
+                :key="item.value"
+                :prepend-icon="item.icon"
+              >
+                <template v-slot:activator="{ props }">
+                  <v-list-item v-bind="props" :title="item.title"></v-list-item>
+                </template>
+                <v-list-item
+                  v-for="child in item.children"
+                  :key="child.value"
+                  v-show="!child.hideForRoles || !child.hideForRoles.includes(payload?.role)"
+                  :prepend-icon="child.icon"
+                  :title="child.title"
+                  :to="child.to"
+                ></v-list-item>
+              </v-list-group>
+
+              <v-list-item
+                v-else
+                :key="item.value"
+                :prepend-icon="item.icon"
+                :title="item.title"
+                :to="item.to"
+                @click="onClickMenu(item.title)"
+              ></v-list-item>
+            </template>
           </v-list-group>
         </v-list>
       </div>
@@ -227,6 +247,41 @@ const contaItems = [
     title: 'Perfil',
     value: 'dashboard',
     to: getProfileRoute(),
+  },
+  {
+    icon: 'mdi-account-plus',
+    title: 'Novo Perfil',
+    value: 'novo-perfil',
+    children: [
+      {
+        icon: 'mdi-run',
+        title: 'Atleta',
+        value: 'cadastrar-atleta',
+        to: '/cadastrar-atleta',
+        hideForRoles: ['atleta'],
+      },
+      {
+        icon: 'mdi-stethoscope',
+        title: 'Médico',
+        value: 'cadastrar-medico',
+        to: '/cadastrar-medico',
+        hideForRoles: ['medico'],
+      },
+      {
+        icon: 'mdi-human-handsup',
+        title: 'Fisioterapeuta',
+        value: 'cadastrar-fisioterapeuta',
+        to: '/cadastrar-fisioterapeuta',
+        hideForRoles: ['fisioterapeuta'],
+      },
+      {
+        icon: 'mdi-whistle',
+        title: 'Treinador',
+        value: 'cadastrar-treinador',
+        to: '/cadastrar-treinador',
+        hideForRoles: ['treinador'],
+      },
+    ],
   },
 ]
 
