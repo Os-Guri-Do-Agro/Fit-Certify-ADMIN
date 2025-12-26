@@ -28,6 +28,19 @@ class treinadorService {
     )
   }
 
+  createTreinadorLogado(data: any): Promise<any> {
+    const token = getToken()
+      return this.handleRequest(
+        apiClient.post('/treinador/create-treinador-multiPerfil', data, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }),
+        'Erro ao criar treinador'
+      )
+    }
+
   getTreinadorById(id: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
