@@ -3,7 +3,7 @@
     <v-card rounded="xl" elevation="4">
       <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-stethoscope</v-icon>
-        <span class="text-h5 font-weight-bold">Cadastrar Novo Médico</span>
+        <span class="text-h5 font-weight-bold">Cadastrar Médico</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
