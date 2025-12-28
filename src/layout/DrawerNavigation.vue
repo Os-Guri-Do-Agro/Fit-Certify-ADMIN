@@ -158,7 +158,7 @@
                 icon="mdi-search"
               ></v-list-item>
             </template>
-            
+
             <template v-for="item in contaItems">
               <v-list-group
                 v-if="item.children && item.children.length"
@@ -180,7 +180,7 @@
 
               <v-list-item
                 v-else
-                :key="item.value"
+                :key="'item-' + item.value"
                 :prepend-icon="item.icon"
                 :title="item.title"
                 :to="item.to"
@@ -222,16 +222,29 @@
 
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout'
-import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout } from '@/utils/auth'
+import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout, getUserID } from '@/utils/auth'
 import { getProfileRoute, getListaConexaoRoute } from '@/utils/profile'
 import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
+import userService from '@/services/user/user-service'
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
 const open = ref(['Analise'])
 const payload = ref<any>()
+const infoUser = ref<any>()
 
+
+  const infoUsuario = async () => {
+    try {
+      const id = getUserID()
+      const response = await userService.userById(id)
+      infoUser.value = response.data
+      console.log(response.data)
+    } catch (error) {
+      console.error('Erro ao buscar informações do usuário:', error)
+    }
+  }
 
 const notificacoesItems = [
   {
@@ -241,49 +254,53 @@ const notificacoesItems = [
     to: '/notificacoes'
   }
 ]
-const contaItems = [
-  {
-    icon: 'mdi-account-circle',
-    title: 'Perfil',
-    value: 'dashboard',
-    to: getProfileRoute(),
-  },
-  {
-    icon: 'mdi-account-plus',
-    title: 'Novo Perfil',
-    value: 'novo-perfil',
-    children: [
-      {
-        icon: 'mdi-run',
-        title: 'Atleta',
-        value: 'cadastrar-atleta',
-        to: '/cadastrar-atleta',
-        hideForRoles: ['atleta'],
-      },
-      {
-        icon: 'mdi-stethoscope',
-        title: 'Médico',
-        value: 'cadastrar-medico',
-        to: '/cadastrar-medico',
-        hideForRoles: ['medico'],
-      },
-      {
-        icon: 'mdi-human-handsup',
-        title: 'Fisioterapeuta',
-        value: 'cadastrar-fisioterapeuta',
-        to: '/cadastrar-fisioterapeuta',
-        hideForRoles: ['fisioterapeuta'],
-      },
-      {
-        icon: 'mdi-whistle',
-        title: 'Treinador',
-        value: 'cadastrar-treinador',
-        to: '/cadastrar-treinador',
-        hideForRoles: ['treinador'],
-      },
-    ],
-  },
-]
+const contaItems = computed(() => {
+  const children = [
+    ...(!infoUser.value?.atletaId ? [{
+      icon: 'mdi-run',
+      title: 'Atleta',
+      value: 'cadastrar-atleta',
+      to: '/cadastrar-atleta',
+      hideForRoles: ['atleta'],
+    }] : []),
+    ...(!infoUser.value?.medicoId ? [{
+      icon: 'mdi-stethoscope',
+      title: 'Médico',
+      value: 'cadastrar-medico',
+      to: '/cadastrar-medico',
+      hideForRoles: ['medico'],
+    }] : []),
+    ...(!infoUser.value?.fisioterapeutaId ? [{
+      icon: 'mdi-human-handsup',
+      title: 'Fisioterapeuta',
+      value: 'cadastrar-fisioterapeuta',
+      to: '/cadastrar-fisioterapeuta',
+      hideForRoles: ['fisioterapeuta'],
+    }] : []),
+    ...(!infoUser.value?.treinadorId ? [{
+      icon: 'mdi-whistle',
+      title: 'Treinador',
+      value: 'cadastrar-treinador',
+      to: '/cadastrar-treinador',
+      hideForRoles: ['treinador'],
+    }] : []),
+  ]
+
+  return [
+    {
+      icon: 'mdi-account-circle',
+      title: 'Perfil',
+      value: 'dashboard',
+      to: getProfileRoute(),
+    },
+    ...(children.length > 0 ? [{
+      icon: 'mdi-account-plus',
+      title: 'Novo Perfil',
+      value: 'novo-perfil',
+      children,
+    }] : []),
+  ]
+})
 
 const pacienteItems = [
   {
@@ -541,6 +558,7 @@ const menuFinal = computed(() => {
 
 onMounted(() => {
   payload.value = getPayload()
+  infoUsuario()
 })
 
 onMounted(() => {

@@ -60,8 +60,8 @@
         </div>
         <p class="text-body-2 mb-4" style="color: #64748b;">Digite o código de convite do profissional para enviar uma solicitação de conexão.</p>
 
-        <!-- Toggle Tipo -->
-        <div class="mb-4">
+        <!-- Toggle Tipo (apenas para atletas) -->
+        <div v-if="userRole === 'atleta'" class="mb-4">
           <p class="text-body-2 mb-2 font-weight-medium" style="color: #2c3e50;">Tipo de profissional:</p>
           <v-btn-toggle v-model="destinatarioTipo" mandatory color="#00c6fe" rounded="lg" class="w-100" style="border: 2px solid #e6faff;">
             <v-btn value="fisioterapeuta" class="flex-grow-1 text-none">
@@ -107,7 +107,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import atletaService from '@/services/atleta/atleta-service'
 import treinadorService from '@/services/treinador/treinador-service'
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
@@ -119,6 +119,7 @@ const codigoInserir = ref('')
 const destinatarioTipo = ref<'fisioterapeuta' | 'treinador'>('fisioterapeuta')
 const loadingGerar = ref(false)
 const loadingInserir = ref(false)
+const userRole = computed(() => getPayload()?.role)
 
 const buscarCodigoExistente = async () => {
   try {
@@ -152,7 +153,23 @@ const buscarCodigoExistente = async () => {
 const gerarCodigo = async () => {
   loadingGerar.value = true
   try {
-    const response = await atletaService.gerarCodigoConvite()
+    const payload = getPayload()
+    let response
+    
+    switch (payload?.role) {
+      case 'atleta':
+        response = await atletaService.gerarCodigoConvite()
+        break
+      case 'fisioterapeuta':
+        response = await fisioterapeutaService.gerarCodigoConvite()
+        break
+      case 'treinador':
+        response = await treinadorService.gerarCodigoConvite()
+        break
+      default:
+        throw new Error('Role não identificada')
+    }
+    
     codigoConvite.value = response.data.codigoConvite
     toast.success('Código gerado com sucesso!', { autoClose: 2500 })
   } catch (error: any) {
@@ -189,12 +206,26 @@ const inserirCodigo = async () => {
 
   loadingInserir.value = true
   try {
+    const payload = getPayload()
     const data = {
       codigoConvite: codigoInserir.value.trim(),
-      destinatarioTipo: destinatarioTipo.value
+      destinatarioTipo: payload?.role === 'atleta' ? destinatarioTipo.value : 'atleta'
     }
 
-    await atletaService.solicitarConexao(data)
+    switch (payload?.role) {
+      case 'atleta':
+        await atletaService.solicitarConexao(data)
+        break
+      case 'fisioterapeuta':
+        await fisioterapeutaService.solicitarConexao(data)
+        break
+      case 'treinador':
+        await treinadorService.solicitarConexao(data)
+        break
+      default:
+        throw new Error('Role não identificada')
+    }
+    
     toast.success('Solicitação enviada com sucesso!', { autoClose: 2500 })
     codigoInserir.value = ''
   } catch (error: any) {

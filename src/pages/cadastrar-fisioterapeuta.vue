@@ -3,10 +3,23 @@
     <v-card rounded="xl" elevation="4">
       <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-human-handsup</v-icon>
-        <span class="text-h5 font-weight-bold">Cadastrar Novo Fisioterapeuta</span>
+        <span class="text-h5 font-weight-bold">Cadastrar Fisioterapeuta</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
+        <VRow class="mb-4">
+          <VCol cols="12">
+            <VTextField
+              v-maska="'(##) #####-####'"
+              v-model="form.telefone"
+              label="Telefone"
+              placeholder="(00) 00000-0000"
+              variant="outlined"
+              rounded="lg"
+            />
+          </VCol>
+        </VRow>
+
         <VStepper v-model="step" :items="['Informações Profissionais', 'Endereço', 'Finalização']" class="elevation-0">
           <template #item.1>
             <FisioterapeutaForm :current-step="2" :form="form" :loading-cep="loadingCep" @buscar-cep="buscarCep" @handle-file-change="handleFileChange" />
@@ -38,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, toRaw } from 'vue'
+import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
@@ -57,7 +70,7 @@ const loading = ref(false)
 const loadingCep = ref(false)
 
 const form = ref({
-  dataNascimento: '', codigoConvite: null,
+  telefone: '',
   experiencia: '', foco: '', perfil: '', carreira: '', destaques: '',
   diaFuncionamentoInicio: '', diaFuncionamentoFim: '', horarioInicio: '', horarioFim: '',
   cep: '', rua: '', bairro: '', numero: '', cidade: '', uf: '',
@@ -127,33 +140,31 @@ const handleFileChange = (file) => {
 const submitFisioterapeuta = async () => {
   try {
     loading.value = true
-    const values = toRaw(form.value)
     const formData = new FormData()
 
-    formData.append('dataNascimento', formatarDataParaISO(values.dataNascimento))
-    formData.append('experiencia', values.experiencia ? Number(values.experiencia) : 0)
-    formData.append('codigoConvite', values.codigoConvite || null)
-    formData.append('foco', values.foco || 'Não informado')
-    formData.append('perfil', values.perfil || 'Não informado')
-    formData.append('carreira', values.carreira || 'Não informado')
-    formData.append('destaques', values.destaques || 'Não informado')
-    formData.append('diaFuncionamentoInicio', values.diaFuncionamentoInicio || 'Pend')
-    formData.append('diaFuncionamentoFim', values.diaFuncionamentoFim || 'Pend')
-    formData.append('horarioInicio', formatarHorarioParaISO(values.horarioInicio) || formatarHorarioParaISO('00:00'))
-    formData.append('horarioFim', formatarHorarioParaISO(values.horarioFim) || formatarHorarioParaISO('00:00'))
-    formData.append('cep', values.cep)
-    formData.append('rua', values.rua)
-    formData.append('bairro', values.bairro)
-    formData.append('numero', values.numero)
-    formData.append('cidade', values.cidade)
-    formData.append('uf', values.uf)
-    formData.append('linkInstagram', values.linkInstagram || '')
-    formData.append('linkFacebook', values.linkFacebook || '')
-    formData.append('declaraVeracidade', values.declaraVeracidade ? 'true' : 'false')
-    formData.append('aceitaCompartilharDados', values.aceitaCompartilharDados ? 'true' : 'false')
-    formData.append('aceitaTermos', values.aceitaTermos ? 'true' : 'false')
+    formData.append('telefone', form.value.telefone)
+    formData.append('experiencia', form.value.experiencia ? Number(form.value.experiencia) : 0)
+    formData.append('foco', form.value.foco || 'Não informado')
+    formData.append('perfil', form.value.perfil || 'Não informado')
+    formData.append('carreira', form.value.carreira || 'Não informado')
+    formData.append('destaques', form.value.destaques || 'Não informado')
+    formData.append('diaFuncionamentoInicio', form.value.diaFuncionamentoInicio || 'Pend')
+    formData.append('diaFuncionamentoFim', form.value.diaFuncionamentoFim || 'Pend')
+    formData.append('horarioInicio', formatarHorarioParaISO(form.value.horarioInicio) || formatarHorarioParaISO('00:00'))
+    formData.append('horarioFim', formatarHorarioParaISO(form.value.horarioFim) || formatarHorarioParaISO('00:00'))
+    formData.append('cep', form.value.cep)
+    formData.append('rua', form.value.rua)
+    formData.append('bairro', form.value.bairro)
+    formData.append('numero', form.value.numero)
+    formData.append('cidade', form.value.cidade)
+    formData.append('uf', form.value.uf)
+    formData.append('linkInstagram', form.value.linkInstagram || '')
+    formData.append('linkFacebook', form.value.linkFacebook || '')
+    formData.append('declaraVeracidade', form.value.declaraVeracidade ? 'true' : 'false')
+    formData.append('aceitaCompartilharDados', form.value.aceitaCompartilharDados ? 'true' : 'false')
+    formData.append('aceitaTermos', form.value.aceitaTermos ? 'true' : 'false')
 
-    await fisioterapeutaService.createFisioterapeuta(formData)
+    await fisioterapeutaService.createFisioterapeutaLogado(formData)
     toast.success('Fisioterapeuta cadastrado com sucesso!')
     router.push('/resumo')
   } catch (error) {

@@ -24,6 +24,19 @@ class fisioterapeutaService {
     )
   }
 
+  async createFisioterapeutaLogado(formData: FormData): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/fisioterapeuta/create-fisioterapeuta-multiPerfil', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to create fisioterapeuta'
+    )
+  }
+
   async getFisioterapeutaById(id: any): Promise<any> {
     const token = getToken()
     return this.handleRequest(

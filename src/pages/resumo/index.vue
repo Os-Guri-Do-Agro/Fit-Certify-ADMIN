@@ -243,7 +243,7 @@
         <v-col cols="12">
           <h2 class="text-h5 font-weight-bold text-grey-darken-3 mb-4">Análise Gráfica</h2>
         </v-col>
-        
+
         <v-col cols="12" md="6">
           <v-card
             class="pa-6"
@@ -265,7 +265,7 @@
             />
           </v-card>
         </v-col>
-        
+
         <v-col cols="12" md="6">
           <v-card
             class="pa-6"
@@ -299,6 +299,8 @@
 <script setup lang="ts">
 import consultasService from '@/services/consultas/consultas-service'
 import medicoService from '@/services/medico/medico-service'
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
+import { getRole } from '@/utils/auth'
 import dayjs from 'dayjs'
 import { onMounted, ref, computed } from 'vue'
 import VChart from 'vue-echarts'
@@ -322,6 +324,7 @@ const filtroTempo = ref('hoje')
 const dataPersonalizada = ref('')
 const consultas = ref([])
 const consultasPendentes = ref([])
+const userRole = ref(getRole())
 
 const opcoesTempoFiltro = [
   { label: 'Hoje', value: 'hoje' },
@@ -358,20 +361,21 @@ const buscarMetricas = async () => {
     const diaAnterior = dayjs().subtract(1, 'day').format('YYYY-MM-DD') + 'T00:00:00.000Z'
 
     let response, responseAnterior
+    const service = userRole.value === 'medico' ? medicoService : fisioterapeutaService
 
     if (filtroTempo.value === 'hoje') {
-      response = await medicoService.getMetricsById(diaAtual)
-      responseAnterior = await medicoService.getMetricsById(diaAnterior)
+      response = await service.getMetricsById(diaAtual)
+      responseAnterior = await service.getMetricsById(diaAnterior)
     } else if (filtroTempo.value === 'mes') {
-      response = await medicoService.getMonthlyMetricsById(diaAtual)
-      responseAnterior = await medicoService.getMonthlyMetricsById(dayjs().subtract(1, 'month').format('YYYY-MM-DD') + 'T00:00:00.000Z')
+      response = await service.getMonthlyMetricsById(diaAtual)
+      responseAnterior = await service.getMonthlyMetricsById(dayjs().subtract(1, 'month').format('YYYY-MM-DD') + 'T00:00:00.000Z')
     } else {
       if (!dataPersonalizada.value) {
         loading.value = false
         return
       }
-      response = await medicoService.getMetricsById(dataPersonalizada.value + 'T00:00:00.000Z')
-      responseAnterior = await medicoService.getMetricsById(dayjs(dataPersonalizada.value).subtract(1, 'day').format('YYYY-MM-DD') + 'T00:00:00.000Z')
+      response = await service.getMetricsById(dataPersonalizada.value + 'T00:00:00.000Z')
+      responseAnterior = await service.getMetricsById(dayjs(dataPersonalizada.value).subtract(1, 'day').format('YYYY-MM-DD') + 'T00:00:00.000Z')
     }
 
     metricas.value = {
@@ -401,11 +405,13 @@ const buscarConsultas = async () => {
   try {
     const inicioAno = dayjs().startOf('year')
     const fimAno = dayjs().endOf('year')
-    
+
     const dataInicio = inicioAno.format('YYYY-MM-DD') + 'T00:00:00.000Z'
     const dataFim = fimAno.format('YYYY-MM-DD') + 'T23:59:59.999Z'
 
-    const resp = await consultasService.findConsultasByMedico(dataInicio, dataFim)
+    const resp = userRole.value === 'medico'
+      ? await consultasService.findConsultasByMedico(dataInicio, dataFim)
+      : await fisioterapeutaService.findConsultasByFisioterapeuta(dataInicio, dataFim)
     consultas.value = resp.data || []
   } catch (error) {
     console.error('Erro ao buscar consultas', error)

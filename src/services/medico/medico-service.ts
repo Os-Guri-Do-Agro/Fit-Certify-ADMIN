@@ -87,6 +87,19 @@ class medicoService {
     )
   }
 
+  async createMedicoLogado(formData: FormData): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/medico/create-medico-multiPerfil', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to create medico'
+    )
+  }
+
   async editMedicoByProfile(data: FormData): Promise<any> {
     const token = getToken()
     return this.handleRequest(

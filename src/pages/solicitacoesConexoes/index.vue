@@ -3,7 +3,7 @@
     <div class="hero-section">
       <div class="hero-overlay"></div>
       <v-container class="position-relative w-100">
-        <v-btn v-if="!isAtleta" color="white" variant="outlined" rounded="xl" prepend-icon="mdi-qrcode" @click="router.push('/gerenciarCodigos')" class="btn-top-right">
+        <v-btn color="white" variant="outlined" rounded="xl" prepend-icon="mdi-qrcode" @click="router.push('/gerenciarCodigos')" class="btn-top-right">
           Gerenciar Códigos
         </v-btn>
         <v-row align="center" class="min-height-300">
@@ -83,13 +83,13 @@
 
                           <v-col cols="12" sm="" class="text-center text-sm-left">
                             <div class="d-flex align-center justify-center justify-sm-start mb-2">
-                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.createdBy || 'Usuário' }}</h3>
+                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.solicitante?.usuario?.nome || 'Usuário' }}</h3>
                               <v-chip
                                 color="blue"
                                 size="small"
                                 variant="flat"
                               >
-                                {{ solicitacao.solicitanteTipo || 'Profissional' }}
+                                {{ solicitacao.solicitante?.tipo || 'Profissional' }}
                               </v-chip>
                             </div>
                             <div class="text-caption text-grey">
@@ -350,7 +350,7 @@
         </v-card-title>
         <v-card-text class="pa-6 pt-0">
           <p class="text-body-1 mb-2">
-            Tem certeza que deseja aceitar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.createdBy }}</strong>?
+            Tem certeza que deseja aceitar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
           </p>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">
@@ -386,7 +386,7 @@
         </v-card-title>
         <v-card-text class="pa-6 pt-0">
           <p class="text-body-1 mb-2">
-            Tem certeza que deseja recusar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.createdBy }}</strong>?
+            Tem certeza que deseja recusar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
           </p>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">

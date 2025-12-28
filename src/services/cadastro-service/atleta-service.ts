@@ -1,5 +1,6 @@
 import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
+import { getToken } from '../../utils/auth';
 // import type IArtigo from '@/Interfaces/artigo-interface'
 // import { CategoryEntity, CreateCategoryDto, UpdateCategoryDto } from '@/common/types/category'
 
@@ -22,6 +23,19 @@ class AtletaService {
             apiClient.post('/atleta', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
+                    },
+            }),
+            'Erro ao criar atleta'
+        )
+    }
+
+    async createAtletaLogado(formData: FormData): Promise<any> {
+      const token = getToken()
+        return this.handleRequest(
+            apiClient.post('/atleta/create-atleta-multiPerfil', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
                     },
             }),
             'Erro ao criar atleta'
