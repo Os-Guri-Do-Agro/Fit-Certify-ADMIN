@@ -642,6 +642,10 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.clean-drawer {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
+}
+
 .clean-drawer :deep(.v-navigation-drawer__content) {
   overflow-y: auto;
   scrollbar-width: none;
@@ -652,8 +656,18 @@ onBeforeUnmount(() => {
   display: none;
 }
 
+.v-list-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-list-item .v-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .v-list-item:hover {
-  background-color: #42A5F5 !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
 }
 
 .v-list-item:hover .v-list-item-title,
@@ -666,10 +680,12 @@ onBeforeUnmount(() => {
 
 .v-list-item:hover .v-icon {
   color: white !important;
+  transform: scale(1.15);
 }
 
 .v-list-item--active {
-  background-color: #42A5F5 !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
 }
 
 .v-list-item--active .v-list-item-title,
