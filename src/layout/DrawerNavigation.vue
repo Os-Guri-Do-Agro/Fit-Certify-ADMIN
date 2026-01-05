@@ -31,34 +31,34 @@
             <v-img
             class="pa-0 ma-0"
               src="../assets/logo_pequena.png"
-              width="100"
-              height="100"
+              width="90"
+              height="90"
               cover
             />
           </div>
           <div class="">
-          <h1 class="text-blue-lighten-1">FitCertify<span style="color: #88CE0D;">365</span></h1>
+          <h1 class="text-blue-lighten-1 text-h5 font-weight-bold">FitCertify<span style="color: #88CE0D;">365</span></h1>
           </div>
         </div>
       </div>
     </div>
 
     <div class="d-flex align-center justify-center mb-10" v-if="!layoutStore.rail">
-      <div class="px-5 py-1 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'treinador'">
-        <v-icon icon="mdi-whistle" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-subtitle-2">Treinador</span>
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'treinador'">
+        <v-icon icon="mdi-whistle" color="blue-lighten-1" size="15"></v-icon>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Treinador</span>
       </div>
-      <div class="px-5 py-1 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'atleta'">
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'atleta'">
         <v-icon icon="mdi-run-fast" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-subtitle-2">Atleta</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Atleta</span>
       </div>
-      <div class="px-5 py-1 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'medico'">
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'medico'">
         <v-icon icon="mdi-stethoscope" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-subtitle-2">Médico</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Médico</span>
       </div>
-      <div class="px-5 py-1 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'fisioterapeuta'">
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'fisioterapeuta'">
         <v-icon icon="mdi-human-handsup" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-subtitle-2">Fisioterapeuta</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Fisioterapeuta</span>
       </div>
     </div>
 
@@ -737,9 +737,8 @@ onBeforeUnmount(() => {
 }
 
 .type-profile {
-  background-color: #edf7ff;
-  border: 1px solid #dfe8f0;
-  border-radius:50px;
+  border-bottom: 1px solid #dfe8f0;
+  width: 80%;
   margin-right: 10px;
 }
 </style>

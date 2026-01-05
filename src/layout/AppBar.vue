@@ -22,7 +22,7 @@
 
       <v-menu>
         <template v-slot:activator="{ props }">
-          <v-btn variant="text" v-bind="props" class="mr-2 pa-0 d-flex align-center" style="height: 100%;">
+          <v-btn variant="text" v-bind="props" class="mr-2 pa-0 d-flex align-center bg-red" style="height: 100%;">
             <!-- Avatar -->
             <v-skeleton-loader v-if="loading" type="avatar"></v-skeleton-loader>
             <v-avatar v-else size="42" class="mr-3">
