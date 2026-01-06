@@ -154,10 +154,7 @@ const accountItems = computed(() => {
     baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta' });
     baseItems.push({ icon: 'doctor', title: 'Perfil Público', to: '/Fisioterapeuta-Screens/editarPerfilPublico' });
   }
-  if (userRole.value === 'treinador') {
-    baseItems.unshift({ icon: 'account-outline', title: 'Editar Perfil', to: '/Fisioterapeuta-Screens/perfilTreinador' });
-    baseItems.push({ icon: 'wallet-outline', title: 'Assinatura e Pagamentos', to: '/Atleta-Screens/meuPlano' });
-  }
+
 
   return baseItems;
 });
