@@ -10,6 +10,10 @@
 
             <v-row class="w-100 px-5 mt-6">
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <div class="d-flex align-center mb-2">
+                        <v-icon size="20" color="white" class="mr-2">mdi-text-search</v-icon>
+                        <span class="filter-title">Buscar por Título</span>
+                    </div>
                     <v-text-field
                         v-model="search"
                         prepend-inner-icon="mdi-magnify"
@@ -20,6 +24,10 @@
                     />
                 </v-col>
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <div class="d-flex align-center mb-2">
+                        <v-icon size="20" color="white" class="mr-2">mdi-map-marker</v-icon>
+                        <span class="filter-title">Buscar por Localidade</span>
+                    </div>
                     <v-text-field
                         v-model="searchForLocalidade"
                         prepend-inner-icon="mdi-magnify"
@@ -30,6 +38,10 @@
                     />
                 </v-col>
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <div class="d-flex align-center mb-2">
+                        <v-icon size="20" color="white" class="mr-2">mdi-calendar-month</v-icon>
+                        <span class="filter-title">Filtrar por Mês</span>
+                    </div>
                     <v-select
                         v-model="selectedMes"
                         :items="meses"
@@ -235,6 +247,12 @@
   font-weight: 700;
   color: white;
   margin: 0;
+}
+
+.filter-title {
+  color: white;
+  font-weight: 600;
+  font-size: 0.95rem;
 }
 
 .search-field {
