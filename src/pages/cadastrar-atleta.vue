@@ -7,19 +7,6 @@
       </v-card-title>
 
       <v-card-text class="pa-6">
-        <VRow class="mb-4">
-          <VCol cols="12">
-            <VTextField
-              v-maska="'(##) #####-####'"
-              v-model="form.telefone"
-              label="Telefone"
-              placeholder="(00) 00000-0000"
-              variant="outlined"
-              rounded="lg"
-            />
-          </VCol>
-        </VRow>
-
         <VStepper v-model="step" :items="['Dados Físicos', 'Histórico de Saúde', 'Finalização']" class="elevation-0">
           <template #item.1>
             <v-form>
@@ -33,6 +20,20 @@
                       Dados Físicos
                     </h2>
                   </div>
+                </VCol>
+
+                <VCol class="my-2 py-0 font-weight-medium" cols="12">
+                  <VTextField
+                    v-maska="'(##) #####-####'"
+                    v-model="form.telefone"
+                    label="Telefone*"
+                    placeholder="(00) 00000-0000"
+                    variant="outlined"
+                    rounded="lg"
+                    bg-color="white"
+                    class="custom-field"
+                    :rules="[v => !!v || 'Campo obrigatório']"
+                  />
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
@@ -465,24 +466,13 @@ onMounted(async () => {
   cursor: pointer;
 }
 
-.custom-field {
-  transition: all 0.3s ease;
-}
-
-.custom-field:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(136, 206, 13, 0.15);
-}
-
 .custom-field .v-field {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid #e0e7ff;
   transition: all 0.3s ease;
 }
 
 .custom-field .v-field:hover {
   border-color: #88CE0D;
-  box-shadow: 0 4px 12px rgba(136, 206, 13, 0.15);
 }
 
 .custom-field .v-field--focused {

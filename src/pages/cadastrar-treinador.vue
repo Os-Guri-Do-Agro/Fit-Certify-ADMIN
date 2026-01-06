@@ -10,7 +10,7 @@
         <v-form>
           <VRow>
             <VCol cols="12">
-              <VTextField v-model="form.telefone" label="Telefone*" placeholder="(00) 00000-0000" variant="outlined" rounded="lg" @input="formatPhone" />
+              <VTextField v-model="form.telefone" label="Telefone*" placeholder="(00) 00000-0000" variant="outlined" rounded="lg" bg-color="white" class="custom-field" @input="formatPhone" />
             </VCol>
           </VRow>
 
@@ -79,3 +79,28 @@ const submitTreinador = async () => {
   }
 }
 </script>
+
+<style scoped>
+.custom-field .v-field {
+  border: 1px solid #e0e7ff;
+  transition: all 0.3s ease;
+}
+
+.custom-field .v-field:hover {
+  border-color: #ff9800;
+}
+
+.custom-field .v-field--focused {
+  border-color: #ff9800 !important;
+  box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2) !important;
+}
+
+.custom-field .v-label {
+  color: #64748b;
+  font-weight: 500;
+}
+
+.custom-field .v-field--focused .v-label {
+  color: #ff9800 !important;
+}
+</style>
