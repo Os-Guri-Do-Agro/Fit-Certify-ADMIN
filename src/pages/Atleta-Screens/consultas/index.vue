@@ -1,69 +1,61 @@
 <template>
   <v-container class="py-10">
-    <v-row justify="center" class="text-center mb-8">
-      <v-col cols="12">
-        <h2 class="text-h5 text-md-h4 font-weight-bold" style="color: green">
-          Minhas Consultas
-        </h2>
-      </v-col>
-    </v-row>
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <v-icon size="40" color="white">mdi-calendar-check</v-icon>
+        </div>
+        <h1 class="header-title">Minhas Consultas</h1>
+      </div>
+    </div>
 
-    <v-row justify="center" class="mb-10">
-      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
+    <v-row justify="center" class="mb-10 mt-8">
+      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory class="filter-toggle">
         <v-btn
           value="todas"
-          color="green"
           :variant="filtro === 'todas' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'todas' }"
         >
           Todas as Consultas
         </v-btn>
         <v-btn
           value="marcado"
-          color="blue"
           :variant="filtro === 'marcado' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium focus:text-white"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'marcado' }"
         >
           Marcadas
         </v-btn>
         <v-btn
           value="realizadas"
-          color="green"
           :variant="filtro === 'realizadas' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'realizadas' }"
         >
           Realizadas
         </v-btn>
         <v-btn
           value="pendente"
-          color="orange"
           :variant="filtro === 'pendente' ? 'flat' : 'outlined'"
-          :class="[
-            'px-8 text-body-1 font-weight-medium',
-            { 'text-white': filtro === 'pendente' },
-          ]"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'pendente' }"
         >
           Pendentes
         </v-btn>
         <v-btn
           value="recusadas"
-          color="red"
           :variant="filtro === 'recusadas' ? 'flat' : 'outlined'"
-          :class="[
-            'px-8 text-body-1 font-weight-medium',
-            { 'text-white': filtro === 'recusadas' },
-          ]"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'recusadas' }"
         >
           Recusado
         </v-btn>
         <v-btn
           value="canceladas"
-          color="grey"
           :variant="filtro === 'canceladas' ? 'flat' : 'outlined'"
-          :class="[
-            'px-8 text-body-1 font-weight-medium',
-            { 'text-white': filtro === 'canceladas' },
-          ]"
+          class="px-8 text-body-1 font-weight-medium filter-btn"
+          :class="{ 'active-filter': filtro === 'canceladas' }"
         >
           Cancelada
         </v-btn>
@@ -139,7 +131,7 @@
                         :src="consulta?.medico?.usuario?.avatarUrl"
                         cover
                       ></v-img>
-                      <v-icon v-else size="40" color="green">mdi-doctor</v-icon>
+                      <v-icon v-else size="40" class="gradient-icon">mdi-doctor</v-icon>
                     </v-avatar>
                   </v-col>
 
@@ -152,7 +144,7 @@
                     <div
                       class="text-body-2 text-grey-darken-1 mb-3 d-flex align-center"
                     >
-                      <v-icon size="16" class="me-1" color="green"
+                      <v-icon size="16" class="me-1 gradient-icon"
                         >mdi-stethoscope</v-icon
                       >
                       {{ consulta?.medico?.especializacao }}
@@ -162,7 +154,7 @@
                       <div
                         class="text-body-2 text-grey-darken-2 d-flex align-center"
                       >
-                        <v-icon size="16" class="me-2" color="blue"
+                        <v-icon size="16" class="me-2 gradient-icon"
                           >mdi-calendar</v-icon
                         >
                         {{ formatarDataLocal(consulta?.dataConsulta) }}
@@ -369,6 +361,61 @@ onMounted(() => {
 </script>
 
 <style scoped>
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.filter-toggle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 50px;
+}
+
+.filter-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn.active-filter {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
+.gradient-icon {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .statusColor {
   border-left: 4px solid var();
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);

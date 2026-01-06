@@ -27,17 +27,14 @@
 
       <div v-else>
         <div class="d-flex justify-center align-center pa-5">
-          <div class="d-flex align-center jsutify-center icon-drow">
+          <div class="d-flex align-center justify-center">
             <v-img
             class="pa-0 ma-0"
-              src="../assets/logo_pequena.png"
-              width="90"
-              height="90"
-              cover
+              src="../assets/logo_drawer.png"
+              width="240"
+              height="100"
+              contain
             />
-          </div>
-          <div class="">
-          <h1 class="text-blue-lighten-1 text-h5 font-weight-bold">FitCertify<span style="color: #88CE0D;">365</span></h1>
           </div>
         </div>
       </div>
@@ -644,6 +641,8 @@ onBeforeUnmount(() => {
 <style scoped>
 .clean-drawer {
   background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
+  border-right: 1px solid rgba(66, 165, 245, 0.08);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03) !important;
 }
 
 .clean-drawer :deep(.v-navigation-drawer__content) {

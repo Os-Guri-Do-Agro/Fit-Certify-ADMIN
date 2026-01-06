@@ -1,52 +1,74 @@
 <template>
-    <div class="d-flex flex-column ga-10">
-        <v-sheet class="d-flex flex-column ga-5 align-center justify-center py-8 gradient-bg">
-            <div class="d-flex align-center">
-                            <v-icon size="48" color="white" class="mr-4">
-                mdi-calendar-star
-            </v-icon>
-            <h1 class="text-md-h2 font-weight-bold text-white">Eventos</h1>
+    <div class="page-container">
+        <v-sheet class="header-section">
+            <div class="header-content">
+                <div class="header-icon-wrapper">
+                    <v-icon size="40" color="white">mdi-calendar-star</v-icon>
+                </div>
+                <h1 class="header-title">Eventos</h1>
             </div>
 
-            <v-row class="w-100 px-5 mt-5">
-                <v-col class="ma-0 pa-0 px-5" cols="12" md="4">
-                        <v-text-field v-model="search" prepend-inner-icon="mdi-magnify" variant="solo" label="Título"/>
+            <v-row class="w-100 px-5 mt-6">
+                <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <v-text-field
+                        v-model="search"
+                        prepend-inner-icon="mdi-magnify"
+                        variant="solo"
+                        label="Título"
+                        class="search-field"
+                        rounded="lg"
+                    />
                 </v-col>
-                <v-col class="ma-0 pa-0 px-5" cols="12" md="4">
-                        <v-text-field v-model="searchForLocalidade" prepend-inner-icon="mdi-magnify" variant="solo" label="Localidade"/>
+                <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <v-text-field
+                        v-model="searchForLocalidade"
+                        prepend-inner-icon="mdi-magnify"
+                        variant="solo"
+                        label="Localidade"
+                        class="search-field"
+                        rounded="lg"
+                    />
                 </v-col>
-                <v-col class="ma-0 pa-0 px-5" cols="12" md="4">
-                        <v-select v-model="selectedMes" :items="meses" item-title="nome" item-value="valor" variant="solo" label="Mês" clearable/>
+                <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
+                    <v-select
+                        v-model="selectedMes"
+                        :items="meses"
+                        item-title="nome"
+                        item-value="valor"
+                        variant="solo"
+                        label="Mês"
+                        clearable
+                        class="search-field"
+                        rounded="lg"
+                    />
                 </v-col>
             </v-row>
         </v-sheet>
 
-        <div class="">
-            <v-row v-if="loading" class="">
+        <div class="content-section">
+            <v-row v-if="loading">
                 <v-col cols="12" md="4" v-for="n in pageSize" :key="n">
-                    <v-skeleton-loader type="card" elevation="8" class="rounded-xl"></v-skeleton-loader>
+                    <v-skeleton-loader type="card" class="skeleton-card"></v-skeleton-loader>
                 </v-col>
             </v-row>
 
-
-
-            <div v-else-if="eventos.length === 0" class="d-flex flex-column align-center justify-center py-16">
-                <v-icon size="120" color="grey-lighten-1" class="mb-4">
-                    mdi-calendar-remove
-                </v-icon>
-                <h3 class="text-h5 text-grey-darken-1 mb-2">Nenhum evento encontrado</h3>
-                <p class="text-body-1 text-grey">Não há eventos disponíveis no momento</p>
+            <div v-else-if="eventos.length === 0" class="empty-state">
+                <div class="empty-icon-wrapper">
+                    <v-icon size="80" color="#90CAF9">mdi-calendar-remove</v-icon>
+                </div>
+                <h3 class="empty-title">Nenhum evento encontrado</h3>
+                <p class="empty-text">Não há eventos disponíveis no momento</p>
             </div>
 
-            <v-row v-else class="">
-                <v-col cols="12" md="4" v-for="evento in eventos" :key="evento">
+            <v-row v-else>
+                <v-col cols="12" md="4" v-for="evento in eventos" :key="evento.id">
                     <v-card elevation="8" rounded="xl" class="event-card">
                         <v-card-text class="pa-6">
                             <div class="d-flex align-center mb-4">
-                                <v-icon size="32" color="light-blue-accent-3" class="mr-3">
+                                <v-icon size="32" class="mr-3 gradient-icon">
                                     mdi-calendar-star
                                 </v-icon>
-                                <h3 class="text-h5 font-weight-bold event-title" style="color: #00c6fe">
+                                <h3 class="text-h5 font-weight-bold event-title gradient-text">
                                     {{ evento.titulo }}
                                 </h3>
                             </div>
@@ -74,7 +96,7 @@
                                 </div>
                             </div>
 
-                            <v-btn @click="verDetalhes(evento.id)" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mt-4">
+                            <v-btn @click="verDetalhes(evento.id)" variant="flat" rounded="lg" block class="mt-4 gradient-btn">
                                 <v-icon class="mr-2">mdi-eye</v-icon>
                                 Ver Detalhes
                             </v-btn>
@@ -83,14 +105,15 @@
                 </v-col>
             </v-row>
 
-            <v-row class="justify-center mt-6">
+            <v-row v-if="totalPages > 1" class="justify-center mt-8 mb-4">
                 <v-pagination
                     v-model="page"
                     :length="totalPages"
                     @update:model-value="bunscarEventoPagined"
-                    color="light-blue-accent-3"
-                    :total-visible="4"
-                    rounded="pill"
+                    color="#42A5F5"
+                    :total-visible="5"
+                    rounded="circle"
+                    class="custom-pagination"
                 ></v-pagination>
             </v-row>
         </div>
@@ -174,6 +197,94 @@
 
 
 <style scoped>
+.page-container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.search-field {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.search-field:hover {
+  transform: translateY(-2px);
+}
+
+.content-section {
+  padding: 0 16px;
+}
+
+.skeleton-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+}
+
+.empty-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+.empty-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #546E7A;
+  margin-bottom: 8px;
+}
+
+.empty-text {
+  font-size: 1rem;
+  color: #90A4AE;
+}
+
 .event-card {
   min-height: 275px;
 }
@@ -198,12 +309,37 @@
 }
 
 .event-details {
-  border-left: 3px solid #00c6fe;
+  border-left: 3px solid;
+  border-image: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) 1;
   padding-left: 16px;
   margin-left: 8px;
 }
 
-.gradient-bg {
-  background: linear-gradient(135deg, #00c6fe 0%, #0288d1 100%);
+.gradient-icon {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
+
+.gradient-text {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
+.custom-pagination :deep(.v-pagination__item) {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-pagination :deep(.v-pagination__item:hover) {
+  transform: scale(1.1);
+}
+
 </style>

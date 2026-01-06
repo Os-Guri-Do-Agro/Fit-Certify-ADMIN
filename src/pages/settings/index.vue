@@ -1,90 +1,126 @@
 <template>
-  <div class="pa-4">
-    <VRow>
-      <VCol cols="12">
-        <h1 class="text-h5 font-weight-bold mb-6">Configurações</h1>
+  <v-container class="py-10">
+    <h1 class="text-h4 font-weight-bold mb-8">Configurações</h1>
 
-        <VCard class="mb-4">
-          <VList>
-            <VListItem v-for="(item, index) in accountItems" :key="index" @click="handleNavigation(item)">
+    <v-row>
+      <v-col cols="12">
+        <v-card class="mb-6" elevation="4" rounded="xl">
+          <v-card-title class="section-title">
+            <v-icon class="mr-3" color="#00c6fe">mdi-account-cog</v-icon>
+            Conta
+          </v-card-title>
+          <v-list>
+            <v-list-item v-for="(item, index) in accountItems" :key="index" @click="handleNavigation(item)" class="list-item-hover">
               <template #prepend>
-                <VIcon :icon="`mdi-${item.icon}`" :color="item.title === 'Sair' ? 'error' : 'primary'" />
+                <v-icon :icon="`mdi-${item.icon}`" color="#00c6fe" />
               </template>
 
-              <VListItemTitle :class="item.title === 'Sair' ? 'text-error' : ''">
+              <v-list-item-title>
                 {{ item.title }}
-              </VListItemTitle>
+              </v-list-item-title>
 
               <template #append>
-                <VIcon icon="mdi-chevron-right" />
+                <v-icon icon="mdi-chevron-right" color="grey" />
               </template>
-            </VListItem>
-          </VList>
-        </VCard>
+            </v-list-item>
+          </v-list>
+        </v-card>
 
-        <VCard class="mb-4">
-          <VList>
-            <VListItem v-for="(item, index) in supportItems" :key="index" @click="router.push(item.to)">
+        <v-card class="mb-6" elevation="4" rounded="xl">
+          <v-card-title class="section-title">
+            <v-icon class="mr-3" color="#00c6fe">mdi-help-circle</v-icon>
+            Suporte
+          </v-card-title>
+          <v-list>
+            <v-list-item v-for="(item, index) in supportItems" :key="index" @click="router.push(item.to)" class="list-item-hover">
               <template #prepend>
-                <VIcon :icon="`mdi-${item.icon}`" color="primary" />
+                <v-icon :icon="`mdi-${item.icon}`" color="#00c6fe" />
               </template>
 
-              <VListItemTitle>{{ item.title }}</VListItemTitle>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
 
               <template #append>
-                <VIcon icon="mdi-chevron-right" />
+                <v-icon icon="mdi-chevron-right" color="grey" />
               </template>
-            </VListItem>
-          </VList>
-        </VCard>
+            </v-list-item>
+          </v-list>
+        </v-card>
 
-        <VCard color="error" variant="tonal">
-          <VCardText>
+        <v-card elevation="4" rounded="xl" class="danger-zone">
+          <v-card-text class="pa-6">
             <div class="d-flex align-center mb-3">
-              <VIcon icon="mdi-alert" color="error" class="mr-2" />
-              <span class="font-weight-bold">Zona de Perigo</span>
+              <v-icon icon="mdi-alert" color="error" size="28" class="mr-3" />
+              <span class="text-h6 font-weight-bold text-error">Zona de Perigo</span>
             </div>
-            <p class="text-body-2 mb-3">Ações que afetam permanentemente sua conta.</p>
-            <VBtn color="error" variant="outlined" @click="handleDeleteAccount()">
+            <p class="text-body-2 mb-4 text-grey-darken-1">Ações que afetam permanentemente sua conta.</p>
+            <v-btn color="error" variant="outlined" rounded="lg" @click="handleDeleteAccount()">
+              <v-icon class="mr-2">mdi-delete</v-icon>
               Excluir Conta
-            </VBtn>
-          </VCardText>
-        </VCard>
+            </v-btn>
+          </v-card-text>
+        </v-card>
 
         <!-- Dialog de Confirmação -->
-        <VDialog v-model="showDeleteDialog" max-width="400">
-          <VCard rounded="xl" class="pa-4">
-            <VCardTitle class="text-center text-h5 font-weight-bold text-error mb-4">
+        <v-dialog v-model="showDeleteDialog" max-width="400">
+          <v-card rounded="xl" class="pa-4">
+            <v-card-title class="text-center text-h5 font-weight-bold text-error mb-4">
               Deletar Conta
-            </VCardTitle>
+            </v-card-title>
 
-            <VCardText class="text-center">
-              <VIcon icon="mdi-alert-circle-outline" size="64" color="error" class="mb-4" />
+            <v-card-text class="text-center">
+              <v-icon icon="mdi-alert-circle-outline" size="64" color="error" class="mb-4" />
               <p class="text-body-1 mb-4">
                 Tem certeza que deseja deletar sua conta?
               </p>
               <p class="text-body-2 text-grey-600">
                 Esta ação não pode ser desfeita e todos os seus dados serão perdidos permanentemente.
               </p>
-            </VCardText>
+            </v-card-text>
 
-            <VCardActions class="justify-center gap-3 pt-4">
-              <VBtn variant="outlined" color="grey" @click="showDeleteDialog = false" rounded="lg">
+            <v-card-actions class="justify-center gap-3 pt-4">
+              <v-btn variant="outlined" color="grey" @click="showDeleteDialog = false" rounded="lg">
                 Cancelar
-              </VBtn>
-              <VBtn color="error" @click="handleDeleteAccount" rounded="lg">
+              </v-btn>
+              <v-btn color="error" @click="handleDeleteAccount" rounded="lg">
                 Deletar
-              </VBtn>
-            </VCardActions>
-          </VCard>
-        </VDialog>
-      </VCol>
-    </VRow>
-  </div>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-/* Estilos mínimos */
+.section-title {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-bottom: 1px solid #dee2e6;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #495057;
+}
+
+.list-item-hover {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.list-item-hover:hover {
+  background: rgba(0, 198, 254, 0.05);
+}
+
+.danger-zone {
+  border: 2px solid rgba(244, 67, 54, 0.2);
+}
+
+.v-card {
+  transition: all 0.3s ease;
+}
+
+.v-card:hover {
+  transform: translateY(-2px);
+}
 </style>
 <script setup lang="ts">
 import { getPayload, getRole } from '@/utils/auth';

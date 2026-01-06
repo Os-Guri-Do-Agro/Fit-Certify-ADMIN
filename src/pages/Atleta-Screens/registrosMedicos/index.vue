@@ -1,43 +1,26 @@
 <template>
     <div class="pa-0" fluid>
       <v-sheet
-        color="blue-gradient"
-        class="position-relative overflow-hidden"
-        style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); min-height: 200px"
+        class="header-section"
       >
-        <v-sheet
-          class="position-absolute w-100 h-100"
-          style="background: rgba(0, 0, 0, 0.1)"
-        ></v-sheet>
         <v-container class="position-relative">
-          <v-row align="center" class="d-flex flex-md-column-reverse">
-            <v-col cols="12" md="4" class="text-center">
-              <div>
-                <v-avatar
-                  size="120"
-                  class="elevation-8"
-                  style="border: 4px solid rgba(255, 255, 255, 0.3)"
-                >
-                  <v-icon size="50" color="white">mdi-clipboard-pulse-outline</v-icon>
-                </v-avatar>
+          <v-row align="center" class="justify-center">
+            <v-col cols="12" class="text-center">
+              <div class="header-icon-wrapper-hero">
+                <v-icon size="60" color="white">mdi-clipboard-pulse-outline</v-icon>
               </div>
-              <h1 class="text-h4 font-weight-bold text-white mt-4 mb-2" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)">
+              <h1 class="hero-title">
                 Registros Médicos
               </h1>
-              <p class="text-body-1 text-white mb-5" style="opacity: 0.9; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)">
+              <p class="hero-subtitle">
                 Histórico completo de suas consultas concluídas
               </p>
-            </v-col>
-            <v-col cols="12">
-              <div class="d-flex justify-center ma-5">
-                <v-chip
-                  class="d-none d-md-flex"
-                  prepend-icon="mdi-stethoscope"
-                  style="background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px)"
-                >
-                  Histórico Médico
-                </v-chip>
-              </div>
+              <v-chip
+                prepend-icon="mdi-stethoscope"
+                class="chip-badge"
+              >
+                Histórico Médico
+              </v-chip>
             </v-col>
           </v-row>
         </v-container>
@@ -59,18 +42,18 @@
                 class="pa-6 cursor-pointer d-flex align-center" 
                 @click="toggleHistoricoMedico"
               >
-                <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
+                <v-avatar size="60" class="elevation-2 me-4 gradient-avatar">
                   <v-icon size="30" color="white">mdi-clipboard-pulse-outline</v-icon>
                 </v-avatar>
                 <div class="flex-grow-1">
-                  <div class="text-h6 font-weight-bold text-grey-darken-3">
+                  <div class="text-h6 font-weight-bold gradient-text">
                     Histórico Médico
                   </div>
                   <div class="text-caption text-grey-darken-1">
                     {{ consultas.length }} {{ consultas.length === 1 ? 'consulta registrada' : 'consultas registradas' }}
                   </div>
                 </div>
-                <v-icon :color="historicoMedicoExpanded ? 'blue-darken-1' : 'grey'">
+                <v-icon :color="historicoMedicoExpanded ? '#42A5F5' : 'grey'">
                   {{ historicoMedicoExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
                 </v-icon>
               </div>
@@ -123,7 +106,7 @@
                               {{ formatarDataHoraLocal(item.dataConsulta) }}
                             </v-chip>
                           </div>
-                          <v-icon :color="expandedItems[index] ? 'blue-darken-1' : 'grey'">
+                          <v-icon :color="expandedItems[index] ? '#42A5F5' : 'grey'">
                             {{ expandedItems[index] ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
                           </v-icon>
                         </div>
@@ -232,6 +215,64 @@
   </script>
   
   <style scoped>
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
+  position: relative;
+  overflow: hidden;
+}
+
+.header-icon-wrapper-hero {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  margin-bottom: 24px;
+}
+
+.hero-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 16px 0 8px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.95;
+  margin-bottom: 24px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.chip-badge {
+  background: rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.gradient-avatar {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
   .cursor-pointer {
     cursor: pointer;
     transition: all 0.3s ease;

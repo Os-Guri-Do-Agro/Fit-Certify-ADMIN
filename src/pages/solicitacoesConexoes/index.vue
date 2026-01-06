@@ -6,15 +6,19 @@
         <v-btn color="white" variant="outlined" rounded="xl" prepend-icon="mdi-qrcode" @click="router.push('/gerenciarCodigos')" class="btn-top-right">
           Gerenciar Códigos
         </v-btn>
-        <v-row align="center" class="min-height-300">
+        <v-row align="center" class="min-height-250">
           <v-col cols="12" class="text-center">
-            <v-icon color="white" size="80" class="mb-4">mdi-account-multiple-plus</v-icon>
-            <h1 class="hero-title">Solicitações de Conexão</h1>
+            <div class="d-flex align-center justify-center ga-5 mb-5">
+            <div class="header-icon-wrapper-hero">
+              <v-icon color="white" size="60">mdi-account-multiple-plus</v-icon>
+            </div>
+            <div class="d-flex align-center justify-center">
+              <h1 class="hero-title">Solicitações de Conexão</h1>
+            </div>
+
+            </div>
+
             <p class="hero-subtitle">Gerencie suas conexões com profissionais e atletas</p>
-            <v-chip class="mt-4" color="white" variant="flat" size="large">
-              <v-icon start>mdi-bell-badge</v-icon>
-              {{ solicitacoesPendentes.length }} solicitações pendentes
-            </v-chip>
           </v-col>
         </v-row>
       </v-container>
@@ -24,21 +28,21 @@
       <v-row justify="center">
         <v-col cols="12">
           <v-card rounded="xl" elevation="2">
-            <v-tabs v-model="activeTab" bg-color="white" color="blue" grow>
-              <v-tab value="pendentes">
+            <v-tabs v-model="activeTab" bg-color="white" grow class="modern-tabs">
+              <v-tab value="pendentes" class="tab-item">
                 <v-icon start>mdi-clock-alert</v-icon>
                 Pendentes
-                <v-chip v-if="solicitacoesPendentes.length > 0" class="ml-2" size="small" color="blue">{{ solicitacoesPendentes.length }}</v-chip>
+                <v-chip v-if="solicitacoesPendentes.length > 0" class="ml-2 tab-chip" size="small">{{ solicitacoesPendentes.length }}</v-chip>
               </v-tab>
-              <v-tab value="enviadas">
+              <v-tab value="enviadas" class="tab-item">
                 <v-icon start>mdi-send</v-icon>
                 Enviadas
-                <v-chip v-if="solicitacoesEnviadas.length > 0" class="ml-2" size="small" color="orange">{{ solicitacoesEnviadas.length }}</v-chip>
+                <v-chip v-if="solicitacoesEnviadas.length > 0" class="ml-2 tab-chip" size="small">{{ solicitacoesEnviadas.length }}</v-chip>
               </v-tab>
-              <v-tab value="conexoes">
+              <v-tab value="conexoes" class="tab-item">
                 <v-icon start>mdi-account-check</v-icon>
                 Minhas Conexões
-                <v-chip v-if="totalConexoes > 0" class="ml-2" size="small" color="green">{{ totalConexoes }}</v-chip>
+                <v-chip v-if="totalConexoes > 0" class="ml-2 tab-chip" size="small">{{ totalConexoes }}</v-chip>
               </v-tab>
             </v-tabs>
 
@@ -68,11 +72,11 @@
                         <v-row align="center">
                           <v-col cols="12" sm="auto" class="text-center text-sm-left">
                             <v-badge
-                              color="blue"
                               dot
                               location="bottom right"
                               offset-x="8"
                               offset-y="8"
+                              class="badge-gradient"
                             >
                               <v-avatar size="90" class="avatar-shadow">
                                 <v-img v-if="solicitacao.solicitante?.usuario?.avatarUrl" :src="solicitacao.solicitante.usuario.avatarUrl" cover></v-img>
@@ -85,9 +89,9 @@
                             <div class="d-flex align-center justify-center justify-sm-start mb-2">
                               <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.solicitante?.usuario?.nome || 'Usuário' }}</h3>
                               <v-chip
-                                color="blue"
                                 size="small"
                                 variant="flat"
+                                class="chip-gradient"
                               >
                                 {{ solicitacao.solicitante?.tipo || 'Profissional' }}
                               </v-chip>
@@ -216,7 +220,7 @@
               <!-- Tab Minhas Conexões -->
               <v-window-item value="conexoes">
                 <div class="pa-4">
-                  <v-row v-if="isAtleta" class="mb-4">
+                  <v-row v-if="isAtleta" class="mb-4 d-flex align-center justify-center">
                     <v-col cols="12" sm="6" md="4">
                       <v-select
                         v-model="filtroTipo"
@@ -649,9 +653,13 @@ onMounted(() => {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   position: relative;
   overflow: hidden;
+  padding: 48px 24px;
+  border-radius: 20px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
 }
 
 .hero-overlay {
@@ -663,8 +671,53 @@ onMounted(() => {
   background: rgba(0, 0, 0, 0.1);
 }
 
-.min-height-300 {
-  min-height: 300px;
+.min-height-250 {
+  min-height: 250px;
+}
+
+.header-icon-wrapper-hero {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.chip-badge {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modern-tabs {
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.tab-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tab-item:hover {
+  background: rgba(66, 165, 245, 0.05);
+}
+
+.v-tab--selected {
+  color: #42A5F5 !important;
+}
+
+.tab-chip {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
+.badge-gradient :deep(.v-badge__badge) {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+}
+
+.chip-gradient {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
 }
 
 .hero-title {
@@ -672,7 +725,6 @@ onMounted(() => {
   font-size: 2.5rem;
   font-weight: 700;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 8px;
 }
 
 .hero-subtitle {
@@ -682,8 +734,7 @@ onMounted(() => {
 }
 
 .content-section {
-  background: #f8f9fa;
-  padding-top: 40px;
+  margin-top: 40px;
   padding-bottom: 40px;
   min-height: 60vh;
   width: 100%;
@@ -698,7 +749,7 @@ onMounted(() => {
 .conexao-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12) !important;
-  border-left-color: #2196F3;
+  border-left-color: #42A5F5;
 }
 
 .avatar-shadow {

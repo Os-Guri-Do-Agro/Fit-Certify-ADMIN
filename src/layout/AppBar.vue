@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar :elevation="0" class="app-bar" height="72">
+  <v-app-bar :elevation="0" class="app-bar" height="80">
     <template v-slot:prepend>
       <div class="d-flex align-center">
         <v-btn icon variant="flat" @click="layoutStore.toggleRail()" class="menu-btn ml-3 mr-4">
@@ -96,54 +96,122 @@ const dialogPerfil = ref(false)
 
 const pageTitle = computed(() => {
   const path = route.path
+
+  // Rotas dinâmicas
+  if (path.startsWith('/Atleta-Screens/eventos/')) return 'Detalhes do Evento'
+
   const routeMap: Record<string, string> = {
-    '/saude': 'Saúde',
     '/Atleta-Screens/eventos': 'Eventos',
     '/Atleta-Screens/consultas': 'Consultas',
-    '/solicitacoesConexoes': 'Conexões',
     '/Atleta-Screens/registrosMedicos': 'Registros Médicos',
-    '/certificados': 'Certificados',
-    '/notificacoes': 'Notificações',
     '/Atleta-Screens/medicos': 'Buscar Médico',
     '/Atleta-Screens/meusMedicos': 'Meus Médicos',
+    '/Atleta-Screens/perfilAtleta': 'Perfil',
+    '/Atleta-Screens/editarPerfilAtleta': 'Editar Perfil',
+    '/Atleta-Screens/medicoDetalhes': 'Detalhes do Médico',
+    '/Atleta-Screens/fisioterapeutaDetalhes': 'Detalhes do Fisioterapeuta',
+    '/Atleta-Screens/treinadorDetalhes': 'Detalhes do Treinador',
+    '/Atleta-Screens/meuPlano': 'Meu Plano',
+    '/Atleta-Screens/visaoGeral': 'Visão Geral',
     '/Medico-Screens/agendaMedica': 'Calendário',
     '/Medico-Screens/consultas': 'Consultas',
     '/Medico-Screens/consultasPendentes': 'Pendentes',
     '/Medico-Screens/pacientes': 'Lista de Pacientes',
     '/Medico-Screens/pacientesAtendidos': 'Recentes',
-    '/resumo': 'Resumo',
+    '/Medico-Screens/detalhesPaciente': 'Detalhes do Paciente',
+    '/Medico-Screens/perfilMedico': 'Perfil',
+    '/Medico-Screens/editarPerfilMedico': 'Editar Perfil',
+    '/Medico-Screens/perfil-publico': 'Perfil Público',
+    '/Medico-Screens/editarPerfilPublico': 'Editar Perfil Público',
     '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'Calendário',
     '/Fisioterapeuta-Screens/consultas': 'Consultas',
     '/Fisioterapeuta-Screens/consultasPendentes': 'Pendentes',
+    '/Fisioterapeuta-Screens/perfilFisioterapeuta': 'Perfil',
+    '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': 'Editar Perfil',
+    '/Fisioterapeuta-Screens/perfil-publico': 'Perfil Público',
+    '/Fisioterapeuta-Screens/editarPerfilPublico': 'Editar Perfil Público',
+    '/Treinador-Screens/detalhesAtleta': 'Detalhes do Atleta',
+    '/Treinador-Screens/editarPerfilTreinador': 'Editar Perfil',
+    '/solicitacoesConexoes': 'Conexões',
+    '/certificados': 'Certificados',
+    '/notificacoes': 'Notificações',
     '/exercicios': 'Biblioteca de Exercícios',
     '/settings': 'Configurações',
+    '/resumo': 'Resumo',
+    '/adicionarConsulta': 'Adicionar Consulta',
+    '/analises': 'Análises',
+    '/artigos': 'Artigos',
+    '/criarTreino': 'Criar Treino',
+    '/cupons': 'Cupons',
+    '/detalhesAtleta': 'Detalhes do Atleta',
+    '/detalhesPaciente': 'Detalhes do Paciente',
+    '/gerenciarCodigos': 'Gerenciar Códigos',
+    '/novaSenhaLogado': 'Alterar Senha',
+    '/users': 'Usuários',
+    '/validarCertificado': 'Validar Certificado',
+    '/centralAjuda': 'Central de Ajuda',
+    '/registerPlanos': 'Planos',
   }
   return routeMap[path] || 'Dashboard'
 })
 
 const pageIcon = computed(() => {
   const path = route.path
+
+  // Rotas dinâmicas
+  if (path.startsWith('/Atleta-Screens/eventos/')) return 'mdi-calendar-check'
+
   const iconMap: Record<string, string> = {
-    '/saude': 'mdi-heart-outline',
     '/Atleta-Screens/eventos': 'mdi-calendar-star',
     '/Atleta-Screens/consultas': 'mdi-calendar',
-    '/solicitacoesConexoes': 'mdi-link',
     '/Atleta-Screens/registrosMedicos': 'mdi-chart-bar',
-    '/certificados': 'mdi-file-document-outline',
-    '/notificacoes': 'mdi-bell-outline',
     '/Atleta-Screens/medicos': 'mdi-magnify',
     '/Atleta-Screens/meusMedicos': 'mdi-bookmark-outline',
+    '/Atleta-Screens/perfilAtleta': 'mdi-account-circle',
+    '/Atleta-Screens/editarPerfilAtleta': 'mdi-account-edit',
+    '/Atleta-Screens/medicoDetalhes': 'mdi-doctor',
+    '/Atleta-Screens/fisioterapeutaDetalhes': 'mdi-account-heart',
+    '/Atleta-Screens/treinadorDetalhes': 'mdi-whistle',
+    '/Atleta-Screens/meuPlano': 'mdi-credit-card-outline',
+    '/Atleta-Screens/visaoGeral': 'mdi-view-dashboard',
     '/Medico-Screens/agendaMedica': 'mdi-calendar-month-outline',
     '/Medico-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Medico-Screens/consultasPendentes': 'mdi-calendar-month-outline',
     '/Medico-Screens/pacientes': 'mdi-clipboard-text-search-outline',
     '/Medico-Screens/pacientesAtendidos': 'mdi-account-group-outline',
-    '/resumo': 'mdi-compass-outline',
+    '/Medico-Screens/detalhesPaciente': 'mdi-account-details',
+    '/Medico-Screens/perfilMedico': 'mdi-account-circle',
+    '/Medico-Screens/editarPerfilMedico': 'mdi-account-edit',
+    '/Medico-Screens/perfil-publico': 'mdi-account-box',
+    '/Medico-Screens/editarPerfilPublico': 'mdi-account-edit-outline',
     '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'mdi-calendar-month-outline',
     '/Fisioterapeuta-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Fisioterapeuta-Screens/consultasPendentes': 'mdi-calendar-month-outline',
+    '/Fisioterapeuta-Screens/perfilFisioterapeuta': 'mdi-account-circle',
+    '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': 'mdi-account-edit',
+    '/Fisioterapeuta-Screens/perfil-publico': 'mdi-account-box',
+    '/Fisioterapeuta-Screens/editarPerfilPublico': 'mdi-account-edit-outline',
+    '/Treinador-Screens/detalhesAtleta': 'mdi-account-details',
+    '/Treinador-Screens/editarPerfilTreinador': 'mdi-account-edit',
+    '/solicitacoesConexoes': 'mdi-link',
+    '/certificados': 'mdi-file-document-outline',
+    '/notificacoes': 'mdi-bell-outline',
     '/exercicios': 'mdi-human-handsup',
     '/settings': 'mdi-cog',
+    '/resumo': 'mdi-compass-outline',
+    '/adicionarConsulta': 'mdi-calendar-plus',
+    '/analises': 'mdi-chart-line',
+    '/artigos': 'mdi-newspaper',
+    '/criarTreino': 'mdi-dumbbell',
+    '/cupons': 'mdi-ticket-percent',
+    '/detalhesAtleta': 'mdi-account-details',
+    '/detalhesPaciente': 'mdi-account-details',
+    '/gerenciarCodigos': 'mdi-qrcode',
+    '/novaSenhaLogado': 'mdi-lock-reset',
+    '/users': 'mdi-account-multiple',
+    '/validarCertificado': 'mdi-certificate',
+    '/centralAjuda': 'mdi-help-circle',
+    '/registerPlanos': 'mdi-package-variant',
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })
@@ -228,7 +296,7 @@ const perfis: any = {
 
 <style scoped>
 .app-bar {
-  background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%) !important;
+  background: white !important;
   backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(66, 165, 245, 0.08);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03) !important;
@@ -238,8 +306,8 @@ const perfis: any = {
   background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   color: white;
   border-radius: 12px;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -258,15 +326,15 @@ const perfis: any = {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 38px;
+  width: 42px;
+  height: 42px;
   background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%);
   border-radius: 10px;
   color: #1E88E5;
 }
 
 .page-title {
-  font-size: 1.15rem;
+  font-size: 1.25rem;
   font-weight: 700;
   background: linear-gradient(135deg, #1E88E5 0%, #42A5F5 100%);
   -webkit-background-clip: text;
@@ -278,8 +346,8 @@ const perfis: any = {
   background: #F5F8FA;
   color: #546E7A;
   border-radius: 12px;
-  width: 42px;
-  height: 42px;
+  width: 46px;
+  height: 46px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -293,7 +361,7 @@ const perfis: any = {
   background: linear-gradient(135deg, #ffffff 0%, #f8fbff 100%);
   border: 1.5px solid rgba(66, 165, 245, 0.15);
   border-radius: 16px;
-  height: 52px !important;
+  height: 56px !important;
   padding: 6px 14px 6px 6px !important;
   text-transform: none !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -314,6 +382,11 @@ const perfis: any = {
 .profile-avatar {
   border: 2px solid #E3F2FD;
   box-shadow: 0 2px 8px rgba(66, 165, 245, 0.2);
+}
+
+.profile-btn :deep(.v-avatar) {
+  width: 42px !important;
+  height: 42px !important;
 }
 
 .profile-info {
