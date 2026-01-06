@@ -1,101 +1,108 @@
 <template>
   <div class="pa-0" fluid>
-    <!-- Loading -->
-    <div v-if="loading" class="d-flex justify-center align-center" style="min-height: 100vh;">
-      <v-progress-circular color="#00c6fe" indeterminate size="64"></v-progress-circular>
+    <div v-if="loading">
+      <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="position-relative">
+          <div class="rating-chips">
+            <div class="skeleton-rating-chip"></div>
+            <div class="skeleton-rating-chip skeleton-rating-chip-wide"></div>
+          </div>
+
+          <v-row align="center" justify="center" class="min-height-400">
+            <v-col cols="12" class="text-center">
+              <div class="doctor-avatar-container">
+                <div class="skeleton-avatar mx-auto mb-4"></div>
+              </div>
+              <div class="skeleton-name mx-auto mb-2"></div>
+              <div class="skeleton-specialty mx-auto mb-4"></div>
+              
+              <div class="d-flex justify-center ga-3 flex-wrap">
+                <div class="skeleton-chip"></div>
+                <div class="skeleton-chip"></div>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <v-row justify="center">
+          <v-col cols="12">
+            <v-row class="mb-8 mt-5">
+              <v-col cols="12">
+                <v-skeleton-loader type="card" height="150" class="info-card"></v-skeleton-loader>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </div>
     </div>
 
-    <!-- Conteúdo -->
     <div v-else-if="treinador">
-      <!-- Header -->
-      <div class="header-section">
-        <v-container>
-          <v-btn
-            icon
-            variant="text"
-            color="white"
-            size="large"
-            @click="voltarParaLista"
-            class="mb-4"
-          >
-            <v-icon size="28">mdi-arrow-left</v-icon>
-          </v-btn>
-        </v-container>
-      </div>
-
-      <!-- Perfil -->
-      <div class="profile-section">
-        <v-container>
-          <div class="text-center">
-            <v-avatar size="105" class="profile-avatar mb-4">
-              <v-img
-                v-if="treinador.usuario?.avatarUrl"
-                :src="treinador.usuario.avatarUrl"
-                alt="Avatar"
-              />
-              <span v-else class="text-h3 font-weight-bold text-white">
-                {{ treinador.usuario?.nome?.charAt(0).toUpperCase() }}
-              </span>
-            </v-avatar>
-
-            <h1 class="text-h4 font-weight-bold text-white mb-3">
-              {{ treinador.usuario?.nome }}
-            </h1>
-
-            <v-chip
-              v-if="idade"
-              color="white"
-              class="age-chip"
-              prepend-icon="mdi-calendar"
-            >
-              {{ idade }} anos
-            </v-chip>
+      <div class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="position-relative ma-5">
+          <div class="rating-chips">
+            <v-chip class="rating-chip" prepend-icon="mdi-star">0</v-chip>
+            <v-chip class="rating-chip" prepend-icon="mdi-comment">0 avaliações</v-chip>
           </div>
-        </v-container>
+
+          <v-row align="center" justify="center" class="min-height-400">
+            <v-col cols="12" class="text-center">
+              <div class="doctor-avatar-container">
+                <v-avatar size="160" class="doctor-avatar">
+                  <v-img
+                    v-if="treinador.usuario?.avatarUrl"
+                    :src="treinador.usuario.avatarUrl"
+                    alt="Foto do treinador"
+                    cover
+                  />
+                  <v-icon v-else size="80" color="white">mdi-account</v-icon>
+                </v-avatar>
+              </div>
+              <h1 class="doctor-name">{{ treinador.usuario?.nome }}</h1>
+              <p class="doctor-specialty">Treinador</p>
+              
+              <div class="info-chips d-flex justify-center ga-3 flex-wrap mt-4">
+                <v-chip v-if="idade" class="info-chip" prepend-icon="mdi-calendar">
+                  {{ idade }} anos
+                </v-chip>
+                <v-chip v-if="treinador.codigoConvite" class="info-chip" prepend-icon="mdi-ticket-confirmation">
+                  Código: {{ treinador.codigoConvite }}
+                </v-chip>
+              </div>
+            </v-col>
+          </v-row>
+        </div>
       </div>
 
-      <!-- Cards de Informações -->
-      <v-container class="mt-n8">
-        <!-- Código de Convite -->
-        <v-card
-          v-if="treinador.codigoConvite"
-          elevation="4"
-          rounded="xl"
-          class="info-card mb-4"
-        >
-          <v-card-text class="pa-6">
-            <div class="d-flex align-center mb-3">
-              <v-icon size="28" color="#00c6fe" class="mr-3">mdi-ticket-confirmation</v-icon>
-              <h3 class="text-h6 font-weight-bold" style="color: #333;">Código de Convite</h3>
-            </div>
-            <v-divider class="mb-4" />
-            <p class="text-h5 font-weight-bold text-center" style="color: #00c6fe; letter-spacing: 2px;">
-              {{ treinador.codigoConvite }}
-            </p>
-          </v-card-text>
-        </v-card>
-
-        <!-- Contatos -->
-        <v-card elevation="4" rounded="xl" class="info-card">
-          <v-card-text class="pa-6">
-            <div class="d-flex align-center mb-3">
-              <v-icon size="28" color="#00c6fe" class="mr-3">mdi-card-account-details</v-icon>
-              <h3 class="text-h6 font-weight-bold" style="color: #333;">Contatos</h3>
-            </div>
-            <v-divider class="mb-4" />
-
-            <div v-if="treinador.telefone" class="d-flex align-center mb-3">
-              <v-icon color="#666" class="mr-3">mdi-phone</v-icon>
-              <span class="text-body-1" style="color: #666;">{{ formatarTelefone(treinador.telefone) }}</span>
-            </div>
-
-            <div v-if="treinador.usuario?.email" class="d-flex align-center">
-              <v-icon color="#666" class="mr-3">mdi-email</v-icon>
-              <span class="text-body-1" style="color: #666;">{{ treinador.usuario.email }}</span>
-            </div>
-          </v-card-text>
-        </v-card>
-      </v-container>
+      <div class="content-section">
+        <v-row justify="center">
+          <v-col cols="12">
+            <v-row class="mb-8 mt-md-5">
+              <v-col cols="12">
+                <v-card class="info-card h-100 rounded-xl" elevation="2">
+                  <v-card-text class="pa-6">
+                    <div class="d-flex align-center mb-4">
+                      <v-icon color="#00c6fe" size="32" class="mr-3">mdi-card-account-details</v-icon>
+                      <h4 class="text-h5 font-weight-bold">Contatos</h4>
+                    </div>
+                    <div v-if="treinador.telefone" class="d-flex align-center mb-4">
+                      <v-icon color="#666" size="28" class="mr-4">mdi-phone</v-icon>
+                      <span class="text-h6">{{ formatarTelefone(treinador.telefone) }}</span>
+                    </div>
+                    <div v-if="treinador.usuario?.email" class="d-flex align-center">
+                      <v-icon color="#666" size="28" class="mr-4">mdi-email</v-icon>
+                      <span class="text-h6">{{ treinador.usuario.email }}</span>
+                    </div>
+                  </v-card-text>
+                </v-card>
+              </v-col>
+            </v-row>
+          </v-col>
+        </v-row>
+      </div>
     </div>
 
     <!-- Erro -->
@@ -142,22 +149,22 @@ const calcularIdade = (dataNascimento: string): number => {
   const nascimento = new Date(dataNascimento)
   let idade = hoje.getFullYear() - nascimento.getFullYear()
   const mes = hoje.getMonth() - nascimento.getMonth()
-  
+
   if (mes < 0 || (mes === 0 && hoje.getDate() < nascimento.getDate())) {
     idade--
   }
-  
+
   return idade
 }
 
 const formatarTelefone = (telefone: string): string => {
   if (!telefone) return ''
   const numeros = telefone.replace(/\D/g, '')
-  
+
   if (numeros.length === 11) {
     return `(${numeros.substring(0, 2)}) ${numeros.substring(2, 7)}-${numeros.substring(7)}`
   }
-  
+
   return telefone
 }
 
@@ -165,7 +172,7 @@ const carregarTreinador = async () => {
   try {
     loading.value = true
     const treinadorId = route.query?.id as string
-    
+
     if (!treinadorId) {
       throw new Error('ID do treinador não encontrado')
     }
@@ -190,44 +197,174 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.header-section {
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
-  padding: 24px 0 0 0;
+.hero-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
 }
 
-.profile-section {
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
-  padding: 0 0 80px 0;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
 }
 
-.profile-avatar {
+.min-height-400 {
+  min-height: 400px;
+}
+
+.rating-chips {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  z-index: 2;
+}
+
+.rating-chip {
+  background: #fff !important;
+  color: #00c6fe !important;
+  margin-left: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid;
+}
+
+.doctor-avatar {
   border: 4px solid rgba(255, 255, 255, 0.3);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
 }
 
-.age-chip {
-  font-weight: 600;
-  font-size: 0.95rem;
-  padding: 8px 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+.doctor-name {
+  color: white;
+  font-size: 2rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.doctor-specialty {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.2rem;
+}
+
+.info-chip {
+  background: rgba(255, 255, 255, 0.15) !important;
+  color: white !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  padding: 5px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.content-section {
+  background: #f8f9fa;
 }
 
 .info-card {
   transition: all 0.3s ease;
-  border: 2px solid #E7F8F6;
+  border-left: 3px solid #2196F3;
 }
 
 .info-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.3) !important;
+  box-shadow: 0 8px 32px rgba(0, 198, 254, 0.15) !important;
 }
 
-.v-btn {
-  transition: all 0.3s ease;
+.skeleton-avatar {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
 }
 
-.v-btn:hover:not(:disabled) {
-  transform: translateY(-2px);
+.skeleton-name {
+  width: 200px;
+  height: 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.25);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.skeleton-specialty {
+  width: 150px;
+  height: 20px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.2);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.skeleton-chip {
+  width: 150px;
+  height: 36px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+}
+
+.skeleton-chip:nth-child(2) {
+  width: 180px;
+  animation-delay: 0.2s;
+}
+
+.skeleton-rating-chip {
+  width: 60px;
+  height: 32px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.95);
+  margin-left: 8px;
+  backdrop-filter: blur(10px);
+  animation: skeleton-pulse 1.5s ease-in-out infinite alternate;
+  display: inline-block;
+}
+
+.skeleton-rating-chip-wide {
+  width: 120px;
+  animation-delay: 0.2s;
+}
+
+@keyframes skeleton-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 960px) {
+  .doctor-info {
+    padding-left: 0;
+    margin-top: 32px;
+    text-align: center;
+  }
+
+  .rating-chips {
+    position: static;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .info-chips {
+    text-align: center;
+  }
+
+  .info-chip {
+    display: block;
+    margin: 8px auto;
+    width: fit-content;
+  }
+
+  .skeleton-rating-chip {
+    margin: 4px;
+  }
 }
 </style>

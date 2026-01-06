@@ -4,12 +4,12 @@
     <v-row class="mb-6">
       <v-col cols="12" class="d-flex flex-column flex-md-row justify-space-between align-start align-md-center ga-4">
         <div class="d-flex align-center ga-3">
-          <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+          <div style="width: 48px; height: 48px; border-radius: 12px; background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
             <v-icon color="white" size="24">mdi-qrcode</v-icon>
           </div>
           <h1 class="text-h5 text-md-h4 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">Gerenciar Códigos</h1>
         </div>
-        <v-btn color="#00c6fe" variant="outlined" @click="$router.push('/solicitacoesConexoes')" rounded="lg" class="text-none" style="border-width: 2px;">
+        <v-btn color="#1E88E5" variant="outlined" @click="$router.push('/solicitacoesConexoes')" rounded="lg" class="text-none" style="border-width: 2px;">
           <v-icon start>mdi-link-variant</v-icon>
           Ver Minhas Conexões
         </v-btn>
@@ -20,7 +20,7 @@
     <v-card class="mb-6 elevation-2" style="border-radius: 16px;">
       <v-card-text class="pa-6">
         <div class="d-flex align-center ga-3 mb-4">
-          <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center;">
+          <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center;">
             <v-icon color="white" size="20">mdi-ticket-confirmation</v-icon>
           </div>
           <h2 class="text-h6 font-weight-bold" style="color: #2c3e50;">Seu Código de Convite</h2>
@@ -28,11 +28,11 @@
         <p class="text-body-2 mb-4" style="color: #64748b;">Compartilhe este código com profissionais para que eles possam se conectar com você.</p>
 
         <div v-if="codigoConvite" class="text-center py-6">
-          <div style="border: 2px dashed #00c6fe; border-radius: 16px; padding: 24px; background: #e6faff;">
+          <div style="border: 2px dashed #1E88E5; border-radius: 16px; padding: 24px; background: #e6faff;">
             <p class="text-caption mb-2" style="color: #64748b;">Seu código:</p>
-            <h1 class="text-h3 font-weight-bold" style="color: #00c6fe; letter-spacing: 4px;">{{ codigoConvite }}</h1>
+            <h1 class="text-h3 font-weight-bold" style="color: #1E88E5; letter-spacing: 4px;">{{ codigoConvite }}</h1>
           </div>
-          <v-btn color="#00c6fe" variant="elevated" block rounded="lg" class="text-none mt-4" @click="compartilharCodigo" style="box-shadow: 0 4px 12px rgba(0, 198, 254, 0.3);">
+          <v-btn color="#1E88E5" variant="elevated" block rounded="lg" class="text-none mt-4" @click="compartilharCodigo" style="box-shadow: 0 4px 12px rgba(0, 198, 254, 0.3);">
             <v-icon start>mdi-share-variant</v-icon>
             Compartilhar Código
           </v-btn>
@@ -41,7 +41,7 @@
         <div v-else class="text-center py-6">
           <v-icon size="80" color="#cbd5e1">mdi-qrcode-scan</v-icon>
           <p class="text-body-1 mt-4 mb-6" style="color: #64748b;">Você ainda não possui um código de convite</p>
-          <v-btn color="#00c6fe" variant="elevated" rounded="lg" class="text-none" @click="gerarCodigo" :loading="loadingGerar" style="box-shadow: 0 4px 12px rgba(0, 198, 254, 0.3);">
+          <v-btn color="#1E88E5" variant="elevated" rounded="lg" class="text-none" @click="gerarCodigo" :loading="loadingGerar" style="box-shadow: 0 4px 12px rgba(0, 198, 254, 0.3);">
             <v-icon start>mdi-plus</v-icon>
             Gerar Código
           </v-btn>
@@ -63,7 +63,7 @@
         <!-- Toggle Tipo (apenas para atletas) -->
         <div v-if="userRole === 'atleta'" class="mb-4">
           <p class="text-body-2 mb-2 font-weight-medium" style="color: #2c3e50;">Tipo de profissional:</p>
-          <v-btn-toggle v-model="destinatarioTipo" mandatory color="#00c6fe" rounded="lg" class="w-100" style="border: 2px solid #e6faff;">
+          <v-btn-toggle v-model="destinatarioTipo" mandatory color="#1E88E5" rounded="lg" class="w-100" style="border: 2px solid #e6faff;">
             <v-btn value="fisioterapeuta" class="flex-grow-1 text-none">
               <v-icon start>mdi-heart-pulse</v-icon>
               Fisioterapeuta
@@ -95,9 +95,9 @@
             :loading="loadingInserir"
             :disabled="!codigoInserir.trim()"
             style="height: 56px; min-width: 120px; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.3);"
-            class="text-none"
+            class="text-none text-white"
           >
-            <v-icon start>mdi-send</v-icon>
+            <v-icon color="#fff" start>mdi-send</v-icon>
             Enviar
           </v-btn>
         </div>
@@ -155,7 +155,7 @@ const gerarCodigo = async () => {
   try {
     const payload = getPayload()
     let response
-    
+
     switch (payload?.role) {
       case 'atleta':
         response = await atletaService.gerarCodigoConvite()
@@ -169,7 +169,7 @@ const gerarCodigo = async () => {
       default:
         throw new Error('Role não identificada')
     }
-    
+
     codigoConvite.value = response.data.codigoConvite
     toast.success('Código gerado com sucesso!', { autoClose: 2500 })
   } catch (error: any) {
@@ -225,7 +225,7 @@ const inserirCodigo = async () => {
       default:
         throw new Error('Role não identificada')
     }
-    
+
     toast.success('Solicitação enviada com sucesso!', { autoClose: 2500 })
     codigoInserir.value = ''
   } catch (error: any) {
@@ -261,11 +261,11 @@ onMounted(() => {
 }
 
 :deep(.custom-field .v-field:hover) {
-  border-color: #00c6fe;
+  border-color: #1E88E5;
 }
 
 :deep(.custom-field .v-field--focused) {
-  border-color: #00c6fe;
+  border-color: #1E88E5;
   box-shadow: 0 4px 12px rgba(0, 198, 254, 0.2);
 }
 

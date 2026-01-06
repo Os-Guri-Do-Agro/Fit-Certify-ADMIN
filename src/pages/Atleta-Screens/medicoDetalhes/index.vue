@@ -587,9 +587,10 @@ onMounted(async () => {
 <style scoped>
 /* Hero Section */
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .hero-overlay {

@@ -50,8 +50,9 @@
       <v-card-actions class="px-6 py-4 d-flex justify-space-between">
         <v-btn variant="text" @click="fechar">Cancelar</v-btn>
         <v-btn
-          color="#00c6fe"
+          color="#1E88E5"
           variant="flat"
+          rounded="xl"
           @click="confirmarPerfil"
           :disabled="!perfilSelecionado || perfilSelecionado === perfilAtualId"
           :loading="loadingBotao"
@@ -113,11 +114,11 @@ const getPerfilIcon = (nome: string) => {
 const getPerfilGradient = (nome: string) => {
   const gradients: Record<string, string> = {
     'Médico': 'linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%)',
-    'Atleta': 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)',
+    'Atleta': 'linear-gradient(135deg, #1E88E5 0%, #0099cc 100%)',
     'Treinador': 'linear-gradient(135deg, #ff9800 0%, #f57c00 100%)',
     'Fisioterapeuta': 'linear-gradient(135deg, #AA3BFF 0%, #8D20E0 100%)',
   }
-  return gradients[nome] || 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)'
+  return gradients[nome] || 'linear-gradient(135deg, #1E88E5 0%, #0099cc 100%)'
 }
 
 const selecionarPerfil = (perfil: Perfil) => {
@@ -214,6 +215,7 @@ const fechar = () => {
   border: 3px solid #f5f5f5;
   background: #fafafa;
   height: 100%;
+  border-radius: 20px;
 }
 
 .selection-card:hover {
@@ -223,7 +225,7 @@ const fechar = () => {
 }
 
 .selected-card {
-  border: 3px solid #00c6fe !important;
+  border: 3px solid #1E88E5 !important;
   background: linear-gradient(135deg, rgba(0, 198, 254, 0.08) 0%, rgba(0, 153, 204, 0.08) 100%) !important;
   box-shadow: 0 8px 32px rgba(0, 198, 254, 0.3) !important;
   transform: translateY(-2px) scale(1.02);

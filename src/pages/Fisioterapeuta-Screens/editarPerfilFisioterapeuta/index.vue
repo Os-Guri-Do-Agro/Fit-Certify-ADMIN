@@ -4,7 +4,7 @@
       <div class="hero-overlay"></div>
       <div class="position-relative">
         <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
-          <v-col cols="12" class="text-center">
+          <v-col cols="12" class="text-center mb-5">
             <div class="profile-avatar-container">
               <v-avatar size="190" class="profile-avatar">
                 <v-img
@@ -62,7 +62,7 @@
           <v-form v-else ref="form" v-model="valid">
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-account-circle</v-icon>
                 Informações Pessoais
               </v-card-title>
               <v-card-text class="pa-6">
@@ -75,7 +75,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-account"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
@@ -88,7 +88,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-email"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required, rules.email, rules.emailExists]"
                       :loading="emailValidation.loading"
                     ></v-text-field>
@@ -103,7 +103,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-phone"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.phone]"
                       @input="formatPhone"
                     ></v-text-field>
@@ -116,7 +116,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-calendar"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       type="date"
                       :rules="[rules.birthDate]"
                     ></v-text-field>
@@ -129,11 +129,11 @@
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center justify-space-between mb-3">
                       <div class="d-flex align-center">
-                        <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
+                        <v-icon color="#42A5F5" class="mr-2">mdi-ticket-percent</v-icon>
                         <span class="text-h6">Código de Convite</span>
                       </div>
                       <v-btn
-                        color="#00c6fe"
+                        color="#42A5F5"
                         variant="tonal"
                         rounded="lg"
                         size="small"
@@ -151,7 +151,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-qrcode"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       readonly
                     >
                       <template v-slot:append-inner>
@@ -159,7 +159,7 @@
                           icon="mdi-content-copy"
                           variant="text"
                           size="small"
-                          color="#00c6fe"
+                          color="#42A5F5"
                           @click="copiarCodigo"
                         ></v-btn>
                       </template>
@@ -167,7 +167,7 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
+                      <v-icon color="#42A5F5" class="mr-2">mdi-ticket-account</v-icon>
                       <span class="text-h6">Inserir Código</span>
                     </div>
                     <v-text-field
@@ -177,7 +177,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-keyboard"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       placeholder="Ex: FIT2024ABC123"
                     >
                       <template v-slot:append-inner>
@@ -185,7 +185,7 @@
                           icon="mdi-check"
                           variant="tonal"
                           size="small"
-                          color="#00c6fe"
+                          color="#42A5F5"
                           @click="enviarCodigoConvite()"
                         ></v-btn>
                       </template>
@@ -197,7 +197,7 @@
 
             <!-- <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-lock</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-lock</v-icon>
                 Alterar Senha
               </v-card-title>
               <v-card-text class="pa-6">
@@ -210,7 +210,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showPassword ? 'text' : 'password'"
                       :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showPassword = !showPassword"
@@ -224,7 +224,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-plus"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showNewPassword ? 'text' : 'password'"
                       :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showNewPassword = !showNewPassword"
@@ -239,7 +239,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-check"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showConfirmPassword ? 'text' : 'password'"
                       :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showConfirmPassword = !showConfirmPassword"
@@ -264,7 +264,7 @@
                 Cancelar
               </v-btn>
               <v-btn
-                color="#00c6fe"
+                color="#42A5F5"
                 rounded="xl"
                 size="large"
                 class="px-8 save-btn text-white"
@@ -570,9 +570,11 @@ onMounted(async () => {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .hero-overlay {
@@ -602,7 +604,7 @@ onMounted(async () => {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #00c6fe !important;
+  background: #42A5F5 !important;
 }
 
 .profile-name {
@@ -637,7 +639,7 @@ onMounted(async () => {
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
   transition: all 0.3s ease;
 }

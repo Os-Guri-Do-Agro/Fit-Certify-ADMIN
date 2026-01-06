@@ -1,63 +1,199 @@
 <template>
-    <VRow >
-      <VCol cols="12">
-        <div class="d-flex align-center mb-6">
-          <VBtn icon="mdi-arrow-left" variant="text" @click="router.back()" class="mr-3" />
-          <h1 class="text-h5 font-weight-bold">Excluir Conta</h1>
-        </div>
+  <v-container class="pa-6">
+    <v-row justify="center">
+      <v-col cols="12" md="8" lg="6">
+        <v-btn
+          icon
+          variant="text"
+          size="large"
+          @click="router.back()"
+          class="mb-4"
+        >
+          <v-icon size="28">mdi-arrow-left</v-icon>
+        </v-btn>
 
-        <VAlert type="warning" class="mb-6">
-          <strong>Atenção:</strong> Esta ação é permanente e não pode ser desfeita.
-        </VAlert>
+        <v-card class="warning-card mb-6" elevation="0" rounded="xl">
+          <v-card-text class="pa-8 text-center">
+            <div class="warning-icon-container mx-auto mb-4">
+              <v-icon size="64" color="#ff5252">mdi-alert-circle</v-icon>
+            </div>
+            <h1 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">Excluir Conta</h1>
+            <p class="text-h6 mb-0" style="color: #ff5252; font-weight: 600;">
+              Esta ação é permanente e não pode ser desfeita
+            </p>
+          </v-card-text>
+        </v-card>
 
-        <VCard class="mb-6">
-          <VCardTitle>O que acontece quando você exclui sua conta?</VCardTitle>
-          <VCardText class="pa-6 ml-8">
-            <ul>
-              <li>Todos os seus dados pessoais serão removidos</li>
-              <li>Seu histórico será apagado</li>
-              <li>Você perderá acesso aos serviços</li>
-              <li>Esta ação não pode ser revertida</li>
-            </ul>
+        <v-card class="info-card mb-6" elevation="2" rounded="xl">
+          <v-card-text class="pa-6">
+            <div class="d-flex align-center mb-4">
+              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-information</v-icon>
+              <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">O que acontece quando você exclui sua conta?</h3>
+            </div>
+            
+            <div class="consequences-list">
+              <div class="consequence-item">
+                <v-icon color="#ff5252" size="20" class="mr-3">mdi-account-remove</v-icon>
+                <span class="text-body-1">Todos os seus dados pessoais serão removidos</span>
+              </div>
+              <div class="consequence-item">
+                <v-icon color="#ff5252" size="20" class="mr-3">mdi-history</v-icon>
+                <span class="text-body-1">Seu histórico será apagado</span>
+              </div>
+              <div class="consequence-item">
+                <v-icon color="#ff5252" size="20" class="mr-3">mdi-lock</v-icon>
+                <span class="text-body-1">Você perderá acesso aos serviços</span>
+              </div>
+              <div class="consequence-item">
+                <v-icon color="#ff5252" size="20" class="mr-3">mdi-alert</v-icon>
+                <span class="text-body-1">Esta ação não pode ser revertida</span>
+              </div>
+            </div>
 
-            <VBtn variant="text" color="primary" @click="redirectInfoExclusao()" class="mt-3">
+            <v-btn
+              variant="text"
+              color="#00c6fe"
+              @click="redirectInfoExclusao()"
+              class="mt-4 text-none"
+              rounded="lg"
+            >
               Ler política completa
-              <VIcon icon="mdi-open-in-new" class="ml-1" size="16" />
-            </VBtn>
-          </VCardText>
-        </VCard>
+              <v-icon class="ml-2" size="18">mdi-open-in-new</v-icon>
+            </v-btn>
+          </v-card-text>
+        </v-card>
 
-        <div class="d-flex gap-5 " >
-          <VBtn color="error" class="mr-5" @click="showDeleteDialog = true">
-            <VIcon icon="mdi-delete" class="mr-2" />
+        <div class="d-flex justify-center ga-3 flex-wrap">
+          <v-btn
+            color="#ff5252"
+            size="x-large"
+            rounded="xl"
+            elevation="4"
+            @click="showDeleteDialog = true"
+            class="text-white px-8"
+          >
+            <v-icon class="mr-2">mdi-delete</v-icon>
             Excluir Conta
-          </VBtn>
-          <VBtn variant="outlined" @click="router.back()">
+          </v-btn>
+          <v-btn
+            variant="outlined"
+            color="grey"
+            size="x-large"
+            rounded="xl"
+            @click="router.back()"
+            class="px-8"
+          >
             Cancelar
-          </VBtn>
+          </v-btn>
         </div>
 
-        <VDialog v-model="showDeleteDialog" max-width="400">
-          <VCard>
-            <VCardTitle>Confirmar Exclusão</VCardTitle>
-            <VCardText>
-              Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.
-            </VCardText>
-            <VCardActions>
-              <VSpacer />
-              <VBtn @click="showDeleteDialog = false">Cancelar</VBtn>
-              <VBtn color="error" @click="handleDeleteAccount" :loading="deletingAccount">
+        <v-dialog v-model="showDeleteDialog" max-width="500">
+          <v-card rounded="xl" elevation="8">
+            <v-card-title class="pa-6 text-center">
+              <div class="dialog-icon-container mx-auto mb-3">
+                <v-icon size="48" color="#ff5252">mdi-alert-circle-outline</v-icon>
+              </div>
+              <h3 class="text-h5 font-weight-bold" style="color: #2c3e50;">Confirmar Exclusão</h3>
+            </v-card-title>
+            <v-card-text class="pa-6 text-center">
+              <p class="text-body-1 mb-0" style="color: #666;">
+                Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.
+              </p>
+            </v-card-text>
+            <v-card-actions class="pa-6 justify-center gap-3">
+              <v-btn
+                variant="outlined"
+                color="grey"
+                rounded="lg"
+                size="large"
+                @click="showDeleteDialog = false"
+                class="px-6"
+              >
+                Cancelar
+              </v-btn>
+              <v-btn
+                variant="elevated"
+                color="error"
+                rounded="lg"
+                size="large"
+                @click="handleDeleteAccount"
+                :loading="deletingAccount"
+                class="px-6"
+              >
+                <v-icon class="mr-2">mdi-delete</v-icon>
                 Deletar
-              </VBtn>
-            </VCardActions>
-          </VCard>
-        </VDialog>
-      </VCol>
-    </VRow>
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <style scoped>
-/* Estilos mínimos */
+.warning-card {
+  background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+  border: 2px solid #ffcdd2;
+}
+
+.warning-icon-container {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255, 82, 82, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-card {
+  transition: all 0.3s ease;
+  border-left: 4px solid #00c6fe;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0, 198, 254, 0.15) !important;
+}
+
+.consequences-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.consequence-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.consequence-item:hover {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.dialog-icon-container {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255, 82, 82, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+v-btn {
+  transition: all 0.3s ease;
+}
+
+v-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
 </style>
 <script setup lang="ts">
 import { getPayload } from '@/utils/auth';

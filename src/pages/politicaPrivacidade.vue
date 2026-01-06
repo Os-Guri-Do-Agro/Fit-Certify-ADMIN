@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden">
     <!-- DIV DA ESQUERDA -->
-    <VCol class="pa-0 ma-0" md="12" style="background-color: #00c6fe">
+    <VCol class="pa-0 ma-0" md="12" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%)">
       <VRow class="pa-0 ma-0">
         <VCol class="pa-0 ma-0 d-flex justify-center" cols="12">
           <v-container class=" mb-5 mb-md-10 pa-0 ma-0 px-6 px-5 px-md-10"

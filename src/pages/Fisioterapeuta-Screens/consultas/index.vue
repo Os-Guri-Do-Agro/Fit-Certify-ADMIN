@@ -136,6 +136,7 @@ dayjs.locale('pt-br')
 const loading = ref(true)
 const consultas = ref([])
 const loadingCancelarIds = ref(new Set())
+const loadingAceitarIds = ref(new Set())
 const infoAtleta = ref(null)
 const modalConfirmacao = ref(false)
 const consultaParaCancelar = ref(null)
@@ -155,9 +156,9 @@ const buscarConsultas = async () => {
 
     const resp = await fisioterapeutaService.findConsultasByFisioterapeuta(dataInicio, dataFim)
     if (Array.isArray(resp.data) && resp.data.length > 0 && resp.data[0].consultas) {
-      consultas.value = resp.data.flatMap(item => item.consultas || []).filter(c => c.situacao !== 'Cancelada' && c.situacao !== 'Recusado')
+      consultas.value = resp.data.flatMap(item => item.consultas || []).filter(c => c.situacao === 'Marcado' || c.situacao === 'Concluido')
     } else {
-      consultas.value = (resp.data || []).filter(c => c.situacao !== 'Cancelada' && c.situacao !== 'Recusado')
+      consultas.value = (resp.data || []).filter(c => c.situacao === 'Marcado' || c.situacao === 'Concluido')
     }
   } catch (error) {
     console.error('Erro ao buscar consultas', error)
@@ -181,12 +182,29 @@ const getStatusColor = (status) => {
 }
 
 const podeFinalizarConsulta = (situacao) => {
-  return situacao === 'Pendente' || situacao === 'Marcado'
+  return situacao === 'Marcado'
 }
 
 const verInfoAtleta = async (atletaId) => {
   const atleta = await buscarAtletaId(atletaId)
-  if (atleta) infoAtleta.value = atleta
+  if (atleta) {
+    infoAtleta.value = atleta
+    console.log('infoAtleta:', atleta)
+  }
+}
+
+const aceitarConsulta = async (consultaId) => {
+  loadingAceitarIds.value.add(consultaId)
+  try {
+    const data = { situacao: 'Marcado' }
+    await fisioterapeutaService.aceitarOrRejeitarConsultaById(consultaId, data)
+    toast.success('Consulta aceita com sucesso!')
+    await buscarConsultas()
+  } catch (error) {
+    toast.error(getErrorMessage(error))
+  } finally {
+    loadingAceitarIds.value.delete(consultaId)
+  }
 }
 
 const abrirModalConfirmacao = (consultaId) => {

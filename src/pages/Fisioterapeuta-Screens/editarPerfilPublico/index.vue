@@ -32,9 +32,6 @@
                     <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-account-edit">
                       Editar Perfil Público
                     </v-chip>
-                    <v-chip class="info-chip text-center d-flex justify-center text-white">
-                      CREFITO: {{ displayData.crefito }}
-                    </v-chip>
                   </div>
                   <div class="avatar-container">
                     <v-avatar size="190" class="profile-avatar">
@@ -266,7 +263,7 @@ onMounted(() => carregarDados())
 
 <style scoped>
 .profile-card {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   border: none;
   overflow: hidden;
 }
@@ -298,7 +295,7 @@ onMounted(() => carregarDados())
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
   transition: all 0.3s ease;
 }

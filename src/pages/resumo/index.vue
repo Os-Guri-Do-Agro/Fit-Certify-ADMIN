@@ -3,14 +3,14 @@
     <v-sheet
       color="blue-gradient"
       class="position-relative overflow-hidden"
-      style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); min-height: 200px"
+      style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); min-height: 200px; border-radius: 20px; box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);"
     >
       <v-sheet
         class="position-absolute w-100 h-100"
         style="background: rgba(0, 0, 0, 0.1)"
       ></v-sheet>
       <v-container class="position-relative">
-        <v-row align="center" class="d-flex flex-md-column-reverse">
+        <v-row align="center" class="d-flex flex-md-column-reverse mt-5">
           <v-col cols="12" md="4" class="text-center">
             <div>
               <v-avatar
@@ -28,17 +28,7 @@
               Visão geral das suas métricas
             </p>
           </v-col>
-          <v-col cols="12">
-            <div class="d-flex justify-center ma-5">
-              <v-chip
-                class="d-none d-md-flex"
-                prepend-icon="mdi-account-circle"
-                style="background: rgba(255, 255, 255, 0.15); color: white; border: 1px solid rgba(255, 255, 255, 0.3); backdrop-filter: blur(10px)"
-              >
-                Resumo Médico
-              </v-chip>
-            </div>
-          </v-col>
+
         </v-row>
       </v-container>
     </v-sheet>

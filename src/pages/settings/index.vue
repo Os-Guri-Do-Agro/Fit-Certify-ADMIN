@@ -6,13 +6,13 @@
       <v-col cols="12">
         <v-card class="mb-6" elevation="4" rounded="xl">
           <v-card-title class="section-title">
-            <v-icon class="mr-3" color="#00c6fe">mdi-account-cog</v-icon>
+            <v-icon class="mr-3" color="#1E88E5">mdi-account-cog</v-icon>
             Conta
           </v-card-title>
           <v-list>
             <v-list-item v-for="(item, index) in accountItems" :key="index" @click="handleNavigation(item)" class="list-item-hover">
               <template #prepend>
-                <v-icon :icon="`mdi-${item.icon}`" color="#00c6fe" />
+                <v-icon :icon="`mdi-${item.icon}`" color="#1E88E5" />
               </template>
 
               <v-list-item-title>
@@ -28,13 +28,13 @@
 
         <v-card class="mb-6" elevation="4" rounded="xl">
           <v-card-title class="section-title">
-            <v-icon class="mr-3" color="#00c6fe">mdi-help-circle</v-icon>
+            <v-icon class="mr-3" color="#1E88E5">mdi-help-circle</v-icon>
             Suporte
           </v-card-title>
           <v-list>
             <v-list-item v-for="(item, index) in supportItems" :key="index" @click="router.push(item.to)" class="list-item-hover">
               <template #prepend>
-                <v-icon :icon="`mdi-${item.icon}`" color="#00c6fe" />
+                <v-icon :icon="`mdi-${item.icon}`" color="#1E88E5" />
               </template>
 
               <v-list-item-title>{{ item.title }}</v-list-item-title>
