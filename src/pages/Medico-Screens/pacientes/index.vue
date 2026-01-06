@@ -1,121 +1,148 @@
 <template>
-  <div class="w-100 h-100 ma-0">
-    <v-container fluid>
-      <h1 class="mb-5 text-h5 font-weight-bold">Resumo do Dia</h1>
-      <v-row class="mb-4" dense>
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-account-group</v-icon>
-            </v-sheet>
+  <v-container class="py-8">
 
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ totalAtletas }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Total de Pacientes
-            </v-card-text>
-          </v-card>
-        </v-col>
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-account-heart</v-icon>
-            </v-sheet>
+    <v-row class="mb-8">
+      <v-col cols="12" sm="6" md="3">
+        <v-card class="metric-card"  elevation="2">
+          <v-card-text class="pa-5">
+            <div class="d-flex align-center justify-space-between mb-3">
+              <v-avatar size="48" color="blue-lighten-3" class="metric-avatar">
+                <v-icon size="24" color="blue-darken-1">mdi-account-group</v-icon>
+              </v-avatar>
+              <v-icon size="20" color="blue-lighten-3">mdi-trending-up</v-icon>
+            </div>
+            <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ totalAtletas }}</div>
+            <div class="text-body-2 text-grey font-weight-medium">Total de Pacientes</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.pacientesAtendidos }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Pacientes Atendidos
-            </v-card-text>
-          </v-card>
-        </v-col>
+      <v-col cols="12" sm="6" md="3">
+        <v-card class="metric-card"  elevation="2">
+          <v-card-text class="pa-5">
+            <div class="d-flex align-center justify-space-between mb-3">
+              <v-avatar size="48" color="green-lighten-3" class="metric-avatar">
+  <v-icon size="24" color="green-darken-1">mdi-account-heart</v-icon>
+</v-avatar>
+              <v-icon size="20" color="green-lighten-3">mdi-check-circle</v-icon>
+            </div>
+            <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.pacientesAtendidos }}</div>
+            <div class="text-body-2 text-grey font-weight-medium">Pacientes Atendidos</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100">
-              <v-icon size="40" color="white">mdi-certificate</v-icon>
-            </v-sheet>
+      <v-col cols="12" sm="6" md="3">
+        <v-card class="metric-card"  elevation="2">
+          <v-card-text class="pa-5">
+            <div class="d-flex align-center justify-space-between mb-3">
+              <v-avatar size="48" color="orange-lighten-3" class="metric-avatar">
+                <v-icon size="24" color="orange-darken-1">mdi-certificate</v-icon>
+              </v-avatar>
+              <v-icon size="20" color="orange-lighten-3">mdi-file-document</v-icon>
+            </div>
+            <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.certificadosEmitidos }}</div>
+            <div class="text-body-2 text-grey font-weight-medium">Certificados Emitidos</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
 
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.certificadosEmitidos }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Certificados Emitidos
-            </v-card-text>
-          </v-card>
-        </v-col>
+      <v-col cols="12" sm="6" md="3">
+        <v-card class="metric-card"  elevation="2">
+          <v-card-text class="pa-5">
+            <div class="d-flex align-center justify-space-between mb-3">
+              <v-avatar size="48" color="purple-lighten-3" class="metric-avatar">
+                <v-icon size="24" color="purple-darken-1">mdi-calendar-clock</v-icon>
+              </v-avatar>
+              <v-icon size="20" color="purple-lighten-3">mdi-calendar-check</v-icon>
+            </div>
+            <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.consultasMarcadas }}</div>
+            <div class="text-body-2 text-grey font-weight-medium">Consultas Marcadas</div>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
 
-        <v-col cols="12" md="3">
-          <v-card class="d-flex flex-column align-center justify-center bg-white" rounded="lg" variant="outlined"
-            elevation="2" color="blue">
-            <v-sheet color="blue" class="d-flex justify-center pa-3 w-100" rounded="t-lg">
-              <v-icon size="40" color="white">mdi-calendar-clock</v-icon>
-            </v-sheet>
-
-            <v-card-title class="text-h3 font-weight-bold mt-3">{{ Metrics.consultasMarcadas }}</v-card-title>
-            <v-card-text class="text-subtitle-1 text-grey-darken-1 mb-4">
-              Consultas Marcadas
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-
-
-
-      <v-row>
-        <h1 class="mb-5 text-h5 font-weight-bold">Meus pacientes</h1>
-        <v-col cols="12">
-          <v-card rounded="lg" variant="outlined" color="blue" class="pa-0 ma-0">
-            <v-row no-gutters class="pa-5 bg-blue" justify="space-between">
-              <v-col class="d-flex" cols="auto">
-                <v-icon color="white" size="28" class="mr-2">mdi-clipboard-account-outline</v-icon>
-                <span class="text-h6 font-weight-bold text-white">Lista de Pacientes</span>
+    <v-row>
+      <v-col cols="12">
+        <v-card rounded="lg" elevation="2">
+          <v-card-title class="bg-blue-lighten-5 pa-5">
+            <v-row align="center" no-gutters>
+              <v-col cols="12" md="6" class="d-flex align-center mb-4 mb-md-0">
+                <v-icon color="blue" size="24" class="mr-2">mdi-clipboard-account-outline</v-icon>
+                <span class="text-h6 font-weight-bold text-grey-darken-3">Meus Pacientes</span>
               </v-col>
-              <v-col cols="auto">
-                <v-text-field v-model="busca" class="white-input" bg-color="white" variant="outlined" rounded="lg"
-                  prepend-inner-icon="mdi-magnify" density="comfortable" placeholder="Buscar paciente..."
-                  style="width: 350px" />
+              <v-col cols="12" md="6" class="d-flex justify-md-end">
+                <v-text-field
+                  v-model="busca"
+                  variant="outlined"
+                  rounded="lg"
+                  density="comfortable"
+                  prepend-inner-icon="mdi-magnify"
+                  placeholder="Buscar paciente..."
+                  hide-details
+                  bg-color="white"
+                  class="search-field"
+                />
               </v-col>
             </v-row>
+          </v-card-title>
 
-            <v-data-table-server
-              :items-per-page-options="[1, 5, 7, 10, 20, 50, 100]"
-               v-model:items-per-page="filterLimitPerPage"
-               v-model:page="page"
-              :headers="headers"
-              :items="pacientesFiltrados"
-              :loading="loading"
-              :items-length="totalAtletas"
-               class="blue-header font-weight-bold" item-height="80">
+          <v-data-table-server
+            v-model:items-per-page="filterLimitPerPage"
+            v-model:page="page"
+            :headers="headers"
+            :items="pacientesFiltrados"
+            :loading="loading"
+            :items-length="totalAtletas"
+            :items-per-page-options="[5, 10, 20, 50, 100]"
+            class="patient-table"
+          >
+            <template #loading>
+              <v-skeleton-loader type="table-row@10" />
+            </template>
 
-              <template #loading>
-                <v-skeleton-loader type="table-row@10" />
-              </template>
-              <template #item.usuario.avatarUrl="{ item }">
-                <v-avatar size="60">
-                  <v-img v-if="item.usuario.avatarUrl" :src="item.usuario.avatarUrl" :alt="item.usuario.nome" />
-                  <v-icon v-else size="68">mdi-account-circle</v-icon>
-                </v-avatar>
-              </template>
+            <template #item.usuario.avatarUrl="{ item }">
+              <v-avatar size="40" class="my-2">
+                <v-img v-if="item.usuario.avatarUrl" :src="item.usuario.avatarUrl" :alt="item.usuario.nome" />
+                <v-icon v-else size="40" color="grey-lighten-1">mdi-account-circle</v-icon>
+              </v-avatar>
+            </template>
 
-              <template #item.actions="{ item }">
-                <div class="d-flex ga-3 align-center justify-end">
-                  <v-btn color="blue" variant="outlined" size="small" rounded="lg" class="px-4 py-4 d-flex align-center"
-                    @click="verInformacoes(item)">
-                    <v-icon size="16" class="mr-2">mdi-information-outline</v-icon>
-                    Ver Informações
-                  </v-btn>
+            <template #item.usuario.nome="{ item }">
+              <div class="font-weight-bold text-grey-darken-3">{{ item.usuario.nome }}</div>
+            </template>
 
-                </div>
-              </template>
-            </v-data-table-server>
-            <h1>
+            <template #item.idade="{ item }">
+              <v-chip size="small" color="blue-lighten-4" variant="flat">
+                {{ item.idade }} anos
+              </v-chip>
+            </template>
 
-            </h1>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+            <template #item.genero="{ item }">
+              <v-chip size="small" :color="item.genero === 'Masculino' ? 'blue' : 'pink'" variant="outlined">
+                <v-icon size="14" class="mr-1">{{ item.genero === 'Masculino' ? 'mdi-gender-male' : 'mdi-gender-female' }}</v-icon>
+                {{ item.genero }}
+              </v-chip>
+            </template>
+
+            <template #item.actions="{ item }">
+              <v-btn
+                color="blue"
+                variant="flat"
+                size="small"
+                rounded="lg"
+                @click="verInformacoes(item)"
+              >
+                <v-icon size="16" class="mr-1">mdi-eye</v-icon>
+                Ver Detalhes
+              </v-btn>
+            </template>
+          </v-data-table-server>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -225,27 +252,62 @@ const verInformacoes = (paciente) => {
 </script>
 
 <style scoped>
-.blue-header :deep(.v-data-table__th) {
-  background-color: #0080ff25 !important;
-  color: black !important;
+.metric-card {
+  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+  border-radius: 20px;
 }
 
-.blue-header :deep(.v-data-table__tr) {
-  height: 80px !important;
+.metric-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
 }
 
-.blue-header :deep(.v-data-table__td) {
-  padding: 5px !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+.metric-card:nth-child(1) {
+  border-top-color: #42A5F5;
 }
 
-.white-input :deep(.v-field__field) {
-  background-color: white !important;
-  border-radius: 8px !important;
+.metric-card:nth-child(2) {
+  border-top-color: #66BB6A;
 }
 
-.white-input :deep(.v-field__outline) {
-  --v-field-border-color: white !important;
+.metric-card:nth-child(3) {
+  border-top-color: #FFA726;
+}
+
+.metric-card:nth-child(4) {
+  border-top-color: #AB47BC;
+}
+
+.metric-avatar {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 10px;
+  background-color: rgb(255, 196, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-field {
+  max-width: 400px;
+}
+
+.patient-table :deep(.v-data-table__th) {
+  background-color: #f5f7fa !important;
+  font-weight: 700 !important;
+  color: #424242 !important;
+  padding: 16px !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+.patient-table :deep(.v-data-table__td) {
+  padding: 16px !important;
+}
+
+.patient-table :deep(.v-data-table__tr:hover) {
+  background-color: #f8f9fa !important;
+  transition: background-color 0.2s ease;
 }
 </style>

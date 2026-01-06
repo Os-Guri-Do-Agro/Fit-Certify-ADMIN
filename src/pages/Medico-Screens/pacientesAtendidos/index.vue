@@ -1,61 +1,86 @@
 <template>
-  <div class="w-100 h-100 ma-0">
-    <v-container fluid>
-      <v-row>
-        <h1 class="mb-5 text-h5 font-weight-bold">Pacientes atendidos recentemente</h1>
-        <v-col cols="12">
-          <v-card rounded="lg" variant="outlined" color="blue" class="pa-0 ma-0">
-            <v-row no-gutters class="pa-5 bg-blue" justify="space-between">
-              <v-col class="d-flex" cols="auto">
-                <v-icon color="white" size="28" class="mr-2">mdi-clipboard-account-outline</v-icon>
-                <span class="text-h6 font-weight-bold text-white">Lista de Pacientes</span>
+  <v-container class="py-8">
+
+    <v-row>
+      <v-col cols="12">
+        <v-card rounded="lg" elevation="2">
+          <v-card-title class="bg-blue-lighten-5 pa-5">
+            <v-row align="center" no-gutters>
+              <v-col cols="12" md="6" class="d-flex align-center mb-4 mb-md-0">
+                <v-icon color="blue" size="24" class="mr-2">mdi-clipboard-account-outline</v-icon>
+                <span class="text-h6 font-weight-bold text-grey-darken-3">Lista de Pacientes</span>
               </v-col>
-              <v-col cols="auto">
-                <v-text-field v-model="busca" class="white-input" bg-color="white" variant="outlined" rounded="lg"
-                  prepend-inner-icon="mdi-magnify" density="comfortable" placeholder="Buscar paciente..."
-                  style="width: 350px" />
+              <v-col cols="12" md="6" class="d-flex justify-md-end">
+                <v-text-field
+                  v-model="busca"
+                  variant="outlined"
+                  rounded="lg"
+                  density="comfortable"
+                  prepend-inner-icon="mdi-magnify"
+                  placeholder="Buscar paciente..."
+                  hide-details
+                  bg-color="white"
+                  class="search-field"
+                />
               </v-col>
             </v-row>
+          </v-card-title>
 
-            <v-data-table-server
-              :items-per-page-options="[1, 5, 7, 10, 20, 50, 100]"
-               v-model:items-per-page="filterLimitPerPage"
-               v-model:page="page"
-              :headers="headers"
-              :items="pacientesFiltrados"
-              :loading="loading"
-              :items-length="totalAtletas"
-               class="blue-header font-weight-bold" item-height="80">
+          <v-data-table-server
+            v-model:items-per-page="filterLimitPerPage"
+            v-model:page="page"
+            :headers="headers"
+            :items="pacientesFiltrados"
+            :loading="loading"
+            :items-length="totalAtletas"
+            :items-per-page-options="[5, 10, 20, 50, 100]"
+            class="patient-table"
+          >
+            <template #loading>
+              <v-skeleton-loader type="table-row@10" />
+            </template>
 
-              <template #loading>
-                <v-skeleton-loader type="table-row@10" />
-              </template>
-              <template #item.usuario.avatarUrl="{ item }">
-                <v-avatar size="60">
-                  <v-img v-if="item.usuario.avatarUrl" :src="item.usuario.avatarUrl" :alt="item.usuario.nome" />
-                  <v-icon v-else size="68">mdi-account-circle</v-icon>
-                </v-avatar>
-              </template>
+            <template #item.usuario.avatarUrl="{ item }">
+              <v-avatar size="40" class="my-2">
+                <v-img v-if="item.usuario.avatarUrl" :src="item.usuario.avatarUrl" :alt="item.usuario.nome" />
+                <v-icon v-else size="40" color="grey-lighten-1">mdi-account-circle</v-icon>
+              </v-avatar>
+            </template>
 
-              <template #item.actions="{ item }">
-                <div class="d-flex ga-3 align-center justify-end">
-                  <v-btn color="blue" variant="outlined" size="small" rounded="lg" class="px-4 py-4 d-flex align-center"
-                    @click="verInformacoes(item)">
-                    <v-icon size="16" class="mr-2">mdi-information-outline</v-icon>
-                    Ver Informações
-                  </v-btn>
+            <template #item.usuario.nome="{ item }">
+              <div class="font-weight-bold text-grey-darken-3">{{ item.usuario.nome }}</div>
+            </template>
 
-                </div>
-              </template>
-            </v-data-table-server>
-            <h1>
+            <template #item.idade="{ item }">
+              <v-chip size="small" color="blue-lighten-4" variant="flat">
+                {{ item.idade }} anos
+              </v-chip>
+            </template>
 
-            </h1>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+            <template #item.genero="{ item }">
+              <v-chip size="small" :color="item.genero === 'Masculino' ? 'blue' : 'pink'" variant="outlined">
+                <v-icon size="14" class="mr-1">{{ item.genero === 'Masculino' ? 'mdi-gender-male' : 'mdi-gender-female' }}</v-icon>
+                {{ item.genero }}
+              </v-chip>
+            </template>
+
+            <template #item.actions="{ item }">
+              <v-btn
+                color="blue"
+                variant="flat"
+                size="small"
+                rounded="lg"
+                @click="verInformacoes(item)"
+              >
+                <v-icon size="16" class="mr-1">mdi-eye</v-icon>
+                Ver Detalhes
+              </v-btn>
+            </template>
+          </v-data-table-server>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup>
@@ -150,27 +175,26 @@ const verInformacoes = (paciente) => {
 </script>
 
 <style scoped>
-.blue-header :deep(.v-data-table__th) {
-  background-color: #0080ff25 !important;
-  color: black !important;
+.search-field {
+  max-width: 400px;
 }
 
-.blue-header :deep(.v-data-table__tr) {
-  height: 80px !important;
+.patient-table :deep(.v-data-table__th) {
+  background-color: #f5f7fa !important;
+  font-weight: 700 !important;
+  color: #424242 !important;
+  padding: 16px !important;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
 }
 
-.blue-header :deep(.v-data-table__td) {
-  padding: 5px !important;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+.patient-table :deep(.v-data-table__td) {
+  padding: 16px !important;
 }
 
-.white-input :deep(.v-field__field) {
-  background-color: white !important;
-  border-radius: 8px !important;
-}
-
-.white-input :deep(.v-field__outline) {
-  --v-field-border-color: white !important;
+.patient-table :deep(.v-data-table__tr:hover) {
+  background-color: #f8f9fa !important;
+  transition: background-color 0.2s ease;
 }
 </style>

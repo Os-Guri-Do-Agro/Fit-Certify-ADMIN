@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-6">
     <v-card rounded="xl" elevation="4">
-      <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); color: white;">
+      <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-run</v-icon>
         <span class="text-h5 font-weight-bold">Cadastrar Atleta</span>
       </v-card-title>
@@ -13,7 +13,7 @@
               <VRow class="px-4 px-md-8">
                 <VCol class="mb-6 mt-10 mt-md-0" cols="12">
                   <div class="d-flex align-center ga-3">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
                       <v-icon color="white" size="20">mdi-human</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -62,7 +62,7 @@
                   <v-row class="d-flex">
                     <v-col class="mt-5" cols="12">
                       <div class="d-flex align-center ga-3 mb-5">
-                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
                           <v-icon color="white" size="20">mdi-heart-pulse</v-icon>
                         </div>
                         <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -95,7 +95,7 @@
                   <v-row class="d-flex">
                     <v-col class="mt-5" cols="12">
                       <div class="d-flex align-center ga-3 mb-5">
-                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+                        <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
                           <v-icon color="white" size="20">mdi-stethoscope</v-icon>
                         </div>
                         <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -125,7 +125,7 @@
                 <VCol cols="12">
                   <div class="mt-7">
                     <div class="d-flex align-center ga-3 mb-6">
-                      <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+                      <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
                         <v-icon color="white" size="20">mdi-trophy</v-icon>
                       </div>
                       <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -154,7 +154,7 @@
               <VRow class="px-4 px-md-8">
                 <VCol class="mb-6 mt-10 mt-md-0" cols="12">
                   <div class="d-flex align-center ga-3">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88CE0D 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
                       <v-icon color="white" size="20">mdi-check-circle</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -177,7 +177,7 @@
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" v-if="formPdfImage.length">
                   <div v-for="(file, index) in formPdfImage" :key="index">
-                    <div class="d-flex w-100 justify-space-between align-center my-5 pa-3 rounded-lg" style="background-color: #88ce0d">
+                    <div class="d-flex w-100 justify-space-between align-center my-5 pa-3 rounded-lg" style="background-color: #1E88E5">
                       <div class="gap-5 text-white">
                         <b>{{ file.name }}</b>
                         <b>{{ (file.size / 1024).toFixed(1) }} KB</b>
@@ -204,7 +204,7 @@
                     <template #label>
                       <span class="font-weight-medium">
                         Li e concordo com os
-                        <span class="cursor-pointer text-decoration-underline" style="color: #88CE0D" @click="showModalTerms = true">
+                        <span class="cursor-pointer text-decoration-underline" style="color: #1E88E5" @click="showModalTerms = true">
                           termos de Uso e Política de Privacidade*</span>.
                       </span>
                     </template>
@@ -216,10 +216,10 @@
 
           <template #actions="{ next, prev }">
             <div class="pa-6 d-flex justify-space-between">
-              <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#88CE0D" rounded="xl">
+              <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#1E88E5" rounded="xl">
                 <v-icon start>mdi-arrow-left</v-icon>Voltar
               </VBtn>
-              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitAtleta() : (validateStep() ? next() : toast.error('Preencha todos os campos obrigatórios'))" color="#88CE0D" class="text-white" rounded="xl">
+              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitAtleta() : (validateStep() ? next() : toast.error('Preencha todos os campos obrigatórios'))" color="#1E88E5" class="text-white" rounded="xl">
                 {{ step === 3 ? 'Cadastrar' : 'Próximo' }}
                 <v-icon end>{{ step === 3 ? 'mdi-check' : 'mdi-arrow-right' }}</v-icon>
               </VBtn>
@@ -232,7 +232,7 @@
     <!-- Modal de Termos -->
     <v-dialog v-model="showModalTerms" width="600" height="800">
       <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
-        <v-card-title class="text-center text-h5" style="color: #88CE0D; white-space: normal; word-wrap: break-word;">
+        <v-card-title class="text-center text-h5" style="color: #1E88E5; white-space: normal; word-wrap: break-word;">
           Política de Privacidade, Termos e Condições de Uso e Proteção de Dados
         </v-card-title>
         <v-card-text>
@@ -264,7 +264,7 @@
           </p>
         </v-card-text>
         <v-card-actions>
-          <v-btn class="w-100 text-white font-weight-bold" @click="maisTermos" height="50px" rounded="lg" style="background-color: #88CE0D">
+          <v-btn class="w-100 text-white font-weight-bold" @click="maisTermos" height="50px" rounded="lg" style="background-color: #1E88E5">
             Ler Mais
           </v-btn>
         </v-card-actions>
@@ -472,11 +472,11 @@ onMounted(async () => {
 }
 
 .custom-field .v-field:hover {
-  border-color: #88CE0D;
+  border-color: #1E88E5;
 }
 
 .custom-field .v-field--focused {
-  border-color: #88CE0D !important;
+  border-color: #1E88E5 !important;
   box-shadow: 0 0 0 2px rgba(136, 206, 13, 0.2) !important;
 }
 
@@ -486,6 +486,6 @@ onMounted(async () => {
 }
 
 .custom-field .v-field--focused .v-label {
-  color: #88CE0D !important;
+  color: #1E88E5 !important;
 }
 </style>

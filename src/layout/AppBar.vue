@@ -115,9 +115,9 @@ const pageTitle = computed(() => {
     '/Atleta-Screens/visaoGeral': 'Visão Geral',
     '/Medico-Screens/agendaMedica': 'Calendário',
     '/Medico-Screens/consultas': 'Consultas',
-    '/Medico-Screens/consultasPendentes': 'Pendentes',
+    '/Medico-Screens/consultasPendentes': 'Consultas Pendentes',
     '/Medico-Screens/pacientes': 'Lista de Pacientes',
-    '/Medico-Screens/pacientesAtendidos': 'Recentes',
+    '/Medico-Screens/pacientesAtendidos': 'Pacientes Recentes',
     '/Medico-Screens/detalhesPaciente': 'Detalhes do Paciente',
     '/Medico-Screens/perfilMedico': 'Perfil',
     '/Medico-Screens/editarPerfilMedico': 'Editar Perfil',
@@ -125,7 +125,7 @@ const pageTitle = computed(() => {
     '/Medico-Screens/editarPerfilPublico': 'Editar Perfil Público',
     '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'Calendário',
     '/Fisioterapeuta-Screens/consultas': 'Consultas',
-    '/Fisioterapeuta-Screens/consultasPendentes': 'Pendentes',
+    '/Fisioterapeuta-Screens/consultasPendentes': 'Consultas Pendentes',
     '/Fisioterapeuta-Screens/perfilFisioterapeuta': 'Perfil',
     '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': 'Editar Perfil',
     '/Fisioterapeuta-Screens/perfil-publico': 'Perfil Público',
@@ -151,6 +151,11 @@ const pageTitle = computed(() => {
     '/validarCertificado': 'Validar Certificado',
     '/centralAjuda': 'Central de Ajuda',
     '/registerPlanos': 'Planos',
+    '/cadastrar-atleta': 'Cadastrar Atleta',
+    '/cadastar-medico': 'Cadastrar Médico',
+    '/cadastar-fisioterapeuta': 'Cadastrar Fisioterapeuta',
+    '/cadastar-treinador': 'Cadastrar Treinador',
+    '/cadastar-administrador': 'Cadastrar Administrador',
   }
   return routeMap[path] || 'Dashboard'
 })
@@ -212,6 +217,10 @@ const pageIcon = computed(() => {
     '/validarCertificado': 'mdi-certificate',
     '/centralAjuda': 'mdi-help-circle',
     '/registerPlanos': 'mdi-package-variant',
+    '/cadastrar-atleta': 'mdi-account-plus',
+    '/cadastrar-medico': 'mdi-doctor',
+    '/cadastrar-fisioterapeuta': 'mdi-account-heart',
+    '/cadastrar-treinador': 'mdi-whistle',
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })

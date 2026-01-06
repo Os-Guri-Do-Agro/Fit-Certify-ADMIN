@@ -1,21 +1,33 @@
 <template>
   <v-container fluid class="pa-6">
+
     <v-card rounded="xl" elevation="4">
-      <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%); color: white;">
+      <v-card-title class="pa-6 d-flex align-center justify-center" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-whistle</v-icon>
         <span class="text-h5 font-weight-bold">Cadastrar Treinador</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
         <v-form>
-          <VRow>
-            <VCol cols="12">
+          <VRow class="d-flex align-center justify-center flex-column">
+            <VCol cols="12" md="6" >
+              <div class="mb-2">
+                <v-icon size="20" color="#1E88E5" class="mr-2">mdi-phone</v-icon>
+                <span class="text-subtitle-2 font-weight-bold">Contato</span>
+              </div>
               <VTextField v-model="form.telefone" label="Telefone*" placeholder="(00) 00000-0000" variant="outlined" rounded="lg" bg-color="white" class="custom-field" @input="formatPhone" />
             </VCol>
+            <v-col cols="12" md="6">
+              <v-alert type="info" variant="tonal" class="mb-6" rounded="lg">
+      <div class="d-flex align-center">
+        <span>As demais informações do usuário serão preenchidas automaticamente com base em um perfil já existente</span>
+      </div>
+    </v-alert>
+            </v-col>
           </VRow>
 
-          <div class="d-flex justify-end mt-6">
-            <VBtn :loading="loading" :disabled="loading" @click="submitTreinador" color="#ff9800" class="text-white" rounded="xl" size="large">
+          <div class="d-flex justify-center mt-6">
+            <VBtn :loading="loading" :disabled="loading" @click="submitTreinador" color="#1E88E5 " class="text-white" rounded="xl" size="large">
               Cadastrar Treinador
               <v-icon end>mdi-check</v-icon>
             </VBtn>
@@ -87,11 +99,11 @@ const submitTreinador = async () => {
 }
 
 .custom-field .v-field:hover {
-  border-color: #ff9800;
+  border-color: #1E88E5 ;
 }
 
 .custom-field .v-field--focused {
-  border-color: #ff9800 !important;
+  border-color: #1E88E5  !important;
   box-shadow: 0 0 0 2px rgba(255, 152, 0, 0.2) !important;
 }
 
@@ -101,6 +113,6 @@ const submitTreinador = async () => {
 }
 
 .custom-field .v-field--focused .v-label {
-  color: #ff9800 !important;
+  color: #1E88E5  !important;
 }
 </style>
