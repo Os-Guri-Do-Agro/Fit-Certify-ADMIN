@@ -488,10 +488,6 @@ onMounted(() => {
   border: 2px solid transparent;
 }
 
-:deep(.search-field .v-field--focused) {
-  border-color: #1E88E5;
-}
-
 .icon-container {
   width: 56px;
   height: 56px;

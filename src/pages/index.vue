@@ -1,18 +1,18 @@
 <template>
   <!--  -->
-  <Resumo v-if="validationScreenByRole === 'atleta'" />
-  <Calendario v-if="validationScreenByRole === 'medico'" />
-  <ConexoesFisio v-if="validationScreenByRole === 'fisioterapeuta'" />
-  <ConexoesTreinador v-if="validationScreenByRole === 'treinador'" />
+  <Eventos v-if="validationScreenByRole === 'atleta'" />
+  <CalendarioMedico v-if="validationScreenByRole === 'medico'" />
+  <CalendarioFisio v-if="validationScreenByRole === 'fisioterapeuta'" />
+  <BibliotecaTreinos v-if="validationScreenByRole === 'treinador'" />
 
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue';
-import Resumo from '../pages/Atleta-Screens/registrosMedicos'
-import Calendario from '../pages/Medico-Screens/agendaMedica/index.vue'
-import ConexoesFisio from '../pages/solicitacoesConexoes'
-import ConexoesTreinador from '../pages/solicitacoesConexoes'
+import Eventos from '../pages/Atleta-Screens/eventos'
+import CalendarioMedico from '../pages/Medico-Screens/agendaMedica/index.vue'
+import CalendarioFisio from '../pages/Fisioterapeuta-Screens/agendaFisioterapeutica'
+import BibliotecaTreinos from '../pages/exercicios'
 import { getRole } from '@/utils/auth';
 const validationScreenByRole = ref()
 
