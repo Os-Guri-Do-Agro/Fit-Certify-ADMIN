@@ -1,37 +1,53 @@
 <template>
-  <div class="agenda-container">
-    <v-card class="mb-6 mx-4 mt-4" elevation="2" rounded="lg">
-      <v-card-title class="bg-gradient-primary text-white pa-6">
-        <div class="d-flex align-center justify-space-between w-100">
-          <div class="d-flex align-center">
-            <v-icon size="32" class="mr-3">mdi-calendar-month</v-icon>
-            <div>
-              <h1 class="text-h4 font-weight-bold mb-1">Agenda Fisioterapêutica</h1>
-              <p class="text-subtitle-1 mb-0 opacity-90">
-                {{ dayjs().format('dddd, DD [de] MMMM [de] YYYY') }}
-              </p>
-            </div>
-          </div>
-          <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" prepend-icon="mdi-plus"
-            class="text-blue font-weight-bold">
-            Nova Consulta
-          </v-btn>
-        </div>
-      </v-card-title>
-    </v-card>
+  <v-container class="py-8" fluid>
+    <!-- Header da Agenda -->
+    <v-row justify="center" class="mb-6">
+      <v-col cols="12">
+        <v-card class="hero-card" elevation="0" rounded="xl">
+          <div class="hero-overlay"></div>
+          <v-card-text class="pa-8 position-relative">
+            <v-row align="center">
+              <v-col cols="12" md="8">
+                <div class="d-flex align-center mb-2">
+                  <div class="icon-wrapper-large mr-4">
+                    <v-icon size="40" color="white">mdi-calendar-month</v-icon>
+                  </div>
+                  <div>
+                    <h1 class="text-h4 font-weight-bold text-white mb-1">Agenda Fisioterapêutica</h1>
+                    <p class="text-subtitle-1 text-white mb-0" style="opacity: 0.9;">
+                      {{ dayjs().format('dddd, DD [de] MMMM [de] YYYY') }}
+                    </p>
+                  </div>
+                </div>
+              </v-col>
+              <v-col cols="12" md="4" class="text-md-right">
+                <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" rounded="xl"
+                  prepend-icon="mdi-plus" class="text-blue font-weight-bold elevation-4">
+                  Nova Consulta
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+    </v-row>
 
-    <v-row class="mx-4">
-      <v-col cols="8">
-        <v-card elevation="2" rounded="lg" class="mb-4">
-          <v-card-title class="pa-4 bg-blue-lighten-5">
+    <!-- Calendário e Consultas -->
+    <v-row justify="center">
+      <v-col cols="12" lg="8">
+        <!-- Calendário Simples -->
+        <v-card elevation="4" rounded="xl" class="mb-4 calendar-card">
+          <v-card-title class="pa-6 calendar-header-bg">
             <div class="d-flex align-center justify-space-between w-100">
               <div class="d-flex align-center">
-                <v-icon class="mr-2" color="blue">mdi-calendar</v-icon>
-                <span>Calendário - {{ currentMonth }}</span>
+                <div class="icon-wrapper mr-3">
+                  <v-icon color="white">mdi-calendar</v-icon>
+                </div>
+                <span class="text-h6 font-weight-bold text-white">{{ currentMonth }}</span>
               </div>
-              <div class="d-flex align-center">
-                <v-btn icon="mdi-chevron-left" size="small" variant="text" color="blue" @click="previousMonth"></v-btn>
-                <v-btn icon="mdi-chevron-right" size="small" variant="text" color="blue" @click="nextMonth"></v-btn>
+              <div class="d-flex align-center ga-2">
+                <v-btn icon="mdi-chevron-left" size="small" variant="flat" color="white" @click="previousMonth"></v-btn>
+                <v-btn icon="mdi-chevron-right" size="small" variant="flat" color="white" @click="nextMonth"></v-btn>
               </div>
             </div>
           </v-card-title>
@@ -59,39 +75,52 @@
         </v-card>
       </v-col>
 
-      <v-col cols="4">
-        <v-card elevation="2" rounded="lg">
-          <v-card-title class="pa-4 bg-green-lighten-5 d-flex align-center justify-space-between flex-wrap ga-2">
-            <div>
-              <v-icon class="mr-2" color="green">mdi-clock-outline</v-icon>
-              {{ selectedDayAppointments.date ? `Consultas - ${selectedDayAppointments.date}` : `Hoje - ${dayjs().format('DD/MM')}` }}
+      <v-col cols="12" lg="4">
+        <!-- Consultas do Dia Selecionado -->
+        <v-card elevation="4" rounded="xl" class="appointments-card">
+          <v-card-title class="pa-6 appointments-header-bg">
+            <div class="d-flex align-center justify-space-between w-100 flex-wrap ga-2">
+              <div class="d-flex align-center">
+                <div class="icon-wrapper mr-3">
+                  <v-icon color="white">mdi-clock-outline</v-icon>
+                </div>
+                <span class="text-h6 font-weight-bold text-white">
+                  {{ selectedDayAppointments.date ? `Consultas - ${selectedDayAppointments.date}` : `Hoje - ${dayjs().format('DD/MM')}` }}
+                </span>
+              </div>
+              <v-btn variant="flat" color="white" size="small" rounded="xl" class="text-blue font-weight-medium"
+                @click="router.push('/Fisioterapeuta-Screens/consultas')">
+                Ver mais
+              </v-btn>
             </div>
-            <v-btn variant="outline" color="blue" class="text-subtitle-2" @click="router.push('/Fisioterapeuta-Screens/consultas')">
-              Ver mais
-            </v-btn>
           </v-card-title>
 
           <v-card-text class="pa-4">
             <div class="appointment-list">
-              <div v-for="appointment in selectedDayAppointments.appointments" :key="appointment.id" class="appointment-item">
-                <div class="d-flex align-center mb-2">
-                  <v-avatar size="32" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'" class="mr-3">
-                    <v-icon color="white">{{ appointment.type === 'fitcertify' ? 'mdi-dumbbell' : 'mdi-account' }}</v-icon>
+              <div v-for="appointment in selectedDayAppointments.appointments" :key="appointment.id"
+                class="appointment-item-card">
+                <div class="d-flex align-center">
+                  <v-avatar size="48" :color="appointment.type === 'fitcertify' ? '#1976d2' : '#fb8c00'"
+                    class="mr-3 elevation-2">
+                    <v-icon color="white" size="24">{{ appointment.type === 'fitcertify' ? 'mdi-dumbbell' : 'mdi-account' }}</v-icon>
                   </v-avatar>
                   <div class="flex-grow-1">
-                    <div class="font-weight-medium">{{ appointment.patient }}</div>
-                    <div class="text-caption text-grey">{{ appointment.time }}</div>
-                    <div class="d-flex gap-1 mt-1">
-                      <v-chip size="x-small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'" variant="outlined">
+                    <div class="font-weight-bold text-body-1 mb-1">{{ appointment.patient }}</div>
+                    <div class="d-flex align-center mb-2">
+                      <v-icon size="14" color="grey" class="mr-1">mdi-clock-outline</v-icon>
+                      <span class="text-caption text-grey">{{ appointment.time }}</span>
+                    </div>
+                    <div class="d-flex gap-1 flex-wrap">
+                      <v-chip size="small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
+                        variant="flat" class="text-white">
                         {{ appointment.type === 'fitcertify' ? 'FitCertify365' : 'Externo' }}
                       </v-chip>
-                      <v-chip size="x-small" :color="getStatusColor(appointment.status)" variant="flat">
+                      <v-chip size="small" :color="getStatusColor(appointment.status)" variant="flat" class="text-white">
                         {{ formatStatus(appointment.status) }}
                       </v-chip>
                     </div>
                   </div>
                 </div>
-                <v-divider v-if="appointment.id !== selectedDayAppointments.appointments[selectedDayAppointments.appointments.length - 1].id"></v-divider>
               </div>
               <div v-if="selectedDayAppointments.appointments.length === 0" class="text-center text-grey py-4">
                 <v-icon size="48" color="grey-lighten-2">mdi-calendar-blank</v-icon>
@@ -103,11 +132,15 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="ActiveDialog" max-width="1000">
-      <v-card rounded="lg">
-        <v-card-title class="bg-blue text-white pa-4">
-          <v-icon class="mr-2">mdi-calendar-plus</v-icon>
-          Marcar Consulta
+    <v-dialog v-model="ActiveDialog" max-width="1000" persistent>
+      <v-card rounded="xl" elevation="8">
+        <v-card-title class="dialog-header-bg text-white pa-6">
+          <div class="d-flex align-center">
+            <div class="icon-wrapper mr-3">
+              <v-icon color="white">mdi-calendar-plus</v-icon>
+            </div>
+            <span class="text-h5 font-weight-bold">Marcar Consulta</span>
+          </div>
         </v-card-title>
 
         <v-card-text class="pa-6">
@@ -164,16 +197,20 @@
           </v-row>
         </v-card-text>
 
-        <v-card-actions class="pa-4">
+        <v-card-actions class="pa-6">
           <v-spacer></v-spacer>
-          <v-btn color="grey" variant="text" @click="ActiveDialog = false">Cancelar</v-btn>
-          <v-btn color="blue" variant="flat" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+          <v-btn color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
+            <v-icon start>mdi-close</v-icon>
+            Cancelar
+          </v-btn>
+          <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+            <v-icon start>mdi-check</v-icon>
             Confirmar
           </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </div>
+  </v-container>
 </template>
 
 <script setup>
@@ -397,15 +434,67 @@ const getStatusColor = (status) => {
   border-color: #1976d2;
 }
 
-.agenda-container {
-  padding: 0;
-  min-height: 100vh;
-  width: 100%;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+.hero-card {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  position: relative;
+  overflow: hidden;
 }
 
-.bg-gradient-primary {
-  background: linear-gradient(135deg, #1976d2 0%, #1565c0 100%) !important;
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.icon-wrapper-large {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.icon-wrapper {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+}
+
+.calendar-card {
+  transition: all 0.3s ease;
+}
+
+.calendar-card:hover {
+  box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15) !important;
+}
+
+.calendar-header-bg {
+  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
+}
+
+.appointments-card {
+  transition: all 0.3s ease;
+}
+
+.appointments-card:hover {
+  box-shadow: 0 12px 40px rgba(76, 175, 80, 0.15) !important;
+}
+
+.appointments-header-bg {
+  background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+}
+
+.dialog-header-bg {
+  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
 }
 
 .calendar-grid {
@@ -484,12 +573,41 @@ const getStatusColor = (status) => {
   box-shadow: 0 2px 8px rgba(25, 118, 210, 0.5);
 }
 
-.appointment-item {
-  padding: 12px 0;
+.appointment-item-card {
+  padding: 16px;
+  margin-bottom: 12px;
+  background: white;
+  border-radius: 12px;
+  border-left: 4px solid #1E88E5;
+  transition: all 0.3s ease;
+}
+
+.appointment-item-card:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .appointment-list {
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
+  padding: 4px;
+}
+
+.appointment-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.appointment-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.appointment-list::-webkit-scrollbar-thumb {
+  background: #1E88E5;
+  border-radius: 10px;
+}
+
+.appointment-list::-webkit-scrollbar-thumb:hover {
+  background: #1565c0;
 }
 </style>

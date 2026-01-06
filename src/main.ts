@@ -9,6 +9,8 @@ import { registerPlugins } from '@/plugins'
 // Components
 import { createPinia } from 'pinia'
 import App from './App.vue'
+
+import i18n from './i18n/index'
 // Composables
 import { createApp } from 'vue'
 import 'vue3-toastify/dist/index.css';
@@ -16,6 +18,7 @@ import 'vue3-toastify/dist/index.css';
 import 'unfonts.css'
 const pinia = createPinia()
 const app = createApp(App)
+app.use(i18n)
 
 // Suprimir erros de extensões do navegador
 window.addEventListener('error', (e) => {

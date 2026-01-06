@@ -97,6 +97,15 @@ const dialogPerfil = ref(false)
 const pageTitle = computed(() => {
   const path = route.path
 
+  // Rota raiz baseada na role
+  if (path === '/') {
+    const role = payload.value?.role
+    if (role === 'atleta') return 'Eventos'
+    if (role === 'medico') return 'Agenda'
+    if (role === 'fisioterapeuta') return 'Agenda'
+    if (role === 'treinador') return 'Biblioteca de Exercícios'
+  }
+
   // Rotas dinâmicas
   if (path.startsWith('/Atleta-Screens/eventos/')) return 'Detalhes do Evento'
 
@@ -157,11 +166,20 @@ const pageTitle = computed(() => {
     '/cadastar-treinador': 'Cadastrar Treinador',
     '/cadastar-administrador': 'Cadastrar Administrador',
   }
-  return routeMap[path] || 'Dashboard'
+  return routeMap[path] || ''
 })
 
 const pageIcon = computed(() => {
   const path = route.path
+
+  // Rota raiz baseada na role
+  if (path === '/') {
+    const role = payload.value?.role
+    if (role === 'atleta') return 'mdi-calendar-star'
+    if (role === 'medico') return 'mdi-calendar-month-outline'
+    if (role === 'fisioterapeuta') return 'mdi-calendar-month-outline'
+    if (role === 'treinador') return 'mdi-human-handsup'
+  }
 
   // Rotas dinâmicas
   if (path.startsWith('/Atleta-Screens/eventos/')) return 'mdi-calendar-check'
