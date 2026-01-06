@@ -2,11 +2,11 @@
   <div class="w-100 h-100 ma-0">
     <v-container class="py-6">
       <div class="d-flex align-center mb-6">
-        <v-btn 
-          icon 
-          variant="outlined" 
-          color="blue" 
-          class="mr-3" 
+        <v-btn
+          icon
+          variant="outlined"
+          color="blue"
+          class="mr-3"
           @click="voltarParaLista"
         >
           <v-icon>mdi-arrow-left</v-icon>
@@ -38,7 +38,7 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
+              <div
                 class="text-center pa-5 mb-5 position-relative"
                 style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
               >
@@ -55,13 +55,13 @@
                     {{ temLicencaAtiva ? 'Ativo' : 'Certificado inativo' }}
                   </v-chip>
                 </div>
-                <v-avatar 
-                  size="160" 
+                <v-avatar
+                  size="160"
                   class="elevation-3 mb-3"
                   style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
-                  <v-img 
-                    v-if="paciente.usuario?.avatarUrl" 
+                  <v-img
+                    v-if="paciente.usuario?.avatarUrl"
                     :src="paciente.usuario.avatarUrl"
                     :alt="paciente.usuario?.nome"
                     cover
@@ -75,18 +75,18 @@
                   {{ paciente.usuario?.email || 'N/A' }}
                 </div>
                 <div class="d-flex justify-center ga-2">
-                  <v-chip 
-                    size="small" 
-                    variant="flat" 
+                  <v-chip
+                    size="small"
+                    variant="flat"
                     class="text-white"
                     style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);"
                   >
                     <v-icon start size="16">mdi-star</v-icon>
                     0
                   </v-chip>
-                  <v-chip 
-                    size="small" 
-                    variant="flat" 
+                  <v-chip
+                    size="small"
+                    variant="flat"
                     class="text-white"
                     style="background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(10px);"
                   >
@@ -170,8 +170,8 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
-                class="pa-6 cursor-pointer d-flex align-center" 
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
                 @click="toggleModulosContratados"
               >
                 <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
@@ -222,8 +222,8 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
-                class="pa-6 cursor-pointer d-flex align-center" 
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
                 @click="toggleHistoricoMedico"
               >
                 <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
@@ -254,10 +254,10 @@
                       </v-list-item>
                     </template>
                     <template v-else>
-                      <v-list-item 
-                        v-for="(item, index) in consultas" 
+                      <v-list-item
+                        v-for="(item, index) in consultas"
                         :key="index"
-                        class="px-6 py-3 cursor-pointer list-item-hover" 
+                        class="px-6 py-3 cursor-pointer list-item-hover"
                         @click="abrirModalExame(item)"
                       >
                         <template #prepend>
@@ -312,8 +312,8 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
-                class="pa-6 cursor-pointer d-flex align-center" 
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
                 @click="toggleAlergias"
               >
                 <v-avatar size="60" class="elevation-2 me-4" color="blue-darken-1">
@@ -349,9 +349,9 @@
                       </v-list-item>
                     </template>
                     <template v-else>
-                      <v-list-item 
-                        v-for="(alergia, index) in alergias" 
-                        :key="index" 
+                      <v-list-item
+                        v-for="(alergia, index) in alergias"
+                        :key="index"
                         class="px-6 py-3"
                       >
                         <template #prepend>
@@ -604,7 +604,7 @@ const getSituacaoColor = (situacao) => {
     return 'error'
   } else if (situacaoLower.includes('cancelada') || situacaoLower.includes('cancelada')) {
     return 'info'
-  } else if (situacaoLower.includes('cancelada')) { 
+  } else if (situacaoLower.includes('cancelada')) {
     return 'grey'
   }
   return 'blue-darken-1'
@@ -698,7 +698,7 @@ const findAllConsultas = async (id) => {
   try {
     const response = await consultasService.getConsultasByAtletaId(id)
     let consultasData = response && response.data ? response.data : response
-    
+
     consultas.value = consultasData.filter(consulta => {
       const situacao = consulta.situacao?.toLowerCase()
       return situacao?.includes('concluido') || situacao?.includes('pendente') || situacao?.includes('marcado')

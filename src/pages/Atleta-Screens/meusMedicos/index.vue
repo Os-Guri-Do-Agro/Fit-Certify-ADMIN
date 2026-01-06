@@ -1,41 +1,37 @@
 <template>
   <v-container class="py-10">
-    <v-row justify="center" class="text-center mb-8">
-      <v-col cols="12">
-        <h2 class="text-h5 text-md-h4 font-weight-bold" style="color: green">
-          Agende uma nova consulta com seus médicos<br />parceiros de confiança
-        </h2>
-      </v-col>
-    </v-row>
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <v-icon size="40" color="white">mdi-doctor</v-icon>
+        </div>
+        <h1 class="header-title">Meus Médicos</h1>
+        <p class="header-subtitle">Agende uma nova consulta com seus médicos parceiros de confiança</p>
+      </div>
+    </div>
 
-    <v-row justify="center" class="mb-10">
-      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
-        <v-btn value="lista" color="green" variant="flat" class="px-8 text-body-1 font-weight-medium">
+    <v-row justify="center" class="mb-10 mt-8">
+      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory class="filter-toggle">
+        <v-btn value="lista" variant="flat" class="px-8 text-body-1 font-weight-medium filter-btn" :class="{ 'active-filter': filtro === 'lista' }">
           Meus Médicos
         </v-btn>
-        <v-btn value="meu" color="green" variant="outlined" class="px-8 text-body-1 font-weight-medium"
+        <v-btn value="meu" variant="outlined" class="px-8 text-body-1 font-weight-medium filter-btn"
           @click="router.push('/Atleta-Screens/medicos')">
           Buscar novos médicos
         </v-btn>
       </v-btn-toggle>
     </v-row>
 
-    <v-row align="start" justify="center" no-gutters>
-      <v-col cols="12" md="7" class="pe-md-8">
+    <v-row align="start" justify="center">
+      <v-col cols="12" md="10">
         <div v-if="loading">
           <v-skeleton-loader v-for="n in 3" :key="n" class="mb-6 pa-5" type="list-item-avatar-three-line" elevation="2"
             rounded="xl" height="140" />
         </div>
 
         <div v-else>
-          <v-card v-for="(medico, index) in medico" :key="index" class="mb-6 pa-5 position-relative" elevation="2"
+          <v-card v-for="(medico, index) in medico" :key="index" class="mb-6 pa-5" elevation="2"
             rounded="xl">
-            <v-btn icon size="small" color="green" variant="flat" class="position-absolute"
-              style="top: 16px; right: 60px" @click="buscarEnderecoPorCep(medico.cep)">
-              <v-icon>mdi-map-marker</v-icon>
-            </v-btn>
-
-
             <v-row align="center">
               <v-col cols="auto" class="text-center">
                 <v-avatar size="90" color="grey-lighten-3">
@@ -65,7 +61,7 @@
 
                 <v-row align="center" class="mt-3">
                   <v-col cols="auto">
-                    <v-btn variant="flat" color="green" class="px-8 text-body-2" rounded
+                    <v-btn variant="flat" class="px-8 text-body-2 gradient-btn" rounded
                       @click="detalhesMedico(medico.id)">
                       Mais Detalhes
                     </v-btn>
@@ -82,25 +78,6 @@
           </v-row>
         </div>
       </v-col>
-
-      <v-col cols="12" md="5">
-        <v-text-field v-model="cep" label="CEP" variant="outlined" density="comfortable" class="mb-4 mt-10 mt-md-0"
-          rounded="xl" color="green" append-inner-icon="mdi-map-search" @click:append-inner="buscarEnderecoPorCep(cep)"
-          @keyup.enter="buscarEnderecoPorCep(cep)"></v-text-field>
-
-        <v-card v-if="endereco" class="mb-4 pa-4" rounded="xl">
-          <div class="text-subtitle-2 font-weight-bold mb-2">Endereço:</div>
-          <div class="text-body-2">{{ endereco }}</div>
-          <v-btn color="green" variant="flat" size="small" class="mt-2" @click="abrirGoogleMaps">
-            <v-icon start>mdi-map</v-icon>
-            Ver no Google Maps
-          </v-btn>
-        </v-card>
-
-        <v-img v-if="!mapaUrl" src="../../../assets/mapa.jpg" height="500" rounded="xl" cover></v-img>
-
-        <v-img v-else :src="mapaUrl" height="500" rounded="xl" cover></v-img>
-      </v-col>
     </v-row>
   </v-container>
 </template>
@@ -116,17 +93,12 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const filtro = ref('lista')
-const cep = ref('')
 const page = ref(1)
 const pageSize = ref(10)
 const totalPages = ref(0)
 const loading = ref(true)
 const medico = ref([])
 const usuario = ref(null)
-const endereco = ref('')
-const mapaUrl = ref('')
-const coordenadas = ref(null)
-const mapKey = ref(import.meta.env.VITE_MAP_KEY)
 
 const buscarUsuario = async () => {
   try {
@@ -164,9 +136,8 @@ onMounted(() => {
 
 const mudarPagina = (novaPagina) => {
   page.value = novaPagina
-  buscarMedico()
+  buscarmeusMedico()
 }
-
 
 function detalhesMedico(id) {
   const url = router.resolve({
@@ -175,31 +146,68 @@ function detalhesMedico(id) {
   }).href
   window.open(url, '_blank')
 }
-
-const buscarEnderecoPorCep = async (cepValue) => {
-  if (!cepValue) return
-
-  try {
-    const response = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?address=${cepValue}&key=${mapKey.value}`)
-    const data = await response.json()
-
-    if (data.results && data.results.length > 0) {
-      const result = data.results[0]
-      endereco.value = result.formatted_address
-      coordenadas.value = result.geometry.location
-
-      // Gerar URL do mapa estático
-      mapaUrl.value = `https://maps.googleapis.com/maps/api/staticmap?center=${coordenadas.value.lat},${coordenadas.value.lng}&zoom=15&size=600x500&markers=color:green%7C${coordenadas.value.lat},${coordenadas.value.lng}&key=${mapKey.value}`
-    }
-  } catch (error) {
-    console.error('Erro ao buscar endereço:', error)
-  }
-}
-
-const abrirGoogleMaps = () => {
-  if (coordenadas.value) {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${coordenadas.value.lat},${coordenadas.value.lng}`
-    window.open(url, '_blank')
-  }
-}
 </script>
+
+<style scoped>
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.filter-toggle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 50px;
+}
+
+.filter-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn.active-filter {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+</style>

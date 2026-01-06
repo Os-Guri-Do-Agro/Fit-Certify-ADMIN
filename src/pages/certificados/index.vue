@@ -1,15 +1,14 @@
 <template>
   <v-container class="py-8">
-    <!-- Header com título e barra de busca -->
-    <v-row class="mb-6">
-      <v-col cols="12">
-        <div class="certificate-header mb-4">
-          <h1 class="text-h4 text-md-h3 font-weight-bold mb-4" style="color: #00c6fe">
-            Acesse seus certificados gerados aqui
-          </h1>
+    <!-- Header -->
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <v-icon size="40" color="white">mdi-certificate</v-icon>
         </div>
-      </v-col>
-    </v-row>
+        <h1 class="header-title">Certificados</h1>
+      </div>
+    </div>
 
     <div v-if="loading">
       <v-row>
@@ -42,12 +41,11 @@
             <v-row align="start" no-gutters>
               <v-col>
                 <div class="d-flex align-center mb-4">
-                  <v-icon size="32" :color="certificadoValidoEAtivo ? 'light-blue-accent-3' : 'error'"
-                    class="certificate-icon mr-3">
+                  <v-icon size="32" :color="certificadoValidoEAtivo ? '#42A5F5' : 'error'"
+                    class="certificate-icon mr-3 gradient-icon">
                     mdi-certificate
                   </v-icon>
-                  <h2 class="text-h6 font-weight-bold mb-0"
-                    :style="{ color: certificadoValidoEAtivo ? '#00c6fe' : '#f44336' }">
+                  <h2 class="text-h6 font-weight-bold mb-0 gradient-text">
                     {{ certificadoValidoEAtivo ? 'Seu Certificado está Ativo' : 'Certificado Inativo ou Expirado' }}
                   </h2>
                 </div>
@@ -57,7 +55,7 @@
                   <div class="d-flex flex-wrap gap-6">
                     <div class="info-item">
                       <div class="d-flex align-center mb-2">
-                        <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-upload</v-icon>
+                        <v-icon size="18" class="mr-2 gradient-icon">mdi-upload</v-icon>
                         <span class="text-caption text-grey-darken-1 font-weight-medium">
                           Data de Upload
                         </span>
@@ -69,7 +67,7 @@
                     <v-divider vertical class="mx-2" />
                     <div class="info-item">
                       <div class="d-flex align-center mb-2">
-                        <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-calendar-check</v-icon>
+                        <v-icon size="18" class="mr-2 gradient-icon">mdi-calendar-check</v-icon>
                         <span class="text-caption text-grey-darken-1 font-weight-medium">
                           Validade
                         </span>
@@ -217,7 +215,7 @@
                 </v-expansion-panels>
 
                 <div class="mt-4">
-                  <v-btn color="light-blue-accent-3" variant="flat" rounded="lg" size="large" block class="elevation-2"
+                  <v-btn variant="flat" rounded="lg" size="large" block class="elevation-2 gradient-btn"
                     @click="showQRDialog = true">
                     <v-icon size="24" class="mr-2">mdi-qrcode</v-icon>
                     Ver QR Code
@@ -233,7 +231,7 @@
       <v-row class="mt-6" v-if="certificadoValidoEAtivo && certificado?.id">
         <v-col cols="12">
           <v-card class="pa-6 templates-card" elevation="2" rounded="xl" style="background-color: #f0f9ff">
-            <h3 class="text-h6 font-weight-bold mb-4" style="color: #00c6fe">
+            <h3 class="text-h6 font-weight-bold mb-4 gradient-text">
               Templates gerados para provas parceiras
             </h3>
 
@@ -337,10 +335,10 @@
     <v-dialog v-model="showQRDialog" max-width="500" rounded="lg">
       <v-card class="pa-6 text-center">
         <v-card-title class="d-flex align-center justify-center mb-4">
-          <v-icon color="light-blue-accent-3" size="32" class="mr-2">
+          <v-icon size="32" class="mr-2 gradient-icon">
             mdi-qrcode
           </v-icon>
-          <span class="text-h5 font-weight-bold" style="color: #00c6fe">
+          <span class="text-h5 font-weight-bold gradient-text">
             QR Code do Certificado
           </span>
         </v-card-title>
@@ -360,7 +358,7 @@
           </p>
 
           <!-- Botão de redirecionamento -->
-          <v-btn v-if="certificado?.id" color="light-blue-accent-3" variant="flat" rounded="lg" block class="mb-2"
+          <v-btn v-if="certificado?.id" variant="flat" rounded="lg" block class="mb-2 gradient-btn"
             @click="irParaValidacao">
             <v-icon class="mr-2">mdi-shield-check</v-icon>
             Validar Certificado
@@ -581,6 +579,59 @@ onMounted(async () => {
 </script>
 
 <style scoped>
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.gradient-icon {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
 .certificate-header {
   margin-bottom: 2rem;
 }

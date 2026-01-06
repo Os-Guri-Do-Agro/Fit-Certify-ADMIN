@@ -1,6 +1,6 @@
 <template>
   <div class="pa-4">
-    <template v-if="!planoInfo">
+    <template v-if="loading">
       <!-- Header Skeleton -->
       <VCard color="#00C6FE" class="text-center pa-8 mb-4">
         <VSkeletonLoader type="heading" class="mx-auto" />
@@ -12,7 +12,7 @@
       </VCard>
     </template>
 
-    <template v-else>
+    <template v-else-if="planoInfo">
       <!-- Header -->
       <VCard color="#00C6FE" class="text-center pa-8 mb-4">
         <h1 class="text-h4 font-weight-bold text-white mb-2">
@@ -94,6 +94,14 @@
       </VCard>
     </template>
 
+    <template v-else>
+      <VCard class="pa-8 text-center">
+        <VIcon icon="mdi-alert-circle" color="warning" size="64" class="mb-4" />
+        <h3 class="text-h5 font-weight-bold mb-2">Nenhum plano ativo</h3>
+        <p class="text-body-1 text-grey">Você não possui um plano ativo no momento.</p>
+      </VCard>
+    </template>
+
     <VBtn v-if="planoInfo && planoInfo.status !== 'canceled'" color="error" variant="outlined" class="mt-4 w-100" size="large"
       @click="showCancelModal = true">
       <VIcon icon="mdi-cancel" class="mr-2" />
@@ -140,7 +148,8 @@ import { getErrorMessage } from '@/common/error.utils'
 const router = useRouter()
 
 const planoInfo = ref<any>(null)
-const loading = ref(false)
+const loading = ref(true)
+const loadingCancel = ref(false)
 const showCancelModal = ref(false)
 
 const STATUS_ASSINATURA = {
@@ -168,11 +177,15 @@ const handleCancelarPlano = async () => {
 }
 
 const loadSubscriptionInfo = async () => {
+  loading.value = true
   try {
     const response = await pagarmeService.getInfoSubscription()
     planoInfo.value = response.data.subscriptions[0]
   } catch (error) {
     toast.error('Erro ao carregar informações do plano: ' + getErrorMessage(error, 'Erro desconhecido'))
+    planoInfo.value = null
+  } finally {
+    loading.value = false
   }
 }
 

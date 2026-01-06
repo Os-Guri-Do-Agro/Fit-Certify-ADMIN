@@ -54,7 +54,7 @@
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
-                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#00C6FE" @click="router.push('/medico-Screens/editarPerfilMedico')">
+                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#1E88E5" @click="() => router.push('/medico-Screens/editarPerfilMedico')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
                   <p class="text-white text-subtitle-2">Editar Perfil</p>
                 </v-btn>
@@ -72,7 +72,7 @@
         <v-expansion-panel class="custom-expansion-panel">
           <v-expansion-panel-title>
             <div class="d-flex align-center">
-              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-account</v-icon>
+              <v-icon color="#1E88E5" size="28" class="mr-3">mdi-account</v-icon>
               <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Pessoais</h3>
             </div>
           </v-expansion-panel-title>
@@ -129,7 +129,7 @@
         <v-expansion-panel class="custom-expansion-panel-center">
           <v-expansion-panel-title>
             <div class="d-flex align-center">
-              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-briefcase</v-icon>
+              <v-icon color="#1E88E5" size="28" class="mr-3">mdi-briefcase</v-icon>
               <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Profissionais</h3>
             </div>
           </v-expansion-panel-title>
@@ -208,7 +208,7 @@
         <v-expansion-panel class="custom-expansion-panel-bottom">
           <v-expansion-panel-title>
             <div class="d-flex align-center">
-              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-map-marker</v-icon>
+              <v-icon color="#1E88E5" size="28" class="mr-3">mdi-map-marker</v-icon>
               <h3 class="text-h6 font-weight-bold text-grey-darken-2">Endereço</h3>
             </div>
           </v-expansion-panel-title>
@@ -341,9 +341,11 @@ onMounted(() => {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .hero-overlay {
@@ -398,7 +400,7 @@ onMounted(() => {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
   margin-bottom: 16px;
   border: none;
-  border-top: 4px solid #00c6fe;
+  border-top: 4px solid #1E88E5;
 }
 
 .custom-expansion-panel-center {
@@ -408,8 +410,8 @@ onMounted(() => {
   margin-bottom: 16px;
   border: none;
   padding: 5px 0px;
-  border-right: 3px solid #00c6fe;
-  border-left: 3px solid #00c6fe;
+  border-right: 3px solid #1E88E5;
+  border-left: 3px solid #1E88E5;
 }
 
 .custom-expansion-panel-bottom {
@@ -419,14 +421,14 @@ onMounted(() => {
   margin-bottom: 16px;
   border: none;
   padding-bottom: 5px;
-  border-bottom: 4px solid #00c6fe;
+  border-bottom: 4px solid #1E88E5;
 }
 
 .custom-expansion-panel .v-expansion-panel-title,
 .custom-expansion-panel-center .v-expansion-panel-title,
 .custom-expansion-panel-bottom .v-expansion-panel-title {
   background: white;
-  color: #00c6fe;
+  color: #1E88E5;
   font-weight: 600;
   padding: 24px;
 }
@@ -441,7 +443,7 @@ onMounted(() => {
 
 .health-card {
   transition: all 0.3s ease;
-  border-left: 4px solid #00c6fe;
+  border-left: 4px solid #1E88E5;
   background: white;
 }
 
@@ -457,7 +459,7 @@ onMounted(() => {
 .parameter-value {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #00c6fe;
+  color: #1E88E5;
   line-height: 1;
   margin-bottom: 8px;
 }
@@ -498,7 +500,7 @@ onMounted(() => {
 }
 
 .actions-card {
-  border-top: 4px solid #00c6fe;
+  border-top: 4px solid #1E88E5;
   background: white;
 }
 
@@ -568,12 +570,12 @@ onMounted(() => {
   }
 }
 .skeleton-nome {
-  background-color: #00c6fe;
+  background-color: #1E88E5;
 }
 
 /* Novos estilos para métricas */
 .metrics-card {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
   border: none;
   overflow: hidden;
 }
@@ -668,7 +670,7 @@ onMounted(() => {
 }
 
 .card-header {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
   padding: 16px 20px;
   display: flex;
   align-items: center;

@@ -31,7 +31,7 @@
               <v-icon class="mr-3" color="#00c6fe">mdi-shield-lock</v-icon>
               Definir Nova Senha
             </v-card-title>
-            
+
             <v-card-text class="pa-6">
               <v-form ref="form" v-model="valid">
                 <v-text-field
@@ -162,7 +162,7 @@ async function alterarSenha() {
     } finally {
         loading.value = false
     }
-} 
+}
 
 function voltar() {
     router.push('/settings')
@@ -187,9 +187,10 @@ const rules = {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .hero-overlay {

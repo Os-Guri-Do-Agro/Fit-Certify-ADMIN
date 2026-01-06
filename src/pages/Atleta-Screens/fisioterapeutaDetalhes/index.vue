@@ -51,7 +51,11 @@
                 <v-img v-if="fisioterapeuta?.usuario?.avatarUrl" :src="fisioterapeuta?.usuario?.avatarUrl" cover />
                 <v-icon v-else size="80" color="white">mdi-account</v-icon>
               </v-avatar>
-              <h1 class="doctor-name">{{ fisioterapeuta?.nome }}</h1>
+              <h1 class="doctor-name">{{ fisioterapeuta?.usuario?.nome }}</h1>
+              <div class="d-flex align-center justify-center mt-1">
+                <v-chip class="info-chip" prepend-icon="mdi-qrcode">{{ fisioterapeuta?.codigoConvite }}</v-chip>
+              </div>
+
             </v-col>
             <v-col cols="12" md="8">
               <div class="doctor-info">
@@ -390,9 +394,11 @@ onMounted(async () => {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 .hero-overlay {
   position: absolute;

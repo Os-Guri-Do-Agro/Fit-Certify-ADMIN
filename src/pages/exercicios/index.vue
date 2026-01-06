@@ -6,7 +6,7 @@
         <v-btn
           icon
           variant="outlined"
-          color="#00c6fe"
+          color="#1E88E5"
           @click="voltarParaLista"
           style="border-width: 2px;"
         >
@@ -20,7 +20,7 @@
         </div>
       </div>
       <v-btn
-        color="#00c6fe"
+        color="#1E88E5"
         prepend-icon="mdi-plus"
         @click="criarExercicio"
         rounded="xl"
@@ -48,7 +48,7 @@
           class="search-field"
         >
           <template #prepend-inner>
-            <v-icon color="#00c6fe">mdi-magnify</v-icon>
+            <v-icon color="#1E88E5">mdi-magnify</v-icon>
           </template>
         </v-text-field>
       </v-card-text>
@@ -56,7 +56,7 @@
 
     <!-- Loading -->
     <div v-if="loading" class="text-center py-16">
-      <v-progress-circular indeterminate color="#00c6fe" size="64" width="6" />
+      <v-progress-circular indeterminate color="#1E88E5" size="64" width="6" />
       <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">Carregando exercícios...</p>
     </div>
 
@@ -69,7 +69,7 @@
       style="background: white;"
     >
       <div class="empty-icon-container mx-auto mb-6">
-        <v-icon size="64" color="#00c6fe">mdi-book-open-variant</v-icon>
+        <v-icon size="64" color="#1E88E5">mdi-book-open-variant</v-icon>
       </div>
       <h3 class="text-h5 font-weight-bold mb-3" style="color: #2c3e50;">Nenhum exercício encontrado</h3>
       <p class="text-body-1 text-grey-darken-1">Ajuste sua busca ou navegue pelas páginas</p>
@@ -99,7 +99,7 @@
       <v-btn
         icon
         variant="outlined"
-        color="#00c6fe"
+        color="#1E88E5"
         :disabled="page === 1"
         @click="mudarPagina(page - 1)"
         style="border-width: 2px;"
@@ -115,7 +115,7 @@
       <v-btn
         icon
         variant="outlined"
-        color="#00c6fe"
+        color="#1E88E5"
         :disabled="page >= totalPages"
         @click="mudarPagina(page + 1)"
         style="border-width: 2px;"
@@ -130,7 +130,7 @@
       <v-card rounded="xl" elevation="24">
         <v-card-title
           class="text-white d-flex justify-space-between align-center pa-6"
-          style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);"
+          style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
           <span class="text-h5 font-weight-bold">Criar Exercício</span>
           <v-btn
@@ -156,7 +156,7 @@
                 bg-color="white"
               >
                 <template #prepend-inner>
-                  <v-icon color="#00c6fe">mdi-dumbbell</v-icon>
+                  <v-icon color="#1E88E5">mdi-dumbbell</v-icon>
                 </template>
               </v-text-field>
             </v-card-text>
@@ -178,7 +178,7 @@
                 style="cursor: pointer;"
               >
                 <template #prepend-inner>
-                  <v-icon color="#00c6fe">mdi-format-list-bulleted</v-icon>
+                  <v-icon color="#1E88E5">mdi-format-list-bulleted</v-icon>
                 </template>
                 <template #append-inner>
                   <v-icon>mdi-chevron-down</v-icon>
@@ -231,7 +231,7 @@
       <v-card rounded="xl" elevation="24">
         <v-card-title
           class="text-white pa-6"
-          style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);"
+          style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
           <span class="text-h6 font-weight-bold">Selecione o Tipo de Treino</span>
         </v-card-title>
@@ -255,7 +255,7 @@
       <v-card v-if="exercicioSelecionado" rounded="xl" elevation="24">
         <v-card-title
           class="text-white d-flex justify-space-between align-center pa-6"
-          style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);"
+          style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
           <span class="text-h5 font-weight-bold">Detalhes do Exercício</span>
           <v-btn
@@ -468,8 +468,8 @@ onMounted(() => {
 
 .exercicio-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 25px rgba(0, 198, 254, 0.25) !important;
-  border-color: #00c6fe;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25) !important;
+  border-color: #1E88E5;
 }
 
 .search-card {
@@ -479,7 +479,7 @@ onMounted(() => {
 }
 
 .search-card:hover {
-  border-color: #00c6fe;
+  border-color: #1E88E5;
 }
 
 :deep(.search-field .v-field) {
@@ -489,14 +489,14 @@ onMounted(() => {
 }
 
 :deep(.search-field .v-field--focused) {
-  border-color: #00c6fe;
+  border-color: #1E88E5;
 }
 
 .icon-container {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -507,7 +507,7 @@ onMounted(() => {
   width: 80px;
   height: 80px;
   border-radius: 16px;
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   display: flex;
   align-items: center;
   justify-content: center;

@@ -5,187 +5,256 @@
     permanent
     @click="layoutStore.rail && layoutStore.toggleRail()"
     class="clean-drawer position-fixed"
-    color="blue"
-    rail-width="65"
-    width="320"
+    color="white"
+    rail-width="75"
+    width="350"
   >
     <!-- Header -->
-    <div class="pa-4 text-center header-section">
+    <div class="mx-auto">
       <v-avatar
-        class="d-flex align-center justify-center"
+        class="d-flex align-center justify-center icon-drow my-2 ml-2"
         v-if="layoutStore.rail"
-        size="36"
-        color="blue-lighten-1"
+        size="60"
       >
         <v-img
-          src="/src/assets/logo-pequena.png"
+          src="/src/assets/logo_pequena.png"
           alt="Logo"
-          width="100%"
-          height="100%"
-          contain
-        ></v-img>
+          width="60"
+          height="60"
+          cover
+        />
       </v-avatar>
 
       <div v-else>
-        <!-- <v-avatar size="48" color="blue-lighten-1" class="mb-3">
-                    <span class="text-white font-weight-bold text-h6">NG</span>
-                </v-avatar> -->
-        <div class="d-flex align-center">
-          <v-img
-            src="/src/assets/logo-pequena.png"
-            alt="Logo"
-            width="150"
-            class="mb-3"
-            contain
-          ></v-img>
+        <div class="d-flex justify-center align-center pa-5">
+          <div class="d-flex align-center justify-center">
+            <v-img
+            class="pa-0 ma-0"
+              src="../assets/logo_drawer.png"
+              width="240"
+              height="100"
+              contain
+            />
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Menu -->
-    <div>
-      <div>
-        <v-list v-model:opened="open">
-          <template v-for="item in menuFinal">
-            <v-list-group
-              v-if="item.children && item.children.length"
-              :key="item.value"
-              :prepend-icon="item.icon"
-            >
-              <template v-slot:activator="{ props }">
-                <v-list-item v-bind="props" :title="item.title"></v-list-item>
-              </template>
-
-              <v-list-item
-                v-for="child in item.children"
-                :key="child.value"
-                :prepend-icon="child.icon"
-                :title="child.title"
-                :to="child.to"
-                class="text-wrap"
-              >
-                <template v-slot:title>
-                  <v-tooltip :text="child.title" location="right">
-                    <template v-slot:activator="{ props }">
-                      <span v-bind="props" class="text-truncate">{{
-                        child.title
-                      }}</span>
-                    </template>
-                  </v-tooltip>
-                </template>
-              </v-list-item>
-            </v-list-group>
-
-            <v-list-item
-              v-else
-              :key="item"
-              :prepend-icon="item.icon"
-              :title="item.title"
-              :to="item.to"
-              class="text-wrap"
-            >
-              <template v-slot:title>
-                <v-tooltip :text="item.title" location="right">
-                  <template v-slot:activator="{ props }">
-                    <span v-bind="props" class="text-truncate">{{
-                      item.title
-                    }}</span>
-                  </template>
-                </v-tooltip>
-              </template>
-            </v-list-item>
-          </template>
-        </v-list>
+    <div class="d-flex align-center justify-center mb-10" v-if="!layoutStore.rail">
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'treinador'">
+        <v-icon icon="mdi-whistle" color="blue-lighten-1" size="15"></v-icon>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Treinador</span>
       </div>
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'atleta'">
+        <v-icon icon="mdi-run-fast" color="blue-lighten-1" size="20"></v-icon>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Atleta</span>
+      </div>
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'medico'">
+        <v-icon icon="mdi-stethoscope" color="blue-lighten-1" size="20"></v-icon>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Médico</span>
+      </div>
+      <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'fisioterapeuta'">
+        <v-icon icon="mdi-human-handsup" color="blue-lighten-1" size="20"></v-icon>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">Fisioterapeuta</span>
+      </div>
+    </div>
 
-      <div class="mt-4 text-center" v-if="isMedico() || isFisioterapeuta() || isTreinador()">
-        <v-divider class="mb-3" thickness="2"></v-divider>
-        <span class="text-subtitle-1" v-show="!layoutStore.rail">
-          {{ perfis[payload?.role] }}
-        </span>
-
-        <v-list style="text-align: start" v-model:opened="open">
-          <v-list-group prepend-icon="mdi mdi-account-group-outline">
-            <template v-slot:activator="{ props }" v-if="isMedico()">
+    <!-- Menu -->
+    <div class="px-3 mt-2">
+      <v-list v-model:opened="open" class="pa-0">
+        <template v-for="item in menuFinal">
+          <v-list-group
+            v-if="item.children && item.children.length"
+            :key="item.value"
+          >
+            <template v-slot:activator="{ props }">
               <v-list-item
                 v-bind="props"
-                title="Pacientes"
-                icon="mdi mdi-account-group-outline"
-              ></v-list-item>
+                class="mb-1 px-3 py-2"
+                rounded="lg"
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon" size="20"></v-icon>
+                </template>
+                <template v-slot:title>
+                  <span class="text-body-2">{{ item.title }}</span>
+                </template>
+              </v-list-item>
+            </template>
+
+            <v-list-item
+              v-for="child in item.children"
+              :key="child.value"
+              :to="child.to"
+              class="pl-12 mb-1 py-1"
+              rounded="lg"
+            >
+              <template v-slot:prepend>
+                <v-icon :icon="child.icon" size="18"></v-icon>
+              </template>
+              <template v-slot:title>
+                <span class="text-body-2">{{ child.title }}</span>
+              </template>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-item
+            v-else
+            :key="item"
+            :to="item.to"
+            class="mb-1 px-3 py-2"
+            rounded="lg"
+          >
+            <template v-slot:prepend>
+              <v-icon :icon="item.icon" size="20"></v-icon>
+            </template>
+            <template v-slot:title>
+              <span class="text-body-2">{{ item.title }}</span>
+            </template>
+          </v-list-item>
+        </template>
+      </v-list>
+
+      <div class="mt-6" v-if="isMedico() || isFisioterapeuta() || isTreinador()">
+        <v-divider class="mb-4"></v-divider>
+
+        <v-list v-model:opened="open" class="pa-0">
+          <v-list-group v-if="isMedico()">
+            <template v-slot:activator="{ props }">
+              <v-list-item
+                v-bind="props"
+                class="mb-1 px-3 py-2"
+                rounded="lg"
+              >
+                <template v-slot:prepend>
+                  <v-icon icon="mdi-account-group-outline" size="20"></v-icon>
+                </template>
+                <template v-slot:title>
+                  <span class="text-body-2">Pacientes</span>
+                </template>
+              </v-list-item>
             </template>
             <v-list-item
               v-for="items in pacienteItems"
               :key="items.value"
-              :prepend-icon="items.icon"
-              :title="items.title"
-              :value="items.value"
               :to="items.to"
-              class="paciente-item text-wrap"
-            ></v-list-item>
+              class="pl-12 mb-1 py-1"
+              rounded="lg"
+            >
+              <template v-slot:prepend>
+                <v-icon :icon="items.icon" size="18"></v-icon>
+              </template>
+              <template v-slot:title>
+                <span class="text-body-2">{{ items.title }}</span>
+              </template>
+            </v-list-item>
           </v-list-group>
-        </v-list>
 
-        <v-list style="text-align: start" v-model:opened="open">
-          <v-list-group prepend-icon="mdi mdi-alert-circle-outline">
+          <v-list-group>
             <template v-slot:activator="{ props }">
               <v-list-item
                 v-bind="props"
-                title="Notificações"
-                icon="mdi mdi-alert-circle-outline"
-              ></v-list-item>
+                class="mb-1 px-3 py-2"
+                rounded="lg"
+              >
+                <template v-slot:prepend>
+                  <v-icon icon="mdi-bell-outline" size="20"></v-icon>
+                </template>
+                <template v-slot:title>
+                  <span class="text-body-2">Notificações</span>
+                </template>
+              </v-list-item>
             </template>
-                        <v-list-item
+            <v-list-item
               v-for="items in notificacoesItems"
               :key="items.value"
-              :prepend-icon="items.icon"
-              :title="items.title"
-              :value="items.value"
               :to="items.to"
+              class="pl-12 mb-1 py-1"
+              rounded="lg"
               @click="onClickMenu(items.title)"
-            ></v-list-item>
+            >
+              <template v-slot:prepend>
+                <v-icon :icon="items.icon" size="18"></v-icon>
+              </template>
+              <template v-slot:title>
+                <span class="text-body-2">{{ items.title }}</span>
+              </template>
+            </v-list-item>
           </v-list-group>
         </v-list>
       </div>
 
-      <div class="">
-        <v-list style="text-align: start" v-model:opened="open">
-          <v-list-group prepend-icon="mdi mdi-home-outline">
+      <div class="mt-6">
+        <v-divider class="mb-4"></v-divider>
+
+        <v-list v-model:opened="open" class="pa-0">
+          <v-list-group>
             <template v-slot:activator="{ props }">
               <v-list-item
-                class=""
                 v-bind="props"
-                title="Minha conta"
-                icon="mdi-search"
-              ></v-list-item>
+                class="mb-1 px-3 py-2"
+                rounded="lg"
+              >
+                <template v-slot:prepend>
+                  <v-icon icon="mdi-account-circle-outline" size="20"></v-icon>
+                </template>
+                <template v-slot:title>
+                  <span class="text-body-2">Minha conta</span>
+                </template>
+              </v-list-item>
             </template>
 
             <template v-for="item in contaItems">
               <v-list-group
                 v-if="item.children && item.children.length"
                 :key="item.value"
-                :prepend-icon="item.icon"
               >
                 <template v-slot:activator="{ props }">
-                  <v-list-item v-bind="props" :title="item.title"></v-list-item>
+                  <v-list-item
+                    v-bind="props"
+                    class="pl-12 mb-1 py-1"
+                    rounded="lg"
+                  >
+                    <template v-slot:prepend>
+                      <v-icon :icon="item.icon" size="18"></v-icon>
+                    </template>
+                    <template v-slot:title>
+                      <span class="text-body-2">{{ item.title }}</span>
+                    </template>
+                  </v-list-item>
                 </template>
                 <v-list-item
                   v-for="child in item.children"
                   :key="child.value"
                   v-show="!child.hideForRoles || !child.hideForRoles.includes(payload?.role)"
-                  :prepend-icon="child.icon"
-                  :title="child.title"
                   :to="child.to"
-                ></v-list-item>
+                  class="pl-16 mb-1 py-1"
+                  rounded="lg"
+                >
+                  <template v-slot:prepend>
+                    <v-icon :icon="child.icon" size="16"></v-icon>
+                  </template>
+                  <template v-slot:title>
+                    <span class="text-body-2">{{ child.title }}</span>
+                  </template>
+                </v-list-item>
               </v-list-group>
 
               <v-list-item
                 v-else
                 :key="'item-' + item.value"
-                :prepend-icon="item.icon"
-                :title="item.title"
                 :to="item.to"
+                class="pl-12 mb-1 py-1"
+                rounded="lg"
                 @click="onClickMenu(item.title)"
-              ></v-list-item>
+              >
+                <template v-slot:prepend>
+                  <v-icon :icon="item.icon" size="18"></v-icon>
+                </template>
+                <template v-slot:title>
+                  <span class="text-body-2">{{ item.title }}</span>
+                </template>
+              </v-list-item>
             </template>
           </v-list-group>
         </v-list>
@@ -197,7 +266,7 @@
       <div>
         <v-divider
           class="mx-2 mb-3"
-          color="blue-lighten-4"
+          color="#00C6FE"
           opacity="0.3"
         ></v-divider>
 
@@ -240,7 +309,6 @@ const infoUser = ref<any>()
       const id = getUserID()
       const response = await userService.userById(id)
       infoUser.value = response.data
-      console.log(response.data)
     } catch (error) {
       console.error('Erro ao buscar informações do usuário:', error)
     }
@@ -571,6 +639,12 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+.clean-drawer {
+  background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%) !important;
+  border-right: 1px solid rgba(66, 165, 245, 0.08);
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03) !important;
+}
+
 .clean-drawer :deep(.v-navigation-drawer__content) {
   overflow-y: auto;
   scrollbar-width: none;
@@ -581,14 +655,47 @@ onBeforeUnmount(() => {
   display: none;
 }
 
-.v-list-item:hover {
-  background-color: white !important;
-  color: #1976d2 !important;
+.v-list-item {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.v-list-item .v-icon {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.v-list-item:hover {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
+}
+
+.v-list-item:hover .v-list-item-title,
 .v-list-item:hover .v-list-item__content,
+.v-list-item:hover span {
+  color: white !important;
+  font-weight: 600 !important;
+  opacity: 100%;
+}
+
 .v-list-item:hover .v-icon {
-  color: #1976d2 !important;
+  color: white !important;
+  transform: scale(1.15);
+}
+
+.v-list-item--active {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  box-shadow: 0 4px 12px rgba(66, 165, 245, 0.3);
+}
+
+.v-list-item--active .v-list-item-title,
+.v-list-item--active .v-list-item__content,
+.v-list-item--active span {
+  color: white !important;
+  font-weight: 600 !important;
+}
+
+.v-list-item--active .v-icon {
+  color: white !important;
 }
 
 .text-wrap .v-list-item__content {
@@ -612,14 +719,41 @@ onBeforeUnmount(() => {
 }
 
 .paciente-item {
-  font-size: 0.8rem !important;
+  font-size: 1.1rem !important;
 }
 
 .paciente-item .v-icon {
-  font-size: 1rem !important;
+  font-size: 1.5rem !important;
 }
 
 .paciente-item .v-list-item__content {
-  font-size: 0.8rem !important;
+  font-size: 1.1rem !important;
+}
+
+.v-list-item {
+  font-size: 1.1rem !important;
+  min-height: 52px !important;
+}
+
+.v-list-item .v-icon {
+  font-size: 1.5rem !important;
+}
+
+.v-list-item-title {
+  font-size: 1.1rem !important;
+}
+.icon-drow {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  margin-right: 10px;
+  background-color: #edf7ff;
+  border: 1px solid #dfe8f0;
+}
+
+.type-profile {
+  border-bottom: 1px solid #dfe8f0;
+  width: 80%;
+  margin-right: 10px;
 }
 </style>

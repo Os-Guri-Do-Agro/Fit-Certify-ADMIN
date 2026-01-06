@@ -7,19 +7,6 @@
       </v-card-title>
 
       <v-card-text class="pa-6">
-        <VRow class="mb-4">
-          <VCol cols="12">
-            <VTextField
-              v-maska="'(##) #####-####'"
-              v-model="form.telefone"
-              label="Telefone"
-              placeholder="(00) 00000-0000"
-              variant="outlined"
-              rounded="lg"
-            />
-          </VCol>
-        </VRow>
-
         <VStepper v-model="step" :items="['Informações Profissionais', 'Endereço', 'Finalização']" class="elevation-0">
           <template #item.1>
             <FisioterapeutaForm :current-step="2" :form="form" :loading-cep="loadingCep" @buscar-cep="buscarCep" @handle-file-change="handleFileChange" />

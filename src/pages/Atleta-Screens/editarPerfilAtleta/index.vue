@@ -1,57 +1,45 @@
 <template>
-  <div class="pa-0" fluid>
-    <div class="hero-section">
-      <div class="hero-overlay"></div>
-      <div class="position-relative pa-5 pa-md-0">
-        <v-row align="center" class="min-height-300 d-flex flex-md-column-reverse">
-          <v-col cols="12" class="text-center">
-            <div class="profile-avatar-container">
-              <v-avatar size="190" class="profile-avatar">
-                <v-img
-                  v-if="displayAvatar"
-                  :src="displayAvatar"
-                  alt="Foto do perfil"
-                />
-                <v-icon v-else size="70" color="white">mdi-account</v-icon>
-              </v-avatar>
-              <v-btn
-                icon
-                size="small"
-                color="white"
-                class="avatar-edit-btn"
-                @click="fileInput?.click()"
-              >
-                <v-icon>mdi-camera</v-icon>
-              </v-btn>
-              <input
-                ref="fileInput"
-                type="file"
-                accept="image/*"
-                style="display: none"
-                @change="handleFileUpload"
-              />
-            </div>
-            <h1 class="profile-name">{{ formData.nome }}</h1>
-          </v-col>
-
-          <v-col cols="12">
-            <div class="profile-info">
-              <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-space-between ma-5">
-                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-account-edit">
-                  Editar Perfil
-                </v-chip>
-                <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
-                  ID: {{ payload?.userId }}
-                </v-chip>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
+  <v-container class="py-10">
+    <div class="header-section">
+      <div class="header-content">
+        <div class="profile-avatar-container">
+          <v-avatar size="120" class="profile-avatar">
+            <v-img
+              v-if="displayAvatar"
+              :src="displayAvatar"
+              alt="Foto do perfil"
+            />
+            <v-icon v-else size="50" color="white">mdi-account</v-icon>
+          </v-avatar>
+          <v-btn
+            icon
+            size="small"
+            color="white"
+            class="avatar-edit-btn"
+            @click="fileInput?.click()"
+          >
+            <v-icon>mdi-camera</v-icon>
+          </v-btn>
+          <input
+            ref="fileInput"
+            type="file"
+            accept="image/*"
+            style="display: none"
+            @change="handleFileUpload"
+          />
+        </div>
+        <h1 class="header-title">{{ formData.nome }}</h1>
+        <p class="header-subtitle">Editar Perfil</p>
+        <div class="notification-stats">
+          <v-chip class="stat-chip" prepend-icon="mdi-identifier">
+            ID: {{ payload?.userId }}
+          </v-chip>
+        </div>
       </div>
     </div>
 
-      <v-row class="mt-10" justify="center">
-        <v-col cols="12" lg="8">
+    <v-row justify="center" class="mt-8">
+      <v-col cols="12">
           <v-skeleton-loader
             v-if="loadingData"
             type="card"
@@ -121,9 +109,15 @@
                     ></v-text-field>
                   </v-col>
                 </v-row>
+              </v-card-text>
+            </v-card>
 
-                <v-divider class="my-4"></v-divider>
-
+            <v-card class="mb-6" elevation="4" rounded="xl">
+              <v-card-title class="section-title">
+                <v-icon class="mr-3" color="#00c6fe">mdi-ticket-percent</v-icon>
+                Códigos de Convite
+              </v-card-title>
+              <v-card-text class="pa-6">
                 <v-row>
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center justify-space-between mb-3">
@@ -286,9 +280,9 @@
               </v-btn>
             </div>
           </v-form>
-        </v-col>
-      </v-row>
-  </div>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script setup lang="ts">
@@ -580,23 +574,48 @@ onMounted(async () => {
 </script>
 
 <style scoped>
-.hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
-  position: relative;
-  overflow: hidden;
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
 }
 
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
 }
 
-.min-height-300 {
-  min-height: 300px;
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.notification-stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.stat-chip {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #1E88E5 !important;
+  font-weight: 600;
 }
 
 .profile-avatar-container {
@@ -616,28 +635,6 @@ onMounted(async () => {
   background: #00c6fe !important;
 }
 
-.profile-name {
-  color: white;
-  font-size: 1.8rem;
-  font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-top: 16px;
-  margin-bottom: 8px;
-}
-
-.info-chip {
-  background: rgba(255, 255, 255, 0.15) !important;
-  color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(10px);
-  padding: 8px 16px;
-}
-
-.content-section {
-  background: #f8f9fa;
-  padding-top: 48px;
-  padding-bottom: 48px;
-}
 
 .section-title {
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
@@ -666,14 +663,4 @@ onMounted(async () => {
   transform: translateY(-2px);
 }
 
-@media (max-width: 960px) {
-  .profile-info {
-    margin-top: 24px;
-    text-align: center;
-  }
-
-  .info-chips {
-    justify-content: center;
-  }
-}
 </style>

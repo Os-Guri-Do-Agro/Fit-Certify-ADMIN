@@ -441,9 +441,11 @@ onMounted(() => {
 }
 
 .profile-card {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
-  border: none;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .profile-header {
@@ -495,7 +497,7 @@ onMounted(() => {
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
   transition: all 0.3s ease;
 }
@@ -518,11 +520,11 @@ onMounted(() => {
 }
 
 .v-text-field :deep(.v-field--focused .v-field__outline) {
-  border-color: #2196F3 !important;
+  border-color: #42A5F5 !important;
 }
 
 .v-select :deep(.v-field--focused .v-field__outline) {
-  border-color: #2196F3 !important;
+  border-color: #42A5F5 !important;
 }
 
 /* Skeleton Styles */

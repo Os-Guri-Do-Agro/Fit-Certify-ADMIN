@@ -17,6 +17,23 @@
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
             <VTextField
+              id="telefone"
+              v-maska="'(##) #####-####'"
+              :model-value="form.telefone"
+              @update:model-value="form.telefone = $event"
+              :rules="[rules.required]"
+              name="telefone"
+              placeholder="(00) 00000-0000"
+              label="Telefone*"
+              variant="outlined"
+              rounded="lg"
+              bg-color="white"
+              class="custom-field"
+            />
+          </VCol>
+
+          <VCol class="my-2 py-0 font-weight-medium" cols="12">
+            <VTextField
               id="experiencia"
               :model-value="form.experiencia"
               @update:model-value="form.experiencia = $event"
@@ -501,24 +518,13 @@ const maisTermos = () => {
   scrollbar-width: none;
 }
 
-.custom-field {
-  transition: all 0.3s ease;
-}
-
-.custom-field:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 198, 254, 0.15);
-}
-
 .custom-field .v-field {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid #e0e7ff;
   transition: all 0.3s ease;
 }
 
 .custom-field .v-field:hover {
   border-color: #00c6fe;
-  box-shadow: 0 4px 12px rgba(0, 198, 254, 0.15);
 }
 
 .custom-field .v-field--focused {

@@ -433,6 +433,7 @@ onMounted(async () => {
     return
   }
   payload.value = getPayload()
+  loadingData.value = true
   await carregarDados()
 })
 
@@ -440,9 +441,11 @@ onMounted(async () => {
 
 <style scoped>
 .hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
   position: relative;
   overflow: hidden;
+  border-radius: 20px;
 }
 
 .hero-overlay {
@@ -507,7 +510,7 @@ onMounted(async () => {
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
   transition: all 0.3s ease;
 }

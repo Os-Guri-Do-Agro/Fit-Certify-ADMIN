@@ -1,8 +1,12 @@
 <template>
-  <v-container class="pa-0" fluid>
-    <div class="hero-section">
-      <div class="hero-overlay"></div>
-      <v-container class="position-relative">
+  <v-container class="py-10">
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <v-icon size="40" color="white">mdi-bell</v-icon>
+        </div>
+        <h1 class="header-title">Notificações</h1>
+        <p class="header-subtitle">Acompanhe todas as suas notificações importantes</p>
         <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-bell">
             {{ notificacoes.length }} total
@@ -11,87 +15,70 @@
             {{ notificacoesNaoLidas }} não lidas
           </v-chip>
         </div>
-
-        <v-row align="center" class="min-height-300">
-          <v-col cols="12" class="text-center">
-            <v-icon color="white" size="80" class="mb-4">mdi-bell-outline</v-icon>
-            <h1 class="notification-title">Notificações Gerais</h1>
-            <p class="notification-subtitle">Acompanhe todas as suas notificações importantes</p>
-          </v-col>
-        </v-row>
-      </v-container>
+      </div>
     </div>
 
-    <v-container class="content-section">
-      <v-row justify="center">
-        <v-col cols="12">
-          <v-card class="notifications-card rounded-xl" elevation="2">
-            <v-card-title class="pa-6 pb-0">
-              <div class="d-flex align-center justify-space-between">
-                <div class="d-flex align-center">
-                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-bell-ring</v-icon>
-                  <h3 class="text-h6 font-weight-bold">Suas Notificações</h3>
-                </div>
-                <v-btn v-if="notificacoesNaoLidas > 0" variant="outlined" color="#00c6fe" size="small"
-                  @click="marcarTodasComoLidas">
-                  <v-icon size="16" class="mr-1">mdi-check-all</v-icon>
-                  Marcar todas como lidas
-                </v-btn>
-              </div>
-            </v-card-title>
+    <v-row justify="center" class="mt-8">
+      <v-col cols="12" md="10">
+          <div class="d-flex align-center justify-space-between mb-6">
+            <h3 class="text-h6 font-weight-bold">Suas Notificações</h3>
+            <v-btn v-if="notificacoesNaoLidas > 0" variant="flat" class="gradient-btn" size="small"
+              @click="marcarTodasComoLidas">
+              <v-icon size="16" class="mr-1">mdi-check-all</v-icon>
+              Marcar todas como lidas
+            </v-btn>
+          </div>
 
-            <v-card-text class="pa-6">
-              <div v-if="notificacoes.length > 0">
-                <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="1" :class="[
-                  'notification-item mb-3 rounded-xl',
-                  { 'unread': !notificacao.visualizado, 'read': notificacao.visualizado }
-                ]" variant="outlined" :color="notificacao.visualizado ? 'grey-lighten-5' : 'blue'">
-                  <v-card-text class="pa-4">
-                    <div class="d-flex align-center">
-                      <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
-                        <v-icon color="white" size="24">
-                          {{ getNotificationIcon(notificacao.tipo) }}
-                        </v-icon>
-                      </v-avatar>
+          <div>
+            <div v-if="notificacoes.length > 0">
+              <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="2" :class="[
+                'notification-item mb-4 rounded-xl',
+                { 'unread': !notificacao.visualizado, 'read': notificacao.visualizado }
+              ]">
+                <v-card-text class="pa-5">
+                  <div class="d-flex align-center">
+                    <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
+                      <v-icon color="white" size="24">
+                        {{ getNotificationIcon(notificacao.tipo) }}
+                      </v-icon>
+                    </v-avatar>
 
-                      <div class="flex-grow-1">
-                        <div class="d-flex align-center justify-space-between mb-1">
-                          <h4 class="text-subtitle-1 font-weight-medium text-black">
-                            {{ notificacao.titulo }}
-                          </h4>
-                          <div class="d-flex align-center">
-                            <span class="text-caption text-grey mr-2">
-                              {{ formatarDataLocal(notificacao.data) }}
-                            </span>
-                            <v-chip v-if="!notificacao.visualizado" color="#00c6fe" size="x-small" class="mr-2">
-                              Nova
-                            </v-chip>
-                            <v-btn icon size="small" variant="text" @click="toggleVisualizacao(notificacao)">
-                              <v-icon size="16">
-                                {{ notificacao.visualizado ? 'mdi-eye-off' : 'mdi-eye' }}
-                              </v-icon>
-                            </v-btn>
-                          </div>
+                    <div class="flex-grow-1">
+                      <div class="d-flex align-center justify-space-between mb-1">
+                        <h4 class="text-subtitle-1 font-weight-medium text-black">
+                          {{ notificacao.titulo }}
+                        </h4>
+                        <div class="d-flex align-center">
+                          <span class="text-caption text-grey mr-2">
+                            {{ formatarDataLocal(notificacao.data) }}
+                          </span>
+                          <v-chip v-if="!notificacao.visualizado" color="blue" size="x-small" class="mr-2">
+                            Nova
+                          </v-chip>
+                          <v-btn icon size="small" variant="text" @click="toggleVisualizacao(notificacao)">
+                            <v-icon size="16">
+                              {{ notificacao.visualizado ? 'mdi-eye-off' : 'mdi-eye' }}
+                            </v-icon>
+                          </v-btn>
                         </div>
-                        <p class="text-body-2 text-grey-darken-1 mb-0">
-                          {{ notificacao.descricao }}
-                        </p>
                       </div>
+                      <p class="text-body-2 text-grey-darken-1 mb-0">
+                        {{ notificacao.descricao }}
+                      </p>
                     </div>
-                  </v-card-text>
-                </v-card>
-              </div>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </div>
 
-              <div v-else class="text-center py-8">
-                <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
-                <h4 class="text-h6 text-grey-darken-1 mb-2">Nenhuma notificação</h4>
-                <p class="text-body-2 text-grey">Você não possui notificações no momento.</p>
-              </div>
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+            <div v-else class="text-center py-8">
+              <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
+              <h4 class="text-h6 text-grey-darken-1 mb-2">Nenhuma notificação</h4>
+              <p class="text-body-2 text-grey">Você não possui notificações no momento.</p>
+            </div>
+          </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -140,103 +127,82 @@ const marcarTodasComoLidas = () => {
 </script>
 
 <style scoped>
-/* Hero Section */
-.hero-section {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
-  position: relative;
-  overflow: hidden;
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
 }
 
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
 }
 
-.min-height-300 {
-  min-height: 300px;
-}
-
-/* Notification Stats */
-.notification-stats {
-  position: absolute;
-  top: 24px;
-  right: 24px;
-  z-index: 2;
-}
-
-.stat-chip {
-  background: #fff !important;
-  color: #00c6fe !important;
-  margin-left: 8px;
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
 }
 
-/* Notification Title */
-.notification-title {
-  color: white;
+.header-title {
   font-size: 2.5rem;
   font-weight: 700;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  margin-bottom: 8px;
-}
-
-.notification-subtitle {
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 1.1rem;
+  color: white;
   margin: 0;
 }
 
-/* Content Section */
-.content-section {
-  background: #f8f9fa;
-  padding-top: 40px;
-  padding-bottom: 40px;
+.header-subtitle {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.95;
+  margin: 0;
 }
 
-/* Cards */
-.notifications-card {
-  transition: all 0.3s ease;
-  border-top: 3px solid #2196F3;
+.notification-stats {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.stat-chip {
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: #1E88E5 !important;
+  font-weight: 600;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
 }
 
 .notification-item {
   transition: all 0.2s ease;
-  border-left: 3px solid transparent;
+  border-left: 4px solid transparent;
 }
 
 .notification-item.unread {
-  border-left-color: #00c6fe;
-  background: rgba(0, 198, 254, 0.02);
+  border-left-color: #42A5F5;
+  background: rgba(66, 165, 245, 0.03);
 }
 
 .notification-item.read {
-  background: rgba(0, 0, 0, 0.05) !important;
+  background: #fafafa;
 }
 
 .notification-item:hover {
-  transform: translateX(4px);
+  transform: translateY(-2px);
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Responsive */
-@media (max-width: 960px) {
-  .notification-stats {
-    position: static;
-    text-align: center;
-    margin-bottom: 24px;
-  }
-
-  .stat-chip {
-    margin: 4px;
-  }
-
-  .notification-title {
-    font-size: 2rem;
-  }
 }
 </style>

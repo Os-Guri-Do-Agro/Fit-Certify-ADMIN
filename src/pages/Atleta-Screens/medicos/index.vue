@@ -1,20 +1,21 @@
 <template>
   <v-container class="py-10">
-    <v-row justify="center" class="text-center mb-8">
-      <v-col cols="12">
-        <h2 class="text-h5 text-md-h4 font-weight-bold" style="color: green">
-          Encontre um médico parceiro próximo a você<br />
-          e agende sua consulta presencial
-        </h2>
-      </v-col>
-    </v-row>
+    <div class="header-section">
+      <div class="header-content">
+        <div class="header-icon-wrapper">
+          <v-icon size="40" color="white">mdi-doctor</v-icon>
+        </div>
+        <h1 class="header-title">Encontre um Médico</h1>
+        <p class="header-subtitle">Encontre um médico parceiro próximo a você e agende sua consulta presencial</p>
+      </div>
+    </div>
 
-    <v-row justify="center" class="mb-10">
-      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory>
-        <v-btn value="lista" color="green" variant="flat" class="px-8 text-body-1 font-weight-medium">
+    <v-row justify="center" class="mb-10 mt-8">
+      <v-btn-toggle v-model="filtro" rounded="pill" group mandatory class="filter-toggle">
+        <v-btn value="lista" variant="flat" class="px-8 text-body-1 font-weight-medium filter-btn" :class="{ 'active-filter': filtro === 'lista' }">
           Lista completa
         </v-btn>
-        <v-btn value="meu" color="green" variant="outlined" class="px-8 text-body-1 font-weight-medium"
+        <v-btn value="meu" variant="outlined" class="px-8 text-body-1 font-weight-medium filter-btn"
           @click="router.push('/Atleta-Screens/meusMedicos')">
           Já tenho meu médico
         </v-btn>
@@ -27,7 +28,7 @@
         <v-card variant="text" rounded="xl">
           <v-card-text class="pa-6">
             <div class="text-center mb-4">
-              <v-icon size="32" color="green" class="mb-2">mdi-map-marker-radius</v-icon>
+              <v-icon size="32" class="mb-2 gradient-icon">mdi-map-marker-radius</v-icon>
               <h3 class="text-h6 font-weight-bold mb-1">Busca por Proximidade</h3>
               <p class="text-body-2 text-medium-emphasis mb-0">
                 Digite seu CEP para encontrar médicos próximos a você
@@ -89,7 +90,6 @@
                 class="mt-3"
                 rounded="lg"
               >
-                <v-icon class="me-2">mdi-check-circle</v-icon>
                 Encontrados {{ medico.length }} médicos próximos ordenados por distância
               </v-alert>
             </v-expand-transition>
@@ -108,7 +108,7 @@
         <div v-else>
           <v-card v-for="(medico, index) in medico" :key="index" class="mb-6 pa-5 position-relative" elevation="2"
             rounded="xl">
-            <v-btn icon size="small" color="green" variant="flat" class="position-absolute"
+            <v-btn icon size="small" variant="flat" class="position-absolute gradient-btn"
               style="top: 16px; right: 60px" @click="buscarEnderecoPorCep(medico.cep)">
               <v-icon>mdi-map-marker</v-icon>
             </v-btn>
@@ -149,7 +149,7 @@
 
                 <v-row align="center" class="mt-3">
                   <v-col cols="auto">
-                    <v-btn variant="flat" color="green" class="px-8 text-body-2" rounded
+                    <v-btn variant="flat" class="px-8 text-body-2 gradient-btn" rounded
                       @click="detalhesMedico(medico.id)">
                       Mais Detalhes
                     </v-btn>
@@ -171,7 +171,7 @@
         <!-- Seção de Localização -->
         <v-card class="mb-4 mt-10 mt-md-0" rounded="xl" elevation="3">
           <v-card-title class="d-flex align-center pa-4">
-            <v-icon color="green" class="me-2">mdi-map-marker-radius</v-icon>
+            <v-icon class="me-2 gradient-icon">mdi-map-marker-radius</v-icon>
             <span class="text-h6">Localização</span>
           </v-card-title>
 
@@ -217,7 +217,7 @@
         <v-card rounded="xl" elevation="3" class="map-container">
           <v-card-title class="d-flex align-center justify-space-between pa-4">
             <div class="d-flex align-center">
-              <v-icon color="green" class="me-2">mdi-map</v-icon>
+              <v-icon class="me-2 gradient-icon">mdi-map</v-icon>
               <span class="text-h6">Visualização</span>
             </div>
             <v-btn
@@ -232,7 +232,7 @@
           <v-card-text class="pa-0">
             <div v-if="!mapaUrl" class="map-placeholder">
               <div class="text-center pa-8">
-                <v-icon size="64" color="green-lighten-2">mdi-map-outline</v-icon>
+                <v-icon size="64" class="gradient-icon">mdi-map-outline</v-icon>
                 <div class="text-h6 mt-4 mb-2">Mapa Interativo</div>
                 <div class="text-body-2 text-medium-emphasis">
                   Clique no ícone 📍 de um médico ou digite um CEP<br>
@@ -441,7 +441,7 @@ const buscarMedico = async () => {
 onMounted(() => {
   buscarUsuario()
   buscarMedico()
-  
+
   // Mostrar modal se vier de outro site
   const urlParams = new URLSearchParams(window.location.search)
   if (urlParams.get('showModal') === 'true') {
@@ -501,6 +501,75 @@ const abrirGoogleMaps = () => {
 </script>
 
 <style scoped>
+.header-section {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  padding: 48px 24px;
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
+  margin-bottom: 32px;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.header-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+}
+
+.header-subtitle {
+  font-size: 1.1rem;
+  color: white;
+  opacity: 0.95;
+  margin: 0;
+}
+
+.filter-toggle {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 50px;
+}
+
+.filter-btn {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.filter-btn.active-filter {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
+.gradient-icon {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-btn {
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
+  color: white !important;
+}
+
 .cep-input-centered {
   width: 100%;
 }
