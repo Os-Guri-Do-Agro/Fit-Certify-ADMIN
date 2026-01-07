@@ -1,4 +1,240 @@
 {
-    "hello": "Hello",
-    "welcome": "Welcome"
+  "appBar": {
+    "titleEvents": "Events",
+    "titleConsultas": "Appointments",
+    "titleRegistersDocs": "Medical Records",
+    "titleSearchDoctor": "Find Doctor",
+    "titleMyDoctors": "My Doctors",
+    "titleProfile": "Profile",
+    "titleEditProfile": "Edit Profile",
+    "titleDoctorDetails": "Doctor Details",
+    "titlePhysioDetails": "Physiotherapist Details",
+    "titleCoachDetails": "Coach Details",
+    "titleMyPlan": "My Plan",
+    "titleOverview": "Overview",
+
+    "titleCalendar": "Calendar",
+    "titlePendingConsultations": "Pending Appointments",
+    "titlePatientList": "Patient List",
+    "titleRecentPatients": "Recent Patients",
+    "titlePatientDetails": "Patient Details",
+    "titlePublicProfile": "Public Profile",
+    "titleEditPublicProfile": "Edit Public Profile",
+
+    "titleAthleteDetails": "Athlete Details",
+
+    "titleConnections": "Connections",
+    "titleCertificates": "Certificates",
+    "titleNotifications": "Notifications",
+    "titleExerciseLibrary": "Exercise Library",
+    "titleSettings": "Settings",
+    "titleSummary": "Summary",
+    "titleAddConsultation": "Add Appointment",
+    "titleAnalytics": "Analytics",
+    "titleArticles": "Articles",
+    "titleCreateTraining": "Create Training",
+    "titleCoupons": "Coupons",
+    "titleManageCodes": "Manage Codes",
+    "titleChangePassword": "Change Password",
+    "titleUsers": "Users",
+    "titleValidateCertificate": "Validate Certificate",
+    "titleHelpCenter": "Help Center",
+    "titlePlans": "Plans",
+
+    "titleRegisterAthlete": "Register Athlete",
+    "titleRegisterDoctor": "Register Doctor",
+    "titleRegisterPhysio": "Register Physiotherapist",
+    "titleRegisterCoach": "Register Coach",
+    "titleRegisterAdmin": "Register Administrator",
+
+    "role": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    },
+    "actions": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+
+    "trocarPerfil": {
+      "title": "Choose Your Profile",
+      "subtitle": "Select the profile you want to access",
+      "warningSuccess": "Profile changed successfully!",
+      "warningError": "Error changing profile!",
+      "warning": "You are already on this profile.",
+      "text": "Access with",
+      "roles": {
+        "atleta": "Athlete",
+        "medico": "Doctor",
+        "fisioterapeuta": "Physiotherapist",
+        "treinador": "Coach"        
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "trocarPerfil": "Switch Profile"
+      }
+    },
+
+  "drawerNavigator": {
+    "roles": {
+      "treinador": "Coach",
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist"
+    },
+    "menu": {
+      "consultas": "Appointments",
+      "calendario": "Calendar",
+      "pendentes": "Pending",
+      "resumo": "Summary",
+      "saude": "Health",
+      "eventos": "Events",
+      "conexoes": "Connections",
+      "registrosMedicos": "Medical Records",
+      "certificados": "Certificates",
+      "notificacoes": "Notifications",
+      "notificacaoGeral": "General Notification",
+      "medicos": "Doctors",
+      "buscarMedico": "Find Doctor",
+      "meusMedicos": "My Doctors",
+      "bibliotecaExercicios": "Exercise Library",
+      "pacientes": "Patients",
+      "listaPacientes": "Patient List",
+      "recentes": "Recent"
+    },
+    "account": {
+      "minhaConta": "My Account",
+      "perfil": "Profile",
+      "novoPerfil": "New Profile",
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    },
+    "footer": {
+      "configuracoes": "Settings",
+      "sair": "Logout"
+    }
+  },
+
+  "eventos": {
+    "title": "Events",
+    "searchTitle": "Search by Title",
+    "searchLocation": "Search by Location",
+    "filterMonth": "Filter by Month",
+    "labelTitle": "Title",
+    "labelLocation": "Location",
+    "labelMonth": "Month",
+    "noEvents": "No events found",
+    "noEventsDescription": "There are no events available at the moment",
+    "viewDetails": "View Details",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "details": {
+      "loading": "Loading event...",
+      "sendCertificate": "Send Certificate",
+      "eventWebsite": "Event Website",
+      "eventDate": "Event Date",
+      "location": "Location",
+      "notInformed": "Not informed",
+      "modality": "Modality",
+      "distances": "Distances",
+      "aboutEvent": "About the Event",
+      "noDescription": "Description not available for this event.",
+      "organization": "Organization",
+      "notFound": "Event not found",
+      "notFoundDescription": "The requested event does not exist or has been removed",
+      "backToList": "Back to List",
+      "termsTitle": "Terms of Responsibility",
+      "sendTitle": "Certificate Submission",
+      "almostThere": "Almost there!",
+      "confirmMessage": "Confirm the submission of your certificate so we can validate your participation in this event and record your attendance.",
+      "cancel": "Cancel",
+      "confirmSend": "Confirm Submission"
+    }
+  },
+
+  "consultas": {
+    "title": "My Appointments",
+    "filters": {
+      "all": "All Appointments",
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "pending": "Pending",
+      "refused": "Refused",
+      "cancelled": "Cancelled"
+    },
+    "status": {
+      "Marcado": "Scheduled",
+      "Pendente": "Pending",
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled"
+    },
+    "noConsultations": "No appointments found",
+    "cancelButton": "Cancel",
+    "modal": {
+      "title": "Cancel Appointment?",
+      "message": "This action cannot be undone. The appointment will be permanently cancelled.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "login": {
+    "titleLeft": "Access your account",
+    "titleRight": "Welcome back",
+    "subtitleRight": "Log in to access your account and continue your health and performance journey.",
+    "email": "E-mail",
+    "emailPlaceholder": "example@domain.com",
+    "senha": "Password",
+    "tipoPerfil": "Profile type",
+    "tipoPerfilPlaceholder": "Select profile type",
+    "campoObrigatorio": "Required field",
+    "manterLogin": "Keep me logged in",
+    "esqueciSenha": "Forgot your password?",
+    "button": "Continue",
+    "buttonEnter": "Enter",
+    "text": "Don't have an account?",
+    "link": "Create account",
+    "toastError1": "Please fill out the form correctly",
+    "toastError2": "Invalid credentials",
+    "toastError3": "Error logging in",
+    "toastErrorAdmin": "This panel is exclusive for doctors and athletes",
+    "toastErrorMedicoCRM": "Doctor awaiting CRM validation",
+    "toastSuccess1": "Valid credentials! Select your profile.",
+    "forgotPassword": {
+      "title": "Recover Password",
+      "subtitle": "Enter your email and we will send you a link to reset your password.",
+      "button": "Send recovery link",
+      "toastEmailError1": "Email not found in the system",
+      "toastEmailError1_2": "Error verifying email:",
+      "toastEmailError2_2": "Unknown error",
+      "toastEmailSuccess1": "Email found! Click send to receive the verification code.",
+      "toastSuccessCode": "Code sent successfully!",
+      "toastErrorCode1_2": "Error sending code:",
+      "toastErrorCode2_2": "Unknown error"
+    },
+    "roles": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    }
   }
+}

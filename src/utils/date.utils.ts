@@ -108,3 +108,16 @@ export function removerOffsetTimezone(dataISO: string | null | undefined): strin
   return dataISO.replace(/([+-]\d{2}:?\d{2})$/, "")
 }
 
+/**
+ * Formata data considerando o locale (pt ou en)
+ * @param dataISO - String de data
+ * @param locale - Idioma ('pt' ou 'en')
+ * @returns String formatada DD/MM/YYYY (pt) ou MM/DD/YYYY (en)
+ */
+export function formatarDataComLocale(dataISO: string | null | undefined, locale: string = 'pt'): string {
+  if (!dataISO) return ""
+  const semOffset = dataISO.replace(/([+-]\d{2}:\d{2})$/, "")
+  const format = locale === 'en' ? 'MM/DD/YYYY' : 'DD/MM/YYYY'
+  return dayjs(semOffset).format(format)
+}
+

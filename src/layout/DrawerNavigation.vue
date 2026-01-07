@@ -43,19 +43,19 @@
     <div class="d-flex align-center justify-center mb-10" v-if="!layoutStore.rail">
       <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'treinador'">
         <v-icon icon="mdi-whistle" color="blue-lighten-1" size="15"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-caption">Treinador</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">{{ t('drawerNavigator.roles.treinador') }}</span>
       </div>
       <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'atleta'">
         <v-icon icon="mdi-run-fast" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-caption">Atleta</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">{{ t('drawerNavigator.roles.atleta') }}</span>
       </div>
       <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'medico'">
         <v-icon icon="mdi-stethoscope" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-caption">Médico</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">{{ t('drawerNavigator.roles.medico') }}</span>
       </div>
       <div class="px-5 pb-3 pt-2 rounded-md d-flex align-center justify-center ga-2 type-profile" v-if="payload?.role === 'fisioterapeuta'">
         <v-icon icon="mdi-human-handsup" color="blue-lighten-1" size="20"></v-icon>
-        <span class="font-weight-bold text-blue-lighten-1 text-caption">Fisioterapeuta</span>
+        <span class="font-weight-bold text-blue-lighten-1 text-caption">{{ t('drawerNavigator.roles.fisioterapeuta') }}</span>
       </div>
     </div>
 
@@ -130,7 +130,7 @@
                   <v-icon icon="mdi-account-group-outline" size="20"></v-icon>
                 </template>
                 <template v-slot:title>
-                  <span class="text-body-2">Pacientes</span>
+                  <span class="text-body-2">{{ t('drawerNavigator.menu.pacientes') }}</span>
                 </template>
               </v-list-item>
             </template>
@@ -161,7 +161,7 @@
                   <v-icon icon="mdi-bell-outline" size="20"></v-icon>
                 </template>
                 <template v-slot:title>
-                  <span class="text-body-2">Notificações</span>
+                  <span class="text-body-2">{{ t('drawerNavigator.menu.notificacoes') }}</span>
                 </template>
               </v-list-item>
             </template>
@@ -199,7 +199,7 @@
                   <v-icon icon="mdi-account-circle-outline" size="20"></v-icon>
                 </template>
                 <template v-slot:title>
-                  <span class="text-body-2">Minha conta</span>
+                  <span class="text-body-2">{{ t('drawerNavigator.account.minhaConta') }}</span>
                 </template>
               </v-list-item>
             </template>
@@ -296,6 +296,9 @@ import { getProfileRoute, getListaConexaoRoute } from '@/utils/profile'
 import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
 import userService from '@/services/user/user-service'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const layoutStore = useLayoutStore()
 const $route = useRoute()
@@ -314,40 +317,40 @@ const infoUser = ref<any>()
     }
   }
 
-const notificacoesItems = [
+const notificacoesItems = computed(() => [
   {
     icon: 'mdi mdi-bell-outline',
-    title: 'Notificação Geral',
+    title: t('drawerNavigator.menu.notificacaoGeral'),
     value: 'notificacoes',
     to: '/notificacoes'
   }
-]
+])
 const contaItems = computed(() => {
   const children = [
     ...(!infoUser.value?.atletaId ? [{
       icon: 'mdi-run',
-      title: 'Atleta',
+      title: t('drawerNavigator.account.atleta'),
       value: 'cadastrar-atleta',
       to: '/cadastrar-atleta',
       hideForRoles: ['atleta'],
     }] : []),
     ...(!infoUser.value?.medicoId ? [{
       icon: 'mdi-stethoscope',
-      title: 'Médico',
+      title: t('drawerNavigator.account.medico'),
       value: 'cadastrar-medico',
       to: '/cadastrar-medico',
       hideForRoles: ['medico'],
     }] : []),
     ...(!infoUser.value?.fisioterapeutaId ? [{
       icon: 'mdi-human-handsup',
-      title: 'Fisioterapeuta',
+      title: t('drawerNavigator.account.fisioterapeuta'),
       value: 'cadastrar-fisioterapeuta',
       to: '/cadastrar-fisioterapeuta',
       hideForRoles: ['fisioterapeuta'],
     }] : []),
     ...(!infoUser.value?.treinadorId ? [{
       icon: 'mdi-whistle',
-      title: 'Treinador',
+      title: t('drawerNavigator.account.treinador'),
       value: 'cadastrar-treinador',
       to: '/cadastrar-treinador',
       hideForRoles: ['treinador'],
@@ -357,66 +360,66 @@ const contaItems = computed(() => {
   return [
     {
       icon: 'mdi-account-circle',
-      title: 'Perfil',
+      title: t('drawerNavigator.account.perfil'),
       value: 'dashboard',
       to: getProfileRoute(),
     },
     ...(children.length > 0 ? [{
       icon: 'mdi-account-plus',
-      title: 'Novo Perfil',
+      title: t('drawerNavigator.account.novoPerfil'),
       value: 'novo-perfil',
       children,
     }] : []),
   ]
 })
 
-const pacienteItems = [
+const pacienteItems = computed(() => [
   {
     icon: 'mdi-clipboard-text-search-outline',
-    title: 'Lista de Pacientes',
+    title: t('drawerNavigator.menu.listaPacientes'),
     value: 'lista de pacientes',
     to: '/Medico-Screens/pacientes',
   },
   {
     icon: 'mdi-account-group-outline',
-    title: 'Recentes',
+    title: t('drawerNavigator.menu.recentes'),
     value: 'salvos',
     to: '/Medico-Screens/pacientesAtendidos',
   },
-]
+])
 
-const footerMenuItem = [
+const footerMenuItem = computed(() => [
   {
     icon: 'mdi-cog',
-    title: 'Configurações',
+    title: t('drawerNavigator.footer.configuracoes'),
     value: 'settings',
     to: '/settings',
   },
-  { icon: 'mdi-logout', title: 'Sair', value: 'exit', to: '/login' },
-]
+  { icon: 'mdi-logout', title: t('drawerNavigator.footer.sair'), value: 'exit', to: '/login' },
+])
 
-const menusPorPerfil: Record<string, any[]> = {
+const menusPorPerfil = computed(() => ({
   medico: [
     {
       icon: 'mdi-calendar-blank-multiple',
-      title: 'Consultas',
+      title: t('drawerNavigator.menu.consultas'),
       value: '',
       children: [
         {
           icon: 'mdi mdi-calendar-month-outline',
-          title: 'Calendário',
+          title: t('drawerNavigator.menu.calendario'),
           value: 'calendario',
           to: '/Medico-Screens/agendaMedica',
         },
         {
           icon: 'mdi mdi-clipboard-list-outline',
-          title: 'Consultas',
+          title: t('drawerNavigator.menu.consultas'),
           value: 'consultas',
           to: '/Medico-Screens/consultas',
         },
         {
           icon: 'mdi mdi-calendar-month-outline',
-          title: 'Pendentes',
+          title: t('drawerNavigator.menu.pendentes'),
           value: 'Medico-Screens/consultasPendentes',
           to: '/Medico-Screens/consultasPendentes',
         },
@@ -424,7 +427,7 @@ const menusPorPerfil: Record<string, any[]> = {
     },
     {
       icon: 'mdi mdi-compass-outline',
-      title: 'Resumo',
+      title: t('drawerNavigator.menu.resumo'),
       value: 'resumo',
       to: '/resumo',
       children: [],
@@ -434,71 +437,65 @@ const menusPorPerfil: Record<string, any[]> = {
   atleta: [
     {
       icon: 'mdi mdi-heart-outline',
-      title: 'Saúde',
+      title: t('drawerNavigator.menu.saude'),
       value: 'saude',
       to: '/saude',
       children: [
         {
           icon: 'mdi-calendar-star',
-          title: 'Eventos',
+          title: t('drawerNavigator.menu.eventos'),
           value: 'eventos',
           to: '/Atleta-Screens/eventos',
         },
       ],
     },
-    // {
-    //   icon: 'mdi mdi-web',
-    //   title: 'Visão Geral',
-    //   value: 'visaoGeral',
-    //   to: '/visao-geral',
-    // },
     {
       icon: 'mdi mdi-calendar',
-      title: 'Consultas',
+      title: t('drawerNavigator.menu.consultas'),
       value: 'Consultas',
       to: '/Atleta-Screens/consultas',
       children: [],
     },
     {
           icon: 'mdi-link',
-          title: 'Conexões',
+          title: t('drawerNavigator.menu.conexoes'),
           value: 'conexoes',
           to: '/solicitacoesConexoes'
         },
     {
       icon: 'mdi-chart-bar',
-      title: 'Registros Médicos',
+      title: t('drawerNavigator.menu.registrosMedicos'),
       value: 'registrosMedicos',
       to: '/Atleta-Screens/registrosMedicos',
       children: [],
     },
     {
       icon: 'mdi mdi-file-document-outline',
-      title: 'Certificados',
+      title: t('drawerNavigator.menu.certificados'),
       value: 'certificados',
       to: '/certificados',
       children: [],
     },
     {
       icon: 'mdi mdi-bell-outline',
-      title: 'Notificações',
+      title: t('drawerNavigator.menu.notificacoes'),
       value: 'notificacoes',
       to: '/notificacoes',
     },
     {
       icon: 'mdi-clipboard-pulse-outline',
-      title: 'Médicos',
+      title: t('drawerNavigator.menu.medicos'),
       value: 'medicos',
       children: [
         {
           icon: 'mdi-magnify',
-          title: 'Buscar Médico',
+          title: t('drawerNavigator.menu.buscarMedico'),
           value: 'buscarMedico',
           to: '/Atleta-Screens/medicos',
         },
         {
           icon: 'mdi-bookmark-outline',
-          title: 'Meus Medicos',
+          title: t('drawerNavigator.menu.meusMedicos'),
           value: 'meusMedicos',
           to: '/Atleta-Screens/meusMedicos',
         },
@@ -508,24 +505,24 @@ const menusPorPerfil: Record<string, any[]> = {
   fisioterapeuta: [
     {
       icon: 'mdi-calendar-blank-multiple',
-      title: 'Consultas',
+      title: t('drawerNavigator.menu.consultas'),
       value: '',
       children: [
         {
           icon: 'mdi mdi-calendar-month-outline',
-          title: 'Calendário',
+          title: t('drawerNavigator.menu.calendario'),
           value: 'calendario',
           to: '/Fisioterapeuta-Screens/agendaFisioterapeutica',
         },
         {
           icon: 'mdi mdi-clipboard-list-outline',
-          title: 'Consultas',
+          title: t('drawerNavigator.menu.consultas'),
           value: 'consultas',
           to: '/Fisioterapeuta-Screens/consultas',
         },
         {
           icon: 'mdi mdi-calendar-month-outline',
-          title: 'Pendentes',
+          title: t('drawerNavigator.menu.pendentes'),
           value: 'Fisioterapeuta-Screens/consultasPendentes',
           to: '/Fisioterapeuta-Screens/consultasPendentes',
         },
@@ -533,20 +530,20 @@ const menusPorPerfil: Record<string, any[]> = {
     },
     {
       icon: 'mdi-link',
-      title: 'Conexões',
+      title: t('drawerNavigator.menu.conexoes'),
       value: 'conexoes',
       to: '/solicitacoesConexoes'
     },
     {
       icon: 'mdi mdi-compass-outline',
-      title: 'Resumo',
+      title: t('drawerNavigator.menu.resumo'),
       value: 'resumo',
       to: '/resumo',
       children: [],
     },
     {
       icon: 'mdi mdi-human-handsup',
-      title: 'Biblioteca de Exercícios',
+      title: t('drawerNavigator.menu.bibliotecaExercicios'),
       value: 'bibliotecaExercicios',
       to: '/exercicios',
     },
@@ -554,13 +551,13 @@ const menusPorPerfil: Record<string, any[]> = {
   treinador: [
   {
       icon: 'mdi mdi-heart-outline',
-      title: 'Saúde',
+      title: t('drawerNavigator.menu.saude'),
       value: 'saude',
       to: '/saude',
       children: [
         {
           icon: 'mdi-calendar-star',
-          title: 'Eventos',
+          title: t('drawerNavigator.menu.eventos'),
           value: 'eventos',
           to: '/Atleta-Screens/eventos',
         },
@@ -568,18 +565,18 @@ const menusPorPerfil: Record<string, any[]> = {
     },
   {
           icon: 'mdi-link',
-          title: 'Conexões',
+          title: t('drawerNavigator.menu.conexoes'),
           value: 'conexoes',
           to: '/solicitacoesConexoes'
         },
         {
       icon: 'mdi mdi-human-handsup',
-      title: 'Biblioteca de Exercícios',
+      title: t('drawerNavigator.menu.bibliotecaExercicios'),
       value: 'bibliotecaExercicios',
       to: '/exercicios',
     },
   ]
-}
+}))
 
 function handleClickOutside(event: MouseEvent) {
   const drawer = document.querySelector('.clean-drawer')
@@ -589,7 +586,7 @@ function handleClickOutside(event: MouseEvent) {
 }
 
 function onClickMenu(menu: string) {
-  if (menu == 'Sair') {
+  if (menu == t('drawerNavigator.footer.sair')) {
     logout()
   }
 }
@@ -621,7 +618,7 @@ function retornarSiglaNome() {
 
 const menuFinal = computed(() => {
   const role = toRaw(payload.value)?.role
-  return menusPorPerfil[role] || []
+  return menusPorPerfil.value[role] || []
 })
 
 onMounted(() => {

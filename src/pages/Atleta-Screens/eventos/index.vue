@@ -5,20 +5,20 @@
                 <div class="header-icon-wrapper">
                     <v-icon size="40" color="white">mdi-calendar-star</v-icon>
                 </div>
-                <h1 class="header-title">Eventos</h1>
+                <h1 class="header-title">{{ t('eventos.title') }}</h1>
             </div>
 
             <v-row class="w-100 px-5 mt-6">
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
                     <div class="d-flex align-center mb-2">
                         <v-icon size="20" color="white" class="mr-2">mdi-text-search</v-icon>
-                        <span class="filter-title">Buscar por Título</span>
+                        <span class="filter-title">{{ t('eventos.searchTitle') }}</span>
                     </div>
                     <v-text-field
                         v-model="search"
                         prepend-inner-icon="mdi-magnify"
                         variant="solo"
-                        label="Título"
+                        :label="t('eventos.labelTitle')"
                         class="search-field"
                         rounded="lg"
                     />
@@ -26,13 +26,13 @@
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
                     <div class="d-flex align-center mb-2">
                         <v-icon size="20" color="white" class="mr-2">mdi-map-marker</v-icon>
-                        <span class="filter-title">Buscar por Localidade</span>
+                        <span class="filter-title">{{ t('eventos.searchLocation') }}</span>
                     </div>
                     <v-text-field
                         v-model="searchForLocalidade"
                         prepend-inner-icon="mdi-magnify"
                         variant="solo"
-                        label="Localidade"
+                        :label="t('eventos.labelLocation')"
                         class="search-field"
                         rounded="lg"
                     />
@@ -40,7 +40,7 @@
                 <v-col class="ma-0 pa-0 px-3" cols="12" md="4">
                     <div class="d-flex align-center mb-2">
                         <v-icon size="20" color="white" class="mr-2">mdi-calendar-month</v-icon>
-                        <span class="filter-title">Filtrar por Mês</span>
+                        <span class="filter-title">{{ t('eventos.filterMonth') }}</span>
                     </div>
                     <v-select
                         v-model="selectedMes"
@@ -48,7 +48,7 @@
                         item-title="nome"
                         item-value="valor"
                         variant="solo"
-                        label="Mês"
+                        :label="t('eventos.labelMonth')"
                         clearable
                         class="search-field"
                         rounded="lg"
@@ -68,8 +68,8 @@
                 <div class="empty-icon-wrapper">
                     <v-icon size="80" color="#90CAF9">mdi-calendar-remove</v-icon>
                 </div>
-                <h3 class="empty-title">Nenhum evento encontrado</h3>
-                <p class="empty-text">Não há eventos disponíveis no momento</p>
+                <h3 class="empty-title">{{ t('eventos.noEvents') }}</h3>
+                <p class="empty-text">{{ t('eventos.noEventsDescription') }}</p>
             </div>
 
             <v-row v-else>
@@ -81,7 +81,7 @@
                                     mdi-calendar-star
                                 </v-icon>
                                 <h3 class="text-h5 font-weight-bold event-title gradient-text">
-                                    {{ evento.titulo }}
+                                    {{ locale === 'en' && evento.en_titulo ? evento.en_titulo : evento.titulo }}
                                 </h3>
                             </div>
 
@@ -97,7 +97,7 @@
                                     <v-icon size="20" color="grey-darken-1" class="mr-2">
                                         mdi-calendar
                                     </v-icon>
-                                    <span class="text-body-1">{{ new Date(evento.data).toLocaleDateString('pt-BR') }}</span>
+                                    <span class="text-body-1">{{ new Date(evento.data).toLocaleDateString(locale === 'en' ? 'en-US' : 'pt-BR') }}</span>
                                 </div>
 
                                 <div class="d-flex align-center mb-4">
@@ -110,7 +110,7 @@
 
                             <v-btn @click="verDetalhes(evento.id)" variant="flat" rounded="lg" block class="mt-4 gradient-btn">
                                 <v-icon class="mr-2">mdi-eye</v-icon>
-                                Ver Detalhes
+                                {{ t('eventos.viewDetails') }}
                             </v-btn>
                         </v-card-text>
                     </v-card>
@@ -136,6 +136,9 @@
     import { onMounted, ref, watch, computed } from 'vue'
     import { useRouter } from 'vue-router'
     import eventoService from '@/services/eventos/eventos-service';
+    import { useI18n } from 'vue-i18n'
+
+    const { t, locale } = useI18n()
 
     const router = useRouter()
     const eventos = ref([])
@@ -144,20 +147,20 @@
     const searchForLocalidade = ref('')
     const selectedMes = ref('')
 
-    const meses = [
-        { nome: 'Janeiro', valor: '01' },
-        { nome: 'Fevereiro', valor: '02' },
-        { nome: 'Março', valor: '03' },
-        { nome: 'Abril', valor: '04' },
-        { nome: 'Maio', valor: '05' },
-        { nome: 'Junho', valor: '06' },
-        { nome: 'Julho', valor: '07' },
-        { nome: 'Agosto', valor: '08' },
-        { nome: 'Setembro', valor: '09' },
-        { nome: 'Outubro', valor: '10' },
-        { nome: 'Novembro', valor: '11' },
-        { nome: 'Dezembro', valor: '12' }
-    ]
+    const meses = computed(() => [
+        { nome: t('eventos.months.january'), valor: '01' },
+        { nome: t('eventos.months.february'), valor: '02' },
+        { nome: t('eventos.months.march'), valor: '03' },
+        { nome: t('eventos.months.april'), valor: '04' },
+        { nome: t('eventos.months.may'), valor: '05' },
+        { nome: t('eventos.months.june'), valor: '06' },
+        { nome: t('eventos.months.july'), valor: '07' },
+        { nome: t('eventos.months.august'), valor: '08' },
+        { nome: t('eventos.months.september'), valor: '09' },
+        { nome: t('eventos.months.october'), valor: '10' },
+        { nome: t('eventos.months.november'), valor: '11' },
+        { nome: t('eventos.months.december'), valor: '12' }
+    ])
     const page = ref(1)
     const pageSize = ref(9)
     const totalPages = ref(0)

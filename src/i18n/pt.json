@@ -1,4 +1,241 @@
 {
-    "hello": "Olá",
-    "welcome": "Bem-vindo"
+  "appBar": {
+    "titleEvents": "Eventos",
+    "titleConsultas": "Consultas",
+    "titleRegistersDocs": "Registros Médicos",
+    "titleSearchDoctor": "Buscar Médico",
+    "titleMyDoctors": "Meus Médicos",
+    "titleProfile": "Perfil",
+    "titleEditProfile": "Editar Perfil",
+    "titleDoctorDetails": "Detalhes do Médico",
+    "titlePhysioDetails": "Detalhes do Fisioterapeuta",
+    "titleCoachDetails": "Detalhes do Treinador",
+    "titleMyPlan": "Meu Plano",
+    "titleOverview": "Visão Geral",
+
+    "titleCalendar": "Calendário",
+    "titlePendingConsultations": "Consultas Pendentes",
+    "titlePatientList": "Lista de Pacientes",
+    "titleRecentPatients": "Pacientes Recentes",
+    "titlePatientDetails": "Detalhes do Paciente",
+    "titlePublicProfile": "Perfil Público",
+    "titleEditPublicProfile": "Editar Perfil Público",
+
+    "titleAthleteDetails": "Detalhes do Atleta",
+
+    "titleConnections": "Conexões",
+    "titleCertificates": "Certificados",
+    "titleNotifications": "Notificações",
+    "titleExerciseLibrary": "Biblioteca de Exercícios",
+    "titleSettings": "Configurações",
+    "titleSummary": "Resumo",
+    "titleAddConsultation": "Adicionar Consulta",
+    "titleAnalytics": "Análises",
+    "titleArticles": "Artigos",
+    "titleCreateTraining": "Criar Treino",
+    "titleCoupons": "Cupons",
+    "titleManageCodes": "Gerenciar Códigos",
+    "titleChangePassword": "Alterar Senha",
+    "titleUsers": "Usuários",
+    "titleValidateCertificate": "Validar Certificado",
+    "titleHelpCenter": "Central de Ajuda",
+    "titlePlans": "Planos",
+
+    "titleRegisterAthlete": "Cadastrar Atleta",
+    "titleRegisterDoctor": "Cadastrar Médico",
+    "titleRegisterPhysio": "Cadastrar Fisioterapeuta",
+    "titleRegisterCoach": "Cadastrar Treinador",
+    "titleRegisterAdmin": "Cadastrar Administrador",
+
+    "role": {
+      "atleta": "Atleta",
+      "medico": "Médico",
+      "fisioterapeuta": "Fisioterapeuta",
+      "treinador": "Treinador"
+    },
+
+    "actions": {
+      "profile": "Perfil",
+      "settings": "Configurações",
+      "logout": "Sair"
+    }
+  },
+
+  "trocarPerfil": {
+    "title": "Escolha seu Perfil",
+    "subtitle":  "Escolha o perfil que deseja acessar",
+    "waningSuccess": "Troca de perfil realizada com sucesso!",
+    "warningError": "Erro ao trocar de perfil",
+    "warning": "Você já está neste perfil",
+    "text": "Acessar como",
+    "roles": {
+      "atleta": "Atleta",
+      "medico": "Médico",
+      "fisioterapeuta": "Fisioterapeuta",
+      "treinador": "Treinador"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "trocarPerfil": "Trocar Perfil"
+    }
+  },
+
+  "drawerNavigator": {
+    "roles": {
+      "treinador": "Treinador",
+      "atleta": "Atleta",
+      "medico": "Médico",
+      "fisioterapeuta": "Fisioterapeuta"
+    },
+    "menu": {
+      "consultas": "Consultas",
+      "calendario": "Calendário",
+      "pendentes": "Pendentes",
+      "resumo": "Resumo",
+      "saude": "Saúde",
+      "eventos": "Eventos",
+      "conexoes": "Conexões",
+      "registrosMedicos": "Registros Médicos",
+      "certificados": "Certificados",
+      "notificacoes": "Notificações",
+      "notificacaoGeral": "Notificação Geral",
+      "medicos": "Médicos",
+      "buscarMedico": "Buscar Médico",
+      "meusMedicos": "Meus Medicos",
+      "bibliotecaExercicios": "Biblioteca de Exercícios",
+      "pacientes": "Pacientes",
+      "listaPacientes": "Lista de Pacientes",
+      "recentes": "Recentes"
+    },
+    "account": {
+      "minhaConta": "Minha conta",
+      "perfil": "Perfil",
+      "novoPerfil": "Novo Perfil",
+      "atleta": "Atleta",
+      "medico": "Médico",
+      "fisioterapeuta": "Fisioterapeuta",
+      "treinador": "Treinador"
+    },
+    "footer": {
+      "configuracoes": "Configurações",
+      "sair": "Sair"
+    }
+  },
+
+  "eventos": {
+    "title": "Eventos",
+    "searchTitle": "Buscar por Título",
+    "searchLocation": "Buscar por Localidade",
+    "filterMonth": "Filtrar por Mês",
+    "labelTitle": "Título",
+    "labelLocation": "Localidade",
+    "labelMonth": "Mês",
+    "noEvents": "Nenhum evento encontrado",
+    "noEventsDescription": "Não há eventos disponíveis no momento",
+    "viewDetails": "Ver Detalhes",
+    "months": {
+      "january": "Janeiro",
+      "february": "Fevereiro",
+      "march": "Março",
+      "april": "Abril",
+      "may": "Maio",
+      "june": "Junho",
+      "july": "Julho",
+      "august": "Agosto",
+      "september": "Setembro",
+      "october": "Outubro",
+      "november": "Novembro",
+      "december": "Dezembro"
+    },
+    "details": {
+      "loading": "Carregando evento...",
+      "sendCertificate": "Enviar Certificado",
+      "eventWebsite": "Site da Prova",
+      "eventDate": "Data do Evento",
+      "location": "Local",
+      "notInformed": "Não informado",
+      "modality": "Modalidade",
+      "distances": "Distâncias",
+      "aboutEvent": "Sobre o Evento",
+      "noDescription": "Descrição não disponível para este evento.",
+      "organization": "Organização",
+      "notFound": "Evento não encontrado",
+      "notFoundDescription": "O evento solicitado não existe ou foi removido",
+      "backToList": "Voltar para Lista",
+      "termsTitle": "Termo de Responsabilidade",
+      "sendTitle": "Envio de Certificado",
+      "almostThere": "Quase lá!",
+      "confirmMessage": "Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar sua participação.",
+      "cancel": "Cancelar",
+      "confirmSend": "Confirmar Envio"
+    }
+  },
+
+  "consultas": {
+    "title": "Minhas Consultas",
+    "filters": {
+      "all": "Todas as Consultas",
+      "scheduled": "Marcadas",
+      "completed": "Realizadas",
+      "pending": "Pendentes",
+      "refused": "Recusado",
+      "cancelled": "Cancelada"
+    },
+    "status": {
+      "Marcado": "Marcado",
+      "Pendente": "Pendente",
+      "Concluido": "Concluído",
+      "Recusado": "Recusado",
+      "Cancelada": "Cancelada"
+    },
+    "noConsultations": "Nenhuma consulta encontrada",
+    "cancelButton": "Cancelar",
+    "modal": {
+      "title": "Cancelar Consulta?",
+      "message": "Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.",
+      "cancel": "Cancelar",
+      "confirm": "Confirmar"
+    }
+  },
+  "login": {
+    "titleLeft": "Acesse sua conta",
+    "titleRight": "Bem-vindo de volta",
+    "subtitleRight": "Faça seu login para acessar sua conta e continuar sua jornada de saúde e performance.",
+    "email": "E-mail",
+    "emailPlaceholder": "exemplo@dominio.com",
+    "senha": "Senha",
+    "tipoPerfil": "Tipo de perfil",
+    "tipoPerfilPlaceholder": "Selecione o tipo de perfil",
+    "campoObrigatorio": "Campo obrigatório",
+    "manterLogin": "Manter-me conectado",
+    "esqueciSenha": "Esqueceu sua senha?",
+    "button": "Continuar",
+    "buttonEnter": "Entrar",
+    "text": "Não tem uma conta?",
+    "link": "Criar conta",
+    "toastError1": "Preencha o formulário corretamente",
+    "toastError2": "Credenciais inválidas",
+    "toastError3": "Erro ao fazer login",
+    "toastErrorAdmin": "Este painel é exclusivo para médicos e atletas",
+    "toastErrorMedicoCRM": "Médico aguardando validação do CRM",
+    "toastSuccess1": "Credenciais válidas! Selecione seu perfil.",
+    "forgotPassword": {
+      "title": "Recuperar Senha",
+      "subtitle": "Digite seu e-mail e nós enviaremos um link para redefinir sua senha.",
+      "button": "Enviar link de recuperação",
+      "toastEmailError1": "Email não encontrado no sistema",
+      "toastEmailError1_2": "Erro ao verificar email:",
+      "toastEmailError2_2": "Erro desconhecido", 
+      "toastEmailSuccess1": "Email encontrado! Clique em enviar para enviarmos o código de verificação.",
+      "toastSuccessCode": "Código enviado com sucesso!",
+      "toastErrorCode1_2": "Erro ao enviar código:",
+      "toastErrorCode2_2": "Erro desconhecido"
+    },
+    "roles": {
+      "atleta": "Atleta",
+      "medico": "Médico",
+      "fisioterapeuta": "Fisioterapeuta",
+      "treinador": "Treinador"
+    }
   }
+}
