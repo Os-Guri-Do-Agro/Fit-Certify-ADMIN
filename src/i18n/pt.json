@@ -1744,7 +1744,11 @@
       "item_05": "Descontos no Marketplace", 
       "item_06": "Acesso ao painel de saúde", 
       "item_07": "Monitoramento contínuo", 
-      "item_08": "integração com wearables" }
+      "item_08": "Integração com wearables",
+      "item_09": "Alertas inteligentes e histórico",
+      "item_10": "Integração com apps e dispositivos",
+      "item_11": "Acesso ao painel de saúde completo"
+     }
   },
     "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
     "section1": {

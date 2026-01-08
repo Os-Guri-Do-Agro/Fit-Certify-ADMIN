@@ -237,13 +237,16 @@ const planoStore = usePlanoStore()
 const getBeneficioKey = (descricao) => {
   const map = {
     'Conexão com provas parceiras': 'item_01',
-    'Emissão autmomática de modelo oficial': 'item_02',
+    'Emissão automática de modelo oficial': 'item_02',
     'Aplicação ilimitada em diferentes provas durante a validade': 'item_03',
     'Assinatura digital + QR Code': 'item_04',
     'Descontos no Marketplace': 'item_05',
     'Acesso ao painel de saúde': 'item_06',
     'Monitoramento contínuo': 'item_07',
-    'integração com wearables': 'item_08'
+    'Integração com wearables': 'item_08',
+    'Alertas inteligentes e histórico': 'item_09',
+    'Integração com apps e dispositivos': 'item_10',
+    'Acesso ao painel de saúde completo': 'item_11',
   }
   return map[descricao] || descricao
 }
