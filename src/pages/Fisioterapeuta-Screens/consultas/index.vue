@@ -3,7 +3,7 @@
     <v-row justify="center" class="text-center mb-8">
       <v-col cols="12">
         <h2 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1">
-          Minhas Consultas
+          {{ t('consultasFisioterapeuta.title') }}
         </h2>
       </v-col>
     </v-row>
@@ -34,7 +34,7 @@
                 <v-row align="center" no-gutters class="flex-grow-1">
                   <v-col class="d-flex flex-column justify-center">
                     <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                      {{ consulta?.atleta?.usuario?.nome || 'Paciente Externo' }}
+                      {{ consulta?.atleta?.usuario?.nome || t('consultasFisioterapeuta.externalPatient') }}
                     </div>
                     <div v-if="consulta?.atleta?.genero" class="text-body-2 text-grey-darken-1 mb-2">
                       {{ consulta?.atleta?.genero }}
@@ -53,14 +53,14 @@
 
                     <div class="d-flex align-center justify-space-between flex-wrap ga-2">
                       <v-chip :color="getStatusColor(consulta?.situacao)" size="small" variant="flat" class="font-weight-medium text-white cursor-pointer" @click="verInfoAtleta(consulta?.atletaId)">
-                        {{ consulta?.situacao }}
+                        {{ t(`agendaFisioterapeutica.status.${consulta?.situacao}`, consulta?.situacao) }}
                       </v-chip>
                       <div class="d-flex gap-2">
                         <v-btn v-if="podeFinalizarConsulta(consulta.situacao)" color="green" variant="outlined" size="small" rounded="xl" prepend-icon="mdi-check" @click="abrirModalFinalizar(consulta.id)">
-                          Finalizar
+                          {{ t('consultasFisioterapeuta.finalize') }}
                         </v-btn>
                         <v-btn v-if="consulta.situacao !== 'Concluido'" color="red" variant="outlined" size="small" rounded="xl" :loading="loadingCancelarIds.has(consulta.id)" prepend-icon="mdi-close" @click="abrirModalConfirmacao(consulta.id)" class="ml-1">
-                          Cancelar
+                          {{ t('consultasFisioterapeuta.cancel') }}
                         </v-btn>
                       </div>
                     </div>
@@ -72,7 +72,7 @@
 
           <div v-if="consultas.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
-            <p class="text-h6 mt-4 text-grey">Nenhuma consulta encontrada</p>
+            <p class="text-h6 mt-4 text-grey">{{ t('consultasFisioterapeuta.noAppointments') }}</p>
           </div>
         </div>
       </v-col>
@@ -86,16 +86,16 @@
               <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
             </v-avatar>
           </div>
-          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">Cancelar Consulta?</h3>
-          <p class="text-body-1 text-grey-darken-1 mb-6">Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.</p>
+          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">{{ t('consultasFisioterapeuta.cancelModal.title') }}</h3>
+          <p class="text-body-1 text-grey-darken-1 mb-6">{{ t('consultasFisioterapeuta.cancelModal.message') }}</p>
           <div class="d-flex gap-3 justify-center">
             <v-btn color="grey-lighten-1" variant="outlined" size="large" rounded="xl" min-width="120" @click="modalConfirmacao = false">
               <v-icon start>mdi-close</v-icon>
-              Cancelar
+              {{ t('consultasFisioterapeuta.cancelModal.cancel') }}
             </v-btn>
             <v-btn color="red" variant="flat" size="large" rounded="xl" min-width="120" @click="confirmarCancelamento">
               <v-icon start>mdi-check</v-icon>
-              Confirmar
+              {{ t('consultasFisioterapeuta.cancelModal.confirm') }}
             </v-btn>
           </div>
         </v-card-text>
@@ -104,17 +104,17 @@
 
     <v-dialog v-model="modalFinalizar" max-width="500" persistent>
       <v-card rounded="xl">
-        <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">Finalizar Consulta</v-card-title>
+        <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">{{ t('consultasFisioterapeuta.finalizeModal.title') }}</v-card-title>
         <v-card-text class="pa-6">
           <v-form ref="formFinalizar" v-model="formValid">
-            <v-textarea v-model="dadosFinalizacao.diagnostico" label="Diagnóstico" variant="outlined" rounded="lg" rows="3" :rules="[v => !!v || 'Diagnóstico é obrigatório']" placeholder="Descreva o diagnóstico..." class="mb-4" />
-            <v-textarea v-model="dadosFinalizacao.medicamentosReceitados" label="Medicamentos Receitados" variant="outlined" rounded="lg" rows="4" placeholder="Descreva os medicamentos receitados..." />
+            <v-textarea v-model="dadosFinalizacao.diagnostico" :label="t('consultasFisioterapeuta.finalizeModal.diagnosis')" variant="outlined" rounded="lg" rows="3" :rules="[v => !!v || t('consultasFisioterapeuta.finalizeModal.diagnosisRequired')]" :placeholder="t('consultasFisioterapeuta.finalizeModal.diagnosisPlaceholder')" class="mb-4" />
+            <v-textarea v-model="dadosFinalizacao.medicamentosReceitados" :label="t('consultasFisioterapeuta.finalizeModal.medications')" variant="outlined" rounded="lg" rows="4" :placeholder="t('consultasFisioterapeuta.finalizeModal.medicationsPlaceholder')" />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">
           <v-spacer />
-          <v-btn color="grey-lighten-1" variant="outlined" rounded="xl" @click="fecharModalFinalizar">Cancelar</v-btn>
-          <v-btn color="green" variant="flat" rounded="xl" :loading="loadingFinalizar" :disabled="!formValid" @click="confirmarFinalizacao">Finalizar</v-btn>
+          <v-btn color="grey-lighten-1" variant="outlined" rounded="xl" @click="fecharModalFinalizar">{{ t('consultasFisioterapeuta.finalizeModal.cancel') }}</v-btn>
+          <v-btn color="green" variant="flat" rounded="xl" :loading="loadingFinalizar" :disabled="!formValid" @click="confirmarFinalizacao">{{ t('consultasFisioterapeuta.finalizeModal.finalize') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -126,12 +126,18 @@ import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-ser
 import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
-import { ref, onMounted } from 'vue'
+import 'dayjs/locale/en'
+import { ref, onMounted, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import atletaService from '@/services/atleta/atleta-service'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 
-dayjs.locale('pt-br')
+const { t, locale } = useI18n()
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+})
 
 const loading = ref(true)
 const consultas = ref([])
@@ -219,9 +225,9 @@ const confirmarCancelamento = async () => {
   try {
     await fisioterapeutaService.aceitarOrRejeitarConsultaById(consultaId, { situacao: 'Cancelada' })
     await buscarConsultas()
-    toast.success('Consulta cancelada com sucesso!')
+    toast.success(t('consultasFisioterapeuta.toast.cancelSuccess'))
   } catch (error) {
-    toast.error('Erro ao cancelar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasFisioterapeuta.toast.cancelError') + ' ' + getErrorMessage(error, t('consultasFisioterapeuta.toast.unknownError')))
   } finally {
     loadingCancelarIds.value.delete(consultaId)
     consultaParaCancelar.value = null
@@ -246,16 +252,19 @@ const confirmarFinalizacao = async () => {
     const data = { situacao: 'Concluido', diagnostico: dadosFinalizacao.value.diagnostico, medicamentosReceitados: dadosFinalizacao.value.medicamentosReceitados }
     await fisioterapeutaService.aceitarOrRejeitarConsultaById(consultaParaFinalizar.value, data)
     await buscarConsultas()
-    toast.success('Consulta finalizada com sucesso!')
+    toast.success(t('consultasFisioterapeuta.toast.finalizeSuccess'))
     fecharModalFinalizar()
   } catch (error) {
-    toast.error('Erro ao finalizar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasFisioterapeuta.toast.finalizeError') + ' ' + getErrorMessage(error, t('consultasFisioterapeuta.toast.unknownError')))
   } finally {
     loadingFinalizar.value = false
   }
 }
 
-onMounted(() => buscarConsultas())
+onMounted(() => {
+  dayjs.locale(locale.value === 'pt' ? 'pt-br' : 'en')
+  buscarConsultas()
+})
 </script>
 
 <style scoped>

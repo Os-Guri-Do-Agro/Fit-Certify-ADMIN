@@ -5,14 +5,14 @@
         <VCol>
           <VChip color="white" variant="elevated" class="mb-3" size="small">
             <VIcon icon="mdi-ticket-percent" size="16" class="mr-1" />
-            Sistema de Cupons
+            {{ $t('cupons.couponSystem') }}
           </VChip>
 
           <h2 class="text-h4 font-weight-bold text-white mb-2">
-            Cupons de Desconto
+            {{ $t('cupons.discountCoupons') }}
           </h2>
           <p class="text-body-1 text-white mb-4 opacity-90">
-            Ofereça descontos exclusivos para seus pacientes
+            {{ $t('cupons.exclusiveDiscounts') }}
           </p>
 
           <VRow class="mt-4">
@@ -20,14 +20,14 @@
             <VCol cols="auto">
               <div class="text-center">
                 <div class="text-h5 font-weight-bold text-white">{{ cupomMetricas?.resumo?.totalUsos || '0' }}</div>
-                <div class="text-caption text-white opacity-80">UTILIZADOS</div>
+                <div class="text-caption text-white opacity-80">{{ $t('cupons.used') }}</div>
               </div>
             </VCol>
             <VDivider vertical class="mx-3 opacity-50" />
             <VCol cols="auto">
               <div class="text-center">
                 <div class="text-h5 font-weight-bold text-white">10%</div>
-                <div class="text-caption text-white opacity-80">DESCONTO</div>
+                <div class="text-caption text-white opacity-80">{{ $t('cupons.discount') }}</div>
               </div>
             </VCol>
           </VRow>
@@ -44,7 +44,7 @@
             :disabled="cupons.length > 0"
             prepend-icon="mdi-ticket"
           >
-            {{ cupons.length > 0 ? 'Cupom Criado' : 'Gerar Cupom' }}
+            {{ cupons.length > 0 ? $t('cupons.couponCreated') : $t('cupons.generateCoupon') }}
           </VBtn>
         </VCol>
       </VRow>
@@ -61,7 +61,7 @@
           <VCol v-if="dataLoading" cols="12">
             <VSkeletonLoader type="card" height="200" />
           </VCol>
-          
+
           <!-- Cupons -->
           <VCol v-else v-for="(cupom, index) in cupons" :key="index" cols="12">
             <div class="ticket-container">
@@ -82,7 +82,7 @@
                   <div class="text-body-2 text-grey-600 mb-3">{{ cupom.descricao }}</div>
 
                   <div class="coupon-code">
-                    <div class="text-caption text-grey-500 mb-1">Código do Cupom</div>
+                    <div class="text-caption text-grey-500 mb-1">{{ $t('cupons.couponCode') }}</div>
                     <div class="code-display">
                       <span class="font-weight-bold text-h6">{{ cupom.codigo }}</span>
                       <VBtn icon="mdi-content-copy" size="x-small" variant="text" @click.stop="copyCoupon(cupom.codigo)" />
@@ -95,11 +95,11 @@
                   <div class="d-flex align-center justify-space-between">
                     <div class="text-caption">
                       <VIcon icon="mdi-calendar" size="16" class="mr-1" />
-                      Válido até {{ formatDate(cupom.validade) }}
+                      {{ $t('cupons.validUntil') }} {{ formatDate(cupom.validade) }}
                     </div>
                     <div class="text-caption">
                       <VIcon icon="mdi-account-group" size="16" class="mr-1" />
-                      {{ cupom.quantidadeUtilizada }}/{{ cupom.limiteMaximoDeUso }} usos
+                      {{ cupom.quantidadeUtilizada }}/{{ cupom.limiteMaximoDeUso }} {{ $t('cupons.uses') }}
                     </div>
                   </div>
                 </div>
@@ -118,7 +118,7 @@
         <VCard class="earnings-card flex-grow-1" elevation="3">
           <VCardTitle class="d-flex align-center">
             <VIcon icon="mdi-cash" class="mr-2" color="blue-lighten-1" />
-            Saldo total
+            {{ $t('cupons.totalBalance') }}
           </VCardTitle>
           <VCardText class="d-flex flex-column justify-center flex-grow-1">
             <!-- Skeleton Loading -->
@@ -129,7 +129,7 @@
               </div>
               <VSkeletonLoader type="button" width="150" height="40" />
             </div>
-            
+
             <!-- Content -->
             <div v-else class="d-flex justify-space-between align-center">
               <div>
@@ -137,28 +137,28 @@
                   R$ {{ saldo?.saldoDisponivel || '0,00' }}
                 </div>
                 <div class="text-grey-600">
-                  Valor disponível para resgate
+                  {{ $t('cupons.availableForWithdrawal') }}
                 </div>
               </div>
-              <VBtn 
-                color="blue-lighten-1" 
-                size="large" 
+              <VBtn
+                color="blue-lighten-1"
+                size="large"
                 variant="elevated"
                 @click="solicitarResgate"
                 :disabled="(cupomMetricas?.resumo?.totalGanhos || 0) <= 10"
               >
                 <VIcon icon="mdi-bank-transfer" class="mr-2" />
-                Solicitar Resgate
+                {{ $t('cupons.requestWithdrawal') }}
               </VBtn>
             </div>
             <div class="mt-5 d-flex flex-column ga-2">
               <v-chip :color="temSolicitacaoPendente ? 'orange' : 'success'" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2" ></v-icon>
-                {{ temSolicitacaoPendente ? 'Você tem uma solicitação de resgate pendente, espera a conclusão antes de uma nova solicitação.' : 'Seu saldo está disponível para resgate, realize uma solicitação de resgate para retirá-lo' }}
+                {{ temSolicitacaoPendente ? $t('cupons.pendingWithdrawalInfo') : $t('cupons.balanceAvailableInfo') }}
               </v-chip>
               <v-chip color="blue-lighten-1" variant="tonal" style="max-width: 100%;">
                 <v-icon icon="mdi-information" class="mr-2"></v-icon>
-                Seu saldo será acumulado ao mês atual caso não seja resgatado.
+                {{ $t('cupons.accumulatedBalanceInfo') }}
               </v-chip>
             </div>
           </VCardText>
@@ -171,7 +171,7 @@
         <v-expansion-panel>
           <v-expansion-panel-title class="text-h6">
             <v-icon icon="mdi-history" color="blue-lighten-1"  class="mr-2"></v-icon>
-            Histórico
+            {{ $t('cupons.history') }}
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <!-- Skeleton Loading -->
@@ -180,7 +180,7 @@
               <VSkeletonLoader type="list-item-avatar-two-line" class="mb-2" />
               <VSkeletonLoader type="list-item-avatar-two-line" />
             </div>
-            
+
             <!-- Lista de Solicitações -->
             <v-expansion-panels v-else variant="accordion">
               <v-expansion-panel v-for="item in minhasSolicitacoes" :key="item.id">
@@ -191,39 +191,39 @@
                         <v-icon icon="mdi-bank-transfer" class="mr-2" size="38" :color="getStatusColor(item?.status)"></v-icon>
                       </div>
                       <div class="d-flex flex-column justify-center">
-                        <span class="font-weight-black tex-h6">Resgate - R$ {{ item?.valorTotal }}</span>
+                        <span class="font-weight-black tex-h6">{{ $t('cupons.withdrawal') }} - R$ {{ item?.valorTotal }}</span>
                         <span class="text-subtitle-2">{{ formatDate(item?.dataFechamento) }}</span>
                       </div>
                     </div>
                     <div class="d-flex align-center ga-2">
-                      <v-btn 
+                      <v-btn
                         v-if="item?.status === 'PENDENTE'"
-                        color="error" 
-                        variant="text" 
+                        color="error"
+                        variant="text"
                         size="small"
                         icon="mdi-cancel"
                         @click.stop="abrirModalCancelamento(item)"
                       ></v-btn>
-                      <v-chip :color="getStatusColor(item?.status)" size="small">{{ item?.status }}</v-chip>
+                      <v-chip :color="getStatusColor(item?.status)" size="small">{{ $t(`cupons.statusTypes.${item?.status}`) }}</v-chip>
                     </div>
                   </div>
                 </v-expansion-panel-title>
                 <v-expansion-panel-text>
                   <div class="pa-2">
-                    <p><strong>Data:</strong> {{ formatDate(item?.dataFechamento) }}</p>
-                    <p><strong>Valor:</strong> R$ {{ item?.valorTotal }}</p>
-                    <p><strong>Status:</strong> {{ item?.status }}</p>
-                    <p><strong>PIX:</strong> {{ item?.chavePix }}</p>
-                    <v-btn 
+                    <p><strong>{{ $t('cupons.date') }}:</strong> {{ formatDate(item?.dataFechamento) }}</p>
+                    <p><strong>{{ $t('cupons.value') }}:</strong> R$ {{ item?.valorTotal }}</p>
+                    <p><strong>{{ $t('cupons.status') }}:</strong> {{ $t(`cupons.statusTypes.${item?.status}`) }}</p>
+                    <p><strong>{{ $t('cupons.pix') }}:</strong> {{ item?.chavePix }}</p>
+                    <v-btn
                       v-if="item?.status === 'PENDENTE'"
-                      color="error" 
-                      variant="outlined" 
-                      size="small" 
+                      color="error"
+                      variant="outlined"
+                      size="small"
                       class="mt-3"
                       prepend-icon="mdi-cancel"
                       @click="abrirModalCancelamento(item)"
                     >
-                      Cancelar Solicitação
+                      {{ $t('cupons.cancelRequest') }}
                     </v-btn>
                   </div>
                 </v-expansion-panel-text>
@@ -231,7 +231,7 @@
             </v-expansion-panels>
           </v-expansion-panel-text>
         </v-expansion-panel>
-      </v-expansion-panels> 
+      </v-expansion-panels>
     </v-card>
 
     <!-- Informações Importantes -->
@@ -241,31 +241,31 @@
           <VCol>
             <div class="d-flex align-center mb-3">
               <VIcon icon="mdi-information" size="24" class="mr-3" color="info" />
-              <div class="text-h6 font-weight-bold">Informações Importantes</div>
+              <div class="text-h6 font-weight-bold">{{ $t('cupons.importantInfo') }}</div>
             </div>
             <ul class="text-body-2 mb-3 mx-5">
               <li>
-                <strong>Saldo acumulado:</strong> Seus ganhos se acumulam automáticamente.
+                <strong>{{ $t('cupons.accumulatedBalance') }}:</strong> {{ $t('cupons.accumulatedBalanceDesc') }}
               </li>
               <li>
-                <strong>Aprovação:</strong> Cada solicitação entra em análise e é paga em até 30 dias úteis.
+                <strong>{{ $t('cupons.approval') }}:</strong> {{ $t('cupons.approvalDesc') }}
               </li>
               <li>
-                <strong>Nova solicitação:</strong> Só é possível após a aprovação da anterior.
+                <strong>{{ $t('cupons.newRequest') }}:</strong> {{ $t('cupons.newRequestDesc') }}
               </li>
               <li>
-                <strong>Valor mínimo: </strong> R$ 10,00 para solicitar resgate.
+                <strong>{{ $t('cupons.minimumValue') }}: </strong> {{ $t('cupons.minimumValueDesc') }}
               </li>
             </ul>
           </VCol>
           <VCol cols="auto">
-            <VBtn 
-              color="info" 
-              variant="outlined" 
+            <VBtn
+              color="info"
+              variant="outlined"
               @click="navigateToInfo"
               prepend-icon="mdi-arrow-right"
             >
-              Ver Mais
+              {{ $t('cupons.seeMore') }}
             </VBtn>
           </VCol>
         </VRow>
@@ -278,10 +278,10 @@
           <VCol>
             <div class="d-flex align-center mb-3">
               <VIcon icon="mdi-heart" size="24" class="mr-3" color="sucess" />
-              <div class="text-h6 font-weight-bold">Informações Importantes</div>
+              <div class="text-h6 font-weight-bold">{{ $t('cupons.importantInfo') }}</div>
             </div>
             <div class="text-body-2 mb-3 mx-5">
-              <span><strong>Como funciona: </strong>Seu saldo cresce automáticamente com novos ganhos. Você pode solicitar resgate quando atingir o valor mínimo - o valor será o disponível no momento da solicitação. Após a aprovação, poderá realizar uma nova solicitação com os ganhos acumulados. Obrigado pela confiança!</span>
+              <span><strong>{{ $t('cupons.howItWorks') }}: </strong>{{ $t('cupons.howItWorksDesc') }}</span>
             </div>
           </VCol>
         </VRow>
@@ -294,33 +294,33 @@
         <div class="mb-6">
           <VIcon icon="mdi-ticket-confirmation" size="80" color="primary" class="mb-4" />
           <h2 class="text-h5 font-weight-bold mb-2">
-            {{ cupons?.length > 0 ? 'Cupom Já Criado!' : 'Gerar Cupom de Desconto' }}
+            {{ cupons?.length > 0 ? $t('cupons.couponAlreadyCreated') : $t('cupons.generateDiscountCoupon') }}
           </h2>
           <p class="text-body-1 text-grey-600">
             {{ cupons?.length > 0
-              ? 'Você já possui um cupom ativo. Apenas 1 cupom por médico é permitido.'
-              : 'Será gerado automaticamente um cupom de 10% de desconto válido até 31/12/2026.'
+              ? $t('cupons.oneCouponPerDoctor')
+              : $t('cupons.autoGeneratedCoupon')
             }}
           </p>
         </div>
 
         <VAlert v-if="cupons?.length === 0" type="info" class="mb-6 text-left">
-          <strong>Detalhes do cupom:</strong><br>
-          • Desconto: 10%<br>
-          • Limite: 10 usos<br>
-          • Validade: 31/12/2026
+          <strong>{{ $t('cupons.couponDetails') }}</strong><br>
+          • {{ $t('cupons.discountLabel') }}: 10%<br>
+          • {{ $t('cupons.limit') }}: 10 {{ $t('cupons.uses') }}<br>
+          • {{ $t('cupons.validity') }}: 31/12/2026
         </VAlert>
 
         <VAlert v-else type="warning" class="mb-6">
-          Para criar um novo cupom, entre em contato com o suporte.
+          {{ $t('cupons.contactSupport') }}
         </VAlert>
 
         <div class="d-flex gap-3 justify-space-between">
           <VBtn variant="outlined" @click="showCreateDialog = false">
-            Cancelar
+            {{ $t('cupons.cancel') }}
           </VBtn>
           <VBtn color="primary" @click="createCupom" :loading="creating" :disabled="cupons?.length > 0" size="large">
-            {{ cupons?.length > 0 ? 'Cupom Já Existe' : 'Gerar Cupom' }}
+            {{ cupons?.length > 0 ? $t('cupons.couponAlreadyExists') : $t('cupons.generateCoupon') }}
           </VBtn>
         </div>
       </VCard>
@@ -334,9 +334,9 @@
         <VCardTitle class="text-center pa-6 bg-blue-lighten-1 text-white">
           <VIcon icon="mdi-bank-transfer" size="64" color="white" class="mb-4" />
           <h2 class="text-h4 font-weight-bold mb-2">
-            Solicitar Resgate
+            {{ $t('cupons.requestWithdrawalTitle') }}
           </h2>
-          <p class="text-body-1">Transfira seu saldo para sua conta PIX</p>
+          <p class="text-body-1">{{ $t('cupons.transferToPixAccount') }}</p>
         </VCardTitle>
 
         <VCardText class="pa-6">
@@ -346,46 +346,46 @@
                 <VCardText class="text-center pa-6">
                   <VIcon icon="mdi-wallet" size="32" :color="temSolicitacaoPendente ? 'grey' : 'blue-lighten-1'" class="mb-3" />
                   <div class="text-h3 font-weight-bold mb-3" :class="temSolicitacaoPendente ? 'text-grey-500' : 'text-blue-lighten-1'">
-                     R$ {{ temSolicitacaoPendente ? saldoFormatado : saldo?.saldoDisponivel }} 
+                     R$ {{ temSolicitacaoPendente ? saldoFormatado : saldo?.saldoDisponivel }}
                   </div>
                   <div class="text-body-1 font-weight-medium" :class="temSolicitacaoPendente ? 'text-orange-darken-1' : 'text-blue-lighten-1'">
-                    {{ temSolicitacaoPendente ? 'Existe uma solicitação de resgate pendente' : 'Saldo Total Disponível' }}
+                    {{ temSolicitacaoPendente ? $t('cupons.pendingWithdrawalRequest') : $t('cupons.totalAvailableBalance') }}
                   </div>
                 </VCardText>
               </VCard>
             </VCol>
-            
+
             <VCol cols="12" v-if="temSolicitacaoPendente">
               <VCard variant="outlined" color="orange" class="mb-6 bg-orange-lighten-5" elevation="2">
                 <VCardText class="pa-4">
                   <div class="d-flex align-center mb-3">
                     <VIcon icon="mdi-clock-outline" color="orange-darken-2" size="20" class="mr-2" />
-                    <div class="text-subtitle-1 font-weight-bold text-orange-darken-2">Resgate Pendente</div>
+                    <div class="text-subtitle-1 font-weight-bold text-orange-darken-2">{{ $t('cupons.pendingWithdrawal') }}</div>
                   </div>
-                  <div class="text-body-2 mb-2"><strong>Chave PIX:</strong> {{ minhasSolicitacoes[0].chavePix }}</div>
-                  <div class="text-body-2 mb-2"><strong>Valor:</strong> R$ {{ minhasSolicitacoes[0].valorTotal?.toFixed(2).replace('.', ',') }}</div>
-                  <div class="text-body-2"><strong>Status:</strong> 
-                    <VChip size="small" color="orange" variant="tonal" class="ml-2">{{ minhasSolicitacoes[0].status }}</VChip>
+                  <div class="text-body-2 mb-2"><strong>{{ $t('cupons.pixKey') }}:</strong> {{ minhasSolicitacoes[0].chavePix }}</div>
+                  <div class="text-body-2 mb-2"><strong>{{ $t('cupons.value') }}:</strong> R$ {{ minhasSolicitacoes[0].valorTotal?.toFixed(2).replace('.', ',') }}</div>
+                  <div class="text-body-2"><strong>{{ $t('cupons.status') }}:</strong>
+                    <VChip size="small" color="orange" variant="tonal" class="ml-2">{{ $t(`cupons.statusTypes.${minhasSolicitacoes[0].status}`) }}</VChip>
                   </div>
                 </VCardText>
               </VCard>
             </VCol>
-            
+
             <VCol cols="12">
               <div class="mb-6">
-                <div class="text-h6 font-weight-bold mb-2">Dados para Transferência</div>
+                <div class="text-h6 font-weight-bold mb-2">{{ $t('cupons.transferData') }}</div>
                 <div class="text-caption text-grey-600 mb-4">
-                  CPF/CNPJ, celular ou e-mail
+                  {{ $t('cupons.transferDataDesc') }}
                 </div>
                 <VTextField
                   v-model="chavePixDigitada"
-                  label="Chave PIX"
-                  placeholder="Digite sua chave PIX"
+                  :label="$t('cupons.pixKey')"
+                  :placeholder="$t('cupons.enterPixKey')"
                   variant="outlined"
                   prepend-inner-icon="mdi-key"
                   :rules="[
-                    v => !!v || 'Chave PIX é obrigatória',
-                    v => validarChavePix(v) || 'Chave PIX inválida'
+                    v => !!v || $t('cupons.pixKeyRequired'),
+                    v => validarChavePix(v) || $t('cupons.invalidPixKey')
                   ]"
                   required
                   @input="chavePixDigitada = aplicarMascara($event.target.value)"
@@ -400,34 +400,34 @@
               <VIcon icon="mdi-information" />
             </template>
             <div class="text-body-2">
-              <strong>Informações importantes:</strong><br>
-              • O valor será transferido em até 30 dias úteis<br>
-              • Valor mínimo para resgate: R$ 10,00<br>
-              • Verifique se a chave PIX está correta antes de confirmar
+              <strong>{{ $t('cupons.importantInfoTitle') }}</strong><br>
+              • {{ $t('cupons.transferTime') }}<br>
+              • {{ $t('cupons.minimumWithdrawal') }}<br>
+              • {{ $t('cupons.verifyPixKey') }}
             </div>
           </VAlert>
         </VCardText>
 
         <VCardActions class="d-flex flex-column-reverse pa-6">
-          <VBtn 
-            variant="outlined" 
-            size="large" 
-            class="w-100" 
-            @click="showResgateDialog = false" 
+          <VBtn
+            variant="outlined"
+            size="large"
+            class="w-100"
+            @click="showResgateDialog = false"
             :disabled="processandoResgate"
           >
-            Cancelar
+            {{ $t('cupons.cancel') }}
           </VBtn>
-          <VBtn 
+          <VBtn
             color="white"
             size="large"
             class="w-100 mb-3 bg-blue-lighten-1 text-white"
-            @click="resgatarSaldo" 
-            :loading="processandoResgate" 
+            @click="resgatarSaldo"
+            :loading="processandoResgate"
             :disabled="!chavePixDigitada || !validarChavePix(chavePixDigitada) || temSolicitacaoPendente || saldo?.saldoDisponivel == 0"
           >
             <VIcon icon="mdi-send" color="white" class="mr-2" />
-            Confirmar Resgate
+            {{ $t('cupons.confirmWithdrawal') }}
           </VBtn>
         </VCardActions>
       </VCard>
@@ -439,16 +439,16 @@
         <div class="d-flex justify-center mb-4">
           <VIcon icon="mdi-alert-circle" size="64" color="error" />
         </div>
-        <h2 class="text-h5 font-weight-bold mb-2">Cancelar Solicitação</h2>
+        <h2 class="text-h5 font-weight-bold mb-2">{{ $t('cupons.cancelRequestTitle') }}</h2>
         <p class="text-body-1 text-grey-600 mb-4">
-          Tem certeza que deseja cancelar esta solicitação de resgate?
+          {{ $t('cupons.cancelRequestMessage') }}
         </p>
         <div class="d-flex gap-3 justify-space-between">
           <VBtn variant="outlined" @click="showCancelDialog = false" :disabled="cancelandoSolicitacao">
-            Não
+            {{ $t('cupons.no') }}
           </VBtn>
           <VBtn color="error" @click="confirmarCancelamento" :loading="cancelandoSolicitacao">
-            Sim, Cancelar
+            {{ $t('cupons.yesCancelRequest') }}
           </VBtn>
         </div>
       </VCard>
@@ -461,10 +461,12 @@ import dayjs from 'dayjs';
 import { ref, computed, onMounted, watch, watchEffect } from 'vue';
 import { toast } from 'vue3-toastify';
 import { useRouter } from 'vue-router';
-import { getUserID } from '@/utils/auth'
+import { getUserID } from '@/utils/auth';
 import cupomService from '@/services/cupom/cupom-service';
 import { getErrorMessage } from '@/common/error.utils';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n()
 const router = useRouter();
 
 const showCreateDialog = ref(false);
@@ -488,7 +490,7 @@ const minhasSolicitacoes = ref()
 const saldoBruto = computed(() => saldo.value?.totalAcumulado || 0)
 const saldoPendendete = computed(() => minhasSolicitacoes.value?.[0]?.valorTotal || 0)
 const saldoAtual = computed(() => saldoBruto.value - saldoPendendete.value)
-const temSolicitacaoPendente = computed(() => 
+const temSolicitacaoPendente = computed(() =>
   minhasSolicitacoes.value?.some(solicitacao => solicitacao.status === 'PENDENTE') || false
 )
 
@@ -529,7 +531,7 @@ const verMinhasSolicitacoes = async () => {
   solicitacoesLoading.value = true
   try {
     const response = await cupomService.getSolicitacoesResgate()
-    minhasSolicitacoes.value = response.data 
+    minhasSolicitacoes.value = response.data
   } catch (error) {
     console.error('Erro ao buscar métricas do cupom:', error)
   } finally {
@@ -545,13 +547,13 @@ const resgatarSaldo = async () => {
     const valorCalculado = temSolicitacaoPendente.value ? saldoDisponivel - saldoPendendete.value : saldoDisponivel
     const valorSolicitado = Math.round(valorCalculado * 100) / 100
     await cupomService.postResgate(chavePix, valorSolicitado)
-    toast.success('Solicitação de resgate enviada com sucesso!')
+    toast.success(t('cupons.withdrawalRequestSuccess'))
     showResgateDialog.value = false
     chavePixDigitada.value = ''
     await verMinhasSolicitacoes()
   } catch (error) {
     console.error('Erro ao resgatar saldo:', error)
-    toast.error('Erro ao processar resgate: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('cupons.withdrawalProcessError') + ': ' + getErrorMessage(error, t('cupons.unknownError')))
   } finally {
     processandoResgate.value = false
   }
@@ -560,7 +562,7 @@ const resgatarSaldo = async () => {
 const saldoDisponivel = async () => {
   try {
     const response = await cupomService.getSaldo()
-    saldo.value = response.data 
+    saldo.value = response.data
   } catch (error) {
     console.error('Erro ao buscar métricas do cupom:', error)
   }
@@ -621,17 +623,17 @@ const monthOptions = [
 
 const aplicarMascara = (valor) => {
   const numeros = valor.replace(/\D/g, '');
-  
+
   // Se contém @ é email
   if (valor.includes('@')) {
     return valor;
   }
-  
+
   // Se tem 14 dígitos é CNPJ
   if (numeros.length === 14) {
     return numeros.replace(/(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, '$1.$2.$3/$4-$5');
   }
-  
+
   // Se tem 11 dígitos, verifica se é celular (começa com 1) ou CPF
   if (numeros.length === 11) {
     // Se começa com 1 é celular: (11) 91907-2667
@@ -641,41 +643,41 @@ const aplicarMascara = (valor) => {
     // Senão é CPF: 000.000.000-00
     return numeros.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
   }
-  
+
   // Se tem 10 dígitos é celular fixo: (11) 9190-7266
   if (numeros.length === 10) {
     return numeros.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
   }
-  
+
   return valor;
 };
 
 const validarChavePix = (chave) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const chaveAleatoria = /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/i;
-  
+
   const numeros = chave.replace(/\D/g, '');
 
   // Email
   if (chave.includes('@')) {
     return emailRegex.test(chave);
   }
-  
+
   // Chave aleatória
   if (chaveAleatoria.test(chave)) {
     return true;
   }
-  
+
   // CPF (11 dígitos)
   if (numeros.length === 11) {
     return true;
   }
-  
+
   // CNPJ (14 dígitos)
   if (numeros.length === 14) {
     return true;
   }
-  
+
   // Telefone (10 ou 11 dígitos)
   if (numeros.length === 10) {
     return true;
@@ -686,16 +688,16 @@ const validarChavePix = (chave) => {
 
 const createCupom = async () => {
   if (cupons.value?.length > 0) {
-    toast.error('Você já possui um cupom ativo!')
+    toast.error(t('cupons.couponAlreadyActive'))
     return
   }
   loading.value = true
   try {
     await cupomService.createCupomByMedico(newCupom)
     await getMyCupom()
-    toast.success('Cupom criado com sucesso!')
+    toast.success(t('cupons.couponCreatedSuccess'))
   } catch (error) {
-    toast.error('Erro ao gerar cupom: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('cupons.couponCreateError') + ': ' + getErrorMessage(error, t('cupons.unknownError')))
   } finally {
     loading.value = false
     showCreateDialog.value = false
@@ -733,9 +735,9 @@ const formatDate = (date) => {
 const copyCoupon = async (codigo) => {
   try {
     await navigator.clipboard.writeText(codigo);
-    toast.success('Código copiado!');
+    toast.success(t('cupons.codeCopied'));
   } catch (err) {
-    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'));
+    toast.error(t('cupons.copyCodeError') + ': ' + getErrorMessage(err, t('cupons.unknownError')));
   }
 };
 
@@ -768,7 +770,7 @@ const confirmarResgate = async () => {
 const getStatusColor = (status) => {
   const colors = {
     'APROVADO': '#28a745',
-    'REJEITADO': '#dc3545', 
+    'REJEITADO': '#dc3545',
     'PENDENTE': '#ffc107',
     'CANCELADO': '#6c757d'
   }
@@ -784,11 +786,11 @@ const cancelarSolicitacao = async (id) => {
   cancelandoSolicitacao.value = true
   try {
     await cupomService.cancelarSolicitacao(id);
-    toast.success('Solicitação cancelada com sucesso!');
+    toast.success(t('cupons.requestCancelledSuccess'));
     await verMinhasSolicitacoes();
     await buscarMetricasFinanceiras();
   } catch (error) {
-    toast.error('Não foi possível cancelar a solicitação: ' + getErrorMessage(error, 'Erro desconhecido'));
+    toast.error(t('cupons.requestCancelError') + ': ' + getErrorMessage(error, t('cupons.unknownError')));
     console.error(error);
   } finally {
     cancelandoSolicitacao.value = false

@@ -5,19 +5,19 @@
         <div class="header-icon-wrapper">
           <v-icon size="40" color="white">mdi-doctor</v-icon>
         </div>
-        <h1 class="header-title">Meus Médicos</h1>
-        <p class="header-subtitle">Agende uma nova consulta com seus médicos parceiros de confiança</p>
+        <h1 class="header-title">{{ $t('meusMedicos.title') }}</h1>
+        <p class="header-subtitle">{{ $t('meusMedicos.subtitle') }}</p>
       </div>
     </div>
 
     <v-row justify="center" class="mb-10 mt-8">
       <v-btn-toggle v-model="filtro" rounded="pill" group mandatory class="filter-toggle">
         <v-btn value="lista" variant="flat" class="px-8 text-body-1 font-weight-medium filter-btn" :class="{ 'active-filter': filtro === 'lista' }">
-          Meus Médicos
+          {{ $t('meusMedicos.myDoctors') }}
         </v-btn>
         <v-btn value="meu" variant="outlined" class="px-8 text-body-1 font-weight-medium filter-btn"
           @click="router.push('/Atleta-Screens/medicos')">
-          Buscar novos médicos
+          {{ $t('meusMedicos.searchNewDoctors') }}
         </v-btn>
       </v-btn-toggle>
     </v-row>
@@ -63,7 +63,7 @@
                   <v-col cols="auto">
                     <v-btn variant="flat" class="px-8 text-body-2 gradient-btn" rounded
                       @click="detalhesMedico(medico.id)">
-                      Mais Detalhes
+                      {{ $t('meusMedicos.moreDetails') }}
                     </v-btn>
                   </v-col>
                 </v-row>

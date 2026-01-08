@@ -45,7 +45,7 @@
         <div class="position-relative ma-5">
           <div class="rating-chips">
             <v-chip class="rating-chip" prepend-icon="mdi-star">0</v-chip>
-            <v-chip class="rating-chip" prepend-icon="mdi-comment">0 avaliações</v-chip>
+            <v-chip class="rating-chip" prepend-icon="mdi-comment">0 {{ $t('treinadorDetalhes.reviews') }}</v-chip>
           </div>
 
           <v-row align="center" justify="center" class="min-height-400">
@@ -62,14 +62,14 @@
                 </v-avatar>
               </div>
               <h1 class="doctor-name">{{ treinador.usuario?.nome }}</h1>
-              <p class="doctor-specialty">Treinador</p>
+              <p class="doctor-specialty">{{ $t('treinadorDetalhes.coach') }}</p>
               
               <div class="info-chips d-flex justify-center ga-3 flex-wrap mt-4">
                 <v-chip v-if="idade" class="info-chip" prepend-icon="mdi-calendar">
-                  {{ idade }} anos
+                  {{ idade }} {{ $t('treinadorDetalhes.years') }}
                 </v-chip>
                 <v-chip v-if="treinador.codigoConvite" class="info-chip" prepend-icon="mdi-ticket-confirmation">
-                  Código: {{ treinador.codigoConvite }}
+                  {{ $t('treinadorDetalhes.code') }}: {{ treinador.codigoConvite }}
                 </v-chip>
               </div>
             </v-col>
@@ -86,7 +86,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-4">
                       <v-icon color="#00c6fe" size="32" class="mr-3">mdi-card-account-details</v-icon>
-                      <h4 class="text-h5 font-weight-bold">Contatos</h4>
+                      <h4 class="text-h5 font-weight-bold">{{ $t('treinadorDetalhes.contacts') }}</h4>
                     </div>
                     <div v-if="treinador.telefone" class="d-flex align-center mb-4">
                       <v-icon color="#666" size="28" class="mr-4">mdi-phone</v-icon>
@@ -109,8 +109,8 @@
     <v-container v-else>
       <v-card class="text-center py-16 mt-8" elevation="4" rounded="xl">
         <v-icon size="80" color="#ff5252" class="mb-4">mdi-alert-circle</v-icon>
-        <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">Treinador não encontrado</h3>
-        <p class="text-h6 text-grey-darken-1 mb-8">O treinador solicitado não existe ou foi removido</p>
+        <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('treinadorDetalhes.notFound') }}</h3>
+        <p class="text-h6 text-grey-darken-1 mb-8">{{ $t('treinadorDetalhes.notFoundDescription') }}</p>
         <v-btn
           color="#00c6fe"
           rounded="xl"
@@ -120,7 +120,7 @@
           class="text-white px-8"
         >
           <v-icon class="mr-2">mdi-arrow-left</v-icon>
-          Voltar
+          {{ $t('treinadorDetalhes.back') }}
         </v-btn>
       </v-card>
     </v-container>

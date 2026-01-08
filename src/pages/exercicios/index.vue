@@ -14,9 +14,9 @@
         </v-btn>
         <div>
           <h1 class="text-h4 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-            Biblioteca de Exercícios
+            {{ t('exercicios.title') }}
           </h1>
-          <p class="text-body-2 text-grey mt-1">Gerencie e visualize todos os exercícios</p>
+          <p class="text-body-2 text-grey mt-1">{{ t('exercicios.subtitle') }}</p>
         </div>
       </div>
       <v-btn
@@ -29,7 +29,7 @@
         class="text-white px-6"
         style="font-weight: 600; text-transform: none; letter-spacing: 0;"
       >
-        Adicionar Exercício
+        {{ t('exercicios.addExercise') }}
       </v-btn>
     </div>
 
@@ -38,7 +38,7 @@
       <v-card-text class="pa-4">
         <v-text-field
           v-model="busca"
-          placeholder="Buscar exercício por nome ou descrição..."
+          :placeholder="t('exercicios.searchPlaceholder')"
           variant="outlined"
           density="comfortable"
           hide-details
@@ -57,7 +57,7 @@
     <!-- Loading -->
     <div v-if="loading" class="text-center py-16">
       <v-progress-circular indeterminate color="#1E88E5" size="64" width="6" />
-      <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">Carregando exercícios...</p>
+      <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">{{ t('exercicios.loading') }}</p>
     </div>
 
     <!-- Empty State -->
@@ -71,8 +71,8 @@
       <div class="empty-icon-container mx-auto mb-6">
         <v-icon size="64" color="#1E88E5">mdi-book-open-variant</v-icon>
       </div>
-      <h3 class="text-h5 font-weight-bold mb-3" style="color: #2c3e50;">Nenhum exercício encontrado</h3>
-      <p class="text-body-1 text-grey-darken-1">Ajuste sua busca ou navegue pelas páginas</p>
+      <h3 class="text-h5 font-weight-bold mb-3" style="color: #2c3e50;">{{ t('exercicios.noExercises') }}</h3>
+      <p class="text-body-1 text-grey-darken-1">{{ t('exercicios.noExercisesDescription') }}</p>
     </v-card>
 
     <!-- Lista de Exercícios -->
@@ -87,7 +87,7 @@
             </div>
             <h3 class="text-h6 font-weight-bold mb-2" style="color: #2c3e50;">{{ exercicio.nome }}</h3>
             <p class="text-body-2 text-grey-darken-1 line-clamp-2" style="line-height: 1.6;">
-              {{ exercicio.descricao || 'Sem descrição' }}
+              {{ exercicio.descricao || t('exercicios.noDescription') }}
             </p>
           </v-card-text>
         </v-card>
@@ -109,7 +109,7 @@
       </v-btn>
       <v-card elevation="0" rounded="xl" class="px-6 py-3">
         <span class="text-body-1 font-weight-medium" style="color: #2c3e50;">
-          Página {{ page }} de {{ totalPages }}
+          {{ t('exercicios.page') }} {{ page }} {{ t('exercicios.of') }} {{ totalPages }}
         </span>
       </v-card>
       <v-btn
@@ -132,7 +132,7 @@
           class="text-white d-flex justify-space-between align-center pa-6"
           style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
-          <span class="text-h5 font-weight-bold">Criar Exercício</span>
+          <span class="text-h5 font-weight-bold">{{ t('exercicios.createModal.title') }}</span>
           <v-btn
             icon
             variant="text"
@@ -147,7 +147,7 @@
             <v-card-text class="pa-4">
               <v-text-field
                 v-model="nome"
-                placeholder="Nome do exercício"
+                :placeholder="t('exercicios.createModal.namePlaceholder')"
                 variant="outlined"
                 density="comfortable"
                 rounded="lg"
@@ -166,7 +166,7 @@
             <v-card-text class="pa-4">
               <v-text-field
                 :model-value="tipoTreinoSelecionado?.nome || ''"
-                placeholder="Selecione o tipo de treino"
+                :placeholder="t('exercicios.createModal.selectTrainingType')"
                 variant="outlined"
                 density="comfortable"
                 rounded="lg"
@@ -190,7 +190,7 @@
           <v-card class="mb-4" elevation="0" rounded="xl">
             <v-card-text class="pa-4">
               <label class="text-body-2 font-weight-medium mb-3 d-block" style="color: #2c3e50;">
-                Descrição (opcional)
+                {{ t('exercicios.createModal.descriptionLabel') }}
               </label>
               <v-textarea
                 v-model="descricao"
@@ -198,7 +198,7 @@
                 rounded="lg"
                 rows="6"
                 :disabled="loadingSalvar"
-                placeholder="Digite uma descrição para o exercício..."
+                :placeholder="t('exercicios.createModal.descriptionPlaceholder')"
                 hide-details
                 bg-color="white"
               />
@@ -220,7 +220,7 @@
           >
             <v-icon v-if="!loadingSalvar" left>mdi-check-circle</v-icon>
             <v-progress-circular v-else indeterminate size="24" width="3" color="white" />
-            <span class="ml-2">{{ loadingSalvar ? 'Salvando...' : 'Salvar Exercício' }}</span>
+            <span class="ml-2">{{ loadingSalvar ? t('exercicios.createModal.saving') : t('exercicios.createModal.save') }}</span>
           </v-btn>
         </v-card-text>
       </v-card>
@@ -233,7 +233,7 @@
           class="text-white pa-6"
           style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
-          <span class="text-h6 font-weight-bold">Selecione o Tipo de Treino</span>
+          <span class="text-h6 font-weight-bold">{{ t('exercicios.trainingTypeModal.title') }}</span>
         </v-card-title>
         <v-card-text class="pa-0" style="max-height: 400px;">
           <v-list>
@@ -257,7 +257,7 @@
           class="text-white d-flex justify-space-between align-center pa-6"
           style="background: linear-gradient(135deg, #1E88E5 0%, #0099cc 100%);"
         >
-          <span class="text-h5 font-weight-bold">Detalhes do Exercício</span>
+          <span class="text-h5 font-weight-bold">{{ t('exercicios.detailsModal.title') }}</span>
           <v-btn
             icon
             variant="text"
@@ -279,7 +279,7 @@
                 </div>
               </div>
               <p class="text-body-1" style="line-height: 1.7; color: #2c3e50;">
-                {{ exercicioSelecionado.descricao || 'Sem descrição' }}
+                {{ exercicioSelecionado.descricao || t('exercicios.noDescription') }}
               </p>
             </v-card-text>
           </v-card>
@@ -289,19 +289,19 @@
               <v-row>
                 <v-col cols="12" md="6">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">Status</div>
+                    <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('exercicios.detailsModal.status') }}</div>
                     <v-chip
                       :color="exercicioSelecionado.ativo ? '#88ce0d' : '#ff5252'"
                       size="default"
                       class="font-weight-bold"
                     >
-                      {{ exercicioSelecionado.ativo ? 'Ativo' : 'Inativo' }}
+                      {{ exercicioSelecionado.ativo ? t('exercicios.detailsModal.active') : t('exercicios.detailsModal.inactive') }}
                     </v-chip>
                   </div>
                 </v-col>
                 <v-col cols="12" md="6">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">Data de Criação</div>
+                    <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('exercicios.detailsModal.createdAt') }}</div>
                     <div class="text-body-1 font-weight-bold" style="color: #2c3e50;">
                       {{ formatarData(exercicioSelecionado.createdAt) }}
                     </div>
@@ -317,12 +317,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import exercicioService from '@/services/treinos/exercicios/exercicio-service'
 import { toast } from 'vue3-toastify'
+import { useI18n } from 'vue-i18n'
+import dayjs from 'dayjs'
+import 'dayjs/locale/pt-br'
+import 'dayjs/locale/en'
 
+const { t, locale } = useI18n()
 const router = useRouter()
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+})
 
 const exercicios = ref<any[]>([])
 const busca = ref('')
@@ -361,7 +370,7 @@ const carregarExercicios = async () => {
     }
   } catch (error) {
     console.error('Erro ao carregar exercícios:', error)
-    toast.error('Erro ao carregar exercícios')
+    toast.error(t('exercicios.toast.loadError'))
     exercicios.value = []
   } finally {
     loading.value = false
@@ -403,7 +412,7 @@ const carregarTiposTreino = async () => {
     tiposTreinos.value = response?.data || response || []
   } catch (error) {
     console.error('Erro ao carregar tipos de treino:', error)
-    toast.error('Erro ao carregar tipos de treino')
+    toast.error(t('exercicios.toast.loadTrainingTypesError'))
   }
 }
 
@@ -415,11 +424,11 @@ const selecionarTipoTreino = (tipo: any) => {
 
 const salvarExercicio = async () => {
   if (!nome.value.trim()) {
-    toast.error('Preencha o nome do exercício')
+    toast.error(t('exercicios.toast.nameRequired'))
     return
   }
   if (!tipoTreinoId.value) {
-    toast.error('Selecione o tipo de treino')
+    toast.error(t('exercicios.toast.trainingTypeRequired'))
     return
   }
 
@@ -432,7 +441,7 @@ const salvarExercicio = async () => {
       ativo: true
     }
     await exercicioService.createExercicio(payload)
-    toast.success('Exercício criado com sucesso!')
+    toast.success(t('exercicios.toast.createSuccess'))
     modalCriar.value = false
     nome.value = ''
     descricao.value = ''
@@ -441,7 +450,7 @@ const salvarExercicio = async () => {
     await carregarExercicios()
   } catch (error) {
     console.error('Erro ao criar exercício:', error)
-    toast.error('Erro ao criar exercício')
+    toast.error(t('exercicios.toast.createError'))
   } finally {
     loadingSalvar.value = false
   }
@@ -449,10 +458,13 @@ const salvarExercicio = async () => {
 
 const formatarData = (data: string) => {
   if (!data) return 'N/A'
-  return new Date(data).toLocaleDateString('pt-BR')
+  return locale.value === 'pt'
+    ? dayjs(data).format('DD/MM/YYYY')
+    : dayjs(data).format('MM/DD/YYYY')
 }
 
 onMounted(() => {
+  dayjs.locale(locale.value === 'pt' ? 'pt-br' : 'en')
   carregarExercicios()
 })
 </script>

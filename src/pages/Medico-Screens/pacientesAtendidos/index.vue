@@ -3,12 +3,12 @@
 
     <v-row>
       <v-col cols="12">
-        <v-card rounded="lg" elevation="2">
-          <v-card-title class="bg-blue-lighten-5 pa-5">
+        <v-card style="border-radius: 20px; box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);">
+          <v-card-title class=" pa-5" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
             <v-row align="center" no-gutters>
               <v-col cols="12" md="6" class="d-flex align-center mb-4 mb-md-0">
-                <v-icon color="blue" size="24" class="mr-2">mdi-clipboard-account-outline</v-icon>
-                <span class="text-h6 font-weight-bold text-grey-darken-3">Lista de Pacientes</span>
+                <v-icon color="white" size="32" class="mr-2">mdi-clipboard-account-outline</v-icon>
+                <span class="text-h6 font-weight-bold text-white">{{ t('pacientesAtendidosMedico.title') }}</span>
               </v-col>
               <v-col cols="12" md="6" class="d-flex justify-md-end">
                 <v-text-field
@@ -17,7 +17,7 @@
                   rounded="lg"
                   density="comfortable"
                   prepend-inner-icon="mdi-magnify"
-                  placeholder="Buscar paciente..."
+                  :placeholder="t('pacientesAtendidosMedico.searchPlaceholder')"
                   hide-details
                   bg-color="white"
                   class="search-field"
@@ -53,14 +53,14 @@
 
             <template #item.idade="{ item }">
               <v-chip size="small" color="blue-lighten-4" variant="flat">
-                {{ item.idade }} anos
+                {{ item.idade }} {{ t('pacientesAtendidosMedico.table.years') }}
               </v-chip>
             </template>
 
             <template #item.genero="{ item }">
               <v-chip size="small" :color="item.genero === 'Masculino' ? 'blue' : 'pink'" variant="outlined">
                 <v-icon size="14" class="mr-1">{{ item.genero === 'Masculino' ? 'mdi-gender-male' : 'mdi-gender-female' }}</v-icon>
-                {{ item.genero }}
+                {{ t(`pacientesAtendidosMedico.gender.${item.genero}`) }}
               </v-chip>
             </template>
 
@@ -73,7 +73,7 @@
                 @click="verInformacoes(item)"
               >
                 <v-icon size="16" class="mr-1">mdi-eye</v-icon>
-                Ver Detalhes
+                {{ t('pacientesAtendidosMedico.table.viewDetails') }}
               </v-btn>
             </template>
           </v-data-table-server>
@@ -90,6 +90,9 @@ import pacientesService from '@/services/medico/pacientes/pacientes-service'
 import medicoService from '@/services/medico/medico-service'
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 dayjs.extend(utc);
 
 const router = useRouter()
@@ -97,18 +100,18 @@ const filterLimitPerPage = ref()
 const page = ref(1)
 const totalPages = ref()
 
-const headers = [
-  { title: 'Perfil', key: 'usuario.avatarUrl', sortable: false },
-  { title: 'Nome', key: 'usuario.nome',  sortable: false},
-  { title: 'Idade', key: 'idade', sortable: false },
-  { title: 'Gênero', key: 'genero', sortable: false,  },
+const headers = computed(() => [
+  { title: t('pacientesAtendidosMedico.table.profile'), key: 'usuario.avatarUrl', sortable: false },
+  { title: t('pacientesAtendidosMedico.table.name'), key: 'usuario.nome',  sortable: false},
+  { title: t('pacientesAtendidosMedico.table.age'), key: 'idade', sortable: false },
+  { title: t('pacientesAtendidosMedico.table.gender'), key: 'genero', sortable: false,  },
   {
-    title: 'Ações',
+    title: t('pacientesAtendidosMedico.table.actions'),
     key: 'actions',
     sortable: false,
     align: 'end'
   },
-]
+])
 
 const atleta = ref([])
 const totalAtletas = ref(0)

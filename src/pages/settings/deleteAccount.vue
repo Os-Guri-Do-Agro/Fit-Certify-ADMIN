@@ -17,9 +17,9 @@
             <div class="warning-icon-container mx-auto mb-4">
               <v-icon size="64" color="#ff5252">mdi-alert-circle</v-icon>
             </div>
-            <h1 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">Excluir Conta</h1>
+            <h1 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('deleteAccount.title') }}</h1>
             <p class="text-h6 mb-0" style="color: #ff5252; font-weight: 600;">
-              Esta ação é permanente e não pode ser desfeita
+              {{ $t('deleteAccount.permanentWarning') }}
             </p>
           </v-card-text>
         </v-card>
@@ -28,25 +28,25 @@
           <v-card-text class="pa-6">
             <div class="d-flex align-center mb-4">
               <v-icon color="#00c6fe" size="28" class="mr-3">mdi-information</v-icon>
-              <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">O que acontece quando você exclui sua conta?</h3>
+              <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.whatHappens') }}</h3>
             </div>
             
             <div class="consequences-list">
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-account-remove</v-icon>
-                <span class="text-body-1">Todos os seus dados pessoais serão removidos</span>
+                <span class="text-body-1">{{ $t('deleteAccount.consequences.item1') }}</span>
               </div>
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-history</v-icon>
-                <span class="text-body-1">Seu histórico será apagado</span>
+                <span class="text-body-1">{{ $t('deleteAccount.consequences.item2') }}</span>
               </div>
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-lock</v-icon>
-                <span class="text-body-1">Você perderá acesso aos serviços</span>
+                <span class="text-body-1">{{ $t('deleteAccount.consequences.item3') }}</span>
               </div>
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-alert</v-icon>
-                <span class="text-body-1">Esta ação não pode ser revertida</span>
+                <span class="text-body-1">{{ $t('deleteAccount.consequences.item4') }}</span>
               </div>
             </div>
 
@@ -57,7 +57,7 @@
               class="mt-4 text-none"
               rounded="lg"
             >
-              Ler política completa
+              {{ $t('deleteAccount.readFullPolicy') }}
               <v-icon class="ml-2" size="18">mdi-open-in-new</v-icon>
             </v-btn>
           </v-card-text>
@@ -73,7 +73,7 @@
             class="text-white px-8"
           >
             <v-icon class="mr-2">mdi-delete</v-icon>
-            Excluir Conta
+            {{ $t('deleteAccount.deleteButton') }}
           </v-btn>
           <v-btn
             variant="outlined"
@@ -83,7 +83,7 @@
             @click="router.back()"
             class="px-8"
           >
-            Cancelar
+            {{ $t('deleteAccount.cancelButton') }}
           </v-btn>
         </div>
 
@@ -93,11 +93,11 @@
               <div class="dialog-icon-container mx-auto mb-3">
                 <v-icon size="48" color="#ff5252">mdi-alert-circle-outline</v-icon>
               </div>
-              <h3 class="text-h5 font-weight-bold" style="color: #2c3e50;">Confirmar Exclusão</h3>
+              <h3 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.confirmDialog.title') }}</h3>
             </v-card-title>
             <v-card-text class="pa-6 text-center">
               <p class="text-body-1 mb-0" style="color: #666;">
-                Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.
+                {{ $t('deleteAccount.confirmDialog.message') }}
               </p>
             </v-card-text>
             <v-card-actions class="pa-6 justify-center gap-3">
@@ -109,7 +109,7 @@
                 @click="showDeleteDialog = false"
                 class="px-6"
               >
-                Cancelar
+                {{ $t('deleteAccount.confirmDialog.cancel') }}
               </v-btn>
               <v-btn
                 variant="elevated"
@@ -121,7 +121,7 @@
                 class="px-6"
               >
                 <v-icon class="mr-2">mdi-delete</v-icon>
-                Deletar
+                {{ $t('deleteAccount.confirmDialog.delete') }}
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -201,7 +201,9 @@ import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { getErrorMessage } from '@/common/error.utils';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const payload = ref<any>();
 const showDeleteDialog = ref(false);
 const deletingAccount = ref(false);
@@ -220,9 +222,9 @@ const handleDeleteAccount = async () => {
 
     localStorage.clear();
     router.push('/login');
-    toast.success('Conta deletada com sucesso!');
+    toast.success(t('deleteAccount.successMessage'));
   } catch (error) {
-    toast.error('Erro ao deletar conta: ' + getErrorMessage(error, 'Erro desconhecido'));
+    toast.error(t('deleteAccount.errorMessage') + ' ' + getErrorMessage(error, t('deleteAccount.unknownError')));
   } finally {
     deletingAccount.value = false;
     showDeleteDialog.value = false;

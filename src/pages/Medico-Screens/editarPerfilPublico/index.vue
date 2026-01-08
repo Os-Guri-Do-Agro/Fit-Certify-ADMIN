@@ -58,7 +58,7 @@
                 <v-col cols="12" md="4" class="text-center  d-flex flex-column-reverse flex-md-column">
                   <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
                 <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-account-edit">
-                  Editar Perfil Público
+                  {{ $t('editarPerfilPublico.editPublicProfile') }}
                 </v-chip>
                 <v-chip class="info-chip text-center d-flex justify-center text-white">
                   CRM: {{ displayData.crm }}
@@ -84,7 +84,7 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="formData.experiencia"
-                            label="Anos de Experiência"
+                            :label="$t('editarPerfilPublico.yearsExperience')"
                             type="number"
                             variant="outlined"
                             density="comfortable"
@@ -96,7 +96,7 @@
                         <v-col cols="12" md="6">
                           <v-text-field
                             v-model="formData.horarioInicio"
-                            label="Hora Início"
+                            :label="$t('editarPerfilPublico.startTime')"
                             variant="outlined"
                             density="comfortable"
                             rounded="lg"
@@ -111,7 +111,7 @@
                         <v-col cols="12" md="6">
                           <v-text-field
                             v-model="formData.horarioFim"
-                            label="Hora Fim"
+                            :label="$t('editarPerfilPublico.endTime')"
                             variant="outlined"
                             density="comfortable"
                             rounded="lg"
@@ -126,7 +126,7 @@
                         <v-col cols="12" md="6">
                           <v-select
                             v-model="formData.diaFuncionamentoInicio"
-                            label="Dia Início"
+                            :label="$t('editarPerfilPublico.startDay')"
                             variant="outlined"
                             density="comfortable"
                             rounded="lg"
@@ -138,7 +138,7 @@
                         <v-col cols="12" md="6">
                           <v-select
                             v-model="formData.diaFuncionamentoFim"
-                            label="Dia Fim"
+                            :label="$t('editarPerfilPublico.endDay')"
                             variant="outlined"
                             density="comfortable"
                             rounded="lg"
@@ -159,12 +159,12 @@
           <v-card class="mb-6" elevation="4" rounded="xl">
             <v-card-title class="section-title">
               <v-icon class="mr-3" color="#00c6fe">mdi-target</v-icon>
-              Foco Principal
+              {{ $t('editarPerfilPublico.mainFocus') }}
             </v-card-title>
             <v-card-text class="pa-6">
               <v-textarea
                 v-model="formData.foco"
-                label="Descreva seu foco principal de atuação"
+                :label="$t('editarPerfilPublico.mainFocusPlaceholder')"
                 variant="outlined"
                 rounded="lg"
                 rows="3"
@@ -180,18 +180,18 @@
           <v-card elevation="4" rounded="xl">
             <v-card-title class="section-title">
               <v-icon class="mr-3" color="#00c6fe">mdi-text-box-multiple</v-icon>
-              Informações Profissionais
+              {{ $t('editarPerfilPublico.professionalInfo') }}
             </v-card-title>
             <v-card-text class="pa-6">
               <v-row>
                 <v-col cols="12">
                   <div class="field-label mb-2">
                     <v-icon size="20" color="#00c6fe" class="mr-2">mdi-account-circle</v-icon>
-                    Perfil Profissional
+                    {{ $t('editarPerfilPublico.professionalProfile') }}
                   </div>
                   <v-textarea
                     v-model="formData.perfil"
-                    placeholder="Descreva seu perfil profissional, suas especialidades e abordagem de trabalho..."
+                    :placeholder="$t('editarPerfilPublico.professionalProfilePlaceholder')"
                     variant="outlined"
                     rounded="lg"
                     rows="4"
@@ -205,11 +205,11 @@
                 <v-col cols="12">
                   <div class="field-label mb-2">
                     <v-icon size="20" color="#00c6fe" class="mr-2">mdi-briefcase</v-icon>
-                    Trajetória Profissional
+                    {{ $t('editarPerfilPublico.professionalCareer') }}
                   </div>
                   <v-textarea
                     v-model="formData.carreira"
-                    placeholder="Conte sobre sua formação, experiências anteriores e evolução profissional..."
+                    :placeholder="$t('editarPerfilPublico.professionalCareerPlaceholder')"
                     variant="outlined"
                     rounded="lg"
                     rows="4"
@@ -223,11 +223,11 @@
                 <v-col cols="12">
                   <div class="field-label mb-2">
                     <v-icon size="20" color="#00c6fe" class="mr-2">mdi-star</v-icon>
-                    Principais Conquistas
+                    {{ $t('editarPerfilPublico.mainAchievements') }}
                   </div>
                   <v-textarea
                     v-model="formData.destaques"
-                    placeholder="Destaque suas principais conquistas, certificações, prêmios ou reconhecimentos..."
+                    :placeholder="$t('editarPerfilPublico.mainAchievementsPlaceholder')"
                     variant="outlined"
                     rounded="lg"
                     rows="4"
@@ -253,7 +253,7 @@
               :disabled="loading"
             >
               <v-icon left>mdi-close</v-icon>
-              Cancelar
+              {{ $t('editarPerfilPublico.cancel') }}
             </v-btn>
             <v-btn
               color="#00c6fe"
@@ -265,7 +265,7 @@
               elevation="4"
             >
               <v-icon left>mdi-check</v-icon>
-              Salvar Alterações
+              {{ $t('editarPerfilPublico.saveChanges') }}
             </v-btn>
           </div>
         </v-form>
@@ -277,12 +277,14 @@
 <script setup lang="ts">
 import medicoService from '@/services/medico/medico-service'
 import { getPayload } from '@/utils/auth'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 import 'vue3-toastify/dist/index.css'
 
+const { t } = useI18n()
 const router = useRouter()
 const form = ref()
 const valid = ref(false)
@@ -309,32 +311,32 @@ const displayData = ref({
   crm: ''
 })
 
-const diasSemana = [
-  { title: 'Segunda-feira', value: 'Segunda-Feira' },
-  { title: 'Terça-feira', value: 'Terça-Feira' },
-  { title: 'Quarta-feira', value: 'Quarta-Feira' },
-  { title: 'Quinta-feira', value: 'Quinta-Feira' },
-  { title: 'Sexta-feira', value: 'Sexta-Feira' },
-  { title: 'Sábado', value: 'Sábado' },
-  { title: 'Domingo', value: 'Domingo' },
-]
+const diasSemana = computed(() => [
+  { title: t('editarPerfilPublico.daysOfWeek.monday'), value: 'Segunda-Feira' },
+  { title: t('editarPerfilPublico.daysOfWeek.tuesday'), value: 'Terça-Feira' },
+  { title: t('editarPerfilPublico.daysOfWeek.wednesday'), value: 'Quarta-Feira' },
+  { title: t('editarPerfilPublico.daysOfWeek.thursday'), value: 'Quinta-Feira' },
+  { title: t('editarPerfilPublico.daysOfWeek.friday'), value: 'Sexta-Feira' },
+  { title: t('editarPerfilPublico.daysOfWeek.saturday'), value: 'Sábado' },
+  { title: t('editarPerfilPublico.daysOfWeek.sunday'), value: 'Domingo' },
+])
 
 const rules = {
-  required: (value: any) => !!value || 'Campo obrigatório',
+  required: (value: any) => !!value || t('editarPerfilPublico.required'),
   maxLength: (max: number) => (value: string) =>
-    !value || value.length <= max || `Máximo ${max} caracteres`,
+    !value || value.length <= max || t('editarPerfilPublico.maxCharacters', { max }),
   horaValida: (value: string) => {
     if (!value) return true
     const regex = /^([01]?[0-9]|2[0-3]):[0-5][0-9]$/
-    return regex.test(value) || 'Formato inválido (HH:MM)'
+    return regex.test(value) || t('editarPerfilPublico.invalidFormat')
   },
   horaInicioMenor: (value: string) => {
     if (!value || !formData.value.horarioFim) return true
-    return value < formData.value.horarioFim || 'Hora início deve ser menor que hora fim'
+    return value < formData.value.horarioFim || t('editarPerfilPublico.startTimeLessThanEnd')
   },
   horaFimMaior: (value: string) => {
     if (!value || !formData.value.horarioInicio) return true
-    return value > formData.value.horarioInicio || 'Hora fim deve ser maior que hora início'
+    return value > formData.value.horarioInicio || t('editarPerfilPublico.endTimeGreaterThanStart')
   },
 }
 
@@ -380,11 +382,11 @@ const salvar = async () => {
 
     const response = await medicoService.updateMedico(medicoData)
     if (response.success) {
-         toast.success('Perfil público atualizado com sucesso!',{ autoClose: 4000 })
+         toast.success(t('editarPerfilPublico.updateSuccess'),{ autoClose: 4000 })
     }
 
   } catch (error) {
-    toast.error('Erro ao atualizar perfil público: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('editarPerfilPublico.updateError') + ' ' + getErrorMessage(error, t('editarPerfilPublico.unknownError')))
     console.error('Erro ao salvar:', error)
   } finally {
     loading.value = false

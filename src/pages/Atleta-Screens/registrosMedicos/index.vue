@@ -10,16 +10,16 @@
                 <v-icon size="60" color="white">mdi-clipboard-pulse-outline</v-icon>
               </div>
               <h1 class="hero-title">
-                Registros Médicos
+                {{ $t('registrosMedicos.title') }}
               </h1>
               <p class="hero-subtitle">
-                Histórico completo de suas consultas concluídas
+                {{ $t('registrosMedicos.subtitle') }}
               </p>
               <v-chip
                 prepend-icon="mdi-stethoscope"
                 class="chip-badge"
               >
-                Histórico Médico
+                {{ $t('registrosMedicos.badge') }}
               </v-chip>
             </v-col>
           </v-row>
@@ -47,10 +47,10 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold gradient-text">
-                    Histórico Médico
+                    {{ $t('registrosMedicos.medicalHistory') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    {{ consultas.length }} {{ consultas.length === 1 ? 'consulta registrada' : 'consultas registradas' }}
+                    {{ consultas.length }} {{ consultas.length === 1 ? $t('registrosMedicos.consultRegistered') : $t('registrosMedicos.consultsRegistered') }}
                   </div>
                 </div>
                 <v-icon :color="historicoMedicoExpanded ? '#42A5F5' : 'grey'">
@@ -69,7 +69,7 @@
                     </template>
                     <template v-else-if="consultas.length === 0">
                       <div class="text-center py-8">
-                        <p class="text-grey">Nenhum histórico médico encontrado</p>
+                        <p class="text-grey">{{ $t('registrosMedicos.noHistory') }}</p>
                       </div>
                     </template>
                     <template v-else>
@@ -86,10 +86,10 @@
                         >
                           <div class="flex-grow-1">
                             <div class="text-h6 font-weight-medium mb-1">
-                              {{ item.medico?.usuario?.nome || 'Médico não informado' }}
+                              {{ item.medico?.usuario?.nome || $t('registrosMedicos.doctorNotInformed') }}
                             </div>
                             <div class="text-body-1 text-grey-darken-1">
-                              {{ item.medico?.especializacao || 'Especialização não informada' }}
+                              {{ item.medico?.especializacao || $t('registrosMedicos.specializationNotInformed') }}
                             </div>
                           </div>
                           <div class="d-flex align-center ga-2 me-2">
@@ -103,7 +103,7 @@
                               {{ item.situacao }}
                             </v-chip>
                             <v-chip size="small" variant="outlined">
-                              {{ formatarDataHoraLocal(item.dataConsulta) }}
+                              {{ formatDateTime(item.dataConsulta) }}
                             </v-chip>
                           </div>
                           <v-icon :color="expandedItems[index] ? '#42A5F5' : 'grey'">
@@ -116,15 +116,15 @@
                             <v-divider />
                             <div class="pa-4">
                               <div class="mb-3">
-                                <div class="text-subtitle-2 mb-1">Diagnóstico</div>
-                                <p class="text-body-2">{{ item.diagnostico || 'Não informado' }}</p>
+                                <div class="text-subtitle-2 mb-1">{{ $t('registrosMedicos.diagnosis') }}</div>
+                                <p class="text-body-2">{{ item.diagnostico || $t('registrosMedicos.notInformed') }}</p>
                               </div>
                               <div v-if="item.medicamentosReceitados" class="mb-3">
-                                <div class="text-subtitle-2 mb-1">Medicamentos Receitados</div>
+                                <div class="text-subtitle-2 mb-1">{{ $t('registrosMedicos.prescribedMedications') }}</div>
                                 <p class="text-body-2">{{ item.medicamentosReceitados }}</p>
                               </div>
                               <div v-if="item.situacao">
-                                <div class="text-subtitle-2 mb-1">Situação</div>
+                                <div class="text-subtitle-2 mb-1">{{ $t('registrosMedicos.situation') }}</div>
                                 <p class="text-body-2">{{ item.situacao }}</p>
                               </div>
                             </div>
@@ -149,12 +149,27 @@
   import consultasService from '@/services/consultas/consultas-service'
   import { getAtletaId } from '@/utils/auth'
   import { onMounted, ref } from 'vue'
+  import { useI18n } from 'vue-i18n'
+  
+  const { t, locale } = useI18n()
   
   const loading = ref(true)
   const consultas = ref([])
   const historicoMedicoExpanded = ref(false)
   const expandedItems = ref({})
   
+  const formatDateTime = (dateTime) => {
+    if (!dateTime) return ''
+    const d = new Date(dateTime)
+    const day = String(d.getDate()).padStart(2, '0')
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const year = d.getFullYear()
+    const hours = String(d.getHours()).padStart(2, '0')
+    const minutes = String(d.getMinutes()).padStart(2, '0')
+    
+    const dateStr = locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
+    return `${dateStr} ${hours}:${minutes}`
+  }
   
   const getSituacaoColor = (situacao) => {
     if (!situacao) return 'grey'

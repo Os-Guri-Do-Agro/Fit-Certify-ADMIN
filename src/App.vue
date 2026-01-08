@@ -22,12 +22,20 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
+import { useLocale } from 'vuetify'
 import AppBar from './layout/AppBar.vue'
 import DrawerNavigation from './layout/DrawerNavigation.vue'
 
 const route = useRoute()
+const { locale } = useI18n()
+const vuetifyLocale = useLocale()
+
+watch(locale, (newLocale) => {
+  vuetifyLocale.current.value = newLocale
+}, { immediate: true })
 
 // Rotas que não devem mostrar o layout padrão
 const authRoutes = [

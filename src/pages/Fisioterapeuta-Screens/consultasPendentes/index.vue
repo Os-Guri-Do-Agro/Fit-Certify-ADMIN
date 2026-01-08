@@ -3,9 +3,9 @@
     <v-row justify="center" class="text-center mb-8">
       <v-col cols="12">
         <h2 class="text-h5 text-md-h4 font-weight-bold text-orange-lighten-1">
-          Consultas Pendentes
+          {{ t('consultasPendentesFisioterapeuta.title') }}
         </h2>
-        <p class="text-body-1 text-grey mt-2">{{ consultasPendentes.length }} consultas aguardando aprovação</p>
+        <p class="text-body-1 text-grey mt-2">{{ t('consultasPendentesFisioterapeuta.subtitle', { count: consultasPendentes.length }) }}</p>
       </v-col>
     </v-row>
 
@@ -38,7 +38,7 @@
                       {{ consulta.consultaExterna ? consulta.nomePacienteExterno : consulta.atleta?.usuario?.nome }}
                     </div>
                     <div class="text-body-2 text-grey-darken-1 mb-2">
-                      {{ consulta.consultaExterna ? 'Paciente Externo' : 'FitCertify365' }}
+                      {{ consulta.consultaExterna ? t('consultasPendentesFisioterapeuta.externalPatient') : t('consultasPendentesFisioterapeuta.fitcertify') }}
                     </div>
 
                     <div class="d-flex flex-column gap-1 mb-3">
@@ -54,14 +54,14 @@
 
                     <div class="d-flex align-center justify-space-between flex-wrap ga-2">
                       <v-chip color="orange" size="small" variant="flat" class="font-weight-medium text-white">
-                        Pendente
+                        {{ t('consultasPendentesFisioterapeuta.pending') }}
                       </v-chip>
                       <div class="d-flex gap-2">
                         <v-btn color="green" variant="outlined" size="small" rounded="xl" prepend-icon="mdi-check" :loading="loadingAceitar === consulta.id" @click="aceitarConsulta(consulta.id)">
-                          Aceitar
+                          {{ t('consultasPendentesFisioterapeuta.accept') }}
                         </v-btn>
                         <v-btn color="red" variant="outlined" size="small" rounded="xl" prepend-icon="mdi-close" :loading="loadingRecusar === consulta.id" @click="recusarConsulta(consulta.id)">
-                          Recusar
+                          {{ t('consultasPendentesFisioterapeuta.refuse') }}
                         </v-btn>
                       </div>
                     </div>
@@ -73,7 +73,7 @@
 
           <div v-if="consultasPendentes.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-check</v-icon>
-            <p class="text-h6 mt-4 text-grey">Nenhuma consulta pendente</p>
+            <p class="text-h6 mt-4 text-grey">{{ t('consultasPendentesFisioterapeuta.noAppointments') }}</p>
           </div>
         </div>
       </v-col>
@@ -84,14 +84,20 @@
 <script setup>
 import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import 'dayjs/locale/en'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
 import consultasService from '@/services/consultas/consultas-service'
+import { useI18n } from 'vue-i18n'
 
-dayjs.locale('pt-br')
+const { t, locale } = useI18n()
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+})
 
 const consultasPendentes = ref([])
 const loading = ref(true)
@@ -118,10 +124,10 @@ const aceitarConsulta = async (consultaId) => {
   loadingAceitar.value = consultaId
   try {
     await fisioterapeutaService.aceitarOrRejeitarConsultaById(consultaId, { situacao: 'Marcado' })
-    toast.success('Consulta aceita com sucesso!')
+    toast.success(t('consultasPendentesFisioterapeuta.toast.acceptSuccess'))
     await buscarConsultasPendentes()
   } catch (error) {
-    toast.error('Erro ao aceitar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasPendentesFisioterapeuta.toast.acceptError') + ' ' + getErrorMessage(error, t('consultasPendentesFisioterapeuta.toast.unknownError')))
   } finally {
     loadingAceitar.value = null
   }
@@ -131,10 +137,10 @@ const recusarConsulta = async (consultaId) => {
   loadingRecusar.value = consultaId
   try {
     await fisioterapeutaService.aceitarOrRejeitarConsultaById(consultaId, { situacao: 'Recusado' })
-    toast.success('Consulta recusada com sucesso!')
+    toast.success(t('consultasPendentesFisioterapeuta.toast.refuseSuccess'))
     await buscarConsultasPendentes()
   } catch (error) {
-    toast.error('Erro ao recusar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasPendentesFisioterapeuta.toast.refuseError') + ' ' + getErrorMessage(error, t('consultasPendentesFisioterapeuta.toast.unknownError')))
   } finally {
     loadingRecusar.value = null
   }

@@ -38,7 +38,7 @@
             <div class="profile-info">
               <div class="info-chips d-flex ga-3 flex-column flex-md-row justify-space-between ma-5">
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-account-edit">
-                  Editar Perfil
+                  {{ $t('editarPerfilTreinador.title') }}
                 </v-chip>
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                   ID: {{ getUserID() }}
@@ -63,14 +63,14 @@
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
                 <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
-                Informações Pessoais
+                {{ $t('editarPerfilTreinador.personalInfo') }}
               </v-card-title>
               <v-card-text class="pa-6">
                 <v-row>
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.nome"
-                      label="Nome Completo"
+                      :label="$t('editarPerfilTreinador.fullName')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -82,7 +82,7 @@
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.email"
-                      label="E-mail"
+                      :label="$t('editarPerfilTreinador.email')"
                       disabled
                       variant="outlined"
                       density="comfortable"
@@ -130,7 +130,7 @@
                     <div class="d-flex align-center justify-space-between mb-3">
                       <div class="d-flex align-center">
                         <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
-                        <span class="text-h6">Código de Convite</span>
+                        <span class="text-h6">{{ $t('editarPerfilTreinador.inviteCode') }}</span>
                       </div>
                       <v-btn
                         color="#00c6fe"
@@ -141,12 +141,12 @@
                         @click="gerarCodigoConvite()"
                         :loading="loadingCodigo"
                       >
-                        Gerar Código
+                        {{ $t('editarPerfilTreinador.generateCode') }}
                       </v-btn>
                     </div>
                     <v-text-field
                       :model-value="codigoConvite"
-                      label="Seu código de convite"
+                      :label="$t('editarPerfilTreinador.yourInviteCode')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -168,11 +168,11 @@
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
-                      <span class="text-h6">Inserir Código</span>
+                      <span class="text-h6">{{ $t('editarPerfilTreinador.insertCode') }}</span>
                     </div>
                     <v-text-field
                       v-model="codigoInserir"
-                      label="Digite o código de convite"
+                      :label="$t('editarPerfilTreinador.enterInviteCode')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -261,7 +261,7 @@
                 :disabled="loading"
               >
                 <v-icon left>mdi-close</v-icon>
-                Cancelar
+                {{ $t('editarPerfilTreinador.cancel') }}
               </v-btn>
               <v-btn
                 color="#00c6fe"
@@ -273,7 +273,7 @@
                 elevation="4"
               >
                 <v-icon left>mdi-check</v-icon>
-                Salvar Alterações
+                {{ $t('editarPerfilTreinador.saveChanges') }}
               </v-btn>
             </div>
           </v-form>
@@ -292,6 +292,9 @@ import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n();
 
 const codigoConvite = ref('')
 const codigoInserir = ref('')
@@ -310,7 +313,7 @@ let debounceTimer: number
 
 const solicitarConexao = async () => {
   if (!codigoInserir.value) {
-    toast.error('Digite o código de convite')
+    toast.error(t('editarPerfilTreinador.enterCodeError'))
     return
   }
   try {
@@ -326,7 +329,7 @@ const solicitarConexao = async () => {
     if (statusCode === 400) {
       toast.error(message)
     } else {
-      toast.error('Erro ao solicitar conexão')
+      toast.error(t('editarPerfilTreinador.connectionError'))
     }
   }
 }
@@ -334,17 +337,17 @@ const solicitarConexao = async () => {
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true
   if (codigoConvite.value) {
-    toast.info('Você já possui um código de convite gerado')
+    toast.info(t('editarPerfilTreinador.codeAlreadyExists'))
     loadingCodigo.value = false
     return
   }
   try {
     const response = await treinadorService.gerarCodigoConvite()
     codigoConvite.value = response.data.codigoConvite
-    toast.success('Código gerado com sucesso!')
+    toast.success(t('editarPerfilTreinador.codeGeneratedSuccess'))
   } catch (error) {
     console.error('Erro ao gerar código de convite:', error)
-    toast.error('Erro ao gerar código de convite')
+    toast.error(t('editarPerfilTreinador.codeGenerateError'))
   } finally {
     loadingCodigo.value = false
   }
@@ -354,38 +357,38 @@ const copiarCodigo = async () => {
   if (!codigoConvite.value) return
   try {
     await navigator.clipboard.writeText(codigoConvite.value)
-    toast.success('Código copiado!')
+    toast.success(t('editarPerfilTreinador.codeCopied'))
   } catch (err) {
-    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'))
+    toast.error(t('editarPerfilTreinador.codeCopyError') + ' ' + getErrorMessage(err, t('editarPerfilTreinador.unknownError')))
   }
 }
 
 const rules = {
-  required: (value: any) => !!value || 'Campo obrigatório',
+  required: (value: any) => !!value || t('editarPerfilTreinador.required'),
   email: (value: string) => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return pattern.test(value) || 'E-mail inválido'
+    return pattern.test(value) || t('editarPerfilTreinador.invalidEmail')
   },
   emailExists: (value: string) => {
     if (!emailValidation.value.checked) return true
     if (emailValidation.value.exists) {
-      return 'Este email já está em uso'
+      return t('editarPerfilTreinador.emailInUse')
     }
     return true
   },
   phone: (value: string) => {
-    if (!value) return 'Campo obrigatório'
+    if (!value) return t('editarPerfilTreinador.required')
     const digits = value.replace(/\D/g, '')
-    return digits.length === 11 || 'Telefone deve ter 11 dígitos'
+    return digits.length === 11 || t('editarPerfilTreinador.phoneDigits')
   },
   birthDate: (value: string) => {
-    if (!value) return 'Campo obrigatório'
+    if (!value) return t('editarPerfilTreinador.required')
     const selectedYear = new Date(value).getFullYear()
     const currentYear = new Date().getFullYear()
-    return selectedYear <= currentYear || 'Data não pode ser no futuro'
+    return selectedYear <= currentYear || t('editarPerfilTreinador.futureDateError')
   },
   minLength: (min: number) => (value: string) =>
-    !value || value.length >= min || `Mínimo ${min} caracteres`,
+    !value || value.length >= min || t('editarPerfilTreinador.minCharacters', { min }),
   // passwordMatch: (value: string) =>
   //   !value || value === formData.value.novaSenha || 'Senhas não coincidem'
 }
@@ -465,18 +468,18 @@ const validateEmailExists = async (email: string) => {
 }
 const atualizarDadosAtleta = async () => {
   if (emailValidation.value.loading) {
-    toast.error('Aguarde a validação do email')
+    toast.error(t('editarPerfilTreinador.waitEmailValidation'))
     return
   }
 
   if (emailValidation.value.exists) {
-    toast.error('Corrija os erros no formulário antes de salvar')
+    toast.error(t('editarPerfilTreinador.fixErrors'))
     return
   }
 
   const { valid } = await form.value.validate()
   if (!valid) {
-    toast.error('Preencha todos os campos obrigatórios corretamente')
+    toast.error(t('editarPerfilTreinador.fillRequired'))
     return
   }
 
@@ -505,7 +508,7 @@ const atualizarDadosAtleta = async () => {
 
     const response = await treinadorService.updateTreinador(id, data)
 
-    toast.success('Dados atualizados com sucesso!')
+    toast.success(t('editarPerfilTreinador.updateSuccess'))
 
     if (response.data.success) {
       if (response.data.token) {
@@ -516,7 +519,7 @@ const atualizarDadosAtleta = async () => {
     }
 
   } catch (error) {
-    toast.error('Erro ao atualizar dados: ' + getErrorMessage(error, 'Erro desconhecido'), { position: 'top-right' })
+    toast.error(t('editarPerfilTreinador.updateError') + ' ' + getErrorMessage(error, t('editarPerfilTreinador.unknownError')), { position: 'top-right' })
     console.error(error)
   } finally {
     loading.value = false
@@ -548,7 +551,7 @@ const carregarDados = async () => {
     }
   } catch (error) {
     console.error('Erro ao carregar dados do medico:', error)
-    toast.error('Erro ao carregar dados do medico: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('editarPerfilTreinador.loadError') + ' ' + getErrorMessage(error, t('editarPerfilTreinador.unknownError')))
   } finally {
     loadingData.value = false
   }

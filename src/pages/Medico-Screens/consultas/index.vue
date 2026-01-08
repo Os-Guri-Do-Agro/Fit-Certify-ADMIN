@@ -3,7 +3,7 @@
     <v-row justify="center" class="text-center mb-8">
       <v-col cols="12">
         <h2 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1" >
-          Minhas Consultas
+          {{ t('consultasMedico.title') }}
         </h2>
       </v-col>
     </v-row>
@@ -74,7 +74,7 @@
                     <div
                       class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
                     >
-                      {{ consulta?.atleta?.usuario?.nome || 'Paciente Externo' }}
+                      {{ consulta?.atleta?.usuario?.nome || t('consultasMedico.externalPatient') }}
                     </div>
                     <div
                       v-if="consulta?.atleta?.genero"
@@ -110,7 +110,7 @@
                         class="font-weight-medium text-white cursor-pointer"
                         @click="verInfoAtleta(consulta?.atletaId)"
                       >
-                        {{ consulta?.situacao }}
+                        {{ t(`consultasMedico.status.${consulta?.situacao}`) }}
                       </v-chip>
                       <div class="d-flex gap-2">
                         <v-btn
@@ -121,7 +121,7 @@
                           prepend-icon="mdi-check"
                           @click="abrirModalFinalizar(consulta.id)"
                         >
-                          Finalizar
+                          {{ t('consultasMedico.finalize') }}
                         </v-btn>
                         <v-btn
                           color="red"
@@ -133,7 +133,7 @@
                           @click="abrirModalConfirmacao(consulta.id)"
                           class="ml-1"
                         >
-                          Cancelar
+                          {{ t('consultasMedico.cancel') }}
                         </v-btn>
                       </div>
                     </div>
@@ -145,7 +145,7 @@
 
           <div v-if="consultas.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
-            <p class="text-h6 mt-4 text-grey">Nenhuma consulta encontrada</p>
+            <p class="text-h6 mt-4 text-grey">{{ t('consultasMedico.noAppointments') }}</p>
           </div>
         </div>
       </v-col>
@@ -162,11 +162,11 @@
           </div>
           
           <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
-            Cancelar Consulta?
+            {{ t('consultasMedico.cancelModal.title') }}
           </h3>
           
           <p class="text-body-1 text-grey-darken-1 mb-6">
-            Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.
+            {{ t('consultasMedico.cancelModal.message') }}
           </p>
           
           <div class="d-flex gap-3 justify-center">
@@ -179,7 +179,7 @@
               @click="modalConfirmacao = false"
             >
               <v-icon start>mdi-close</v-icon>
-              Cancelar
+              {{ t('consultasMedico.cancelModal.cancel') }}
             </v-btn>
             
             <v-btn
@@ -191,7 +191,7 @@
               @click="confirmarCancelamento"
             >
               <v-icon start>mdi-check</v-icon>
-              Confirmar
+              {{ t('consultasMedico.cancelModal.confirm') }}
             </v-btn>
           </div>
         </v-card-text>
@@ -202,29 +202,29 @@
     <v-dialog v-model="modalFinalizar" max-width="500" persistent>
       <v-card rounded="xl">
         <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
-          Finalizar Consulta
+          {{ t('consultasMedico.finalizeModal.title') }}
         </v-card-title>
         
         <v-card-text class="pa-6">
           <v-form ref="formFinalizar" v-model="formValid">
             <v-textarea
               v-model="dadosFinalizacao.diagnostico"
-              label="Diagnóstico"
+              :label="t('consultasMedico.finalizeModal.diagnosis')"
               variant="outlined"
               rounded="lg"
               rows="3"
-              :rules="[v => !!v || 'Diagnóstico é obrigatório']"
-              placeholder="Descreva o diagnóstico..."
+              :rules="[v => !!v || t('consultasMedico.finalizeModal.diagnosisRequired')]"
+              :placeholder="t('consultasMedico.finalizeModal.diagnosisPlaceholder')"
               class="mb-4"
             />
             
             <v-textarea
               v-model="dadosFinalizacao.medicamentosReceitados"
-              label="Medicamentos Receitados"
+              :label="t('consultasMedico.finalizeModal.medications')"
               variant="outlined"
               rounded="lg"
               rows="4"
-              placeholder="Descreva os medicamentos receitados..."
+              :placeholder="t('consultasMedico.finalizeModal.medicationsPlaceholder')"
             />
           </v-form>
         </v-card-text>
@@ -237,7 +237,7 @@
             rounded="xl"
             @click="fecharModalFinalizar"
           >
-            Cancelar
+            {{ t('consultasMedico.finalizeModal.cancel') }}
           </v-btn>
           
           <v-btn
@@ -248,7 +248,7 @@
             :disabled="!formValid"
             @click="confirmarFinalizacao"
           >
-            Finalizar
+            {{ t('consultasMedico.finalizeModal.finalize') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -261,12 +261,22 @@ import consultasService from '@/services/consultas/consultas-service'
 import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
-import { ref, computed, onMounted } from 'vue'
+import 'dayjs/locale/en'
+import { ref, computed, onMounted, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import atletaService from '@/services/atleta/atleta-service'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 
-dayjs.locale('pt-br')
+const { t, locale } = useI18n()
+
+// Configurar locale do dayjs
+const currentLocale = computed(() => locale.value === 'pt' ? 'pt-br' : 'en')
+dayjs.locale(currentLocale.value)
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+})
 
 const loading = ref(true)
 const consultas = ref([])
@@ -358,9 +368,9 @@ const confirmarCancelamento = async () => {
     }
     await consultasService.aceitarOrRejeitarConsultaById(consultaId, data)
     await buscarConsultas()
-    toast.success('Consulta cancelada com sucesso!')
+    toast.success(t('consultasMedico.toast.cancelSuccess'))
   } catch (error) {
-    toast.error('Erro ao cancelar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasMedico.toast.cancelError') + ' ' + getErrorMessage(error, t('consultasMedico.toast.unknownError')))
     console.error('Erro ao cancelar consulta:', error)
   } finally {
     loadingCancelarIds.value.delete(consultaId)
@@ -396,10 +406,10 @@ const confirmarFinalizacao = async () => {
     }
     await consultasService.aceitarOrRejeitarConsultaById(consultaParaFinalizar.value, data)
     await buscarConsultas()
-    toast.success('Consulta finalizada com sucesso!')
+    toast.success(t('consultasMedico.toast.finalizeSuccess'))
     fecharModalFinalizar()
   } catch (error) {
-    toast.error('Erro ao finalizar consulta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('consultasMedico.toast.finalizeError') + ' ' + getErrorMessage(error, t('consultasMedico.toast.unknownError')))
     console.error('Erro ao finalizar consulta:', error)
   } finally {
     loadingFinalizar.value = false

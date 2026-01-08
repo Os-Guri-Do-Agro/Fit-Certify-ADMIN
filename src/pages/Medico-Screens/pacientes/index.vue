@@ -1,63 +1,63 @@
 <template>
-  <v-container class="py-8">
+  <v-container>
 
     <v-row class="mb-8">
       <v-col cols="12" sm="6" md="3">
-        <v-card class="metric-card"  elevation="2">
+        <v-card class="metric-card"  >
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
-              <v-avatar size="48" color="blue-lighten-3" class="metric-avatar">
+              <v-avatar size="48" color="blue-lighten-4" class="metric-avatar">
                 <v-icon size="24" color="blue-darken-1">mdi-account-group</v-icon>
               </v-avatar>
               <v-icon size="20" color="blue-lighten-3">mdi-trending-up</v-icon>
             </div>
             <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ totalAtletas }}</div>
-            <div class="text-body-2 text-grey font-weight-medium">Total de Pacientes</div>
+            <div class="text-body-2 text-grey font-weight-medium">{{ t('pacientesMedico.metrics.totalPatients') }}</div>
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <v-card class="metric-card"  elevation="2">
+        <v-card class="metric-card"  >
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
-              <v-avatar size="48" color="green-lighten-3" class="metric-avatar">
+              <v-avatar size="48" color="green-lighten-4" class="metric-avatar">
   <v-icon size="24" color="green-darken-1">mdi-account-heart</v-icon>
 </v-avatar>
               <v-icon size="20" color="green-lighten-3">mdi-check-circle</v-icon>
             </div>
             <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.pacientesAtendidos }}</div>
-            <div class="text-body-2 text-grey font-weight-medium">Pacientes Atendidos</div>
+            <div class="text-body-2 text-grey font-weight-medium">{{ t('pacientesMedico.metrics.patientsServed') }}</div>
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <v-card class="metric-card"  elevation="2">
+        <v-card class="metric-card"  >
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
-              <v-avatar size="48" color="orange-lighten-3" class="metric-avatar">
+              <v-avatar size="48" color="orange-lighten-4" class="metric-avatar">
                 <v-icon size="24" color="orange-darken-1">mdi-certificate</v-icon>
               </v-avatar>
               <v-icon size="20" color="orange-lighten-3">mdi-file-document</v-icon>
             </div>
             <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.certificadosEmitidos }}</div>
-            <div class="text-body-2 text-grey font-weight-medium">Certificados Emitidos</div>
+            <div class="text-body-2 text-grey font-weight-medium">{{ t('pacientesMedico.metrics.issuedCertificates') }}</div>
           </v-card-text>
         </v-card>
       </v-col>
 
       <v-col cols="12" sm="6" md="3">
-        <v-card class="metric-card"  elevation="2">
+        <v-card class="metric-card"  >
           <v-card-text class="pa-5">
             <div class="d-flex align-center justify-space-between mb-3">
-              <v-avatar size="48" color="purple-lighten-3" class="metric-avatar">
+              <v-avatar size="48" color="purple-lighten-4" class="metric-avatar">
                 <v-icon size="24" color="purple-darken-1">mdi-calendar-clock</v-icon>
               </v-avatar>
               <v-icon size="20" color="purple-lighten-3">mdi-calendar-check</v-icon>
             </div>
             <div class="text-h4 font-weight-bold text-grey-darken-3 mb-1">{{ Metrics.consultasMarcadas }}</div>
-            <div class="text-body-2 text-grey font-weight-medium">Consultas Marcadas</div>
+            <div class="text-body-2 text-grey font-weight-medium">{{ t('pacientesMedico.metrics.scheduledAppointments') }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -65,12 +65,12 @@
 
     <v-row>
       <v-col cols="12">
-        <v-card rounded="lg" elevation="2">
-          <v-card-title class="bg-blue-lighten-5 pa-5">
+        <v-card style="border-radius: 20px; box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);">
+          <v-card-title class="pa-5" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
             <v-row align="center" no-gutters>
               <v-col cols="12" md="6" class="d-flex align-center mb-4 mb-md-0">
-                <v-icon color="blue" size="24" class="mr-2">mdi-clipboard-account-outline</v-icon>
-                <span class="text-h6 font-weight-bold text-grey-darken-3">Meus Pacientes</span>
+                <v-icon color="white" size="24" class="mr-2">mdi-clipboard-account-outline</v-icon>
+                <span class="text-h6 font-weight-bold text-white">{{ t('pacientesMedico.title') }}</span>
               </v-col>
               <v-col cols="12" md="6" class="d-flex justify-md-end">
                 <v-text-field
@@ -79,7 +79,7 @@
                   rounded="lg"
                   density="comfortable"
                   prepend-inner-icon="mdi-magnify"
-                  placeholder="Buscar paciente..."
+                  :placeholder="t('pacientesMedico.searchPlaceholder')"
                   hide-details
                   bg-color="white"
                   class="search-field"
@@ -115,14 +115,14 @@
 
             <template #item.idade="{ item }">
               <v-chip size="small" color="blue-lighten-4" variant="flat">
-                {{ item.idade }} anos
+                {{ item.idade }} {{ t('pacientesMedico.table.years') }}
               </v-chip>
             </template>
 
             <template #item.genero="{ item }">
               <v-chip size="small" :color="item.genero === 'Masculino' ? 'blue' : 'pink'" variant="outlined">
                 <v-icon size="14" class="mr-1">{{ item.genero === 'Masculino' ? 'mdi-gender-male' : 'mdi-gender-female' }}</v-icon>
-                {{ item.genero }}
+                {{ t(`pacientesMedico.gender.${item.genero}`) }}
               </v-chip>
             </template>
 
@@ -135,7 +135,7 @@
                 @click="verInformacoes(item)"
               >
                 <v-icon size="16" class="mr-1">mdi-eye</v-icon>
-                Ver Detalhes
+                {{ t('pacientesMedico.table.viewDetails') }}
               </v-btn>
             </template>
           </v-data-table-server>
@@ -152,6 +152,9 @@ import pacientesService from '@/services/medico/pacientes/pacientes-service'
 import medicoService from '@/services/medico/medico-service'
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 dayjs.extend(utc);
 
 const router = useRouter()
@@ -159,18 +162,18 @@ const filterLimitPerPage = ref()
 const page = ref(1)
 const totalPages = ref()
 
-const headers = [
-  { title: 'Perfil', key: 'usuario.avatarUrl', sortable: false },
-  { title: 'Nome', key: 'usuario.nome',  sortable: false},
-  { title: 'Idade', key: 'idade', sortable: false },
-  { title: 'Gênero', key: 'genero', sortable: false,  },
+const headers = computed(() => [
+  { title: t('pacientesMedico.table.profile'), key: 'usuario.avatarUrl', sortable: false },
+  { title: t('pacientesMedico.table.name'), key: 'usuario.nome',  sortable: false},
+  { title: t('pacientesMedico.table.age'), key: 'idade', sortable: false },
+  { title: t('pacientesMedico.table.gender'), key: 'genero', sortable: false,  },
   {
-    title: 'Ações',
+    title: t('pacientesMedico.table.actions'),
     key: 'actions',
     sortable: false,
     align: 'end'
   },
-]
+])
 
 const atleta = ref([])
 const totalAtletas = ref(0)
@@ -256,6 +259,7 @@ const verInformacoes = (paciente) => {
   transition: all 0.3s ease;
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
   border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(66, 165, 245, 0.25);
 }
 
 .metric-card:hover {

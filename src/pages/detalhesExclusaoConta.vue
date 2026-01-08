@@ -16,7 +16,7 @@
             </div>
             <div class="d-flex justify-center px-md-10 py-5 py-md-10">
               <h1 class="text-h5 text-md-h3 font-weight-bold text-center text-white mb-8">
-                Processo de Exclusão de Conta
+                {{ $t('detalhesExclusaoConta.pageTitle') }}
               </h1>
             </div>
           </v-container>
@@ -34,15 +34,15 @@
             <div class="d-flex mt-10 mx-md-10">
               <v-container class="px-6 px-5 px-md-10">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  1. Sobre a Exclusão de Conta
+                  {{ $t('detalhesExclusaoConta.section1.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  A <strong>FitCertify365</strong> respeita o direito dos usuários de solicitar a exclusão de suas contas e dados pessoais, em conformidade com a <strong>Lei Geral de Proteção de Dados (LGPD)</strong> e demais legislações aplicáveis.
+                  {{ $t('detalhesExclusaoConta.section1.p1', { company: $t('detalhesExclusaoConta.section1.company'), law: $t('detalhesExclusaoConta.section1.law') }) }}
                 </p>
 
                 <p class="my-4 text-body-1">
-                  Este documento explica como funciona o processo de exclusão de conta, quais dados são removidos e os prazos envolvidos.
+                  {{ $t('detalhesExclusaoConta.section1.p2') }}
                 </p>
 
                 <v-divider class="my-6"></v-divider>
@@ -53,30 +53,30 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  2. Como Solicitar a Exclusão
+                  {{ $t('detalhesExclusaoConta.section2.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Para solicitar a exclusão de sua conta, você pode:
+                  {{ $t('detalhesExclusaoConta.section2.intro') }}
                 </p>
 
                 <ol class="pl-6 my-4 text-body-1">
                   <li class="mb-2">
-                    Acessar a página de <strong>Configurações</strong> em sua conta
+                    {{ $t('detalhesExclusaoConta.section2.step1', { settings: $t('detalhesExclusaoConta.section2.settings') }) }}
                   </li>
                   <li class="mb-2">
-                    Navegar até <strong>settings/deleteAccount</strong>
+                    {{ $t('detalhesExclusaoConta.section2.step2', { path: $t('detalhesExclusaoConta.section2.path') }) }}
                   </li>
                   <li class="mb-2">
-                    Clicar no botão <strong>"Deletar Conta"</strong>
+                    {{ $t('detalhesExclusaoConta.section2.step3', { button: $t('detalhesExclusaoConta.section2.button') }) }}
                   </li>
                   <li class="mb-2">
-                    Confirmar sua solicitação no diálogo de confirmação
+                    {{ $t('detalhesExclusaoConta.section2.step4') }}
                   </li>
                 </ol>
 
                 <p class="my-4 text-body-1">
-                  Alternativamente, você pode enviar uma solicitação por e-mail para <strong>desenvolvimento@fitcertify365.com</strong> com o assunto "Solicitação de Exclusão de Conta".
+                  {{ $t('detalhesExclusaoConta.section2.alternative', { email: $t('detalhesExclusaoConta.section2.email') }) }}
                 </p>
 
                 <v-divider class="my-6"></v-divider>
@@ -87,37 +87,37 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  3. Processo de Exclusão
+                  {{ $t('detalhesExclusaoConta.section3.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Após receber sua solicitação, seguimos o seguinte processo:
+                  {{ $t('detalhesExclusaoConta.section3.intro') }}
                 </p>
 
                 <div class="my-6">
                   <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
-                    Etapa 1: Verificação (1-2 dias úteis)
+                    {{ $t('detalhesExclusaoConta.section3.stage1Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">
-                    Verificamos a identidade do solicitante e validamos a solicitação para garantir a segurança da conta.
+                    {{ $t('detalhesExclusaoConta.section3.stage1Desc') }}
                   </p>
                 </div>
 
                 <div class="my-6">
                   <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
-                    Etapa 2: Período de Carência (30 dias)
+                    {{ $t('detalhesExclusaoConta.section3.stage2Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">
-                    Sua conta será desativada, mas os dados permanecerão armazenados por 30 dias. Durante este período, você pode cancelar a solicitação e reativar sua conta.
+                    {{ $t('detalhesExclusaoConta.section3.stage2Desc') }}
                   </p>
                 </div>
 
                 <div class="my-6">
                   <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
-                    Etapa 3: Exclusão Definitiva
+                    {{ $t('detalhesExclusaoConta.section3.stage3Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">
-                    Após o período de carência, todos os seus dados pessoais serão permanentemente removidos de nossos sistemas.
+                    {{ $t('detalhesExclusaoConta.section3.stage3Desc') }}
                   </p>
                 </div>
 
@@ -129,21 +129,21 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  4. Dados que Serão Excluídos
+                  {{ $t('detalhesExclusaoConta.section4.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  A exclusão da conta resultará na remoção permanente dos seguintes dados:
+                  {{ $t('detalhesExclusaoConta.section4.intro') }}
                 </p>
 
                 <ul class="pl-6 my-4 text-body-1">
-                  <li>Informações pessoais (nome, e-mail, telefone)</li>
-                  <li>Dados de saúde e fitness armazenados</li>
-                  <li>Histórico de atividades e exercícios</li>
-                  <li>Preferências e configurações da conta</li>
-                  <li>Dados de integração com dispositivos wearables</li>
-                  <li>Histórico de consultas e interações médicas</li>
-                  <li>Arquivos e documentos enviados</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item1') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item2') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item3') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item4') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item5') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item6') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section4.item7') }}</li>
                 </ul>
 
                 <v-divider class="my-6"></v-divider>
@@ -154,22 +154,22 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  5. Dados que Podem Ser Mantidos
+                  {{ $t('detalhesExclusaoConta.section5.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Por questões legais, regulatórias ou de segurança, alguns dados podem ser mantidos por períodos específicos:
+                  {{ $t('detalhesExclusaoConta.section5.intro') }}
                 </p>
 
                 <ul class="pl-6 my-4 text-body-1">
-                  <li>Registros de transações financeiras (conforme legislação fiscal)</li>
-                  <li>Logs de segurança e auditoria (anonimizados)</li>
-                  <li>Dados necessários para cumprimento de obrigações legais</li>
-                  <li>Informações agregadas e estatísticas (sem identificação pessoal)</li>
+                  <li>{{ $t('detalhesExclusaoConta.section5.item1') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section5.item2') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section5.item3') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section5.item4') }}</li>
                 </ul>
 
                 <p class="my-4 text-body-1">
-                  Estes dados são mantidos apenas pelo tempo necessário e em conformidade com as leis aplicáveis.
+                  {{ $t('detalhesExclusaoConta.section5.footer') }}
                 </p>
 
                 <v-divider class="my-6"></v-divider>
@@ -180,18 +180,18 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  6. Download dos Seus Dados
+                  {{ $t('detalhesExclusaoConta.section6.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Antes da exclusão definitiva, você tem o direito de solicitar uma cópia dos seus dados pessoais:
+                  {{ $t('detalhesExclusaoConta.section6.intro') }}
                 </p>
 
                 <ul class="pl-6 my-4 text-body-1">
-                  <li>Solicite o download durante o período de carência de 30 dias</li>
-                  <li>Os dados serão fornecidos em formato estruturado e legível</li>
-                  <li>O download estará disponível por 7 dias após a solicitação</li>
-                  <li>Entre em contato conosco em <strong>desenvolvimento@fitcertify365.com</strong> para solicitar</li>
+                  <li>{{ $t('detalhesExclusaoConta.section6.item1') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section6.item2') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section6.item3') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section6.item4', { email: $t('detalhesExclusaoConta.section6.email') }) }}</li>
                 </ul>
 
                 <v-divider class="my-6"></v-divider>
@@ -202,18 +202,18 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  7. Cancelamento da Solicitação
+                  {{ $t('detalhesExclusaoConta.section7.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Durante o período de carência de 30 dias, você pode cancelar a solicitação de exclusão:
+                  {{ $t('detalhesExclusaoConta.section7.intro') }}
                 </p>
 
                 <ul class="pl-6 my-4 text-body-1">
-                  <li>Faça login em sua conta (se ainda estiver no período de carência)</li>
-                  <li>Ou envie um e-mail para <strong>atendimento@fitcertify365.com</strong></li>
-                  <li>Sua conta será reativada em até 24 horas</li>
-                  <li>Todos os dados serão restaurados ao estado anterior</li>
+                  <li>{{ $t('detalhesExclusaoConta.section7.item1') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section7.item2', { email: $t('detalhesExclusaoConta.section7.email') }) }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section7.item3') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section7.item4') }}</li>
                 </ul>
 
                 <v-divider class="my-6"></v-divider>
@@ -224,19 +224,19 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  8. Consequências da Exclusão
+                  {{ $t('detalhesExclusaoConta.section8.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  <strong>ATENÇÃO:</strong> A exclusão da conta é irreversível após o período de carência. As consequências incluem:
+                  <strong>{{ $t('detalhesExclusaoConta.section8.warning') }}</strong> {{ $t('detalhesExclusaoConta.section8.intro') }}
                 </p>
 
                 <ul class="pl-6 my-4 text-body-1">
-                  <li>Perda permanente de todos os dados de saúde e fitness</li>
-                  <li>Cancelamento automático de assinaturas ativas</li>
-                  <li>Impossibilidade de recuperar histórico de atividades</li>
-                  <li>Perda de acesso a consultas médicas anteriores</li>
-                  <li>Necessidade de criar nova conta para usar novamente o serviço</li>
+                  <li>{{ $t('detalhesExclusaoConta.section8.item1') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section8.item2') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section8.item3') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section8.item4') }}</li>
+                  <li>{{ $t('detalhesExclusaoConta.section8.item5') }}</li>
                 </ul>
 
                 <v-divider class="my-6"></v-divider>
@@ -247,27 +247,27 @@
             <div class="d-flex justify-center my-10 mx-md-10">
               <v-container class="px-6">
                 <h2 class="text-h6 text-md-h5 font-weight-bold">
-                  9. Dúvidas e Suporte
+                  {{ $t('detalhesExclusaoConta.section9.title') }}
                 </h2>
 
                 <p class="my-4 text-body-1">
-                  Para dúvidas sobre o processo de exclusão de conta ou para solicitar suporte:
+                  {{ $t('detalhesExclusaoConta.section9.intro') }}
                 </p>
 
                 <div class="my-4 pa-4 bg-blue-lighten-5 rounded">
                   <p class="text-body-1 mb-2">
-                    📧 <strong>E-mail:</strong> atendimento@fitcertify365.com
+                    📧 <strong>{{ $t('detalhesExclusaoConta.section9.email') }}</strong> {{ $t('detalhesExclusaoConta.section9.emailAddress') }}
                   </p>
                   <p class="text-body-1 mb-2">
-                    🕒 <strong>Horário de Atendimento:</strong> Segunda a Sexta, 9h às 18h
+                    🕒 <strong>{{ $t('detalhesExclusaoConta.section9.hours') }}</strong> {{ $t('detalhesExclusaoConta.section9.hoursValue') }}
                   </p>
                   <p class="text-body-1">
-                    ⏱️ <strong>Tempo de Resposta:</strong> Até 48 horas úteis
+                    ⏱️ <strong>{{ $t('detalhesExclusaoConta.section9.responseTime') }}</strong> {{ $t('detalhesExclusaoConta.section9.responseTimeValue') }}
                   </p>
                 </div>
 
                 <p class="my-4 text-body-1">
-                  Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de exclusão e seus direitos como usuário.
+                  {{ $t('detalhesExclusaoConta.section9.footer') }}
                 </p>
               </v-container>
             </div>

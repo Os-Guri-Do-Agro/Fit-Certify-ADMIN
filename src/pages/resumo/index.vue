@@ -22,10 +22,10 @@
               </v-avatar>
             </div>
             <h1 class="text-h4 font-weight-bold text-white mt-4 mb-2" style="text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2)">
-              Resumo
+              {{ t('resumo.title') }}
             </h1>
             <p class="text-body-1 text-white mb-5" style="opacity: 0.9; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1)">
-              Visão geral das suas métricas
+              {{ t('resumo.subtitle') }}
             </p>
           </v-col>
 
@@ -44,7 +44,7 @@
                   :items="opcoesTempoFiltro"
                   item-title="label"
                   item-value="value"
-                  label="Período"
+                  :label="t('resumo.period')"
                   prepend-inner-icon="mdi-calendar"
                   variant="outlined"
                   density="compact"
@@ -55,7 +55,7 @@
                 <v-text-field
                   v-model="dataPersonalizada"
                   type="date"
-                  label="Data específica"
+                  :label="t('resumo.specificDate')"
                   prepend-inner-icon="mdi-calendar-range"
                   variant="outlined"
                   density="compact"
@@ -65,7 +65,7 @@
               <v-col class="d-flex align-center justify-center" cols="12">
                 <div class="text-body-2 text-grey-darken-1">
                   <v-icon size="small" class="me-1">mdi-information</v-icon>
-                  Período: {{ obterDescricaoPeriodo() }}
+                  {{ t('resumo.periodLabel') }} {{ obterDescricaoPeriodo() }}
                 </div>
               </v-col>
             </v-row>
@@ -94,7 +94,7 @@
               </v-col>
               <v-col>
                 <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                  Certificados Emitidos
+                  {{ t('resumo.issuedCertificates') }}
                 </div>
                 <div class="text-h4 font-weight-bold text-blue">
                   {{ metricas.certificadosEmitidos }}
@@ -124,7 +124,7 @@
               </v-col>
               <v-col>
                 <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                  Pacientes Atendidos
+                  {{ t('resumo.patientsServed') }}
                 </div>
                 <div class="text-h4 font-weight-bold text-green">
                   {{ metricas.pacientesAtendidos }}
@@ -154,7 +154,7 @@
               </v-col>
               <v-col>
                 <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                  Consultas Marcadas
+                  {{ t('resumo.scheduledAppointments') }}
                 </div>
                 <div class="text-h4 font-weight-bold text-orange">
                   {{ metricas.consultasMarcadas }}
@@ -187,7 +187,7 @@
               </v-col>
               <v-col>
                 <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                  Consultas Totais
+                  {{ t('resumo.totalAppointments') }}
                 </div>
                 <div class="text-h4 font-weight-bold text-purple">
                   {{ consultas.length }}
@@ -217,7 +217,7 @@
               </v-col>
               <v-col>
                 <div class="text-h6 font-weight-bold text-grey-darken-3 mb-1">
-                  Consultas Pendentes
+                  {{ t('resumo.pendingAppointments') }}
                 </div>
                 <div class="text-h4 font-weight-bold text-red">
                   {{ consultasPendentes.length }}
@@ -231,7 +231,7 @@
       <!-- Seção de Gráficos -->
       <v-row class="mt-6">
         <v-col cols="12">
-          <h2 class="text-h5 font-weight-bold text-grey-darken-3 mb-4">Análise Gráfica</h2>
+          <h2 class="text-h5 font-weight-bold text-grey-darken-3 mb-4">{{ t('resumo.graphicalAnalysis') }}</h2>
         </v-col>
 
         <v-col cols="12" md="6">
@@ -247,7 +247,7 @@
             }"
           >
             <div class="text-h6 font-weight-bold text-grey-darken-3 mb-4">
-              Consultas por Período
+              {{ t('resumo.appointmentsByPeriod') }}
             </div>
             <v-chart
               :option="lineChartOption"
@@ -269,7 +269,7 @@
             }"
           >
             <div class="text-h6 font-weight-bold text-grey-darken-3 mb-4">
-              Distribuição de Métricas
+              {{ t('resumo.metricsDistribution') }}
             </div>
             <v-chart
               :option="pieChartOption"
@@ -298,6 +298,9 @@ import { use } from 'echarts/core'
 import { CanvasRenderer } from 'echarts/renderers'
 import { LineChart, PieChart } from 'echarts/charts'
 import { TitleComponent, TooltipComponent, LegendComponent, GridComponent } from 'echarts/components'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 use([
   CanvasRenderer,
@@ -316,11 +319,11 @@ const consultas = ref([])
 const consultasPendentes = ref([])
 const userRole = ref(getRole())
 
-const opcoesTempoFiltro = [
-  { label: 'Hoje', value: 'hoje' },
-  { label: 'Este mês', value: 'mes' },
-  { label: 'Data específica', value: 'personalizado' }
-]
+const opcoesTempoFiltro = computed(() => [
+  { label: t('resumo.today'), value: 'hoje' },
+  { label: t('resumo.thisMonth'), value: 'mes' },
+  { label: t('resumo.specificDate'), value: 'personalizado' }
+])
 
 const metricas = ref({
   certificadosEmitidos: 0,
@@ -336,11 +339,11 @@ const metricasAnterior = ref({
 
 const obterDescricaoPeriodo = () => {
   const opcoes: Record<string, string> = {
-    'hoje': 'Hoje',
-    'mes': 'Este mês',
-    'personalizado': dataPersonalizada.value ? new Date(dataPersonalizada.value).toLocaleDateString('pt-BR') : 'Data específica'
+    'hoje': t('resumo.today'),
+    'mes': t('resumo.thisMonth'),
+    'personalizado': dataPersonalizada.value ? (locale.value === 'pt' ? dayjs(dataPersonalizada.value).format('DD/MM/YYYY') : dayjs(dataPersonalizada.value).format('MM/DD/YYYY')) : t('resumo.specificDate')
   }
-  return opcoes[filtroTempo.value] || 'Período selecionado'
+  return opcoes[filtroTempo.value] || t('resumo.period')
 }
 
 const buscarMetricas = async () => {
@@ -438,13 +441,18 @@ const lineChartOption = computed(() => ({
   },
   xAxis: {
     type: 'category',
-    data: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
+    data: [
+      t('resumo.months.jan'), t('resumo.months.feb'), t('resumo.months.mar'),
+      t('resumo.months.apr'), t('resumo.months.may'), t('resumo.months.jun'),
+      t('resumo.months.jul'), t('resumo.months.aug'), t('resumo.months.sep'),
+      t('resumo.months.oct'), t('resumo.months.nov'), t('resumo.months.dec')
+    ]
   },
   yAxis: {
     type: 'value'
   },
   series: [{
-    name: 'Consultas',
+    name: t('resumo.chartLabels.appointments'),
     type: 'line',
     data: consultasPorMes.value,
     smooth: true,
@@ -467,15 +475,15 @@ const pieChartOption = computed(() => ({
     left: 'center'
   },
   series: [{
-    name: 'Métricas',
+    name: t('resumo.chartLabels.metrics'),
     type: 'pie',
     radius: ['40%', '70%'],
     center: ['50%', '45%'],
     data: [
-      { value: metricas.value.certificadosEmitidos, name: 'Certificados', itemStyle: { color: '#2196F3' } },
-      { value: metricas.value.pacientesAtendidos, name: 'Pacientes', itemStyle: { color: '#4CAF50' } },
-      { value: metricas.value.consultasMarcadas, name: 'Consultas', itemStyle: { color: '#FF9800' } },
-      { value: consultasPendentes.value.length, name: 'Pendentes', itemStyle: { color: '#F44336' } }
+      { value: metricas.value.certificadosEmitidos, name: t('resumo.chartLabels.certificates'), itemStyle: { color: '#2196F3' } },
+      { value: metricas.value.pacientesAtendidos, name: t('resumo.chartLabels.patients'), itemStyle: { color: '#4CAF50' } },
+      { value: metricas.value.consultasMarcadas, name: t('resumo.chartLabels.scheduled'), itemStyle: { color: '#FF9800' } },
+      { value: consultasPendentes.value.length, name: t('resumo.chartLabels.pending'), itemStyle: { color: '#F44336' } }
     ],
     emphasis: {
       itemStyle: {

@@ -31,9 +31,9 @@
             <template #prepend>
               <VIcon icon="mdi-clock-outline" color="#00C6FE" size="24" />
             </template>
-            <VListItemTitle class="text-body-2 text-grey-600">Duração</VListItemTitle>
+            <VListItemTitle class="text-body-2 text-grey-600">{{ $t('meuPlano.duration') }}</VListItemTitle>
             <VListItemSubtitle class="text-h6 font-weight-bold text-black">
-              {{ planoInfo.plan?.interval_count }} {{ planoInfo.plan?.interval === 'year' ? 'ano(s)' : 'mês(es)' }}
+              {{ planoInfo.plan?.interval_count }} {{ planoInfo.plan?.interval === 'year' ? $t('meuPlano.year') : $t('meuPlano.month') }}
             </VListItemSubtitle>
           </VListItem>
 
@@ -44,9 +44,9 @@
             <template #prepend>
               <VIcon icon="mdi-calendar-check" color="#00C6FE" size="24" />
             </template>
-            <VListItemTitle class="text-body-2 text-grey-600">Assinado em:</VListItemTitle>
+            <VListItemTitle class="text-body-2 text-grey-600">{{ $t('meuPlano.subscribedOn') }}</VListItemTitle>
             <VListItemSubtitle class="text-h6 font-weight-bold text-black">
-              {{ planoInfo.start_at ? new Date(planoInfo.start_at).toLocaleDateString('pt-BR') : 'Não disponível' }}
+              {{ planoInfo.start_at ? formatDate(planoInfo.start_at) : $t('meuPlano.notAvailable') }}
             </VListItemSubtitle>
           </VListItem>
 
@@ -57,9 +57,9 @@
             <template #prepend>
               <VIcon icon="mdi-credit-card-clock" color="#00C6FE" size="24" />
             </template>
-            <VListItemTitle class="text-body-2 text-grey-600">Próxima Cobrança:</VListItemTitle>
+            <VListItemTitle class="text-body-2 text-grey-600">{{ $t('meuPlano.nextBilling') }}</VListItemTitle>
             <VListItemSubtitle class="text-h6 font-weight-bold text-black">
-              {{ planoInfo.next_billing_at ? new Date(planoInfo.next_billing_at).toLocaleDateString('pt-BR') : 'Não disponível' }}
+              {{ planoInfo.next_billing_at ? formatDate(planoInfo.next_billing_at) : $t('meuPlano.notAvailable') }}
             </VListItemSubtitle>
           </VListItem>
 
@@ -70,9 +70,9 @@
             <template #prepend>
               <VIcon icon="mdi-credit-card" color="#00C6FE" size="24" />
             </template>
-            <VListItemTitle class="text-body-2 text-grey-600">Método de Pagamento:</VListItemTitle>
+            <VListItemTitle class="text-body-2 text-grey-600">{{ $t('meuPlano.paymentMethod') }}</VListItemTitle>
             <VListItemSubtitle class="text-h6 font-weight-bold text-black">
-              {{ planoInfo.card ? `${planoInfo.card.brand} •••• ${planoInfo.card.last_four_digits}` : planoInfo.payment_method || 'Não disponível' }}
+              {{ planoInfo.card ? `${planoInfo.card.brand} •••• ${planoInfo.card.last_four_digits}` : planoInfo.payment_method || $t('meuPlano.notAvailable') }}
             </VListItemSubtitle>
           </VListItem>
 
@@ -84,10 +84,10 @@
               <VIcon :icon="planoInfo.status === 'active' ? 'mdi-check-circle' : 'mdi-alert-circle'"
                 :color="planoInfo.status === 'active' ? '#88CE0D' : '#FF4444'" size="24" />
             </template>
-            <VListItemTitle class="text-body-2 text-grey-600">Status</VListItemTitle>
+            <VListItemTitle class="text-body-2 text-grey-600">{{ $t('meuPlano.status') }}</VListItemTitle>
             <VListItemSubtitle class="text-h6 font-weight-bold"
               :class="planoInfo?.status === 'active' ? 'text-green' : 'text-red'">
-              {{ STATUS_ASSINATURA[planoInfo.status as keyof typeof STATUS_ASSINATURA] || 'Desconhecido' }}
+              {{ $t(`meuPlano.statusTypes.${planoInfo.status}`) }}
             </VListItemSubtitle>
           </VListItem>
         </VList>
@@ -97,15 +97,15 @@
     <template v-else>
       <VCard class="pa-8 text-center">
         <VIcon icon="mdi-alert-circle" color="warning" size="64" class="mb-4" />
-        <h3 class="text-h5 font-weight-bold mb-2">Nenhum plano ativo</h3>
-        <p class="text-body-1 text-grey">Você não possui um plano ativo no momento.</p>
+        <h3 class="text-h5 font-weight-bold mb-2">{{ $t('meuPlano.noActivePlan') }}</h3>
+        <p class="text-body-1 text-grey">{{ $t('meuPlano.noActivePlanDescription') }}</p>
       </VCard>
     </template>
 
     <VBtn v-if="planoInfo && planoInfo.status !== 'canceled'" color="error" variant="outlined" class="mt-4 w-100" size="large"
       @click="showCancelModal = true">
       <VIcon icon="mdi-cancel" class="mr-2" />
-      Cancelar Plano
+      {{ $t('meuPlano.cancelPlan') }}
     </VBtn>
 
     <VDialog v-model="showCancelModal" max-width="400">
@@ -113,24 +113,23 @@
         <VIcon icon="mdi-alert-circle" color="error" size="48" class="mb-4" />
 
         <VCardTitle class="text-h5 font-weight-bold text-error mb-4">
-          Cancelar Plano
+          {{ $t('meuPlano.cancelPlanTitle') }}
         </VCardTitle>
 
         <VCardText class="text-body-1 mb-4">
-          Tem certeza que deseja cancelar seu plano? Esta ação não pode ser desfeita e você
-          perderá acesso aos benefícios premium.
+          {{ $t('meuPlano.cancelPlanMessage') }}
         </VCardText>
 
         <VAlert color="warning" variant="tonal" class="mb-4">
-          <div class="text-body-2">Tempo restante após cancelamento:</div>
+          <div class="text-body-2">{{ $t('meuPlano.timeRemaining') }}</div>
         </VAlert>
 
         <VCardActions class="justify-center gap-3">
           <VBtn variant="outlined" color="primary" @click="showCancelModal = false">
-            Manter Plano
+            {{ $t('meuPlano.keepPlan') }}
           </VBtn>
           <VBtn color="error" :loading="loading" @click="handleCancelarPlano">
-            {{ loading ? 'Cancelando...' : 'Sim, Cancelar' }}
+            {{ loading ? $t('meuPlano.canceling') : $t('meuPlano.confirmCancel') }}
           </VBtn>
         </VCardActions>
       </VCard>
@@ -144,7 +143,9 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import pagarmeService from '@/services/pagarme/pagarme-service'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const router = useRouter()
 
 const planoInfo = ref<any>(null)
@@ -152,12 +153,11 @@ const loading = ref(true)
 const loadingCancel = ref(false)
 const showCancelModal = ref(false)
 
-const STATUS_ASSINATURA = {
-  active: 'Ativo',
-  canceled: 'Cancelado',
-  pending: 'Pendente',
-  expired: 'Expirado',
-  failed: 'Falhou'
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString)
+  return locale.value === 'pt' 
+    ? date.toLocaleDateString('pt-BR')
+    : date.toLocaleDateString('en-US')
 }
 
 const handleCancelarPlano = async () => {
@@ -166,11 +166,11 @@ const handleCancelarPlano = async () => {
   loading.value = true
   try {
     await pagarmeService.cancelAtletaSubscriptionPagarme(planoInfo.value.id)
-    toast.success('Plano cancelado com sucesso!')
+    toast.success(t('meuPlano.cancelSuccess'))
     showCancelModal.value = false
     await loadSubscriptionInfo()
   } catch (error) {
-    toast.error('Erro ao cancelar plano: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('meuPlano.cancelError', { error: getErrorMessage(error, t('meuPlano.unknownError')) }))
   } finally {
     loading.value = false
   }
@@ -182,7 +182,7 @@ const loadSubscriptionInfo = async () => {
     const response = await pagarmeService.getInfoSubscription()
     planoInfo.value = response.data.subscriptions[0]
   } catch (error) {
-    toast.error('Erro ao carregar informações do plano: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('meuPlano.loadError', { error: getErrorMessage(error, t('meuPlano.unknownError')) }))
     planoInfo.value = null
   } finally {
     loading.value = false

@@ -5,19 +5,19 @@
         <div class="header-icon-wrapper">
           <v-icon size="40" color="white">mdi-doctor</v-icon>
         </div>
-        <h1 class="header-title">Encontre um Médico</h1>
-        <p class="header-subtitle">Encontre um médico parceiro próximo a você e agende sua consulta presencial</p>
+        <h1 class="header-title">{{ $t('medicos.title') }}</h1>
+        <p class="header-subtitle">{{ $t('medicos.subtitle') }}</p>
       </div>
     </div>
 
     <v-row justify="center" class="mb-10 mt-8">
       <v-btn-toggle v-model="filtro" rounded="pill" group mandatory class="filter-toggle">
         <v-btn value="lista" variant="flat" class="px-8 text-body-1 font-weight-medium filter-btn" :class="{ 'active-filter': filtro === 'lista' }">
-          Lista completa
+          {{ $t('medicos.completeList') }}
         </v-btn>
         <v-btn value="meu" variant="outlined" class="px-8 text-body-1 font-weight-medium filter-btn"
           @click="router.push('/Atleta-Screens/meusMedicos')">
-          Já tenho meu médico
+          {{ $t('medicos.alreadyHaveDoctor') }}
         </v-btn>
       </v-btn-toggle>
     </v-row>
@@ -29,9 +29,9 @@
           <v-card-text class="pa-6">
             <div class="text-center mb-4">
               <v-icon size="32" class="mb-2 gradient-icon">mdi-map-marker-radius</v-icon>
-              <h3 class="text-h6 font-weight-bold mb-1">Busca por Proximidade</h3>
+              <h3 class="text-h6 font-weight-bold mb-1">{{ $t('medicos.proximitySearch') }}</h3>
               <p class="text-body-2 text-medium-emphasis mb-0">
-                Digite seu CEP para encontrar médicos próximos a você
+                {{ $t('medicos.proximityDescription') }}
               </p>
             </div>
 
@@ -41,7 +41,7 @@
                 @input="cepError = ''"
                 @keyup.enter="orderByDistance"
                 placeholder="00000-000"
-                label="Seu CEP"
+                :label="$t('medicos.yourZipCode')"
                 :error="!!cepError"
                 :error-messages="cepError"
                 variant="outlined"
@@ -64,7 +64,7 @@
                     class="me-2"
                   >
                     <v-icon class="me-1">mdi-map-marker-distance</v-icon>
-                    Buscar
+                    {{ $t('medicos.searchButton') }}
                   </v-btn>
                 </template>
               </v-text-field>
@@ -90,7 +90,7 @@
                 class="mt-3"
                 rounded="lg"
               >
-                Encontrados {{ medico.length }} médicos próximos ordenados por distância
+                {{ t('medicos.foundDoctors', { count: medico.length }) }}
               </v-alert>
             </v-expand-transition>
           </v-card-text>
@@ -137,21 +137,21 @@
                   {{ medico?.especializacao }}
                 </div>
                 <div class="text-body-2" style="color: black">
-                  CRM: {{ medico.crm }}
+                  {{ $t('medicos.crm') }}: {{ medico.crm }}
                 </div>
                 <!-- Mostrar distância se calculada -->
                 <div
                   v-if="medico.distance !== undefined && medico.distance !== null"
                   class="distance-text"
                 >
-                  📍 {{ medico.distance.toFixed(1) }} km de distância
+                  📍 {{ t('medicos.distance', { distance: medico.distance.toFixed(1) }) }}
                 </div>
 
                 <v-row align="center" class="mt-3">
                   <v-col cols="auto">
                     <v-btn variant="flat" class="px-8 text-body-2 gradient-btn" rounded
                       @click="detalhesMedico(medico.id)">
-                      Mais Detalhes
+                      {{ $t('medicos.moreDetails') }}
                     </v-btn>
                   </v-col>
                 </v-row>
@@ -172,13 +172,13 @@
         <v-card class="mb-4 mt-10 mt-md-0" rounded="xl" elevation="3">
           <v-card-title class="d-flex align-center pa-4">
             <v-icon class="me-2 gradient-icon">mdi-map-marker-radius</v-icon>
-            <span class="text-h6">Localização</span>
+            <span class="text-h6">{{ $t('medicos.location') }}</span>
           </v-card-title>
 
           <v-card-text class="pa-4">
             <v-text-field
               v-model="cep"
-              label="CEP do consultório"
+              :label="$t('medicos.officeZipCode')"
               variant="outlined"
               density="comfortable"
               rounded="lg"
@@ -195,7 +195,7 @@
                 <v-card-text class="pa-3">
                   <div class="text-subtitle-2 font-weight-bold mb-2 d-flex align-center">
                     <v-icon size="small" class="me-2">mdi-map-marker</v-icon>
-                    Endereço Encontrado:
+                    {{ $t('medicos.addressFound') }}
                   </div>
                   <div class="text-body-2 mb-3">{{ endereco }}</div>
                   <v-btn
@@ -205,7 +205,7 @@
                     @click="abrirGoogleMaps"
                     prepend-icon="mdi-google-maps"
                   >
-                    Abrir no Google Maps
+                    {{ $t('medicos.openInGoogleMaps') }}
                   </v-btn>
                 </v-card-text>
               </v-card>
@@ -218,7 +218,7 @@
           <v-card-title class="d-flex align-center justify-space-between pa-4">
             <div class="d-flex align-center">
               <v-icon class="me-2 gradient-icon">mdi-map</v-icon>
-              <span class="text-h6">Visualização</span>
+              <span class="text-h6">{{ $t('medicos.visualization') }}</span>
             </div>
             <v-btn
               v-if="mapaUrl"
@@ -233,10 +233,8 @@
             <div v-if="!mapaUrl" class="map-placeholder">
               <div class="text-center pa-8">
                 <v-icon size="64" class="gradient-icon">mdi-map-outline</v-icon>
-                <div class="text-h6 mt-4 mb-2">Mapa Interativo</div>
-                <div class="text-body-2 text-medium-emphasis">
-                  Clique no ícone 📍 de um médico ou digite um CEP<br>
-                  para visualizar a localização no mapa
+                <div class="text-h6 mt-4 mb-2">{{ $t('medicos.interactiveMap') }}</div>
+                <div class="text-body-2 text-medium-emphasis" v-html="$t('medicos.mapDescription')">
                 </div>
               </div>
             </div>
@@ -277,8 +275,10 @@ import medicoService from '@/services/medico/medico-service'
 import userService from '@/services/user/user-service'
 import { getPayload } from '@/utils/auth'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t } = useI18n()
 
 const filtro = ref('lista')
 const cep = ref('')
@@ -343,7 +343,7 @@ const orderByDistance = async () => {
     // 1. Buscar coordenadas do CEP do usuário
     const userCoords = await getCoordsFromCEP(userCep.value);
     if (!userCoords) {
-      cepError.value = 'CEP inválido ou não encontrado';
+      cepError.value = t('medicos.invalidZipCode');
       return;
     }
 
@@ -388,7 +388,7 @@ const orderByDistance = async () => {
 
   } catch (error) {
     console.error('Erro ao ordenar por distância:', error);
-    cepError.value = 'Erro ao buscar médicos por distância';
+    cepError.value = t('medicos.errorSearchingDoctors');
   } finally {
     loadingDistance.value = false;
   }

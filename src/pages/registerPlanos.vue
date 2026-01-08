@@ -23,7 +23,7 @@
           <h1
             class="mx-5 mx-lg-15 text-white text-h5 text-md-h4 font-weight-medium font-italic"
           >
-            Comece agora sua jornada com mais saúde e performance.
+            {{ $t('registerPlanos.title') }}
           </h1>
 
           <p
@@ -35,9 +35,7 @@
               line-height: 36px;
             "
           >
-            Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com
-            ela, você poderá validar certificados, acompanhar seus marcadores de
-            saúde e aproveitar benefícios exclusivos no nosso marketplace.
+            {{ $t('registerPlanos.subtitle') }}
           </p>
         </VCol>
       </VRow>
@@ -61,7 +59,7 @@
                 sans-serif;
             "
           >
-            Escolha seu plano
+            {{ $t('registerPlanos.choosePlan') }}
           </h2>
 
           <span
@@ -72,8 +70,7 @@
                 sans-serif;
             "
           >
-            Certifique sua saúde com a FitCertify365. Escolha o plano ideal para
-            sua jornada esportiva.
+            {{ $t('registerPlanos.planDescription') }}
           </span>
         </div>
 
@@ -116,7 +113,7 @@
                     class="text-caption font-weight-black"
                     style="color: #00b5d8"
                   >
-                    ⭐ Mais popular
+                    ⭐ {{ $t('registerPlanos.mostPopular') }}
                   </span>
                 </div>
 
@@ -135,7 +132,7 @@
                     R$
                     {{
                       plano.precoMes?.toFixed(2).replace('.', ',') || '0,00'
-                    }}/mês
+                    }}/{{ $t('registerPlanos.perMonth') }}
                   </v-card-subtitle>
 
                   <v-card-subtitle
@@ -149,7 +146,7 @@
                     "
                   >
                     R$
-                    {{ plano.precoAno.toFixed(2).replace('.', ',') }}/ano
+                    {{ plano.precoAno.toFixed(2).replace('.', ',') }}/{{ $t('registerPlanos.perYear') }}
                   </v-card-subtitle>
                 </div>
 
@@ -167,7 +164,7 @@
                           class="text-wrap flex-grow-1"
                           style="color: #5f6c7b"
                         >
-                          {{ item.beneficio.descricao }}
+                          {{ $t(`registerPlanos.beneficios.${getBeneficioKey(item.beneficio.descricao)}`) }}
                         </v-list-item-title>
 
                         <span
@@ -207,7 +204,7 @@
                       height="44px"
                       style="background-color: #88ce0d"
                     >
-                      Assinar {{ plano.nome }}
+                      {{ $t('registerPlanos.subscribe') }} {{ plano.nome }}
                     </VBtn>
                   </VCardActions>
                 </div>
@@ -223,16 +220,33 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import PlanoService from '../services/planos/plano-service'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiWindowClose } from '@mdi/js'
 import { logout } from '@/utils/auth'
 import { usePlanoStore } from '@/stores/plano'
 
+const { t } = useI18n()
+
 const router = useRouter()
 const planos = ref([])
 const loading = ref(true)
 const planoStore = usePlanoStore()
+
+const getBeneficioKey = (descricao) => {
+  const map = {
+    'Conexão com provas parceiras': 'item_01',
+    'Emissão autmomática de modelo oficial': 'item_02',
+    'Aplicação ilimitada em diferentes provas durante a validade': 'item_03',
+    'Assinatura digital + QR Code': 'item_04',
+    'Descontos no Marketplace': 'item_05',
+    'Acesso ao painel de saúde': 'item_06',
+    'Monitoramento contínuo': 'item_07',
+    'integração com wearables': 'item_08'
+  }
+  return map[descricao] || descricao
+}
 
 function sair() {
   logout()

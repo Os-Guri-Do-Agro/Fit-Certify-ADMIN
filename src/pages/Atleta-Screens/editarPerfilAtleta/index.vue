@@ -29,7 +29,7 @@
           />
         </div>
         <h1 class="header-title">{{ formData.nome }}</h1>
-        <p class="header-subtitle">Editar Perfil</p>
+        <p class="header-subtitle">{{ $t('editarPerfilAtleta.title') }}</p>
         <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-identifier">
             ID: {{ payload?.userId }}
@@ -50,14 +50,14 @@
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
                 <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
-                Informações Pessoais
+                {{ $t('editarPerfilAtleta.personalInfo') }}
               </v-card-title>
               <v-card-text class="pa-6">
                 <v-row>
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.nome"
-                      label="Nome Completo"
+                      :label="$t('editarPerfilAtleta.fullName')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -69,7 +69,7 @@
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.email"
-                      label="E-mail"
+                      :label="$t('editarPerfilAtleta.email')"
                       disabled
                       variant="outlined"
                       density="comfortable"
@@ -83,7 +83,7 @@
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.telefone"
-                      label="Telefone"
+                      :label="$t('editarPerfilAtleta.phone')"
                       v-maska="'(##) #####-####'"
                       maxlength="15"
                       variant="outlined"
@@ -98,7 +98,7 @@
                   <v-col cols="12" md="6">
                     <v-text-field
                       v-model="formData.dataNascimento"
-                      label="Data de Nascimento"
+                      :label="$t('editarPerfilAtleta.birthDate')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -115,7 +115,7 @@
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
                 <v-icon class="mr-3" color="#00c6fe">mdi-ticket-percent</v-icon>
-                Códigos de Convite
+                {{ $t('editarPerfilAtleta.inviteCodes') }}
               </v-card-title>
               <v-card-text class="pa-6">
                 <v-row>
@@ -123,7 +123,7 @@
                     <div class="d-flex align-center justify-space-between mb-3">
                       <div class="d-flex align-center">
                         <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
-                        <span class="text-h6">Código de Convite</span>
+                        <span class="text-h6">{{ $t('editarPerfilAtleta.inviteCode') }}</span>
                       </div>
                       <v-btn
                         color="#00c6fe"
@@ -134,12 +134,12 @@
                         @click="gerarCodigoConvite()"
                         :loading="loadingCodigo"
                       >
-                        Gerar Código
+                        {{ $t('editarPerfilAtleta.generateCode') }}
                       </v-btn>
                     </div>
                     <v-text-field
                       :model-value="codigoConvite"
-                      label="Seu código de convite"
+                      :label="$t('editarPerfilAtleta.yourInviteCode')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -161,11 +161,11 @@
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
-                      <span class="text-h6">Inserir Código</span>
+                      <span class="text-h6">{{ $t('editarPerfilAtleta.insertCode') }}</span>
                     </div>
                     <v-text-field
                       v-model="codigoInserir"
-                      label="Digite o código de convite"
+                      :label="$t('editarPerfilAtleta.enterInviteCode')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
@@ -185,13 +185,13 @@
                     </v-text-field>
                     <v-select
                       v-model="perfilCodigo"
-                      label="Tipo de Perfil do Destinatário"
+                      :label="$t('editarPerfilAtleta.recipientProfileType')"
                       variant="outlined"
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-account-group"
                       color="#00c6fe"
-                      :items="[{title: 'Fisioterapeuta', value: 'fisioterapeuta'}, {title: 'Treinador', value: 'treinador'}]"
+                      :items="[{title: $t('editarPerfilAtleta.physiotherapist'), value: 'fisioterapeuta'}, {title: $t('editarPerfilAtleta.coach'), value: 'treinador'}]"
                     ></v-select>
                   </v-col>
                 </v-row>
@@ -264,7 +264,7 @@
                 :disabled="loading"
               >
                 <v-icon left>mdi-close</v-icon>
-                Cancelar
+                {{ $t('editarPerfilAtleta.cancel') }}
               </v-btn>
               <v-btn
                 color="#00c6fe"
@@ -276,7 +276,7 @@
                 elevation="4"
               >
                 <v-icon left>mdi-check</v-icon>
-                Salvar Alterações
+                {{ $t('editarPerfilAtleta.saveChanges') }}
               </v-btn>
             </div>
           </v-form>
@@ -294,6 +294,9 @@ import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const codigoConvite = ref('')
 const codigoInserir = ref('')
@@ -316,10 +319,10 @@ let debounceTimer: number
 
 const solicitarConexao = async () => {
   if (!codigoInserir.value) {
-    toast.error('Por favor, insira um código de convite')
+    toast.error(t('editarPerfilAtleta.enterInviteCodeError'))
     return
   } else if (!perfilCodigo) {
-    toast.error('Por favor, selecione o perfil do usuário que deseja realizar a conexão')
+    toast.error(t('editarPerfilAtleta.selectProfileError'))
   }
   try {
     const data = {
@@ -334,7 +337,7 @@ const solicitarConexao = async () => {
     if (statusCode === 400) {
       toast.error(message)
     } else {
-      toast.error('Erro ao solicitar conexão')
+      toast.error(t('editarPerfilAtleta.connectionError'))
     }
   }
 }
@@ -342,17 +345,17 @@ const solicitarConexao = async () => {
 const gerarCodigoConvite = async () => {
   loadingCodigo.value = true
   if (codigoConvite.value) {
-    toast.info('Você já possui um código de convite gerado')
+    toast.info(t('editarPerfilAtleta.codeAlreadyExists'))
     loadingCodigo.value = false
     return
   }
   try {
     const response = await atletaService.gerarCodigoConvite()
     codigoConvite.value = response.data.codigoConvite
-    toast.success('Código gerado com sucesso!')
+    toast.success(t('editarPerfilAtleta.codeGeneratedSuccess'))
   } catch (error) {
     console.error('Erro ao gerar código de convite:', error)
-    toast.error('Erro ao gerar código de convite')
+    toast.error(t('editarPerfilAtleta.codeGenerateError'))
   } finally {
     loadingCodigo.value = false
   }
@@ -362,40 +365,38 @@ const copiarCodigo = async () => {
   if (!codigoConvite.value) return
   try {
     await navigator.clipboard.writeText(codigoConvite.value)
-    toast.success('Código copiado!')
+    toast.success(t('editarPerfilAtleta.codeCopied'))
   } catch (err) {
-    toast.error('Erro ao copiar código: ' + getErrorMessage(err, 'Erro desconhecido'))
+    toast.error(t('editarPerfilAtleta.codeCopyError', { error: getErrorMessage(err, t('editarPerfilAtleta.unknownError')) }))
   }
 }
 
 const rules = {
-  required: (value: any) => !!value || 'Campo obrigatório',
+  required: (value: any) => !!value || t('editarPerfilAtleta.required'),
   email: (value: string) => {
     const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    return pattern.test(value) || 'E-mail inválido'
+    return pattern.test(value) || t('editarPerfilAtleta.invalidEmail')
   },
   emailExists: (value: string) => {
     if (!emailValidation.value.checked) return true
     if (emailValidation.value.exists) {
-      return 'Este email já está em uso'
+      return t('editarPerfilAtleta.emailInUse')
     }
     return true
   },
   phone: (value: string) => {
-    if (!value) return 'Campo obrigatório'
+    if (!value) return t('editarPerfilAtleta.required')
     const digits = value.replace(/\D/g, '')
-    return digits.length === 11 || 'Telefone deve ter 11 dígitos'
+    return digits.length === 11 || t('editarPerfilAtleta.phoneDigits')
   },
   birthDate: (value: string) => {
-    if (!value) return 'Campo obrigatório'
+    if (!value) return t('editarPerfilAtleta.required')
     const selectedYear = new Date(value).getFullYear()
     const currentYear = new Date().getFullYear()
-    return selectedYear <= currentYear || 'Data não pode ser no futuro'
+    return selectedYear <= currentYear || t('editarPerfilAtleta.futureDateError')
   },
   minLength: (min: number) => (value: string) =>
     !value || value.length >= min || `Mínimo ${min} caracteres`,
-  // passwordMatch: (value: string) =>
-  //   !value || value === formData.value.novaSenha || 'Senhas não coincidem'
 }
 
 const formatPhone = (event: Event) => {
@@ -472,20 +473,19 @@ const validateEmailExists = async (email: string) => {
   }
 }
 const atualizarDadosAtleta = async () => {
-  // Verifica se há validação de email pendente ou se email existe
   if (emailValidation.value.loading) {
-    toast.error('Aguarde a validação do email')
+    toast.error(t('editarPerfilAtleta.waitEmailValidation'))
     return
   }
 
   if (emailValidation.value.exists) {
-    toast.error('Corrija os erros no formulário antes de salvar')
+    toast.error(t('editarPerfilAtleta.fixErrors'))
     return
   }
 
   const { valid } = await form.value.validate()
   if (!valid) {
-    toast.error('Preencha todos os campos obrigatórios corretamente')
+    toast.error(t('editarPerfilAtleta.fillRequired'))
     return
   }
 
@@ -513,19 +513,19 @@ const atualizarDadosAtleta = async () => {
 
     const response = await atletaService.editAtletaByProfile(data)
 
-    toast.success('Dados atualizados com sucesso!')
+    toast.success(t('editarPerfilAtleta.updateSuccess'))
 
 if (response.data.success) {
   if (response.data.token) {
     const storage = localStorage.getItem('token') ? localStorage : sessionStorage
     storage.setItem('token', response.data.token)
   }
-  toast.success('Dados atualizados com sucesso!')
+  toast.success(t('editarPerfilAtleta.updateSuccess'))
   window.location.reload()
 }
 
   } catch (error) {
-    toast.error('Erro ao atualizar dados: ' + getErrorMessage(error, 'Erro desconhecido'), { position: 'top-right' })
+    toast.error(t('editarPerfilAtleta.updateError', { error: getErrorMessage(error, t('editarPerfilAtleta.unknownError')) }), { position: 'top-right' })
     console.error(error)
   } finally {
     loading.value = false
@@ -556,7 +556,7 @@ const carregarDados = async () => {
     }
   } catch (error) {
     console.error('Erro ao carregar dados do atleta:', error)
-    toast.error('Erro ao carregar dados do atleta: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('editarPerfilAtleta.loadError', { error: getErrorMessage(error, t('editarPerfilAtleta.unknownError')) }))
   } finally {
     loadingData.value = false
   }
