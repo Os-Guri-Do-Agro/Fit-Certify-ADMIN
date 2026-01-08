@@ -3,71 +3,66 @@
     <!-- DIV DA ESQUERDA -->
     <VCol class="pa-0 ma-0" md="4" style="background-color: #00c6fe">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column">
-        <VCol class="pa-0 ma-0 flex-fill" cols="12">
-          <div
-            class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15"
-          >
-            <v-img
-              src="../assets/Login/logo-fit.png"
-              max-width="200"
-              alt="Logo"
-              cover
-              class="mx-5 mx-lg-15"
-            ></v-img>
-          </div>
-        </VCol>
         <VCol
-          class="pa-0 ma-0 d-flex text-center text-md-start flex-column align-center flex-fill"
-          cols="12"
-        >
-          <h1
-            class="mx-5 mx-lg-15 text-white text-h5 text-md-h4 font-weight-medium font-italic"
-          >
-            {{ $t('registerPlanos.title') }}
-          </h1>
+          class="pa-0 ma-0 d-flex text-center flex-column align-center justify-center">
+          <div class="mb-10">
+            <a href="https://fitcertify365.com/" target="_blank" class="d-flex justify-center align-center logo-link">
+              <v-img alt="Logo" class="mx-5 mx-lg-16" cover width="280" src="../assets/Login/logo-fit.png" style="filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));" />
+            </a>
+          </div>
 
-          <p
-            class="mx-5 mx-lg-15 text-white text-center text-md-start text-h6 text-md-h5 font-weight-regular mt-5 mb-10"
-            style="
-              font-family:
-                DM Sans,
-                sans-serif;
-              line-height: 36px;
-            "
-          >
-            {{ $t('registerPlanos.subtitle') }}
-          </p>
+          <div class="pa-0 ma-0 d-flex text-center flex-column align-center">
+            <h1 class="mx-5 mx-lg-15 text-white text-h5 text-center text-md-h4 font-weight-bold" style="
+                font-family: DM Sans, sans-serif;
+                text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+                letter-spacing: -0.5px;
+              ">
+              {{ $t('registerPlanos.title') }}
+            </h1>
+            <p class="mx-5 mx-lg-15 text-white text-center text-body-1 text-md-h6 font-weight-regular mt-5 mb-10"
+              style="
+                font-family: DM Sans, sans-serif;
+                line-height: 1.6;
+                opacity: 0.95;
+              ">
+              {{ $t('registerPlanos.subtitle') }}
+            </p>
+          </div>
         </VCol>
       </VRow>
     </VCol>
 
     <!--DIV DA DIREITA-->
-    <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8">
-      <v-container class="d-flex ga-10 align-top mx-md-5 flex-column">
+    <VCol class="h-100 d-flex align-center pa-0 ma-0" md="8" style="background: #f8f9fa;">
+      <v-container class="d-flex ga-10 align-top mx-md-5 flex-column py-8">
         <div class="w-100 d-flex justify-end">
-          <v-btn icon @click="sair">
-            <SvgIcon type="mdi" :path="mdiWindowClose" style="color: #00b5d8" />
+          <v-btn icon variant="text" @click="sair">
+            <v-icon color="#00c6fe">mdi-close</v-icon>
           </v-btn>
         </div>
-        <div class="w-100 d-flex align-center flex-column">
-          <h2
-            class="text-center text-h5 font-weight-black mb-5"
-            style="
-              color: #88ce0d;
-              font-family:
-                DM Sans,
-                sans-serif;
-            "
-          >
-            {{ $t('registerPlanos.choosePlan') }}
-          </h2>
+        <div class="w-100 d-flex align-center flex-column mb-4">
+          <div class="d-flex align-center ga-3 mb-4">
+            <div style="width: 50px; height: 50px; border-radius: 12px; background: linear-gradient(135deg, #88ce0d 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(136, 206, 13, 0.4);">
+              <v-icon color="white" size="24">mdi-star</v-icon>
+            </div>
+            <h2
+              class="text-center text-h5 text-md-h4 font-weight-bold"
+              style="
+                color: #2c3e50;
+                font-family: DM Sans, sans-serif;
+                letter-spacing: -0.5px;
+              "
+            >
+              {{ $t('registerPlanos.choosePlan') }}
+            </h2>
+          </div>
 
           <span
             class="text-center text-subtitle-1"
             style="
-              font-family:
-                DM Sans,
-                sans-serif;
+              font-family: DM Sans, sans-serif;
+              color: #6b7280;
+              line-height: 1.6;
             "
           >
             {{ $t('registerPlanos.planDescription') }}
@@ -80,7 +75,7 @@
             <VCol v-for="n in 2" :key="n" cols="12" md="6">
               <VSkeletonLoader
                 type="card, actions"
-                class="pa-7 rounded-xl"
+                class="pa-7 rounded-xl elevation-2"
                 height="606.7px"
               />
             </VCol>
@@ -90,19 +85,18 @@
           <template v-else>
             <VCol v-for="plano in planos" :key="plano.id" cols="12" md="6">
               <VCard
-                class="pa-7 rounded-xl d-flex flex-column justify-space-between border_Focus"
+                class="pa-7 rounded-xl d-flex flex-column justify-space-between plan-card"
                 min-height="606.7px"
                 height="100%"
+                elevation="2"
               >
                 <!-- Nome e destaque -->
                 <div class="d-flex align-md-center flex-column flex-md-row">
                   <VCardTitle
-                    class="font-weight-black text-h6 text-md-h5"
+                    class="font-weight-bold text-h6 text-md-h5"
                     style="
-                      color: #00b5d8;
-                      font-family:
-                        DM Sans,
-                        sans-serif;
+                      color: #00c6fe;
+                      font-family: DM Sans, sans-serif;
                     "
                     primary-title
                   >
@@ -110,8 +104,8 @@
                   </VCardTitle>
                   <span
                     v-if="plano.maisPopular"
-                    class="text-caption font-weight-black"
-                    style="color: #00b5d8"
+                    class="text-caption font-weight-bold px-3 py-1"
+                    style="color: #00c6fe; background: rgba(0, 198, 254, 0.1); border-radius: 20px;"
                   >
                     ⭐ {{ $t('registerPlanos.mostPopular') }}
                   </span>
@@ -121,12 +115,10 @@
                 <div class="d-flex flex-column flex-lg-row">
                   <v-card-subtitle
                   v-if="!plano.maisPopular"
-                    class="font-weight-black text-md-h6"
+                    class="font-weight-bold text-md-h6"
                     style="
                       color: #88ce0d;
-                      font-family:
-                        DM Sans,
-                        sans-serif;
+                      font-family: DM Sans, sans-serif;
                     "
                   >
                     R$
@@ -137,12 +129,10 @@
 
                   <v-card-subtitle
                     v-if="plano.precoMes && plano.maisPopular"
-                    class="font-weight-black text-md-h6"
+                    class="font-weight-bold text-md-h6"
                     style="
                       color: #88ce0d;
-                      font-family:
-                        DM Sans,
-                        sans-serif;
+                      font-family: DM Sans, sans-serif;
                     "
                   >
                     R$
@@ -199,10 +189,12 @@
                   <VCardActions>
                     <VBtn
                       @click="assinarPlano(plano)"
-                      class="text-white w-100 text-caption text-md-subtitle-1"
+                      class="text-white w-100 text-caption text-md-subtitle-1 bg-light-green-darken-1"
                       max-width="255px"
-                      height="44px"
-                      style="background-color: #88ce0d"
+                      height="50px"
+                      rounded="xl"
+                      elevation="4"
+                      style="font-weight: 600; text-transform: none; letter-spacing: 0;"
                     >
                       {{ $t('registerPlanos.subscribe') }} {{ $t(`registerPlanos.planos.${getNomePlanoKey(plano.nome)}`) }}
                     </VBtn>
@@ -222,8 +214,6 @@ import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
 import PlanoService from '../services/planos/plano-service'
-import SvgIcon from '@jamescoyle/vue-icon'
-import { mdiWindowClose } from '@mdi/js'
 import { logout } from '@/utils/auth'
 import { usePlanoStore } from '@/stores/plano'
 
@@ -285,8 +275,44 @@ onMounted(async () => {
 })
 </script>
 
-<style>
-.border_Focus:hover {
-  border: 2px solid #00b5d8;
+<style scoped>
+label,
+h1,
+h2,
+p {
+  font-family: 'DM Sans', sans-serif;
+}
+
+.plan-card {
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  background: white;
+}
+
+.plan-card:hover {
+  border-color: #00c6fe;
+  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.2) !important;
+  transform: translateY(-4px);
+}
+
+.v-btn {
+  transition: all 0.3s ease;
+}
+
+.v-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.v-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.logo-link {
+  transition: transform 0.3s ease;
+}
+
+.logo-link:hover {
+  transform: scale(1.05);
 }
 </style>
