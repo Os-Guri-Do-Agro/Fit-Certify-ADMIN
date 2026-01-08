@@ -157,6 +157,7 @@ const pageTitle = computed(() => {
   '/Atleta-Screens/treinadorDetalhes': t('appBar.titleCoachDetails'),
   '/Atleta-Screens/meuPlano': t('appBar.titleMyPlan'),
   '/Atleta-Screens/visaoGeral': t('appBar.titleOverview'),
+  '/Atleta-Screens/treinosAtleta': t('appBar.titleMyTrainings'),
 
   '/Medico-Screens/agendaMedica': t('appBar.titleCalendar'),
   '/Medico-Screens/consultas': t('appBar.titleConsultas'),
@@ -237,6 +238,7 @@ const pageIcon = computed(() => {
     '/Atleta-Screens/treinadorDetalhes': 'mdi-whistle',
     '/Atleta-Screens/meuPlano': 'mdi-credit-card-outline',
     '/Atleta-Screens/visaoGeral': 'mdi-view-dashboard',
+    '/Atleta-Screens/treinosAtleta': 'mdi-dumbbell',
     '/Medico-Screens/agendaMedica': 'mdi-calendar-month-outline',
     '/Medico-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Medico-Screens/consultasPendentes': 'mdi-calendar-month-outline',

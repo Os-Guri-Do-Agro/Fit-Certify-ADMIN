@@ -12,6 +12,7 @@
     "titleCoachDetails": "Detalhes do Treinador",
     "titleMyPlan": "Meu Plano",
     "titleOverview": "Visão Geral",
+    "titleMyTrainings": "Meus Treinos",
 
     "titleCalendar": "Calendário",
     "titlePendingConsultations": "Consultas Pendentes",
@@ -654,7 +655,20 @@
       "createError": "Erro ao criar exercício",
       "loadError": "Erro ao carregar exercícios",
       "loadTrainingTypesError": "Erro ao carregar tipos de treino"
-    }
+    },
+      "tiposTreino": {
+        "abdomen": "Abdômen",
+        "antebraco": "Antebraço",
+        "braco": "Braço",
+        "cardio": "Cardio",
+        "costas": "Costas",
+        "funcional": "Funcional",
+        "gluteo": "Glúteo",
+        "ombro": "Ombro",
+        "peito": "Peito",
+        "perna": "Perna",
+        "triceps": "Tríceps"
+      }
   },
 
   "perfilFisioterapeuta": {
@@ -1848,6 +1862,28 @@
       "unknownError": "Erro desconhecido"
     }
   },
+  "treinosAtleta": {
+    "title": "Meus Treinos",
+    "tabs": {
+      "weekly": "Treinos Semanais",
+      "daily": "Treinos Diários"
+    },
+    "frequency": "Frequência: {count}x por semana",
+    "exercises": "{count} exercícios",
+    "exercise": "{count} exercício",
+    "instructions": "Instruções:",
+    "careRestrictions": "Cuidados/Restrições:",
+    "observations": "Observações:",
+    "exercisesList": "Exercícios:",
+    "sets": "{count} séries",
+    "reps": "{count} reps",
+    "load": "{weight}kg",
+    "distance": "{km}km",
+    "createdBy": "Criado por: {name} em {date}",
+    "noWeeklyTrainings": "Nenhum treino semanal encontrado",
+    "noDailyTrainings": "Nenhum treino diário encontrado"
+  },
+
   "politicaPrivacidade": {
     "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
     "section1": {

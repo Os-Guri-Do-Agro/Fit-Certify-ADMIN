@@ -219,7 +219,7 @@
         </VCardText>
         <VList v-else style="max-height: 400px; overflow-y: auto;">
           <VListItem v-for="tipo in tiposTreinos" :key="tipo.id" @click="selecionarTipoTreino(tipo)">
-            <VListItemTitle>{{ tipo.nome }}</VListItemTitle>
+            <VListItemTitle>{{ $t(`exercicios.tiposTreino.${getTipoTreinosKey(tipo.nome)}`) }}</VListItemTitle>
           </VListItem>
         </VList>
       </VCard>
@@ -298,6 +298,23 @@ const modalSelecionarExercicio = ref(false)
 const tipoRecomendacaoDisplay = computed(() => tipoRecomendacao.value || t('criarTreino.select'))
 const frequenciaSemanalDisplay = computed(() => frequenciaSemanal.value || t('criarTreino.select'))
 const tipoTreinoDisplay = computed(() => tipoTreinoSelecionado.value?.nome || t('criarTreino.select'))
+
+const getTipoTreinosKey = (nome: string) => {
+  const map: Record<string, string> = {
+    'Abdômen': 'abdomen',
+    'Antebraço': 'antebraco',
+    'Braço': 'braco',
+    'Cardio': 'cardio',
+    'Costas': 'costas',
+    'Funcional': 'funcional',
+    'Glúteo': 'gluteo',
+    'Ombro': 'ombro',
+    'Peito': 'peito',
+    'Perna': 'perna',
+    'Triceps': 'triceps'
+  }
+  return map[nome] || nome
+}
 
 const exerciciosFiltrados = computed(() => {
   if (!filtroExercicio.value) return exerciciosDisponiveis.value

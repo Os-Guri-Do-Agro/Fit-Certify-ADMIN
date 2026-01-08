@@ -243,7 +243,7 @@
               @click="selecionarTipoTreino(tipo)"
               class="tipo-treino-item"
             >
-              <v-list-item-title class="font-weight-medium">{{ tipo.nome }}</v-list-item-title>
+              <v-list-item-title class="font-weight-medium">{{ $t(`exercicios.tiposTreino.${getTipoTreinoKey(tipo.nome)}`) }}</v-list-item-title>
             </v-list-item>
           </v-list>
         </v-card-text>
@@ -403,6 +403,23 @@ const loadingSalvar = ref(false)
 const criarExercicio = () => {
   modalCriar.value = true
   carregarTiposTreino()
+}
+
+const getTipoTreinoKey = (nome: string) => {
+  const map: Record<string, string> = {
+    'Abdômen': 'abdomen',
+    'Antebraço': 'antebraco',
+    'Braço': 'braco',
+    'Cardio': 'cardio',
+    'Costas': 'costas',
+    'Funcional': 'funcional',
+    'Glúteo': 'gluteo',
+    'Ombro': 'ombro',
+    'Peito': 'peito',
+    'Perna': 'perna',
+    'Triceps': 'triceps'
+  }
+  return map[nome] || nome
 }
 
 const carregarTiposTreino = async () => {

@@ -12,6 +12,7 @@
     "titleCoachDetails": "Coach Details",
     "titleMyPlan": "My Plan",
     "titleOverview": "Overview",
+    "titleMyTrainings": "My Trainings",
 
     "titleCalendar": "Calendar",
     "titlePendingConsultations": "Pending Appointments",
@@ -653,6 +654,19 @@
       "createError": "Error creating exercise",
       "loadError": "Error loading exercises",
       "loadTrainingTypesError": "Error loading training types"
+    },
+    "tiposTreino": {
+      "abdomen": "Abs",
+      "antebraco": "Forearms",
+      "braco": "Arms",
+      "cardio": "Cardio",
+      "costas": "Back",
+      "funcional": "Functional",
+      "gluteo": "Glutes",
+      "ombro": "Shoulders",
+      "peito": "Chest",
+      "perna": "Legs",
+      "triceps": "Triceps"
     }
   },
 
@@ -1846,6 +1860,28 @@
       "couponError": "Error applying coupon",
       "unknownError": "Unknown error"
     }
+  },
+
+  "treinosAtleta": {
+    "title": "My Trainings",
+    "tabs": {
+      "weekly": "Weekly Trainings",
+      "daily": "Daily Trainings"
+    },
+    "frequency": "Frequency: {count}x per week",
+    "exercises": "{count} exercises",
+    "exercise": "{count} exercise",
+    "instructions": "Instructions:",
+    "careRestrictions": "Care/Restrictions:",
+    "observations": "Observations:",
+    "exercisesList": "Exercises:",
+    "sets": "{count} sets",
+    "reps": "{count} reps",
+    "load": "{weight}kg",
+    "distance": "{km}km",
+    "createdBy": "Created by: {name} on {date}",
+    "noWeeklyTrainings": "No weekly trainings found",
+    "noDailyTrainings": "No daily trainings found"
   },
 
   "politicaPrivacidade": {

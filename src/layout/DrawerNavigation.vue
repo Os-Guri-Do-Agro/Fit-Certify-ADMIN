@@ -65,7 +65,7 @@
         <template v-for="item in menuFinal">
           <v-list-group
             v-if="item.children && item.children.length"
-            :key="item.value"
+            :key="'group-' + item.value"
           >
             <template v-slot:activator="{ props }">
               <v-list-item
@@ -100,7 +100,7 @@
 
           <v-list-item
             v-else
-            :key="item"
+            :key="item.value"
             :to="item.to"
             class="mb-1 px-3 py-2"
             rounded="lg"
@@ -447,6 +447,12 @@ const menusPorPerfil = computed(() => ({
           value: 'eventos',
           to: '/Atleta-Screens/eventos',
         },
+        {
+          icon: 'mdi-weight-lifter',
+          title: 'Treinos',
+          value: 'treinos',
+          to: '/Atleta-Screens/treinosAtleta',
+        }
       ],
     },
     {
@@ -617,7 +623,7 @@ function retornarSiglaNome() {
 }
 
 const menuFinal = computed(() => {
-  const role = toRaw(payload.value)?.role
+  const role = toRaw(payload.value)?.role as keyof typeof menusPorPerfil.value
   return menusPorPerfil.value[role] || []
 })
 
