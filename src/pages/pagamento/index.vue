@@ -10,12 +10,12 @@
                 <v-col class="px-0 py-md-0 pr-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-5 pa-md-10">
                     <v-radio-group v-model="metodoPagamento">
-                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5">Cartão de Crédito ou Débito</span>
+                      <span class="text-subtitle-1 text-md-h6 text-blue mb-5">{{ $t('pagamento.creditDebitCard') }}</span>
                       <v-radio class="cardBtn pa-2 rounded-xl mb-5" value="cartao" color="blue"
                         style="background-color: #ddf1fd" prepend-icon="mdi-google">
                         <template v-slot:label>
                           <div class="d-flex ga-3">
-                            <span>Adicionar Cartão</span>
+                            <span>{{ $t('pagamento.addCard') }}</span>
                             <v-icon color="blue" size="24">mdi-credit-card-outline</v-icon>
                           </div>
                         </template>
@@ -23,7 +23,7 @@
                     </v-radio-group>
 
                     <v-btn variant="outlined" color="blue" rounded="xl" class="mt-5" @click="voltarParaPlanos">
-                      Voltar para Planos
+                      {{ $t('pagamento.backToPlans') }}
                     </v-btn>
                   </v-card>
                 </v-col>
@@ -33,16 +33,14 @@
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
                         <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
-                        <v-card-title> Resumo </v-card-title>
+                        <v-card-title> {{ $t('pagamento.summary') }} </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text class="text-h5 font-weight-bold text-center">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                         <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
                           class="text-caption font-weight-black mb-2 text-white">
-                          ⭐ Mais popular
+                          ⭐ {{ $t('pagamento.mostPopular') }}
                         </span>
                         <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
@@ -51,14 +49,14 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ?  `/${$t('registerPlanos.perYear')}` : '/mês'
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center mt-5">
                       <div class="">
-                        <v-card-text>Data / Hora:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.dateTime') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -70,19 +68,17 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Produto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.product') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text class="text-end">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-end">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Comprador</v-card-text>
+                        <v-card-text>{{ $t('pagamento.buyer') }}</v-card-text>
                       </div>
 
                       <div class="">
@@ -96,7 +92,7 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Valor:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.value') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -107,30 +103,30 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Validade do Plano:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.planValidity') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
+                        <v-card-text>{{ planoSelecionado?.duracao }} {{ $t('pagamento.months') }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Total:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.total') }}:</v-card-text>
                       </div>
 
                       <div class="">
                         <v-card-text>R$ {{ formatarPreco(valorTotal)
                         }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
@@ -139,11 +135,11 @@
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div class="">
-                        <v-card-text>Método de <br />pagamento:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.paymentMethod') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ metodoPagamento }}</v-card-text>
+                        <v-card-text v-if="metodoPagamento">{{ $t('pagamento.cartao') }}</v-card-text>
                       </div>
                     </div>
                   </v-card>
@@ -156,7 +152,7 @@
             <v-container>
               <div class="d-flex justify-center mb-md-7">
                 <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
-                  Adicionar Cartão
+                  {{ $t('pagamento.addCardTitle') }}
                 </h1>
               </div>
 
@@ -189,7 +185,7 @@
                                   {{ numeroCartao || '0000 0000 0000 0000' }}
                                 </v-card-text>
                                 <div class="pr-5 pr-md-7">
-                                  <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                                  <v-card-text class="text-white pa-0 ma-0">{{ $t('pagamento.name') }}</v-card-text>
                                   <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{
                                     formatNomeCartao(nomeCartao)
                                   }}</v-card-text>
@@ -217,7 +213,7 @@
                                   </div>
                                 </div>
                                 <div class="validity-area">
-                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                                  <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">{{ $t('pagamento.validity') }}</v-card-text>
                                   <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                     {{ validadedCartao || 'MM/AA' }}
                                   </v-card-text>
@@ -229,27 +225,27 @@
 
                         <v-row class="pa-10 mt-3">
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field class="px-3" v-model="nomeCartao" label="Nome do Cartão" required
+                            <v-text-field class="px-3" v-model="nomeCartao" :label="$t('pagamento.cardName')" required
                               variant="outlined" rounded="xl" name="nomeDoCartao" color="blue" :rules="nomeRules"
                               validate-on="blur"></v-text-field>
                           </v-col>
 
                           <v-col class="pa-0 mb-2" cols="12">
-                            <v-text-field class="px-3" v-model="numeroCartao" required label="Número do Cartão"
+                            <v-text-field class="px-3" v-model="numeroCartao" required :label="$t('pagamento.cardNumber')"
                               variant="outlined" rounded="xl" maxlength="19" placeholder="0000 0000 0000 0000"
                               name="numeroDoCartao" color="blue" :rules="numeroRules" validate-on="blur"
                               @input="onNumeroCartaoInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pl-0 pr-2 mb-2" cols="6">
-                            <v-text-field class="px-3" v-model="validadedCartao" required label="Validade"
+                            <v-text-field class="px-3" v-model="validadedCartao" required :label="$t('pagamento.validity')"
                               variant="outlined" rounded="xl" maxlength="5" placeholder="MM/AA" name="validadeCartao"
                               color="blue" :rules="validadeRules" validate-on="blur" @focus="flipCard"
                               @blur="unflipCard" @input="onValidadeInput"></v-text-field>
                           </v-col>
 
                           <v-col class="pr-0 pl-2 mb-2" cols="6">
-                            <v-text-field class="px-3" v-model="cvvCode" required label="CVV" variant="outlined"
+                            <v-text-field class="px-3" v-model="cvvCode" required :label="$t('pagamento.cvv')" variant="outlined"
                               rounded="xl" :counter="3" maxlength="3" name="cvvCartao" color="blue" :rules="cvvRules"
                               validate-on="blur" @focus="flipCard" @blur="unflipCard"
                               @input="onCvvInput"></v-text-field>
@@ -257,11 +253,11 @@
 
                           <v-col class="pa-0 mb-0" cols="12">
                             <v-select class="px-3" v-model="metodoPagamentoCartao" :items="items" item-title="label"
-                              item-value="value" label="Método de pagamento" color="blue" rounded="xl" required
+                              item-value="value" :label="$t('pagamento.paymentMethodLabel')" color="blue" rounded="xl" required
                               variant="outlined" :rules="requiredRule" validate-on="blur">
                               {{
                                 metodoPagamentoCartao ||
-                                'Selecione o metodo de pagamento'
+                                $t('pagamento.selectPaymentMethod')
                               }}</v-select>
                           </v-col>
                         </v-row>
@@ -273,35 +269,31 @@
                     <v-row class="mx-5 d-flex align-center justify-center">
                       <v-col class="pa-0 d-flex flex-column px-5 mb-md-10" cols="12" lg="6">
                         <v-card-title class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center">
-                          Adicionar cupom de desconto
+                          {{ $t('pagamento.addDiscountCoupon') }}
                         </v-card-title>
-                        <v-text-field v-model="codigoCupom" required label="Código do cupom" variant="outlined"
+                        <v-text-field v-model="codigoCupom" required :label="$t('pagamento.couponCode')" variant="outlined"
                           rounded="lg" color="blue" density="comfortable" height="50"
                           @input="codigoCupom = codigoCupom.toUpperCase()"></v-text-field>
 
                         <v-btn class="text-lg-subtitle-1 text-subtitle-2" size="x-large" color="blue" rounded="xl"
                           :loading="loadingCupom" @click="validarCupom()">
-                          Validar Cupom
+                          {{ $t('pagamento.validateCoupon') }}
                         </v-btn>
 
                         <template v-if="cupom">
-                          <b class="text-green text-center mt-3">Desconto de
-                            {{
-                              cupom?.porcentagem.toString().replace('.', ',')
-                            }}
-                            % aplicado!</b>
+                          <b class="text-green text-center mt-3">{{ $t('pagamento.discountApplied', { percentage: cupom?.porcentagem.toString().replace('.', ',') }) }}</b>
                         </template>
                       </v-col>
 
                       <v-col class="pa-0 d-flex flex-column px-5 mt-10 mt-md-0 justify-space-between" cols="12">
                         <v-card-title class="text-blue pa-0 mb-5 mx-5 text-subtitle-1 text-md-h6 text-center">
-                          Endereço | Contato
+                          {{ $t('pagamento.addressContact') }}
                         </v-card-title>
 
                         <div v-if="enderecoSalvo" class="mx-5 mb-4">
                           <v-card variant="outlined" color="blue" class="pa-3">
                             <div class="text-caption text-grey-darken-1 mb-2">
-                              Endereço:
+                              {{ $t('pagamento.address') }}:
                             </div>
                             <div class="text-body-2">
                               {{ endereco.rua }}, {{ endereco.complemento }}
@@ -312,7 +304,7 @@
                             </div>
                             <div class="text-body-2">{{ endereco.pais }}</div>
                             <div class="text-caption text-grey-darken-1 mt-2 mb-1">
-                              Contato:
+                              {{ $t('pagamento.contact') }}:
                             </div>
                             <div class="text-body-2">
                               {{ mobile_phone.full_number }}
@@ -324,8 +316,8 @@
                           @click="showModal = true">
                           {{
                             enderecoSalvo
-                              ? 'EDITAR ENDEREÇO'
-                              : 'CADASTRAR NOVO ENDEREÇO'
+                              ? $t('pagamento.editAddress')
+                              : $t('pagamento.registerNewAddress')
                           }}
                         </v-btn>
                       </v-col>
@@ -338,7 +330,7 @@
                     <div class="d-flex justify-space-between align-center px-7 py-5" elevation-1>
                       <v-card-title class="d-flex align-center ga-1 text-subtitle-1 text-md-h6 font-weight-black pa-0">
                         <v-icon size="28" color="blue">mdi-map-marker-circle</v-icon>
-                        NOVO ENDEREÇO
+                        {{ $t('pagamento.newAddress') }}
                       </v-card-title>
 
                       <v-btn rounded="lg" variant="outlined" @click="showModal = false" icon="mdi-window-close"
@@ -348,37 +340,37 @@
                     <v-form ref="enderecoFormRef" v-model="enderecoFormValid">
                       <v-row class="d-flex px-10 py-5">
                         <v-col class="pa-0" cols="12">
-                          <v-text-field v-model="endereco.rua" required label="Rua*" variant="outlined" rounded="lg"
+                          <v-text-field v-model="endereco.rua" required :label="$t('pagamento.street') + '*'" variant="outlined" rounded="lg"
                             density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
                             validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0" cols="12">
-                          <v-text-field v-model="endereco.complemento" required label="Complemento*" variant="outlined"
+                          <v-text-field v-model="endereco.complemento" required :label="$t('pagamento.complement') + '*'" variant="outlined"
                             rounded="lg" density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
                             validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pr-2" cols="6">
-                          <v-text-field v-model="endereco.cep" required label="CEP*" variant="outlined" rounded="lg"
+                          <v-text-field v-model="endereco.cep" required :label="$t('pagamento.zipCode') + '*'" variant="outlined" rounded="lg"
                             density="comfortable" color="blue" :rules="cepRules" validate-on="blur" maxlength="9"
                             class="mb-2" @input="onCepInput" @blur="preencherCep"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pl-2" cols="6">
-                          <v-text-field v-model="endereco.uf" required label="UF*" variant="outlined" rounded="lg"
+                          <v-text-field v-model="endereco.uf" required :label="$t('pagamento.state') + '*'" variant="outlined" rounded="lg"
                             density="comfortable" color="blue" :rules="ufRules" validate-on="blur" maxlength="2"
                             class="mb-2" @input="onUfInput"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pr-2" cols="6">
-                          <v-text-field v-model="endereco.cidade" required label="Cidade*" variant="outlined"
+                          <v-text-field v-model="endereco.cidade" required :label="$t('pagamento.city') + '*'" variant="outlined"
                             rounded="lg" density="comfortable" color="blue" :rules="requiredRule" class="mb-2"
                             validate-on="blur"></v-text-field>
                         </v-col>
 
                         <v-col class="pa-0 pl-2" cols="6">
-                          <v-text-field v-model="endereco.pais" required label="País*" variant="outlined" rounded="lg"
+                          <v-text-field v-model="endereco.pais" required :label="$t('pagamento.country') + '*'" variant="outlined" rounded="lg"
                             maxlength="2" density="comfortable" color="blue" class="mb-2" :rules="requiredRule"
                             validate-on="blur" @input="onPaisInput"></v-text-field>
                         </v-col>
@@ -388,13 +380,13 @@
                         <v-card-title
                           class="d-flex align-center ga-2 text-subtitle-1 text-md-h6 font-weight-black pa-0 pb-5">
                           <v-icon size="28" color="blue">mdi-card-account-phone-outline</v-icon>
-                          CONTATO
+                          {{ $t('pagamento.contactTitle') }}
                         </v-card-title>
                       </div>
 
                       <v-row class="d-flex px-10 pt-5">
                         <v-col class="pa-0" cols="12">
-                          <v-text-field v-model="mobile_phone.full_number" required label="Telefone Completo*"
+                          <v-text-field v-model="mobile_phone.full_number" required :label="$t('pagamento.fullPhone') + '*'"
                             variant="outlined" rounded="lg" density="comfortable" color="blue"
                             :rules="telefoneCompletoRules" validate-on="blur" placeholder="+55 (21) 9 9999-9999"
                             @input="onTelefoneCompletoInput"></v-text-field>
@@ -405,7 +397,7 @@
                     <v-row>
                       <v-col class="px-10 py-5" cols="12">
                         <v-btn color="blue" block size="large" @click="salvarEndereco">
-                          SALVAR
+                          {{ $t('pagamento.save') }}
                         </v-btn>
                       </v-col>
                     </v-row>
@@ -417,16 +409,14 @@
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
                         <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
-                        <v-card-title> Resumo </v-card-title>
+                        <v-card-title> {{ $t('pagamento.summary') }} </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text class="text-h5 font-weight-bold text-center">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                         <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
                           class="text-caption font-weight-black mb-2 text-white">
-                          ⭐ Mais popular
+                          ⭐ {{ $t('pagamento.mostPopular') }}
                         </span>
                         <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
@@ -435,14 +425,14 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center mt-5">
                       <div class="">
-                        <v-card-text>Data / Hora:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.dateTime') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -454,19 +444,17 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Produto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.product') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text class="text-end">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-end">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Comprador</v-card-text>
+                        <v-card-text>{{ $t('pagamento.buyer') }}</v-card-text>
                       </div>
 
                       <div class="">
@@ -480,7 +468,7 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Valor:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.value') }}:</v-card-text>
                       </div>
 
                       <div :class="{ 'preco-antigo': cupom }">
@@ -491,14 +479,14 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Desconto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.discount') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -511,22 +499,22 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Validade do Plano:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.planValidity') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
+                        <v-card-text>{{ planoSelecionado?.duracao }} {{ $t('pagamento.months') }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Total:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.total') }}:</v-card-text>
                       </div>
                       <div class="">
                         <v-card-text>R$ {{ formatarPreco(valorTotal)
                         }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
@@ -534,7 +522,7 @@
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div class="">
-                        <v-card-text>Método de <br />pagamento:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.paymentMethod') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -553,7 +541,7 @@
             <v-container>
               <div class="d-flex justify-center mb-md-7">
                 <h1 class="text-blue text-h5 text-md-h4 font-weight-medium text-center">
-                  Finalizar Pagamento
+                  {{ $t('pagamento.finalizePayment') }}
                 </h1>
               </div>
 
@@ -561,12 +549,10 @@
                 <v-col class="py-5 py-md-0 px-0 px-md-5" cols="12" md="7" lg="8">
                   <v-card class="pa-2 pa-5">
                     <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold">
-                      <v-icon size="24" color="blue">mdi-account</v-icon> DADOS
-                      PESSOAIS
+                      <v-icon size="24" color="blue">mdi-account</v-icon> {{ $t('pagamento.personalData') }}
                     </v-card-title>
                     <v-card-subtitle class="mb-5 text-wrap">
-                      Verifique suas informações pessoais antes de finalizar a
-                      compra.
+                      {{ $t('pagamento.verifyInfo') }}
                     </v-card-subtitle>
 
                     <v-row style="background-color: #ddf1fd">
@@ -574,7 +560,7 @@
                         <div>
                           <v-card-text
                             class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
-                            Nome:
+                            {{ $t('pagamento.name') }}:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.nome }}
                             </v-card-text>
@@ -584,7 +570,7 @@
                         <div>
                           <v-card-text
                             class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
-                            Celular:
+                            {{ $t('pagamento.cellphone') }}:
                             <v-card-text class="text-caption">
                               {{ mobile_phone.full_number }}
                             </v-card-text>
@@ -594,7 +580,7 @@
                         <div>
                           <v-card-text
                             class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
-                            CEP:
+                            {{ $t('pagamento.cep') }}:
                             <v-card-text class="text-caption">
                               {{ endereco.cep }}
                             </v-card-text>
@@ -606,7 +592,7 @@
                         <div class="">
                           <v-card-text
                             class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
-                            CPF:
+                            {{ $t('pagamento.cpf') }}:
                             <v-card-text class="text-caption">
                               {{ formatarCPF(payload?.user?.cpf) }}
                             </v-card-text>
@@ -616,7 +602,7 @@
                         <div class="">
                           <v-card-text
                             class="py-0 font-weight-bold text-caption text-md-subtitle-2 d-flex align-center pa-0">
-                            E-mail:
+                            {{ $t('pagamento.email') }}:
                             <v-card-text class="text-caption">
                               {{ payload?.user?.email }}
                             </v-card-text>
@@ -629,10 +615,10 @@
                   <v-card class="mt-5 pa-5">
                     <v-card-title class="text-subtitle-1 d-flex align-center ga-2 font-weight-bold flex-wrap">
                       <v-icon size="24" color="blue">mdi-credit-card</v-icon>
-                      CARTÃO DE PAGAMENTO
+                      {{ $t('pagamento.paymentCard') }}
                     </v-card-title>
                     <v-card-subtitle class="mb-5 text-wrap">
-                      Informações do cartão selecionado.
+                      {{ $t('pagamento.selectedCardInfo') }}
                     </v-card-subtitle>
 
                     <div class="d-flex justify-center">
@@ -662,7 +648,7 @@
                               {{ numeroCartao || '0000 0000 0000 0000' }}
                             </v-card-text>
                             <div class="pr-5 pr-md-7">
-                              <v-card-text class="text-white pa-0 ma-0">Nome</v-card-text>
+                              <v-card-text class="text-white pa-0 ma-0">{{ $t('pagamento.name') }}</v-card-text>
                               <v-card-text class="text-white text-subtitle-1 pa-0 ma-0">{{ formatNomeCartao(nomeCartao)
                               }}</v-card-text>
                             </div>
@@ -688,7 +674,7 @@
                               </div>
                             </div>
                             <div class="validity-area">
-                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">Validade</v-card-text>
+                              <v-card-text class="text-white text-caption pa-0 ma-0 mb-1">{{ $t('pagamento.validity') }}</v-card-text>
                               <v-card-text class="text-white text-subtitle-2 pa-0 ma-0">
                                 {{ validadedCartao || 'MM/AA' }}
                               </v-card-text>
@@ -705,16 +691,14 @@
                     <div class="d-flex pa-5 bg-blue flex-column">
                       <div class="d-flex align-center">
                         <v-icon color="white" size="24">mdi-note-search-outline</v-icon>
-                        <v-card-title> Resumo </v-card-title>
+                        <v-card-title> {{ $t('pagamento.summary') }} </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
-                        <v-card-text class="text-h5 font-weight-bold text-center">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-h5 font-weight-bold text-center">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                         <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
                           class="text-caption font-weight-black mb-2 text-white">
-                          ⭐ Mais popular
+                          ⭐ {{ $t('pagamento.mostPopular') }}
                         </span>
                         <v-card-text class="text-h5 font-weight-medium ma-0 pa-0">R$
                           {{
@@ -723,14 +707,14 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center mt-5">
                       <div class="">
-                        <v-card-text>Data / Hora:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.dateTime') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -742,19 +726,17 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Produto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.product') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text class="text-end">{{
-                          planoSelecionado?.nome || 'Plano Selecionado'
-                        }}</v-card-text>
+                        <v-card-text class="text-end">{{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Comprador</v-card-text>
+                        <v-card-text>{{ $t('pagamento.buyer') }}</v-card-text>
                       </div>
 
                       <div class="">
@@ -768,7 +750,7 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Valor:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.value') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -779,14 +761,14 @@
                               planoSelecionado?.precoMes
                             )
                           }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
 
                     <div v-if="cupom != null" class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Desconto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.discount') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -799,23 +781,23 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Validade do Plano:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.planValidity') }}:</v-card-text>
                       </div>
 
                       <div class="">
-                        <v-card-text>{{ planoSelecionado?.duracao }} Meses</v-card-text>
+                        <v-card-text>{{ planoSelecionado?.duracao }} {{ $t('pagamento.months') }}</v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div class="">
-                        <v-card-text>Total:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.total') }}:</v-card-text>
                       </div>
 
                       <div class="">
                         <v-card-text>R$ {{ formatarPreco(valorTotal)
                         }}{{
-                            planoSelecionado?.precoAno ? '/ano' : '/mês'
+                            planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}`
                           }}</v-card-text>
                       </div>
                     </div>
@@ -824,7 +806,7 @@
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div class="">
-                        <v-card-text>Método de <br />pagamento:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.paymentMethod') }}:</v-card-text>
                       </div>
 
                       <div class="">
@@ -843,7 +825,7 @@
             <v-container>
               <div class="d-flex justify-center mb-md-7">
                 <h1 class="text-green text-h5 text-md-h4 font-weight-medium text-center">
-                  Pagamento Realizado com Sucesso!
+                  {{ $t('pagamento.paymentSuccess') }}
                 </h1>
               </div>
 
@@ -855,21 +837,19 @@
                     </v-icon>
 
                     <v-card-title class="text-h5 text-green mb-3">
-                      Parabéns!
+                      {{ $t('pagamento.congratulations') }}
                     </v-card-title>
 
                     <v-card-text class="text-subtitle-1 mb-5">
-                      Seu pagamento foi processado com sucesso e seu plano já
-                      está ativo.
+                      {{ $t('pagamento.paymentProcessed') }}
                     </v-card-text>
 
                     <v-card-text class="text-body-2 mb-5">
-                      Você receberá um e-mail de confirmação em breve com todos
-                      os detalhes da sua compra.
+                      {{ $t('pagamento.confirmationEmail') }}
                     </v-card-text>
 
                     <v-btn color="blue" size="large" rounded="xl" class="text-white px-8" @click="irParaHome">
-                      Ir para Home
+                      {{ $t('pagamento.goToHome') }}
                     </v-btn>
                   </v-card>
                 </v-col>
@@ -882,17 +862,17 @@
                           mdi-check-circle
                         </v-icon>
                         <v-card-title class="text-white">
-                          Compra Finalizada
+                          {{ $t('pagamento.purchaseCompleted') }}
                         </v-card-title>
                       </div>
 
                       <div class="d-flex flex-column align-center">
                         <v-card-text class="text-h5 font-weight-bold text-center text-white">
-                          {{ planoSelecionado?.nome || 'Plano Selecionado' }}
+                          {{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}
                         </v-card-text>
                         <span v-if="planoSelecionado?.nome === 'Saúde Ativa'"
                           class="text-caption font-weight-black mb-2 text-white">
-                          ⭐ Mais popular
+                          ⭐ {{ $t('pagamento.mostPopular') }}
                         </span>
                         <v-card-text class="text-h5 font-weight-medium ma-0 pa-0 text-white">
                           R$
@@ -901,25 +881,25 @@
                               planoSelecionado?.precoAno ||
                               planoSelecionado?.precoMes
                             )
-                          }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
+                          }}{{ planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}` }}
                         </v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center mt-5">
                       <div>
-                        <v-card-text>Status:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.status') }}:</v-card-text>
                       </div>
                       <div>
                         <v-card-text class="text-end text-green font-weight-bold">
-                          Aprovado
+                          {{ $t('pagamento.approved') }}
                         </v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center">
                       <div>
-                        <v-card-text>Data / Hora:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.dateTime') }}:</v-card-text>
                       </div>
                       <div>
                         <v-card-text class="text-end">
@@ -930,11 +910,11 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div>
-                        <v-card-text>Produto:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.product') }}:</v-card-text>
                       </div>
                       <div>
                         <v-card-text class="text-end">
-                          {{ planoSelecionado?.nome || 'Plano Selecionado' }}
+                          {{ $t(`pagamento.planos.${getPlanoNomeKey(planoSelecionado?.nome)}`) }}
                         </v-card-text>
                       </div>
                     </div>
@@ -943,7 +923,7 @@
 
                     <div class="d-flex justify-space-between align-center">
                       <div>
-                        <v-card-text>Total Pago:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.totalPaid') }}:</v-card-text>
                       </div>
                       <div>
                         <v-card-text class="text-end font-weight-bold">
@@ -954,14 +934,14 @@
                               planoSelecionado?.precoAno ||
                               planoSelecionado?.precoMes
                             )
-                          }}{{ planoSelecionado?.precoAno ? '/ano' : '/mês' }}
+                          }}{{ planoSelecionado?.precoAno ? `/${$t('registerPlanos.perYear')}` : `/${$t('registerPlanos.perMonth')}` }}
                         </v-card-text>
                       </div>
                     </div>
 
                     <div class="d-flex justify-space-between align-center mb-5">
                       <div>
-                        <v-card-text>Método de pagamento:</v-card-text>
+                        <v-card-text>{{ $t('pagamento.paymentMethod') }}:</v-card-text>
                       </div>
                       <div>
                         <v-card-text class="text-end">
@@ -984,7 +964,7 @@
                 <div class="d-flex justify-space-between w-100 py-4 flex-column-reverse flex-md-row align-center ga-3">
                   <VBtn v-if="step !== 4" class="w-100" :disabled="step === 1 ? true : false" height="43px"
                     max-width="237px" style="color: #00c6fe" variant="outlined" @click="handlePrev(prev)">
-                    Voltar
+                    {{ $t('pagamento.back') }}
                   </VBtn>
                   <VBtn v-if="step !== 4" class="text-white w-100" height="43px" max-width="237px" :loading="loading"
                     :disabled="loading || (step === 1 && !metodoPagamento)" :style="step === 3
@@ -993,10 +973,10 @@
                       " @click="handleNext(next)">
                     {{
                       step !== 3
-                        ? 'Próximo'
+                        ? $t('pagamento.next')
                         : loading
-                          ? 'Processando...'
-                          : 'Finalizar'
+                          ? $t('pagamento.processing')
+                          : $t('pagamento.finalize')
                     }}
                   </VBtn>
                 </div>
@@ -1019,6 +999,9 @@ import cupomService from '@/services/cupom/cupom-service'
 import pagarmeService from '@/services/pagarme/pagarme-service'
 import { getUserID } from '@/utils/auth'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 const step = ref(1)
 const router = useRouter()
 const loading = ref(false)
@@ -1034,14 +1017,36 @@ const formatarPreco = (preco) => {
 
 const formatarData = () => {
   const agora = new Date()
-  const dia = agora.getDate().toString().padStart(2, '0')
-  const mes = agora.toLocaleString('pt-BR', { month: 'long' })
-  const ano = agora.getFullYear()
-  const hora = agora.toLocaleTimeString('pt-BR', {
-    hour: '2-digit',
-    minute: '2-digit',
-  })
-  return `${dia} de ${mes} de ${ano} / ${hora}`
+  const isPt = locale.value === 'pt'
+
+  if (isPt) {
+    const dia = agora.getDate().toString().padStart(2, '0')
+    const mes = agora.toLocaleString('pt-BR', { month: 'long' })
+    const ano = agora.getFullYear()
+    const hora = agora.toLocaleTimeString('pt-BR', {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    return `${dia} de ${mes} de ${ano} / ${hora}`
+  } else {
+    const mes = agora.toLocaleString('en-US', { month: 'long' })
+    const dia = agora.getDate().toString().padStart(2, '0')
+    const ano = agora.getFullYear()
+    const hora = agora.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
+    })
+    return `${mes} ${dia}, ${ano} / ${hora}`
+  }
+}
+
+const getPlanoNomeKey = (nome) => {
+  const map = {
+    'Saúde Certificada': 'saudeCertificada',
+    'Saúde Ativa': 'saudeAtiva'
+  }
+  return map[nome] || nome
 }
 
 const formatarCPF = (cpf) => {
@@ -1079,7 +1084,7 @@ const handleNext = async (next) => {
     if (valid && enderecoSalvo.value) {
       next()
     } else if (!enderecoSalvo.value) {
-      toast.error('É necessário cadastrar um endereço para continuar')
+      toast.error(t('pagamento.toasts.addressRequired'))
     }
   } else if (step.value === 3) {
     loading.value = true
@@ -1089,7 +1094,7 @@ const handleNext = async (next) => {
       !mobile_phone.value.area_code ||
       !mobile_phone.value.number_clean
     ) {
-      toast.error('Dados de contato incompletos')
+      toast.error(t('pagamento.toasts.incompleteContact'))
       loading.value = false
       return
     }
@@ -1138,18 +1143,18 @@ const handleNext = async (next) => {
       .realizarAssinatura(data)
       .then(async (resp) => {
         if (resp?.success && resp?.data?.status == 'active') {
-          toast.success('Pagamento realizado com sucesso!')
+          toast.success(t('pagamento.toasts.paymentSuccess'))
           if (cupomNeedUpdate.value === true) {
              await cupomService.updateCupom(cupom.value.id, planoSelecionado.value.id, getUserID())
           }
           await refreshUserData()
           next()
         } else {
-          toast.error('Falha no pagamento')
+          toast.error(t('pagamento.toasts.paymentFailed'))
         }
       })
       .catch((err) => {
-        toast.error('Erro ao processar pagamento: ' + getErrorMessage(err, 'Erro desconhecido'))
+        toast.error(t('pagamento.toasts.paymentError') + ': ' + getErrorMessage(err, t('pagamento.toasts.unknownError')))
       })
       .finally(() => (loading.value = false))
   } else if (step.value === 4) {
@@ -1166,17 +1171,17 @@ const handlePrev = (prev) => {
   }
 }
 
-const item = [
-  'Método de pagamento',
-  'Adicionar Cartão',
-  'Finalizar Pagamento',
-  'Pagamento Realizado',
-]
+const item = computed(() => [
+  t('pagamento.paymentMethod'),
+  t('pagamento.addCardTitle'),
+  t('pagamento.finalizePayment'),
+  t('pagamento.paymentSuccess'),
+])
 
-const tipoCartoes = {
-  credit_card: 'Cartão de Crédito',
-  debit_card: 'Cartão de Débito',
-}
+const tipoCartoes = computed(() => ({
+  credit_card: t('pagamento.credit') + ' ' + t('pagamento.creditDebitCard').split(' ')[2],
+  debit_card: t('pagamento.debit') + ' ' + t('pagamento.creditDebitCard').split(' ')[2],
+}))
 
 const formValid = ref(false)
 const nomeCartao = ref('')
@@ -1184,9 +1189,9 @@ const numeroCartao = ref('')
 const validadedCartao = ref('')
 const cvvCode = ref('')
 const metodoPagamentoCartao = ref('')
-const items = ref([
-  { label: 'Débito', value: 'debit_card' },
-  { label: 'Crédito', value: 'credit_card' },
+const items = computed(() => [
+  { label: t('pagamento.debit'), value: 'debit_card' },
+  { label: t('pagamento.credit'), value: 'credit_card' },
 ])
 const isCardFlipped = ref(false)
 const isCardFlippedStep3 = ref(false)
@@ -1362,10 +1367,7 @@ const voltarParaPlanos = () => {
 
 const validarCupom = async () => {
   if (!codigoCupom.value) {
-    Toast.show({
-      type: 'error',
-      text1: 'Digite um código',
-    })
+    toast.error(t('pagamento.toasts.enterCouponCode'))
     return
   }
   loadingCupom.value = true
@@ -1373,13 +1375,13 @@ const validarCupom = async () => {
     .validarCupom(codigoCupom.value)
     .then((resp) => {
       if (resp?.success && resp?.data?.isValid) {
-        toast.success('Cupom aplicado!')
+        toast.success(t('pagamento.toasts.couponApplied'))
         cupomNeedUpdate.value = true
         cupom.value = resp?.data?.cupom
       }
     })
     .catch((err) => {
-      toast.error(getErrorMessage(err, 'Erro ao aplicar cupom'))
+      toast.error(getErrorMessage(err, t('pagamento.toasts.couponError')))
     })
     .finally(() => (loadingCupom.value = false))
 }
@@ -1453,7 +1455,7 @@ const preencherCep = async () => {
     const cepOnlyDigits = endereco.value.cep.replace(/\D/g, '')
 
     if (cepOnlyDigits.length !== 8) {
-      toast.error('CEP inválido. Use 8 dígitos.')
+      toast.error(t('pagamento.toasts.invalidZipCode'))
       return
     }
 
@@ -1463,7 +1465,7 @@ const preencherCep = async () => {
     const data = await response.json()
 
     if (!response.ok || data?.erro) {
-      toast.error('CEP não encontrado no ViaCEP.')
+      toast.error(t('pagamento.toasts.zipCodeNotFound'))
       return
     }
 
@@ -1476,7 +1478,7 @@ const preencherCep = async () => {
       pais: 'BR',
     }
   } catch (error) {
-    toast.error('Erro ao buscar CEP: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('pagamento.toasts.zipCodeSearchError') + ': ' + getErrorMessage(error, t('pagamento.toasts.unknownError')))
   }
 }
 
@@ -1506,14 +1508,14 @@ const onPaisInput = (event) => {
 const salvarEndereco = async () => {
   const { valid } = await enderecoFormRef.value.validate()
   if (!valid) {
-    toast.error('Preencha todos os campos obrigatórios')
+    toast.error(t('pagamento.toasts.fillRequiredFields'))
     return
   }
 
   // Validar CEP antes de salvar
   const cepOnlyDigits = endereco.value.cep.replace(/\D/g, '')
   if (cepOnlyDigits.length !== 8) {
-    toast.error('CEP inválido. Use 8 dígitos.')
+    toast.error(t('pagamento.toasts.invalidZipCode'))
     return
   }
 
@@ -1524,15 +1526,15 @@ const salvarEndereco = async () => {
     const data = await response.json()
 
     if (!response.ok || data?.erro) {
-      toast.error('CEP não encontrado. Verifique o CEP informado.')
+      toast.error(t('pagamento.toasts.invalidZipCodeVerify'))
       return
     }
 
     enderecoSalvo.value = true
-    toast.success('Endereço salvo com sucesso!')
+    toast.success(t('pagamento.toasts.addressSavedSuccess'))
     showModal.value = false
   } catch (error) {
-    toast.error('Erro ao validar CEP: ' + getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(t('pagamento.toasts.zipCodeValidationError') + ': ' + getErrorMessage(error, t('pagamento.toasts.unknownError')))
   }
 }
 </script>

@@ -106,7 +106,7 @@
                     "
                     primary-title
                   >
-                    {{ plano.nome }}
+                    {{ $t(`registerPlanos.planos.${getNomePlanoKey(plano.nome)}`) }}
                   </VCardTitle>
                   <span
                     v-if="plano.maisPopular"
@@ -204,7 +204,7 @@
                       height="44px"
                       style="background-color: #88ce0d"
                     >
-                      {{ $t('registerPlanos.subscribe') }} {{ plano.nome }}
+                      {{ $t('registerPlanos.subscribe') }} {{ $t(`registerPlanos.planos.${getNomePlanoKey(plano.nome)}`) }}
                     </VBtn>
                   </VCardActions>
                 </div>
@@ -249,6 +249,14 @@ const getBeneficioKey = (descricao) => {
     'Acesso ao painel de saúde completo': 'item_11',
   }
   return map[descricao] || descricao
+}
+
+const getNomePlanoKey = (nome) => {
+  const map = {
+    'Saúde Certificada': 'saudeCertificada',
+    'Saúde Ativa': 'saudeAtiva'
+  }
+  return map[nome] || nome
 }
 
 function sair() {
