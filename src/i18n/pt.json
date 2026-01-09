@@ -1618,6 +1618,116 @@
     }
   },
 
+  "cadastrarFisioterapeuta": {
+    "title": "Cadastrar Fisioterapeuta",
+    "steps": {
+      "professionalInfo": "Informações Profissionais",
+      "address": "Endereço",
+      "finalization": "Finalização"
+    },
+    "professionalInfo": {
+      "title": "Informações Profissionais",
+      "phone": "Telefone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "experience": "Tempo de Experiência",
+      "experiencePlaceholder": "Descreva sua experiência profissional",
+      "focus": "Foco de Atuação",
+      "focusPlaceholder": "Ex: Medicina Esportiva, Cardiologia...",
+      "profile": "Perfil Profissional",
+      "profilePlaceholder": "Descreva seu perfil profissional",
+      "career": "Carreira",
+      "careerPlaceholder": "Descreva sua trajetória profissional",
+      "highlights": "Destaques",
+      "highlightsPlaceholder": "Principais conquistas e destaques"
+    },
+    "address": {
+      "title": "Endereço",
+      "zipCode": "CEP*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Rua*",
+      "streetPlaceholder": "Nome da rua",
+      "number": "Número*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Bairro*",
+      "neighborhoodPlaceholder": "Nome do bairro",
+      "city": "Cidade*",
+      "cityPlaceholder": "Nome da cidade",
+      "state": "UF*",
+      "statePlaceholder": "Selecione"
+    },
+    "socialMedia": {
+      "title": "Redes Sociais",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/seu_perfil",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/seu_perfil"
+    },
+    "schedule": {
+      "title": "Horários de Funcionamento",
+      "startDay": "Dia de Início",
+      "startDayPlaceholder": "Selecione",
+      "endDay": "Dia de Fim",
+      "endDayPlaceholder": "Selecione",
+      "startTime": "Horário de Início",
+      "startTimePlaceholder": "08:00",
+      "endTime": "Horário de Fim",
+      "endTimePlaceholder": "18:00"
+    },
+    "terms": {
+      "title": "Termos e Políticas",
+      "declareTruth": "Declaro que as informações acima são verdadeiras*",
+      "shareData": "Aceito compartilhar meus dados com as organizações dos eventos*",
+      "acceptTerms": "Li e concordo com os",
+      "termsLink": "termos de Uso e Política de Privacidade*"
+    },
+    "termsModal": {
+      "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
+      "readMore": "Ler Mais",
+      "introduction": "1. Introdução",
+      "welcome": "Bem-vindo(a) à",
+      "company": "FitCertify365",
+      "companyRef": "(\"Companhia\", \"nós\", \"nosso\", \"conosco\")",
+      "termsIntro": "Estes Termos de Serviço (\"Termos\", \"Termos de Serviço\", \"Termos e Condições de Uso\") regem o uso dos nossos aplicativos móveis e plataforma digital, desenvolvidos pela FitCertify365.",
+      "privacyPolicy": "Nossa",
+      "privacyPolicyBold": "Política de Privacidade",
+      "privacyPolicyText": "também rege o uso do nosso Serviço e explica como coletamos, protegemos e divulgamos informações resultantes da sua utilização dos aplicativos móveis e páginas web.",
+      "agreement": "Seu acordo conosco inclui estes Termos e nossa Política de Privacidade (\"Acordos\"). Ao utilizar nossos serviços, você reconhece que leu e compreendeu os Acordos, e concorda em estar legalmente vinculado a eles.",
+      "disagree": "Caso não concorde (ou não possa cumprir) os Acordos, você não poderá utilizar o Serviço. Neste caso, solicitamos que nos comunique pelo e-mail",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "para que possamos buscar uma solução.",
+      "applies": "Estes Termos aplicam-se a todos os visitantes, usuários e demais pessoas que desejarem acessar ou utilizar o Serviço.",
+      "integration": "Este aplicativo pode se integrar com o",
+      "appleHealth": "Apple Saúde (HealthKit ou CareKit)",
+      "and": "e com o",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", para leitura e acompanhamento de dados obtidos via Apple Watch e outros dispositivos wearables compatíveis, permitindo também o envio de dados manuais e de dispositivos Bluetooth (BLE), sempre mediante autorização do usuário."
+    },
+    "buttons": {
+      "back": "Voltar",
+      "next": "Próximo",
+      "register": "Cadastrar"
+    },
+    "toasts": {
+      "registerSuccess": "Fisioterapeuta cadastrado com sucesso!",
+      "registerError": "Erro ao cadastrar fisioterapeuta",
+      "fileTooBig": "Arquivo muito grande. Tamanho máximo: 5MB",
+      "fileTypeNotAllowed": "Tipo de arquivo não permitido. Use JPG, PNG ou PDF",
+      "fileSelectedSuccess": "Arquivo selecionado com sucesso!",
+      "zipCodeNotFound": "CEP não encontrado",
+      "zipCodeError": "Erro ao buscar CEP"
+    },
+    "daysOfWeek": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "required": "Campo obrigatório"
+  },
+
   "cadastrarAtleta": {
     "title": "Cadastrar Atleta",
     "steps": {
@@ -1898,6 +2008,367 @@
     "createdBy": "Criado por: {name} em {date}",
     "noWeeklyTrainings": "Nenhum treino semanal encontrado",
     "noDailyTrainings": "Nenhum treino diário encontrado"
+  },
+
+  "pacienteForm": {
+    "physicalData": {
+      "title": "Dados Físicos",
+      "height": "Altura (cm)*",
+      "heightPlaceholder": "0.00cm",
+      "weight": "Peso (kg)*",
+      "weightPlaceholder": "0.00kg",
+      "gender": "Gênero*",
+      "genderPlaceholder": "Selecione",
+      "bloodType": "Tipo Sanguíneo*",
+      "regularActivity": "Pratica atividade física regularmente?*",
+      "genderOptions": {
+        "male": "Masculino",
+        "female": "Feminino",
+        "other": "Outros"
+      },
+      "bloodTypeOptions": {
+        "aPositive": "A+",
+        "aNegative": "A-",
+        "bPositive": "B+",
+        "bNegative": "B-",
+        "abPositive": "AB+",
+        "abNegative": "AB-",
+        "oPositive": "O+",
+        "oNegative": "O-",
+        "unknown": "Não sei"
+      },
+      "yesNo": {
+        "yes": "Sim",
+        "no": "Não"
+      }
+    },
+    "sportsHistory": {
+      "title": "Histórico Esportivo",
+      "objective": "Objetivo com a atividade física*",
+      "participatedBefore": "Já participou de provas antes?*",
+      "lastRace": "Se sim, qual a última? (Opcional)",
+      "objectiveOptions": {
+        "generalHealth": "Saúde Geral",
+        "aesthetics": "Melhorar a estética corporal",
+        "conditioning": "Condicionamento Físico e a Disposição",
+        "others": "Outros"
+      }
+    },
+    "healthHistory": {
+      "title": "Histórico de Saúde",
+      "diagnosedQuestion": "Já foi diagnosticado com alguma das condições abaixo?",
+      "selectOneOption": "Marque uma das opções abaixo para prosseguir:",
+      "otherConditions": "Outras condições médicas: (Opcional)",
+      "recentSymptoms": "Sinais e Sintomas Recentes",
+      "continuousMedication": "Toma algum medicamento contínuo? Se sim, qual? (Opcional)"
+    },
+    "examsData": {
+      "title": "Exames e Dados Complementares",
+      "recentCheckup": "Fez check-up nos últimos 12 meses?*",
+      "attachExams": "Anexar exames (PDF ou imagem): (Opcional)",
+      "hasSmartwatch": "Possui smartwatch ou app de treino?*",
+      "integrateFitCertify": "Desejo integrar meus dados com a FitCertify365*"
+    },
+    "declaration": {
+      "title": "Declaração",
+      "declareTruth": "Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação.*",
+      "shareData": "Aceito compartilhar meus dados com as organizações dos eventos que eu participar.*",
+      "acceptTerms": "Li e concordo com os",
+      "termsLink": "termos de Uso e Política de Privacidade*"
+    },
+    "termsModal": {
+      "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
+      "readMore": "Ler Mais",
+      "introduction": "1. Introdução",
+      "welcome": "Bem-vindo(a) à",
+      "company": "FitCertify365",
+      "companyRef": "(\"Companhia\", \"nós\", \"nosso\", \"conosco\")",
+      "termsIntro": "Estes Termos de Serviço (\"Termos\", \"Termos de Serviço\", \"Termos e Condições de Uso\") regem o uso dos nossos aplicativos móveis e plataforma digital, desenvolvidos pela FitCertify365.",
+      "privacyPolicy": "Nossa",
+      "privacyPolicyBold": "Política de Privacidade",
+      "privacyPolicyText": "também rege o uso do nosso Serviço e explica como coletamos, protegemos e divulgamos informações resultantes da sua utilização dos aplicativos móveis e páginas web.",
+      "agreement": "Seu acordo conosco inclui estes Termos e nossa Política de Privacidade (\"Acordos\"). Ao utilizar nossos serviços, você reconhece que leu e compreendeu os Acordos, e concorda em estar legalmente vinculado a eles.",
+      "disagree": "Caso não concorde (ou não possa cumprir) os Acordos, você não poderá utilizar o Serviço. Neste caso, solicitamos que nos comunique pelo e-mail",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "para que possamos buscar uma solução.",
+      "applies": "Estes Termos aplicam-se a todos os visitantes, usuários e demais pessoas que desejarem acessar ou utilizar o Serviço.",
+      "integration": "Este aplicativo pode se integrar com o",
+      "appleHealth": "Apple Saúde (HealthKit ou CareKit)",
+      "and": "e com o",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", para leitura e acompanhamento de dados obtidos via Apple Watch e outros dispositivos wearables compatíveis, permitindo também o envio de dados manuais e de dispositivos Bluetooth (BLE), sempre mediante autorização do usuário."
+    },
+    "validation": {
+      "required": "Campo obrigatório",
+      "heightRequired": "Altura obrigatória",
+      "weightRequired": "Peso obrigatório"
+    }
+  },
+
+  "medicoForm": {
+    "professionalInfo": {
+      "title": "Informações Profissionais",
+      "phone": "Telefone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Digite seu CRM",
+      "ufCrm": "UF do CRM*",
+      "selectPlaceholder": "Selecione",
+      "specialization": "Especialização",
+      "specializationPlaceholder": "Ex: Cardiologia, Ortopedia...",
+      "experience": "Tempo de Experiência",
+      "experiencePlaceholder": "Descreva sua experiência profissional",
+      "focus": "Foco de Atuação",
+      "focusPlaceholder": "Ex: Medicina Esportiva, Cardiologia...",
+      "profile": "Perfil Profissional",
+      "profilePlaceholder": "Descreva seu perfil profissional",
+      "career": "Carreira",
+      "careerPlaceholder": "Descreva sua trajetória profissional",
+      "highlights": "Destaques",
+      "highlightsPlaceholder": "Principais conquistas e destaques"
+    },
+    "address": {
+      "title": "Endereço",
+      "zipCode": "CEP*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Rua*",
+      "streetPlaceholder": "Nome da rua",
+      "number": "Número*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Bairro*",
+      "neighborhoodPlaceholder": "Nome do bairro",
+      "city": "Cidade*",
+      "cityPlaceholder": "Nome da cidade",
+      "state": "UF*"
+    },
+    "socialMedia": {
+      "title": "Redes Sociais",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/seu_perfil",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/seu_perfil"
+    },
+    "schedule": {
+      "title": "Horários de Funcionamento",
+      "startDay": "Dia de Início",
+      "endDay": "Dia de Fim",
+      "startTime": "Horário de Início",
+      "startTimePlaceholder": "08:00",
+      "endTime": "Horário de Fim",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Assinatura Digital",
+      "label": "Anexar assinatura digital (PDF ou imagem)"
+    },
+    "terms": {
+      "declareTruth": "Declaro que as informações acima são verdadeiras*",
+      "shareData": "Aceito compartilhar meus dados com as organizações dos eventos*",
+      "acceptTerms": "Li e concordo com os",
+      "termsLink": "termos de Uso e Política de Privacidade*"
+    },
+    "termsModal": {
+      "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
+      "readMore": "Ler Mais",
+      "introduction": "1. Introdução",
+      "welcome": "Bem-vindo(a) à",
+      "company": "FitCertify365",
+      "companyRef": "(\"Companhia\", \"nós\", \"nosso\", \"conosco\")",
+      "termsIntro": "Estes Termos de Serviço (\"Termos\", \"Termos de Serviço\", \"Termos e Condições de Uso\") regem o uso dos nossos aplicativos móveis e plataforma digital, desenvolvidos pela FitCertify365.",
+      "privacyPolicy": "Nossa",
+      "privacyPolicyBold": "Política de Privacidade",
+      "privacyPolicyText": "também rege o uso do nosso Serviço e explica como coletamos, protegemos e divulgamos informações resultantes da sua utilização dos aplicativos móveis e páginas web.",
+      "agreement": "Seu acordo conosco inclui estes Termos e nossa Política de Privacidade (\"Acordos\"). Ao utilizar nossos serviços, você reconhece que leu e compreendeu os Acordos, e concorda em estar legalmente vinculado a eles.",
+      "disagree": "Caso não concorde (ou não possa cumprir) os Acordos, você não poderá utilizar o Serviço. Neste caso, solicitamos que nos comunique pelo e-mail",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "para que possamos buscar uma solução.",
+      "applies": "Estes Termos aplicam-se a todos os visitantes, usuários e demais pessoas que desejarem acessar ou utilizar o Serviço.",
+      "integration": "Este aplicativo pode se integrar com o",
+      "appleHealth": "Apple Saúde (HealthKit ou CareKit)",
+      "and": "e com o",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", para leitura e acompanhamento de dados obtidos via Apple Watch e outros dispositivos wearables compatíveis, permitindo também o envio de dados manuais e de dispositivos Bluetooth (BLE), sempre mediante autorização do usuário."
+    },
+    "daysOfWeek": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "required": "Campo obrigatório"
+  },
+
+  "cadastrarMedico": {
+    "title": "Cadastrar Médico",
+    "steps": {
+      "professionalInfo": "Informações Profissionais",
+      "address": "Endereço",
+      "finalization": "Finalização"
+    },
+    "professionalInfo": {
+      "title": "Informações Profissionais",
+      "phone": "Telefone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Digite seu CRM",
+      "ufCrm": "UF do CRM*",
+      "selectPlaceholder": "Selecione",
+      "specialization": "Especialização",
+      "specializationPlaceholder": "Ex: Cardiologia, Ortopedia...",
+      "experience": "Tempo de Experiência",
+      "experiencePlaceholder": "Descreva sua experiência profissional",
+      "focus": "Foco de Atuação",
+      "focusPlaceholder": "Ex: Medicina Esportiva, Cardiologia...",
+      "profile": "Perfil Profissional",
+      "profilePlaceholder": "Descreva seu perfil profissional",
+      "career": "Carreira",
+      "careerPlaceholder": "Descreva sua trajetória profissional",
+      "highlights": "Destaques",
+      "highlightsPlaceholder": "Principais conquistas e destaques"
+    },
+    "address": {
+      "title": "Endereço",
+      "zipCode": "CEP*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Rua*",
+      "streetPlaceholder": "Nome da rua",
+      "number": "Número*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Bairro*",
+      "neighborhoodPlaceholder": "Nome do bairro",
+      "city": "Cidade*",
+      "cityPlaceholder": "Nome da cidade",
+      "state": "UF*"
+    },
+    "socialMedia": {
+      "title": "Redes Sociais",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/seu_perfil",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/seu_perfil"
+    },
+    "schedule": {
+      "title": "Horários de Funcionamento",
+      "startDay": "Dia de Início",
+      "endDay": "Dia de Fim",
+      "startTime": "Horário de Início",
+      "startTimePlaceholder": "08:00",
+      "endTime": "Horário de Fim",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Assinatura Digital",
+      "label": "Anexar assinatura digital (PDF ou imagem)"
+    },
+    "terms": {
+      "declareTruth": "Declaro que as informações acima são verdadeiras*",
+      "shareData": "Aceito compartilhar meus dados com as organizações dos eventos*",
+      "acceptTerms": "Li e concordo com os",
+      "termsLink": "termos de Uso e Política de Privacidade*"
+    },
+    "termsModal": {
+      "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
+      "readMore": "Ler Mais"
+    },
+    "buttons": {
+      "back": "Voltar",
+      "next": "Próximo",
+      "register": "Cadastrar"
+    },
+    "daysOfWeek": {
+      "monday": "Segunda-feira",
+      "tuesday": "Terça-feira",
+      "wednesday": "Quarta-feira",
+      "thursday": "Quinta-feira",
+      "friday": "Sexta-feira",
+      "saturday": "Sábado",
+      "sunday": "Domingo"
+    },
+    "toasts": {
+      "registerSuccess": "Médico cadastrado com sucesso!",
+      "registerError": "Erro ao cadastrar médico",
+      "zipCodeNotFound": "CEP não encontrado",
+      "zipCodeError": "Erro ao buscar CEP"
+    },
+    "required": "Campo obrigatório"
+  },
+
+  "cadastrarTreinador": {
+    "title": "Cadastrar Treinador",
+    "contact": "Contato",
+    "phone": "Telefone*",
+    "phonePlaceholder": "(00) 00000-0000",
+    "infoAlert": "As demais informações do usuário serão preenchidas automaticamente com base em um perfil já existente",
+    "registerButton": "Cadastrar Treinador",
+    "toasts": {
+      "phoneRequired": "Telefone é obrigatório",
+      "phoneInvalid": "Telefone inválido",
+      "registerSuccess": "Treinador cadastrado com sucesso!",
+      "registerError": "Erro ao cadastrar treinador"
+    }
+  },
+
+  "register": {
+    "leftPanel": {
+      "title1": "Comece agora sua jornada com mais saúde e performance.",
+      "title2": "",
+      "title3": "",
+      "title4": "Comece agora sua jornada com mais saúde e performance.",
+      "text1": "Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com ela, você poderá emitir certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace.",
+      "text2": "Precisamos desses dados para compor seu perfil de saúde. Nenhuma informação será compartilhada sem sua autorização.",
+      "text3": "Se você já realizou exames recentemente, pode anexar para agilizar sua avaliação. Também é possível integrar com dados de aplicativos ou dispositivos como smartwatch.",
+      "text4": "Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com ela, você poderá validar certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace."
+    },
+    "steps": {
+      "step1": "Cadastro Básico",
+      "step2": "Dados Físicos",
+      "step3": "Cadastro Saúde",
+      "step4": "Finalização"
+    },
+    "personalInfo": {
+      "title": "Informações Pessoais",
+      "profile": "Perfil*",
+      "profilePlaceholder": "Selecione",
+      "fullName": "Nome completo*",
+      "cpf": "CPF*",
+      "cpfPlaceholder": "000.000.000-00",
+      "email": "E-mail*",
+      "emailPlaceholder": "exemplo@dominio.com",
+      "phone": "Telefone*",
+      "phonePlaceholder": "(99) 9 9999-9999",
+      "password": "Senha*",
+      "confirmPassword": "Confirmar Senha*",
+      "birthDate": "Data de nascimento*",
+      "birthDatePlaceholder": "DD/MM/AAAA"
+    },
+    "buttons": {
+      "back": "Voltar",
+      "next": "Próximo",
+      "submit": "Enviar Formulário",
+      "sending": "Enviando..."
+    },
+    "validation": {
+      "nameRequired": "Nome obrigatório",
+      "cpfRequired": "CPF obrigatório",
+      "cpfInvalid": "CPF inválido",
+      "emailRequired": "E-mail obrigatório",
+      "emailInvalid": "E-mail inválido",
+      "passwordRequired": "Senha obrigatória",
+      "passwordStrength": "A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial",
+      "confirmPasswordRequired": "Confirmar senha obrigatório",
+      "passwordsNotMatch": "As senhas não coincidem",
+      "phoneRequired": "Telefone obrigatório",
+      "birthDateRequired": "Data de nascimento obrigatória",
+      "birthDateInvalid": "Data de nascimento inválida",
+      "fieldRequired": "Campo obrigatório"
+    },
+    "toasts": {
+      "registerSuccess": "Cadastro realizado com sucesso!",
+      "registerError": "Não foi possível concluir o cadastro"
+    }
   },
 
   "politicaPrivacidade": {

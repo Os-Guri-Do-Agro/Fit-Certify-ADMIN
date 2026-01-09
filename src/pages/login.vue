@@ -2,7 +2,34 @@
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height" no-gutters>
     <!-- DIV DA ESQUERDA -->
     <VCol class="h-100 d-flex align-center pa-0 ma-0" :md="4" :cols="12" style="background: #f8f9fa;">
-      <div class="d-flex flex-column h-100 w-100 justify-center px-4 px-md-8">
+      <div class="d-flex flex-column h-100 w-100 justify-center px-4 px-md-8 position-relative">
+        <div class="position-absolute" style="top: 16px; right: 16px;">
+          <v-menu offset-y transition="slide-y-transition">
+            <template v-slot:activator="{ props }">
+              <v-btn icon variant="flat" v-bind="props">
+                <img
+                  :src="currentLocale === 'pt' ? 'https://flagcdn.com/w40/br.png' : 'https://flagcdn.com/w40/gb.png'"
+                  :alt="currentLocale === 'pt' ? 'Português' : 'English'"
+                  style="width: 32px; height: 24px; object-fit: cover; border-radius: 4px;"
+                />
+              </v-btn>
+            </template>
+            <v-list elevation="8">
+              <v-list-item @click="changeLocale('pt')">
+                <template v-slot:prepend>
+                  <img src="https://flagcdn.com/w40/br.png" alt="Brasil" style="width: 32px; height: 24px; object-fit: cover; border-radius: 2px;" class="mr-2" />
+                </template>
+                <v-list-item-title>Português</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="changeLocale('en')">
+                <template v-slot:prepend>
+                  <img src="https://flagcdn.com/w40/gb.png" alt="England" style="width: 32px; height: 24px; object-fit: cover; border-radius: 2px;" class="mr-2" />
+                </template>
+                <v-list-item-title>English</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
         <div class="mb-8 d-flex d-md-none justify-center">
           <a href="https://fitcertify365.com/" target="_blank" style="transition: transform 0.3s ease;" @mouseenter="($event.currentTarget as HTMLElement).style.transform = 'scale(1.05)'" @mouseleave="($event.currentTarget as HTMLElement).style.transform = 'scale(1)'">
             <v-img alt="Logo" cover width="280" src="../assets/Camada_1.png" style="filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));" />
@@ -80,7 +107,8 @@
     <!-- DIV DA DIREITA -->
     <VCol class="pa-0 ma-0 hidden-sm-and-down" md="8">
       <v-img src="../assets/Login/login-banner.jpg" cover height="100vh" width="100%">
-        <div style="position: absolute; width: 400px; height: 400px; border-radius: 50%; background: linear-gradient(135deg, rgba(0, 198, 254, 0.8), rgba(0, 153, 204, 0.6)); top: -150px; right: -150px; filter: blur(1px);"></div>
+        <div style="position: absolute; width: 400px; height: 400px; border-radius: 50%; background: linear-gradient(135deg, rgba(0, 198, 254, 0.8), rgba(0, 153, 204, 0.6)); top: -150px; right: -150px; filter: blur(1px);">
+        </div>
         <div style="position: absolute; width: 250px; height: 250px; border-radius: 50%; background: linear-gradient(135deg, rgba(136, 206, 13, 0.7), rgba(0, 198, 254, 0.5)); bottom: -50px; left: -80px; filter: blur(1px);"></div>
         <div style="position: absolute; width: 150px; height: 150px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); top: 20%; right: 20%; filter: blur(0.5px);"></div>
         <div class="w-100 h-100 pa-0 ma-0 flex-column justify-center align-center d-flex" style="background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 198, 254, 0.4)); position: relative; z-index: 1;">
@@ -160,7 +188,8 @@ import dayjs from 'dayjs';
 import { getErrorMessage } from '@/common/error.utils';
 import { useI18n } from 'vue-i18n';
 
-const { t: $t } = useI18n();
+const { t: $t, locale } = useI18n();
+const currentLocale = ref(locale.value)
 
 const showPassword = ref(false)
 const email = ref('');
@@ -183,6 +212,13 @@ const clicouEnviar = ref(false)
 const showTipoContaModal = ref(false)
 const tipoContaSelecionado = ref('')
 let debounceTimer: number
+
+
+const changeLocale = (lang: string) => {
+  locale.value = lang
+  currentLocale.value = lang
+  localStorage.setItem('locale', lang)
+}
 
 onMounted(() => {
   if (route.query['tipo-cadastro'] !== undefined) {

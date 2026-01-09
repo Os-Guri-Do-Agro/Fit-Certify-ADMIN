@@ -1617,6 +1617,116 @@
     }
   },
 
+  "cadastrarFisioterapeuta": {
+    "title": "Register Physiotherapist",
+    "steps": {
+      "professionalInfo": "Professional Information",
+      "address": "Address",
+      "finalization": "Finalization"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*",
+      "statePlaceholder": "Select"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "startDayPlaceholder": "Select",
+      "endDay": "End Day",
+      "endDayPlaceholder": "Select",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "terms": {
+      "title": "Terms and Policies",
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "register": "Register"
+    },
+    "toasts": {
+      "registerSuccess": "Physiotherapist registered successfully!",
+      "registerError": "Error registering physiotherapist",
+      "fileTooBig": "File too large. Maximum size: 5MB",
+      "fileTypeNotAllowed": "File type not allowed. Use JPG, PNG or PDF",
+      "fileSelectedSuccess": "File selected successfully!",
+      "zipCodeNotFound": "ZIP code not found",
+      "zipCodeError": "Error searching ZIP code"
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "required": "Required field"
+  },
+
   "cadastrarAtleta": {
     "title": "Register Athlete",
     "steps": {
@@ -1900,7 +2010,369 @@
     "noDailyTrainings": "No daily trainings found"
   },
 
+  "pacienteForm": {
+    "physicalData": {
+      "title": "Physical Data",
+      "height": "Height (cm)*",
+      "heightPlaceholder": "0.00cm",
+      "weight": "Weight (kg)*",
+      "weightPlaceholder": "0.00kg",
+      "gender": "Gender*",
+      "genderPlaceholder": "Select",
+      "bloodType": "Blood Type*",
+      "regularActivity": "Do you practice physical activity regularly?*",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "bloodTypeOptions": {
+        "aPositive": "A+",
+        "aNegative": "A-",
+        "bPositive": "B+",
+        "bNegative": "B-",
+        "abPositive": "AB+",
+        "abNegative": "AB-",
+        "oPositive": "O+",
+        "oNegative": "O-",
+        "unknown": "I don't know"
+      },
+      "yesNo": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "sportsHistory": {
+      "title": "Sports History",
+      "objective": "Goal with physical activity*",
+      "participatedBefore": "Have you participated in races before?*",
+      "lastRace": "If so, which was the last one? (Optional)",
+      "objectiveOptions": {
+        "generalHealth": "General Health",
+        "aesthetics": "Improve body aesthetics",
+        "conditioning": "Physical Conditioning and Disposition",
+        "others": "Others"
+      }
+    },
+    "healthHistory": {
+      "title": "Health History",
+      "diagnosedQuestion": "Have you been diagnosed with any of the conditions below?",
+      "selectOneOption": "Check one of the options below to proceed:",
+      "otherConditions": "Other medical conditions: (Optional)",
+      "recentSymptoms": "Recent Signs and Symptoms",
+      "continuousMedication": "Do you take any continuous medication? If so, which one? (Optional)"
+    },
+    "examsData": {
+      "title": "Exams and Complementary Data",
+      "recentCheckup": "Did you have a check-up in the last 12 months?*",
+      "attachExams": "Attach exams (PDF or image): (Optional)",
+      "hasSmartwatch": "Do you have a smartwatch or training app?*",
+      "integrateFitCertify": "I want to integrate my data with FitCertify365*"
+    },
+    "declaration": {
+      "title": "Declaration",
+      "declareTruth": "I declare that the above information is true and I authorize the analysis for certification purposes.*",
+      "shareData": "I agree to share my data with the organizations of the events I participate in.*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "validation": {
+      "required": "Required field",
+      "heightRequired": "Height required",
+      "weightRequired": "Weight required"
+    }
+  },
+
+  "medicoForm": {
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Enter your CRM",
+      "ufCrm": "CRM State*",
+      "selectPlaceholder": "Select",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "Ex: Cardiology, Orthopedics...",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "endDay": "End Day",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Digital Signature",
+      "label": "Attach digital signature (PDF or image)"
+    },
+    "terms": {
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "required": "Required field"
+  },
+
+  "cadastrarMedico": {
+    "title": "Register Doctor",
+    "steps": {
+      "professionalInfo": "Professional Information",
+      "address": "Address",
+      "finalization": "Finalization"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Enter your CRM",
+      "ufCrm": "CRM State*",
+      "selectPlaceholder": "Select",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "Ex: Cardiology, Orthopedics...",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "endDay": "End Day",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Digital Signature",
+      "label": "Attach digital signature (PDF or image)"
+    },
+    "terms": {
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "register": "Register"
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "toasts": {
+      "registerSuccess": "Doctor registered successfully!",
+      "registerError": "Error registering doctor",
+      "zipCodeNotFound": "ZIP code not found",
+      "zipCodeError": "Error searching ZIP code"
+    },
+    "required": "Required field"
+  },
+
+  "cadastrarTreinador": {
+    "title": "Register Coach",
+    "contact": "Contact",
+    "phone": "Phone*",
+    "phonePlaceholder": "(00) 00000-0000",
+    "infoAlert": "The remaining user information will be automatically filled based on an existing profile",
+    "registerButton": "Register Coach",
+    "toasts": {
+      "phoneRequired": "Phone is required",
+      "phoneInvalid": "Invalid phone",
+      "registerSuccess": "Coach registered successfully!",
+      "registerError": "Error registering coach"
+    }
+  },
+
+  "register": {
+    "leftPanel": {
+      "title1": "Start your journey with more health and performance now.",
+      "title2": "",
+      "title3": "",
+      "title4": "Start your journey with more health and performance now.",
+      "text1": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to issue certificates, track your health markers and enjoy exclusive benefits in our marketplace.",
+      "text2": "We need this data to compose your health profile. No information will be shared without your authorization.",
+      "text3": "If you have recently performed exams, you can attach them to speed up your evaluation. It is also possible to integrate with data from apps or devices like smartwatch.",
+      "text4": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to validate certificates, track your health markers and enjoy exclusive benefits in our marketplace."
+    },
+    "steps": {
+      "step1": "Basic Registration",
+      "step2": "Physical Data",
+      "step3": "Health Registration",
+      "step4": "Finalization"
+    },
+    "personalInfo": {
+      "title": "Personal Information",
+      "profile": "Profile*",
+      "profilePlaceholder": "Select",
+      "fullName": "Full name*",
+      "cpf": "CPF*",
+      "cpfPlaceholder": "000.000.000-00",
+      "email": "E-mail*",
+      "emailPlaceholder": "example@domain.com",
+      "phone": "Phone*",
+      "phonePlaceholder": "(99) 9 9999-9999",
+      "password": "Password*",
+      "confirmPassword": "Confirm Password*",
+      "birthDate": "Birth date*",
+      "birthDatePlaceholder": "MM/DD/YYYY"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit Form",
+      "sending": "Sending..."
+    },
+    "validation": {
+      "nameRequired": "Name required",
+      "cpfRequired": "CPF required",
+      "cpfInvalid": "Invalid CPF",
+      "emailRequired": "E-mail required",
+      "emailInvalid": "Invalid e-mail",
+      "passwordRequired": "Password required",
+      "passwordStrength": "Password must have at least 8 characters, one uppercase letter, one number and one special character",
+      "confirmPasswordRequired": "Confirm password required",
+      "passwordsNotMatch": "Passwords do not match",
+      "phoneRequired": "Phone required",
+      "birthDateRequired": "Birth date required",
+      "birthDateInvalid": "Invalid birth date",
+      "fieldRequired": "Required field"
+    },
+    "toasts": {
+      "registerSuccess": "Registration completed successfully!",
+      "registerError": "Unable to complete registration"
+    }
+  },
+
   "politicaPrivacidade": {
+    "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
     "section1": {
       "title": "1. Introduction",
       "welcome": "Welcome to",

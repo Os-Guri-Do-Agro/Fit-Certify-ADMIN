@@ -19,7 +19,7 @@
               text-shadow: 0 2px 8px rgba(0,0,0,0.15);
               letter-spacing: -0.5px;
             ">
-            {{ titleStep[step - 1] }}
+            {{ $t(`register.leftPanel.title${step}`) }}
           </h1>
           <p class="mx-5 mx-lg-15 text-white text-center text-body-1 text-md-h6 font-weight-regular mt-5 mb-10"
             style="
@@ -27,7 +27,7 @@
               line-height: 1.6;
               opacity: 0.95;
             ">
-            {{ textStep[step - 1] }}
+            {{ $t(`register.leftPanel.text${step}`) }}
           </p>
         </div>
       </div>
@@ -46,44 +46,44 @@
                       <v-icon color="white" size="20">mdi-account</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                      Informações Pessoais
+                      {{ $t('register.personalInfo.title') }}
                     </h2>
                   </div>
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
                   <v-select id="tipoPerfil" v-model="form.tipoPerfil" :items="perfilOptions"
                     :rules="[rules.requiredSelectObrigatorio]" item-title="nome" item-value="id"
-                    placeholder="Selecione" label="Perfil*" variant="outlined" rounded="lg"
+                    :placeholder="$t('register.personalInfo.profilePlaceholder')" :label="$t('register.personalInfo.profile')" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" @update:model-value="onPerfilChange" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="8">
                   <VTextField id="nomeCompleto" v-model="form.nome" name="nomeCompleto"
-                    :rules="[rules.requiredNomeObrigatorio]" label="Nome completo*" variant="outlined" rounded="lg"
+                    :rules="[rules.requiredNomeObrigatorio]" :label="$t('register.personalInfo.fullName')" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="4">
                   <VTextField id="cpf" v-model="form.cpf" v-maska="'###.###.###-##'"
-                    :rules="[rules.requiredCpfObrigatorio]" name="cpf" placeholder="000.000.000-00"
-                    label="CPF*" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
+                    :rules="[rules.requiredCpfObrigatorio]" name="cpf" :placeholder="$t('register.personalInfo.cpfPlaceholder')"
+                    :label="$t('register.personalInfo.cpf')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" :md="perfilSelecionado?.nome !== 'Treinador' ? 6 : 12">
                   <VTextField id="formEmail" v-model="form.email"
                     @blur="(e) => onBlurEmail(e.target.value)" :rules="[rules.requiredEmailObrigatorio]"
-                    placeholder="exemplo@dominio.com" type="email" label="E-mail*" variant="outlined" rounded="lg"
+                    :placeholder="$t('register.personalInfo.emailPlaceholder')" type="email" :label="$t('register.personalInfo.email')" variant="outlined" rounded="lg"
                     bg-color="white" :loading="loadingEmail" class="custom-field" />
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6" v-if="perfilSelecionado?.nome !== 'Treinador'">
                   <VTextField id="telefone" v-model="form.telefone" v-maska="'(##) #####-####'"
-                    :rules="[rules.requiredTelefoneObrigatorio]" name="telefone" placeholder="(99) 9 9999-9999"
-                    type="tel" label="Telefone*" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
+                    :rules="[rules.requiredTelefoneObrigatorio]" name="telefone" :placeholder="$t('register.personalInfo.phonePlaceholder')"
+                    type="tel" :label="$t('register.personalInfo.phone')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
                   <VTextField id="senha" v-model="form.senha"
                     :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'"
-                    label="Senha*" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
+                    :label="$t('register.personalInfo.password')" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
                     <template #append-inner>
                       <v-icon @click="showPassword = !showPassword" class="cursor-pointer" color="#00c6fe">
                         {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
@@ -95,7 +95,7 @@
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
                   <VTextField id="confirmarSenha" v-model="form.confirmarSenha"
                     :rules="[rules.requiredConfirmarSenha]" name="confirmarSenha" :type="showConfirmPassword ? 'text' : 'password'"
-                    label="Confirmar Senha*" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
+                    :label="$t('register.personalInfo.confirmPassword')" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
                     <template #append-inner>
                       <v-icon @click="showConfirmPassword = !showConfirmPassword" class="cursor-pointer" color="#00c6fe">
                         {{ showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off' }}
@@ -107,7 +107,7 @@
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
                   <VTextField id="nascimento" v-model="form.dataNascimento" v-if="perfilSelecionado?.nome !== 'Treinador'"
                     :rules="[rules.requiredDataNascimentoObrigatorio]" name="nascimento" v-maska="'##/##/####'"
-                    placeholder="DD/MM/AAAA" label="Data de nascimento*" variant="outlined" rounded="lg"
+                    :placeholder="$t('register.personalInfo.birthDatePlaceholder')" :label="$t('register.personalInfo.birthDate')" variant="outlined" rounded="lg"
                     bg-color="white" class="custom-field" />
                 </VCol>
               </VRow>
@@ -219,7 +219,7 @@
                   color="#00c6fe" variant="outlined" rounded="xl" @click="prev"
                   style="border-width: 2px; font-weight: 600; text-transform: none; letter-spacing: 0;">
                   <v-icon start>mdi-arrow-left</v-icon>
-                  Voltar
+                  {{ $t('register.buttons.back') }}
                 </VBtn>
                 <VBtn class="text-white w-100" height="50px" max-width="237px" :loading="loading"
                   :disabled="loading || disabled || !isCurrentStepValid"
@@ -228,10 +228,10 @@
                   style="font-weight: 600; text-transform: none; letter-spacing: 0;">
                   {{
                     (step !== 4 && perfilSelecionado?.nome !== 'Treinador')
-                      ? 'Próximo'
+                      ? $t('register.buttons.next')
                       : loading
-                        ? 'Enviando...'
-                        : 'Enviar Formulário'
+                        ? $t('register.buttons.sending')
+                        : $t('register.buttons.submit')
                   }}
                   <v-icon v-if="step !== 4 && perfilSelecionado?.nome !== 'Treinador'" end>mdi-arrow-right</v-icon>
                   <v-icon v-else end>mdi-check</v-icon>
@@ -248,6 +248,7 @@
 import { useField, useForm } from 'vee-validate'
 import { ref, toRaw, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import AtletaService from '../services/cadastro-service/atleta-service'
 import medicoService from '@/services/medico/medico-service'
 import { toast } from 'vue3-toastify'
@@ -273,6 +274,7 @@ dayjs.locale('pt-br')
 dayjs.extend(customParseFormat);
 const step = ref(1)
 const router = useRouter()
+const { t, locale } = useI18n()
 const loading = ref(false)
 
 const loadingEmail = ref(false)
@@ -281,6 +283,17 @@ const disabled = ref(false)
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 const formRef = ref(null)
+
+const getPerfis = (nome) => {
+  const map = {
+    'Atleta': 'atleta',
+    'Médico': 'medico',
+    'Fisioterapeuta': 'fisioterapeuta',
+    'Treinador': 'treinador',
+  }
+  return map[nome] || nome
+}
+
 
 const form = ref({
   tipoPerfil: null,
@@ -378,7 +391,13 @@ const criarCadastroSimplificado = async () => {
 const tiposPerfil = ref([])
 
 const perfilOptions = computed(() => {
-  return [{ id: null, nome: 'Selecionar Perfil' }, ...tiposPerfil.value]
+  return [
+    { id: null, nome: 'Selecionar Perfil' },
+    ...tiposPerfil.value.map(perfil => ({
+      id: perfil.id,
+      nome: t(`login.roles.${getPerfis(perfil.nome)}`)
+    }))
+  ]
 })
 
 const perfilSelecionado = computed(() => {
@@ -583,43 +602,43 @@ const handleFileChange = (file) => {
 }
 
 const rules = {
-  requiredNomeObrigatorio: (value) => !!value || 'Nome obrigatório',
+  requiredNomeObrigatorio: (value) => !!value || t('register.validation.nameRequired'),
 
   requiredCpfObrigatorio: (value) => {
-    if (!value) return 'CPF obrigatório'
-    return validarCPF(value) || 'CPF inválido'
+    if (!value) return t('register.validation.cpfRequired')
+    return validarCPF(value) || t('register.validation.cpfInvalid')
   },
 
   requiredEmailObrigatorio: (value) => {
-    if (!value) return 'E-mail obrigatório'
-    return validarEmail(value) || 'E-mail inválido'
+    if (!value) return t('register.validation.emailRequired')
+    return validarEmail(value) || t('register.validation.emailInvalid')
   },
 
   requiredSenhaObrigatoria: (value) => {
-    if (!value) return 'Senha obrigatória'
+    if (!value) return t('register.validation.passwordRequired')
     return (
       validarSenhaForte(value) ||
-      'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial'
+      t('register.validation.passwordStrength')
     )
   },
 
   requiredConfirmarSenha: (value) => {
-    if (!value) return 'Confirmar senha obrigatório'
-    return value === form.value.senha || 'As senhas não coincidem'
+    if (!value) return t('register.validation.confirmPasswordRequired')
+    return value === form.value.senha || t('register.validation.passwordsNotMatch')
   },
 
-  requiredTelefoneObrigatorio: (value) => !!value || 'Telefone obrigatório',
+  requiredTelefoneObrigatorio: (value) => !!value || t('register.validation.phoneRequired'),
 
   requiredDataNascimentoObrigatorio: (value) => {
-    if (!value) return 'Data de nascimento obrigatória'
-    return isValidDate(value) || 'Data de nascimento inválida'
+    if (!value) return t('register.validation.birthDateRequired')
+    return isValidDate(value) || t('register.validation.birthDateInvalid')
   },
 
   requiredAlturaObrigatorio: (value) => !!value || 'Altura obrigatória',
   requiredPesoObrigatorio: (value) => !!value || 'Peso obrigatório',
   requiredSelectObrigatorio: (value) =>
-    value !== null && value !== undefined ? true : 'Campo obrigatório',
-  requiredCheckObrigatorio: (value) => !!value || 'Campo obrigatório',
+    value !== null && value !== undefined ? true : t('register.validation.fieldRequired'),
+  requiredCheckObrigatorio: (value) => !!value || t('register.validation.fieldRequired'),
 }
 
 // Validações para cada step
@@ -819,11 +838,11 @@ const submitAtleta = handleSubmit(async () => {
       localStorage.removeItem('cadastro_cache')
       loading.value = false
       router.push('/thank-you?type=paciente').then(() => {
-        toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+        toast.success(t('register.toasts.registerSuccess'), { autoClose: 2500 })
       })
     } else {
       loading.value = false
-      toast.error(response?.message || 'Não foi possível concluir o cadastro')
+      toast.error(response?.message || t('register.toasts.registerError'))
     }
   } catch (error) {
     loading.value = false
@@ -871,7 +890,7 @@ const submitMedico = handleSubmit(async () => {
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=medico').then(() => {
-      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+      toast.success(t('register.toasts.registerSuccess'), { autoClose: 2500 })
     })
   } catch (error) {
     loading.value = false
@@ -921,11 +940,11 @@ const submitFisioterapeuta = handleSubmit(async () => {
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {
-      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+      toast.success(t('register.toasts.registerSuccess'), { autoClose: 2500 })
     })
   } catch (error) {
     loading.value = false
-    toast.error(getErrorMessage(error, 'Não foi possível concluir o cadastro'))
+    toast.error(getErrorMessage(error, t('register.toasts.registerError')))
     console.error(error)
   }
 })
@@ -947,11 +966,11 @@ const submitTreinador = handleSubmit(async () => {
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {
-      toast.success('Cadastro realizado com sucesso!', { autoClose: 2500 })
+      toast.success(t('register.toasts.registerSuccess'), { autoClose: 2500 })
     })
   } catch (error) {
     loading.value = false
-    toast.error(getErrorMessage(error, 'Não foi possível concluir o cadastro'))
+    toast.error(getErrorMessage(error, t('register.toasts.registerError')))
     console.error(error)
   }
 })
@@ -983,20 +1002,20 @@ const handleNext = async (next) => {
   }
 }
 
-const item = ['Cadastro Básico', 'Dados Físicos', 'Cadastro Saúde', 'Finalização']
+const item = [t('register.steps.step1'), t('register.steps.step2'), t('register.steps.step3'), t('register.steps.step4')]
 
 const titleStep = [
-  'Comece agora sua jornada com mais saúde e performance.',
-  '',
-  '',
-  'Comece agora sua jornada com mais saúde e performance.',
+  t('register.leftPanel.title1'),
+  t('register.leftPanel.title2'),
+  t('register.leftPanel.title3'),
+  t('register.leftPanel.title4'),
 ]
 
 const textStep = [
-  'Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com ela, você poderá emitir certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace.',
-  'Precisamos desses dados para compor seu perfil de saúde. Nenhuma informação será compartilhada sem sua autorização.',
-  'Se você já realizou exames recentemente, pode anexar para agilizar sua avaliação.Também é possível integrar com dados de aplicativos ou dispositivos como smartwatch.',
-  'Criar sua conta na FitCertify365 é rápido, seguro e gratuito.Com ela, você poderá validar certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace.',
+  t('register.leftPanel.text1'),
+  t('register.leftPanel.text2'),
+  t('register.leftPanel.text3'),
+  t('register.leftPanel.text4'),
 ]
 </script>
 

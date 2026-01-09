@@ -169,6 +169,7 @@ const pageTitle = computed(() => {
   '/Medico-Screens/editarPerfilMedico': t('appBar.titleEditProfile'),
   '/Medico-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Medico-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
+  '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
 
   '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
   '/Fisioterapeuta-Screens/consultas': t('appBar.titleConsultas'),
@@ -177,9 +178,11 @@ const pageTitle = computed(() => {
   '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': t('appBar.titleEditProfile'),
   '/Fisioterapeuta-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Fisioterapeuta-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
+  '/cadastrar-fisioterapeuta':  t('appBar.titleRegisterPhysio'),
 
   '/Treinador-Screens/detalhesAtleta': t('appBar.titleAthleteDetails'),
   '/Treinador-Screens/editarPerfilTreinador': t('appBar.titleEditProfile'),
+  '/cadastrar-treinador': t('appBar.titleRegisterCoach'),
 
   '/solicitacoesConexoes': t('appBar.titleConnections'),
   '/certificados': t('appBar.titleCertificates'),

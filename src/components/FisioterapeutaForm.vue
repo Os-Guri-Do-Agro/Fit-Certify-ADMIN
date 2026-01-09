@@ -10,7 +10,7 @@
                 <v-icon color="white" size="20">mdi-stethoscope</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Informações Profissionais
+                {{ $t('cadastrarFisioterapeuta.professionalInfo.title') }}
               </h2>
             </div>
           </VCol>
@@ -23,8 +23,8 @@
               @update:model-value="form.telefone = $event"
               :rules="[rules.required]"
               name="telefone"
-              placeholder="(00) 00000-0000"
-              label="Telefone*"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.phonePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.phone')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -39,8 +39,8 @@
               @update:model-value="form.experiencia = $event"
               type="number"
               name="experiencia"
-              placeholder="Descreva sua experiência profissional"
-              label="Tempo de Experiência"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.experiencePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.experience')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -54,8 +54,8 @@
               :model-value="form.foco"
               @update:model-value="form.foco = $event"
               name="foco"
-              placeholder="Ex: Medicina Esportiva, Cardiologia..."
-              label="Foco de Atuação"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.focusPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.focus')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -69,8 +69,8 @@
               :model-value="form.perfil"
               @update:model-value="form.perfil = $event"
               name="perfil"
-              placeholder="Descreva seu perfil profissional"
-              label="Perfil Profissional"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.profilePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.profile')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -86,8 +86,8 @@
               :model-value="form.carreira"
               @update:model-value="form.carreira = $event"
               name="carreira"
-              placeholder="Descreva sua trajetória profissional"
-              label="Carreira"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.careerPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.career')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -101,8 +101,8 @@
               :model-value="form.destaques"
               @update:model-value="form.destaques = $event"
               name="destaques"
-              placeholder="Principais conquistas e destaques"
-              label="Destaques"
+              :placeholder="$t('cadastrarFisioterapeuta.professionalInfo.highlightsPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.professionalInfo.highlights')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -125,7 +125,7 @@
                 <v-icon color="white" size="20">mdi-map-marker</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Endereço
+                {{ $t('cadastrarFisioterapeuta.address.title') }}
               </h2>
             </div>
           </VCol>
@@ -140,8 +140,8 @@
               :loading="loadingCep"
               :rules="[rules.required]"
               name="cep"
-              placeholder="00000-000"
-              label="CEP*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.zipCodePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.zipCode')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -156,8 +156,8 @@
               @update:model-value="form.rua = $event"
               :rules="[rules.required]"
               name="rua"
-              placeholder="Nome da rua"
-              label="Rua*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.streetPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.street')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -172,8 +172,8 @@
               @update:model-value="form.numero = $event"
               :rules="[rules.required]"
               name="numero"
-              placeholder="123"
-              label="Número*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.numberPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.number')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -188,8 +188,8 @@
               @update:model-value="form.bairro = $event"
               :rules="[rules.required]"
               name="bairro"
-              placeholder="Nome do bairro"
-              label="Bairro*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.neighborhoodPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.neighborhood')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -204,8 +204,8 @@
               @update:model-value="form.cidade = $event"
               :rules="[rules.required]"
               name="cidade"
-              placeholder="Nome da cidade"
-              label="Cidade*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.cityPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.city')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -220,8 +220,8 @@
               @update:model-value="form.uf = $event"
               :items="UFlist"
               :rules="[rules.required]"
-              placeholder="Selecione"
-              label="UF*"
+              :placeholder="$t('cadastrarFisioterapeuta.address.statePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.address.state')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -237,7 +237,7 @@
                 <v-icon color="white" size="20">mdi-share-variant</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Redes Sociais
+                {{ $t('cadastrarFisioterapeuta.socialMedia.title') }}
               </h2>
             </div>
           </VCol>
@@ -248,8 +248,8 @@
               :model-value="form.linkInstagram"
               @update:model-value="form.linkInstagram = $event"
               name="linkInstagram"
-              placeholder="https://instagram.com/seu_perfil"
-              label="Instagram"
+              :placeholder="$t('cadastrarFisioterapeuta.socialMedia.instagramPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.socialMedia.instagram')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -263,8 +263,8 @@
               :model-value="form.linkFacebook"
               @update:model-value="form.linkFacebook = $event"
               name="linkFacebook"
-              placeholder="https://facebook.com/seu_perfil"
-              label="Facebook"
+              :placeholder="$t('cadastrarFisioterapeuta.socialMedia.facebookPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.socialMedia.facebook')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -285,7 +285,7 @@
                 <v-icon color="white" size="20">mdi-clock</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Horários de Funcionamento
+                {{ $t('cadastrarFisioterapeuta.schedule.title') }}
               </h2>
             </div>
           </VCol>
@@ -296,8 +296,8 @@
               :model-value="form.diaFuncionamentoInicio"
               @update:model-value="form.diaFuncionamentoInicio = $event"
               :items="diasSemana"
-              placeholder="Selecione"
-              label="Dia de Início"
+              :placeholder="$t('cadastrarFisioterapeuta.schedule.startDayPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.schedule.startDay')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -311,8 +311,8 @@
               :model-value="form.diaFuncionamentoFim"
               @update:model-value="form.diaFuncionamentoFim = $event"
               :items="diasSemana"
-              placeholder="Selecione"
-              label="Dia de Fim"
+              :placeholder="$t('cadastrarFisioterapeuta.schedule.endDayPlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.schedule.endDay')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -327,8 +327,8 @@
               :model-value="form.horarioInicio"
               @update:model-value="form.horarioInicio = $event"
               name="horarioInicio"
-              placeholder="08:00"
-              label="Horário de Início"
+              :placeholder="$t('cadastrarFisioterapeuta.schedule.startTimePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.schedule.startTime')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -343,8 +343,8 @@
               :model-value="form.horarioFim"
               @update:model-value="form.horarioFim = $event"
               name="horarioFim"
-              placeholder="18:00"
-              label="Horário de Fim"
+              :placeholder="$t('cadastrarFisioterapeuta.schedule.endTimePlaceholder')"
+              :label="$t('cadastrarFisioterapeuta.schedule.endTime')"
               variant="outlined"
               rounded="lg"
               bg-color="white"
@@ -360,7 +360,7 @@
                 <v-icon color="white" size="20">mdi-file-document</v-icon>
               </div>
               <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                Termos e Políticas
+                {{ $t('cadastrarFisioterapeuta.terms.title') }}
               </h2>
             </div>
           </VCol>
@@ -372,7 +372,7 @@
               :rules="[rules.required]"
               color="success"
               class="font-weight-medium"
-              label="Declaro que as informações acima são verdadeiras*"
+              :label="$t('cadastrarFisioterapeuta.terms.declareTruth')"
             />
           </VCol>
 
@@ -383,7 +383,7 @@
               :rules="[rules.required]"
               color="success"
               class="font-weight-medium"
-              label="Aceito compartilhar meus dados com as organizações dos eventos*"
+              :label="$t('cadastrarFisioterapeuta.terms.shareData')"
             />
           </VCol>
 
@@ -397,10 +397,10 @@
             >
               <template #label>
                 <span>
-                  Li e concordo com os
+                  {{ $t('cadastrarFisioterapeuta.terms.acceptTerms') }}
                   <span class="cursor-pointer text-decoration-underline" style="color: #00c6fe"
                     @click="showModalTerms = true">
-                    termos de Uso e Política de Privacidade*</span>.
+                    {{ $t('cadastrarFisioterapeuta.terms.termsLink') }}</span>.
                 </span>
               </template>
             </v-checkbox>
@@ -413,40 +413,30 @@
     <v-dialog v-model="showModalTerms" width="600" height="800">
       <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
         <v-card-title class="text-center text-h5" style="color: #00c6fe; white-space: normal; word-wrap: break-word;">
-          Política de Privacidade, Termos e Condições de Uso e Proteção de Dados
+          {{ $t('cadastrarFisioterapeuta.termsModal.title') }}
         </v-card-title>
         <v-card-text>
-          <p class="mb-5"><strong>1. Introdução</strong></p>
+          <p class="mb-5"><strong>{{ $t('cadastrarFisioterapeuta.termsModal.introduction') }}</strong></p>
           <p>
-            Bem-vindo(a) à <strong>FitCertify365</strong> ("Companhia", "nós", "nosso", "conosco")! <br><br>
-            Estes Termos de Serviço ("Termos", "Termos de Serviço", "Termos e Condições de Uso") regem o uso dos
-            nossos aplicativos móveis e plataforma digital, desenvolvidos pela FitCertify365.
+            {{ $t('cadastrarFisioterapeuta.termsModal.welcome') }} <strong>{{ $t('cadastrarFisioterapeuta.termsModal.company') }}</strong> {{ $t('cadastrarFisioterapeuta.termsModal.companyRef') }}! <br><br>
+            {{ $t('cadastrarFisioterapeuta.termsModal.termsIntro') }}
           </p>
           <p>
-            Nossa <strong>Política de Privacidade</strong> também rege o uso do nosso Serviço e explica como coletamos, protegemos e
-            divulgamos informações resultantes da sua utilização dos aplicativos móveis e páginas web. <br><br>
-            Seu acordo conosco inclui estes Termos e nossa Política de Privacidade ("Acordos"). Ao utilizar
-            nossos serviços, você reconhece que leu e compreendeu os Acordos, e concorda em estar legalmente vinculado a
-            eles.
+            {{ $t('cadastrarFisioterapeuta.termsModal.privacyPolicy') }} <strong>{{ $t('cadastrarFisioterapeuta.termsModal.privacyPolicyBold') }}</strong> {{ $t('cadastrarFisioterapeuta.termsModal.privacyPolicyText') }} <br><br>
+            {{ $t('cadastrarFisioterapeuta.termsModal.agreement') }}
           </p>
           <p>
-            Caso não concorde (ou não possa cumprir) os Acordos, você não poderá utilizar o Serviço. Neste caso,
-            solicitamos que nos comunique pelo e-mail <strong>atendimento@fitcertify365.com</strong> para que possamos buscar
-            uma solução. <br><br>
-            Estes Termos aplicam-se a todos os visitantes, usuários e demais pessoas que desejarem acessar ou
-            utilizar o Serviço.
+            {{ $t('cadastrarFisioterapeuta.termsModal.disagree') }} <strong>{{ $t('cadastrarFisioterapeuta.termsModal.email') }}</strong> {{ $t('cadastrarFisioterapeuta.termsModal.disagreeEnd') }} <br><br>
+            {{ $t('cadastrarFisioterapeuta.termsModal.applies') }}
           </p>
           <p>
-            Este aplicativo pode se integrar com o <strong>Apple Saúde (HealthKit ou CareKit)</strong> e
-            com o <strong>Google Health Connect</strong>, para leitura e acompanhamento de dados obtidos via
-            Apple Watch e outros dispositivos wearables compatíveis, permitindo também o envio de dados manuais e de
-            dispositivos Bluetooth (BLE), sempre mediante autorização do usuário.
+            {{ $t('cadastrarFisioterapeuta.termsModal.integration') }} <strong>{{ $t('cadastrarFisioterapeuta.termsModal.appleHealth') }}</strong> {{ $t('cadastrarFisioterapeuta.termsModal.and') }} <strong>{{ $t('cadastrarFisioterapeuta.termsModal.googleHealth') }}</strong>{{ $t('cadastrarFisioterapeuta.termsModal.integrationText') }}
           </p>
         </v-card-text>
         <v-card-actions>
           <v-btn class="w-100 text-white font-weight-bold" @click="maisTermos" height="50px" rounded="lg"
             style="background-color: #00c6fe">
-            Ler Mais
+            {{ $t('cadastrarFisioterapeuta.termsModal.readMore') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -456,9 +446,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+
+const { t: $t } = useI18n()
 
 const props = defineProps({
   currentStep: {
@@ -483,12 +476,18 @@ const UFlist = [
   'AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG', 'PA', 'PB', 'PR', 'PE', 'PI', 'RJ', 'RN', 'RS', 'RO', 'RR', 'SC', 'SP', 'SE', 'TO'
 ]
 
-const diasSemana = [
-  'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado', 'Domingo'
-]
+const diasSemana = ref([
+  $t('cadastrarFisioterapeuta.daysOfWeek.monday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.tuesday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.wednesday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.thursday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.friday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.saturday'),
+  $t('cadastrarFisioterapeuta.daysOfWeek.sunday')
+])
 
 const rules = {
-  required: (value) => !!value || 'Campo obrigatório'
+  required: (value) => !!value || $t('cadastrarFisioterapeuta.required')
 }
 
 const buscarCep = (cep) => {
