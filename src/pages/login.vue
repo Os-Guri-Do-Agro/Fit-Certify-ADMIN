@@ -38,7 +38,7 @@
 
         <div class="mb-6 mt-10 mt-md-0">
           <div class="d-flex align-center ga-3 justify-center justify-md-start">
-            <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+            <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
               <v-icon color="white" size="20">mdi-login</v-icon>
             </div>
             <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -59,7 +59,7 @@
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field">
               <template #append-inner>
-                <v-icon @click="showPassword = !showPassword" class="cursor-pointer" color="#00c6fe">
+                <v-icon @click="showPassword = !showPassword" class="cursor-pointer" color="#1E88E5">
                   {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                 </v-icon>
               </template>
@@ -77,14 +77,14 @@
             <v-checkbox v-model="isMobile" :label="$t('login.manterLogin')" hide-details
               style="color: #2c3e50; font-family: DM Sans, sans-serif;" />
             <button type="button" @click="showModal = true"
-              class="text-decoration-none" style="color: #00c6fe; background: none; border: none; cursor: pointer; font-family: DM Sans, sans-serif; font-weight: 500;">
+              class="text-decoration-none" style="color: #1E88E5; background: none; border: none; cursor: pointer; font-family: DM Sans, sans-serif; font-weight: 500;">
               {{ $t('login.esqueciSenha') }}
             </button>
           </div>
 
           <div class="d-flex justify-center w-100 mt-6">
             <VBtn class="text-white w-100" height="50px" :loading="loading"
-              :color="showPerfilSelect ? '#88ce0d' : '#00c6fe'"
+              :color="showPerfilSelect ? '#88ce0d' : '#1E88E5'"
               rounded="xl" elevation="4" type="submit"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; max-width: 400px;">
               {{ showPerfilSelect ? $t('login.buttonEnter') : $t('login.button') }}
@@ -95,10 +95,10 @@
         </v-form>
 
         <div class="d-flex justify-center align-center mt-8" style="font-family: DM Sans, sans-serif;">
-          <span style="color: #6b7280;">{{ $t('login.text') }}</span>
+          <span style="color: #42A5F5;">{{ $t('login.text') }}</span>
           <button @click="router.push('/register')"
             class="ml-2 text-decoration-none font-weight-bold"
-            style="color: #00c6fe; background: none; border: none; cursor: pointer; font-family: DM Sans, sans-serif;">
+            style="color: #1E88E5; background: none; border: none; cursor: pointer; font-family: DM Sans, sans-serif;">
             {{ $t('login.link') }}
           </button>
         </div>      </div>
@@ -146,17 +146,17 @@
     <v-card rounded="xl" style="font-family: DM Sans, sans-serif;">
       <div class="d-flex justify-end pa-2">
         <v-btn variant="text" icon @click="showModal = false">
-          <v-icon color="#00c6fe">mdi-close</v-icon>
+          <v-icon color="#1E88E5">mdi-close</v-icon>
         </v-btn>
       </div>
       <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-2 px-5 px-md-10">
-        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
           <v-icon color="white" size="24">mdi-lock-reset</v-icon>
         </div>
         <span class="text-h6 text-md-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('login.forgotPassword.title') }}</span>
       </v-card-title>
       <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1 px-5 px-md-10"
-        style="white-space: normal; word-wrap: break-word; color: #6b7280; line-height: 1.6;">
+        style="white-space: normal; word-wrap: break-word; color: #42A5F5; line-height: 1.6;">
         {{ $t('login.forgotPassword.subtitle') }}
       </v-card-subtitle>
       <v-card-text class="px-5 px-md-10 mt-2 mt-md-5">
@@ -165,10 +165,10 @@
           variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
       </v-card-text>
       <v-card-actions class="d-flex w-100 flex-column ga-5 px-5 px-md-10 mb-5">
-        <v-btn class="w-100 text-white" height="50px" color="#00c6fe"
+        <v-btn class="w-100 text-white" height="50px" color="#1E88E5"
           :loading="loadingEmailModal" @click="enviarCodigo" rounded="xl" elevation="4"
           :disabled="loadingEmailModal || !validarEmail(emailModal) || !clicouEnviar"
-          style="font-weight: 600; text-transform: none; letter-spacing: 0; background-color: #00c6fe;">
+          style="font-weight: 600; text-transform: none; letter-spacing: 0; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
           {{ $t('login.forgotPassword.button') }}
         </v-btn>
       </v-card-actions>
@@ -390,7 +390,7 @@ p {
 }
 
 :deep(.custom-field .v-field--focused) {
-  border-color: #00c6fe;
+  border-color: #1E88E5;
   box-shadow: 0 4px 12px rgba(0, 198, 254, 0.2);
 }
 
@@ -412,7 +412,7 @@ p {
 }
 
 :deep(.v-checkbox .v-selection-control__input) {
-  color: #00c6fe;
+  color: #1E88E5;
 }
 
 :deep(.v-checkbox .v-label) {

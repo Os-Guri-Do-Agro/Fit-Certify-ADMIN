@@ -423,7 +423,7 @@ const perfis: any = {
 .action-btn {
   background: #F5F8FA;
   color: #546E7A;
-  border-radius: 12px;
+  border-radius: 20px;
   width: 46px;
   height: 46px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
