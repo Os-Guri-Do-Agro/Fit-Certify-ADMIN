@@ -77,7 +77,7 @@
                           {{ t('cadastrarAtleta.healthHistory.selectOneOption') }}
                         </v-chip>
                       </div>
-                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="form.historicoSaudeDoencas" :label="item.descricao" :value="item.id" hide-details density="compact" color="success" @change="handleDoencaChange(item)" />
+                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="form.historicoSaudeDoencas" :label="$t('cadastrarAtleta.healthHistory.doencas.' + getDoencasKey(item.descricao))" :value="item.id" hide-details density="compact" color="success" @change="handleDoencaChange(item)" />
 
                       <VRow>
                         <VCol cols="12">
@@ -110,7 +110,7 @@
                           {{ t('cadastrarAtleta.healthHistory.selectOneOption') }}
                         </v-chip>
                       </div>
-                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="form.historicoSaudeSintomas" :label="item.descricao" :value="item.id" hide-details density="compact" color="success" @change="handleSintomaChange(item)" />
+                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="form.historicoSaudeSintomas" :label="$t('cadastrarAtleta.healthHistory.sintomas.' + getSintomasKey(item.descricao))" :value="item.id" hide-details density="compact" color="success" @change="handleSintomaChange(item)" />
 
                       <div class="mt-5 d-flex flex-column">
                         <span class="text-black">{{ t('cadastrarAtleta.healthHistory.continuousMedication') }}</span>
@@ -297,6 +297,30 @@ const form = ref({
   praticaAtividadeFisicaRegularmente: null, fezCheckupUltimosMeses: null, possuiSmartwatch: null,
   integrarFitCertify: false, declaraVeracidade: false, aceitaCompartilharDados: false, aceitaTermos: false
 })
+
+const getDoencasKey = (descricao) => {
+  const map =  {
+    'Hipertensão': 'item_1',
+    'Diabetes': 'item_2',
+    'Asma': 'item_3',
+    'Colesterol alto': 'item_4',
+    'Problemas cardíacos': 'item_5',
+    'Nenhuma das anteriores': 'item_6'
+  }
+  return map[descricao] || descricao
+}
+
+const getSintomasKey = (descricao) => {
+  const map = {
+    'Dor no peito': 'item_1',
+    'Falta de ar': 'item_2',
+    ' Tontura ou desmaios': 'item_3',
+    'Inchaço nas pernas': 'item_4',
+    'Cansaço excessivo': 'item_5',
+    'Nenhum desses': 'item_6'
+  }
+  return map[descricao] || descricao
+}
 
 const doencas = ref([])
 const sintomas = ref([])

@@ -1651,7 +1651,23 @@
       "selectOneOption": "Check one of the options below to proceed:",
       "otherConditions": "Other medical conditions: (Optional)",
       "recentSymptoms": "Recent Signs and Symptoms",
-      "continuousMedication": "Do you take any continuous medication? If so, which one? (Optional)"
+      "continuousMedication": "Do you take any continuous medication? If so, which one? (Optional)",
+      "doencas": {
+        "item_1": "Hypertension",
+        "item_2": "Diabetes",
+        "item_3": "Asthma",
+        "item_4": "High cholesterol",
+        "item_5": "Heart problems",
+        "item_6": "None of the above"
+      },
+      "sintomas": {
+        "item_1": "Chest pain",
+        "item_2": "Shortness of breath",
+        "item_3": "Dizziness or fainting",
+        "item_4": "Swelling in the legs",
+        "item_5": "Excessive fatigue",
+        "item_6": "None of these"
+      }
     },
     "sportsHistory": {
       "title": "Sports History",

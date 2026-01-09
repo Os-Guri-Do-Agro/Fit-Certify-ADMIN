@@ -203,6 +203,16 @@ watch(emailModal, (newEmail) => {
   }, 500)
 })
 
+const getRoles = (nome: string) => {
+  const map: Record<string,string> = {
+    'Atleta': 'atleta',
+    'médico': 'medico',
+    'Treinador': 'treinador',
+    'Fisioterapeuta': 'fisioterapeuta'
+  }
+  return map[nome] || nome
+}
+
 async function handleSubmit() {
   if (!formRef.value) return;
 
@@ -228,7 +238,7 @@ async function handleSubmit() {
       if (response.success && response.data?.perfis) {
         perfis.value = response.data.perfis.map((perfil: any) => ({
           ...perfil,
-          nome: $t(`login.roles.${perfil.nome.toLowerCase()}`)
+          nome: $t(`login.roles.${getRoles(perfil.nome.toLowerCase())}`)
         }));
         showPerfilSelect.value = true;
         toast.success($t('login.toastSuccess1'), { autoClose: 2500 });

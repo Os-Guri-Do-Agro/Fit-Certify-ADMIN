@@ -1652,7 +1652,23 @@
       "selectOneOption": "Marque uma das opções abaixo para prosseguir:",
       "otherConditions": "Outras condições médicas: (Opcional)",
       "recentSymptoms": "Sinais e Sintomas Recentes",
-      "continuousMedication": "Toma algum medicamento contínuo? Se sim, qual? (Opcional)"
+      "continuousMedication": "Toma algum medicamento contínuo? Se sim, qual? (Opcional)",
+      "doencas": {
+        "item_1": "Hipertensão",
+        "item_2": "Diabetes",
+        "item_3": "Asma",
+        "item_4": "Colesterol alto",
+        "item_5": "Problemas cardíacos",
+        "item_6": "Nenhuma das anteriores"
+      },
+      "sintomas": {
+        "item_1": "Dor no peito",
+        "item_2": "Falta de ar",
+        "item_3": "Tontura ou desmaios",
+        "item_4": "Inchaço nas pernas",
+        "item_5": "Cansaço excessivo",
+        "item_6": "Nenhum desses"
+      }
     },
     "sportsHistory": {
       "title": "Histórico Esportivo",
