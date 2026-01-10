@@ -30,12 +30,11 @@ router.beforeEach((to, from, next) => {
     '/esqueceuSenha',
     '/politicaPrivacidade',
     '/detalhesExclusaoConta',
-    '/pagamento',
     '/validarCertificado',
     '/thank-you',
   ]
   
-  const isPublicRoute = publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta')
+  const isPublicRoute = publicRoutes.includes(to.path) || to.path.startsWith('/detalhesAtleta') || to.path.startsWith('/pagamento')
   
   // PASSO 2: Se é rota pública, permitir acesso SEM verificações
   if (isPublicRoute) {

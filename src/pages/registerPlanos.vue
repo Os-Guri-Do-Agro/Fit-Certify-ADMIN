@@ -255,8 +255,9 @@ function sair() {
 }
 
 function assinarPlano(plano) {
-  planoStore.setPlanoSelecionado(plano)
-  router.push('/pagamento')
+  router.push({ name: '/pagamento/',
+  query:{ planoId: plano.id } })
+  console.log(plano.id)
 }
 
 const buscarPlanos = async () => {
