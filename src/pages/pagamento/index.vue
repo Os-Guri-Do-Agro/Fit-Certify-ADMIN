@@ -9,75 +9,75 @@
               <v-icon color="white" size="20">mdi-credit-card</v-icon>
             </div>
             <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-              Finalizar Pagamento
+              {{ $t('pagamento.finalizePayment') }}
             </h2>
           </div>
         </div>
 
         <v-form class="w-100" @submit.prevent="finalizarPagamento" ref="formRef">
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="formData.nome" label="Nome Completo*" placeholder="Digite seu nome completo"
-              :rules="[v => !!v || 'Nome é obrigatório']" variant="outlined" rounded="lg"
+            <VTextField v-model="formData.nome" :label="$t('pagamento.name') + '*'" :placeholder="$t('pagamento.namePlaceholder')"
+              :rules="[v => !!v || $t('pagamento.nameRequired')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
           </VCol>
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="formData.email" type="email" label="E-mail*" placeholder="seu@email.com"
+            <VTextField v-model="formData.email" type="email" :label="$t('pagamento.email') + '*'" :placeholder="$t('pagamento.emailPlaceholder')"
               :rules="[
-                v => !!v || 'E-mail é obrigatório',
-                v => /.+@.+\..+/.test(v) || 'E-mail inválido'
+                v => !!v || $t('pagamento.emailRequired'),
+                v => /.+@.+\..+/.test(v) || $t('pagamento.emailInvalid')
               ]" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
           </VCol>
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="formData.cpf" label="CPF*" placeholder="000.000.000-00"
+            <VTextField v-model="formData.cpf" :label="$t('pagamento.cpf') + '*'" placeholder="000.000.000-00"
               :rules="cpfRules" maxlength="14"
               variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
           </VCol>
 
           <VRow class="ma-0">
-            <VCol cols="4" class="py-0 pl-0 pr-1">
-              <VTextField v-model="formData.codigoPais" label="DDI*" placeholder="55"
+            <VCol cols="4" class="py-0  pr-1">
+              <VTextField v-model="formData.codigoPais" :label="$t('pagamento.ddi') + '*'" placeholder="55"
                 :rules="ddiRules" maxlength="3" variant="outlined" rounded="lg"
                 bg-color="white" class="custom-field" />
             </VCol>
             <VCol cols="3" class="py-0 px-1">
-              <VTextField v-model="formData.codigoArea" label="DDD*" placeholder="11"
+              <VTextField v-model="formData.codigoArea" :label="$t('pagamento.ddd') + '*'" placeholder="11"
                 :rules="dddRules" maxlength="3"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
-            <VCol cols="5" class="py-0 pr-0 pl-1">
-              <VTextField v-model="formData.numero" label="Número*" placeholder="999999999"
+            <VCol cols="5" class="py-0 pl-1">
+              <VTextField v-model="formData.numero" :label="$t('pagamento.numero') + '*'" placeholder="999999999"
                 :rules="numeroRules" maxlength="9"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
           </VRow>
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="cupom" label="Cupom de Desconto (opcional)" placeholder="Digite o cupom"
+            <VTextField v-model="cupom" :label="$t('pagamento.couponOptional')" :placeholder="$t('pagamento.couponPlaceholder')"
               variant="outlined" rounded="lg" bg-color="white" class="custom-field">
               <template #append-inner>
                 <v-btn size="small" color="#1E88E5" variant="text" @click="validarCupom" :loading="loadingCupom">
-                  Validar Cupom
+                  {{ $t('pagamento.validateCoupon') }}
                 </v-btn>
               </template>
             </VTextField>
             <div v-if="cupomValido" class="text-success mt-2">
-              Cupom válido! Desconto de {{ cupomValido?.cupom?.porcentagem }}% aplicado.
+              {{ $t('pagamento.couponValid', { percentage: cupomValido?.cupom?.porcentagem }) }}
             </div>
             <div v-else-if="cupomValido === false" class="text-error mt-2">
-              Cupom inválido. Tente novamente.
+              {{ $t('pagamento.couponInvalid') }}
             </div>
           </VCol>
 
           <div class="d-flex justify-center w-100 mt-6 ga-3">
             <VBtn variant="outlined" height="50px" @click="voltar" rounded="xl" :disabled="loadingPagamento"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; flex: 1; max-width: 150px;">
-              Voltar
+              {{ $t('pagamento.back') }}
             </VBtn>
             <VBtn class="text-white" height="50px" color="#1E88E5" rounded="xl" elevation="4" type="submit" :loading="loadingPagamento"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; flex: 2; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
-              Finalizar Pagamento
+              {{ $t('pagamento.finalizePayment') }}
               <v-icon end>mdi-check</v-icon>
             </VBtn>
           </div>
@@ -93,14 +93,14 @@
 
         <div style="position: relative; z-index: 1;">
           <h2 class="text-white text-h5 text-md-h4 font-weight-bold mb-6" style="font-family: DM Sans, sans-serif; text-shadow: 0 2px 8px rgba(0,0,0,0.15);">
-            Resumo do Plano
+            {{ $t('pagamento.planSummary') }}
           </h2>
 
           <v-card rounded="xl" class="pa-6" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
             <div class="d-flex align-center justify-space-between mb-4">
-              <span class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ plano?.nome }}</span>
+              <span class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t(`registerPlanos.planos.${getNomePlanoKey(plano?.nome)}`) }}</span>
               <v-chip v-if="plano?.maisPopular" color="#1E88E5" style="font-weight: 600;">
-                Mais Popular
+                {{ $t('pagamento.mostPopular') }}
               </v-chip>
             </div>
 
@@ -112,24 +112,24 @@
 
             <div class="mb-4">
               <div class="d-flex justify-space-between mb-3">
-                <span class="text-body-1" style="color: #2c3e50;">Valor Mensal:</span>
+                <span class="text-body-1" style="color: #2c3e50;">{{ $t('pagamento.monthlyValue') }}:</span>
                 <span class="text-h6 font-weight-bold" style="color: #2c3e50;">R$ {{ plano?.precoMes?.toFixed(2) }}</span>
               </div>
               <div class="d-flex justify-space-between mb-3">
-                <span class="text-body-1" style="color: #2c3e50;">Valor Anual:</span>
+                <span class="text-body-1" style="color: #2c3e50;">{{ $t('pagamento.annualValue') }}:</span>
                 <span class="text-h6 font-weight-bold" style="color: #1E88E5;">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
               </div>
               <div class="d-flex justify-space-between">
-                <span class="text-body-1" style="color: #2c3e50;">Duração:</span>
-                <span class="text-body-1 font-weight-medium" v-if="!cupomValido" style="color: #2c3e50;">{{ plano?.duracao }} meses</span>
-                <span class="text-body-1 font-weight-medium" v-else style="color: #2c3e50;">{{ plano?.duracao }} meses com desconto de {{ cupomValido?.cupom?.porcentagem }}%</span>
+                <span class="text-body-1" style="color: #2c3e50;">{{ $t('pagamento.duration') }}:</span>
+                <span class="text-body-1 font-weight-medium" v-if="!cupomValido" style="color: #2c3e50;">{{ plano?.duracao }} {{ $t('pagamento.months') }}</span>
+                <span class="text-body-1 font-weight-medium" v-else style="color: #2c3e50;">{{ plano?.duracao }} {{ $t('pagamento.months') }} {{ $t('pagamento.withDiscount', { percentage: cupomValido?.cupom?.porcentagem }) }}</span>
               </div>
             </div>
 
             <v-divider class="my-4" />
 
             <div class="d-flex justify-space-between align-center pa-4" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border-radius: 12px;">
-              <span class="text-h6 text-white font-weight-bold">Total:</span>
+              <span class="text-h6 text-white font-weight-bold">{{ $t('pagamento.total') }}:</span>
               <span class="text-h4 text-white font-weight-bold" v-if="!cupomValido">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
               <span class="text-h4 text-white font-weight-bold" v-else>R$ {{ valorDescontado }}</span>
             </div>
@@ -143,6 +143,7 @@
 <script setup>
   import { onMounted, ref, computed } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
+  import { useI18n } from 'vue-i18n'
   import planoService from '@/services/planos/plano-service'
   import stripeService from '@/services/stripe/stripe-service'
   import cupomService from '@/services/cupom/cupom-service'
@@ -150,6 +151,7 @@
 
   const router = useRouter()
   const route = useRoute()
+  const { t: $t } = useI18n()
   const cupom = ref(null)
   const cupomValido = ref(null)
   const plano = ref(null)
@@ -185,26 +187,26 @@
   }
 
   const cpfRules = [
-    v => !!v || 'CPF é obrigatório',
-    v => validarCPF(v) || 'CPF inválido'
+    v => !!v || $t('pagamento.cpfRequired'),
+    v => validarCPF(v) || $t('pagamento.cpfInvalid')
   ]
 
   const ddiRules = [
-    v => !!v || 'DDI é obrigatório',
-    v => /^\d+$/.test(v) || 'Apenas números',
-    v => (v && v.length <= 3) || 'Máximo 3 dígitos'
+    v => !!v || $t('pagamento.ddiRequired'),
+    v => /^\d+$/.test(v) || $t('pagamento.onlyNumbers'),
+    v => (v && v.length <= 3) || $t('pagamento.max3Digits')
   ]
 
   const dddRules = [
-    v => !!v || 'DDD é obrigatório',
-    v => /^\d+$/.test(v) || 'Apenas números',
-    v => (v && v.length <= 3) || 'Máximo 3 dígitos'
+    v => !!v || $t('pagamento.dddRequired'),
+    v => /^\d+$/.test(v) || $t('pagamento.onlyNumbers'),
+    v => (v && v.length <= 3) || $t('pagamento.max3Digits')
   ]
 
   const numeroRules = [
-    v => !!v || 'Número é obrigatório',
-    v => /^\d+$/.test(v) || 'Apenas números',
-    v => (v && v.length <= 9) || 'Máximo 9 dígitos'
+    v => !!v || $t('pagamento.numeroRequired'),
+    v => /^\d+$/.test(v) || $t('pagamento.onlyNumbers'),
+    v => (v && v.length <= 9) || $t('pagamento.max9Digits')
   ]
 
   const valorDescontado = computed(() => {
@@ -214,6 +216,14 @@
     const precoComDesconto = precoBase - desconto
     return precoComDesconto.toFixed(2)
   })
+
+  const getNomePlanoKey = (nome) => {
+    const map = {
+      'Saúde Certificada': 'saudeCertificada',
+      'Saúde Ativa': 'saudeAtiva'
+    }
+    return map[nome] || nome
+  }
 
   onMounted(() => {
     infoPlano()

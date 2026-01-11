@@ -33,7 +33,12 @@
     <v-row justify="center">
       <v-col cols="12">
         <div v-if="tab === 'semanal'">
-          <v-row v-if="treinosSemanais.length">
+          <v-row v-if="loading">
+            <v-col v-for="i in 3" :key="i" cols="12">
+              <v-skeleton-loader type="article, actions" rounded="xl"></v-skeleton-loader>
+            </v-col>
+          </v-row>
+          <v-row v-else-if="treinosSemanais.length">
             <v-col v-for="treino in treinosSemanais" :key="treino.id" cols="12">
               <v-card
                 class="pa-6 hover-card"
@@ -139,14 +144,19 @@
               </v-card>
             </v-col>
           </v-row>
-          <div v-else class="text-center py-8">
+          <div v-else-if="!loading" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-dumbbell</v-icon>
             <p class="text-h6 mt-4 text-grey">{{ t('treinosAtleta.noWeeklyTrainings') }}</p>
           </div>
         </div>
 
         <div v-if="tab === 'diario'">
-          <v-row v-if="treinosDiarios.length">
+          <v-row v-if="loading">
+            <v-col v-for="i in 3" :key="i" cols="12">
+              <v-skeleton-loader type="article, actions" rounded="xl"></v-skeleton-loader>
+            </v-col>
+          </v-row>
+          <v-row v-else-if="treinosDiarios.length">
             <v-col v-for="treino in treinosDiarios" :key="treino.id" cols="12">
               <v-card
                 class="pa-6 hover-card"
@@ -248,7 +258,7 @@
               </v-card>
             </v-col>
           </v-row>
-          <div v-else class="text-center py-8">
+          <div v-else-if="!loading" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-dumbbell</v-icon>
             <p class="text-h6 mt-4 text-grey">{{ t('treinosAtleta.noDailyTrainings') }}</p>
           </div>
@@ -269,6 +279,7 @@ const { t, locale } = useI18n()
 const treinos = ref([])
 const tab = ref('semanal')
 const expandido = ref({})
+const loading = ref(true)
 
 const treinosSemanais = computed(() =>
   treinos.value.filter(t => t.tipoRecomendacao === 'Semanal')
@@ -300,12 +311,15 @@ const formatarData = (data) => {
 }
 
 const buscarTreinosAtleta = async () => {
+  loading.value = true
   try {
     const atletaId = getAtletaId()
     const response = await treinoService.getTreinosByAtleta(atletaId)
     treinos.value = response.data
   } catch (error) {
     console.error(error)
+  } finally {
+    loading.value = false
   }
 }
 

@@ -15,10 +15,10 @@
               <v-icon color="white" size="40">mdi-check-circle</v-icon>
             </div>
             <h2 class="text-center text-h4 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-              Pagamento Confirmado!
+              {{ $t('paymentSuccess.title') }}
             </h2>
             <p class="text-center text-body-1" style="color: #42A5F5; max-width: 400px; line-height: 1.6;">
-              Obrigado por escolher o FitCertify365! Seu pagamento foi processado com sucesso.
+              {{ $t('paymentSuccess.message') }}
             </p>
           </div>
         </div>
@@ -26,7 +26,7 @@
         <div class="d-flex justify-center w-100 mt-8">
           <VBtn class="text-white w-100" height="50px" color="#1E88E5" rounded="xl" elevation="4" @click="router.push('/')"
             style="font-weight: 600; text-transform: none; letter-spacing: 0; max-width: 400px;">
-            Ir para Tela Inicial
+            {{ $t('paymentSuccess.goToHome') }}
             <v-icon end>mdi-home</v-icon>
           </VBtn>
         </div>
@@ -53,7 +53,7 @@
                 text-shadow: 0 2px 8px rgba(0,0,0,0.15);
                 letter-spacing: -0.5px;
               ">
-              Bem-vindo ao FitCertify365
+              {{ $t('paymentSuccess.welcomeTitle') }}
             </h1>
             <p class="mx-5 mx-lg-15 text-white text-center text-body-1 text-md-h6 font-weight-regular mt-5 mb-10"
               style="
@@ -61,7 +61,7 @@
                 line-height: 1.6;
                 opacity: 0.95;
               ">
-              Sua jornada para certificações médicas esportivas começa agora!
+              {{ $t('paymentSuccess.welcomeMessage') }}
             </p>
           </div>
         </div>
@@ -72,8 +72,10 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
+const { t: $t } = useI18n();
 </script>
 
 <style scoped>

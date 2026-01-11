@@ -1986,7 +1986,34 @@
       "couponApplied": "Cupom aplicado!",
       "couponError": "Erro ao aplicar cupom",
       "unknownError": "Erro desconhecido"
-    }
+    },
+    "finalizePayment": "Finalizar Pagamento",
+    "namePlaceholder": "Digite seu nome completo",
+    "nameRequired": "Nome é obrigatório",
+    "emailPlaceholder": "seu@email.com",
+    "emailRequired": "E-mail é obrigatório",
+    "emailInvalid": "E-mail inválido",
+    "cpfRequired": "CPF é obrigatório",
+    "cpfInvalid": "CPF inválido",
+    "ddi": "DDI",
+    "ddd": "DDD",
+    "numero": "Número",
+    "ddiRequired": "DDI é obrigatório",
+    "dddRequired": "DDD é obrigatório",
+    "numeroRequired": "Número é obrigatório",
+    "onlyNumbers": "Apenas números",
+    "max3Digits": "Máximo 3 dígitos",
+    "max9Digits": "Máximo 9 dígitos",
+    "couponOptional": "Cupom de Desconto (opcional)",
+    "couponPlaceholder": "Digite o cupom",
+    "validateCoupon": "Validar Cupom",
+    "couponValid": "Cupom válido! Desconto de {percentage}% aplicado.",
+    "couponInvalid": "Cupom inválido. Tente novamente.",
+    "planSummary": "Resumo do Plano",
+    "monthlyValue": "Valor Mensal",
+    "annualValue": "Valor Anual",
+    "duration": "Duração",
+    "withDiscount": "com desconto de {percentage}%"
   },
   "treinosAtleta": {
     "title": "Meus Treinos",
@@ -2474,5 +2501,13 @@
       "text": "Dúvidas, comentários ou solicitações podem ser enviadas para: 📧",
       "email": "atendimento@fitcertify365.com"
     }
+  },
+
+  "paymentSuccess": {
+    "title": "Pagamento Confirmado!",
+    "message": "Obrigado por escolher o FitCertify365! Seu pagamento foi processado com sucesso.",
+    "goToHome": "Ir para Tela Inicial",
+    "welcomeTitle": "Bem-vindo ao FitCertify365",
+    "welcomeMessage": "Sua jornada para certificações médicas esportivas começa agora!"
   }
 }

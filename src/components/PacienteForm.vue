@@ -494,7 +494,6 @@ const maisTermos = () => {
 
 .custom-field:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0, 198, 254, 0.15);
 }
 
 .custom-field .v-field {

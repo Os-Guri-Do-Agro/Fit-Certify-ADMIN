@@ -1985,7 +1985,34 @@
       "couponApplied": "Coupon applied!",
       "couponError": "Error applying coupon",
       "unknownError": "Unknown error"
-    }
+    },
+    "finalizePayment": "Finalize Payment",
+    "namePlaceholder": "Enter your full name",
+    "nameRequired": "Name is required",
+    "emailPlaceholder": "your@email.com",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "cpfRequired": "CPF is required",
+    "cpfInvalid": "Invalid CPF",
+    "ddi": "Country Code",
+    "ddd": "Area Code",
+    "numero": "Number",
+    "ddiRequired": "Country code is required",
+    "dddRequired": "Area code is required",
+    "numeroRequired": "Number is required",
+    "onlyNumbers": "Only numbers",
+    "max3Digits": "Maximum 3 digits",
+    "max9Digits": "Maximum 9 digits",
+    "couponOptional": "Discount Coupon (optional)",
+    "couponPlaceholder": "Enter the coupon",
+    "validateCoupon": "Validate Coupon",
+    "couponValid": "Valid coupon! {percentage}% discount applied.",
+    "couponInvalid": "Invalid coupon. Try again.",
+    "planSummary": "Plan Summary",
+    "monthlyValue": "Monthly Value",
+    "annualValue": "Annual Value",
+    "duration": "Duration",
+    "withDiscount": "with {percentage}% discount"
   },
 
   "treinosAtleta": {
@@ -2474,5 +2501,13 @@
       "text": "Questions, comments or requests can be sent to: 📧",
       "email": "atendimento@fitcertify365.com"
     }
+  },
+
+  "paymentSuccess": {
+    "title": "Payment Confirmed!",
+    "message": "Thank you for choosing FitCertify365! Your payment has been processed successfully.",
+    "goToHome": "Go to Home",
+    "welcomeTitle": "Welcome to FitCertify365",
+    "welcomeMessage": "Your journey to sports medical certifications starts now!"
   }
 }
