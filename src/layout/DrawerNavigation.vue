@@ -310,6 +310,10 @@ const infoUser = ref<any>()
   const infoUsuario = async () => {
     try {
       const id = getUserID()
+      if (!id) {
+        console.warn('User ID not found')
+        return
+      }
       const response = await userService.userById(id)
       infoUser.value = response.data
     } catch (error) {

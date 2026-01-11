@@ -48,13 +48,13 @@
         </div>
 
         <v-form class="w-100" @submit.prevent="handleSubmit" ref="formRef">
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
+          <div class="my-2 py-0 font-weight-medium">
             <VTextField v-model="email" type="email" :label="$t('login.email') + '*'" :placeholder="$t('login.emailPlaceholder')"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
-          </VCol>
+          </div>
 
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
+          <div class="my-2 py-0 font-weight-medium">
             <VTextField v-model="senha" :type="showPassword ? 'text' : 'password'" :label="$t('login.senha') + '*'"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field">
@@ -64,14 +64,14 @@
                 </v-icon>
               </template>
             </VTextField>
-          </VCol>
+          </div>
 
-          <VCol v-if="showPerfilSelect" class="my-2 py-0 font-weight-medium" cols="12">
+          <div v-if="showPerfilSelect" class="my-2 py-0 font-weight-medium">
             <v-select v-model="perfilId" :items="perfis" item-title="nome" item-value="id"
               :label="$t('login.tipoPerfil') + '*'" :placeholder="$t('login.tipoPerfilPlaceholder')"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
-          </VCol>
+          </div>
 
           <div class="d-flex justify-space-between w-100 align-center my-4">
             <v-checkbox v-model="isMobile" :label="$t('login.manterLogin')" hide-details

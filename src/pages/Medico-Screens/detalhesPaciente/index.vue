@@ -267,7 +267,7 @@
                         </template>
 
                         <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
-                          {{ traduzirRole(item.medico?.usuario?.role) || item.medico?.usuario?.nome || t('detalhesPacienteMedico.doctorNotInformed') }}
+                          {{ item.medico?.usuario?.nome || item.fisioterapeuta?.usuario?.nome }}
                         </v-list-item-title>
 
                         <v-list-item-subtitle class="text-grey-darken-1">
@@ -419,8 +419,10 @@
               ? 'mdi-stethoscope'
               : 'mdi-pill'
           }}</v-icon>
-          {{ traduzirRole(exameSelecionado.medico?.usuario?.role) || exameSelecionado.medico?.usuario?.nome || t('detalhesPaciente.professional') }} -
-          {{ exameSelecionado.medico?.especializacao || t('detalhesPacienteMedico.specializationNotInformed') }}
+          {{ exameSelecionado.medico?.usuario?.nome || exameSelecionado.fisioterapeuta?.usuario?.nome}}
+          <span v-if="exameSelecionado.medico?.especializacao">
+            - {{ exameSelecionado.medico?.especializacao }}
+          </span>
         </v-card-title>
 
         <v-card-text class="pa-0">
@@ -729,8 +731,7 @@ const findAllConsultas = async (id) => {
     let consultasData = response && response.data ? response.data : response
 
     consultas.value = consultasData.filter(consulta => {
-      const situacao = consulta.situacao?.toLowerCase()
-      return situacao?.includes('concluido') || situacao?.includes('pendente') || situacao?.includes('marcado')
+      return consulta.situacao === 'Concluido'
     })
   } catch (error) {
     if (error.response?.status === 404) {

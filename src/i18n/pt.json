@@ -1,4 +1,4 @@
-{
+﻿{
   "appBar": {
     "titleEvents": "Eventos",
     "titleConsultas": "Consultas",
@@ -1916,7 +1916,6 @@
     "selectPaymentMethod": "Selecione o método de pagamento",
     "addDiscountCoupon": "Adicionar cupom de desconto",
     "couponCode": "Código do cupom",
-    "validateCoupon": "Validar Cupom",
     "discountApplied": "Desconto de {percentage}% aplicado!",
     "addressContact": "Endereço | Contato",
     "address": "Endereço",
@@ -1933,7 +1932,6 @@
     "contactTitle": "CONTATO",
     "fullPhone": "Telefone Completo",
     "save": "SALVAR",
-    "finalizePayment": "Finalizar Pagamento",
     "personalData": "DADOS PESSOAIS",
     "verifyInfo": "Verifique suas informações pessoais antes de finalizar a compra.",
     "name": "Nome",
@@ -1990,7 +1988,7 @@
     "finalizePayment": "Finalizar Pagamento",
     "namePlaceholder": "Digite seu nome completo",
     "nameRequired": "Nome é obrigatório",
-    "emailPlaceholder": "seu@email.com",
+    "emailPlaceholder": "seu{'@'}email.com",
     "emailRequired": "E-mail é obrigatório",
     "emailInvalid": "E-mail inválido",
     "cpfRequired": "CPF é obrigatório",
