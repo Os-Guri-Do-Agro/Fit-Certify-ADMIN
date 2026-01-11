@@ -15,7 +15,7 @@
     <!-- Loading -->
     <div v-if="loading" class="text-center py-16">
       <v-progress-circular indeterminate color="#00c6fe" size="64" width="6" />
-      <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">Carregando evento...</p>
+      <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">{{ t('eventos.details.loading') }}</p>
     </div>
 
     <!-- Conteúdo -->
@@ -28,7 +28,7 @@
               <div class="d-flex align-center mb-4">
                 <v-icon size="40" color="#00c6fe" class="mr-3">mdi-calendar-star</v-icon>
                 <h1 class="text-h3 font-weight-bold" style="color: #2c3e50;">
-                  {{ evento.titulo }}
+                  {{ locale === 'en' && evento.en_titulo ? evento.en_titulo : evento.titulo }}
                 </h1>
               </div>
 
@@ -36,13 +36,13 @@
                 <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" color="#88ce0d"
                   variant="flat" size="large" prepend-icon="mdi-email" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
-                  Enviar Certificado
+                  {{ t('eventos.details.sendCertificate') }}
                 </v-btn>
 
                 <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#00c6fe"
                   variant="flat" size="large" prepend-icon="mdi-web" rounded="lg" elevation="3" class="text-white px-6"
                   style="font-weight: 600; text-transform: none;">
-                  Site da Prova
+                  {{ t('eventos.details.eventWebsite') }}
                 </v-btn>
               </div>
             </v-col>
@@ -66,7 +66,7 @@
                 <div class="icon-badge">
                   <v-icon color="white" size="28">mdi-calendar-clock</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">Data do Evento</h3>
+                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.eventDate') }}</h3>
               </div>
               <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
                 {{ formatarData(evento.data) }}
@@ -82,10 +82,10 @@
                 <div class="icon-badge">
                   <v-icon color="white" size="28">mdi-map-marker</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">Local</h3>
+                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.location') }}</h3>
               </div>
               <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
-                {{ evento.local || 'Não informado' }}
+                {{ evento.local || t('eventos.details.notInformed') }}
               </p>
             </v-card-text>
           </v-card>
@@ -98,10 +98,10 @@
                 <div class="icon-badge">
                   <v-icon color="white" size="28">mdi-run</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">Modalidade</h3>
+                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.modality') }}</h3>
               </div>
               <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
-                {{ tipoEvento?.nome || 'Não informado' }}
+                {{ locale === 'en' && tipoEvento?.en_nome ? tipoEvento.en_nome : tipoEvento?.nome || t('eventos.details.notInformed') }}
               </p>
             </v-card-text>
           </v-card>
@@ -114,7 +114,7 @@
                 <div class="icon-badge">
                   <v-icon color="white" size="28">mdi-map-marker-distance</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">Distâncias</h3>
+                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.distances') }}</h3>
               </div>
               <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
                 {{ formatDistancias(evento.distanciasEvento) }}
@@ -129,11 +129,11 @@
         <v-card-text class="pa-8">
           <div class="d-flex align-center mb-4">
             <v-icon size="32" color="#00c6fe" class="mr-3">mdi-text-box</v-icon>
-            <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">Sobre o Evento</h2>
+            <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ t('eventos.details.aboutEvent') }}</h2>
           </div>
           <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
           <p class="text-body-1" style="line-height: 1.8; color: #555; font-size: 1.1rem;">
-            {{ evento.descricao || 'Descrição não disponível para este evento.' }}
+            {{ locale === 'en' && evento.en_descricao ? evento.en_descricao : evento.descricao || t('eventos.details.noDescription') }}
           </p>
         </v-card-text>
       </v-card>
@@ -143,7 +143,7 @@
         <v-card-text class="pa-8">
           <div class="d-flex align-center mb-4">
             <v-icon size="32" color="#00c6fe" class="mr-3">mdi-office-building</v-icon>
-            <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">Organização</h2>
+            <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ t('eventos.details.organization') }}</h2>
           </div>
           <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
           <div class="d-flex flex-wrap ga-6">
@@ -167,12 +167,12 @@
         <div class="empty-icon-container mx-auto mb-6">
           <v-icon size="80" color="#ff5252">mdi-alert-circle</v-icon>
         </div>
-        <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">Evento não encontrado</h3>
-        <p class="text-h6 text-grey-darken-1 mb-8">O evento solicitado não existe ou foi removido</p>
+        <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ t('eventos.details.notFound') }}</h3>
+        <p class="text-h6 text-grey-darken-1 mb-8">{{ t('eventos.details.notFoundDescription') }}</p>
         <v-btn color="#00c6fe" rounded="xl" elevation="4" size="x-large" @click="voltarParaLista"
           class="text-white px-8" style="font-weight: 600; text-transform: none;">
           <v-icon class="mr-2">mdi-arrow-left</v-icon>
-          Voltar para Lista
+          {{ t('eventos.details.backToList') }}
         </v-btn>
       </v-card>
     </v-container>
@@ -183,12 +183,12 @@
         <v-card-title v-if="evento.possuiTermo && termos?.termo" class="pa-6 d-flex align-center"
           style="background: #00c6fe; color: white;">
           <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
-          <span class="text-h5 font-weight-bold">Termo de Responsabilidade</span>
+          <span class="text-h5 font-weight-bold">{{ t('eventos.details.termsTitle') }}</span>
         </v-card-title>
 
         <v-card-title v-else class="pa-6 d-flex align-center" style="background: #00c6fe; color: white;">
           <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
-          <span class="text-h5 font-weight-bold">Envio de Certificado</span>
+          <span class="text-h5 font-weight-bold">{{ t('eventos.details.sendTitle') }}</span>
         </v-card-title>
 
         <v-card-text class="pa-6">
@@ -198,23 +198,22 @@
           </div>
           <div v-else class="text-center py-8">
             <v-icon size="80" color="#00c6fe" class="mb-4">mdi-cloud-upload-outline</v-icon>
-            <h3 class="text-h5 font-weight-bold mb-2" style="color: #2c3e50;">Quase lá!</h3>
+            <h3 class="text-h5 font-weight-bold mb-2" style="color: #2c3e50;">{{ t('eventos.details.almostThere') }}</h3>
             <p class="text-body-1 px-6" style="color: #666;">
-              Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar
-              sua participação.
+              {{ t('eventos.details.confirmMessage') }}
             </p>
           </div>
         </v-card-text>
 
         <v-card-actions class="pa-6">
           <v-btn @click="dialogTermos = false" variant="outlined" color="#666" rounded="lg" size="large" class="px-6">
-            Cancelar
+            {{ t('eventos.details.cancel') }}
           </v-btn>
           <v-spacer />
           <v-btn @click="confirmarEnvio" :disabled="(evento.possuiTermo && !scrolledToBottom) || loadingTermos"
             :loading="loadingTermos" color="#88ce0d" variant="flat" rounded="lg" size="large" class="text-white px-6"
             style="font-weight: 600;">
-            Confirmar Envio
+            {{ t('eventos.details.confirmSend') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -229,6 +228,9 @@ import eventoService from '@/services/eventos/eventos-service'
 import termosService from '@/services/eventos/termos/termos-service'
 import { toast } from 'vue3-toastify'
 import { isAtleta } from '@/utils/auth'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 const router = useRouter()
 const route = useRoute()
@@ -244,9 +246,10 @@ const tipoEvento = ref<any>(null)
 const isUserAtleta = computed(() => isAtleta())
 
 const formatarData = (data: string) => {
-  if (!data) return 'Não informado'
+  if (!data) return t('eventos.details.notInformed')
   const date = new Date(data)
-  return date.toLocaleDateString('pt-BR', {
+  const localeStr = locale.value === 'en' ? 'en-US' : 'pt-BR'
+  return date.toLocaleDateString(localeStr, {
     day: '2-digit',
     month: 'long',
     year: 'numeric',
@@ -283,7 +286,7 @@ const aceitarTermos = async () => {
 
 const formatDistancias = (distanciasEvento: any[]) => {
   if (!distanciasEvento || distanciasEvento.length === 0) {
-    return 'Não informado'
+    return t('eventos.details.notInformed')
   }
   return distanciasEvento.map((d) => `${d.distancia}K`).join(' / ')
 }

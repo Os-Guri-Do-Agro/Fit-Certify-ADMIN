@@ -43,7 +43,7 @@
         <div class="position-relative ma-5">
           <div class="rating-chips">
             <v-chip class="rating-chip" prepend-icon="mdi-star">0</v-chip>
-            <v-chip class="rating-chip" prepend-icon="mdi-comment">0 avaliações</v-chip>
+            <v-chip class="rating-chip" prepend-icon="mdi-comment">0 {{ $t('fisioterapeutaDetalhes.reviews') }}</v-chip>
           </div>
           <v-row align="center" class="min-height-400">
             <v-col cols="12" md="4" class="text-center">
@@ -60,14 +60,14 @@
             <v-col cols="12" md="8">
               <div class="doctor-info">
                 <div class="info-chips d-flex ga-md-5 flex-column flex-md-row">
-                  <v-chip class="info-chip" prepend-icon="mdi-medal">{{ fisioterapeuta?.experiencia }} anos de experiência</v-chip>
+                  <v-chip class="info-chip" prepend-icon="mdi-medal">{{ $t('fisioterapeutaDetalhes.yearsExperience', { years: fisioterapeuta?.experiencia }) }}</v-chip>
                   <v-chip class="info-chip" prepend-icon="mdi-clock">{{ fisioterapeuta?.diaFuncionamentoInicio }} - {{ fisioterapeuta?.diaFuncionamentoFim }}</v-chip>
                   <v-chip class="info-chip" prepend-icon="mdi-calendar">{{ formatarHorarioLocal(fisioterapeuta?.horarioInicio) }} - {{ formatarHorarioLocal(fisioterapeuta?.horarioFim) }}</v-chip>
                 </div>
                 <div v-if="fisioterapeuta?.foco" class="focus-in-header mb-4 d-none d-md-flex flex-column mt-5 rounded-xl">
                   <div class="d-flex align-center mb-2">
                     <v-icon color="white" size="20" class="mr-2">mdi-target</v-icon>
-                    <span class="focus-label">Foco Principal:</span>
+                    <span class="focus-label">{{ $t('fisioterapeutaDetalhes.mainFocus') }}</span>
                   </div>
                   <p class="focus-text">{{ fisioterapeuta?.foco }}</p>
                 </div>
@@ -78,7 +78,7 @@
                   @click="ActiveDialog = true"
                   :disabled="fisioterapeutaSemHorario"
                 >
-                  {{ fisioterapeutaSemHorario ? 'Sem Horários Disponíveis' : 'Marcar Consulta' }}
+                  {{ fisioterapeutaSemHorario ? $t('fisioterapeutaDetalhes.noSchedulesAvailable') : $t('fisioterapeutaDetalhes.scheduleAppointment') }}
                 </v-btn>
               </div>
             </v-col>
@@ -95,7 +95,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3 justify-center">
                       <v-icon color="#00c6fe" size="28" class="mr-3">mdi-target</v-icon>
-                      <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">Foco Principal</h3>
+                      <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">{{ $t('fisioterapeutaDetalhes.mainFocusTitle') }}</h3>
                     </div>
                     <p class="text-body-1 mb-0 text-center">{{ fisioterapeuta?.foco }}</p>
                   </v-card-text>
@@ -106,7 +106,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-account-circle</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Perfil</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.profile') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.perfil }}</p>
                   </v-card-text>
@@ -117,7 +117,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-briefcase</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Carreira</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.career') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.carreira }}</p>
                   </v-card-text>
@@ -128,7 +128,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-trophy</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Destaques</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.highlights') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.destaques }}</p>
                   </v-card-text>
@@ -146,15 +146,15 @@
       <v-card-title class="pa-6 dialog-header text-white">
         <div class="d-flex align-center">
           <v-icon class="mr-3" size="28">mdi-calendar-plus</v-icon>
-          <span class="text-h5 font-weight-bold">Marcar Consulta</span>
+          <span class="text-h5 font-weight-bold">{{ $t('fisioterapeutaDetalhes.scheduleAppointmentTitle') }}</span>
         </div>
       </v-card-title>
 
       <v-card-text class="pa-6">
         <v-alert
           class="mb-1"
-          text="Você pode agendar consultas mas tem que aguardar o fisioterapeuta aprovar, assim que fizer o agendamento será encaminhado notificação para ele."
-          title="Informações Importantes"
+          :text="$t('fisioterapeutaDetalhes.scheduleInfo')"
+          :title="$t('fisioterapeutaDetalhes.importantInfo')"
           type="info"
           variant="tonal"
         ></v-alert>
@@ -164,8 +164,8 @@
             <v-card rounded="lg" variant="outlined" color="grey" class="pa-8">
               <div class="text-center">
                 <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-calendar-remove</v-icon>
-                <h3 class="text-h5 mb-3 text-grey-darken-1">Fisioterapeuta sem horários configurados</h3>
-                <p class="text-body-1 text-grey">Este fisioterapeuta ainda não configurou seus horários de atendimento.</p>
+                <h3 class="text-h5 mb-3 text-grey-darken-1">{{ $t('fisioterapeutaDetalhes.physioNoSchedules') }}</h3>
+                <p class="text-body-1 text-grey">{{ $t('fisioterapeutaDetalhes.physioNoSchedulesDescription') }}</p>
               </div>
             </v-card>
           </v-col>
@@ -185,7 +185,7 @@
             <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
               <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
                 <v-icon class="mr-2" color="blue">mdi-clock-outline</v-icon>
-                Horários Disponíveis
+                {{ $t('fisioterapeutaDetalhes.availableSchedules') }}
               </v-card-title>
 
               <div class="time-slots-grid">
@@ -233,7 +233,7 @@
                   class="mr-2"
                 >
                   <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                  {{ datinhas.slotsDisponiveis || 0 }} disponíveis
+                  {{ datinhas.slotsDisponiveis || 0 }} {{ $t('fisioterapeutaDetalhes.available') }}
                 </v-chip>
                 <v-chip color="grey" variant="flat" size="small">
                   <v-icon size="12" class="mr-1">mdi-close</v-icon>
@@ -241,7 +241,7 @@
                     (datinhas.slots?.length || 0) -
                     (datinhas.slotsDisponiveis || 0)
                   }}
-                  ocupados
+                  {{ $t('fisioterapeutaDetalhes.occupied') }}
                 </v-chip>
               </div>
             </v-card>
@@ -258,7 +258,7 @@
           @click="ActiveDialog = false"
         >
           <v-icon left>mdi-close</v-icon>
-          Cancelar
+          {{ $t('fisioterapeutaDetalhes.cancel') }}
         </v-btn>
         <v-btn
           v-if="!fisioterapeutaSemHorario"
@@ -270,7 +270,7 @@
           :loading="loading"
         >
           <v-icon left>mdi-check</v-icon>
-          Confirmar Agendamento
+          {{ $t('fisioterapeutaDetalhes.confirmSchedule') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -290,6 +290,9 @@ import { onMounted, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -357,7 +360,7 @@ const criarConsulta = async () => {
 
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    toast.success('Solicitação de consulta enviada!', {
+    toast.success(t('fisioterapeutaDetalhes.scheduleSuccess'), {
       autoClose: 2000,
       position: toast.POSITION.BOTTOM_RIGHT,
     })
@@ -366,7 +369,7 @@ const criarConsulta = async () => {
     dayselect.value = null
     datinhas.value = []
   } catch (error) {
-    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), {
+    toast.error(t('fisioterapeutaDetalhes.scheduleError', { error: getErrorMessage(error, t('fisioterapeutaDetalhes.unknownError')) }), {
       autoClose: 2000,
       position: toast.POSITION.BOTTOM_RIGHT,
     })

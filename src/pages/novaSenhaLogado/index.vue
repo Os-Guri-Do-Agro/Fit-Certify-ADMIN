@@ -8,14 +8,14 @@
           <v-col cols="12">
             <div class="d-flex align-center mb-4">
               <v-chip class="info-chip" prepend-icon="mdi-lock-reset">
-                Alterar Senha
+                {{ $t('novaSenhaLogado.changePassword') }}
               </v-chip>
             </div>
             <div class="text-center">
               <v-avatar size="120" class="profile-avatar mb-4">
                 <v-icon size="60" color="white">mdi-lock-reset</v-icon>
               </v-avatar>
-              <p class="hero-subtitle">Mantenha sua conta segura com uma nova senha</p>
+              <p class="hero-subtitle">{{ $t('novaSenhaLogado.keepAccountSecure') }}</p>
             </div>
           </v-col>
         </v-row>
@@ -29,14 +29,14 @@
           <v-card elevation="8" rounded="xl" class="password-card">
             <v-card-title class="section-title">
               <v-icon class="mr-3" color="#00c6fe">mdi-shield-lock</v-icon>
-              Definir Nova Senha
+              {{ $t('novaSenhaLogado.setNewPassword') }}
             </v-card-title>
 
             <v-card-text class="pa-6">
               <v-form ref="form" v-model="valid">
                 <v-text-field
                   v-model="formData.senha"
-                  label="Senha Atual"
+                  :label="$t('novaSenhaLogado.currentPassword')"
                   variant="outlined"
                   density="comfortable"
                   rounded="lg"
@@ -51,7 +51,7 @@
 
                 <v-text-field
                   v-model="formData.novaSenha"
-                  label="Nova Senha"
+                  :label="$t('novaSenhaLogado.newPassword')"
                   variant="outlined"
                   density="comfortable"
                   rounded="lg"
@@ -66,7 +66,7 @@
 
                 <v-text-field
                   v-model="formData.confirmarSenha"
-                  label="Confirmar Nova Senha"
+                  :label="$t('novaSenhaLogado.confirmNewPassword')"
                   variant="outlined"
                   density="comfortable"
                   rounded="lg"
@@ -92,7 +92,7 @@
                   :disabled="loading"
                 >
                   <v-icon left>mdi-close</v-icon>
-                  Cancelar
+                  {{ $t('novaSenhaLogado.cancel') }}
                 </v-btn>
                 <v-btn
                   color="#00c6fe"
@@ -104,7 +104,7 @@
                   elevation="4"
                 >
                   <v-icon left>mdi-check</v-icon>
-                  Alterar Senha
+                  {{ $t('novaSenhaLogado.changePasswordButton') }}
                 </v-btn>
               </div>
             </v-card-actions>
@@ -122,7 +122,9 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const router = useRouter()
 const valid = ref(false)
 const loading = ref(false)
@@ -150,7 +152,7 @@ async function alterarSenha() {
         senhaNova: formData.value.novaSenha,
     }
          await authService.forgotPassWordLogado(payload)
-         toast.success('Senha alterada com sucesso!')
+         toast.success(t('novaSenhaLogado.passwordChangedSuccess'))
 
          setTimeout(() => {
              router.push('/settings')
@@ -158,7 +160,7 @@ async function alterarSenha() {
 
     } catch (error) {
         console.error('Erro ao alterar senha:', error)
-        toast.error('Erro ao alterar senha: ' + getErrorMessage(error, 'Erro desconhecido'))
+        toast.error(t('novaSenhaLogado.passwordChangeError', { error: getErrorMessage(error, t('novaSenhaLogado.unknownError')) }))
     } finally {
         loading.value = false
     }
@@ -169,14 +171,14 @@ function voltar() {
 }
 
 const rules = {
-  required: (value: any) => !!value || 'Campo obrigatório',
+  required: (value: any) => !!value || t('novaSenhaLogado.required'),
   strongPassword: (value: string) => {
-    if (!value) return 'Campo obrigatório'
+    if (!value) return t('novaSenhaLogado.required')
     const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*.])[A-Za-z\d!@#$%^&*.]{8,}$/
-    return regex.test(value) || 'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial'
+    return regex.test(value) || t('novaSenhaLogado.strongPasswordError')
   },
   passwordMatch: (value: string) => {
-    return !value || value === formData.value.novaSenha || 'As senhas não coincidem'
+    return !value || value === formData.value.novaSenha || t('novaSenhaLogado.passwordsNotMatch')
   }
 }
 
@@ -248,7 +250,7 @@ const rules = {
 }
 
 .save-btn {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%) !important;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%) !important;
   box-shadow: 0 4px 20px rgba(0, 198, 254, 0.3) !important;
   transition: all 0.3s ease;
 }

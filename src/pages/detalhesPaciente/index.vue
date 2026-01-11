@@ -40,7 +40,7 @@
                   @click="criarTreino"
                   class="btn-top-right"
                 >
-                  Criar Treino
+                  {{ $t('detalhesPaciente.createTraining') }}
                 </v-btn>
                 <v-avatar
                   size="160"
@@ -67,21 +67,21 @@
               <v-row>
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Idade</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.age') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ calcularIdade(paciente.dataNascimento) }} anos
+                      {{ calcularIdade(paciente.dataNascimento) }} {{ $t('detalhesPaciente.years') }}
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Data de Nascimento</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.birthDate') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ formatarData(paciente.dataNascimento) }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.gender') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.genero || 'N/A' }}
                     </div>
@@ -90,21 +90,21 @@
 
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Altura</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.height') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.altura ? `${paciente.altura} cm` : 'N/A' }}
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Peso</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.weight') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.peso ? `${paciente.peso} kg` : 'N/A' }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.bloodType') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.tipoSanguineo || 'N/A' }}
                     </div>
@@ -113,30 +113,30 @@
 
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Telefone</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.phone') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ formatarTelefone(paciente.telefone) || 'N/A' }}
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Atividade Física Regular</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.regularPhysicalActivity') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ paciente.praticaAtividadeFisicaRegularmente ? 'Sim' : 'Não' }}
+                      {{ paciente.praticaAtividadeFisicaRegularmente ? $t('detalhesPaciente.yes') : $t('detalhesPaciente.no') }}
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Checkup Recente</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.recentCheckup') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ paciente.fezCheckupUltimosMeses ? 'Sim' : 'Não' }}
+                      {{ paciente.fezCheckupUltimosMeses ? $t('detalhesPaciente.yes') : $t('detalhesPaciente.no') }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Possui Smartwatch</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.hasSmartwatch') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ paciente.possuiSmartwatch ? 'Sim' : 'Não' }}
+                      {{ paciente.possuiSmartwatch ? $t('detalhesPaciente.yes') : $t('detalhesPaciente.no') }}
                     </div>
                   </div>
                 </v-col>
@@ -166,10 +166,10 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold text-grey-darken-3">
-                    Alergias
+                    {{ $t('detalhesPaciente.allergies') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    {{ alergias.length }} {{ alergias.length === 1 ? 'alergia registrada' : 'alergias registradas' }}
+                    {{ alergias.length }} {{ alergias.length === 1 ? $t('detalhesPaciente.allergyRegistered') : $t('detalhesPaciente.allergiesRegistered') }}
                   </div>
                 </div>
                 <v-icon :color="alergiasExpanded ? 'blue-darken-1' : 'grey'">
@@ -189,7 +189,7 @@
                     <template v-else-if="alergias.length === 0">
                       <v-list-item class="text-center py-8">
                         <v-list-item-title class="text-grey">
-                          Nenhuma alergia registrada
+                          {{ $t('detalhesPaciente.noAllergiesRegistered') }}
                         </v-list-item-title>
                       </v-list-item>
                     </template>
@@ -206,11 +206,11 @@
                         </template>
 
                         <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
-                          {{ alergia.titulo || 'Alergia sem título' }}
+                          {{ alergia.titulo || $t('detalhesPaciente.allergyNoTitle') }}
                         </v-list-item-title>
 
                         <v-list-item-subtitle class="text-grey-darken-1">
-                          {{ alergia.descricao || 'Sem descrição' }}
+                          {{ alergia.descricao || $t('detalhesPaciente.noDescription') }}
                         </v-list-item-subtitle>
 
                         <template #append>
@@ -247,10 +247,10 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold text-grey-darken-3">
-                    Consultas Concluídas
+                    {{ $t('detalhesPaciente.completedAppointments') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    {{ consultasConcluidas.length }} {{ consultasConcluidas.length === 1 ? 'consulta concluída' : 'consultas concluídas' }}
+                    {{ consultasConcluidas.length }} {{ consultasConcluidas.length === 1 ? $t('detalhesPaciente.completedAppointment') : $t('detalhesPaciente.completedAppointmentsPlural') }}
                   </div>
                 </div>
                 <v-icon :color="consultasExpanded ? 'green-darken-1' : 'grey'">
@@ -270,7 +270,7 @@
                     <template v-else-if="consultasConcluidas.length === 0">
                       <v-list-item class="text-center py-8">
                         <v-list-item-title class="text-grey">
-                          Nenhuma consulta concluída
+                          {{ $t('detalhesPaciente.noCompletedAppointments') }}
                         </v-list-item-title>
                       </v-list-item>
                     </template>
@@ -292,7 +292,7 @@
                         </v-list-item-title>
 
                         <v-list-item-subtitle class="text-grey-darken-1">
-                          Data: {{ formatarDataLocal(consulta.updatedAt) }}
+                          {{ $t('detalhesPaciente.date') }}: {{ formatarDataLocal(consulta.updatedAt) }}
                         </v-list-item-subtitle>
 
                         <template #append>
@@ -313,7 +313,7 @@
       <v-card>
         <v-card-title class="d-flex align-center pa-6" style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%)">
           <v-icon color="white" size="30" class="me-3">mdi-stethoscope</v-icon>
-          <span class="text-h5 font-weight-bold text-white">Detalhes da Consulta</span>
+          <span class="text-h5 font-weight-bold text-white">{{ $t('detalhesPaciente.appointmentDetails') }}</span>
           <v-spacer />
           <v-btn icon="mdi-close" variant="text" color="white" @click="dialogConsulta = false" />
         </v-card-title>
@@ -322,7 +322,7 @@
           <v-row>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Profissional</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.professional') }}</div>
                 <div class="text-body-1 font-weight-medium text-grey-darken-3">
                   {{ getNomeProfissional(consultaSelecionada) }}
                 </div>
@@ -330,7 +330,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Data da Consulta</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.appointmentDate') }}</div>
                 <div class="text-body-1 font-weight-medium text-grey-darken-3">
                   {{ formatarDataLocal(consultaSelecionada.dataConsulta) }}
                 </div>
@@ -338,7 +338,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Atualizado em</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.updatedAt') }}</div>
                 <div class="text-body-1 font-weight-medium text-grey-darken-3">
                   {{ formatarDataLocal(consultaSelecionada.updatedAt) }}
                 </div>
@@ -346,7 +346,7 @@
             </v-col>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Atualizado por</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.updatedBy') }}</div>
                 <div class="text-body-1 font-weight-medium text-grey-darken-3">
                   {{ consultaSelecionada.updatedBy || 'N/A' }}
                 </div>
@@ -354,33 +354,33 @@
             </v-col>
             <v-col cols="12">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Diagnóstico</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.diagnosis') }}</div>
                 <div class="text-body-1 text-grey-darken-3">
-                  {{ consultaSelecionada.diagnostico || 'Sem diagnóstico' }}
+                  {{ consultaSelecionada.diagnostico || $t('detalhesPaciente.noDiagnosis') }}
                 </div>
               </div>
             </v-col>
             <v-col cols="12">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Medicamentos Receitados</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.prescribedMedications') }}</div>
                 <div class="text-body-1 text-grey-darken-3">
-                  {{ consultaSelecionada.medicamentosReceitados || 'Sem medicamentos' }}
+                  {{ consultaSelecionada.medicamentosReceitados || $t('detalhesPaciente.noMedications') }}
                 </div>
               </div>
             </v-col>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Situação</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.situation') }}</div>
                 <v-chip color="green" size="small">
-                  {{ consultaSelecionada.situacao }}
+                  {{ traduzirStatus(consultaSelecionada.situacao) }}
                 </v-chip>
               </div>
             </v-col>
             <v-col cols="12" md="6">
               <div class="mb-4">
-                <div class="text-caption text-grey-darken-1 mb-1">Consulta Externa</div>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ $t('detalhesPaciente.externalAppointment') }}</div>
                 <v-chip :color="consultaSelecionada.consultaExterna ? 'blue' : 'grey'" size="small">
-                  {{ consultaSelecionada.consultaExterna ? 'Sim' : 'Não' }}
+                  {{ consultaSelecionada.consultaExterna ? $t('detalhesPaciente.yes') : $t('detalhesPaciente.no') }}
                 </v-chip>
               </div>
             </v-col>
@@ -400,7 +400,9 @@ import atletaService from '@/services/atleta/atleta-service'
 import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import consultasService from '@/services/consultas/consultas-service'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
@@ -466,7 +468,7 @@ const getNomeProfissional = (consulta) => {
   if (consulta.fisioterapeuta?.usuario?.nome) {
     return consulta.fisioterapeuta.usuario.nome
   }
-  return 'Profissional não identificado'
+  return t('detalhesPaciente.professionalNotIdentified')
 }
 
 const abrirDetalhesConsulta = (consulta) => {
@@ -525,6 +527,10 @@ const buscarPaciente = async (id) => {
   } finally {
     loading.value = false
   }
+}
+
+const traduzirStatus = (status) => {
+  return t(`detalhesPaciente.status.${status}`) || status
 }
 
 onMounted(async () => {

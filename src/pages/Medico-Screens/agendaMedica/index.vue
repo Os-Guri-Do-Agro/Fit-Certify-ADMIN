@@ -13,9 +13,9 @@
                     <v-icon size="40" color="white">mdi-calendar-month</v-icon>
                   </div>
                   <div>
-                    <h1 class="text-h4 font-weight-bold text-white mb-1">Agenda Médica</h1>
+                    <h1 class="text-h4 font-weight-bold text-white mb-1">{{ t('agendaMedica.title') }}</h1>
                     <p class="text-subtitle-1 text-white mb-0" style="opacity: 0.9;">
-                      {{ dayjs().format('dddd, DD [de] MMMM [de] YYYY') }}
+                      {{ locale === 'pt' ? dayjs().format('dddd, DD [de] MMMM [de] YYYY') : dayjs().format('dddd, MMMM DD, YYYY') }}
                     </p>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
               <v-col cols="12" md="4" class="text-md-right">
                 <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" rounded="xl"
                   prepend-icon="mdi-plus" class="text-blue font-weight-bold elevation-4">
-                  Nova Consulta
+                  {{ t('agendaMedica.newAppointment') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -55,13 +55,13 @@
             <div class="calendar-grid">
               <div class="calendar-header">
                 <div v-for="day in [
-                  'Dom',
-                  'Seg',
-                  'Ter',
-                  'Qua',
-                  'Qui',
-                  'Sex',
-                  'Sáb',
+                  t('agendaMedica.days.sun'),
+                  t('agendaMedica.days.mon'),
+                  t('agendaMedica.days.tue'),
+                  t('agendaMedica.days.wed'),
+                  t('agendaMedica.days.thu'),
+                  t('agendaMedica.days.fri'),
+                  t('agendaMedica.days.sat'),
                 ]" :key="day" class="day-header">
                   {{ day }}
                 </div>
@@ -95,14 +95,14 @@
                 <span class="text-h6 font-weight-bold text-white">
                   {{
                     selectedDayAppointments.date
-                      ? `Consultas - ${selectedDayAppointments.date}`
-                      : `Hoje - ${dayjs().format('DD/MM')}`
+                      ? `${t('agendaMedica.appointments')} - ${selectedDayAppointments.date}`
+                      : `${t('agendaMedica.today')} - ${locale === 'pt' ? dayjs().format('DD/MM') : dayjs().format('MM/DD')}`
                   }}
                 </span>
               </div>
               <v-btn variant="flat" color="white" size="small" rounded="xl" class="text-blue font-weight-medium"
                 @click="router.push('/Medico-Screens/consultas')">
-                Ver mais
+                {{ t('agendaMedica.viewMore') }}
               </v-btn>
             </div>
           </v-card-title>
@@ -133,12 +133,12 @@
                         variant="flat" class="text-white">
                         {{
                           appointment.type === 'fitcertify'
-                            ? 'FitCertify365'
-                            : 'Externo'
+                            ? t('agendaMedica.fitcertify')
+                            : t('agendaMedica.external')
                         }}
                       </v-chip>
                       <v-chip size="small" :color="getStatusColor(appointment.status)" variant="flat" class="text-white">
-                        {{ formatStatus(appointment.status) }}
+                        {{ t(`agendaMedica.status.${formatStatusKey(appointment.status)}`) }}
                       </v-chip>
                     </div>
                   </div>
@@ -152,7 +152,7 @@
               </div>
               <div v-if="selectedDayAppointments.appointments.length === 0" class="text-center text-grey py-4">
                 <v-icon size="48" color="grey-lighten-2">mdi-calendar-blank</v-icon>
-                <p class="mt-2 mb-0">Nenhuma consulta neste dia</p>
+                <p class="mt-2 mb-0">{{ t('agendaMedica.noAppointments') }}</p>
               </div>
             </div>
           </v-card-text>
@@ -166,24 +166,24 @@
             <div class="icon-wrapper mr-3">
               <v-icon color="white">mdi-calendar-plus</v-icon>
             </div>
-            <span class="text-h5 font-weight-bold">Marcar Consulta</span>
+            <span class="text-h5 font-weight-bold">{{ t('agendaMedica.scheduleAppointment') }}</span>
           </div>
         </v-card-title>
 
         <v-card-text class="pa-6">
           <!-- caso seja atleta fitCertify -->
-          <v-combobox clearable v-if="!ConsultaExterna" label="Nome do Atleta" variant="outlined" :items="atletas"
+          <v-combobox clearable v-if="!ConsultaExterna" :label="t('agendaMedica.athleteName')" variant="outlined" :items="atletas"
             item-title="usuario.nome" item-value="id" v-model="atletaSelected"
             prepend-inner-icon="mdi-account"></v-combobox>
           <!-- Caso nao seja atleta fitcertify -->
-          <v-text-field v-if="ConsultaExterna" label="Nome do Paciente Externo" variant="outlined"
+          <v-text-field v-if="ConsultaExterna" :label="t('agendaMedica.externalPatientName')" variant="outlined"
             prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
 
-          <v-checkbox class="ma-0 pa-0" label="Consulta Externa" v-model="ConsultaExterna" color="blue"></v-checkbox>
+          <v-checkbox class="ma-0 pa-0" :label="t('agendaMedica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
           <v-alert class="mb-1"
-            text="Você pode deixar marcado aqui tanto para horários anteriores para registro quanto para novos horários. Pacientes Externos e FitCertify365. Caso seja FitCertify, tome cuidado pois é notificado para ele em seu aplicativo."
-            title="Informações Importantes" type="info" variant="tonal"></v-alert>
+            :text="t('agendaMedica.scheduleInfo')"
+            :title="t('agendaMedica.importantInfo')" type="info" variant="tonal"></v-alert>
 
           <div></div>
           <v-row>
@@ -195,7 +195,7 @@
               <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
                 <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
                   <v-icon class="mr-2" color="blue">mdi-clock-outline</v-icon>
-                  Horários Disponíveis
+                  {{ t('agendaMedica.availableSchedules') }}
                 </v-card-title>
 
                 <div class="time-slots-grid">
@@ -232,7 +232,7 @@
                 <div class="mt-4 text-center">
                   <v-chip color="success" variant="flat" size="small" class="mr-2">
                     <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                    {{ datinhas.slotsDisponiveis || 0 }} disponíveis
+                    {{ datinhas.slotsDisponiveis || 0 }} {{ t('agendaMedica.available') }}
                   </v-chip>
                   <v-chip color="grey" variant="flat" size="small">
                     <v-icon size="12" class="mr-1">mdi-close</v-icon>
@@ -240,7 +240,7 @@
                       (datinhas.slots?.length || 0) -
                       (datinhas.slotsDisponiveis || 0)
                     }}
-                    ocupados
+                    {{ t('agendaMedica.occupied') }}
                   </v-chip>
                 </div>
               </v-card>
@@ -252,14 +252,14 @@
           <v-spacer></v-spacer>
           <v-btn color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
             <v-icon start>mdi-close</v-icon>
-            Cancelar
+            {{ t('agendaMedica.cancel') }}
           </v-btn>
           <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot ||
             (ConsultaExterna && !nomePacienteExterno) ||
             (!ConsultaExterna && !atletaSelected)
             ">
             <v-icon start>mdi-check</v-icon>
-            Confirmar
+            {{ t('agendaMedica.confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -274,12 +274,25 @@ import { getMedicoId, getRole } from '@/utils/auth'
 import { formatarDataHoraLocal, formatarHorarioLocal, formatarDataLocal, removerOffsetTimezone } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import 'dayjs/locale/en'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
+
+// Configurar locale do dayjs baseado no idioma
+const currentLocale = computed(() => locale.value === 'pt' ? 'pt-br' : 'en')
+dayjs.locale(currentLocale.value)
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+  currentMonth.value = currentDate.value.format('MMMM YYYY')
+})
 dayjs.extend(utc)
 dayjs.extend(timezone)
 const loading = ref(false)
@@ -357,7 +370,7 @@ const criarConsulta = async () => {
 
     await consultasService.createConsultaByMedico(data)
     ActiveDialog.value = false
-    toast.success('Consulta marcada com sucesso!', {
+    toast.success(t('agendaMedica.appointmentSuccess'), {
       position: toast.POSITION.TOP_RIGHT,
     })
 
@@ -371,7 +384,7 @@ const criarConsulta = async () => {
     await buscarHorariosDisponiveis()
     await buscarConsultasDoDia(selectedDay.value)
   } catch (error) {
-    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), {
+    toast.error(t('agendaMedica.appointmentError') + ' ' + getErrorMessage(error, t('agendaMedica.unknownError')), {
       position: toast.POSITION.TOP_RIGHT,
     })
     console.error('Erro ao criar consulta:', error)
@@ -433,23 +446,23 @@ const buscarConsultasDoDia = async (selectedDate) => {
           ? consulta.nomePacienteExterno
           : consulta.atleta.usuario.nome,
         time: dayjs(consulta.dataConsulta).utc().format('HH:mm'),
-        status: consulta.situacao.toLowerCase().replace(' ', ''),
+        status: consulta.situacao,
         type: consulta.consultaExterna ? 'external' : 'fitcertify',
       }))
       selectedDayAppointments.value = {
-        date: dayjs(selectedDate).format('DD/MM'),
+        date: locale.value === 'pt' ? dayjs(selectedDate).format('DD/MM') : dayjs(selectedDate).format('MM/DD'),
         appointments,
       }
     } else {
       selectedDayAppointments.value = {
-        date: dayjs(selectedDate).format('DD/MM'),
+        date: locale.value === 'pt' ? dayjs(selectedDate).format('DD/MM') : dayjs(selectedDate).format('MM/DD'),
         appointments: [],
       }
     }
   } catch (error) {
     console.error('Erro ao buscar consultas:', error)
     selectedDayAppointments.value = {
-      date: dayjs(selectedDate).format('DD/MM'),
+      date: locale.value === 'pt' ? dayjs(selectedDate).format('DD/MM') : dayjs(selectedDate).format('MM/DD'),
       appointments: [],
     }
   }
@@ -460,21 +473,29 @@ const selectDay = async (day) => {
   await buscarConsultasDoDia(day.date)
 }
 
+const formatStatusKey = (status) => {
+  // Normalizar o status para corresponder às chaves do i18n
+  const statusMap = {
+    'cancelada': 'Cancelada',
+    'concluido': 'Concluido',
+    'marcado': 'Marcado',
+    'pendente': 'Pendente',
+    'recusado': 'Recusado'
+  }
+  return statusMap[status.toLowerCase()] || status
+}
+
 const formatStatus = (status) => {
-  if (status === 'cancelada') return 'Cancelada'
-  if (status === 'concluido') return 'Concluído'
-  if (status === 'marcado') return 'Marcado'
-  if (status === 'pendente') return 'Pendente'
-  if (status === 'recusado') return 'Recusado'
-  return status
+  return t(`agendaMedica.status.${formatStatusKey(status)}`)
 }
 
 const getStatusColor = (status) => {
-  if (status === 'recusado') return 'red'
-  if (status === 'cancelada') return 'grey'
-  if (status === 'concluido') return 'green'
-  if (status === 'marcado') return 'blue'
-  if (status === 'pendente') return 'orange'
+  const statusLower = status.toLowerCase()
+  if (statusLower === 'recusado') return 'red'
+  if (statusLower === 'cancelada') return 'grey'
+  if (statusLower === 'concluido') return 'green'
+  if (statusLower === 'marcado') return 'blue'
+  if (statusLower === 'pendente') return 'orange'
   return 'grey'
 }
 </script>

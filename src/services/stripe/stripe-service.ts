@@ -2,7 +2,7 @@ import { handleError } from '@/common/error.utils'
 import apiClient from '../api-service'
 import { getToken } from '../../utils/auth';
 
-class PlanoService {
+class StripeService {
   private async handleRequest<T>(
     request: Promise<{ data: T }>,
     errorMessage: string
@@ -16,20 +16,13 @@ class PlanoService {
     }
   }
 
-  getAllPlanos(): Promise<any> {
-    return this.handleRequest(
-      apiClient.get('/plano', {
-      }),
-      'ERROR - 404'
-    )
-  }
-
-  getPlanoById(id: string): Promise<any> {
+  stripeCheckout(data: any): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.get(`/plano/${id}`, {
+      apiClient.post(`/stripe/checkout`, data, {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
         },
       }),
       'ERROR - 404'
@@ -38,4 +31,4 @@ class PlanoService {
 }
 
 
-export default new PlanoService()
+export default new StripeService()

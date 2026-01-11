@@ -35,7 +35,7 @@
                 CRM: {{ medico?.crm }}
               </v-chip>
               <v-chip class="credential-chip" prepend-icon="mdi-medal">
-                {{ medico?.experiencia }} anos de experiência
+                {{ t('perfilMedico.yearsExperience', { years: medico?.experiencia }) }}
               </v-chip>
             </div>
           </v-col>
@@ -46,7 +46,7 @@
                 <div class="d-flex ga-2 flex-md-row flex-column">
 
                 <v-chip class="info-chip text-center d-none d-md-flex justify-center" prepend-icon="mdi-account-circle">
-                  Perfil Médico
+                  {{ t('perfilMedico.profileType') }}
                 </v-chip>
                 </div>
 
@@ -56,7 +56,7 @@
                 </v-chip>
                 <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#1E88E5" @click="() => router.push('/medico-Screens/editarPerfilMedico')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
-                  <p class="text-white text-subtitle-2">Editar Perfil</p>
+                  <p class="text-white text-subtitle-2">{{ t('perfilMedico.editProfile') }}</p>
                 </v-btn>
                 </div>
               </div>
@@ -73,7 +73,7 @@
           <v-expansion-panel-title>
             <div class="d-flex align-center">
               <v-icon color="#1E88E5" size="28" class="mr-3">mdi-account</v-icon>
-              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Pessoais</h3>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ t('perfilMedico.personalInfo.title') }}</h3>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
@@ -84,9 +84,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-email</v-icon>
                     </div>
-                    <h4 class="card-title">Email</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.personalInfo.email') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.usuario?.email || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.usuario?.email || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -95,9 +95,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-phone</v-icon>
                     </div>
-                    <h4 class="card-title">Telefone</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.personalInfo.phone') }}</h4>
                   </div>
-                  <p class="card-content">{{ formatarTelefone(medico?.telefone) || 'Não informado' }}</p>
+                  <p class="card-content">{{ formatarTelefone(medico?.telefone) || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -106,9 +106,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-card-account-details</v-icon>
                     </div>
-                    <h4 class="card-title">CPF</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.personalInfo.cpf') }}</h4>
                   </div>
-                  <p class="card-content">{{ formatarCPF(medico?.usuario?.cpf) || 'Não informado' }}</p>
+                  <p class="card-content">{{ formatarCPF(medico?.usuario?.cpf) || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -117,9 +117,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-calendar</v-icon>
                     </div>
-                    <h4 class="card-title">Data de Nascimento</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.personalInfo.birthDate') }}</h4>
                   </div>
-                  <p class="card-content">{{ formatarData(medico?.dataNascimento) || 'Não informado' }}</p>
+                  <p class="card-content">{{ formatarData(medico?.dataNascimento) || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
             </v-row>
@@ -130,7 +130,7 @@
           <v-expansion-panel-title>
             <div class="d-flex align-center">
               <v-icon color="#1E88E5" size="28" class="mr-3">mdi-briefcase</v-icon>
-              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Profissionais</h3>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ t('perfilMedico.professionalInfo.title') }}</h3>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
@@ -141,9 +141,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-target</v-icon>
                     </div>
-                    <h4 class="card-title">Foco Principal</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.mainFocus') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.foco || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.foco || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -152,9 +152,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-account-circle</v-icon>
                     </div>
-                    <h4 class="card-title">Perfil Profissional</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.professionalProfile') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.perfil || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.perfil || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -163,9 +163,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-briefcase</v-icon>
                     </div>
-                    <h4 class="card-title">Trajetória Profissional</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.career') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.carreira || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.carreira || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -174,9 +174,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-star</v-icon>
                     </div>
-                    <h4 class="card-title">Principais Conquistas</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.achievements') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.destaques || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.destaques || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -185,7 +185,7 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-calendar-week</v-icon>
                     </div>
-                    <h4 class="card-title">Dias de Trabalho</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.workDays') }}</h4>
                   </div>
                   <p class="card-content">{{ medico?.diaFuncionamentoInicio }} - {{ medico?.diaFuncionamentoFim }}</p>
                 </div>
@@ -196,7 +196,7 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-clock</v-icon>
                     </div>
-                    <h4 class="card-title">Horários de Trabalho</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.professionalInfo.workHours') }}</h4>
                   </div>
                   <p class="card-content">{{ formatarHorarioLocal(medico?.horarioInicio) }} - {{ formatarHorarioLocal(medico?.horarioFim) }}</p>
                 </div>
@@ -209,7 +209,7 @@
           <v-expansion-panel-title>
             <div class="d-flex align-center">
               <v-icon color="#1E88E5" size="28" class="mr-3">mdi-map-marker</v-icon>
-              <h3 class="text-h6 font-weight-bold text-grey-darken-2">Endereço</h3>
+              <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ t('perfilMedico.address.title') }}</h3>
             </div>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
@@ -220,9 +220,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-home</v-icon>
                     </div>
-                    <h4 class="card-title">Logradouro</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.street') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.rua || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.rua || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -231,9 +231,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-numeric</v-icon>
                     </div>
-                    <h4 class="card-title">Número</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.number') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.numero || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.numero || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -242,9 +242,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-city</v-icon>
                     </div>
-                    <h4 class="card-title">Cidade</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.city') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.cidade || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.cidade || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -253,9 +253,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-mailbox</v-icon>
                     </div>
-                    <h4 class="card-title">CEP</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.zipCode') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.cep || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.cep || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -264,9 +264,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-map</v-icon>
                     </div>
-                    <h4 class="card-title">Bairro</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.neighborhood') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.bairro || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.bairro || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
               <v-col cols="12" md="6">
@@ -275,9 +275,9 @@
                     <div class="icon-wrapper">
                       <v-icon color="white" size="20">mdi-flag</v-icon>
                     </div>
-                    <h4 class="card-title">UF</h4>
+                    <h4 class="card-title">{{ t('perfilMedico.address.state') }}</h4>
                   </div>
-                  <p class="card-content">{{ medico?.uf || 'Não informado' }}</p>
+                  <p class="card-content">{{ medico?.uf || t('perfilMedico.notInformed') }}</p>
                 </div>
               </v-col>
             </v-row>
@@ -294,7 +294,9 @@ import router from '@/router'
 import medicoService from '@/services/medico/medico-service'
 import { getMedicoId, getUserID } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t } = useI18n()
 const medico = ref<any>()
 
 

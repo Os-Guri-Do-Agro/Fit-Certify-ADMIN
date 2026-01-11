@@ -12,7 +12,7 @@
           <v-icon>mdi-arrow-left</v-icon>
         </v-btn>
         <h1 class="text-h5 text-md-h4 font-weight-bold text-blue-lighten-1">
-          Detalhes do Paciente
+          {{ t('detalhesPaciente.backToList') }}
         </h1>
       </div>
       <v-row v-if="loading">
@@ -52,7 +52,7 @@
                     <v-icon start size="16">
                       {{ temLicencaAtiva ? 'mdi-check-circle' : 'mdi-close-circle' }}
                     </v-icon>
-                    {{ temLicencaAtiva ? 'Ativo' : 'Certificado inativo' }}
+                    {{ temLicencaAtiva ? t('detalhesPacienteMedico.active') : t('detalhesPacienteMedico.certificateInactive') }}
                   </v-chip>
                 </div>
                 <v-avatar
@@ -101,14 +101,14 @@
               <v-row>
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Idade</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.age') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
-                      {{ calcularIdade(paciente.dataNascimento) }} anos
+                      {{ calcularIdade(paciente.dataNascimento) }} {{ t('detalhesPaciente.years') }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Data de Nascimento</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.birthDate') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ formatarData(paciente.dataNascimento) }}
                     </div>
@@ -117,21 +117,21 @@
 
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Altura</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.height') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.altura ? `${paciente.altura} cm` : 'N/A' }}
                     </div>
                   </div>
 
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Peso</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.weight') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.peso ? `${paciente.peso} kg` : 'N/A' }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPacienteMedico.genderTitle') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.genero || 'N/A' }}
                     </div>
@@ -140,14 +140,14 @@
 
                 <v-col cols="12" md="4">
                   <div class="mb-4">
-                    <div class="text-caption text-grey-darken-1 mb-1">Telefone</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.phone') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ formatarTelefone(paciente.telefone) || 'N/A' }}
                     </div>
                   </div>
 
                   <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
+                    <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesPaciente.bloodType') }}</div>
                     <div class="text-body-1 font-weight-medium text-grey-darken-3">
                       {{ paciente.tipoSanguineo || 'N/A' }}
                     </div>
@@ -179,14 +179,14 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold text-grey-darken-3">
-                    Módulos Contratados
+                    {{ t('detalhesPacienteMedico.contractedModules') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    0 módulos disponíveis
+                    {{ t('detalhesPacienteMedico.modulesAvailable', { count: 0 }) }}
                   </div>
                 </div>
                 <v-chip size="small" color="blue-darken-1" variant="flat" class="text-white me-2">
-                  0 módulos
+                  {{ t('detalhesPacienteMedico.modules', { count: 0 }) }}
                 </v-chip>
                 <v-icon :color="modulosContratadosExpanded ? 'blue-darken-1' : 'grey'">
                   {{ modulosContratadosExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down' }}
@@ -201,8 +201,8 @@
                       <v-icon size="64" color="grey-lighten-1" class="mb-4">
                         mdi-package-variant
                       </v-icon>
-                      <p class="text-h6 text-grey-darken-1 mb-2">Nenhum módulo contratado</p>
-                      <p class="text-body-2 text-grey">Este atleta ainda não possui módulos contratados.</p>
+                      <p class="text-h6 text-grey-darken-1 mb-2">{{ t('detalhesPacienteMedico.noModules') }}</p>
+                      <p class="text-body-2 text-grey">{{ t('detalhesPacienteMedico.noModulesDescription') }}</p>
                     </div>
                   </div>
                 </div>
@@ -231,10 +231,10 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold text-grey-darken-3">
-                    Histórico Médico
+                    {{ t('detalhesPacienteMedico.medicalHistory') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    {{ consultas.length }} {{ consultas.length === 1 ? 'consulta registrada' : 'consultas registradas' }}
+                    {{ consultas.length }} {{ consultas.length === 1 ? t('detalhesPacienteMedico.appointmentRegistered') : t('detalhesPacienteMedico.appointmentsRegistered') }}
                   </div>
                 </div>
                 <v-icon :color="historicoMedicoExpanded ? 'blue-darken-1' : 'grey'">
@@ -249,7 +249,7 @@
                     <template v-if="consultas.length === 0">
                       <v-list-item class="text-center py-8">
                         <v-list-item-title class="text-grey">
-                          Nenhum histórico médico encontrado
+                          {{ t('detalhesPacienteMedico.noMedicalHistory') }}
                         </v-list-item-title>
                       </v-list-item>
                     </template>
@@ -267,11 +267,11 @@
                         </template>
 
                         <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
-                          {{ item.medico?.usuario?.nome || 'Médico não informado' }}
+                          {{ traduzirRole(item.medico?.usuario?.role) || item.medico?.usuario?.nome || t('detalhesPacienteMedico.doctorNotInformed') }}
                         </v-list-item-title>
 
                         <v-list-item-subtitle class="text-grey-darken-1">
-                          {{ item.medico?.especializacao || 'Especialização não informada' }}
+                          {{ item.medico?.especializacao || t('detalhesPacienteMedico.specializationNotInformed') }}
                         </v-list-item-subtitle>
 
                         <template #append>
@@ -284,7 +284,7 @@
                               class="font-weight-medium text-white"
                               style="min-width: 120px; justify-content: center;"
                             >
-                              {{ item.situacao }}
+                              {{ traduzirStatus(item.situacao) }}
                             </v-chip>
                             <v-chip size="small" variant="outlined" class="d-none d-sm-flex">
                               {{ formatarDataLocal(item.createdAt) }}
@@ -321,10 +321,10 @@
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-h6 font-weight-bold text-grey-darken-3">
-                    Alergias
+                    {{ t('detalhesPaciente.allergies') }}
                   </div>
                   <div class="text-caption text-grey-darken-1">
-                    {{ alergias.length }} {{ alergias.length === 1 ? 'alergia registrada' : 'alergias registradas' }}
+                    {{ alergias.length }} {{ alergias.length === 1 ? t('detalhesPaciente.allergyRegistered') : t('detalhesPaciente.allergiesRegistered') }}
                   </div>
                 </div>
                 <v-icon :color="alergiasExpanded ? 'blue-darken-1' : 'grey'">
@@ -344,7 +344,7 @@
                     <template v-else-if="alergias.length === 0">
                       <v-list-item class="text-center py-8">
                         <v-list-item-title class="text-grey">
-                          Nenhuma alergia registrada
+                          {{ t('detalhesPaciente.noAllergiesRegistered') }}
                         </v-list-item-title>
                       </v-list-item>
                     </template>
@@ -361,11 +361,11 @@
                         </template>
 
                         <v-list-item-title class="font-weight-medium text-grey-darken-3 mb-1">
-                          {{ alergia.titulo || 'Alergia sem título' }}
+                          {{ alergia.titulo || t('detalhesPaciente.allergyNoTitle') }}
                         </v-list-item-title>
 
                         <v-list-item-subtitle class="text-grey-darken-1">
-                          {{ alergia.descricao || 'Sem descrição' }}
+                          {{ alergia.descricao || t('detalhesPaciente.noDescription') }}
                         </v-list-item-subtitle>
 
                         <template #append>
@@ -388,24 +388,24 @@
       <v-card rounded="lg">
         <v-card-title class="bg-blue text-white pa-4">
           <v-icon class="mr-2">mdi-certificate</v-icon>
-          Certificar Atleta
+          {{ t('detalhesPacienteMedico.certificationModal.title') }}
         </v-card-title>
         <v-card-text class="pa-4">
           <v-form>
-            <v-select label="Meses de Validade" v-model="opcaoMesesValidade" :items="opcoesMeses" item-title="text"
+            <v-select :label="t('detalhesPacienteMedico.certificationModal.validityMonths')" v-model="opcaoMesesValidade" :items="opcoesMeses" item-title="text"
               item-value="value" variant="outlined" :class="{ 'mb-3': opcaoMesesValidade === 'outro' }" />
-            <v-text-field v-if="opcaoMesesValidade === 'outro'" label="Informe a quantidade de meses"
+            <v-text-field v-if="opcaoMesesValidade === 'outro'" :label="t('detalhesPacienteMedico.certificationModal.customMonths')"
               v-model.number="mesesValidadeCustomizado" type="number" variant="outlined"
-              :rules="[v => !v || (v >= 1 && v <= 12) || 'Informe um valor entre 1 e 12 meses']" v-maska="'##'"
-              hint="Informe quantos meses o certificado estará válido (máximo 12)" />
+              :rules="[v => !v || (v >= 1 && v <= 12) || t('detalhesPacienteMedico.certificationModal.validationRule')]" v-maska="'##'"
+              :hint="t('detalhesPacienteMedico.certificationModal.hint')" />
           </v-form>
         </v-card-text>
         <v-card-actions class="pa-4">
           <v-btn color="grey" variant="outlined" @click="fecharModalCertificacao">
-            Cancelar
+            {{ t('detalhesPacienteMedico.certificationModal.cancel') }}
           </v-btn>
           <v-btn color="blue" variant="flat" @click="salvarCertificacao" :loading="loadingSubmit">
-            Certificar
+            {{ t('detalhesPacienteMedico.certificationModal.certify') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -419,8 +419,8 @@
               ? 'mdi-stethoscope'
               : 'mdi-pill'
           }}</v-icon>
-          {{ exameSelecionado.medico?.usuario?.nome || 'Médico' }} -
-          {{ exameSelecionado.medico?.especializacao || 'Especialização' }}
+          {{ traduzirRole(exameSelecionado.medico?.usuario?.role) || exameSelecionado.medico?.usuario?.nome || t('detalhesPaciente.professional') }} -
+          {{ exameSelecionado.medico?.especializacao || t('detalhesPacienteMedico.specializationNotInformed') }}
         </v-card-title>
 
         <v-card-text class="pa-0">
@@ -430,7 +430,7 @@
                 <div class="d-flex align-center mb-2">
                   <v-icon color="blue" class="mr-2">mdi-calendar</v-icon>
                   <div>
-                    <div class="text-caption text-grey">Data da Consulta</div>
+                    <div class="text-caption text-grey">{{ t('detalhesPaciente.appointmentDate') }}</div>
                     <div class="font-weight-medium">
                       {{ formatarDataLocal(exameSelecionado.createdAt) }}
                     </div>
@@ -448,9 +448,9 @@
                     }}
                   </v-icon>
                   <div>
-                    <div class="text-caption text-grey">Tipo</div>
+                    <div class="text-caption text-grey">{{ t('detalhesPacienteMedico.appointmentDetails.type') }}</div>
                     <div class="font-weight-medium text-capitalize">
-                      Consulta
+                      {{ t('detalhesPacienteMedico.appointmentDetails.appointment') }}
                     </div>
                   </div>
                 </div>
@@ -462,7 +462,7 @@
             <div class="d-flex align-start">
               <v-icon color="blue-darken-1" class="mr-2 mt-1">mdi-clipboard-pulse</v-icon>
               <div class="flex-grow-1">
-                <div class="text-subtitle-2 mb-2">Diagnóstico</div>
+                <div class="text-subtitle-2 mb-2">{{ t('detalhesPaciente.diagnosis') }}</div>
                 <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
                   {{ exameSelecionado.diagnostico }}
                 </p>
@@ -474,7 +474,7 @@
             <div class="d-flex align-start">
               <v-icon color="green" class="mr-2 mt-1">mdi-pill</v-icon>
               <div class="flex-grow-1">
-                <div class="text-subtitle-2 mb-2">Medicamentos Receitados</div>
+                <div class="text-subtitle-2 mb-2">{{ t('detalhesPaciente.prescribedMedications') }}</div>
                 <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
                   {{ exameSelecionado.medicamentosReceitados }}
                 </p>
@@ -486,9 +486,9 @@
             <div class="d-flex align-start">
               <v-icon color="blue-darken-1" class="mr-2 mt-1">mdi-note-text</v-icon>
               <div class="flex-grow-1">
-                <div class="text-subtitle-2 mb-2">Situação</div>
+                <div class="text-subtitle-2 mb-2">{{ t('detalhesPaciente.situation') }}</div>
                 <p class="text-body-2 mb-0" style="word-break: break-word; overflow-wrap: break-word">
-                  {{ exameSelecionado.situacao }}
+                  {{ traduzirStatus(exameSelecionado.situacao) }}
                 </p>
               </div>
             </div>
@@ -501,10 +501,10 @@
                   <v-btn class="text-subtitle-1" block color="blue" variant="outlined" :disabled="temLicencaAtiva || medicoId != exameSelecionado.medicoId"
                     @click="certificarAtleta">
                     <v-icon class="mr-2">mdi-certificate</v-icon>
-                    Certificar atleta
+                    {{ t('detalhesPacienteMedico.appointmentDetails.certifyAthlete') }}
                   </v-btn>
                   <v-alert v-if="temLicencaAtiva" type="warning" variant="tonal" density="compact" class="mt-2">
-                    Este atleta já possui uma certificado ativo. Não é possível emitir um novo certificado.
+                    {{ t('detalhesPacienteMedico.appointmentDetails.certificateWarning') }}
                   </v-alert>
                 </div>
               </div>
@@ -515,7 +515,7 @@
         <v-card-actions class="pa-4">
           <v-spacer />
           <v-btn color="blue" variant="outlined" @click="modalExame = false">
-            Fechar
+            {{ t('detalhesPacienteMedico.appointmentDetails.close') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -524,7 +524,7 @@
 </template>
 
 <script setup>
-import { formatarData, formatarDataHoraLocal, formatarDataLocal } from '@/utils/date.utils'
+import { formatarDataHoraLocal, formatarDataLocal } from '@/utils/date.utils'
 import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
@@ -536,7 +536,9 @@ import { computed, onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const router = useRouter()
 const route = useRoute()
 
@@ -579,7 +581,34 @@ const calcularIdade = (dataNascimento) => {
   return idade
 }
 
+const formatarData = (data) => {
+  if (!data) return 'N/A'
+  const date = dayjs(data)
+  return locale.value === 'pt' ? date.format('DD/MM/YYYY') : date.format('MM/DD/YYYY')
+}
 
+const traduzirRole = (role) => {
+  if (!role) return t('detalhesPaciente.professionalNotIdentified')
+  const roleMap = {
+    'atleta': t('detalhesPaciente.role.atleta'),
+    'medico': t('detalhesPaciente.role.medico'),
+    'fisioterapeuta': t('detalhesPaciente.role.fisioterapeuta'),
+    'treinador': t('detalhesPaciente.role.treinador')
+  }
+  return roleMap[role.toLowerCase()] || role
+}
+
+const traduzirStatus = (status) => {
+  if (!status) return ''
+  const statusMap = {
+    'Concluido': t('detalhesPaciente.status.Concluido'),
+    'Recusado': t('detalhesPaciente.status.Recusado'),
+    'Cancelada': t('detalhesPaciente.status.Cancelada'),
+    'Marcado': t('detalhesPaciente.status.Marcado'),
+    'Pendente': t('detalhesPaciente.status.Pendente')
+  }
+  return statusMap[status] || status
+}
 
 
 const formatarTelefone = (telefone) => {
@@ -628,7 +657,7 @@ const fecharModalCertificacao = () => {
 
 const salvarCertificacao = async () => {
   if (!opcaoMesesValidade.value) {
-    alert('Por favor, selecione a validade do certificado.')
+    alert(t('detalhesPacienteMedico.certificationModal.validationRule'))
     return
   }
 
@@ -636,11 +665,11 @@ const salvarCertificacao = async () => {
   if (opcaoMesesValidade.value === 'outro') {
     const meses = Number(mesesValidadeCustomizado.value)
     if (!mesesValidadeCustomizado.value || meses < 1) {
-      alert('Por favor, informe a quantidade de meses válida (mínimo 1).')
+      alert(t('detalhesPacienteMedico.certificationModal.validationRule'))
       return
     }
     if (meses > 12) {
-      alert('Por favor, informe uma quantidade de meses válida (máximo 12).')
+      alert(t('detalhesPacienteMedico.certificationModal.validationRule'))
       return
     }
     mesesValidade = meses
@@ -656,7 +685,7 @@ const salvarCertificacao = async () => {
       ativo: true
     }).then((resp) => {
       if (resp.success) {
-        toast.success('Certificado emitido com sucesso!')
+        toast.success(t('detalhesPacienteMedico.appointmentDetails.certifyAthlete'))
         fecharModalCertificacao()
         loadingSubmit.value = false
         buscarLicencaPorAtletaId(route.params.id || route.query.id)
@@ -664,7 +693,7 @@ const salvarCertificacao = async () => {
     })
 
   } catch (error) {
-    toast.error(getErrorMessage(error, 'Erro desconhecido'))
+    toast.error(getErrorMessage(error, t('detalhesPacienteMedico.certificationModal.validationRule')))
     loadingSubmit.value = false
   }
 }

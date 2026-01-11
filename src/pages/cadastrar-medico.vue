@@ -3,11 +3,15 @@
     <v-card rounded="xl" elevation="4">
       <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-stethoscope</v-icon>
-        <span class="text-h5 font-weight-bold">Cadastrar Médico</span>
+        <span class="text-h5 font-weight-bold">{{ $t('cadastrarMedico.title') }}</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
-        <VStepper v-model="step" :items="['Informações Profissionais', 'Endereço', 'Finalização']" class="elevation-0">
+        <VStepper v-model="step" :items="[
+          $t('cadastrarMedico.steps.professionalInfo'),
+          $t('cadastrarMedico.steps.address'),
+          $t('cadastrarMedico.steps.finalization')
+        ]" class="elevation-0">
           <template #item.1>
             <MedicoForm :current-step="2" :form="form" :loading-cep="loadingCep" @buscar-cep="buscarCep" @handle-file-change="handleFileChange" />
           </template>
@@ -23,10 +27,10 @@
           <template #actions="{ next, prev }">
             <div class="pa-6 d-flex justify-space-between">
               <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#00c6fe" rounded="xl">
-                <v-icon start>mdi-arrow-left</v-icon>Voltar
+                <v-icon start>mdi-arrow-left</v-icon>{{ $t('cadastrarMedico.buttons.back') }}
               </VBtn>
               <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitMedico() : next()" color="#00c6fe" class="text-white" rounded="xl">
-                {{ step === 3 ? 'Cadastrar' : 'Próximo' }}
+                {{ step === 3 ? $t('cadastrarMedico.buttons.register') : $t('cadastrarMedico.buttons.next') }}
                 <v-icon end>{{ step === 3 ? 'mdi-check' : 'mdi-arrow-right' }}</v-icon>
               </VBtn>
             </div>
@@ -40,6 +44,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
 import dayjs from 'dayjs'
@@ -52,6 +57,7 @@ import { getErrorMessage } from '@/common/error.utils'
 dayjs.extend(customParseFormat)
 
 const router = useRouter()
+const { t: $t } = useI18n()
 const step = ref(1)
 const loading = ref(false)
 const loadingCep = ref(false)
@@ -91,7 +97,7 @@ const buscarCep = async (cep) => {
     const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`)
     const data = await response.json()
     if (data.erro) {
-      toast.error('CEP não encontrado')
+      toast.error($t('cadastrarMedico.toasts.zipCodeNotFound'))
       return
     }
     form.value.rua = data.logradouro || ''
@@ -99,7 +105,7 @@ const buscarCep = async (cep) => {
     form.value.cidade = data.localidade || ''
     form.value.uf = data.uf || ''
   } catch (error) {
-    toast.error('Erro ao buscar CEP')
+    toast.error($t('cadastrarMedico.toasts.zipCodeError'))
   } finally {
     loadingCep.value = false
   }
@@ -155,10 +161,10 @@ const submitMedico = async () => {
     formData.append('aceitaTermos', form.value.aceitaTermos ? 'true' : 'false')
 
     await medicoService.createMedicoLogado(formData)
-    toast.success('Médico cadastrado com sucesso!')
+    toast.success($t('cadastrarMedico.toasts.registerSuccess'))
     router.push('/resumo')
   } catch (error) {
-    toast.error(getErrorMessage(error, 'Erro ao cadastrar médico'))
+    toast.error(getErrorMessage(error, $t('cadastrarMedico.toasts.registerError')))
   } finally {
     loading.value = false
   }

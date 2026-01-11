@@ -3,11 +3,11 @@
     <v-card rounded="xl" elevation="4">
       <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-run</v-icon>
-        <span class="text-h5 font-weight-bold">Cadastrar Atleta</span>
+        <span class="text-h5 font-weight-bold">{{ t('cadastrarAtleta.title') }}</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
-        <VStepper v-model="step" :items="['Dados Físicos', 'Histórico de Saúde', 'Finalização']" class="elevation-0">
+        <VStepper v-model="step" :items="[t('cadastrarAtleta.steps.physicalData'), t('cadastrarAtleta.steps.healthHistory'), t('cadastrarAtleta.steps.finalization')]" class="elevation-0">
           <template #item.1>
             <v-form>
               <VRow class="px-4 px-md-8">
@@ -17,7 +17,7 @@
                       <v-icon color="white" size="20">mdi-human</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                      Dados Físicos
+                      {{ t('cadastrarAtleta.physicalData.title') }}
                     </h2>
                   </div>
                 </VCol>
@@ -26,30 +26,30 @@
                   <VTextField
                     v-maska="'(##) #####-####'"
                     v-model="form.telefone"
-                    label="Telefone*"
-                    placeholder="(00) 00000-0000"
+                    :label="t('cadastrarAtleta.physicalData.phone')"
+                    :placeholder="t('cadastrarAtleta.physicalData.phonePlaceholder')"
                     variant="outlined"
                     rounded="lg"
                     bg-color="white"
                     class="custom-field"
-                    :rules="[v => !!v || 'Campo obrigatório']"
+                    :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]"
                   />
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
-                  <VSelect v-model="form.tipoSanguineo" :items="['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']" label="Tipo Sanguíneo *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || 'Campo obrigatório']" />
+                  <VSelect v-model="form.tipoSanguineo" :items="['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']" :label="t('cadastrarAtleta.physicalData.bloodType')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
-                  <VSelect v-model="form.genero" :items="['Masculino', 'Feminino', 'Outro']" label="Gênero *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || 'Campo obrigatório']" />
+                  <VSelect v-model="form.genero" :items="[{title: t('cadastrarAtleta.physicalData.genderOptions.male'), value: 'Masculino'}, {title: t('cadastrarAtleta.physicalData.genderOptions.female'), value: 'Feminino'}, {title: t('cadastrarAtleta.physicalData.genderOptions.other'), value: 'Outro'}]" :label="t('cadastrarAtleta.physicalData.gender')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
-                  <VTextField v-model="form.altura" v-maska="'#.##'" label="Altura (cm) *" placeholder="0.00cm" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || 'Campo obrigatório']" />
+                  <VTextField v-model="form.altura" v-maska="'#.##'" :label="t('cadastrarAtleta.physicalData.height')" :placeholder="t('cadastrarAtleta.physicalData.heightPlaceholder')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
-                  <VTextField v-model="form.peso" v-maska="'###.##'" label="Peso (kg) *" placeholder="0.00kg" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || 'Campo obrigatório']" />
+                  <VTextField v-model="form.peso" v-maska="'###.##'" :label="t('cadastrarAtleta.physicalData.weight')" :placeholder="t('cadastrarAtleta.physicalData.weightPlaceholder')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VSelect v-model="form.praticaAtividadeFisicaRegularmente" :items="[{title: 'Sim', value: true}, {title: 'Não', value: false}]" placeholder="Selecione" label="Pratica atividade física regularmente? *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || 'Campo obrigatório']" />
+                  <VSelect v-model="form.praticaAtividadeFisicaRegularmente" :items="[{title: t('cadastrarAtleta.physicalData.yes'), value: true}, {title: t('cadastrarAtleta.physicalData.no'), value: false}]" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.physicalData.regularActivity')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
               </VRow>
             </v-form>
@@ -66,23 +66,23 @@
                           <v-icon color="white" size="20">mdi-heart-pulse</v-icon>
                         </div>
                         <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                          Histórico de Saúde
+                          {{ t('cadastrarAtleta.healthHistory.title') }}
                         </h2>
                       </div>
                       <div class="mb-5">
-                        <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições abaixo?</span>
+                        <span class="text-black font-weight-medium">{{ t('cadastrarAtleta.healthHistory.diagnosedQuestion') }}</span>
                       </div>
                       <div class="" v-if="form.historicoSaudeDoencas.length <= 0">
                         <v-chip color="error" class="text-red text-subtitle-2">
-                          Marque uma das opções abaixo para prosseguir:
+                          {{ t('cadastrarAtleta.healthHistory.selectOneOption') }}
                         </v-chip>
                       </div>
-                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="form.historicoSaudeDoencas" :label="item.descricao" :value="item.id" hide-details density="compact" color="success" @change="handleDoencaChange(item)" />
+                      <v-checkbox v-for="(item, index) in doencasOrdenadas" :key="index" v-model="form.historicoSaudeDoencas" :label="$t('cadastrarAtleta.healthHistory.doencas.' + getDoencasKey(item.descricao))" :value="item.id" hide-details density="compact" color="success" @change="handleDoencaChange(item)" />
 
                       <VRow>
                         <VCol cols="12">
                           <div class="mt-5 d-flex flex-column">
-                            <span class="text-black">Outras condições médicas: (Opcional)</span>
+                            <span class="text-black">{{ t('cadastrarAtleta.healthHistory.otherConditions') }}</span>
                             <v-textarea v-model="form.outrasCondicoesMedicas" class="text-black custom-field" color="black" no-resize rows="2" variant="outlined" rounded="lg" bg-color="white" />
                           </div>
                         </VCol>
@@ -99,21 +99,21 @@
                           <v-icon color="white" size="20">mdi-stethoscope</v-icon>
                         </div>
                         <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                          Sinais e Sintomas Recentes
+                          {{ t('cadastrarAtleta.healthHistory.recentSymptoms') }}
                         </h2>
                       </div>
                       <div class="mb-5">
-                        <span class="text-black font-weight-medium">Já foi diagnosticado com alguma das condições abaixo?</span>
+                        <span class="text-black font-weight-medium">{{ t('cadastrarAtleta.healthHistory.diagnosedQuestion') }}</span>
                       </div>
                       <div class="" v-if="form.historicoSaudeSintomas.length <= 0">
                         <v-chip class="text-red text-subtitle-2">
-                          Marque uma das opções abaixo para prosseguir:
+                          {{ t('cadastrarAtleta.healthHistory.selectOneOption') }}
                         </v-chip>
                       </div>
-                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="form.historicoSaudeSintomas" :label="item.descricao" :value="item.id" hide-details density="compact" color="success" @change="handleSintomaChange(item)" />
+                      <v-checkbox v-for="(item, index) in sintomasOrdenados" :key="index" v-model="form.historicoSaudeSintomas" :label="$t('cadastrarAtleta.healthHistory.sintomas.' + getSintomasKey(item.descricao))" :value="item.id" hide-details density="compact" color="success" @change="handleSintomaChange(item)" />
 
                       <div class="mt-5 d-flex flex-column">
-                        <span class="text-black">Toma algum medicamento contínuo? Se sim, qual? (Opcional)</span>
+                        <span class="text-black">{{ t('cadastrarAtleta.healthHistory.continuousMedication') }}</span>
                         <v-textarea v-model="form.tomaMedicamentoContinuo" class="text-black custom-field" color="black" no-resize rows="2" variant="outlined" rounded="lg" bg-color="white" />
                       </div>
                     </v-col>
@@ -129,18 +129,18 @@
                         <v-icon color="white" size="20">mdi-trophy</v-icon>
                       </div>
                       <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                        Histórico Esportivo
+                        {{ t('cadastrarAtleta.sportsHistory.title') }}
                       </h2>
                     </div>
                     <VRow>
                       <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                        <VSelect v-model="form.objetivo" :items="[{title: 'Saúde Geral', value: 'Saúde Geral'}, {title: 'Melhorar a estética corporal', value: 'Melhorar a estética corporal'}, {title: 'Condicionamento Físico e a Disposição', value: 'Condicionamento Físico e a Disposição'}, {title: 'Outros', value: 'Outros'}]" item-title="title" item-value="value" placeholder="Selecione" label="Objetivo com a atividade física *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || 'Campo obrigatório']" />
+                        <VSelect v-model="form.objetivo" :items="[{title: t('cadastrarAtleta.sportsHistory.objectiveOptions.generalHealth'), value: 'Saúde Geral'}, {title: t('cadastrarAtleta.sportsHistory.objectiveOptions.aesthetics'), value: 'Melhorar a estética corporal'}, {title: t('cadastrarAtleta.sportsHistory.objectiveOptions.conditioning'), value: 'Condicionamento Físico e a Disposição'}, {title: t('cadastrarAtleta.sportsHistory.objectiveOptions.others'), value: 'Outros'}]" item-title="title" item-value="value" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.sportsHistory.objective')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                       </VCol>
                       <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                        <VSelect v-model="form.participouProvaAntes" :items="[{title: 'Sim', value: true}, {title: 'Não', value: false}]" placeholder="Selecione" label="Já participou de provas antes? *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || 'Campo obrigatório']" />
+                        <VSelect v-model="form.participouProvaAntes" :items="[{title: t('cadastrarAtleta.physicalData.yes'), value: true}, {title: t('cadastrarAtleta.physicalData.no'), value: false}]" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.sportsHistory.participatedBefore')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || t('cadastrarAtleta.physicalData.required')]" />
                       </VCol>
                       <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                        <VTextField v-model="form.ultimaProva" label="Se sim, qual a última? (Opcional)" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
+                        <VTextField v-model="form.ultimaProva" :label="t('cadastrarAtleta.sportsHistory.lastRace')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                       </VCol>
                     </VRow>
                   </div>
@@ -158,22 +158,22 @@
                       <v-icon color="white" size="20">mdi-check-circle</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-                      Finalização
+                      {{ t('cadastrarAtleta.finalization.title') }}
                     </h2>
                   </div>
                 </VCol>
 
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VSelect v-model="form.participouProvaAntes" :items="[{title: 'Sim', value: true}, {title: 'Não', value: false}]" placeholder="Selecione" label="Já participou de provas antes? *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || 'Campo obrigatório']" />
+                  <VSelect v-model="form.participouProvaAntes" :items="[{title: t('cadastrarAtleta.physicalData.yes'), value: true}, {title: t('cadastrarAtleta.physicalData.no'), value: false}]" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.sportsHistory.participatedBefore')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VTextField v-model="form.ultimaProva" label="Se sim, qual a última? (Opcional)" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
+                  <VTextField v-model="form.ultimaProva" :label="t('cadastrarAtleta.sportsHistory.lastRace')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VSelect v-model="form.fezCheckupUltimosMeses" :items="[{title: 'Sim', value: true}, {title: 'Não', value: false}]" placeholder="Selecione" label="Fez check-up nos últimos 12 meses? *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || 'Campo obrigatório']" />
+                  <VSelect v-model="form.fezCheckupUltimosMeses" :items="[{title: t('cadastrarAtleta.physicalData.yes'), value: true}, {title: t('cadastrarAtleta.physicalData.no'), value: false}]" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.finalization.recentCheckup')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VFileInput v-model="formPdfImage" prepend-icon="" label="Anexar exames (PDF ou imagem): (Opcional)" variant="outlined" rounded="lg" bg-color="white" class="custom-field" accept=".pdf, image/*" @update:model-value="handleFileChange" />
+                  <VFileInput v-model="formPdfImage" prepend-icon="" :label="t('cadastrarAtleta.finalization.attachExams')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" accept=".pdf, image/*" @update:model-value="handleFileChange" />
                 </VCol>
                 <VCol class="my-0 py-0 font-weight-medium" cols="12" v-if="formPdfImage.length">
                   <div v-for="(file, index) in formPdfImage" :key="index">
@@ -187,25 +187,25 @@
                   </div>
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <VSelect v-model="form.possuiSmartwatch" :items="[{title: 'Sim', value: true}, {title: 'Não', value: false}]" placeholder="Selecione" label="Possui smartwatch ou app de treino? *" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || 'Campo obrigatório']" />
+                  <VSelect v-model="form.possuiSmartwatch" :items="[{title: t('cadastrarAtleta.physicalData.yes'), value: true}, {title: t('cadastrarAtleta.physicalData.no'), value: false}]" :placeholder="t('cadastrarAtleta.physicalData.selectPlaceholder')" :label="t('cadastrarAtleta.finalization.hasSmartwatch')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" :rules="[v => v !== null || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
                 <VCol class="my-0 px-3" cols="12">
-                  <VCheckbox v-model="form.integrarFitCertify" label="Desejo integrar meus dados com a FitCertify365 *" color="success" class="font-weight-medium" :rules="[v => !!v || 'Campo obrigatório']" />
+                  <VCheckbox v-model="form.integrarFitCertify" :label="t('cadastrarAtleta.finalization.integrateFitCertify')" color="success" class="font-weight-medium" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" />
                 </VCol>
 
                 <VCol cols="12">
-                  <v-checkbox v-model="form.declaraVeracidade" color="success" class="font-weight-medium" :rules="[v => !!v || 'Campo obrigatório']" label="Declaro que as informações acima são verdadeiras e autorizo a análise para fins de certificação. *" />
+                  <v-checkbox v-model="form.declaraVeracidade" color="success" class="font-weight-medium" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" :label="t('cadastrarAtleta.finalization.declareTruth')" />
                 </VCol>
                 <VCol cols="12">
-                  <v-checkbox v-model="form.aceitaCompartilharDados" color="success" class="font-weight-medium" :rules="[v => !!v || 'Campo obrigatório']" label="Aceito compartilhar meus dados com as organizações dos eventos que eu participar. *" />
+                  <v-checkbox v-model="form.aceitaCompartilharDados" color="success" class="font-weight-medium" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]" :label="t('cadastrarAtleta.finalization.shareData')" />
                 </VCol>
                 <VCol class="my-2 py-0 font-weight-medium" cols="12">
-                  <v-checkbox v-model="form.aceitaTermos" color="success" class="font-weight-medium" :rules="[v => !!v || 'Campo obrigatório']">
+                  <v-checkbox v-model="form.aceitaTermos" color="success" class="font-weight-medium" :rules="[v => !!v || t('cadastrarAtleta.physicalData.required')]">
                     <template #label>
                       <span class="font-weight-medium">
-                        Li e concordo com os
+                        {{ t('cadastrarAtleta.finalization.acceptTerms') }}
                         <span class="cursor-pointer text-decoration-underline" style="color: #1E88E5" @click="showModalTerms = true">
-                          termos de Uso e Política de Privacidade*</span>.
+                          {{ t('cadastrarAtleta.finalization.termsLink') }}</span>.
                       </span>
                     </template>
                   </v-checkbox>
@@ -217,10 +217,10 @@
           <template #actions="{ next, prev }">
             <div class="pa-6 d-flex justify-space-between">
               <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#1E88E5" rounded="xl">
-                <v-icon start>mdi-arrow-left</v-icon>Voltar
+                <v-icon start>mdi-arrow-left</v-icon>{{ t('cadastrarAtleta.buttons.back') }}
               </VBtn>
-              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitAtleta() : (validateStep() ? next() : toast.error('Preencha todos os campos obrigatórios'))" color="#1E88E5" class="text-white" rounded="xl">
-                {{ step === 3 ? 'Cadastrar' : 'Próximo' }}
+              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitAtleta() : (validateStep() ? next() : toast.error(t('cadastrarAtleta.toasts.fillRequired')))" color="#1E88E5" class="text-white" rounded="xl">
+                {{ step === 3 ? t('cadastrarAtleta.buttons.register') : t('cadastrarAtleta.buttons.next') }}
                 <v-icon end>{{ step === 3 ? 'mdi-check' : 'mdi-arrow-right' }}</v-icon>
               </VBtn>
             </div>
@@ -233,7 +233,7 @@
     <v-dialog v-model="showModalTerms" width="600" height="800">
       <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
         <v-card-title class="text-center text-h5" style="color: #1E88E5; white-space: normal; word-wrap: break-word;">
-          Política de Privacidade, Termos e Condições de Uso e Proteção de Dados
+          {{ t('cadastrarAtleta.termsModal.title') }}
         </v-card-title>
         <v-card-text>
           <p class="mb-5"><strong>1. Introdução</strong></p>
@@ -265,7 +265,7 @@
         </v-card-text>
         <v-card-actions>
           <v-btn class="w-100 text-white font-weight-bold" @click="maisTermos" height="50px" rounded="lg" style="background-color: #1E88E5">
-            Ler Mais
+            {{ t('cadastrarAtleta.termsModal.readMore') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -278,10 +278,13 @@ import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { vMaska } from 'maska/vue'
 import { toast } from 'vue3-toastify'
+import { useI18n } from 'vue-i18n'
 import AtletaService from '@/services/cadastro-service/atleta-service'
 import DoencaService from '@/services/cadastro-service/doenca-service'
 import SintomaService from '@/services/cadastro-service/sintoma-service'
 import { getErrorMessage } from '@/common/error.utils'
+
+const { t } = useI18n()
 
 const router = useRouter()
 const step = ref(1)
@@ -294,6 +297,30 @@ const form = ref({
   praticaAtividadeFisicaRegularmente: null, fezCheckupUltimosMeses: null, possuiSmartwatch: null,
   integrarFitCertify: false, declaraVeracidade: false, aceitaCompartilharDados: false, aceitaTermos: false
 })
+
+const getDoencasKey = (descricao) => {
+  const map =  {
+    'Hipertensão': 'item_1',
+    'Diabetes': 'item_2',
+    'Asma': 'item_3',
+    'Colesterol alto': 'item_4',
+    'Problemas cardíacos': 'item_5',
+    'Nenhuma das anteriores': 'item_6'
+  }
+  return map[descricao] || descricao
+}
+
+const getSintomasKey = (descricao) => {
+  const map = {
+    'Dor no peito': 'item_1',
+    'Falta de ar': 'item_2',
+    ' Tontura ou desmaios': 'item_3',
+    'Inchaço nas pernas': 'item_4',
+    'Cansaço excessivo': 'item_5',
+    'Nenhum desses': 'item_6'
+  }
+  return map[descricao] || descricao
+}
 
 const doencas = ref([])
 const sintomas = ref([])
@@ -420,10 +447,10 @@ const submitAtleta = async () => {
 
     await AtletaService.createAtletaLogado(formData)
     localStorage.removeItem('atletaForm')
-    toast.success('Atleta cadastrado com sucesso!')
+    toast.success(t('cadastrarAtleta.toasts.registerSuccess'))
     router.push('/Atleta-Screens/registrosMedicos')
   } catch (error) {
-    toast.error(getErrorMessage(error, 'Erro ao cadastrar atleta'))
+    toast.error(getErrorMessage(error, t('cadastrarAtleta.toasts.registerError')))
   } finally {
     loading.value = false
   }

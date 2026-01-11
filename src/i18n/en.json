@@ -1,4 +1,2513 @@
 {
-    "hello": "Hello",
-    "welcome": "Welcome"
+  "appBar": {
+    "titleEvents": "Events",
+    "titleConsultas": "Appointments",
+    "titleRegistersDocs": "Medical Records",
+    "titleSearchDoctor": "Find Doctor",
+    "titleMyDoctors": "My Doctors",
+    "titleProfile": "Profile",
+    "titleEditProfile": "Edit Profile",
+    "titleDoctorDetails": "Doctor Details",
+    "titlePhysioDetails": "Physiotherapist Details",
+    "titleCoachDetails": "Coach Details",
+    "titleMyPlan": "My Plan",
+    "titleOverview": "Overview",
+    "titleMyTrainings": "My Trainings",
+
+    "titleCalendar": "Calendar",
+    "titlePendingConsultations": "Pending Appointments",
+    "titlePatientList": "Patient List",
+    "titleRecentPatients": "Recent Patients",
+    "titlePatientDetails": "Patient Details",
+    "titlePublicProfile": "Public Profile",
+    "titleEditPublicProfile": "Edit Public Profile",
+
+    "titleAthleteDetails": "Athlete Details",
+
+    "titleConnections": "Connections",
+    "titleCertificates": "Certificates",
+    "titleNotifications": "Notifications",
+    "titleExerciseLibrary": "Exercise Library",
+    "titleSettings": "Settings",
+    "titleSummary": "Summary",
+    "titleAddConsultation": "Add Appointment",
+    "titleAnalytics": "Analytics",
+    "titleArticles": "Articles",
+    "titleCreateTraining": "Create Training",
+    "titleCoupons": "Coupons",
+    "titleManageCodes": "Manage Codes",
+    "titleChangePassword": "Change Password",
+    "titleUsers": "Users",
+    "titleValidateCertificate": "Validate Certificate",
+    "titleHelpCenter": "Help Center",
+    "titlePlans": "Plans",
+
+    "titleRegisterAthlete": "Register Athlete",
+    "titleRegisterDoctor": "Register Doctor",
+    "titleRegisterPhysio": "Register Physiotherapist",
+    "titleRegisterCoach": "Register Coach",
+    "titleRegisterAdmin": "Register Administrator",
+
+    "role": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    },
+    "actions": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  },
+
+    "trocarPerfil": {
+      "title": "Choose Your Profile",
+      "subtitle": "Select the profile you want to access",
+      "warningSuccess": "Profile changed successfully!",
+      "warningError": "Error changing profile!",
+      "warning": "You are already on this profile.",
+      "text": "Access with",
+      "roles": {
+        "atleta": "Athlete",
+        "medico": "Doctor",
+        "fisioterapeuta": "Physiotherapist",
+        "treinador": "Coach"        
+      },
+      "buttons": {
+        "cancel": "Cancel",
+        "trocarPerfil": "Switch Profile"
+      }
+    },
+
+  "drawerNavigator": {
+    "roles": {
+      "treinador": "Coach",
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist"
+    },
+    "menu": {
+      "consultas": "Appointments",
+      "calendario": "Calendar",
+      "pendentes": "Pending",
+      "resumo": "Summary",
+      "saude": "Health",
+      "eventos": "Events",
+      "conexoes": "Connections",
+      "registrosMedicos": "Medical Records",
+      "certificados": "Certificates",
+      "notificacoes": "Notifications",
+      "notificacaoGeral": "General Notification",
+      "medicos": "Doctors",
+      "buscarMedico": "Find Doctor",
+      "meusMedicos": "My Doctors",
+      "bibliotecaExercicios": "Exercise Library",
+      "pacientes": "Patients",
+      "listaPacientes": "Patient List",
+      "recentes": "Recent"
+    },
+    "account": {
+      "minhaConta": "My Account",
+      "perfil": "Profile",
+      "novoPerfil": "New Profile",
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    },
+    "footer": {
+      "configuracoes": "Settings",
+      "sair": "Logout"
+    }
+  },
+
+  "eventos": {
+    "title": "Events",
+    "searchTitle": "Search by Title",
+    "searchLocation": "Search by Location",
+    "filterMonth": "Filter by Month",
+    "labelTitle": "Title",
+    "labelLocation": "Location",
+    "labelMonth": "Month",
+    "noEvents": "No events found",
+    "noEventsDescription": "There are no events available at the moment",
+    "viewDetails": "View Details",
+    "months": {
+      "january": "January",
+      "february": "February",
+      "march": "March",
+      "april": "April",
+      "may": "May",
+      "june": "June",
+      "july": "July",
+      "august": "August",
+      "september": "September",
+      "october": "October",
+      "november": "November",
+      "december": "December"
+    },
+    "details": {
+      "loading": "Loading event...",
+      "sendCertificate": "Send Certificate",
+      "eventWebsite": "Event Website",
+      "eventDate": "Event Date",
+      "location": "Location",
+      "notInformed": "Not informed",
+      "modality": "Modality",
+      "distances": "Distances",
+      "aboutEvent": "About the Event",
+      "noDescription": "Description not available for this event.",
+      "organization": "Organization",
+      "notFound": "Event not found",
+      "notFoundDescription": "The requested event does not exist or has been removed",
+      "backToList": "Back to List",
+      "termsTitle": "Terms of Responsibility",
+      "sendTitle": "Certificate Submission",
+      "almostThere": "Almost there!",
+      "confirmMessage": "Confirm the submission of your certificate so we can validate your participation in this event and record your attendance.",
+      "cancel": "Cancel",
+      "confirmSend": "Confirm Submission"
+    }
+  },
+
+  "consultas": {
+    "title": "My Appointments",
+    "filters": {
+      "all": "All Appointments",
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "pending": "Pending",
+      "refused": "Refused",
+      "cancelled": "Cancelled"
+    },
+    "status": {
+      "Marcado": "Scheduled",
+      "Pendente": "Pending",
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled"
+    },
+    "noConsultations": "No appointments found",
+    "cancelButton": "Cancel",
+    "modal": {
+      "title": "Cancel Appointment?",
+      "message": "This action cannot be undone. The appointment will be permanently cancelled.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    }
+  },
+  "login": {
+    "titleLeft": "Access your account",
+    "titleRight": "Welcome back",
+    "subtitleRight": "Log in to access your account and continue your health and performance journey.",
+    "email": "E-mail",
+    "emailPlaceholder": "example@domain.com",
+    "senha": "Password",
+    "tipoPerfil": "Profile type",
+    "tipoPerfilPlaceholder": "Select profile type",
+    "campoObrigatorio": "Required field",
+    "manterLogin": "Keep me logged in",
+    "esqueciSenha": "Forgot your password?",
+    "button": "Continue",
+    "buttonEnter": "Enter",
+    "text": "Don't have an account?",
+    "link": "Create account",
+    "toastError1": "Please fill out the form correctly",
+    "toastError2": "Invalid credentials",
+    "toastError3": "Error logging in",
+    "toastErrorAdmin": "This panel is exclusive for doctors and athletes",
+    "toastErrorMedicoCRM": "Doctor awaiting CRM validation",
+    "toastSuccess1": "Valid credentials! Select your profile.",
+    "forgotPassword": {
+      "title": "Recover Password",
+      "subtitle": "Enter your email and we will send you a link to reset your password.",
+      "button": "Send recovery link",
+      "toastEmailError1": "Email not found in the system",
+      "toastEmailError1_2": "Error verifying email:",
+      "toastEmailError2_2": "Unknown error",
+      "toastEmailSuccess1": "Email found! Click send to receive the verification code.",
+      "toastSuccessCode": "Code sent successfully!",
+      "toastErrorCode1_2": "Error sending code:",
+      "toastErrorCode2_2": "Unknown error"
+    },
+    "roles": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    }
+  },
+
+  "solicitacoesConexoes": {
+    "title": "Connection Requests",
+    "subtitle": "Manage your connections with professionals and athletes",
+    "manageCodesButton": "Manage Codes",
+    "tabs": {
+      "pending": "Pending",
+      "sent": "Sent",
+      "myConnections": "My Connections"
+    },
+    "filterByType": "Filter by type",
+    "filterOptions": {
+      "all": "All",
+      "physiotherapist": "Physiotherapist",
+      "coach": "Coach"
+    },
+    "user": "User",
+    "professional": "Professional",
+    "athlete": "Athlete",
+    "acceptButton": "Accept",
+    "refuseButton": "Refuse",
+    "unlinkButton": "Unlink",
+    "profileButton": "Profile",
+    "sentAt": "Sent on",
+    "connectedSince": "Connected since",
+    "status": {
+      "Pendente": "Pending",
+      "Aceita": "Accepted",
+      "Rejeitada": "Rejected"
+    },
+    "emptyStates": {
+      "noPending": "No pending requests",
+      "noPendingDescription": "You have no connection requests at the moment.",
+      "noSent": "No sent requests",
+      "noSentDescription": "You haven't sent any connection requests yet.",
+      "noConnections": "No active connections",
+      "noConnectionsDescription": "You don't have any established connections yet."
+    },
+    "modals": {
+      "accept": {
+        "title": "Accept Request",
+        "message": "Are you sure you want to accept the connection request from",
+        "cancel": "Cancel",
+        "confirm": "Accept"
+      },
+      "refuse": {
+        "title": "Refuse Request",
+        "message": "Are you sure you want to refuse the connection request from",
+        "cancel": "Cancel",
+        "confirm": "Refuse"
+      },
+      "unlink": {
+        "title": "Confirm Unlinking",
+        "message": "Are you sure you want to unlink from",
+        "warning": "This action cannot be undone and you will need to request a new connection if you want to reconnect.",
+        "cancel": "Cancel",
+        "confirm": "Unlink"
+      }
+    },
+    "toasts": {
+      "errorLoadPending": "Error loading pending requests",
+      "errorLoadSent": "Error loading sent requests",
+      "successAccept": "Request accepted successfully!",
+      "errorAccept": "Error accepting request",
+      "infoRefuse": "Request refused",
+      "errorRefuse": "Error refusing request",
+      "successUnlink": "Connection unlinked successfully",
+      "errorUnlink": "Error unlinking connection"
+    }
+  },
+
+  "gerenciarCodigos": {
+    "title": "Manage Codes",
+    "viewConnectionsButton": "View My Connections",
+    "yourCode": {
+      "title": "Your Invitation Code",
+      "description": "Share this code with professionals so they can connect with you.",
+      "yourCodeLabel": "Your code:",
+      "shareButton": "Share Code",
+      "noCode": "You don't have an invitation code yet",
+      "generateButton": "Generate Code"
+    },
+    "connectProfessional": {
+      "title": "Connect with Professional",
+      "description": "Enter the professional's invitation code to send a connection request.",
+      "professionalType": "Professional type:",
+      "physiotherapist": "Physiotherapist",
+      "coach": "Coach",
+      "inputLabel": "Enter the code",
+      "sendButton": "Send"
+    },
+    "toasts": {
+      "successGenerate": "Code generated successfully!",
+      "errorGenerate": "Error generating code",
+      "successShare": "Code shared successfully!",
+      "successCopy": "Code copied to clipboard!",
+      "warningInvalidCode": "Enter a valid code",
+      "successRequest": "Request sent successfully!",
+      "errorRequest": "Error inserting code"
+    },
+    "shareMessage": "🔗 FitCertify Connection Code\nCode: {code}\n\nUse this code to connect with me on the FitCertify platform!",
+    "shareTitle": "FitCertify Invitation Code"
+  },
+
+  "registrosMedicos": {
+    "title": "Medical Records",
+    "subtitle": "Complete history of your completed appointments",
+    "badge": "Medical History",
+    "medicalHistory": "Medical History",
+    "consultRegistered": "appointment registered",
+    "consultsRegistered": "appointments registered",
+    "noHistory": "No medical history found",
+    "doctorNotInformed": "Doctor not informed",
+    "specializationNotInformed": "Specialization not informed",
+    "diagnosis": "Diagnosis",
+    "notInformed": "Not informed",
+    "prescribedMedications": "Prescribed Medications",
+    "situation": "Situation"
+  },
+
+  "certificados": {
+    "title": "Certificates",
+    "certificateActive": "Your Certificate is Active",
+    "certificateInactive": "Certificate Inactive or Expired",
+    "uploadDate": "Upload Date",
+    "validity": "Validity",
+    "athlete": "Athlete",
+    "doctor": "Doctor",
+    "name": "Name",
+    "email": "Email",
+    "birthDate": "Birth Date",
+    "age": "Age",
+    "years": "years",
+    "phone": "Phone",
+    "crm": "CRM",
+    "specialization": "Specialization",
+    "viewQRCode": "View QR Code",
+    "templatesTitle": "Templates generated for partner races",
+    "certificateInactiveOrExpired": "Certificate inactive or expired",
+    "noTemplateFound": "No template found",
+    "generalTemplates": "General Templates",
+    "eventTemplates": "Event Templates",
+    "partnerRaceName": "Partner race name",
+    "downloadButton": "Download",
+    "qrCodeTitle": "Certificate QR Code",
+    "qrCodeNotAvailable": "QR Code not available",
+    "qrCodeDescription": "Scan this code to verify the certificate's authenticity.",
+    "validateCertificate": "Validate Certificate",
+    "closeButton": "Close"
+  },
+
+  "notificacoes": {
+    "title": "Notifications",
+    "subtitle": "Track all your important notifications",
+    "total": "total",
+    "unread": "unread",
+    "yourNotifications": "Your Notifications",
+    "markAllAsRead": "Mark all as read",
+    "new": "New",
+    "noNotifications": "No notifications",
+    "noNotificationsDescription": "You have no notifications at the moment."
+  },
+
+  "medicos": {
+    "title": "Find a Doctor",
+    "subtitle": "Find a partner doctor near you and schedule your in-person appointment",
+    "completeList": "Complete list",
+    "alreadyHaveDoctor": "I already have my doctor",
+    "proximitySearch": "Proximity Search",
+    "proximityDescription": "Enter your ZIP code to find doctors near you",
+    "yourZipCode": "Your ZIP Code",
+    "searchButton": "Search",
+    "foundDoctors": "Found {count} nearby doctors sorted by distance",
+    "invalidZipCode": "Invalid or not found ZIP code",
+    "errorSearchingDoctors": "Error searching doctors by distance",
+    "distance": "{distance} km away",
+    "moreDetails": "More Details",
+    "location": "Location",
+    "officeZipCode": "Office ZIP code",
+    "addressFound": "Address Found:",
+    "openInGoogleMaps": "Open in Google Maps",
+    "visualization": "Visualization",
+    "interactiveMap": "Interactive Map",
+    "mapDescription": "Click on a doctor's 📍 icon or enter a ZIP code<br>to view the location on the map",
+    "crm": "CRM"
+  },
+
+  "medicoDetalhes": {
+    "reviews": "reviews",
+    "yearsExperience": "{years} years of experience",
+    "mainFocus": "Main Focus:",
+    "mainFocusTitle": "Main Focus",
+    "scheduleAppointment": "Schedule Appointment",
+    "noSchedulesAvailable": "No Schedules Available",
+    "profile": "Profile",
+    "career": "Career",
+    "highlights": "Highlights",
+    "yourAppointments": "Your Appointments",
+    "loadingAppointments": "Loading appointments...",
+    "diagnosis": "Diagnosis",
+    "noAppointmentsFound": "No appointments found",
+    "noAppointmentsDescription": "You don't have any appointments with this doctor yet.",
+    "scheduleAppointmentTitle": "Schedule Appointment",
+    "importantInfo": "Important Information",
+    "scheduleInfo": "You can schedule appointments but you have to wait for the doctor to approve, as soon as you make the appointment a notification will be sent to them.",
+    "doctorNoSchedules": "Doctor without configured schedules",
+    "doctorNoSchedulesDescription": "This doctor has not yet configured their office hours.",
+    "availableSchedules": "Available Schedules",
+    "available": "available",
+    "occupied": "occupied",
+    "cancel": "Cancel",
+    "confirmSchedule": "Confirm Schedule",
+    "scheduleSuccess": "Appointment request sent!",
+    "scheduleError": "Error scheduling appointment: {error}",
+    "unknownError": "Unknown error"
+  },
+
+  "meusMedicos": {
+    "title": "My Doctors",
+    "subtitle": "Schedule a new appointment with your trusted partner doctors",
+    "myDoctors": "My Doctors",
+    "searchNewDoctors": "Search for new doctors",
+    "moreDetails": "More Details"
+  },
+
+  "perfilAtleta": {
+    "profileTitle": "Athlete Profile",
+    "activePlan": "Active Plan",
+    "editProfile": "Edit Profile",
+    "health": "Health",
+    "healthMonitoring": "Health Monitoring",
+    "lastUpdate": "Last Update: Today",
+    "healthIndicators": "Health Indicators",
+    "trackParameters": "Track your main parameters",
+    "heartRate": "Heart Rate",
+    "bloodPressure": "Blood Pressure",
+    "bodyWeight": "Body Weight",
+    "temperature": "Temperature",
+    "noData": "No data",
+    "personalInfo": "Personal Information",
+    "personalData": "Personal Data",
+    "registrationInfo": "Registration Information",
+    "registrationData": "Registration Data",
+    "athletePersonalInfo": "Athlete's personal information",
+    "email": "Email",
+    "phone": "Phone",
+    "cpf": "CPF",
+    "birthDate": "Birth Date",
+    "height": "Height",
+    "notInformed": "Not informed"
+  },
+
+  "fisioterapeutaDetalhes": {
+    "reviews": "reviews",
+    "yearsExperience": "{years} years of experience",
+    "mainFocus": "Main Focus:",
+    "mainFocusTitle": "Main Focus",
+    "scheduleAppointment": "Schedule Appointment",
+    "noSchedulesAvailable": "No Schedules Available",
+    "profile": "Profile",
+    "career": "Career",
+    "highlights": "Highlights",
+    "scheduleAppointmentTitle": "Schedule Appointment",
+    "importantInfo": "Important Information",
+    "scheduleInfo": "You can schedule appointments but you have to wait for the physiotherapist to approve, as soon as you make the appointment a notification will be sent to them.",
+    "physioNoSchedules": "Physiotherapist without configured schedules",
+    "physioNoSchedulesDescription": "This physiotherapist has not yet configured their office hours.",
+    "availableSchedules": "Available Schedules",
+    "available": "available",
+    "occupied": "occupied",
+    "cancel": "Cancel",
+    "confirmSchedule": "Confirm Schedule",
+    "scheduleSuccess": "Appointment request sent!",
+    "scheduleError": "Error scheduling appointment: {error}",
+    "unknownError": "Unknown error"
+  },
+
+  "treinadorDetalhes": {
+    "reviews": "reviews",
+    "coach": "Coach",
+    "years": "years",
+    "code": "Code",
+    "contacts": "Contacts",
+    "notFound": "Coach not found",
+    "notFoundDescription": "The requested coach does not exist or has been removed",
+    "back": "Back"
+  },
+
+  "agendaFisioterapeutica": {
+    "title": "Physiotherapy Schedule",
+    "newAppointment": "New Appointment",
+    "calendar": "Calendar",
+    "appointments": "Appointments",
+    "today": "Today",
+    "viewMore": "View more",
+    "noAppointments": "No appointments on this day",
+    "scheduleAppointment": "Schedule Appointment",
+    "athleteName": "Athlete Name",
+    "externalPatientName": "External Patient Name",
+    "externalAppointment": "External Appointment",
+    "importantInfo": "Important Information",
+    "scheduleInfo": "You can schedule here both for previous times for registration and for new times. External Patients and FitCertify365. If it's FitCertify, be careful as they will be notified in their app.",
+    "availableSchedules": "Available Schedules",
+    "available": "available",
+    "occupied": "occupied",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "appointmentSuccess": "Appointment scheduled successfully!",
+    "appointmentError": "Error scheduling appointment:",
+    "unknownError": "Unknown error",
+    "external": "External",
+    "fitcertify": "FitCertify365",
+    "days": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "status": {
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled",
+      "Marcado": "Scheduled",
+      "Pendente": "Pending"
+    }
+  },
+
+  "consultasFisioterapeuta": {
+    "title": "My Appointments",
+    "externalPatient": "External Patient",
+    "finalize": "Finalize",
+    "cancel": "Cancel",
+    "noAppointments": "No appointments found",
+    "cancelModal": {
+      "title": "Cancel Appointment?",
+      "message": "This action cannot be undone. The appointment will be permanently cancelled.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "finalizeModal": {
+      "title": "Finalize Appointment",
+      "diagnosis": "Diagnosis",
+      "diagnosisRequired": "Diagnosis is required",
+      "diagnosisPlaceholder": "Describe the diagnosis...",
+      "medications": "Prescribed Medications",
+      "medicationsPlaceholder": "Describe the prescribed medications...",
+      "cancel": "Cancel",
+      "finalize": "Finalize"
+    },
+    "toast": {
+      "cancelSuccess": "Appointment cancelled successfully!",
+      "cancelError": "Error cancelling appointment:",
+      "finalizeSuccess": "Appointment finalized successfully!",
+      "finalizeError": "Error finalizing appointment:",
+      "unknownError": "Unknown error"
+    }
+  },
+
+  "consultasPendentesFisioterapeuta": {
+    "title": "Pending Appointments",
+    "subtitle": "{count} appointments awaiting approval",
+    "externalPatient": "External Patient",
+    "fitcertify": "FitCertify365",
+    "pending": "Pending",
+    "accept": "Accept",
+    "refuse": "Refuse",
+    "noAppointments": "No pending appointments",
+    "toast": {
+      "acceptSuccess": "Appointment accepted successfully!",
+      "acceptError": "Error accepting appointment:",
+      "refuseSuccess": "Appointment refused successfully!",
+      "refuseError": "Error refusing appointment:",
+      "unknownError": "Unknown error"
+    }
+  },
+
+  "exercicios": {
+    "title": "Exercise Library",
+    "subtitle": "Manage and view all exercises",
+    "addExercise": "Add Exercise",
+    "searchPlaceholder": "Search exercise by name or description...",
+    "loading": "Loading exercises...",
+    "noExercises": "No exercises found",
+    "noExercisesDescription": "Adjust your search or browse through pages",
+    "noDescription": "No description",
+    "page": "Page",
+    "of": "of",
+    "createModal": {
+      "title": "Create Exercise",
+      "namePlaceholder": "Exercise name",
+      "selectTrainingType": "Select training type",
+      "descriptionLabel": "Description (optional)",
+      "descriptionPlaceholder": "Enter a description for the exercise...",
+      "saving": "Saving...",
+      "save": "Save Exercise"
+    },
+    "trainingTypeModal": {
+      "title": "Select Training Type"
+    },
+    "detailsModal": {
+      "title": "Exercise Details",
+      "status": "Status",
+      "active": "Active",
+      "inactive": "Inactive",
+      "createdAt": "Created At"
+    },
+    "toast": {
+      "nameRequired": "Fill in the exercise name",
+      "trainingTypeRequired": "Select the training type",
+      "createSuccess": "Exercise created successfully!",
+      "createError": "Error creating exercise",
+      "loadError": "Error loading exercises",
+      "loadTrainingTypesError": "Error loading training types"
+    },
+    "tiposTreino": {
+      "abdomen": "Abs",
+      "antebraco": "Forearms",
+      "braco": "Arms",
+      "cardio": "Cardio",
+      "costas": "Back",
+      "funcional": "Functional",
+      "gluteo": "Glutes",
+      "ombro": "Shoulders",
+      "peito": "Chest",
+      "perna": "Legs",
+      "triceps": "Triceps"
+    }
+  },
+
+  "perfilFisioterapeuta": {
+    "profileType": "Physiotherapist Profile",
+    "editProfile": "Edit Profile",
+    "notInformed": "Not informed",
+    "personalInfo": {
+      "title": "Personal Information",
+      "email": "Email",
+      "phone": "Phone",
+      "cpf": "CPF",
+      "birthDate": "Birth Date"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "mainFocus": "Main Focus",
+      "professionalProfile": "Professional Profile",
+      "career": "Professional Career",
+      "achievements": "Main Achievements",
+      "workDays": "Work Days",
+      "workHours": "Work Hours"
+    },
+    "address": {
+      "title": "Address",
+      "street": "Street",
+      "number": "Number",
+      "city": "City",
+      "zipCode": "ZIP Code",
+      "neighborhood": "Neighborhood",
+      "state": "State"
+    }
+  },
+
+  "editarPerfilFisioterapeuta": {
+    "editProfile": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "fullName": "Full Name",
+    "email": "E-mail",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "inviteCode": "Invitation Code",
+    "generateCode": "Generate Code",
+    "yourInviteCode": "Your invitation code",
+    "insertCode": "Insert Code",
+    "enterInviteCode": "Enter invitation code",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "required": "Required field",
+    "invalidEmail": "Invalid email",
+    "emailInUse": "This email is already in use",
+    "phoneDigits": "Phone must have 11 digits",
+    "futureDateError": "Date cannot be in the future",
+    "enterCodeError": "Enter the invitation code",
+    "codeAlreadyExists": "You already have a generated invitation code",
+    "codeGeneratedSuccess": "Code generated successfully!",
+    "codeCopied": "Code copied!",
+    "codeCopyError": "Error copying code:",
+    "waitEmailValidation": "Wait for email validation",
+    "fixErrors": "Fix errors in the form before saving",
+    "fillRequired": "Fill in all required fields correctly",
+    "updateSuccess": "Data updated successfully!",
+    "updateError": "Error updating data:",
+    "loadError": "Error loading physiotherapist data:",
+    "codeGenerateError": "Error generating invitation code",
+    "unknownError": "Unknown error"
+  },
+
+  "editarPerfilPublico": {
+    "editPublicProfile": "Edit Public Profile",
+    "physiotherapist": "Physiotherapist",
+    "yearsExperience": "Years of Experience",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "startDay": "Start Day",
+    "endDay": "End Day",
+    "mainFocus": "Main Focus",
+    "mainFocusPlaceholder": "Describe your main focus of work",
+    "professionalInfo": "Professional Information",
+    "professionalProfile": "Professional Profile",
+    "professionalProfilePlaceholder": "Describe your professional profile, your specialties and work approach...",
+    "professionalCareer": "Professional Career",
+    "professionalCareerPlaceholder": "Tell about your education, previous experiences and professional evolution...",
+    "mainAchievements": "Main Achievements",
+    "mainAchievementsPlaceholder": "Highlight your main achievements, certifications, awards or recognitions...",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "maxCharacters": "Maximum {max} characters",
+    "invalidFormat": "Invalid format (HH:MM)",
+    "startTimeLessThanEnd": "Start time must be less than end time",
+    "endTimeGreaterThanStart": "End time must be greater than start time",
+    "updateSuccess": "Public profile updated successfully!",
+    "updateError": "Error updating public profile:",
+    "unknownError": "Unknown error",
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    }
+  },
+
+  "detalhesPaciente": {
+    "backToList": "Back to List",
+    "createTraining": "Create Training",
+    "age": "Age",
+    "years": "years",
+    "birthDate": "Birth Date",
+    "gender": "Gender",
+    "height": "Height",
+    "weight": "Weight",
+    "bloodType": "Blood Type",
+    "phone": "Phone",
+    "regularPhysicalActivity": "Regular Physical Activity",
+    "recentCheckup": "Recent Checkup",
+    "hasSmartwatch": "Has Smartwatch",
+    "yes": "Yes",
+    "no": "No",
+    "allergies": "Allergies",
+    "allergyRegistered": "allergy registered",
+    "allergiesRegistered": "allergies registered",
+    "noAllergiesRegistered": "No allergies registered",
+    "allergyNoTitle": "Allergy without title",
+    "noDescription": "No description",
+    "completedAppointments": "Completed Appointments",
+    "completedAppointment": "completed appointment",
+    "completedAppointmentsPlural": "completed appointments",
+    "noCompletedAppointments": "No completed appointments",
+    "professional": "Professional",
+    "professionalNotIdentified": "Professional not identified",
+    "date": "Date",
+    "appointmentDetails": "Appointment Details",
+    "appointmentDate": "Appointment Date",
+    "updatedAt": "Updated at",
+    "updatedBy": "Updated by",
+    "diagnosis": "Diagnosis",
+    "noDiagnosis": "No diagnosis",
+    "prescribedMedications": "Prescribed Medications",
+    "noMedications": "No medications",
+    "situation": "Situation",
+    "externalAppointment": "External Appointment",
+    "role": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
+    },
+    "status": {
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled",
+      "Marcado": "Scheduled",
+      "Pendente": "Pending"
+    }
+  },
+
+  "criarTreino": {
+    "title": "Create New Training",
+    "subtitle": "Fill in the personalized training information",
+    "step": "Step",
+    "of": "of",
+    "trainingInfo": "Training Information",
+    "recommendationType": "Recommendation Type",
+    "weeklyFrequency": "Weekly Frequency",
+    "trainingType": "Training Type",
+    "instructions": "Instructions",
+    "select": "Select",
+    "exercises": "Exercises",
+    "selectExercise": "Select Exercise",
+    "addExercise": "Add Exercise",
+    "editExercise": "Edit Exercise",
+    "exercise": "Exercise",
+    "sets": "Sets",
+    "reps": "Reps",
+    "load": "Load (kg)",
+    "distance": "Distance (km)",
+    "frequency": "Frequency",
+    "observations": "Observations",
+    "update": "Update",
+    "add": "Add",
+    "cancel": "Cancel",
+    "addedExercises": "Added Exercises",
+    "noExercisesAdded": "No exercises added yet",
+    "finalObservations": "Final Observations",
+    "careAndRestrictions": "Care and Restrictions",
+    "generalObservations": "General Observations",
+    "back": "Back",
+    "next": "Next",
+    "saveTraining": "Save Training",
+    "recommendationTypeModal": "Recommendation Type",
+    "weeklyFrequencyModal": "Weekly Frequency",
+    "selectTrainingType": "Select Training Type",
+    "selectExerciseModal": "Select Exercise",
+    "searchExercise": "Search exercise",
+    "weekly": "Weekly",
+    "daily": "Daily",
+    "toasts": {
+      "errorLoadExercises": "Error loading exercises",
+      "errorLoadExercisesByType": "Error loading exercises by training type",
+      "errorLoadTrainingTypes": "Error loading training types",
+      "selectExerciseWarning": "Select an exercise",
+      "exerciseUpdated": "Exercise updated",
+      "exerciseAdded": "Exercise added",
+      "exerciseRemoved": "Exercise removed",
+      "addAtLeastOneExercise": "Add at least one exercise",
+      "trainingCreatedSuccess": "Training created successfully!",
+      "errorCreatingTraining": "Error creating training"
+    }
+  },
+
+  "resumo": {
+    "title": "Summary",
+    "subtitle": "Overview of your metrics",
+    "period": "Period",
+    "periodLabel": "Period:",
+    "today": "Today",
+    "thisMonth": "This month",
+    "specificDate": "Specific date",
+    "issuedCertificates": "Issued Certificates",
+    "patientsServed": "Patients Served",
+    "scheduledAppointments": "Scheduled Appointments",
+    "totalAppointments": "Total Appointments",
+    "pendingAppointments": "Pending Appointments",
+    "graphicalAnalysis": "Graphical Analysis",
+    "appointmentsByPeriod": "Appointments by Period",
+    "metricsDistribution": "Metrics Distribution",
+    "months": {
+      "jan": "Jan",
+      "feb": "Feb",
+      "mar": "Mar",
+      "apr": "Apr",
+      "may": "May",
+      "jun": "Jun",
+      "jul": "Jul",
+      "aug": "Aug",
+      "sep": "Sep",
+      "oct": "Oct",
+      "nov": "Nov",
+      "dec": "Dec"
+    },
+    "chartLabels": {
+      "appointments": "Appointments",
+      "metrics": "Metrics",
+      "certificates": "Certificates",
+      "patients": "Patients",
+      "scheduled": "Appointments",
+      "pending": "Pending"
+    }
+  },
+
+  "meuPlano": {
+    "duration": "Duration",
+    "year": "year(s)",
+    "month": "month(s)",
+    "subscribedOn": "Subscribed on:",
+    "nextBilling": "Next Billing:",
+    "paymentMethod": "Payment Method:",
+    "status": "Status",
+    "notAvailable": "Not available",
+    "statusTypes": {
+      "active": "Active",
+      "canceled": "Canceled",
+      "pending": "Pending",
+      "expired": "Expired",
+      "failed": "Failed"
+    },
+    "noActivePlan": "No active plan",
+    "noActivePlanDescription": "You don't have an active plan at the moment.",
+    "cancelPlan": "Cancel Plan",
+    "cancelPlanTitle": "Cancel Plan",
+    "cancelPlanMessage": "Are you sure you want to cancel your plan? This action cannot be undone and you will lose access to premium benefits.",
+    "timeRemaining": "Time remaining after cancellation:",
+    "keepPlan": "Keep Plan",
+    "confirmCancel": "Yes, Cancel",
+    "canceling": "Canceling...",
+    "cancelSuccess": "Plan canceled successfully!",
+    "cancelError": "Error canceling plan: {error}",
+    "loadError": "Error loading plan information: {error}",
+    "unknownError": "Unknown error"
+  },
+
+  "settings": {
+    "title": "Settings",
+    "account": "Account",
+    "support": "Support",
+    "editProfile": "Edit Profile",
+    "newPassword": "New password",
+    "privacy": "Privacy",
+    "referrals": "Referrals",
+    "publicProfile": "Public Profile",
+    "subscriptionPayments": "Subscription and Payments",
+    "helpCenter": "Help Center",
+    "dangerZone": "Danger Zone",
+    "dangerZoneDescription": "Actions that permanently affect your account.",
+    "deleteAccount": "Delete Account",
+    "deleteAccountTitle": "Delete Account",
+    "deleteAccountMessage": "Are you sure you want to delete your account?",
+    "deleteAccountWarning": "This action cannot be undone and all your data will be permanently lost.",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "logoutSuccess": "Logout successful!"
+  },
+
+  "editarPerfilTreinador": {
+    "title": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "fullName": "Full Name",
+    "email": "E-mail",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "inviteCode": "Invitation Code",
+    "generateCode": "Generate Code",
+    "yourInviteCode": "Your invitation code",
+    "insertCode": "Insert Code",
+    "enterInviteCode": "Enter invitation code",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "required": "Required field",
+    "invalidEmail": "Invalid email",
+    "emailInUse": "This email is already in use",
+    "phoneDigits": "Phone must have 11 digits",
+    "futureDateError": "Date cannot be in the future",
+    "minCharacters": "Minimum {min} characters",
+    "enterCodeError": "Enter the invitation code",
+    "codeAlreadyExists": "You already have a generated invitation code",
+    "codeGeneratedSuccess": "Code generated successfully!",
+    "codeCopied": "Code copied!",
+    "codeCopyError": "Error copying code:",
+    "waitEmailValidation": "Wait for email validation",
+    "fixErrors": "Fix errors in the form before saving",
+    "fillRequired": "Fill in all required fields correctly",
+    "updateSuccess": "Data updated successfully!",
+    "updateError": "Error updating data:",
+    "loadError": "Error loading coach data:",
+    "connectionError": "Error requesting connection",
+    "codeGenerateError": "Error generating invitation code",
+    "unknownError": "Unknown error"
+  },
+
+  "editarPerfilAtleta": {
+    "title": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "fullName": "Full Name",
+    "email": "E-mail",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "inviteCodes": "Invitation Codes",
+    "inviteCode": "Invitation Code",
+    "generateCode": "Generate Code",
+    "yourInviteCode": "Your invitation code",
+    "insertCode": "Insert Code",
+    "enterInviteCode": "Enter invitation code",
+    "recipientProfileType": "Recipient Profile Type",
+    "physiotherapist": "Physiotherapist",
+    "coach": "Coach",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "required": "Required field",
+    "invalidEmail": "Invalid email",
+    "emailInUse": "This email is already in use",
+    "phoneDigits": "Phone must have 11 digits",
+    "futureDateError": "Date cannot be in the future",
+    "enterInviteCodeError": "Please enter an invitation code",
+    "selectProfileError": "Please select the user profile you want to connect with",
+    "connectionError": "Error requesting connection",
+    "codeAlreadyExists": "You already have a generated invitation code",
+    "codeGeneratedSuccess": "Code generated successfully!",
+    "codeGenerateError": "Error generating invitation code",
+    "codeCopied": "Code copied!",
+    "codeCopyError": "Error copying code: {error}",
+    "waitEmailValidation": "Wait for email validation",
+    "fixErrors": "Fix errors in the form before saving",
+    "fillRequired": "Fill in all required fields correctly",
+    "updateSuccess": "Data updated successfully!",
+    "updateError": "Error updating data: {error}",
+    "loadError": "Error loading athlete data: {error}",
+    "unknownError": "Unknown error"
+  },
+
+  "novaSenhaLogado": {
+    "changePassword": "Change Password",
+    "keepAccountSecure": "Keep your account secure with a new password",
+    "setNewPassword": "Set New Password",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "cancel": "Cancel",
+    "changePasswordButton": "Change Password",
+    "required": "Required field",
+    "strongPasswordError": "Password must have at least 8 characters, one uppercase letter, one number and one special character",
+    "passwordsNotMatch": "Passwords do not match",
+    "passwordChangedSuccess": "Password changed successfully!",
+    "passwordChangeError": "Error changing password: {error}",
+    "unknownError": "Unknown error"
+  },
+
+  "cupons": {
+    "couponSystem": "Coupon System",
+    "discountCoupons": "Discount Coupons",
+    "exclusiveDiscounts": "Offer exclusive discounts to your patients",
+    "used": "USED",
+    "discount": "DISCOUNT",
+    "couponCreated": "Coupon Created",
+    "generateCoupon": "Generate Coupon",
+    "couponCode": "Coupon Code",
+    "validUntil": "Valid until",
+    "uses": "uses",
+    "totalBalance": "Total balance",
+    "availableForWithdrawal": "Amount available for withdrawal",
+    "requestWithdrawal": "Request Withdrawal",
+    "pendingWithdrawalInfo": "You have a pending withdrawal request, wait for completion before a new request.",
+    "balanceAvailableInfo": "Your balance is available for withdrawal, make a withdrawal request to withdraw it",
+    "accumulatedBalanceInfo": "Your balance will be accumulated to the current month if not withdrawn.",
+    "history": "History",
+    "withdrawal": "Withdrawal",
+    "closingDate": "Closing Date",
+    "cancelRequest": "Cancel Request",
+    "date": "Date",
+    "value": "Value",
+    "status": "Status",
+    "pix": "PIX",
+    "importantInfo": "Important Information",
+    "accumulatedBalance": "Accumulated balance",
+    "accumulatedBalanceDesc": "Your earnings accumulate automatically.",
+    "approval": "Approval",
+    "approvalDesc": "Each request is analyzed and paid within 30 business days.",
+    "newRequest": "New request",
+    "newRequestDesc": "Only possible after approval of the previous one.",
+    "minimumValue": "Minimum value",
+    "minimumValueDesc": "R$ 10.00 to request withdrawal.",
+    "seeMore": "See More",
+    "howItWorks": "How it works",
+    "howItWorksDesc": "Your balance grows automatically with new earnings. You can request withdrawal when you reach the minimum amount - the amount will be what is available at the time of the request. After approval, you can make a new request with accumulated earnings. Thank you for your trust!",
+    "couponAlreadyCreated": "Coupon Already Created!",
+    "generateDiscountCoupon": "Generate Discount Coupon",
+    "oneCouponPerDoctor": "You already have an active coupon. Only 1 coupon per doctor is allowed.",
+    "autoGeneratedCoupon": "A 10% discount coupon valid until 12/31/2026 will be automatically generated.",
+    "couponDetails": "Coupon details:",
+    "discountLabel": "Discount",
+    "limit": "Limit",
+    "validity": "Validity",
+    "contactSupport": "To create a new coupon, contact support.",
+    "cancel": "Cancel",
+    "couponAlreadyExists": "Coupon Already Exists",
+    "requestWithdrawalTitle": "Request Withdrawal",
+    "transferToPixAccount": "Transfer your balance to your PIX account",
+    "totalAvailableBalance": "Total Available Balance",
+    "pendingWithdrawalRequest": "There is a pending withdrawal request",
+    "pendingWithdrawal": "Pending Withdrawal",
+    "pixKey": "PIX Key",
+    "transferData": "Transfer Data",
+    "transferDataDesc": "CPF/CNPJ, phone or email",
+    "enterCode": "Enter the code",
+    "enterPixKey": "Enter your PIX key",
+    "pixKeyRequired": "PIX key is required",
+    "invalidPixKey": "Invalid PIX key",
+    "importantInfoTitle": "Important information:",
+    "transferTime": "The amount will be transferred within 30 business days",
+    "minimumWithdrawal": "Minimum amount for withdrawal: R$ 10.00",
+    "verifyPixKey": "Verify that the PIX key is correct before confirming",
+    "confirmWithdrawal": "Confirm Withdrawal",
+    "cancelRequestTitle": "Cancel Request",
+    "cancelRequestMessage": "Are you sure you want to cancel this withdrawal request?",
+    "no": "No",
+    "yesCancelRequest": "Yes, Cancel",
+    "codeCopied": "Code copied!",
+    "copyCodeError": "Error copying code",
+    "couponAlreadyActive": "You already have an active coupon!",
+    "couponCreatedSuccess": "Coupon created successfully!",
+    "couponCreateError": "Error generating coupon",
+    "withdrawalRequestSuccess": "Withdrawal request sent successfully!",
+    "withdrawalProcessError": "Error processing withdrawal",
+    "requestCancelledSuccess": "Request cancelled successfully!",
+    "requestCancelError": "Unable to cancel request",
+    "unknownError": "Unknown error",
+    "statusTypes": {
+      "APROVADO": "Approved",
+      "REJEITADO": "Rejected",
+      "PENDENTE": "Pending",
+      "CANCELADO": "Cancelled"
+    }
+  },
+
+  "cupomInfo": {
+    "title": "FitCertify365 Coupon System",
+    "subtitle": "Complete information about our discount program",
+    "howToGenerate": {
+      "title": "How to Generate a Coupon",
+      "step1": "Tap the \"Generate Coupon\" button on the main screen",
+      "step2": "The system will automatically create a unique code",
+      "step3": "The coupon will have defined validity and usage limit",
+      "step4": "You can share the code with everyone"
+    },
+    "couponInfo": {
+      "title": "Coupon Information",
+      "code": "Code: Unique sequence for identification",
+      "discount": "Discount: Percentage applied to subscription value",
+      "validity": "Validity: Deadline for coupon use",
+      "usageLimit": "Usage limit: Maximum number of redemptions",
+      "uses": "Uses: How many times it has been used"
+    },
+    "usageRules": {
+      "title": "Usage Rules",
+      "rule1": "Valid only after payment confirmation",
+      "rule2": "Cannot be combined with other promotions",
+      "rule3": "Only valid for FitCertify365",
+      "rule4": "Coupon must be within validity period"
+    },
+    "support": {
+      "title": "Support and Contact",
+      "email": "Email",
+      "emailAddress": "atendimento@fitcertify365.com",
+      "phone": "Phone",
+      "phoneNumber": "0800 123 4567",
+      "helpCenter": "Help Center",
+      "helpCenterDesc": "Access our complete help center"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": "How to create a discount coupon?",
+      "a1": "To create a coupon, access your personal area, go to the \"Referrals\" section and click \"Generate Coupon\". The system will automatically create a coupon with 10% discount valid for 2 years.",
+      "q2": "Can I create more than one coupon?",
+      "a2": "No, each user can have only one active coupon at a time. To create a new coupon, contact our support.",
+      "q3": "What happens when the coupon expires?",
+      "a3": "Expired coupons can no longer be used. Contact support to request renewal of your coupon.",
+      "q4": "How to track my coupon usage?",
+      "a4": "In your coupons area, you can see how many times your coupon has been used and how many uses remain from the maximum limit."
+    }
+  },
+
+  "detalhesExclusaoConta": {
+    "pageTitle": "Account Deletion Process",
+    "section1": {
+      "title": "1. About Account Deletion",
+      "p1": "{company} respects users' right to request deletion of their accounts and personal data, in compliance with the {law} and other applicable legislation.",
+      "company": "FitCertify365",
+      "law": "General Data Protection Law (LGPD)",
+      "p2": "This document explains how the account deletion process works, what data is removed and the timelines involved."
+    },
+    "section2": {
+      "title": "2. How to Request Deletion",
+      "intro": "To request deletion of your account, you can:",
+      "step1": "Access the {settings} page in your account",
+      "settings": "Settings",
+      "step2": "Navigate to {path}",
+      "path": "settings/deleteAccount",
+      "step3": "Click the {button} button",
+      "button": "\"Delete Account\"",
+      "step4": "Confirm your request in the confirmation dialog",
+      "alternative": "Alternatively, you can send a request by email to {email} with the subject \"Account Deletion Request\".",
+      "email": "desenvolvimento@fitcertify365.com"
+    },
+    "section3": {
+      "title": "3. Deletion Process",
+      "intro": "After receiving your request, we follow the following process:",
+      "stage1Title": "Stage 1: Verification (1-2 business days)",
+      "stage1Desc": "We verify the requester's identity and validate the request to ensure account security.",
+      "stage2Title": "Stage 2: Grace Period (30 days)",
+      "stage2Desc": "Your account will be deactivated, but data will remain stored for 30 days. During this period, you can cancel the request and reactivate your account.",
+      "stage3Title": "Stage 3: Permanent Deletion",
+      "stage3Desc": "After the grace period, all your personal data will be permanently removed from our systems."
+    },
+    "section4": {
+      "title": "4. Data That Will Be Deleted",
+      "intro": "Account deletion will result in permanent removal of the following data:",
+      "item1": "Personal information (name, email, phone)",
+      "item2": "Stored health and fitness data",
+      "item3": "Activity and exercise history",
+      "item4": "Account preferences and settings",
+      "item5": "Integration data with wearable devices",
+      "item6": "Medical consultation and interaction history",
+      "item7": "Uploaded files and documents"
+    },
+    "section5": {
+      "title": "5. Data That May Be Retained",
+      "intro": "For legal, regulatory or security reasons, some data may be retained for specific periods:",
+      "item1": "Financial transaction records (according to tax legislation)",
+      "item2": "Security and audit logs (anonymized)",
+      "item3": "Data necessary to comply with legal obligations",
+      "item4": "Aggregated and statistical information (without personal identification)",
+      "footer": "This data is retained only for the necessary time and in compliance with applicable laws."
+    },
+    "section6": {
+      "title": "6. Download Your Data",
+      "intro": "Before permanent deletion, you have the right to request a copy of your personal data:",
+      "item1": "Request download during the 30-day grace period",
+      "item2": "Data will be provided in structured and readable format",
+      "item3": "Download will be available for 7 days after request",
+      "item4": "Contact us at {email} to request",
+      "email": "desenvolvimento@fitcertify365.com"
+    },
+    "section7": {
+      "title": "7. Canceling the Request",
+      "intro": "During the 30-day grace period, you can cancel the deletion request:",
+      "item1": "Log in to your account (if still within the grace period)",
+      "item2": "Or send an email to {email}",
+      "email": "atendimento@fitcertify365.com",
+      "item3": "Your account will be reactivated within 24 hours",
+      "item4": "All data will be restored to the previous state"
+    },
+    "section8": {
+      "title": "8. Consequences of Deletion",
+      "warning": "WARNING:",
+      "intro": "Account deletion is irreversible after the grace period. Consequences include:",
+      "item1": "Permanent loss of all health and fitness data",
+      "item2": "Automatic cancellation of active subscriptions",
+      "item3": "Inability to recover activity history",
+      "item4": "Loss of access to previous medical consultations",
+      "item5": "Need to create a new account to use the service again"
+    },
+    "section9": {
+      "title": "9. Questions and Support",
+      "intro": "For questions about the account deletion process or to request support:",
+      "email": "Email:",
+      "emailAddress": "atendimento@fitcertify365.com",
+      "hours": "Business Hours:",
+      "hoursValue": "Monday to Friday, 9am to 6pm",
+      "responseTime": "Response Time:",
+      "responseTimeValue": "Up to 48 business hours",
+      "footer": "Our team is ready to clarify any questions about the deletion process and your rights as a user."
+    }
+  },
+
+  "deleteAccount": {
+    "backButton": "Back",
+    "title": "Delete Account",
+    "permanentWarning": "This action is permanent and cannot be undone",
+    "whatHappens": "What happens when you delete your account?",
+    "consequences": {
+      "item1": "All your personal data will be removed",
+      "item2": "Your history will be deleted",
+      "item3": "You will lose access to services",
+      "item4": "This action cannot be reversed"
+    },
+    "readFullPolicy": "Read full policy",
+    "deleteButton": "Delete Account",
+    "cancelButton": "Cancel",
+    "confirmDialog": {
+      "title": "Confirm Deletion",
+      "message": "Are you sure you want to delete your account? This action cannot be undone.",
+      "cancel": "Cancel",
+      "delete": "Delete"
+    },
+    "successMessage": "Account deleted successfully!",
+    "errorMessage": "Error deleting account:",
+    "unknownError": "Unknown error"
+  },
+
+  "centralAjuda": {
+    "title": "FitCertify365 Help Center",
+    "subtitle": "Find answers to your questions and contact us",
+    "faqTitle": "Frequently Asked Questions",
+    "faq": {
+      "q1": "Is the certificate valid for all races?",
+      "a1": "Yes. The physical fitness certificate issued by FitCertify365 is valid for any competition that requires proof of health, according to the guidelines of sports and medical authorities. We only recommend checking if the event organization accepts digital certificates.",
+      "q2": "Do I need to take exams beforehand?",
+      "a2": "It depends. Some users already have recent exams and don't need to repeat them. Others may be advised to perform complementary exams, according to the analysis of the responsible health professional. FitCertify365 connects you to doctors who will follow clinical criteria to ensure your safety.",
+      "q3": "Who signs the certificates?",
+      "a3": "All certificates are signed by doctors registered with the Regional Council of Medicine (CRM), with experience in sports health and physical fitness. The platform guarantees verification and digital registration of the signature for its validity.",
+      "q4": "How do I know if it's valid?",
+      "a4": "The certificate has digital authentication, unique identification number and online validation through QR Code. Any organizer or authorized third party can verify authenticity in seconds by accessing the link indicated in the document.",
+      "q5": "How long does it take?",
+      "a5": "The process is fast. The doctor performs the exams with you at the office and, if everything is correct, the certificate is issued on the spot, digitally and with valid authentication throughout the national territory.",
+      "q6": "Can I use the same one for multiple races?",
+      "a6": "Yes. The certificate can be used in several races, as long as it is within the validity period defined by the doctor (usually between 3 and 12 months). Just present it to the organizers when requested."
+    },
+    "directChannels": {
+      "title": "Direct Channels",
+      "sac": "Customer Service",
+      "sacNumber": "0800-44954994095",
+      "email": "Email",
+      "emailAddress": "atendimento@fitcertify365.com",
+      "whatsapp": "WhatsApp",
+      "whatsappNumber": "(21) 400495694"
+    },
+    "partnership": {
+      "title": "Want to be part of our ecosystem?",
+      "description": "If you are an event organizer, doctor, clinic or sports brand and want to connect with FitCertify365, contact us.",
+      "button": "Get in Touch"
+    }
+  },
+
+  "resetPassword": {
+    "modal": {
+      "title": "Check your email",
+      "subtitle": "We sent a verification code to the email:",
+      "confirmButton": "Confirm"
+    },
+    "pageTitle": "Reset your password to access your account.",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "resetButton": "Reset Password",
+    "rememberPassword": "Remember your password?",
+    "backToLogin": "Back to login",
+    "validation": {
+      "passwordRequired": "Password required",
+      "passwordStrength": "Password must have at least 8 characters, one uppercase letter, one number and one special character"
+    },
+    "toast": {
+      "enterCode": "Enter the code",
+      "passwordMismatch": "Passwords do not match",
+      "invalidToken": "Invalid token"
+    }
+  },
+
+  "detalhesPacienteMedico": {
+    "title": "Patient Details",
+    "active": "Active",
+    "certificateInactive": "Certificate inactive",
+    "age": "Age",
+    "years": "years",
+    "birthDate": "Birth Date",
+    "height": "Height",
+    "weight": "Weight",
+    "genderTitle": "Gender",
+    "phone": "Phone",
+    "bloodType": "Blood Type",
+    "contractedModules": "Contracted Modules",
+    "modulesAvailable": "{count} modules available",
+    "modules": "{count} modules",
+    "noModules": "No contracted modules",
+    "noModulesDescription": "This athlete does not have any contracted modules yet.",
+    "medicalHistory": "Medical History",
+    "appointmentRegistered": "appointment registered",
+    "appointmentsRegistered": "appointments registered",
+    "noMedicalHistory": "No medical history found",
+    "doctorNotInformed": "Doctor not informed",
+    "specializationNotInformed": "Specialization not informed",
+    "allergies": "Allergies",
+    "allergyRegistered": "allergy registered",
+    "allergiesRegistered": "allergies registered",
+    "noAllergies": "No allergies registered",
+    "allergyNoTitle": "Allergy without title",
+    "noDescription": "No description",
+    "appointmentDetails": {
+      "appointmentDate": "Appointment Date",
+      "type": "Type",
+      "appointment": "Appointment",
+      "diagnosis": "Diagnosis",
+      "prescribedMedications": "Prescribed Medications",
+      "situation": "Situation",
+      "certifyAthlete": "Certify athlete",
+      "certificateWarning": "This athlete already has an active certificate. It is not possible to issue a new certificate.",
+      "close": "Close"
+    },
+    "certificationModal": {
+      "title": "Certify Athlete",
+      "validityMonths": "Validity Months",
+      "customMonths": "Enter the number of months",
+      "validationRule": "Enter a value between 1 and 12 months",
+      "hint": "Enter how many months the certificate will be valid (maximum 12)",
+      "cancel": "Cancel",
+      "certify": "Certify",
+      "monthOptions": {
+        "1": "1 month",
+        "3": "3 months",
+        "6": "6 months",
+        "9": "9 months",
+        "12": "12 months",
+        "other": "Other"
+      }
+    },
+    "status": {
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled",
+      "Marcado": "Scheduled",
+      "Pendente": "Pending"
+    },
+    "gender": {
+      "Masculino": "Male",
+      "Feminino": "Female"
+    }
+  },
+
+  "perfilMedico": {
+    "profileType": "Doctor Profile",
+    "editProfile": "Edit Profile",
+    "yearsExperience": "{years} years of experience",
+    "notInformed": "Not informed",
+    "personalInfo": {
+      "title": "Personal Information",
+      "email": "Email",
+      "phone": "Phone",
+      "cpf": "CPF",
+      "birthDate": "Birth Date"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "mainFocus": "Main Focus",
+      "professionalProfile": "Professional Profile",
+      "career": "Professional Career",
+      "achievements": "Main Achievements",
+      "workDays": "Work Days",
+      "workHours": "Work Hours"
+    },
+    "address": {
+      "title": "Address",
+      "street": "Street",
+      "number": "Number",
+      "city": "City",
+      "zipCode": "ZIP Code",
+      "neighborhood": "Neighborhood",
+      "state": "State"
+    }
+  },
+
+  "pacientesAtendidosMedico": {
+    "title": "List of Served Patients",
+    "searchPlaceholder": "Search patient...",
+    "table": {
+      "profile": "Profile",
+      "name": "Name",
+      "age": "Age",
+      "gender": "Gender",
+      "actions": "Actions",
+      "years": "years",
+      "viewDetails": "View Details"
+    },
+    "gender": {
+      "Masculino": "Male",
+      "Feminino": "Female"
+    }
+  },
+
+  "pacientesMedico": {
+    "metrics": {
+      "totalPatients": "Total Patients",
+      "patientsServed": "Patients Served",
+      "issuedCertificates": "Issued Certificates",
+      "scheduledAppointments": "Scheduled Appointments"
+    },
+    "title": "My Patients",
+    "searchPlaceholder": "Search patient...",
+    "table": {
+      "profile": "Profile",
+      "name": "Name",
+      "age": "Age",
+      "gender": "Gender",
+      "actions": "Actions",
+      "years": "years",
+      "viewDetails": "View Details"
+    },
+    "gender": {
+      "Masculino": "Male",
+      "Feminino": "Female"
+    }
+  },
+
+  "consultasPendentesMedico": {
+    "title": "Pending Appointments",
+    "subtitle": "{count} appointments awaiting approval",
+    "externalPatient": "External Patient",
+    "fitcertify": "FitCertify365",
+    "pending": "Pending",
+    "accept": "Accept",
+    "refuse": "Refuse",
+    "noAppointments": "No pending appointments",
+    "toast": {
+      "acceptSuccess": "Appointment accepted successfully!",
+      "acceptError": "Error accepting appointment:",
+      "refuseSuccess": "Appointment refused successfully!",
+      "refuseError": "Error refusing appointment:",
+      "unknownError": "Unknown error"
+    }
+  },
+
+  "consultasMedico": {
+    "title": "My Appointments",
+    "externalPatient": "External Patient",
+    "finalize": "Finalize",
+    "cancel": "Cancel",
+    "noAppointments": "No appointments found",
+    "cancelModal": {
+      "title": "Cancel Appointment?",
+      "message": "This action cannot be undone. The appointment will be permanently cancelled.",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "finalizeModal": {
+      "title": "Finalize Appointment",
+      "diagnosis": "Diagnosis",
+      "diagnosisRequired": "Diagnosis is required",
+      "diagnosisPlaceholder": "Describe the diagnosis...",
+      "medications": "Prescribed Medications",
+      "medicationsPlaceholder": "Describe the prescribed medications...",
+      "cancel": "Cancel",
+      "finalize": "Finalize"
+    },
+    "toast": {
+      "cancelSuccess": "Appointment cancelled successfully!",
+      "cancelError": "Error cancelling appointment:",
+      "finalizeSuccess": "Appointment finalized successfully!",
+      "finalizeError": "Error finalizing appointment:",
+      "unknownError": "Unknown error"
+    },
+    "status": {
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled",
+      "Marcado": "Scheduled",
+      "Pendente": "Pending"
+    }
+  },
+
+  "agendaMedica": {
+    "title": "Medical Schedule",
+    "newAppointment": "New Appointment",
+    "calendar": "Calendar",
+    "appointments": "Appointments",
+    "today": "Today",
+    "viewMore": "View more",
+    "noAppointments": "No appointments on this day",
+    "scheduleAppointment": "Schedule Appointment",
+    "athleteName": "Athlete Name",
+    "externalPatientName": "External Patient Name",
+    "externalAppointment": "External Appointment",
+    "importantInfo": "Important Information",
+    "scheduleInfo": "You can schedule here both for previous times for registration and for new times. External Patients and FitCertify365. If it's FitCertify, be careful as they will be notified in their app.",
+    "availableSchedules": "Available Schedules",
+    "available": "available",
+    "occupied": "occupied",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "appointmentSuccess": "Appointment scheduled successfully!",
+    "appointmentError": "Error scheduling appointment:",
+    "unknownError": "Unknown error",
+    "external": "External",
+    "fitcertify": "FitCertify365",
+    "days": {
+      "sun": "Sun",
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat"
+    },
+    "status": {
+      "Concluido": "Completed",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled",
+      "Marcado": "Scheduled",
+      "Pendente": "Pending"
+    }
+  },
+
+  "cadastrarFisioterapeuta": {
+    "title": "Register Physiotherapist",
+    "steps": {
+      "professionalInfo": "Professional Information",
+      "address": "Address",
+      "finalization": "Finalization"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*",
+      "statePlaceholder": "Select"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "startDayPlaceholder": "Select",
+      "endDay": "End Day",
+      "endDayPlaceholder": "Select",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "terms": {
+      "title": "Terms and Policies",
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "register": "Register"
+    },
+    "toasts": {
+      "registerSuccess": "Physiotherapist registered successfully!",
+      "registerError": "Error registering physiotherapist",
+      "fileTooBig": "File too large. Maximum size: 5MB",
+      "fileTypeNotAllowed": "File type not allowed. Use JPG, PNG or PDF",
+      "fileSelectedSuccess": "File selected successfully!",
+      "zipCodeNotFound": "ZIP code not found",
+      "zipCodeError": "Error searching ZIP code"
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "required": "Required field"
+  },
+
+  "cadastrarAtleta": {
+    "title": "Register Athlete",
+    "steps": {
+      "physicalData": "Physical Data",
+      "healthHistory": "Health History",
+      "finalization": "Finalization"
+    },
+    "physicalData": {
+      "title": "Physical Data",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "bloodType": "Blood Type *",
+      "gender": "Gender *",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "height": "Height (cm) *",
+      "heightPlaceholder": "0.00cm",
+      "weight": "Weight (kg) *",
+      "weightPlaceholder": "0.00kg",
+      "regularActivity": "Do you practice physical activity regularly? *",
+      "selectPlaceholder": "Select",
+      "yes": "Yes",
+      "no": "No",
+      "required": "Required field"
+    },
+    "healthHistory": {
+      "title": "Health History",
+      "diagnosedQuestion": "Have you been diagnosed with any of the conditions below?",
+      "selectOneOption": "Check one of the options below to proceed:",
+      "otherConditions": "Other medical conditions: (Optional)",
+      "recentSymptoms": "Recent Signs and Symptoms",
+      "continuousMedication": "Do you take any continuous medication? If so, which one? (Optional)",
+      "doencas": {
+        "item_1": "Hypertension",
+        "item_2": "Diabetes",
+        "item_3": "Asthma",
+        "item_4": "High cholesterol",
+        "item_5": "Heart problems",
+        "item_6": "None of the above"
+      },
+      "sintomas": {
+        "item_1": "Chest pain",
+        "item_2": "Shortness of breath",
+        "item_3": "Dizziness or fainting",
+        "item_4": "Swelling in the legs",
+        "item_5": "Excessive fatigue",
+        "item_6": "None of these"
+      }
+    },
+    "sportsHistory": {
+      "title": "Sports History",
+      "objective": "Goal with physical activity *",
+      "objectiveOptions": {
+        "generalHealth": "General Health",
+        "aesthetics": "Improve body aesthetics",
+        "conditioning": "Physical Conditioning and Disposition",
+        "others": "Others"
+      },
+      "participatedBefore": "Have you participated in races before? *",
+      "lastRace": "If so, which was the last one? (Optional)"
+    },
+    "finalization": {
+      "title": "Finalization",
+      "recentCheckup": "Did you have a check-up in the last 12 months? *",
+      "attachExams": "Attach exams (PDF or image): (Optional)",
+      "hasSmartwatch": "Do you have a smartwatch or training app? *",
+      "integrateFitCertify": "I want to integrate my data with FitCertify365 *",
+      "declareTruth": "I declare that the above information is true and I authorize the analysis for certification purposes. *",
+      "shareData": "I agree to share my data with the organizations of the events I participate in. *",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "register": "Register"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More"
+    },
+    "toasts": {
+      "fillRequired": "Fill in all required fields",
+      "registerSuccess": "Athlete registered successfully!",
+      "registerError": "Error registering athlete"
+    }
+  },
+
+  "editarPerfilMedico": {
+    "editProfile": "Edit Profile",
+    "personalInfo": "Personal Information",
+    "fullName": "Full Name",
+    "email": "E-mail",
+    "phone": "Phone",
+    "birthDate": "Birth Date",
+    "cancel": "Cancel",
+    "saveChanges": "Save Changes",
+    "required": "Required field",
+    "invalidEmail": "Invalid email",
+    "emailInUse": "This email is already in use",
+    "phoneDigits": "Phone must have 11 digits",
+    "futureDateError": "Date cannot be in the future",
+    "waitEmailValidation": "Wait for email validation",
+    "fixErrors": "Fix errors in the form before saving",
+    "fillRequired": "Fill in all required fields correctly",
+    "updateSuccess": "Data updated successfully!",
+    "updateError": "Error updating data:",
+    "loadError": "Error loading doctor data:",
+    "unknownError": "Unknown error"
+  },
+
+  "validarCertificado": {
+    "loading": "Loading certificate information...",
+    "errorTitle": "Error validating certificate",
+    "backToHome": "Back to home",
+    "validCertificate": "Valid Certificate",
+    "invalidCertificate": "Invalid Certificate",
+    "certificateInfo": "Certificate information",
+    "uploadDate": "Upload Date",
+    "validityDate": "Validity Date",
+    "athlete": "Athlete",
+    "doctor": "Doctor",
+    "name": "Name",
+    "email": "Email",
+    "birthDate": "Birth Date",
+    "age": "Age",
+    "years": "years",
+    "phone": "Phone",
+    "crm": "CRM",
+    "specialization": "Specialization",
+    "errorIdNotProvided": "License ID not provided",
+    "errorLoadingInfo": "Unable to load certificate information"
+  },
+
+  "registerPlanos": {
+    "title": "Start your journey with more health and performance now.",
+    "subtitle": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to validate certificates, track your health markers and enjoy exclusive benefits in our marketplace.",
+    "choosePlan": "Choose your plan",
+    "planDescription": "Certify your health with FitCertify365. Choose the ideal plan for your sports journey.",
+    "mostPopular": "Most popular",
+    "perMonth": "month",
+    "perYear": "year",
+    "subscribe": "Subscribe",
+    "planos": {
+      "saudeCertificada": "Certified Health",
+      "saudeAtiva": "Active Health"
+    },
+    "beneficios": {
+      "item_01": "Connection with partner events",
+      "item_02": "Automatic issuance of the official certificate template",
+      "item_03": "Unlimited use in different events during the validity period",
+      "item_04": "Digital signature + QR Code",
+      "item_05": "Discounts in the Marketplace",
+      "item_06": "Access to the health dashboard",
+      "item_07": "Continuous monitoring",
+      "item_08": "Integration with wearables",
+      "item_09": "Smart alerts and history",
+      "item_10": "Integration with apps and devices",
+      "item_11": "Access to the complete health dashboard."
+    }
+  },
+
+  "pagamento": {
+    "cartao": "Card",
+    "creditDebitCard": "Credit or Debit Card",
+    "addCard": "Add Card",
+    "backToPlans": "Back to Plans",
+    "summary": "Summary",
+    "dateTime": "Date / Time",
+    "product": "Product",
+    "buyer": "Buyer",
+    "value": "Value",
+    "planValidity": "Plan Validity",
+    "months": "Months",
+    "total": "Total",
+    "paymentMethod": "Payment method",
+    "addCardTitle": "Add Card",
+    "cardName": "Card Name",
+    "cardNumber": "Card Number",
+    "validity": "Validity",
+    "cvv": "CVV",
+    "paymentMethodLabel": "Payment method",
+    "selectPaymentMethod": "Select payment method",
+    "addDiscountCoupon": "Add discount coupon",
+    "couponCode": "Coupon code",
+    "validateCoupon": "Validate Coupon",
+    "discountApplied": "{percentage}% discount applied!",
+    "addressContact": "Address | Contact",
+    "address": "Address",
+    "contact": "Contact",
+    "editAddress": "EDIT ADDRESS",
+    "registerNewAddress": "REGISTER NEW ADDRESS",
+    "newAddress": "NEW ADDRESS",
+    "street": "Street",
+    "complement": "Complement",
+    "zipCode": "ZIP Code",
+    "state": "State",
+    "city": "City",
+    "country": "Country",
+    "contactTitle": "CONTACT",
+    "fullPhone": "Full Phone",
+    "save": "SAVE",
+    "finalizePayment": "Finalize Payment",
+    "personalData": "PERSONAL DATA",
+    "verifyInfo": "Verify your personal information before completing the purchase.",
+    "name": "Name",
+    "cellphone": "Cellphone",
+    "email": "Email",
+    "cpf": "CPF",
+    "cep": "ZIP Code",
+    "paymentCard": "PAYMENT CARD",
+    "selectedCardInfo": "Selected card information.",
+    "discount": "Discount",
+    "paymentSuccess": "Payment Completed Successfully!",
+    "congratulations": "Congratulations!",
+    "paymentProcessed": "Your payment has been processed successfully and your plan is now active.",
+    "confirmationEmail": "You will receive a confirmation email shortly with all the details of your purchase.",
+    "goToHome": "Go to Home",
+    "purchaseCompleted": "Purchase Completed",
+    "status": "Status",
+    "approved": "Approved",
+    "totalPaid": "Total Paid",
+    "back": "Back",
+    "next": "Next",
+    "finalize": "Finalize",
+    "processing": "Processing...",
+    "debit": "Debit",
+    "credit": "Credit",
+    "mostPopular": "Most popular",
+    "planSelected": "Plan Selected",
+    "perYear": "year",
+    "perMonth": "month",
+    "banco": "Bank",
+    "nameSurname": "Name Surname",
+    "planos": {
+      "saudeAtiva": "Active Health",
+      "saudeCertificada": "Certified Health"
+    },
+    "toasts": {
+      "addressRequired": "It is necessary to register an address to continue",
+      "incompleteContact": "Incomplete contact data",
+      "paymentSuccess": "Payment completed successfully!",
+      "paymentFailed": "Payment failed",
+      "paymentError": "Error processing payment",
+      "invalidZipCode": "Invalid ZIP code. Use 8 digits.",
+      "zipCodeNotFound": "ZIP code not found in ViaCEP.",
+      "zipCodeSearchError": "Error searching ZIP code",
+      "fillRequiredFields": "Fill in all required fields",
+      "invalidZipCodeVerify": "Invalid ZIP code. Verify the informed ZIP code.",
+      "zipCodeValidationError": "Error validating ZIP code",
+      "addressSavedSuccess": "Address saved successfully!",
+      "enterCouponCode": "Enter a code",
+      "couponApplied": "Coupon applied!",
+      "couponError": "Error applying coupon",
+      "unknownError": "Unknown error"
+    },
+    "finalizePayment": "Finalize Payment",
+    "namePlaceholder": "Enter your full name",
+    "nameRequired": "Name is required",
+    "emailPlaceholder": "your@email.com",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email",
+    "cpfRequired": "CPF is required",
+    "cpfInvalid": "Invalid CPF",
+    "ddi": "Country Code",
+    "ddd": "Area Code",
+    "numero": "Number",
+    "ddiRequired": "Country code is required",
+    "dddRequired": "Area code is required",
+    "numeroRequired": "Number is required",
+    "onlyNumbers": "Only numbers",
+    "max3Digits": "Maximum 3 digits",
+    "max9Digits": "Maximum 9 digits",
+    "couponOptional": "Discount Coupon (optional)",
+    "couponPlaceholder": "Enter the coupon",
+    "validateCoupon": "Validate Coupon",
+    "couponValid": "Valid coupon! {percentage}% discount applied.",
+    "couponInvalid": "Invalid coupon. Try again.",
+    "planSummary": "Plan Summary",
+    "monthlyValue": "Monthly Value",
+    "annualValue": "Annual Value",
+    "duration": "Duration",
+    "withDiscount": "with {percentage}% discount"
+  },
+
+  "treinosAtleta": {
+    "title": "My Trainings",
+    "tabs": {
+      "weekly": "Weekly Trainings",
+      "daily": "Daily Trainings"
+    },
+    "frequency": "Frequency: {count}x per week",
+    "exercises": "{count} exercises",
+    "exercise": "{count} exercise",
+    "instructions": "Instructions:",
+    "careRestrictions": "Care/Restrictions:",
+    "observations": "Observations:",
+    "exercisesList": "Exercises:",
+    "sets": "{count} sets",
+    "reps": "{count} reps",
+    "load": "{weight}kg",
+    "distance": "{km}km",
+    "createdBy": "Created by: {name} on {date}",
+    "noWeeklyTrainings": "No weekly trainings found",
+    "noDailyTrainings": "No daily trainings found"
+  },
+
+  "pacienteForm": {
+    "physicalData": {
+      "title": "Physical Data",
+      "height": "Height (cm)*",
+      "heightPlaceholder": "0.00cm",
+      "weight": "Weight (kg)*",
+      "weightPlaceholder": "0.00kg",
+      "gender": "Gender*",
+      "genderPlaceholder": "Select",
+      "bloodType": "Blood Type*",
+      "regularActivity": "Do you practice physical activity regularly?*",
+      "genderOptions": {
+        "male": "Male",
+        "female": "Female",
+        "other": "Other"
+      },
+      "bloodTypeOptions": {
+        "aPositive": "A+",
+        "aNegative": "A-",
+        "bPositive": "B+",
+        "bNegative": "B-",
+        "abPositive": "AB+",
+        "abNegative": "AB-",
+        "oPositive": "O+",
+        "oNegative": "O-",
+        "unknown": "I don't know"
+      },
+      "yesNo": {
+        "yes": "Yes",
+        "no": "No"
+      }
+    },
+    "sportsHistory": {
+      "title": "Sports History",
+      "objective": "Goal with physical activity*",
+      "participatedBefore": "Have you participated in races before?*",
+      "lastRace": "If so, which was the last one? (Optional)",
+      "objectiveOptions": {
+        "generalHealth": "General Health",
+        "aesthetics": "Improve body aesthetics",
+        "conditioning": "Physical Conditioning and Disposition",
+        "others": "Others"
+      }
+    },
+    "healthHistory": {
+      "title": "Health History",
+      "diagnosedQuestion": "Have you been diagnosed with any of the conditions below?",
+      "selectOneOption": "Check one of the options below to proceed:",
+      "otherConditions": "Other medical conditions: (Optional)",
+      "recentSymptoms": "Recent Signs and Symptoms",
+      "continuousMedication": "Do you take any continuous medication? If so, which one? (Optional)"
+    },
+    "examsData": {
+      "title": "Exams and Complementary Data",
+      "recentCheckup": "Did you have a check-up in the last 12 months?*",
+      "attachExams": "Attach exams (PDF or image): (Optional)",
+      "hasSmartwatch": "Do you have a smartwatch or training app?*",
+      "integrateFitCertify": "I want to integrate my data with FitCertify365*"
+    },
+    "declaration": {
+      "title": "Declaration",
+      "declareTruth": "I declare that the above information is true and I authorize the analysis for certification purposes.*",
+      "shareData": "I agree to share my data with the organizations of the events I participate in.*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "validation": {
+      "required": "Required field",
+      "heightRequired": "Height required",
+      "weightRequired": "Weight required"
+    }
+  },
+
+  "medicoForm": {
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Enter your CRM",
+      "ufCrm": "CRM State*",
+      "selectPlaceholder": "Select",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "Ex: Cardiology, Orthopedics...",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "endDay": "End Day",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Digital Signature",
+      "label": "Attach digital signature (PDF or image)"
+    },
+    "terms": {
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More",
+      "introduction": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "required": "Required field"
+  },
+
+  "cadastrarMedico": {
+    "title": "Register Doctor",
+    "steps": {
+      "professionalInfo": "Professional Information",
+      "address": "Address",
+      "finalization": "Finalization"
+    },
+    "professionalInfo": {
+      "title": "Professional Information",
+      "phone": "Phone*",
+      "phonePlaceholder": "(00) 00000-0000",
+      "crm": "CRM*",
+      "crmPlaceholder": "Enter your CRM",
+      "ufCrm": "CRM State*",
+      "selectPlaceholder": "Select",
+      "specialization": "Specialization",
+      "specializationPlaceholder": "Ex: Cardiology, Orthopedics...",
+      "experience": "Years of Experience",
+      "experiencePlaceholder": "Describe your professional experience",
+      "focus": "Main Focus",
+      "focusPlaceholder": "Ex: Sports Medicine, Cardiology...",
+      "profile": "Professional Profile",
+      "profilePlaceholder": "Describe your professional profile",
+      "career": "Career",
+      "careerPlaceholder": "Describe your professional trajectory",
+      "highlights": "Highlights",
+      "highlightsPlaceholder": "Main achievements and highlights"
+    },
+    "address": {
+      "title": "Address",
+      "zipCode": "ZIP Code*",
+      "zipCodePlaceholder": "00000-000",
+      "street": "Street*",
+      "streetPlaceholder": "Street name",
+      "number": "Number*",
+      "numberPlaceholder": "123",
+      "neighborhood": "Neighborhood*",
+      "neighborhoodPlaceholder": "Neighborhood name",
+      "city": "City*",
+      "cityPlaceholder": "City name",
+      "state": "State*"
+    },
+    "socialMedia": {
+      "title": "Social Media",
+      "instagram": "Instagram",
+      "instagramPlaceholder": "https://instagram.com/your_profile",
+      "facebook": "Facebook",
+      "facebookPlaceholder": "https://facebook.com/your_profile"
+    },
+    "schedule": {
+      "title": "Working Hours",
+      "startDay": "Start Day",
+      "endDay": "End Day",
+      "startTime": "Start Time",
+      "startTimePlaceholder": "08:00",
+      "endTime": "End Time",
+      "endTimePlaceholder": "18:00"
+    },
+    "signature": {
+      "title": "Digital Signature",
+      "label": "Attach digital signature (PDF or image)"
+    },
+    "terms": {
+      "declareTruth": "I declare that the above information is true*",
+      "shareData": "I agree to share my data with event organizations*",
+      "acceptTerms": "I have read and agree to the",
+      "termsLink": "Terms of Use and Privacy Policy*"
+    },
+    "termsModal": {
+      "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+      "readMore": "Read More"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "register": "Register"
+    },
+    "daysOfWeek": {
+      "monday": "Monday",
+      "tuesday": "Tuesday",
+      "wednesday": "Wednesday",
+      "thursday": "Thursday",
+      "friday": "Friday",
+      "saturday": "Saturday",
+      "sunday": "Sunday"
+    },
+    "toasts": {
+      "registerSuccess": "Doctor registered successfully!",
+      "registerError": "Error registering doctor",
+      "zipCodeNotFound": "ZIP code not found",
+      "zipCodeError": "Error searching ZIP code"
+    },
+    "required": "Required field"
+  },
+
+  "cadastrarTreinador": {
+    "title": "Register Coach",
+    "contact": "Contact",
+    "phone": "Phone*",
+    "phonePlaceholder": "(00) 00000-0000",
+    "infoAlert": "The remaining user information will be automatically filled based on an existing profile",
+    "registerButton": "Register Coach",
+    "toasts": {
+      "phoneRequired": "Phone is required",
+      "phoneInvalid": "Invalid phone",
+      "registerSuccess": "Coach registered successfully!",
+      "registerError": "Error registering coach"
+    }
+  },
+
+  "register": {
+    "leftPanel": {
+      "title1": "Start your journey with more health and performance now.",
+      "title2": "",
+      "title3": "",
+      "title4": "Start your journey with more health and performance now.",
+      "text1": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to issue certificates, track your health markers and enjoy exclusive benefits in our marketplace.",
+      "text2": "We need this data to compose your health profile. No information will be shared without your authorization.",
+      "text3": "If you have recently performed exams, you can attach them to speed up your evaluation. It is also possible to integrate with data from apps or devices like smartwatch.",
+      "text4": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to validate certificates, track your health markers and enjoy exclusive benefits in our marketplace."
+    },
+    "steps": {
+      "step1": "Basic Registration",
+      "step2": "Physical Data",
+      "step3": "Health Registration",
+      "step4": "Finalization"
+    },
+    "personalInfo": {
+      "title": "Personal Information",
+      "profile": "Profile*",
+      "profilePlaceholder": "Select",
+      "fullName": "Full name*",
+      "cpf": "CPF*",
+      "cpfPlaceholder": "000.000.000-00",
+      "email": "E-mail*",
+      "emailPlaceholder": "example@domain.com",
+      "phone": "Phone*",
+      "phonePlaceholder": "(99) 9 9999-9999",
+      "password": "Password*",
+      "confirmPassword": "Confirm Password*",
+      "birthDate": "Birth date*",
+      "birthDatePlaceholder": "MM/DD/YYYY"
+    },
+    "buttons": {
+      "back": "Back",
+      "next": "Next",
+      "submit": "Submit Form",
+      "sending": "Sending..."
+    },
+    "validation": {
+      "nameRequired": "Name required",
+      "cpfRequired": "CPF required",
+      "cpfInvalid": "Invalid CPF",
+      "emailRequired": "E-mail required",
+      "emailInvalid": "Invalid e-mail",
+      "passwordRequired": "Password required",
+      "passwordStrength": "Password must have at least 8 characters, one uppercase letter, one number and one special character",
+      "confirmPasswordRequired": "Confirm password required",
+      "passwordsNotMatch": "Passwords do not match",
+      "phoneRequired": "Phone required",
+      "birthDateRequired": "Birth date required",
+      "birthDateInvalid": "Invalid birth date",
+      "fieldRequired": "Required field"
+    },
+    "toasts": {
+      "registerSuccess": "Registration completed successfully!",
+      "registerError": "Unable to complete registration"
+    }
+  },
+
+  "politicaPrivacidade": {
+    "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
+    "section1": {
+      "title": "1. Introduction",
+      "welcome": "Welcome to",
+      "company": "FitCertify365",
+      "companyRef": "(\"Company\", \"we\", \"our\", \"us\")",
+      "termsIntro": "These Terms of Service (\"Terms\", \"Terms of Service\", \"Terms and Conditions of Use\") govern the use of our mobile applications and digital platform, developed by FitCertify365.",
+      "privacyPolicy": "Our",
+      "privacyPolicyBold": "Privacy Policy",
+      "privacyPolicyText": "also governs the use of our Service and explains how we collect, protect and disclose information resulting from your use of mobile applications and web pages.",
+      "agreement": "Your agreement with us includes these Terms and our Privacy Policy (\"Agreements\"). By using our services, you acknowledge that you have read and understood the Agreements, and agree to be legally bound by them.",
+      "disagree": "If you do not agree (or cannot comply) with the Agreements, you may not use the Service. In this case, we request that you contact us by email",
+      "email": "atendimento@fitcertify365.com",
+      "disagreeEnd": "so we can find a solution.",
+      "applies": "These Terms apply to all visitors, users and other persons who wish to access or use the Service.",
+      "integration": "This application can integrate with",
+      "appleHealth": "Apple Health (HealthKit or CareKit)",
+      "and": "and with",
+      "googleHealth": "Google Health Connect",
+      "integrationText": ", for reading and monitoring data obtained via Apple Watch and other compatible wearable devices, also allowing the sending of manual data and Bluetooth (BLE) devices, always with user authorization."
+    },
+    "section2": {
+      "title": "2. Communications",
+      "text": "By using our services, you agree to receive newsletters, marketing or promotional materials and other information we may send. However, you may opt out of receiving such communications by following the unsubscribe link included in the messages or by sending an email to",
+      "email": "atendimento@fitcertify365.com"
+    },
+    "section3": {
+      "title": "3. Content",
+      "intro": "Our Service allows you to post, store, share and make available information, text, graphics, videos or other materials (\"Content\"). You are responsible for the Content you post on or through the Service, including its legality, reliability and appropriateness.",
+      "declaration": "By posting Content, you represent and warrant that:",
+      "item1": "The Content is your property and/or you have the rights to use it and grant FitCertify365 the rights to use as provided in these Terms.",
+      "item2": "The posting of Content does not violate privacy rights, image rights, copyrights, contracts or any other third party rights.",
+      "rights": "You retain all rights to the Content submitted, posted or displayed, but grant FitCertify365 a worldwide, free and non-exclusive license to use, modify, reproduce, distribute, display and share such Content through the Service.",
+      "ownership": "Content found on the Service is owned by FitCertify365 or used with authorization. Distribution, modification, transmission, reuse, copying or use for commercial purposes without express written authorization is prohibited."
+    },
+    "section4": {
+      "title": "4. Health Data and Medical Records",
+      "text": "Our Service allows the storage of personal health data and records collected from health, fitness and wellness devices and applications. You are responsible for the Content and Data you send and store on the Service."
+    },
+    "section5": {
+      "title": "5. Prohibited Uses",
+      "intro": "You agree to use the Service only for lawful purposes, and may not:",
+      "item1": "Violate applicable national or international laws.",
+      "item2": "Exploit or harm minors.",
+      "item3": "Send spam, chain letters, unsolicited messages.",
+      "item4": "Use false identity or impersonate third parties.",
+      "item5": "Introduce viruses, malware or harmful materials.",
+      "item6": "Interfere with the operation of the Service or attempt to access restricted areas."
+    },
+    "section6": {
+      "title": "6. Analytics and Monitoring",
+      "text": "We may use third-party service providers to monitor and analyze the use of the platform."
+    },
+    "section7": {
+      "title": "7. Minimum Age",
+      "text": "The Service is intended only for persons over 18 years of age. By using it, you declare that you have full legal capacity to accept these Terms."
+    },
+    "section8": {
+      "title": "8. Accounts",
+      "text": "When creating an account, you agree to provide true, complete and updated information. You are responsible for maintaining the confidentiality of your login and password, as well as for all activities performed under your account."
+    },
+    "section9": {
+      "title": "9. Account and Data Deletion",
+      "intro": "You may request the deletion of your account and personal data stored by FitCertify365, in accordance with",
+      "lgpd": "LGPD",
+      "text": ", GDPR and applicable legislation.",
+      "process": "After approval of the request, your account will be deactivated and you will have 30 days to download your data before permanent deletion."
+    },
+    "section10": {
+      "title": "10. Intellectual Property",
+      "text": "The Service, its design, functionalities and contents (except User Content) remain the exclusive property of FitCertify365 and its licensors, being protected by copyrights and other legislation."
+    },
+    "section11": {
+      "title": "11. Copyright",
+      "text": "We respect copyrights and will respond to any infringement notification sent to the email",
+      "email": "atendimento@fitcertify365.com"
+    },
+    "section12": {
+      "title": "12. Limitation of Liability",
+      "text": "Except where prohibited by law, FitCertify365 will not be liable for indirect, incidental or consequential damages arising from the use of the Service."
+    },
+    "section13": {
+      "title": "13. Account Termination",
+      "text": "We may suspend or terminate your account immediately, without prior notice, if you violate these Terms."
+    },
+    "section14": {
+      "title": "14. Applicable Law",
+      "text": "These Terms will be governed by Brazilian laws, also respecting international legislation applicable to data protection (such as GDPR, HIPAA and LGPD when applicable)."
+    },
+    "section15": {
+      "title": "15. Changes",
+      "text": "We reserve the right to modify these Terms at any time. Continued use of the platform after publication of changes will imply acceptance of the new Terms."
+    },
+    "section16": {
+      "title": "16. Acknowledgment",
+      "text": "BY USING THE SERVICE, YOU ACKNOWLEDGE THAT YOU HAVE READ AND AGREE TO THESE TERMS AND CONDITIONS OF USE."
+    },
+    "section17": {
+      "title": "17. Contact",
+      "text": "Questions, comments or requests can be sent to: 📧",
+      "email": "atendimento@fitcertify365.com"
+    }
+  },
+
+  "paymentSuccess": {
+    "title": "Payment Confirmed!",
+    "message": "Thank you for choosing FitCertify365! Your payment has been processed successfully.",
+    "goToHome": "Go to Home",
+    "welcomeTitle": "Welcome to FitCertify365",
+    "welcomeMessage": "Your journey to sports medical certifications starts now!"
   }
+}

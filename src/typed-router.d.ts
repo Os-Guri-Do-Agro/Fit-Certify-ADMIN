@@ -19,10 +19,7 @@ declare module 'vue-router/auto-routes' {
    */
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
-    '/adicionarConsulta/': RouteRecordInfo<'/adicionarConsulta/', '/adicionarConsulta', Record<never, never>, Record<never, never>>,
     '/analises/': RouteRecordInfo<'/analises/', '/analises', Record<never, never>, Record<never, never>>,
-    '/artigos/': RouteRecordInfo<'/artigos/', '/artigos', Record<never, never>, Record<never, never>>,
-    '/artigos/form': RouteRecordInfo<'/artigos/form', '/artigos/form', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/consultas/': RouteRecordInfo<'/Atleta-Screens/consultas/', '/Atleta-Screens/consultas', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/editarPerfilAtleta/': RouteRecordInfo<'/Atleta-Screens/editarPerfilAtleta/', '/Atleta-Screens/editarPerfilAtleta', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/eventos/': RouteRecordInfo<'/Atleta-Screens/eventos/', '/Atleta-Screens/eventos', Record<never, never>, Record<never, never>>,
@@ -35,6 +32,7 @@ declare module 'vue-router/auto-routes' {
     '/Atleta-Screens/perfilAtleta/': RouteRecordInfo<'/Atleta-Screens/perfilAtleta/', '/Atleta-Screens/perfilAtleta', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/registrosMedicos/': RouteRecordInfo<'/Atleta-Screens/registrosMedicos/', '/Atleta-Screens/registrosMedicos', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/treinadorDetalhes/': RouteRecordInfo<'/Atleta-Screens/treinadorDetalhes/', '/Atleta-Screens/treinadorDetalhes', Record<never, never>, Record<never, never>>,
+    '/Atleta-Screens/treinosAtleta/': RouteRecordInfo<'/Atleta-Screens/treinosAtleta/', '/Atleta-Screens/treinosAtleta', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/visaoGeral/': RouteRecordInfo<'/Atleta-Screens/visaoGeral/', '/Atleta-Screens/visaoGeral', Record<never, never>, Record<never, never>>,
     '/cadastrar-atleta': RouteRecordInfo<'/cadastrar-atleta', '/cadastrar-atleta', Record<never, never>, Record<never, never>>,
     '/cadastrar-fisioterapeuta': RouteRecordInfo<'/cadastrar-fisioterapeuta', '/cadastrar-fisioterapeuta', Record<never, never>, Record<never, never>>,
@@ -72,6 +70,7 @@ declare module 'vue-router/auto-routes' {
     '/notificacoes/': RouteRecordInfo<'/notificacoes/', '/notificacoes', Record<never, never>, Record<never, never>>,
     '/novaSenhaLogado/': RouteRecordInfo<'/novaSenhaLogado/', '/novaSenhaLogado', Record<never, never>, Record<never, never>>,
     '/pagamento/': RouteRecordInfo<'/pagamento/', '/pagamento', Record<never, never>, Record<never, never>>,
+    '/payment-success': RouteRecordInfo<'/payment-success', '/payment-success', Record<never, never>, Record<never, never>>,
     '/politicaPrivacidade': RouteRecordInfo<'/politicaPrivacidade', '/politicaPrivacidade', Record<never, never>, Record<never, never>>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
     '/register-medico': RouteRecordInfo<'/register-medico', '/register-medico', Record<never, never>, Record<never, never>>,

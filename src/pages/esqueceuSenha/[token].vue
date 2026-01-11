@@ -8,12 +8,12 @@
         <v-card :loading="loading" :disabled="loading">
           <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
             <span class="mdi mdi-email-fast-outline text-h1" style="color: #00c6fe;"></span>
-            <span class="text-h6 text-md-h5 font-weight-bold">Verifique seu e-mail</span>
+            <span class="text-h6 text-md-h5 font-weight-bold">{{ $t('resetPassword.modal.title') }}</span>
           </v-card-title>
           <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1  px-md-10"
             style="white-space: normal; word-wrap: break-word;">
             <span>
-              Enviamos um código de verificação para o e-mail: <span class="font-weight-medium"
+              {{ $t('resetPassword.modal.subtitle') }} <span class="font-weight-medium"
                 style="color: #00c6fe;">{{ usuario?.email }}</span>
             </span>
           </v-card-subtitle>
@@ -22,7 +22,7 @@
           </div>
           <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
             <v-btn class="w-100 text-white" height="50px" @click="confirmar" style="background-color: #00c6fe;"
-              :loading="loading">Confirmar</v-btn>
+              :loading="loading">{{ $t('resetPassword.modal.confirmButton') }}</v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -37,11 +37,11 @@
 
         <!-- Formulário -->
         <p class="text-white text-center text-subtitle-1 text-md-h6 text-lg-h5 px-lg-10" style="margin-bottom: 1.5rem;">
-          Redefina sua senha para acessar sua conta.
+          {{ $t('resetPassword.pageTitle') }}
         </p>
 
         <v-form class="d-flex align-center flex-column px-lg-0 px-xl-12 h-auto" :ref="formRef">
-          <v-text-field v-model="novaSenha" :type="showPassword ? 'text' : 'password'" placeholder="Nova senha"
+          <v-text-field v-model="novaSenha" :type="showPassword ? 'text' : 'password'" :placeholder="$t('resetPassword.newPassword')"
             variant="solo" bg-color="white" density="comfortable" class="mb-4 w-100"
             :rules="[rules.requiredSenhaObrigatoria]" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
@@ -52,7 +52,7 @@
           </v-text-field>
 
           <v-text-field v-model="confirmarSenha" :type="showPassword2 ? 'text' : 'password'"
-            placeholder="Confirmar senha" variant="solo" bg-color="white" density="comfortable"
+            :placeholder="$t('resetPassword.confirmPassword')" variant="solo" bg-color="white" density="comfortable"
             :rules="[rules.requiredSenhaObrigatoria]" class="w-100" style="border-radius: 5px; color: #1f2937;">
             <template #append-inner>
               <v-icon @click="showPassword2 = !showPassword2" class="cursor-pointer">
@@ -65,13 +65,12 @@
             <div class="d-flex flex-column align-center w-100" cols="12">
               <VBtn class="text-white" block height="47px" style="background-color: #88CE0D;" @click="redefinirSenha"
                 :loading="loading">
-                Redefinir Senha
+                {{ $t('resetPassword.resetButton') }}
               </VBtn>
               <div class="d-flex flex-column flex-md-row align-center justify-center mt-10">
-                <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">Lembrou da senha?</span>
+                <span class="text-white text-md-subtitle-2 text-lg-subtitle-1">{{ $t('resetPassword.rememberPassword') }}</span>
                 <button @click="voltar"
-                  class="font-weight-bold ml-2 text-subtitle-1 text-align-center text-white">Voltar ao
-                  login</button>
+                  class="font-weight-bold ml-2 text-subtitle-1 text-align-center text-white">{{ $t('resetPassword.backToLogin') }}</button>
               </div>
             </div>
           </VRow>
@@ -94,7 +93,9 @@ import { logout } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
+import { useI18n } from 'vue-i18n';
 
+const { t } = useI18n();
 const showModal = ref(true)
 const router = useRoute()
 const route = useRouter()
@@ -116,10 +117,10 @@ function voltar() {
 
 const rules = {
   requiredSenhaObrigatoria: (value: any) => {
-    if (!value) return 'Senha obrigatória'
+    if (!value) return t('resetPassword.validation.passwordRequired')
     return (
       validarSenhaForte(value) ||
-      'A senha deve ter pelo menos 8 caracteres, uma letra maiúscula, um número e um caractere especial'
+      t('resetPassword.validation.passwordStrength')
     )
   },
 }
@@ -131,7 +132,7 @@ function validarSenhaForte(senha: string) {
 
 async function confirmar() {
   if (!codigo.value) {
-    toast.success("Informe o código")
+    toast.success(t('resetPassword.toast.enterCode'))
     return;
   }
 
@@ -150,7 +151,7 @@ async function confirmar() {
 
 async function redefinirSenha() {
   if (novaSenha.value != confirmarSenha.value) {
-    toast.error("As senhas não coincidem")
+    toast.error(t('resetPassword.toast.passwordMismatch'))
     return;
   }
   loading.value = true
@@ -177,7 +178,7 @@ async function validarToken(token: string) {
       usuario.value = resp?.data?.usuario
     } else {
       route.push("/login").then(() => {
-        toast.error("Token inválido")
+        toast.error(t('resetPassword.toast.invalidToken'))
       })
     }
   }).finally(() => loading.value = false)

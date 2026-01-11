@@ -15,6 +15,32 @@
     </template>
 
     <template v-slot:append>
+      <v-menu offset-y transition="slide-y-transition">
+        <template v-slot:activator="{ props }">
+          <v-btn icon variant="flat" v-bind="props" class="action-btn mr-2">
+            <img
+              :src="currentLocale === 'pt' ? 'https://flagcdn.com/w40/br.png' : 'https://flagcdn.com/w40/gb.png'"
+              :alt="currentLocale === 'pt' ? 'Português' : 'English'"
+              class="flag-img"
+            />
+          </v-btn>
+        </template>
+        <v-list class="profile-menu" elevation="8">
+          <v-list-item @click="changeLocale('pt')" class="menu-item">
+            <template v-slot:prepend>
+              <img src="https://flagcdn.com/w40/br.png" alt="Brasil" class="flag-img-menu mr-2" />
+            </template>
+            <v-list-item-title>Português</v-list-item-title>
+          </v-list-item>
+          <v-list-item @click="changeLocale('en')" class="menu-item">
+            <template v-slot:prepend>
+              <img src="https://flagcdn.com/w40/gb.png" alt="England" class="flag-img-menu mr-2" />
+            </template>
+            <v-list-item-title>English</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
+
       <v-btn @click="router.push('/notificacoes')" icon variant="flat" class="action-btn mr-2">
         <v-badge dot color="#FF6B6B" offset-x="-2" offset-y="2">
           <v-icon size="20px">mdi-bell-outline</v-icon>
@@ -33,7 +59,7 @@
             </v-avatar>
             <div class="profile-info">
               <span class="profile-name">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome || treinador?.usuario?.nome }}</span>
-              <span class="profile-role">{{ perfis[payload?.role] }}</span>
+              <span class="profile-role" v-if="!loading && payload?.role">{{ t(`appBar.role.${payload?.role}`) }}</span>
             </div>
             <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
           </v-btn>
@@ -43,20 +69,20 @@
             <template v-slot:prepend>
               <v-icon size="20">mdi-account-circle</v-icon>
             </template>
-            <v-list-item-title>Perfil</v-list-item-title>
+            <v-list-item-title>{{ t('appBar.actions.profile')  }}</v-list-item-title>
           </v-list-item>
           <v-list-item @click="router.push('/settings')" class="menu-item">
             <template v-slot:prepend>
               <v-icon size="20">mdi-cog</v-icon>
             </template>
-            <v-list-item-title>Configurações</v-list-item-title>
+            <v-list-item-title>{{ t('appBar.actions.settings')  }}</v-list-item-title>
           </v-list-item>
           <v-divider class="my-1"></v-divider>
           <v-list-item @click="sair" class="menu-item logout-item">
             <template v-slot:prepend>
               <v-icon size="20" color="#FF6B6B">mdi-logout</v-icon>
             </template>
-            <v-list-item-title>Sair</v-list-item-title>
+            <v-list-item-title>{{ t('appBar.actions.logout')  }}</v-list-item-title>
           </v-list-item>
         </v-list>
       </v-menu>
@@ -72,6 +98,7 @@ import { useLayoutStore } from '@/stores/layout';
 import { getPayload, logout } from '@/utils/auth';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
@@ -87,6 +114,8 @@ const layoutStore = useLayoutStore()
 const payload = ref<any>()
 const router = useRouter()
 const route = useRoute()
+const { locale, t } = useI18n()
+const currentLocale = ref(locale.value)
 const atleta = ref<any>()
 const medico = ref<any>()
 const fisioterapeuta = ref<any>()
@@ -94,77 +123,92 @@ const treinador = ref<any>()
 const loading = ref(true)
 const dialogPerfil = ref(false)
 
+const changeLocale = (lang: string) => {
+  locale.value = lang
+  currentLocale.value = lang
+  localStorage.setItem('locale', lang)
+}
+
 const pageTitle = computed(() => {
   const path = route.path
 
   // Rota raiz baseada na role
   if (path === '/') {
     const role = payload.value?.role
-    if (role === 'atleta') return 'Eventos'
-    if (role === 'medico') return 'Agenda'
-    if (role === 'fisioterapeuta') return 'Agenda'
-    if (role === 'treinador') return 'Biblioteca de Exercícios'
+    if (role === 'atleta') return t('appBar.titleEvents')
+    if (role === 'medico') return t('appBar.titleCalendar')
+    if (role === 'fisioterapeuta') return t('appBar.titleCalendar')
+    if (role === 'treinador') return t('appBar.titleExerciseLibrary')
   }
 
   // Rotas dinâmicas
   if (path.startsWith('/Atleta-Screens/eventos/')) return 'Detalhes do Evento'
 
   const routeMap: Record<string, string> = {
-    '/Atleta-Screens/eventos': 'Eventos',
-    '/Atleta-Screens/consultas': 'Consultas',
-    '/Atleta-Screens/registrosMedicos': 'Registros Médicos',
-    '/Atleta-Screens/medicos': 'Buscar Médico',
-    '/Atleta-Screens/meusMedicos': 'Meus Médicos',
-    '/Atleta-Screens/perfilAtleta': 'Perfil',
-    '/Atleta-Screens/editarPerfilAtleta': 'Editar Perfil',
-    '/Atleta-Screens/medicoDetalhes': 'Detalhes do Médico',
-    '/Atleta-Screens/fisioterapeutaDetalhes': 'Detalhes do Fisioterapeuta',
-    '/Atleta-Screens/treinadorDetalhes': 'Detalhes do Treinador',
-    '/Atleta-Screens/meuPlano': 'Meu Plano',
-    '/Atleta-Screens/visaoGeral': 'Visão Geral',
-    '/Medico-Screens/agendaMedica': 'Calendário',
-    '/Medico-Screens/consultas': 'Consultas',
-    '/Medico-Screens/consultasPendentes': 'Consultas Pendentes',
-    '/Medico-Screens/pacientes': 'Lista de Pacientes',
-    '/Medico-Screens/pacientesAtendidos': 'Pacientes Recentes',
-    '/Medico-Screens/detalhesPaciente': 'Detalhes do Paciente',
-    '/Medico-Screens/perfilMedico': 'Perfil',
-    '/Medico-Screens/editarPerfilMedico': 'Editar Perfil',
-    '/Medico-Screens/perfil-publico': 'Perfil Público',
-    '/Medico-Screens/editarPerfilPublico': 'Editar Perfil Público',
-    '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'Calendário',
-    '/Fisioterapeuta-Screens/consultas': 'Consultas',
-    '/Fisioterapeuta-Screens/consultasPendentes': 'Consultas Pendentes',
-    '/Fisioterapeuta-Screens/perfilFisioterapeuta': 'Perfil',
-    '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': 'Editar Perfil',
-    '/Fisioterapeuta-Screens/perfil-publico': 'Perfil Público',
-    '/Fisioterapeuta-Screens/editarPerfilPublico': 'Editar Perfil Público',
-    '/Treinador-Screens/detalhesAtleta': 'Detalhes do Atleta',
-    '/Treinador-Screens/editarPerfilTreinador': 'Editar Perfil',
-    '/solicitacoesConexoes': 'Conexões',
-    '/certificados': 'Certificados',
-    '/notificacoes': 'Notificações',
-    '/exercicios': 'Biblioteca de Exercícios',
-    '/settings': 'Configurações',
-    '/resumo': 'Resumo',
-    '/adicionarConsulta': 'Adicionar Consulta',
-    '/analises': 'Análises',
-    '/artigos': 'Artigos',
-    '/criarTreino': 'Criar Treino',
-    '/cupons': 'Cupons',
-    '/detalhesAtleta': 'Detalhes do Atleta',
-    '/detalhesPaciente': 'Detalhes do Paciente',
-    '/gerenciarCodigos': 'Gerenciar Códigos',
-    '/novaSenhaLogado': 'Alterar Senha',
-    '/users': 'Usuários',
-    '/validarCertificado': 'Validar Certificado',
-    '/centralAjuda': 'Central de Ajuda',
-    '/registerPlanos': 'Planos',
-    '/cadastrar-atleta': 'Cadastrar Atleta',
-    '/cadastar-medico': 'Cadastrar Médico',
-    '/cadastar-fisioterapeuta': 'Cadastrar Fisioterapeuta',
-    '/cadastar-treinador': 'Cadastrar Treinador',
-    '/cadastar-administrador': 'Cadastrar Administrador',
+    '/Atleta-Screens/eventos': t('appBar.titleEvents'),
+  '/Atleta-Screens/consultas': t('appBar.titleConsultas'),
+  '/Atleta-Screens/registrosMedicos': t('appBar.titleRegistersDocs'),
+  '/Atleta-Screens/medicos': t('appBar.titleSearchDoctor'),
+  '/Atleta-Screens/meusMedicos': t('appBar.titleMyDoctors'),
+  '/Atleta-Screens/perfilAtleta': t('appBar.titleProfile'),
+  '/Atleta-Screens/editarPerfilAtleta': t('appBar.titleEditProfile'),
+  '/Atleta-Screens/medicoDetalhes': t('appBar.titleDoctorDetails'),
+  '/Atleta-Screens/fisioterapeutaDetalhes': t('appBar.titlePhysioDetails'),
+  '/Atleta-Screens/treinadorDetalhes': t('appBar.titleCoachDetails'),
+  '/Atleta-Screens/meuPlano': t('appBar.titleMyPlan'),
+  '/Atleta-Screens/visaoGeral': t('appBar.titleOverview'),
+  '/Atleta-Screens/treinosAtleta': t('appBar.titleMyTrainings'),
+
+  '/Medico-Screens/agendaMedica': t('appBar.titleCalendar'),
+  '/Medico-Screens/consultas': t('appBar.titleConsultas'),
+  '/Medico-Screens/consultasPendentes': t('appBar.titlePendingConsultations'),
+  '/Medico-Screens/pacientes': t('appBar.titlePatientList'),
+  '/Medico-Screens/pacientesAtendidos': t('appBar.titleRecentPatients'),
+  '/Medico-Screens/detalhesPaciente': t('appBar.titlePatientDetails'),
+  '/Medico-Screens/perfilMedico': t('appBar.titleProfile'),
+  '/Medico-Screens/editarPerfilMedico': t('appBar.titleEditProfile'),
+  '/Medico-Screens/perfil-publico': t('appBar.titlePublicProfile'),
+  '/Medico-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
+  '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
+
+  '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
+  '/Fisioterapeuta-Screens/consultas': t('appBar.titleConsultas'),
+  '/Fisioterapeuta-Screens/consultasPendentes': t('appBar.titlePendingConsultations'),
+  '/Fisioterapeuta-Screens/perfilFisioterapeuta': t('appBar.titleProfile'),
+  '/Fisioterapeuta-Screens/editarPerfilFisioterapeuta': t('appBar.titleEditProfile'),
+  '/Fisioterapeuta-Screens/perfil-publico': t('appBar.titlePublicProfile'),
+  '/Fisioterapeuta-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
+  '/cadastrar-fisioterapeuta':  t('appBar.titleRegisterPhysio'),
+
+  '/Treinador-Screens/detalhesAtleta': t('appBar.titleAthleteDetails'),
+  '/Treinador-Screens/editarPerfilTreinador': t('appBar.titleEditProfile'),
+  '/cadastrar-treinador': t('appBar.titleRegisterCoach'),
+
+  '/solicitacoesConexoes': t('appBar.titleConnections'),
+  '/certificados': t('appBar.titleCertificates'),
+  '/notificacoes': t('appBar.titleNotifications'),
+  '/exercicios': t('appBar.titleExerciseLibrary'),
+  '/settings': t('appBar.titleSettings'),
+  '/resumo': t('appBar.titleSummary'),
+  '/adicionarConsulta': t('appBar.titleAddConsultation'),
+  '/analises': t('appBar.titleAnalytics'),
+  '/artigos': t('appBar.titleArticles'),
+  '/criarTreino': t('appBar.titleCreateTraining'),
+  '/cupons': t('appBar.titleCoupons'),
+  '/detalhesAtleta': t('appBar.titleAthleteDetails'),
+  '/detalhesPaciente': t('appBar.titlePatientDetails'),
+  '/gerenciarCodigos': t('appBar.titleManageCodes'),
+  '/novaSenhaLogado': t('appBar.titleChangePassword'),
+  '/users': t('appBar.titleUsers'),
+  '/validarCertificado': t('appBar.titleValidateCertificate'),
+  '/centralAjuda': t('appBar.titleHelpCenter'),
+  '/registerPlanos': t('appBar.titlePlans'),
+
+  '/cadastrar-atleta': t('appBar.titleRegisterAthlete'),
+  '/cadastar-medico': t('appBar.titleRegisterDoctor'),
+  '/cadastar-fisioterapeuta': t('appBar.titleRegisterPhysio'),
+  '/cadastar-treinador': t('appBar.titleRegisterCoach'),
+  '/cadastar-administrador': t('appBar.titleRegisterAdmin')
   }
   return routeMap[path] || ''
 })
@@ -197,6 +241,7 @@ const pageIcon = computed(() => {
     '/Atleta-Screens/treinadorDetalhes': 'mdi-whistle',
     '/Atleta-Screens/meuPlano': 'mdi-credit-card-outline',
     '/Atleta-Screens/visaoGeral': 'mdi-view-dashboard',
+    '/Atleta-Screens/treinosAtleta': 'mdi-dumbbell',
     '/Medico-Screens/agendaMedica': 'mdi-calendar-month-outline',
     '/Medico-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Medico-Screens/consultasPendentes': 'mdi-calendar-month-outline',
@@ -290,6 +335,12 @@ const buscarTreinadorById = async (id: string) => {
 }
 
 onMounted(async () => {
+  const savedLocale = localStorage.getItem('locale')
+  if (savedLocale) {
+    locale.value = savedLocale
+    currentLocale.value = savedLocale
+  }
+
   if (getAtletaId()) {
     await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
@@ -312,10 +363,10 @@ function sair() {
 }
 
 const perfis: any = {
-  'medico': 'MÉDICO',
-  'atleta': 'ATLETA',
-  'fisioterapeuta': 'FISIOTERAPEUTA',
-  'treinador': 'TREINADOR',
+  'medico': t('appBar.role.medico'),
+  'atleta': t('appBar.role.atleta'),
+  'fisioterapeuta': t('appBar.role.fisioterapeuta'),
+  'treinador': t('appBar.role.treinador'),
   'admin': 'ADMINISTRADOR'
 }
 
@@ -372,7 +423,7 @@ const perfis: any = {
 .action-btn {
   background: #F5F8FA;
   color: #546E7A;
-  border-radius: 12px;
+  border-radius: 20px;
   width: 46px;
   height: 46px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -476,5 +527,47 @@ const perfis: any = {
 @keyframes loading {
   0% { left: -100%; }
   100% { left: 100%; }
+}
+
+.language-select {
+  width: 80px;
+  min-width: 80px;
+}
+
+.language-select :deep(.v-field) {
+  background: #F5F8FA;
+  border-radius: 12px;
+  border: 1.5px solid rgba(66, 165, 245, 0.15);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.language-select :deep(.v-field:hover) {
+  background: #E3F2FD;
+  border-color: rgba(66, 165, 245, 0.4);
+  transform: translateY(-1px);
+}
+
+.language-select :deep(.v-field--focused) {
+  border-color: #42A5F5;
+  box-shadow: 0 0 0 3px rgba(66, 165, 245, 0.1);
+}
+
+.flag-icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.flag-img {
+  width: 24px;
+  height: 18px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.flag-img-menu {
+  width: 28px;
+  height: 21px;
+  border-radius: 4px;
+  object-fit: cover;
 }
 </style>

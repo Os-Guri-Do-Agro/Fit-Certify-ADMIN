@@ -1,15 +1,15 @@
 <template>
   <v-container class="h-100">
-    <h2 class="text-h4 font-weight-bold mb-6">Análises</h2>
+    <h2 class="text-h4 font-weight-bold mb-6">{{ $t('analises.title') }}</h2>
 
     <v-row align="center" class="mb-4">
       <v-col cols="auto">
-        <span class="text-body-1 font-weight-medium">Buscar por</span>
+        <span class="text-body-1 font-weight-medium">{{ $t('analises.searchBy') }}</span>
       </v-col>
       <v-col cols="auto">
         <v-btn-toggle v-model="filtro" rounded="pill" color="blue" group>
-          <v-btn value="novos" variant="tonal">Novos</v-btn>
-          <v-btn value="antigos" variant="outlined">Antigos</v-btn>
+          <v-btn value="novos" variant="tonal">{{ $t('analises.new') }}</v-btn>
+          <v-btn value="antigos" variant="outlined">{{ $t('analises.old') }}</v-btn>
         </v-btn-toggle>
       </v-col>
     </v-row>
@@ -40,7 +40,7 @@
                 {{ analise.descricao }}
               </div>
               <div class="text-caption text-grey-darken-1">
-                Adicionado {{ analise.data }}
+                {{ $t('analises.added') }} {{ analise.data }}
               </div>
             </v-col>
 
@@ -54,7 +54,7 @@
                 class="px-5 py-4 d-flex align-center justify-center"
               >
                 <span class="mr-1 text-subtitle-2 font-weight-bold"
-                  >Baixar</span
+                  >{{ $t('analises.download') }}</span
                 >
                 <v-icon>mdi-arrow-down-circle-outline</v-icon>
               </v-btn>

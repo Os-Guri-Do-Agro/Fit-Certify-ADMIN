@@ -5,7 +5,7 @@
         <div class="header-icon-wrapper">
           <v-icon size="40" color="white">mdi-calendar-check</v-icon>
         </div>
-        <h1 class="header-title">Minhas Consultas</h1>
+        <h1 class="header-title">{{ t('consultas.title') }}</h1>
       </div>
     </div>
 
@@ -17,7 +17,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'todas' }"
         >
-          Todas as Consultas
+          {{ t('consultas.filters.all') }}
         </v-btn>
         <v-btn
           value="marcado"
@@ -25,7 +25,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'marcado' }"
         >
-          Marcadas
+          {{ t('consultas.filters.scheduled') }}
         </v-btn>
         <v-btn
           value="realizadas"
@@ -33,7 +33,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'realizadas' }"
         >
-          Realizadas
+          {{ t('consultas.filters.completed') }}
         </v-btn>
         <v-btn
           value="pendente"
@@ -41,7 +41,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'pendente' }"
         >
-          Pendentes
+          {{ t('consultas.filters.pending') }}
         </v-btn>
         <v-btn
           value="recusadas"
@@ -49,7 +49,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'recusadas' }"
         >
-          Recusado
+          {{ t('consultas.filters.refused') }}
         </v-btn>
         <v-btn
           value="canceladas"
@@ -57,7 +57,7 @@
           class="px-8 text-body-1 font-weight-medium filter-btn"
           :class="{ 'active-filter': filtro === 'canceladas' }"
         >
-          Cancelada
+          {{ t('consultas.filters.cancelled') }}
         </v-btn>
       </v-btn-toggle>
     </v-row>
@@ -157,7 +157,7 @@
                         <v-icon size="16" class="me-2 gradient-icon"
                           >mdi-calendar</v-icon
                         >
-                        {{ formatarDataLocal(consulta?.dataConsulta) }}
+                        {{ formatarDataComLocale(consulta?.dataConsulta, locale) }}
                       </div>
                       <div
                         class="text-body-2 text-grey-darken-2 d-flex align-center"
@@ -176,11 +176,11 @@
                       variant="flat"
                       class="font-weight-medium text-white"
                     >
-                      {{ consulta?.situacao }}
+                      {{ t(`consultas.status.${consulta?.situacao}`) }}
                     </v-chip> 
                     <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="abrirModalConfirmacao(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
                       <v-icon>mdi-cancel</v-icon>
-                      Cancelar
+                      {{ t('consultas.cancelButton') }}
                     </v-btn>
                     </div>
 
@@ -193,7 +193,7 @@
 
           <div v-if="consultasFiltradas.length === 0" class="text-center py-8">
             <v-icon size="64" color="grey-lighten-2">mdi-calendar-blank</v-icon>
-            <p class="text-h6 mt-4 text-grey">Nenhuma consulta encontrada</p>
+            <p class="text-h6 mt-4 text-grey">{{ t('consultas.noConsultations') }}</p>
           </div>
 
           <!-- Paginação -->
@@ -216,11 +216,11 @@
           </div>
           
           <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
-            Cancelar Consulta?
+            {{ t('consultas.modal.title') }}
           </h3>
           
           <p class="text-body-1 text-grey-darken-1 mb-6">
-            Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.
+            {{ t('consultas.modal.message') }}
           </p>
           
           <div class="d-flex gap-3 justify-center">
@@ -233,7 +233,7 @@
               @click="modalConfirmacao = false"
             >
               <v-icon start>mdi-close</v-icon>
-              Cancelar
+              {{ t('consultas.modal.cancel') }}
             </v-btn>
             
             <v-btn
@@ -245,7 +245,7 @@
               @click="confirmarCancelamento"
             >
               <v-icon start>mdi-check</v-icon>
-              Confirmar
+              {{ t('consultas.modal.confirm') }}
             </v-btn>
           </div>
         </v-card-text>
@@ -257,12 +257,15 @@
 <script setup>
 import consultasService from '@/services/consultas/consultas-service'
 import { getAtletaId } from '@/utils/auth'
-import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
+import { formatarDataComLocale, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { computed, onMounted, ref, watch } from 'vue'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 dayjs.locale('pt-br')
 
 const filtro = ref('todas')

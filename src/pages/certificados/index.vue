@@ -6,7 +6,7 @@
         <div class="header-icon-wrapper">
           <v-icon size="40" color="white">mdi-certificate</v-icon>
         </div>
-        <h1 class="header-title">Certificados</h1>
+        <h1 class="header-title">{{ $t('certificados.title') }}</h1>
       </div>
     </div>
 
@@ -46,7 +46,7 @@
                     mdi-certificate
                   </v-icon>
                   <h2 class="text-h6 font-weight-bold mb-0 gradient-text">
-                    {{ certificadoValidoEAtivo ? 'Seu Certificado está Ativo' : 'Certificado Inativo ou Expirado' }}
+                    {{ certificadoValidoEAtivo ? $t('certificados.certificateActive') : $t('certificados.certificateInactive') }}
                   </h2>
                 </div>
 
@@ -57,11 +57,11 @@
                       <div class="d-flex align-center mb-2">
                         <v-icon size="18" class="mr-2 gradient-icon">mdi-upload</v-icon>
                         <span class="text-caption text-grey-darken-1 font-weight-medium">
-                          Data de Upload
+                          {{ $t('certificados.uploadDate') }}
                         </span>
                       </div>
                       <div class="text-body-1 font-weight-bold">
-                        {{ formatarDataLocal(certificado?.createdAt) || '--' }}
+                        {{ formatDate(certificado?.createdAt) || '--' }}
                       </div>
                     </div>
                     <v-divider vertical class="mx-2" />
@@ -69,12 +69,12 @@
                       <div class="d-flex align-center mb-2">
                         <v-icon size="18" class="mr-2 gradient-icon">mdi-calendar-check</v-icon>
                         <span class="text-caption text-grey-darken-1 font-weight-medium">
-                          Validade
+                          {{ $t('certificados.validity') }}
                         </span>
                       </div>
                       <div class="text-body-1 font-weight-bold"
                         :style="{ color: certificadoValido ? '#00c6fe' : '#f44336' }">
-                        {{ formatarDataLocal(certificado?.validade) || '--' }}
+                        {{ formatDate(certificado?.validade) || '--' }}
                       </div>
                     </div>
                   </div>
@@ -85,7 +85,7 @@
                       <div class="d-flex align-center">
                         <v-icon size="24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
                         <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                          Atleta
+                          {{ $t('certificados.athlete') }}
                         </span>
                       </div>
                     </template>
@@ -98,7 +98,7 @@
                             <v-col cols="12" sm="6" md="4">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Nome
+                                  {{ $t('certificados.name') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
                                   {{ atleta?.usuario?.nome || '--' }}
@@ -108,7 +108,7 @@
                             <v-col cols="12" sm="6" md="4" v-if="atleta?.usuario?.email">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Email
+                                  {{ $t('certificados.email') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium text-truncate">
                                   {{ atleta.usuario.email }}
@@ -118,27 +118,27 @@
                             <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Data de Nascimento
+                                  {{ $t('certificados.birthDate') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
-                                  {{ formatarData(atleta.dataNascimento) }}
+                                  {{ formatDate(atleta.dataNascimento) }}
                                 </div>
                               </div>
                             </v-col>
                             <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Idade
+                                  {{ $t('certificados.age') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
-                                  {{ calcularIdade(atleta.dataNascimento) }} anos
+                                  {{ calcularIdade(atleta.dataNascimento) }} {{ $t('certificados.years') }}
                                 </div>
                               </div>
                             </v-col>
                             <v-col cols="12" sm="6" md="4" v-if="atleta?.telefone">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Telefone
+                                  {{ $t('certificados.phone') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
                                   {{ atleta.telefone }}
@@ -155,7 +155,7 @@
                       <div class="d-flex align-center">
                         <v-icon size="24" color="light-blue-accent-3" class="mr-2">mdi-doctor</v-icon>
                         <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                          Médico
+                          {{ $t('certificados.doctor') }}
                         </span>
                       </div>
                     </template>
@@ -168,7 +168,7 @@
                             <v-col cols="12" sm="6" md="4">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Nome
+                                  {{ $t('certificados.name') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
                                   {{ medico?.usuario?.nome || medico?.nome || '--' }}
@@ -178,7 +178,7 @@
                             <v-col cols="12" sm="6" md="4" v-if="medico?.crm">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  CRM
+                                  {{ $t('certificados.crm') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
                                   {{ medico.crm }}
@@ -188,7 +188,7 @@
                             <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Especialização
+                                  {{ $t('certificados.specialization') }}
                                 </div>
                                 <div class="text-body-2 font-weight-medium">
                                   {{ medico.especializacao }}
@@ -200,7 +200,7 @@
                             <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
                               <div class="info-field">
                                 <div class="text-caption text-grey-darken-1 mb-1">
-                                  Telefone
+                                  {{ $t('certificados.phone') }}
                                 </div>
                                 <div class="text-body-2 text-sm-body-1 font-weight-medium">
                                   {{ medico.telefone }}
@@ -218,7 +218,7 @@
                   <v-btn variant="flat" rounded="lg" size="large" block class="elevation-2 gradient-btn"
                     @click="showQRDialog = true">
                     <v-icon size="24" class="mr-2">mdi-qrcode</v-icon>
-                    Ver QR Code
+                    {{ $t('certificados.viewQRCode') }}
                   </v-btn>
                 </div>
               </v-col>
@@ -232,14 +232,14 @@
         <v-col cols="12">
           <v-card class="pa-6 templates-card" elevation="2" rounded="xl" style="background-color: #f0f9ff">
             <h3 class="text-h6 font-weight-bold mb-4 gradient-text">
-              Templates gerados para provas parceiras
+              {{ $t('certificados.templatesTitle') }}
             </h3>
 
             <div v-if="modelosCertificado.length === 0 || !certificado || !certificadoValidoEAtivo"
               class="text-center py-8">
               <v-icon size="48" color="grey-lighten-2">mdi-file-document-outline</v-icon>
               <p class="text-body-2 mt-4 text-grey">
-                {{ !certificadoValidoEAtivo ? 'Certificado inativo ou expirado' : 'Nenhum template encontrado' }}
+                {{ !certificadoValidoEAtivo ? $t('certificados.certificateInactiveOrExpired') : $t('certificados.noTemplateFound') }}
               </p>
             </div>
 
@@ -247,7 +247,7 @@
               <v-expansion-panel v-if="templatesGerais.length > 0">
                 <template v-slot:title>
                   <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                    Templates Gerais
+                    {{ $t('certificados.generalTemplates') }}
                   </span>
                 </template>
                 <template v-slot:text>
@@ -276,7 +276,7 @@
               <v-expansion-panel v-if="templatesComEvento.length > 0">
                 <template v-slot:title>
                   <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                    Templates de Eventos
+                    {{ $t('certificados.eventTemplates') }}
                   </span>
                 </template>
                 <template v-slot:text>
@@ -339,7 +339,7 @@
             mdi-qrcode
           </v-icon>
           <span class="text-h5 font-weight-bold gradient-text">
-            QR Code do Certificado
+            {{ $t('certificados.qrCodeTitle') }}
           </span>
         </v-card-title>
 
@@ -350,24 +350,24 @@
           <div v-else class="qr-code-placeholder mb-4">
             <v-icon size="120" color="grey-lighten-2">mdi-qrcode</v-icon>
             <p class="text-body-2 text-grey mt-2">
-              QR Code não disponível
+              {{ $t('certificados.qrCodeNotAvailable') }}
             </p>
           </div>
           <p class="text-body-2 text-grey mb-4">
-            Escaneie este código para verificar a autenticidade do certificado.
+            {{ $t('certificados.qrCodeDescription') }}
           </p>
 
           <!-- Botão de redirecionamento -->
           <v-btn v-if="certificado?.id" variant="flat" rounded="lg" block class="mb-2 gradient-btn"
             @click="irParaValidacao">
             <v-icon class="mr-2">mdi-shield-check</v-icon>
-            Validar Certificado
+            {{ $t('certificados.validateCertificate') }}
           </v-btn>
         </v-card-text>
 
         <v-card-actions class="justify-center pa-4">
           <v-btn color="grey" variant="outlined" rounded="lg" @click="showQRDialog = false">
-            Fechar
+            {{ $t('certificados.closeButton') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -386,8 +386,10 @@ import modeloCertificadoService from '@/services/modelo-certificado/modelo-certi
 import atletaService from '@/services/atleta/atleta-service'
 import medicoService from '@/services/medico/medico-service'
 import { getAtletaId } from '@/utils/auth'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t, locale } = useI18n()
 
 dayjs.locale('pt-br')
 
@@ -399,6 +401,16 @@ const modelosCertificado = ref([])
 const downloadingTemplateId = ref(null)
 const atleta = ref(null)
 const medico = ref(null)
+
+const formatDate = (date) => {
+  if (!date) return '--'
+  const d = new Date(date)
+  const day = String(d.getDate()).padStart(2, '0')
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const year = d.getFullYear()
+  
+  return locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
+}
 
 const templatesGerais = computed(() => {
   return modelosCertificado.value.filter(template => !template.eventoId)

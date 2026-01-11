@@ -18,7 +18,7 @@
               :size="display.mobile ? 48 : 64"
             />
             <p class="text-body-2 text-sm-body-1 mt-4 text-grey px-2">
-              Carregando informações do certificado...
+              {{ t('validarCertificado.loading') }}
             </p>
           </div>
 
@@ -26,7 +26,7 @@
           <div v-else-if="error" class="text-center py-6 py-sm-8">
             <v-icon :size="display.mobile ? 60 : 80" color="error">mdi-alert-circle</v-icon>
             <h2 class="text-h6 text-sm-h5 font-weight-bold mt-3 mt-sm-4 mb-2 px-2" style="color: #f44336">
-              Erro ao validar certificado
+              {{ t('validarCertificado.errorTitle') }}
             </h2>
             <p class="text-body-2 text-sm-body-1 text-grey mb-4 px-2">
               {{ error }}
@@ -39,7 +39,7 @@
               class="mt-2 p-20"
               @click="$router.push('/')"
             >
-              Voltar ao início
+              {{ t('validarCertificado.backToHome') }}
             </v-btn>
           </div>
 
@@ -58,10 +58,10 @@
                 class="text-h6 text-sm-h5 text-md-h4 font-weight-bold mb-2 px-2"
                 :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
               >
-                {{ isValido ? 'Certificado Válido' : 'Certificado Inválido' }}
+                {{ isValido ? t('validarCertificado.validCertificate') : t('validarCertificado.invalidCertificate') }}
               </h2>
               <p class="text-body-2 text-sm-body-1 text-grey px-2">
-                Informações do certificado
+                {{ t('validarCertificado.certificateInfo') }}
               </p>
             </div>
 
@@ -76,7 +76,7 @@
                   <div class="d-flex align-center mb-2">
                     <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-upload</v-icon>
                     <span class="text-caption text-grey-darken-1 font-weight-medium">
-                      Data de Upload
+                      {{ t('validarCertificado.uploadDate') }}
                     </span>
                   </div>
                   <div class="text-body-2 text-sm-body-1 font-weight-bold">
@@ -88,7 +88,7 @@
                   <div class="d-flex align-center mb-2">
                     <v-icon size="18" color="light-blue-accent-3" class="mr-2">mdi-calendar-check</v-icon>
                     <span class="text-caption text-grey-darken-1 font-weight-medium">
-                      Data de Validade
+                      {{ t('validarCertificado.validityDate') }}
                     </span>
                   </div>
                   <div
@@ -112,7 +112,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                    Atleta
+                    {{ t('validarCertificado.athlete') }}
                   </span>
                 </div>
               </v-card-title>
@@ -121,7 +121,7 @@
                   <v-col cols="12" sm="6" md="6">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Nome
+                        {{ t('validarCertificado.name') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atleta?.usuario?.nome || '--' }}
@@ -131,7 +131,7 @@
                   <v-col cols="12" sm="6" md="6" v-if="atleta?.usuario?.email">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Email
+                        {{ t('validarCertificado.email') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium" style="word-break: break-all; white-space: normal;">
                         {{ atleta.usuario.email }}
@@ -141,7 +141,7 @@
                   <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Data de Nascimento
+                        {{ t('validarCertificado.birthDate') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ formatarData(atleta.dataNascimento) }}
@@ -151,17 +151,17 @@
                   <v-col cols="12" sm="6" md="4" v-if="atleta?.dataNascimento">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Idade
+                        {{ t('validarCertificado.age') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ calcularIdade(atleta.dataNascimento) }} anos
+                        {{ calcularIdade(atleta.dataNascimento) }} {{ t('validarCertificado.years') }}
                       </div>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atleta?.telefone">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Telefone
+                        {{ t('validarCertificado.phone') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atleta.telefone }}
@@ -183,7 +183,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-doctor</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
-                    Médico
+                    {{ t('validarCertificado.doctor') }}
                   </span>
                 </div>
               </v-card-title>
@@ -192,7 +192,7 @@
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Nome
+                        {{ t('validarCertificado.name') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ medico?.usuario?.nome || medico?.nome || '--' }}
@@ -202,7 +202,7 @@
                   <v-col cols="12" sm="6" md="4" v-if="medico?.crm">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        CRM
+                        {{ t('validarCertificado.crm') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ medico.crm }}
@@ -212,7 +212,7 @@
                   <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Especialização
+                        {{ t('validarCertificado.specialization') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ medico.especializacao }}
@@ -224,7 +224,7 @@
                   <v-col cols="12" sm="6" md="4" v-if="medico?.especializacao">
                     <div class="info-field">
                       <div class="text-caption text-grey-darken-1 mb-1">
-                        Telefone
+                        {{ t('validarCertificado.phone') }}
                       </div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ medico.telefone }}
@@ -246,7 +246,7 @@
                 block
                 @click="$router.push('/')"
               >
-                Voltar ao início
+                {{ t('validarCertificado.backToHome') }}
               </v-btn>
             </div>
           </div>
@@ -267,6 +267,9 @@ import 'dayjs/locale/pt-br'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import atletaService from '@/services/atleta/atleta-service'
 import medicoService from '@/services/medico/medico-service'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -352,29 +355,26 @@ const formatarData = (data) => {
     const dataString = data.toString()
     let dataParsed
     
-    // Se a data tem timezone explícito, dayjs já detecta automaticamente
     if (temTimezone(dataString)) {
       dataParsed = dayjs(data)
     } else {
-      // Se não tem timezone, assume UTC (padrão de APIs REST)
       dataParsed = dayjs.utc(data)
     }
     
-    // Se não é válida, tenta parse normal como fallback
     if (!dataParsed.isValid()) {
       dataParsed = dayjs(data)
     }
     
-    // Converte para o timezone do dispositivo do usuário e formata
     if (dataParsed.isValid()) {
-      return dataParsed.tz(userTimezone).format('DD/MM/YYYY')
+      const formato = locale.value === 'pt' ? 'DD/MM/YYYY' : 'MM/DD/YYYY'
+      return dataParsed.tz(userTimezone).format(formato)
     }
     
     return '--'
   } catch (e) {
     console.error('Erro ao formatar data:', e)
-    // Fallback: formata sem conversão de timezone
-    return dayjs(data).isValid() ? dayjs(data).format('DD/MM/YYYY') : '--'
+    const formato = locale.value === 'pt' ? 'DD/MM/YYYY' : 'MM/DD/YYYY'
+    return dayjs(data).isValid() ? dayjs(data).format(formato) : '--'
   }
 }
 
@@ -438,7 +438,7 @@ const buscarLicenca = async () => {
     const licencaId = route.query.id || route.params.id
     
     if (!licencaId) {
-      error.value = 'ID da licença não fornecido'
+      error.value = t('validarCertificado.errorIdNotProvided')
       return
     }
 
@@ -456,7 +456,7 @@ const buscarLicenca = async () => {
       }
     }
   } catch (err) {
-    error.value = err.response?.data?.message || 'Não foi possível carregar as informações do certificado'
+    error.value = err.response?.data?.message || t('validarCertificado.errorLoadingInfo')
     licenca.value = null
   } finally {
     loading.value = false

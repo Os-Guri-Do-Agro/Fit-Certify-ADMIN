@@ -3,14 +3,7 @@
     <div class="header-section">
       <div class="header-content">
         <div class="profile-avatar-container">
-          <v-skeleton-loader
-            v-if="!atleta"
-            type="avatar"
-            width="120"
-            height="120"
-            class="mx-auto skeleton-avatar"
-          />
-          <v-avatar v-else size="120" class="profile-avatar">
+          <v-avatar  size="120" class="profile-avatar">
             <v-img
               v-if="atleta?.usuario?.avatarUrl"
               :src="atleta?.usuario?.avatarUrl"
@@ -23,21 +16,21 @@
           v-if="!atleta"
           type="text"
           width="200"
-          class="mx-auto skeleton-nome rounded-xl"
+          class="mx-auto skeleton-nome rounded-xl d-flex"
         />
         <h1 v-else class="header-title">{{ atleta?.usuario?.nome }}</h1>
-        <p class="header-subtitle">Perfil do Atleta</p>
+        <p class="header-subtitle">{{ $t('perfilAtleta.profileTitle') }}</p>
         <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-identifier">
             ID: {{ getUserID() }}
           </v-chip>
           <v-chip class="stat-chip" prepend-icon="mdi-shield-check">
-            Plano Ativo
+            {{ $t('perfilAtleta.activePlan') }}
           </v-chip>
         </div>
         <v-btn class="mt-4 gradient-btn" rounded="xl" @click="$router.push('/Atleta-Screens/editarPerfilAtleta')">
           <v-icon class="mr-2">mdi-pencil</v-icon>
-          Editar Perfil
+          {{ $t('perfilAtleta.editProfile') }}
         </v-btn>
       </div>
     </div>
@@ -47,7 +40,7 @@
         <v-expansion-panel-title>
           <div class="d-flex align-center">
             <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart-pulse</v-icon>
-            <h3 class="text-h6 font-weight-bold text-grey-darken-2">Saúde</h3>
+            <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ $t('perfilAtleta.health') }}</h3>
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -57,18 +50,18 @@
                 <v-col cols="12" md="4" class="text-center d-flex flex-column-reverse flex-md-column">
                   <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
                     <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-heart-pulse">
-                      Monitoramento de Saúde
+                      {{ $t('perfilAtleta.healthMonitoring') }}
                     </v-chip>
                     <v-chip class="info-chip text-center d-flex justify-center text-white">
-                      Última Atualização: Hoje
+                      {{ $t('perfilAtleta.lastUpdate') }}
                     </v-chip>
                   </div>
                   <div class="avatar-container">
                     <v-avatar size="190" class="metrics-avatar">
                       <v-icon size="80" color="white">mdi-heart-pulse</v-icon>
                     </v-avatar>
-                    <h2 class="text-h5 font-weight-bold text-white mt-4">Indicadores de Saúde</h2>
-                    <p class="text-subtitle-1 text-blue-darken-4">Acompanhe seus principais parâmetros</p>
+                    <h2 class="text-h5 font-weight-bold text-white mt-4">{{ $t('perfilAtleta.healthIndicators') }}</h2>
+                    <p class="text-subtitle-1 text-blue-darken-4">{{ $t('perfilAtleta.trackParameters') }}</p>
                   </div>
                 </v-col>
                 <v-col cols="12" md="8">
@@ -79,40 +72,40 @@
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-heart</v-icon>
-                              <span class="metric-label">Frequência Cardíaca</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.heartRate') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">bpm</span></div>
-                            <div class="metric-status normal">Sem dados</div>
+                            <div class="metric-status normal">{{ $t('perfilAtleta.noData') }}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-gauge</v-icon>
-                              <span class="metric-label">Pressão Arterial</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.bloodPressure') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">mmHg</span></div>
-                            <div class="metric-status normal">Sem dados</div>
+                            <div class="metric-status normal">{{ $t('perfilAtleta.noData') }}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
-                              <span class="metric-label">Peso Corporal</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.bodyWeight') }}</span>
                             </div>
                             <div class="metric-value"> <span>0</span> <span class="metric-unit">kg</span></div>
-                            <div class="metric-status normal">Sem dados</div>
+                            <div class="metric-status normal">{{ $t('perfilAtleta.noData') }}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-thermometer</v-icon>
-                              <span class="metric-label">Temperatura</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.temperature') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">°C</span></div>
-                            <div class="metric-status normal">Sem dados</div>
+                            <div class="metric-status normal">{{ $t('perfilAtleta.noData') }}</div>
                           </div>
                         </v-col>
                       </v-row>
@@ -129,7 +122,7 @@
         <v-expansion-panel-title>
           <div class="d-flex align-center">
             <v-icon color="#00c6fe" size="28" class="mr-3">mdi-account-details</v-icon>
-            <h3 class="text-h6 font-weight-bold text-grey-darken-2">Informações Pessoais</h3>
+            <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ $t('perfilAtleta.personalInfo') }}</h3>
           </div>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -139,18 +132,18 @@
                 <v-col cols="12" md="4" class="text-center d-flex flex-column-reverse flex-md-column">
                   <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
                     <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-account-details">
-                      Dados Pessoais
+                      {{ $t('perfilAtleta.personalData') }}
                     </v-chip>
                     <v-chip class="info-chip text-center d-flex justify-center text-white">
-                      Informações Cadastrais
+                      {{ $t('perfilAtleta.registrationInfo') }}
                     </v-chip>
                   </div>
                   <div class="avatar-container">
                     <v-avatar size="190" class="metrics-avatar">
                       <v-icon size="80" color="white">mdi-account-details</v-icon>
                     </v-avatar>
-                    <h2 class="text-h5 font-weight-bold text-white mt-4">Dados Cadastrais</h2>
-                    <p class="text-subtitle-1 text-blue-darken-4">Informações pessoais do atleta</p>
+                    <h2 class="text-h5 font-weight-bold text-white mt-4">{{ $t('perfilAtleta.registrationData') }}</h2>
+                    <p class="text-subtitle-1 text-blue-darken-4">{{ $t('perfilAtleta.athletePersonalInfo') }}</p>
                   </div>
                 </v-col>
                 <v-col cols="12" md="8">
@@ -161,25 +154,25 @@
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-email</v-icon>
-                              <span class="metric-label">Email</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.email') }}</span>
                             </div>
-                            <div class="metric-value">{{ atleta?.usuario?.email || 'Não informado' }}</div>
+                            <div class="metric-value">{{ atleta?.usuario?.email || $t('perfilAtleta.notInformed') }}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-phone</v-icon>
-                              <span class="metric-label">Telefone</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.phone') }}</span>
                             </div>
-                            <div class="metric-value">{{ atleta?.telefone || 'Não informado' }}</div>
+                            <div class="metric-value">{{ atleta?.telefone || $t('perfilAtleta.notInformed') }}</div>
                           </div>
                         </v-col>
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-card-account-details</v-icon>
-                              <span class="metric-label">CPF</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.cpf') }}</span>
                             </div>
                             <div class="metric-value">{{ formatarCpf }}</div>
                           </div>
@@ -188,7 +181,7 @@
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-calendar</v-icon>
-                              <span class="metric-label">Data de Nascimento</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.birthDate') }}</span>
                             </div>
                             <div class="metric-value">{{ formatarData }}</div>
                           </div>
@@ -197,9 +190,9 @@
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-human-male-height</v-icon>
-                              <span class="metric-label">Altura</span>
+                              <span class="metric-label">{{ $t('perfilAtleta.height') }}</span>
                             </div>
-                            <div class="metric-value">{{ atleta?.altura ? atleta.altura + ' cm' : 'Não informado' }}</div>
+                            <div class="metric-value">{{ atleta?.altura ? atleta.altura + ' cm' : $t('perfilAtleta.notInformed') }}</div>
                           </div>
                         </v-col>
                       </v-row>
@@ -220,16 +213,21 @@ import router from '@/router'
 import atletaService from '@/services/atleta/atleta-service'
 import { getAtletaId, getUserID } from '@/utils/auth'
 import { computed, onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 
+const { t, locale } = useI18n()
 const atleta = ref<any>()
 
 const formatarData = computed(() => {
-  if (!atleta.value?.dataNascimento) return 'Não informado'
-  return new Date(atleta.value.dataNascimento).toLocaleDateString('pt-BR')
+  if (!atleta.value?.dataNascimento) return t('perfilAtleta.notInformed')
+  const date = new Date(atleta.value.dataNascimento)
+  return locale.value === 'pt'
+    ? date.toLocaleDateString('pt-BR')
+    : date.toLocaleDateString('en-US')
 })
 
 const formatarCpf = computed(() => {
-  if (!atleta.value?.usuario?.cpf) return 'Não informado'
+  if (!atleta.value?.usuario?.cpf) return t('perfilAtleta.notInformed')
   return atleta.value.usuario.cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
 })
 

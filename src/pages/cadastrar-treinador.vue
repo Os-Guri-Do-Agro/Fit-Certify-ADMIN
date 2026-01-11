@@ -4,7 +4,7 @@
     <v-card rounded="xl" elevation="4">
       <v-card-title class="pa-6 d-flex align-center justify-center" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-whistle</v-icon>
-        <span class="text-h5 font-weight-bold">Cadastrar Treinador</span>
+        <span class="text-h5 font-weight-bold">{{ $t('cadastrarTreinador.title') }}</span>
       </v-card-title>
 
       <v-card-text class="pa-6">
@@ -13,14 +13,14 @@
             <VCol cols="12" md="6" >
               <div class="mb-2">
                 <v-icon size="20" color="#1E88E5" class="mr-2">mdi-phone</v-icon>
-                <span class="text-subtitle-2 font-weight-bold">Contato</span>
+                <span class="text-subtitle-2 font-weight-bold">{{ $t('cadastrarTreinador.contact') }}</span>
               </div>
-              <VTextField v-model="form.telefone" label="Telefone*" placeholder="(00) 00000-0000" variant="outlined" rounded="lg" bg-color="white" class="custom-field" @input="formatPhone" />
+              <VTextField v-model="form.telefone" :label="$t('cadastrarTreinador.phone')" :placeholder="$t('cadastrarTreinador.phonePlaceholder')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" @input="formatPhone" />
             </VCol>
             <v-col cols="12" md="6">
               <v-alert type="info" variant="tonal" class="mb-6" rounded="lg">
       <div class="d-flex align-center">
-        <span>As demais informações do usuário serão preenchidas automaticamente com base em um perfil já existente</span>
+        <span>{{ $t('cadastrarTreinador.infoAlert') }}</span>
       </div>
     </v-alert>
             </v-col>
@@ -28,7 +28,7 @@
 
           <div class="d-flex justify-center mt-6">
             <VBtn :loading="loading" :disabled="loading" @click="submitTreinador" color="#1E88E5 " class="text-white" rounded="xl" size="large">
-              Cadastrar Treinador
+              {{ $t('cadastrarTreinador.registerButton') }}
               <v-icon end>mdi-check</v-icon>
             </VBtn>
           </div>
@@ -42,9 +42,11 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
+import { useI18n } from 'vue-i18n'
 import treinadorService from '@/services/treinador/treinador-service'
 import { getErrorMessage } from '@/common/error.utils'
 
+const { t: $t } = useI18n()
 const router = useRouter()
 const loading = ref(false)
 
@@ -69,11 +71,11 @@ const formatPhone = (event) => {
 const submitTreinador = async () => {
   const phoneDigits = form.value.telefone.replace(/\D/g, '')
   if (!phoneDigits) {
-    toast.error('Telefone é obrigatório')
+    toast.error($t('cadastrarTreinador.toasts.phoneRequired'))
     return
   }
   if (phoneDigits.length < 11) {
-    toast.error('Telefone inválido')
+    toast.error($t('cadastrarTreinador.toasts.phoneInvalid'))
     return
   }
   try {
@@ -82,10 +84,10 @@ const submitTreinador = async () => {
     formData.append('telefone', form.value.telefone)
 
     await treinadorService.createTreinadorLogado(formData)
-    toast.success('Treinador cadastrado com sucesso!')
+    toast.success($t('cadastrarTreinador.toasts.registerSuccess'))
     router.push('/resumo')
   } catch (error) {
-    toast.error(getErrorMessage(error, 'Erro ao cadastrar treinador'))
+    toast.error(getErrorMessage(error, $t('cadastrarTreinador.toasts.registerError')))
   } finally {
     loading.value = false
   }

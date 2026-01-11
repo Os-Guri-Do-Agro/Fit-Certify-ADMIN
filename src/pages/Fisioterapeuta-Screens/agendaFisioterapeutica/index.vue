@@ -13,9 +13,9 @@
                     <v-icon size="40" color="white">mdi-calendar-month</v-icon>
                   </div>
                   <div>
-                    <h1 class="text-h4 font-weight-bold text-white mb-1">Agenda Fisioterapêutica</h1>
+                    <h1 class="text-h4 font-weight-bold text-white mb-1">{{ t('agendaFisioterapeutica.title') }}</h1>
                     <p class="text-subtitle-1 text-white mb-0" style="opacity: 0.9;">
-                      {{ dayjs().format('dddd, DD [de] MMMM [de] YYYY') }}
+                      {{ dayjs().format(locale === 'pt' ? 'dddd, DD [de] MMMM [de] YYYY' : 'dddd, MMMM DD, YYYY') }}
                     </p>
                   </div>
                 </div>
@@ -23,7 +23,7 @@
               <v-col cols="12" md="4" class="text-md-right">
                 <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" rounded="xl"
                   prepend-icon="mdi-plus" class="text-blue font-weight-bold elevation-4">
-                  Nova Consulta
+                  {{ t('agendaFisioterapeutica.newAppointment') }}
                 </v-btn>
               </v-col>
             </v-row>
@@ -54,7 +54,7 @@
           <v-card-text class="pa-4">
             <div class="calendar-grid">
               <div class="calendar-header">
-                <div v-for="day in ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']" :key="day" class="day-header">
+                <div v-for="day in weekDays" :key="day" class="day-header">
                   {{ day }}
                 </div>
               </div>
@@ -85,12 +85,12 @@
                   <v-icon color="white">mdi-clock-outline</v-icon>
                 </div>
                 <span class="text-h6 font-weight-bold text-white">
-                  {{ selectedDayAppointments.date ? `Consultas - ${selectedDayAppointments.date}` : `Hoje - ${dayjs().format('DD/MM')}` }}
+                  {{ selectedDayAppointments.date ? `${t('agendaFisioterapeutica.appointments')} - ${selectedDayAppointments.date}` : `${t('agendaFisioterapeutica.today')} - ${formatDateDisplay(dayjs().format('YYYY-MM-DD'))}` }}
                 </span>
               </div>
               <v-btn variant="flat" color="white" size="small" rounded="xl" class="text-blue font-weight-medium"
                 @click="router.push('/Fisioterapeuta-Screens/consultas')">
-                Ver mais
+                {{ t('agendaFisioterapeutica.viewMore') }}
               </v-btn>
             </div>
           </v-card-title>
@@ -113,7 +113,7 @@
                     <div class="d-flex gap-1 flex-wrap">
                       <v-chip size="small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
                         variant="flat" class="text-white">
-                        {{ appointment.type === 'fitcertify' ? 'FitCertify365' : 'Externo' }}
+                        {{ appointment.type === 'fitcertify' ? t('agendaFisioterapeutica.fitcertify') : t('agendaFisioterapeutica.external') }}
                       </v-chip>
                       <v-chip size="small" :color="getStatusColor(appointment.status)" variant="flat" class="text-white">
                         {{ formatStatus(appointment.status) }}
@@ -124,7 +124,7 @@
               </div>
               <div v-if="selectedDayAppointments.appointments.length === 0" class="text-center text-grey py-4">
                 <v-icon size="48" color="grey-lighten-2">mdi-calendar-blank</v-icon>
-                <p class="mt-2 mb-0">Nenhuma consulta neste dia</p>
+                <p class="mt-2 mb-0">{{ t('agendaFisioterapeutica.noAppointments') }}</p>
               </div>
             </div>
           </v-card-text>
@@ -139,21 +139,21 @@
             <div class="icon-wrapper mr-3">
               <v-icon color="white">mdi-calendar-plus</v-icon>
             </div>
-            <span class="text-h5 font-weight-bold">Marcar Consulta</span>
+            <span class="text-h5 font-weight-bold">{{ t('agendaFisioterapeutica.scheduleAppointment') }}</span>
           </div>
         </v-card-title>
 
         <v-card-text class="pa-6">
-          <v-combobox clearable v-if="!ConsultaExterna" label="Nome do Atleta" variant="outlined" :items="atletas"
+          <v-combobox clearable v-if="!ConsultaExterna" :label="t('agendaFisioterapeutica.athleteName')" variant="outlined" :items="atletas"
             item-title="usuario.nome" item-value="id" v-model="atletaSelected" prepend-inner-icon="mdi-account"></v-combobox>
-          <v-text-field v-if="ConsultaExterna" label="Nome do Paciente Externo" variant="outlined"
+          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientName')" variant="outlined"
             prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
 
-          <v-checkbox class="ma-0 pa-0" label="Consulta Externa" v-model="ConsultaExterna" color="blue"></v-checkbox>
+          <v-checkbox class="ma-0 pa-0" :label="t('agendaFisioterapeutica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
           <v-alert class="mb-1"
-            text="Você pode deixar marcado aqui tanto para horários anteriores para registro quanto para novos horários. Pacientes Externos e FitCertify365. Caso seja FitCertify, tome cuidado pois é notificado para ele em seu aplicativo."
-            title="Informações Importantes" type="info" variant="tonal"></v-alert>
+            :text="t('agendaFisioterapeutica.scheduleInfo')"
+            :title="t('agendaFisioterapeutica.importantInfo')" type="info" variant="tonal"></v-alert>
 
           <v-row>
             <v-col cols="6">
@@ -163,7 +163,7 @@
               <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
                 <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
                   <v-icon class="mr-2" color="blue">mdi-clock-outline</v-icon>
-                  Horários Disponíveis
+                  {{ t('agendaFisioterapeutica.availableSchedules') }}
                 </v-card-title>
 
                 <div class="time-slots-grid">
@@ -185,11 +185,11 @@
                 <div class="mt-4 text-center">
                   <v-chip color="success" variant="flat" size="small" class="mr-2">
                     <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                    {{ datinhas.slotsDisponiveis || 0 }} disponíveis
+                    {{ datinhas.slotsDisponiveis || 0 }} {{ t('agendaFisioterapeutica.available') }}
                   </v-chip>
                   <v-chip color="grey" variant="flat" size="small">
                     <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                    {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} ocupados
+                    {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} {{ t('agendaFisioterapeutica.occupied') }}
                   </v-chip>
                 </div>
               </v-card>
@@ -201,11 +201,11 @@
           <v-spacer></v-spacer>
           <v-btn color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
             <v-icon start>mdi-close</v-icon>
-            Cancelar
+            {{ t('agendaFisioterapeutica.cancel') }}
           </v-btn>
           <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
             <v-icon start>mdi-check</v-icon>
-            Confirmar
+            {{ t('agendaFisioterapeutica.confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -220,16 +220,26 @@ import { getFisioterapeutaId, getRole } from '@/utils/auth'
 import { formatarHorarioLocal, removerOffsetTimezone } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
+import 'dayjs/locale/en'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
 import consultasService from '@/services/consultas/consultas-service'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
+
+watch(locale, (newLocale) => {
+  dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
+  currentMonth.value = currentDate.value.format('MMMM YYYY')
+  generateCalendar()
+})
 
 const loading = ref(false)
 const atletaSelected = ref(null)
@@ -241,7 +251,29 @@ const datinhas = ref([])
 const selectedTimeSlot = ref(null)
 const nomePacienteExterno = ref('')
 const currentDate = ref(dayjs())
-const currentMonth = ref(dayjs().format('MMMM YYYY'))
+const currentMonth = ref('')
+
+const weekDays = computed(() => [
+  t('agendaFisioterapeutica.days.sun'),
+  t('agendaFisioterapeutica.days.mon'),
+  t('agendaFisioterapeutica.days.tue'),
+  t('agendaFisioterapeutica.days.wed'),
+  t('agendaFisioterapeutica.days.thu'),
+  t('agendaFisioterapeutica.days.fri'),
+  t('agendaFisioterapeutica.days.sat')
+])
+
+const formatDate = (date) => {
+  return locale.value === 'pt' 
+    ? dayjs(date).format('DD/MM/YYYY')
+    : dayjs(date).format('MM/DD/YYYY')
+}
+
+const formatDateDisplay = (date) => {
+  return locale.value === 'pt'
+    ? dayjs(date).format('DD/MM')
+    : dayjs(date).format('MM/DD')
+}
 const calendarDays = ref([])
 const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const selectedDayAppointments = ref({ date: dayjs().format('DD/MM'), appointments: [] })
@@ -249,6 +281,7 @@ const router = useRouter()
 const appointmentsByDay = ref({})
 
 onMounted(async () => {
+  dayjs.locale(locale.value === 'pt' ? 'pt-br' : 'en')
   if (getRole() === 'fisioterapeuta') {
     buscarAtletas()
     buscarHorariosDisponiveis()
@@ -294,7 +327,7 @@ const criarConsulta = async () => {
 
     await consultasService.postConsulta(data)
     ActiveDialog.value = false
-    toast.success('Consulta marcada com sucesso!', { position: toast.POSITION.TOP_RIGHT })
+    toast.success(t('agendaFisioterapeutica.appointmentSuccess'), { position: toast.POSITION.TOP_RIGHT })
 
     selectedTimeSlot.value = null
     atletaSelected.value = null
@@ -304,7 +337,7 @@ const criarConsulta = async () => {
     await buscarHorariosDisponiveis()
     await buscarConsultasDoDia(selectedDay.value)
   } catch (error) {
-    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), { position: toast.POSITION.TOP_RIGHT })
+    toast.error(t('agendaFisioterapeutica.appointmentError') + ' ' + getErrorMessage(error, t('agendaFisioterapeutica.unknownError')), { position: toast.POSITION.TOP_RIGHT })
   } finally {
     loading.value = false
   }
@@ -371,13 +404,13 @@ const buscarConsultasDoDia = async (selectedDate) => {
       })
 
       console.log('Appointments found:', allAppointments)
-      selectedDayAppointments.value = { date: dayjs(selectedDate).format('DD/MM'), appointments: allAppointments }
+      selectedDayAppointments.value = { date: formatDateDisplay(selectedDate), appointments: allAppointments }
     } else {
-      selectedDayAppointments.value = { date: dayjs(selectedDate).format('DD/MM'), appointments: [] }
+      selectedDayAppointments.value = { date: formatDateDisplay(selectedDate), appointments: [] }
     }
   } catch (error) {
     console.error('Erro ao buscar consultas:', error)
-    selectedDayAppointments.value = { date: dayjs(selectedDate).format('DD/MM'), appointments: [] }
+    selectedDayAppointments.value = { date: formatDateDisplay(selectedDate), appointments: [] }
   }
 }
 
@@ -387,8 +420,8 @@ const selectDay = async (day) => {
 }
 
 const formatStatus = (status) => {
-  const statusMap = { cancelada: 'Cancelada', concluido: 'Concluído', marcado: 'Marcado', pendente: 'Pendente', recusado: 'Recusado' }
-  return statusMap[status] || status
+  const statusKey = status.charAt(0).toUpperCase() + status.slice(1).toLowerCase()
+  return t(`agendaFisioterapeutica.status.${statusKey}`, statusKey)
 }
 
 const getStatusColor = (status) => {

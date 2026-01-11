@@ -8,10 +8,10 @@
               <VIcon icon="mdi-help-circle" size="48" color="white" class="mr-4" />
               <div>
                 <h1 class="text-h3 font-weight-bold text-white mb-2">
-                  Central de Ajuda FitCertify365
+                  {{ $t('centralAjuda.title') }}
                 </h1>
                 <p class="text-h6 text-white opacity-90">
-                  Encontre respostas para suas dúvidas e entre em contato conosco
+                  {{ $t('centralAjuda.subtitle') }}
                 </p>
               </div>
             </div>
@@ -23,67 +23,67 @@
     <VCard class="mb-6" elevation="2">
       <VCardTitle class="d-flex align-center pa-6 bg-blue-lighten-5">
         <VIcon icon="mdi-frequently-asked-questions" color="blue" class="mr-3" />
-        Perguntas Frequentes
+        {{ $t('centralAjuda.faqTitle') }}
       </VCardTitle>
       <VCardText class="pa-0">
         <VExpansionPanels variant="accordion">
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-certificate" class="mr-3" />
-              O certificado serve para todas as provas?
+              {{ $t('centralAjuda.faq.q1') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              Sim. O certificado de aptidão física emitido pelo FitCertify365 é válido para qualquer competição que exija comprovação de saúde, conforme as diretrizes das autoridades esportivas e médicas. Recomendamos apenas verificar se a organização do evento aceita certificados digitais.
+              {{ $t('centralAjuda.faq.a1') }}
             </VExpansionPanelText>
           </VExpansionPanel>
 
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-medical-bag" class="mr-3" />
-              Preciso fazer exames antes?
+              {{ $t('centralAjuda.faq.q2') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              Depende. Alguns usuários já possuem exames recentes e não precisam repetir. Outros podem ser orientados a realizar exames complementares, de acordo com a análise do profissional de saúde responsável. O FitCertify365 conecta você a médicos que seguirão critérios clínicos para garantir sua segurança.
+              {{ $t('centralAjuda.faq.a2') }}
             </VExpansionPanelText>
           </VExpansionPanel>
 
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-doctor" class="mr-3" />
-              Quem assina os certificados?
+              {{ $t('centralAjuda.faq.q3') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              Todos os certificados são assinados por médicos registrados no Conselho Regional de Medicina (CRM), com experiência em saúde esportiva e aptidão física. A plataforma garante a verificação e o registro digital da assinatura para sua validade.
+              {{ $t('centralAjuda.faq.a3') }}
             </VExpansionPanelText>
           </VExpansionPanel>
 
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-shield-check" class="mr-3" />
-              Como sei se ele é válido?
+              {{ $t('centralAjuda.faq.q4') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              O certificado conta com autenticação digital, número de identificação único e validação online através do QR Code. Qualquer organizador ou terceiro autorizado pode verificar a autenticidade em segundos, acessando o link indicado no documento.
+              {{ $t('centralAjuda.faq.a4') }}
             </VExpansionPanelText>
           </VExpansionPanel>
 
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-clock-fast" class="mr-3" />
-              Quanto tempo leva?
+              {{ $t('centralAjuda.faq.q5') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              O processo é rápido. O médico realiza os exames com você no consultório e, se estiver tudo certo, o certificado é emitido na hora, de forma digital e com autenticação válida em todo o território nacional.
+              {{ $t('centralAjuda.faq.a5') }}
             </VExpansionPanelText>
           </VExpansionPanel>
 
           <VExpansionPanel>
             <VExpansionPanelTitle>
               <VIcon icon="mdi-repeat" class="mr-3" />
-              Posso usar o mesmo para várias provas?
+              {{ $t('centralAjuda.faq.q6') }}
             </VExpansionPanelTitle>
             <VExpansionPanelText>
-              Sim. O certificado pode ser utilizado em diversas provas, desde que esteja dentro do período de validade definido pelo médico (geralmente entre 3 e 12 meses). Basta apresentá-lo aos organizadores quando solicitado.
+              {{ $t('centralAjuda.faq.a6') }}
             </VExpansionPanelText>
           </VExpansionPanel>
         </VExpansionPanels>
@@ -95,34 +95,34 @@
         <VCard class="h-100" elevation="2">
           <VCardTitle class="d-flex align-center pa-6 bg-green-lighten-5">
             <VIcon icon="mdi-phone" color="green" class="mr-3" />
-            Canais Diretos
+            {{ $t('centralAjuda.directChannels.title') }}
           </VCardTitle>
           <VCardText class="pa-6">
             <div class="contact-list">
               <div class="contact-item">
                 <VIcon icon="mdi-phone" color="green" class="mr-3" />
                 <div>
-                  <strong>SAC</strong>
+                  <strong>{{ $t('centralAjuda.directChannels.sac') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    0800-44954994095
+                    {{ $t('centralAjuda.directChannels.sacNumber') }}
                   </p>
                 </div>
               </div>
               <div class="contact-item">
                 <VIcon icon="mdi-email" color="green" class="mr-3" />
                 <div>
-                  <strong>E-mail</strong>
+                  <strong>{{ $t('centralAjuda.directChannels.email') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    atendimento@fitcertify365.com
+                    {{ $t('centralAjuda.directChannels.emailAddress') }}
                   </p>
                 </div>
               </div>
               <div class="contact-item">
                 <VIcon icon="mdi-whatsapp" color="green" class="mr-3" />
                 <div>
-                  <strong>WhatsApp</strong>
+                  <strong>{{ $t('centralAjuda.directChannels.whatsapp') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    (21) 400495694
+                    {{ $t('centralAjuda.directChannels.whatsappNumber') }}
                   </p>
                 </div>
               </div>
@@ -135,11 +135,11 @@
         <VCard class="h-100" elevation="2">
           <VCardTitle class="d-flex align-center pa-6 bg-purple-lighten-5">
             <VIcon icon="mdi-handshake" color="blue-lighten-1" class="mr-3" />
-            Quer fazer parte do nosso ecossistema?
+            {{ $t('centralAjuda.partnership.title') }}
           </VCardTitle>
           <VCardText class="pa-6">
             <p class="text-body-1 mb-4">
-              Se você é organizador de eventos, médico, clínica ou marca esportiva e quer se conectar à FitCertify365, entre em contato conosco.
+              {{ $t('centralAjuda.partnership.description') }}
             </p>
             <VBtn 
               color="blue-lighten-1" 
@@ -150,7 +150,7 @@
               href="https://fitcertify365.com/#/contato"
               target="_blank"
             >
-              Entre em Contato
+              {{ $t('centralAjuda.partnership.button') }}
             </VBtn>
           </VCardText>
         </VCard>

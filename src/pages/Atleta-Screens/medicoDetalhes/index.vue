@@ -93,7 +93,7 @@
               0
             </v-chip>
             <v-chip class="rating-chip" prepend-icon="mdi-comment">
-              0 avaliações
+              0 {{ $t('medicoDetalhes.reviews') }}
             </v-chip>
           </div>
 
@@ -118,7 +118,7 @@
               <div class="doctor-info">
                 <div class="info-chips d-flex ga-md-5 flex-column flex-md-row">
                   <v-chip class="info-chip" prepend-icon="mdi-medal">
-                    {{ medico?.experiencia }} anos de experiência
+                    {{ t('medicoDetalhes.yearsExperience', { years: medico?.experiencia }) }}
                   </v-chip>
                   <v-chip class="info-chip" prepend-icon="mdi-clock">
                     {{ medico?.diaFuncionamentoInicio }} - {{ medico?.diaFuncionamentoFim }}
@@ -131,7 +131,7 @@
                 <div v-if="medico?.foco" class="focus-in-header mb-4 d-none d-md-flex flex-column mt-5 rounded-xl">
                   <div class="d-flex align-center mb-2">
                     <v-icon color="white" size="20" class="mr-2">mdi-target</v-icon>
-                    <span class="focus-label">Foco Principal:</span>
+                    <span class="focus-label">{{ $t('medicoDetalhes.mainFocus') }}</span>
                   </div>
                   <p class="focus-text">{{ medico?.foco }}</p>
                 </div>
@@ -143,7 +143,7 @@
                   @click="ActiveDialog = true"
                   :disabled="medicoSemHorario"
                 >
-                  {{ medicoSemHorario ? 'Sem Horários Disponíveis' : 'Marcar Consulta' }}
+                  {{ medicoSemHorario ? $t('medicoDetalhes.noSchedulesAvailable') : $t('medicoDetalhes.scheduleAppointment') }}
                 </v-btn>
               </div>
             </v-col>
@@ -163,7 +163,7 @@
               <v-card-text class="pa-6">
                 <div class="d-flex align-center mb-3 justify-center">
                   <v-icon color="#00c6fe" size="28" class="mr-3">mdi-target</v-icon>
-                  <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">Foco Principal</h3>
+                  <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">{{ $t('medicoDetalhes.mainFocusTitle') }}</h3>
                 </div>
                 <p class="text-body-1 mb-0 text-center">{{ medico?.foco }}</p>
               </v-card-text>
@@ -175,7 +175,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-account-circle</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Perfil</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.profile') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.perfil }}</p>
                   </v-card-text>
@@ -187,7 +187,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-briefcase</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Carreira</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.career') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.carreira }}</p>
                   </v-card-text>
@@ -199,7 +199,7 @@
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-trophy</v-icon>
-                      <h4 class="text-h6 font-weight-bold">Destaques</h4>
+                      <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.highlights') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.destaques }}</p>
                   </v-card-text>
@@ -211,14 +211,14 @@
               <v-card-title class="pa-6 pb-0">
                 <div class="d-flex align-center">
                   <v-icon color="#00c6fe" size="28" class="mr-3">mdi-calendar-clock</v-icon>
-                  <h3 class="text-h6 font-weight-bold ">Suas Consultas</h3>
+                  <h3 class="text-h6 font-weight-bold ">{{ $t('medicoDetalhes.yourAppointments') }}</h3>
                 </div>
               </v-card-title>
 
               <v-card-text class="pa-6">
                 <div v-if="loadingConsultas" class="text-center py-8">
                   <v-progress-circular color="#00c6fe" indeterminate class="mb-4"></v-progress-circular>
-                  <p class="text-body-2 text-grey">Carregando consultas...</p>
+                  <p class="text-body-2 text-grey">{{ $t('medicoDetalhes.loadingAppointments') }}</p>
                 </div>
 
                 <div v-else-if="consultasMedicoAtleta?.length > 0">
@@ -250,7 +250,7 @@
                               {{ situacoes[consulta.situacao] }}
                             </v-chip>
                             <span v-if="consulta.diagnostico" class="text-body-2 text-grey-darken-1">
-                              Diagnóstico: {{ consulta.diagnostico }}
+                              {{ $t('medicoDetalhes.diagnosis') }}: {{ consulta.diagnostico }}
                             </span>
                           </div>
                         </div>
@@ -261,8 +261,8 @@
 
                 <div v-else class="text-center py-8">
                   <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-calendar-remove</v-icon>
-                  <h4 class="text-h6 text-grey-darken-1 mb-2">Nenhuma consulta encontrada</h4>
-                  <p class="text-body-2 text-grey">Você ainda não possui consultas com este médico.</p>
+                  <h4 class="text-h6 text-grey-darken-1 mb-2">{{ $t('medicoDetalhes.noAppointmentsFound') }}</h4>
+                  <p class="text-body-2 text-grey">{{ $t('medicoDetalhes.noAppointmentsDescription') }}</p>
                 </div>
               </v-card-text>
             </v-card>
@@ -276,15 +276,15 @@
       <v-card-title class="pa-6 dialog-header text-white">
         <div class="d-flex align-center">
           <v-icon class="mr-3" size="28">mdi-calendar-plus</v-icon>
-          <span class="text-h5 font-weight-bold">Marcar Consulta</span>
+          <span class="text-h5 font-weight-bold">{{ $t('medicoDetalhes.scheduleAppointmentTitle') }}</span>
         </div>
       </v-card-title>
 
       <v-card-text class="pa-6">
         <v-alert
           class="mb-1"
-          text="Você pode agendar consultas mas tem que aguardar o médico aprovar, assim que fizer o agendamento será encaminhado notificação para ele."
-          title="Informações Importantes"
+          :text="$t('medicoDetalhes.scheduleInfo')"
+          :title="$t('medicoDetalhes.importantInfo')"
           type="info"
           variant="tonal"
         ></v-alert>
@@ -295,8 +295,8 @@
             <v-card rounded="lg" variant="outlined" color="grey" class="pa-8">
               <div class="text-center">
                 <v-icon size="80" color="grey-lighten-1" class="mb-4">mdi-calendar-remove</v-icon>
-                <h3 class="text-h5 mb-3 text-grey-darken-1">Médico sem horários configurados</h3>
-                <p class="text-body-1 text-grey">Este médico ainda não configurou seus horários de atendimento.</p>
+                <h3 class="text-h5 mb-3 text-grey-darken-1">{{ $t('medicoDetalhes.doctorNoSchedules') }}</h3>
+                <p class="text-body-1 text-grey">{{ $t('medicoDetalhes.doctorNoSchedulesDescription') }}</p>
               </div>
             </v-card>
           </v-col>
@@ -309,14 +309,13 @@
               elevation="2"
               rounded="lg"
               class="w-100"
-              locale="pt-BR"
             ></v-date-picker>
           </v-col>
           <v-col cols="6">
             <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
               <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
                 <v-icon class="mr-2" color="blue">mdi-clock-outline</v-icon>
-                Horários Disponíveis
+                {{ $t('medicoDetalhes.availableSchedules') }}
               </v-card-title>
 
               <div class="time-slots-grid">
@@ -364,7 +363,7 @@
                   class="mr-2"
                 >
                   <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                  {{ datinhas.slotsDisponiveis || 0 }} disponíveis
+                  {{ datinhas.slotsDisponiveis || 0 }} {{ $t('medicoDetalhes.available') }}
                 </v-chip>
                 <v-chip color="grey" variant="flat" size="small">
                   <v-icon size="12" class="mr-1">mdi-close</v-icon>
@@ -372,7 +371,7 @@
                     (datinhas.slots?.length || 0) -
                     (datinhas.slotsDisponiveis || 0)
                   }}
-                  ocupados
+                  {{ $t('medicoDetalhes.occupied') }}
                 </v-chip>
               </div>
             </v-card>
@@ -389,7 +388,7 @@
           @click="ActiveDialog = false"
         >
           <v-icon left>mdi-close</v-icon>
-          Cancelar
+          {{ $t('medicoDetalhes.cancel') }}
         </v-btn>
         <v-btn
           v-if="!medicoSemHorario"
@@ -401,7 +400,7 @@
           :loading="loading"
         >
           <v-icon left>mdi-check</v-icon>
-          Confirmar Agendamento
+          {{ $t('medicoDetalhes.confirmSchedule') }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -418,10 +417,14 @@ import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import timezone from 'dayjs/plugin/timezone'
 import utc from 'dayjs/plugin/utc'
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
+
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
@@ -452,13 +455,13 @@ const getStatusColor = (situacao) => {
   return 'grey'
 }
 
-const situacoes = {
-  Pendente: 'Pendente',
-  Marcado: 'Marcado',
-  Cancelada: 'Cancelada',
-  Recusado: 'Recusado',
-  Concluido: 'Concluído',
-}
+const situacoes = computed(() => ({
+  Pendente: t('consultas.status.Pendente'),
+  Marcado: t('consultas.status.Marcado'),
+  Cancelada: t('consultas.status.Cancelada'),
+  Recusado: t('consultas.status.Recusado'),
+  Concluido: t('consultas.status.Concluido'),
+}))
 
 const getStatusIcon = (situacao) => {
   if (situacao === 'Pendente') return 'mdi-clock-outline'
@@ -544,7 +547,7 @@ const criarConsulta = async () => {
 
     await consultasService.createConsultaByAtleta(data)
     ActiveDialog.value = false
-    toast.success('Solicitação de consulta enviada!', {
+    toast.success(t('medicoDetalhes.scheduleSuccess'), {
       autoClose: 2000,
       position: toast.POSITION.BOTTOM_RIGHT,
     })
@@ -555,7 +558,7 @@ const criarConsulta = async () => {
     datinhas.value = []
     await buscarConsultasAtleta()
   } catch (error) {
-    toast.error('Erro ao marcar consulta: ' + getErrorMessage(error, 'Erro desconhecido'), {
+    toast.error(t('medicoDetalhes.scheduleError', { error: getErrorMessage(error, t('medicoDetalhes.unknownError')) }), {
       autoClose: 2000,
       position: toast.POSITION.BOTTOM_RIGHT,
     })

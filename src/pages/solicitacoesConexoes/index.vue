@@ -4,7 +4,7 @@
       <div class="hero-overlay"></div>
       <v-container class="position-relative w-100">
         <v-btn color="white" variant="outlined" rounded="xl" prepend-icon="mdi-qrcode" @click="router.push('/gerenciarCodigos')" class="btn-top-right">
-          Gerenciar Códigos
+          {{ $t('solicitacoesConexoes.manageCodesButton') }}
         </v-btn>
         <v-row align="center" class="min-height-250">
           <v-col cols="12" class="text-center">
@@ -13,12 +13,12 @@
               <v-icon color="white" size="60">mdi-account-multiple-plus</v-icon>
             </div>
             <div class="d-flex align-center justify-center">
-              <h1 class="hero-title">Solicitações de Conexão</h1>
+              <h1 class="hero-title">{{ $t('solicitacoesConexoes.title') }}</h1>
             </div>
 
             </div>
 
-            <p class="hero-subtitle">Gerencie suas conexões com profissionais e atletas</p>
+            <p class="hero-subtitle">{{ $t('solicitacoesConexoes.subtitle') }}</p>
           </v-col>
         </v-row>
       </v-container>
@@ -31,17 +31,17 @@
             <v-tabs v-model="activeTab" bg-color="white" grow class="modern-tabs">
               <v-tab value="pendentes" class="tab-item">
                 <v-icon start>mdi-clock-alert</v-icon>
-                Pendentes
+                {{ $t('solicitacoesConexoes.tabs.pending') }}
                 <v-chip v-if="solicitacoesPendentes.length > 0" class="ml-2 tab-chip" size="small">{{ solicitacoesPendentes.length }}</v-chip>
               </v-tab>
               <v-tab value="enviadas" class="tab-item">
                 <v-icon start>mdi-send</v-icon>
-                Enviadas
+                {{ $t('solicitacoesConexoes.tabs.sent') }}
                 <v-chip v-if="solicitacoesEnviadas.length > 0" class="ml-2 tab-chip" size="small">{{ solicitacoesEnviadas.length }}</v-chip>
               </v-tab>
               <v-tab value="conexoes" class="tab-item">
                 <v-icon start>mdi-account-check</v-icon>
-                Minhas Conexões
+                {{ $t('solicitacoesConexoes.tabs.myConnections') }}
                 <v-chip v-if="totalConexoes > 0" class="ml-2 tab-chip" size="small">{{ totalConexoes }}</v-chip>
               </v-tab>
             </v-tabs>
@@ -87,18 +87,18 @@
 
                           <v-col cols="12" sm="" class="text-center text-sm-left">
                             <div class="d-flex align-center justify-center justify-sm-start mb-2">
-                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.solicitante?.usuario?.nome || 'Usuário' }}</h3>
+                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.solicitante?.usuario?.nome || $t('solicitacoesConexoes.user') }}</h3>
                               <v-chip
                                 size="small"
                                 variant="flat"
                                 class="chip-gradient"
                               >
-                                {{ solicitacao.solicitante?.tipo || 'Profissional' }}
+                                {{ translateRole(solicitacao.solicitante?.tipo) || $t('solicitacoesConexoes.professional') }}
                               </v-chip>
                             </div>
                             <div class="text-caption text-grey">
                               <v-icon size="16" class="mr-1">mdi-clock-outline</v-icon>
-                              {{ formatarDataLocal(solicitacao.createdAt) }}
+                              {{ formatDate(solicitacao.createdAt) }}
                             </div>
                           </v-col>
 
@@ -114,7 +114,7 @@
                                 :loading="loadingAction === solicitacao.id"
                               >
                                 <v-icon start>mdi-check-circle</v-icon>
-                                Aceitar
+                                {{ $t('solicitacoesConexoes.acceptButton') }}
                               </v-btn>
                               <v-btn
                                 variant="outlined"
@@ -126,7 +126,7 @@
                                 :loading="loadingAction === solicitacao.id"
                               >
                                 <v-icon start>mdi-close-circle</v-icon>
-                                Recusar
+                                {{ $t('solicitacoesConexoes.refuseButton') }}
                               </v-btn>
                             </div>
                           </v-col>
@@ -137,8 +137,8 @@
                     <div v-if="solicitacoesPendentes.length === 0" class="empty-state">
                       <v-card class="pa-12 text-center" rounded="xl" elevation="0" color="grey-lighten-5">
                         <v-icon size="120" color="grey-lighten-1" class="mb-6">mdi-clock-check</v-icon>
-                        <h3 class="text-h5 font-weight-bold mb-3">Nenhuma solicitação pendente</h3>
-                        <p class="text-body-1 text-grey-darken-1">Você não possui solicitações de conexão no momento.</p>
+                        <h3 class="text-h5 font-weight-bold mb-3">{{ $t('solicitacoesConexoes.emptyStates.noPending') }}</h3>
+                        <p class="text-body-1 text-grey-darken-1">{{ $t('solicitacoesConexoes.emptyStates.noPendingDescription') }}</p>
                       </v-card>
                     </div>
                   </div>
@@ -185,21 +185,21 @@
 
                           <v-col cols="12" sm="" class="text-center text-sm-left">
                             <div class="d-flex align-center justify-center justify-sm-start mb-2">
-                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.destinatario?.usuario?.nome || 'Usuário' }}</h3>
+                              <h3 class="text-h6 font-weight-bold mr-2">{{ solicitacao.destinatario?.usuario?.nome || $t('solicitacoesConexoes.user') }}</h3>
                               <v-chip
                                 :color="getStatusColor(solicitacao.status)"
                                 size="small"
                                 variant="flat"
                               >
-                                {{ solicitacao.status }}
+                                {{ translateStatus(solicitacao.status) }}
                               </v-chip>
                             </div>
                             <div class="text-body-1 text-grey-darken-2 mb-1">
-                              {{ solicitacao.destinatario?.tipo || 'Profissional' }}
+                              {{ translateRole(solicitacao.destinatario?.tipo) || $t('solicitacoesConexoes.professional') }}
                             </div>
                             <div class="text-caption text-grey">
                               <v-icon size="16" class="mr-1">mdi-clock-outline</v-icon>
-                              Enviada em {{ formatarDataLocal(solicitacao.createdAt) }}
+                              {{ $t('solicitacoesConexoes.sentAt') }} {{ formatDate(solicitacao.createdAt) }}
                             </div>
                           </v-col>
                         </v-row>
@@ -209,8 +209,8 @@
                     <div v-if="solicitacoesEnviadas.length === 0" class="empty-state">
                       <v-card class="pa-12 text-center" rounded="xl" elevation="0" color="grey-lighten-5">
                         <v-icon size="120" color="grey-lighten-1" class="mb-6">mdi-send-outline</v-icon>
-                        <h3 class="text-h5 font-weight-bold mb-3">Nenhuma solicitação enviada</h3>
-                        <p class="text-body-1 text-grey-darken-1">Você ainda não enviou solicitações de conexão.</p>
+                        <h3 class="text-h5 font-weight-bold mb-3">{{ $t('solicitacoesConexoes.emptyStates.noSent') }}</h3>
+                        <p class="text-body-1 text-grey-darken-1">{{ $t('solicitacoesConexoes.emptyStates.noSentDescription') }}</p>
                       </v-card>
                     </div>
                   </div>
@@ -225,11 +225,11 @@
                       <v-select
                         v-model="filtroTipo"
                         :items="[
-                          { title: 'Todos', value: '' },
-                          { title: 'Fisioterapeuta', value: 'fisioterapeuta' },
-                          { title: 'Treinador', value: 'treinador' }
+                          { title: $t('solicitacoesConexoes.filterOptions.all'), value: '' },
+                          { title: $t('solicitacoesConexoes.filterOptions.physiotherapist'), value: 'fisioterapeuta' },
+                          { title: $t('solicitacoesConexoes.filterOptions.coach'), value: 'treinador' }
                         ]"
-                        label="Filtrar por tipo"
+                        :label="$t('solicitacoesConexoes.filterByType')"
                         variant="outlined"
                         density="comfortable"
                         @update:model-value="aplicarFiltro"
@@ -276,19 +276,19 @@
                           <v-col cols="12" sm="" class="text-center text-sm-left">
                             <div class="d-flex align-center justify-center justify-sm-start mb-2">
                               <h3 class="text-h6 font-weight-bold mr-2">
-                                {{ isAtleta ? (getProfissional(conexao)?.usuario?.nome || 'Usuário') : (conexao?.solicitante?.usuario?.nome || 'Usuário') }}
+                                {{ isAtleta ? (getProfissional(conexao)?.usuario?.nome || $t('solicitacoesConexoes.user')) : (conexao?.solicitante?.usuario?.nome || $t('solicitacoesConexoes.user')) }}
                               </h3>
                               <v-chip
                                 color="green"
                                 size="small"
                                 variant="flat"
                               >
-                                {{ isAtleta ? (getProfissional(conexao)?.tipo || 'Profissional') : (conexao?.solicitante?.tipo || 'Atleta') }}
+                                {{ isAtleta ? translateRole(getProfissional(conexao)?.tipo) || $t('solicitacoesConexoes.professional') : translateRole(conexao?.solicitante?.tipo) || $t('solicitacoesConexoes.athlete') }}
                               </v-chip>
                             </div>
                             <div class="text-caption text-grey">
                               <v-icon size="16" class="mr-1">mdi-check-circle</v-icon>
-                              Conectado desde {{ formatarDataLocal(conexao.createdAt) }}
+                              {{ $t('solicitacoesConexoes.connectedSince') }} {{ formatDate(conexao.createdAt) }}
                             </div>
                           </v-col>
 
@@ -303,7 +303,7 @@
                               :loading="loadingAction === conexao.id"
                             >
                               <v-icon start>mdi-link-off</v-icon>
-                              Desvincular
+                              {{ $t('solicitacoesConexoes.unlinkButton') }}
                             </v-btn>
                             <v-btn
                               variant="outlined"
@@ -314,7 +314,7 @@
                               @click="verPerfil(conexao)"
                             >
                               <v-icon start>mdi-account-outline</v-icon>
-                              Perfil
+                              {{ $t('solicitacoesConexoes.profileButton') }}
                             </v-btn>
                           </v-col>
                         </v-row>
@@ -324,8 +324,8 @@
                     <div v-if="conexoes.length === 0" class="empty-state">
                       <v-card class="pa-12 text-center" rounded="xl" elevation="0" color="grey-lighten-5">
                         <v-icon size="120" color="grey-lighten-1" class="mb-6">mdi-account-multiple-outline</v-icon>
-                        <h3 class="text-h5 font-weight-bold mb-3">Nenhuma conexão ativa</h3>
-                        <p class="text-body-1 text-grey-darken-1">Você ainda não possui conexões estabelecidas.</p>
+                        <h3 class="text-h5 font-weight-bold mb-3">{{ $t('solicitacoesConexoes.emptyStates.noConnections') }}</h3>
+                        <p class="text-body-1 text-grey-darken-1">{{ $t('solicitacoesConexoes.emptyStates.noConnectionsDescription') }}</p>
                       </v-card>
                     </div>
 
@@ -350,11 +350,11 @@
       <v-card rounded="xl">
         <v-card-title class="pa-6 text-h5 font-weight-bold">
           <v-icon color="green" size="28" class="mr-2">mdi-check-circle</v-icon>
-          Aceitar Solicitação
+          {{ $t('solicitacoesConexoes.modals.accept.title') }}
         </v-card-title>
         <v-card-text class="pa-6 pt-0">
           <p class="text-body-1 mb-2">
-            Tem certeza que deseja aceitar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
+            {{ $t('solicitacoesConexoes.modals.accept.message') }} <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
           </p>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">
@@ -366,7 +366,7 @@
             @click="modalAceitar = false"
             :disabled="loadingModalAction"
           >
-            Cancelar
+            {{ $t('solicitacoesConexoes.modals.accept.cancel') }}
           </v-btn>
           <v-btn
             variant="flat"
@@ -375,7 +375,7 @@
             @click="aceitarSolicitacao"
             :loading="loadingModalAction"
           >
-            Aceitar
+            {{ $t('solicitacoesConexoes.modals.accept.confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -386,11 +386,11 @@
       <v-card rounded="xl">
         <v-card-title class="pa-6 text-h5 font-weight-bold">
           <v-icon color="red" size="28" class="mr-2">mdi-close-circle</v-icon>
-          Recusar Solicitação
+          {{ $t('solicitacoesConexoes.modals.refuse.title') }}
         </v-card-title>
         <v-card-text class="pa-6 pt-0">
           <p class="text-body-1 mb-2">
-            Tem certeza que deseja recusar a solicitação de conexão de <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
+            {{ $t('solicitacoesConexoes.modals.refuse.message') }} <strong>{{ solicitacaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
           </p>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">
@@ -402,7 +402,7 @@
             @click="modalRecusar = false"
             :disabled="loadingModalAction"
           >
-            Cancelar
+            {{ $t('solicitacoesConexoes.modals.refuse.cancel') }}
           </v-btn>
           <v-btn
             variant="flat"
@@ -411,7 +411,7 @@
             @click="recusarSolicitacao"
             :loading="loadingModalAction"
           >
-            Recusar
+            {{ $t('solicitacoesConexoes.modals.refuse.confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -422,14 +422,14 @@
       <v-card rounded="xl">
         <v-card-title class="pa-6 text-h5 font-weight-bold">
           <v-icon color="red" size="28" class="mr-2">mdi-alert-circle</v-icon>
-          Confirmar Desvinculação
+          {{ $t('solicitacoesConexoes.modals.unlink.title') }}
         </v-card-title>
         <v-card-text class="pa-6 pt-0">
           <p class="text-body-1 mb-2">
-            Tem certeza que deseja desvincular-se de <strong>{{ isAtleta ? getProfissional(conexaoSelecionada)?.usuario?.nome : conexaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
+            {{ $t('solicitacoesConexoes.modals.unlink.message') }} <strong>{{ isAtleta ? getProfissional(conexaoSelecionada)?.usuario?.nome : conexaoSelecionada?.solicitante?.usuario?.nome }}</strong>?
           </p>
           <p class="text-body-2 text-grey-darken-1">
-            Esta ação não poderá ser desfeita e você precisará solicitar uma nova conexão caso queira reconectar.
+            {{ $t('solicitacoesConexoes.modals.unlink.warning') }}
           </p>
         </v-card-text>
         <v-card-actions class="pa-6 pt-0">
@@ -441,7 +441,7 @@
             @click="modalDesvincular = false"
             :disabled="loadingModalAction"
           >
-            Cancelar
+            {{ $t('solicitacoesConexoes.modals.unlink.cancel') }}
           </v-btn>
           <v-btn
             variant="flat"
@@ -450,7 +450,7 @@
             @click="desvincularConexao"
             :loading="loadingModalAction"
           >
-            Desvincular
+            {{ $t('solicitacoesConexoes.modals.unlink.confirm') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -467,8 +467,10 @@ import conexoesService from '@/services/solicitacaoConexao/conexao-service'
 import { formatarDataLocal } from '@/utils/date.utils'
 import { toast } from 'vue3-toastify'
 import { getPayload } from '@/utils/auth'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
+const { t, locale } = useI18n()
 
 const activeTab = ref('pendentes')
 const solicitacoesPendentes = ref<any[]>([])
@@ -499,13 +501,42 @@ const totalConexoes = ref(0)
 
 const totalPages = computed(() => Math.ceil(totalConexoes.value / pageSize.value))
 
+const formatDate = (date: string) => {
+  if (!date) return ''
+  const d = new Date(date)
+  const day = String(d.getDate()).padStart(2, '0')
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const year = d.getFullYear()
+  
+  return locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
+}
+
+const translateRole = (role: string) => {
+  const roleMap: Record<string, string> = {
+    'atleta': 'appBar.role.atleta',
+    'medico': 'appBar.role.medico',
+    'fisioterapeuta': 'appBar.role.fisioterapeuta',
+    'treinador': 'appBar.role.treinador'
+  }
+  return t(roleMap[role] || role)
+}
+
+const translateStatus = (status: string) => {
+  const statusMap: Record<string, string> = {
+    'Pendente': 'solicitacoesConexoes.status.Pendente',
+    'Aceita': 'solicitacoesConexoes.status.Aceita',
+    'Rejeitada': 'solicitacoesConexoes.status.Rejeitada'
+  }
+  return t(statusMap[status] || status)
+}
+
 const carregarSolicitacoesPendentes = async () => {
   loadingPendentes.value = true
   try {
     const response = await conexoesService.getSolicitacoesConexaoPendentes()
     solicitacoesPendentes.value = response.data || []
   } catch (error) {
-    toast.error('Erro ao carregar solicitações pendentes', { autoClose: 3000 })
+    toast.error(t('solicitacoesConexoes.toasts.errorLoadPending'), { autoClose: 3000 })
   } finally {
     loadingPendentes.value = false
   }
@@ -517,7 +548,7 @@ const carregarSolicitacoesEnviadas = async () => {
     const response = await conexoesService.getAllSolicitacoesEnviadas()
     solicitacoesEnviadas.value = response.data || []
   } catch (error) {
-    toast.error('Erro ao carregar solicitações enviadas', { autoClose: 3000 })
+    toast.error(t('solicitacoesConexoes.toasts.errorLoadSent'), { autoClose: 3000 })
   } finally {
     loadingSolicitacoesEnviadas.value = false
   }
@@ -563,12 +594,12 @@ const aceitarSolicitacao = async () => {
   loadingModalAction.value = true
   try {
     await conexoesService.aceitarSolicitacaoConexao({ solicitacaoId: solicitacaoSelecionada.value.id })
-    toast.success('Solicitação aceita com sucesso!', { autoClose: 2500 })
+    toast.success(t('solicitacoesConexoes.toasts.successAccept'), { autoClose: 2500 })
     modalAceitar.value = false
     await carregarSolicitacoesPendentes()
     await carregarConexoes()
   } catch (error) {
-    toast.error('Erro ao aceitar solicitação', { autoClose: 3000 })
+    toast.error(t('solicitacoesConexoes.toasts.errorAccept'), { autoClose: 3000 })
   } finally {
     loadingModalAction.value = false
   }
@@ -579,11 +610,11 @@ const recusarSolicitacao = async () => {
   loadingModalAction.value = true
   try {
     await conexoesService.recusarSolicitacaoConexao({ solicitacaoId: solicitacaoSelecionada.value.id })
-    toast.info('Solicitação recusada', { autoClose: 2500 })
+    toast.info(t('solicitacoesConexoes.toasts.infoRefuse'), { autoClose: 2500 })
     modalRecusar.value = false
     await carregarSolicitacoesPendentes()
   } catch (error) {
-    toast.error('Erro ao recusar solicitação', { autoClose: 3000 })
+    toast.error(t('solicitacoesConexoes.toasts.errorRefuse'), { autoClose: 3000 })
   } finally {
     loadingModalAction.value = false
   }
@@ -594,11 +625,11 @@ const desvincularConexao = async () => {
   loadingModalAction.value = true
   try {
     await conexoesService.apagarConexao(conexaoSelecionada.value.id)
-    toast.success('Conexão desvinculada com sucesso', { autoClose: 2500 })
+    toast.success(t('solicitacoesConexoes.toasts.successUnlink'), { autoClose: 2500 })
     modalDesvincular.value = false
     await carregarConexoes()
   } catch (error) {
-    toast.error('Erro ao desvincular conexão', { autoClose: 3000 })
+    toast.error(t('solicitacoesConexoes.toasts.errorUnlink'), { autoClose: 3000 })
   } finally {
     loadingModalAction.value = false
   }

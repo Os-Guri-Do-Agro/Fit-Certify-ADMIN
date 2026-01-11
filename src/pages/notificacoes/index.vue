@@ -5,14 +5,14 @@
         <div class="header-icon-wrapper">
           <v-icon size="40" color="white">mdi-bell</v-icon>
         </div>
-        <h1 class="header-title">Notificações</h1>
-        <p class="header-subtitle">Acompanhe todas as suas notificações importantes</p>
+        <h1 class="header-title">{{ $t('notificacoes.title') }}</h1>
+        <p class="header-subtitle">{{ $t('notificacoes.subtitle') }}</p>
         <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-bell">
-            {{ notificacoes.length }} total
+            {{ notificacoes.length }} {{ $t('notificacoes.total') }}
           </v-chip>
           <v-chip class="stat-chip" prepend-icon="mdi-bell-badge">
-            {{ notificacoesNaoLidas }} não lidas
+            {{ notificacoesNaoLidas }} {{ $t('notificacoes.unread') }}
           </v-chip>
         </div>
       </div>
@@ -21,11 +21,11 @@
     <v-row justify="center" class="mt-8">
       <v-col cols="12" md="10">
           <div class="d-flex align-center justify-space-between mb-6">
-            <h3 class="text-h6 font-weight-bold">Suas Notificações</h3>
+            <h3 class="text-h6 font-weight-bold">{{ $t('notificacoes.yourNotifications') }}</h3>
             <v-btn v-if="notificacoesNaoLidas > 0" variant="flat" class="gradient-btn" size="small"
               @click="marcarTodasComoLidas">
               <v-icon size="16" class="mr-1">mdi-check-all</v-icon>
-              Marcar todas como lidas
+              {{ $t('notificacoes.markAllAsRead') }}
             </v-btn>
           </div>
 
@@ -50,10 +50,10 @@
                         </h4>
                         <div class="d-flex align-center">
                           <span class="text-caption text-grey mr-2">
-                            {{ formatarDataLocal(notificacao.data) }}
+                            {{ formatDateTime(notificacao.data) }}
                           </span>
                           <v-chip v-if="!notificacao.visualizado" color="blue" size="x-small" class="mr-2">
-                            Nova
+                            {{ $t('notificacoes.new') }}
                           </v-chip>
                           <v-btn icon size="small" variant="text" @click="toggleVisualizacao(notificacao)">
                             <v-icon size="16">
@@ -73,8 +73,8 @@
 
             <div v-else class="text-center py-8">
               <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
-              <h4 class="text-h6 text-grey-darken-1 mb-2">Nenhuma notificação</h4>
-              <p class="text-body-2 text-grey">Você não possui notificações no momento.</p>
+              <h4 class="text-h6 text-grey-darken-1 mb-2">{{ $t('notificacoes.noNotifications') }}</h4>
+              <p class="text-body-2 text-grey">{{ $t('notificacoes.noNotificationsDescription') }}</p>
             </div>
           </div>
       </v-col>
@@ -87,10 +87,26 @@ import { formatarDataHora , formatarDataLocal} from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import { computed, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+
+const { t, locale } = useI18n()
+
 dayjs.locale('pt-br')
 
-
 const notificacoes = ref<any[]>([])
+
+const formatDateTime = (dateTime: string) => {
+  if (!dateTime) return ''
+  const d = new Date(dateTime)
+  const day = String(d.getDate()).padStart(2, '0')
+  const month = String(d.getMonth() + 1).padStart(2, '0')
+  const year = d.getFullYear()
+  const hours = String(d.getHours()).padStart(2, '0')
+  const minutes = String(d.getMinutes()).padStart(2, '0')
+  
+  const dateStr = locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
+  return `${dateStr} ${hours}:${minutes}`
+}
 
 const notificacoesNaoLidas = computed(() => {
   return notificacoes.value.filter(n => !n.visualizado).length

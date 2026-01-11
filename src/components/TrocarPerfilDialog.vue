@@ -3,8 +3,8 @@
     <v-card rounded="xl" elevation="12">
       <v-card-title class="d-flex justify-space-between align-center pa-6">
         <div>
-          <h2 class="text-h5 font-weight-bold">Escolha seu Perfil</h2>
-          <p class="text-subtitle-2 text-medium-emphasis mb-0">Selecione como deseja acessar a plataforma</p>
+          <h2 class="text-h5 font-weight-bold">{{ t('trocarPerfil.title') }}</h2>
+          <p class="text-subtitle-2 text-medium-emphasis mb-0">{{ t('trocarPerfil.subtitle')  }}</p>
         </div>
         <v-btn icon="mdi-close" variant="text" @click="fechar"></v-btn>
       </v-card-title>
@@ -30,14 +30,14 @@
             >
               <v-card-text class="pa-6 text-center">
                 <v-chip v-if="perfil.id === perfilAtualId" color="success" size="small" class="mb-2">
-                  Perfil Atual
+                  {{ t('trocarPerfil.warning')  }}
                 </v-chip>
                 <div class="icon-circle mb-4" :style="`background: ${getPerfilGradient(perfil.nome)};`">
                   <v-icon size="40" color="white">{{ getPerfilIcon(perfil.nome) }}</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold mb-2">{{ perfil.nome }}</h3>
+                <h3 class="text-h6 font-weight-bold mb-2">{{ t(`trocarPerfil.roles.${perfil.nome.toLowerCase()}`) }}</h3>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                  Acessar como {{ perfil.nome.toLowerCase() }}
+                  {{ t('trocarPerfil.text') }} {{ t(`trocarPerfil.roles.${perfil.nome.toLowerCase()}`) }}
                 </p>
               </v-card-text>
             </v-card>
@@ -48,7 +48,7 @@
       <v-divider></v-divider>
 
       <v-card-actions class="px-6 py-4 d-flex justify-space-between">
-        <v-btn variant="text" @click="fechar">Cancelar</v-btn>
+        <v-btn variant="text" @click="fechar">{{ t('trocarPerfil.buttons.cancel')  }}</v-btn>
         <v-btn
           color="#1E88E5"
           variant="flat"
@@ -59,7 +59,7 @@
           class="text-white"
         >
           <v-icon class="me-2" color="#fff">mdi-login</v-icon>
-          Trocar Perfil
+          {{ t('trocarPerfil.buttons.trocarPerfil')  }}
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -71,11 +71,14 @@ import { ref, watch } from 'vue'
 import authService from '@/services/auth/auth-service'
 import { getPayload, getToken } from '@/utils/auth'
 import { toast } from 'vue3-toastify'
+import { useI18n } from 'vue-i18n'
 
 interface Perfil {
   id: string | number
   nome: string
 }
+
+const { t } = useI18n();
 
 const props = defineProps({
   modelValue: Boolean
@@ -123,7 +126,7 @@ const getPerfilGradient = (nome: string) => {
 
 const selecionarPerfil = (perfil: Perfil) => {
   if (perfil.id === perfilAtualId.value) {
-    toast.warning('Você já está neste perfil')
+    toast.warning(t('trocarPerfil.warning'))
     return
   }
   perfilSelecionado.value = perfil.id
@@ -131,7 +134,7 @@ const selecionarPerfil = (perfil: Perfil) => {
 
 const confirmarPerfil = async () => {
   if (perfilSelecionado.value === perfilAtualId.value) {
-    toast.warning('Você já está neste perfil')
+    toast.warning(t('trocarPerfil.warning'))
     return
   }
 
@@ -148,13 +151,13 @@ const confirmarPerfil = async () => {
     if (novoToken) {
       const storage = localStorage.getItem('token') ? localStorage : sessionStorage
       storage.setItem('token', novoToken)
-      toast.success('Perfil trocado com sucesso!', { autoClose: 1500 })
+      toast.success(t('trocarPerfil.warningSuccess'), { autoClose: 1500 })
       setTimeout(() => {
         window.location.href = '/'
       }, 1500)
     }
   } catch (error) {
-    toast.error('Erro ao trocar perfil')
+    toast.error(t('trocarPerfil.warningError'))
     console.error('Erro ao trocar perfil:', error)
     loadingBotao.value = false
   }
