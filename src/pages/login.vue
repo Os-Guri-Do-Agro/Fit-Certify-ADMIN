@@ -293,6 +293,12 @@ async function handleSubmit() {
         storage.setItem("token", response.data?.access_token);
         const payload = getPayloadFromToken(response.data?.access_token);
         const user = payload?.user;
+        
+        // Salvar usuarioId no localStorage
+        if (user?.id) {
+          localStorage.setItem('usuarioId', user.id);
+        }
+        
         let path = '/';
 
         if (getRole() === 'admin') {

@@ -835,6 +835,7 @@ const submitAtleta = handleSubmit(async () => {
     const response = await AtletaService.createAtleta(formData)
 
     if (response.success) {
+      if (response.data?.id) localStorage.setItem('usuarioId', response.data.id)
       localStorage.removeItem('cadastro_cache')
       loading.value = false
       router.push('/thank-you?type=paciente').then(() => {
@@ -884,9 +885,9 @@ const submitMedico = handleSubmit(async () => {
     formData.append('aceitaCompartilharDados', values.aceitaCompartilharDados ? 'true' : 'false')
     formData.append('aceitaTermos', values.aceitaTermos ? 'true' : 'false')
 
+    const response = await medicoService.createMedico(formData)
 
-    await medicoService.createMedico(formData)
-
+    if (response.data?.id) localStorage.setItem('usuarioId', response.data.id)
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=medico').then(() => {
@@ -935,8 +936,9 @@ const submitFisioterapeuta = handleSubmit(async () => {
     formData.append('aceitaCompartilharDados', values.aceitaCompartilharDados ? 'true' : 'false')
     formData.append('aceitaTermos', values.aceitaTermos ? 'true' : 'false')
 
-    await fisioterapeutaService.createFisioterapeuta(formData)
+    const response = await fisioterapeutaService.createFisioterapeuta(formData)
 
+    if (response.data?.id) localStorage.setItem('usuarioId', response.data.id)
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {
@@ -961,8 +963,9 @@ const submitTreinador = handleSubmit(async () => {
     formData.append('cpf', values.cpf.replace(/\D/g, ''))
     formData.append('email', values.email)
 
-    await treinadorService.createTreinador(formData)
+    const response = await treinadorService.createTreinador(formData)
 
+    if (response.data?.id) localStorage.setItem('usuarioId', response.data.id)
     localStorage.removeItem('cadastro_cache')
     loading.value = false
     router.push('/thank-you?type=atleta').then(() => {

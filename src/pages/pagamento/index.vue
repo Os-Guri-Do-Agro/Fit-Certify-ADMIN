@@ -31,24 +31,24 @@
 
           <VCol class="my-2 py-0 font-weight-medium" cols="12">
             <VTextField v-model="formData.cpf" label="CPF*" placeholder="000.000.000-00"
-              :rules="[v => !!v || 'CPF é obrigatório']" maxlength="14"
+              :rules="cpfRules" maxlength="14"
               variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
           </VCol>
 
           <VRow class="ma-0">
             <VCol cols="4" class="py-0 pl-0 pr-1">
-              <VTextField v-model="formData.codigoPais" label="País*" placeholder="+55"
-                :rules="[v => !!v || 'Obrigatório']" variant="outlined" rounded="lg"
+              <VTextField v-model="formData.codigoPais" label="DDI*" placeholder="55"
+                :rules="ddiRules" maxlength="3" variant="outlined" rounded="lg"
                 bg-color="white" class="custom-field" />
             </VCol>
             <VCol cols="3" class="py-0 px-1">
               <VTextField v-model="formData.codigoArea" label="DDD*" placeholder="11"
-                :rules="[v => !!v || 'Obrigatório']" maxlength="2"
+                :rules="dddRules" maxlength="3"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
             <VCol cols="5" class="py-0 pr-0 pl-1">
-              <VTextField v-model="formData.numero" label="Número*" placeholder="99999-9999"
-                :rules="[v => !!v || 'Obrigatório']" maxlength="10"
+              <VTextField v-model="formData.numero" label="Número*" placeholder="999999999"
+                :rules="numeroRules" maxlength="9"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
           </VRow>
@@ -57,13 +57,13 @@
             <VTextField v-model="cupom" label="Cupom de Desconto (opcional)" placeholder="Digite o cupom"
               variant="outlined" rounded="lg" bg-color="white" class="custom-field">
               <template #append-inner>
-                <v-btn size="small" color="#1E88E5" variant="text" @click="validarCupom">
+                <v-btn size="small" color="#1E88E5" variant="text" @click="validarCupom" :loading="loadingCupom">
                   Validar Cupom
                 </v-btn>
               </template>
             </VTextField>
-            <div v-if="cupomValido === true" class="text-success mt-2">
-              Cupom válido! Desconto de 10% aplicado.
+            <div v-if="cupomValido" class="text-success mt-2">
+              Cupom válido! Desconto de {{ cupomValido?.cupom?.porcentagem }}% aplicado.
             </div>
             <div v-else-if="cupomValido === false" class="text-error mt-2">
               Cupom inválido. Tente novamente.
@@ -71,11 +71,11 @@
           </VCol>
 
           <div class="d-flex justify-center w-100 mt-6 ga-3">
-            <VBtn variant="outlined" height="50px" @click="voltar" rounded="xl"
+            <VBtn variant="outlined" height="50px" @click="voltar" rounded="xl" :disabled="loadingPagamento"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; flex: 1; max-width: 150px;">
               Voltar
             </VBtn>
-            <VBtn class="text-white" height="50px" color="#1E88E5" rounded="xl" elevation="4" type="submit"
+            <VBtn class="text-white" height="50px" color="#1E88E5" rounded="xl" elevation="4" type="submit" :loading="loadingPagamento"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; flex: 2; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
               Finalizar Pagamento
               <v-icon end>mdi-check</v-icon>
@@ -121,7 +121,8 @@
               </div>
               <div class="d-flex justify-space-between">
                 <span class="text-body-1" style="color: #2c3e50;">Duração:</span>
-                <span class="text-body-1 font-weight-medium" style="color: #2c3e50;">{{ plano?.duracao }} meses</span>
+                <span class="text-body-1 font-weight-medium" v-if="!cupomValido" style="color: #2c3e50;">{{ plano?.duracao }} meses</span>
+                <span class="text-body-1 font-weight-medium" v-else style="color: #2c3e50;">{{ plano?.duracao }} meses com desconto de {{ cupomValido?.cupom?.porcentagem }}%</span>
               </div>
             </div>
 
@@ -129,7 +130,8 @@
 
             <div class="d-flex justify-space-between align-center pa-4" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border-radius: 12px;">
               <span class="text-h6 text-white font-weight-bold">Total:</span>
-              <span class="text-h4 text-white font-weight-bold">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
+              <span class="text-h4 text-white font-weight-bold" v-if="!cupomValido">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
+              <span class="text-h4 text-white font-weight-bold" v-else>R$ {{ valorDescontado }}</span>
             </div>
           </v-card>
         </div>
@@ -139,11 +141,12 @@
 </template>
 
 <script setup>
-  import { onMounted, ref } from 'vue'
+  import { onMounted, ref, computed } from 'vue'
   import { useRouter, useRoute } from 'vue-router'
   import planoService from '@/services/planos/plano-service'
   import stripeService from '@/services/stripe/stripe-service'
   import cupomService from '@/services/cupom/cupom-service'
+  import { getPayloadFromToken } from '@/utils/auth'
 
   const router = useRouter()
   const route = useRoute()
@@ -151,14 +154,65 @@
   const cupomValido = ref(null)
   const plano = ref(null)
   const formRef = ref(null)
+  const cupomId = ref(null)
+  const loadingCupom = ref(false)
+  const loadingPagamento = ref(false)
 
   const formData = ref({
     nome: '',
     email: '',
     cpf: '',
-    codigoPais: '+55',
+    codigoPais: '55',
     codigoArea: '',
     numero: ''
+  })
+
+  const validarCPF = (cpf) => {
+    cpf = cpf.replace(/[^\d]/g, '')
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false
+
+    let soma = 0
+    for (let i = 0; i < 9; i++) soma += parseInt(cpf.charAt(i)) * (10 - i)
+    let resto = 11 - (soma % 11)
+    let digito1 = resto >= 10 ? 0 : resto
+    if (digito1 !== parseInt(cpf.charAt(9))) return false
+
+    soma = 0
+    for (let i = 0; i < 10; i++) soma += parseInt(cpf.charAt(i)) * (11 - i)
+    resto = 11 - (soma % 11)
+    let digito2 = resto >= 10 ? 0 : resto
+    return digito2 === parseInt(cpf.charAt(10))
+  }
+
+  const cpfRules = [
+    v => !!v || 'CPF é obrigatório',
+    v => validarCPF(v) || 'CPF inválido'
+  ]
+
+  const ddiRules = [
+    v => !!v || 'DDI é obrigatório',
+    v => /^\d+$/.test(v) || 'Apenas números',
+    v => (v && v.length <= 3) || 'Máximo 3 dígitos'
+  ]
+
+  const dddRules = [
+    v => !!v || 'DDD é obrigatório',
+    v => /^\d+$/.test(v) || 'Apenas números',
+    v => (v && v.length <= 3) || 'Máximo 3 dígitos'
+  ]
+
+  const numeroRules = [
+    v => !!v || 'Número é obrigatório',
+    v => /^\d+$/.test(v) || 'Apenas números',
+    v => (v && v.length <= 9) || 'Máximo 9 dígitos'
+  ]
+
+  const valorDescontado = computed(() => {
+    if (!cupomValido.value || !plano.value) return '0.00'
+    const precoBase = plano.value.precoAno || plano.value.precoMes
+    const desconto = precoBase * (cupomValido.value.cupom.porcentagem / 100)
+    const precoComDesconto = precoBase - desconto
+    return precoComDesconto.toFixed(2)
   })
 
   onMounted(() => {
@@ -175,6 +229,34 @@
     }
   }
 
+  const validarCupom = async () => {
+    if (cupom.value) {
+      loadingCupom.value = true
+      try {
+        const response = await cupomService.validarCupom(cupom.value)
+
+        if (response.data) {
+          const id = response.data.cupom.id
+          const planoId = plano.value.id
+          let usuarioId = localStorage.getItem('usuarioId')
+            await cupomService.updateCupom(id, planoId, usuarioId)
+          }
+
+        cupomValido.value = response.data
+        cupomId.value = response.data.cupom.cupomIdStripe
+
+      } catch (error) {
+        if (error.response?.status === 404 || 400) {
+          cupomValido.value = false
+          return
+        }
+        throw error
+      } finally {
+        loadingCupom.value = false
+      }
+    }
+  }
+
   const voltar = () => {
     router.back()
   }
@@ -182,9 +264,13 @@
   const finalizarPagamento = async () => {
     const { valid } = await formRef.value.validate()
     if (valid) {
+      loadingPagamento.value = true
       try {
-        const data = {
-          price_id: plano.value.priceIdStripe,
+        let data
+
+        if (cupomValido.value) {
+          data = {
+            price_id: plano.value.priceIdStripe,
             customer: {
               name: formData.value.nome,
               email: formData.value.email,
@@ -195,35 +281,46 @@
                 area_code: formData.value.codigoArea,
                 number: formData.value.numero,
               },
-          },
-          success_url: 'https://www.youtube.com/?hl=pt&gl=BR',
-          cancel_url: 'https://www.linkedin.com/company/totvs/life/vempratotvs/',
-          planoId: plano.value.id
+            },
+            trial_period_days: cupomValido.value.cupom?.diasTrial || null,
+            cupomIdStripe: cupomId.value,
+            success_url: 'https://fit-certify-admin.vercel.app/payment-success',
+            cancel_url: 'https://fit-certify-admin.vercel.app/login',
+            planoId: plano.value.id,
+            cupom: cupom.value
+          }
+        } else {
+          data = {
+            price_id: plano.value.priceIdStripe,
+            customer: {
+              name: formData.value.nome,
+              email: formData.value.email,
+              document: formData.value.cpf,
+              type: 'individual',
+              phones: {
+                country_code: formData.value.codigoPais,
+                area_code: formData.value.codigoArea,
+                number: formData.value.numero,
+              },
+            },
+            success_url: 'https://fit-certify-admin.vercel.app/',
+            cancel_url: 'https://fit-certify-admin.vercel.app/login',
+            planoId: plano.value.id
+          }
         }
         const response = await stripeService.stripeCheckout(data)
-        if (response.data.url) {
-            window.location.href = response.data.url
-        }
+         if (response.data.url) {
+             window.location.href = response.data.url
+         }
       } catch (error) {
         console.error(error)
+      } finally {
+        loadingPagamento.value = false
       }
     }
   }
 
-  const validarCupom = async () => {
-    if (cupom.value) {
-      try {
-        const response = await cupomService.validarCupom(cupom.value)
-        cupomValido.value = !!response.data
-      } catch (error) {
-        if (error.response?.status === 400) {
-          cupomValido.value = false
-          return
-        }
-        throw error
-      }
-    }
-  }
+
 </script>
 
 <style scoped>

@@ -70,6 +70,7 @@ declare module 'vue-router/auto-routes' {
     '/notificacoes/': RouteRecordInfo<'/notificacoes/', '/notificacoes', Record<never, never>, Record<never, never>>,
     '/novaSenhaLogado/': RouteRecordInfo<'/novaSenhaLogado/', '/novaSenhaLogado', Record<never, never>, Record<never, never>>,
     '/pagamento/': RouteRecordInfo<'/pagamento/', '/pagamento', Record<never, never>, Record<never, never>>,
+    '/payment-success': RouteRecordInfo<'/payment-success', '/payment-success', Record<never, never>, Record<never, never>>,
     '/politicaPrivacidade': RouteRecordInfo<'/politicaPrivacidade', '/politicaPrivacidade', Record<never, never>, Record<never, never>>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
     '/register-medico': RouteRecordInfo<'/register-medico', '/register-medico', Record<never, never>, Record<never, never>>,
