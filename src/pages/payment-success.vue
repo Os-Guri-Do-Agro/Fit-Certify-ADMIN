@@ -24,7 +24,7 @@
         </div>
 
         <div class="d-flex justify-center w-100 mt-8">
-          <VBtn class="text-white w-100" height="50px" color="#1E88E5" rounded="xl" elevation="4" @click="router.push('/')"
+          <VBtn class="text-white w-100" height="50px" color="#1E88E5" rounded="xl" elevation="4" @click="handleLogout"
             style="font-weight: 600; text-transform: none; letter-spacing: 0; max-width: 400px;">
             {{ $t('paymentSuccess.goToHome') }}
             <v-icon end>mdi-home</v-icon>
@@ -76,6 +76,12 @@ import { useI18n } from 'vue-i18n';
 
 const router = useRouter();
 const { t: $t } = useI18n();
+
+const handleLogout = () => {
+  localStorage.clear();
+  sessionStorage.clear();
+  router.push('/login');
+};
 </script>
 
 <style scoped>

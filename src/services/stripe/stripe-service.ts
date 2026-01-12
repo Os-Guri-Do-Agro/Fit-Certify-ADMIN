@@ -28,6 +28,30 @@ class StripeService {
       'ERROR - 404'
     )
   }
+
+  getInfoPlano(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get('/stripe/subscriptions/summary', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'ERROR - 404'
+    )
+  }
+
+  gerenciarPlano(return_url: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post(`/stripe/portal?return_url=${return_url}`, {}, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'ERROR - 404'
+    )
+  }
 }
 
 

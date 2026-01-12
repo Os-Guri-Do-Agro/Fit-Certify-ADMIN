@@ -42,19 +42,19 @@
               <v-icon color="white" size="20">mdi-login</v-icon>
             </div>
             <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
-              {{ $t('login.titleLeft') }}
+              {{ $t('login.welcomeBack') }}
             </h2>
           </div>
         </div>
 
         <v-form class="w-100" @submit.prevent="handleSubmit" ref="formRef">
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
+          <div class="my-2 py-0 font-weight-medium">
             <VTextField v-model="email" type="email" :label="$t('login.email') + '*'" :placeholder="$t('login.emailPlaceholder')"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
-          </VCol>
+          </div>
 
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
+          <div class="my-2 py-0 font-weight-medium">
             <VTextField v-model="senha" :type="showPassword ? 'text' : 'password'" :label="$t('login.senha') + '*'"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field">
@@ -64,14 +64,14 @@
                 </v-icon>
               </template>
             </VTextField>
-          </VCol>
+          </div>
 
-          <VCol v-if="showPerfilSelect" class="my-2 py-0 font-weight-medium" cols="12">
+          <div v-if="showPerfilSelect" class="my-2 py-0 font-weight-medium">
             <v-select v-model="perfilId" :items="perfis" item-title="nome" item-value="id"
               :label="$t('login.tipoPerfil') + '*'" :placeholder="$t('login.tipoPerfilPlaceholder')"
               :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
-          </VCol>
+          </div>
 
           <div class="d-flex justify-space-between w-100 align-center my-4">
             <v-checkbox v-model="isMobile" :label="$t('login.manterLogin')" hide-details
@@ -125,7 +125,7 @@
                 text-shadow: 0 2px 8px rgba(0,0,0,0.15);
                 letter-spacing: -0.5px;
               ">
-              {{ $t('login.titleRight') }}
+              {{ $t('login.bannerTitle') }}
             </h1>
             <p class="mx-5 mx-lg-15 text-white text-center text-body-1 text-md-h6 font-weight-regular mt-5 mb-10"
               style="
@@ -133,7 +133,7 @@
                 line-height: 1.6;
                 opacity: 0.95;
               ">
-              {{ $t('login.subtitleRight') }}
+              {{ $t('login.bannerSubtitle') }}
             </p>
           </div>
         </div>
@@ -242,11 +242,16 @@ watch(emailModal, (newEmail) => {
 const getRoles = (nome: string) => {
   const map: Record<string,string> = {
     'Atleta': 'atleta',
-    'médico': 'medico',
+    'Médico': 'medico',
     'Treinador': 'treinador',
     'Fisioterapeuta': 'fisioterapeuta'
   }
   return map[nome] || nome
+}
+
+const translatePerfilNome = (nome: string) => {
+  const roleKey = getRoles(nome)
+  return $t(`login.roles.${roleKey}`)
 }
 
 async function handleSubmit() {
@@ -274,7 +279,7 @@ async function handleSubmit() {
       if (response.success && response.data?.perfis) {
         perfis.value = response.data.perfis.map((perfil: any) => ({
           ...perfil,
-          nome: $t(`login.roles.${getRoles(perfil.nome.toLowerCase())}`)
+          nome: translatePerfilNome(perfil.nome)
         }));
         showPerfilSelect.value = true;
         toast.success($t('login.toastSuccess1'), { autoClose: 2500 });
@@ -293,12 +298,12 @@ async function handleSubmit() {
         storage.setItem("token", response.data?.access_token);
         const payload = getPayloadFromToken(response.data?.access_token);
         const user = payload?.user;
-        
+
         // Salvar usuarioId no localStorage
         if (user?.id) {
           localStorage.setItem('usuarioId', user.id);
         }
-        
+
         let path = '/';
 
         if (getRole() === 'admin') {

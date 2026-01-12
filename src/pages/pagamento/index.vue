@@ -20,35 +20,20 @@
               :rules="[v => !!v || $t('pagamento.nameRequired')]" variant="outlined" rounded="lg"
               bg-color="white" class="custom-field" />
           </VCol>
-
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="formData.email" type="email" :label="$t('pagamento.email') + '*'" :placeholder="$t('pagamento.emailPlaceholder')"
-              :rules="[
-                v => !!v || $t('pagamento.emailRequired'),
-                v => /.+@.+\..+/.test(v) || $t('pagamento.emailInvalid')
-              ]" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
-          </VCol>
-
-          <VCol class="my-2 py-0 font-weight-medium" cols="12">
-            <VTextField v-model="formData.cpf" :label="$t('pagamento.cpf') + '*'" placeholder="000.000.000-00"
-              :rules="cpfRules" maxlength="14"
-              variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
-          </VCol>
-
           <VRow class="ma-0">
             <VCol cols="4" class="py-0  pr-1">
               <VTextField v-model="formData.codigoPais" :label="$t('pagamento.ddi') + '*'" placeholder="55"
-                :rules="ddiRules" maxlength="3" variant="outlined" rounded="lg"
+                :rules="ddiRules" maxlength="3" @keypress="onlyNumbers" variant="outlined" rounded="lg"
                 bg-color="white" class="custom-field" />
             </VCol>
             <VCol cols="3" class="py-0 px-1">
               <VTextField v-model="formData.codigoArea" :label="$t('pagamento.ddd') + '*'" placeholder="11"
-                :rules="dddRules" maxlength="3"
+                :rules="dddRules" maxlength="3" @keypress="onlyNumbers"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
             <VCol cols="5" class="py-0 pl-1">
               <VTextField v-model="formData.numero" :label="$t('pagamento.numero') + '*'" placeholder="999999999"
-                :rules="numeroRules" maxlength="9"
+                :rules="numeroRules" maxlength="9" @keypress="onlyNumbers"
                 variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
             </VCol>
           </VRow>
@@ -99,9 +84,6 @@
           <v-card rounded="xl" class="pa-6" style="background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px);">
             <div class="d-flex align-center justify-space-between mb-4">
               <span class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t(`registerPlanos.planos.${getNomePlanoKey(plano?.nome)}`) }}</span>
-              <v-chip v-if="plano?.maisPopular" color="#1E88E5" style="font-weight: 600;">
-                {{ $t('pagamento.mostPopular') }}
-              </v-chip>
             </div>
 
             <p class="text-body-1 mb-6" style="color: #42A5F5;">
@@ -115,7 +97,7 @@
                 <span class="text-body-1" style="color: #2c3e50;">{{ $t('pagamento.monthlyValue') }}:</span>
                 <span class="text-h6 font-weight-bold" style="color: #2c3e50;">R$ {{ plano?.precoMes?.toFixed(2) }}</span>
               </div>
-              <div class="d-flex justify-space-between mb-3">
+              <div class="d-flex justify-space-between mb-3" v-if="plano?.precoAno">
                 <span class="text-body-1" style="color: #2c3e50;">{{ $t('pagamento.annualValue') }}:</span>
                 <span class="text-h6 font-weight-bold" style="color: #1E88E5;">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
               </div>
@@ -130,7 +112,7 @@
 
             <div class="d-flex justify-space-between align-center pa-4" style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border-radius: 12px;">
               <span class="text-h6 text-white font-weight-bold">{{ $t('pagamento.total') }}:</span>
-              <span class="text-h4 text-white font-weight-bold" v-if="!cupomValido">R$ {{ plano?.precoAno?.toFixed(2) }}</span>
+              <span class="text-h4 text-white font-weight-bold" v-if="!cupomValido">R$ {{ plano?.precoAno || plano?.precoMes }}</span>
               <span class="text-h4 text-white font-weight-bold" v-else>R$ {{ valorDescontado }}</span>
             </div>
           </v-card>
@@ -147,7 +129,7 @@
   import planoService from '@/services/planos/plano-service'
   import stripeService from '@/services/stripe/stripe-service'
   import cupomService from '@/services/cupom/cupom-service'
-  import { getPayloadFromToken } from '@/utils/auth'
+  import { getPayload } from '@/utils/auth'
 
   const router = useRouter()
   const route = useRoute()
@@ -218,15 +200,28 @@
   })
 
   const getNomePlanoKey = (nome) => {
+    if (!nome) return 'saudeCertificada'
     const map = {
       'Saúde Certificada': 'saudeCertificada',
       'Saúde Ativa': 'saudeAtiva'
     }
-    return map[nome] || nome
+    return map[nome] || 'saudeCertificada'
+  }
+
+  const onlyNumbers = (event) => {
+    if (!/\d/.test(event.key)) {
+      event.preventDefault()
+    }
   }
 
   onMounted(() => {
     infoPlano()
+    const payload = getPayload()
+    if (payload?.user) {
+      formData.value.nome = payload.user.nome || ''
+      formData.value.email = payload.user.email || ''
+      formData.value.cpf = payload.user.cpf || ''
+    }
   })
 
   const infoPlano = async () => {
@@ -245,12 +240,12 @@
       try {
         const response = await cupomService.validarCupom(cupom.value)
 
-        if (response.data) {
-          const id = response.data.cupom.id
-          const planoId = plano.value.id
-          let usuarioId = localStorage.getItem('usuarioId')
-            await cupomService.updateCupom(id, planoId, usuarioId)
-          }
+        // if (response.data) {
+        //   const id = response.data.cupom.id
+        //   const planoId = plano.value.id
+        //   let usuarioId = localStorage.getItem('usuarioId')
+        //     await cupomService.updateCupom(id, planoId, usuarioId)
+        //   }
 
         cupomValido.value = response.data
         cupomId.value = response.data.cupom.cupomIdStripe
