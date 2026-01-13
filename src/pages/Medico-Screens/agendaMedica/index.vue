@@ -385,14 +385,14 @@ const criarConsulta = async () => {
       situacao: 'Marcado',
       nomePacienteExterno: ConsultaExterna.value
         ? nomePacienteExterno.value
-        : null,
-      cpf: ConsultaExterna.value
+      : null,
+      cpfPacienteExterno: ConsultaExterna.value
       ? cpfPacienteExterno.value
       : null,
-      telefone: ConsultaExterna.value
+      telefonePacienteExterno: ConsultaExterna.value
       ? telefonePacienteExterno.value
       : null,
-      email: ConsultaExterna.value
+      emailPacienteExterno: ConsultaExterna.value
       ? emailPacienteExterno.value
       : null,
       consultaExterna: ConsultaExterna.value,
