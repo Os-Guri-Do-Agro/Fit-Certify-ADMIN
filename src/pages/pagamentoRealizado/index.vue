@@ -46,7 +46,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const voltarApp = () => {
-  window.location.href = 'fitcertify://', 'com.nicolascastela.fitcertify://'
+  window.location.href = 'com.nicolascastela.fitcertify://login'
 }
 </script>
 
