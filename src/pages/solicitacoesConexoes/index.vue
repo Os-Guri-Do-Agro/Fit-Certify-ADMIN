@@ -479,7 +479,6 @@ const conexoes = ref<any[]>([])
 
 const payload = getPayload()
 const isAtleta = payload?.role === 'atleta'
-const atletaId = ref('')
 
 const loadingPendentes = ref(false)
 const loadingSolicitacoesEnviadas = ref(false)
@@ -507,7 +506,7 @@ const formatDate = (date: string) => {
   const day = String(d.getDate()).padStart(2, '0')
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const year = d.getFullYear()
-  
+
   return locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
 }
 

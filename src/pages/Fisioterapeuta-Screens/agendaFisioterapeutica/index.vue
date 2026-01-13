@@ -228,6 +228,7 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
 import consultasService from '@/services/consultas/consultas-service'
+import pacientesService from '@/services/medico/pacientes/pacientes-service'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -264,7 +265,7 @@ const weekDays = computed(() => [
 ])
 
 const formatDate = (date) => {
-  return locale.value === 'pt' 
+  return locale.value === 'pt'
     ? dayjs(date).format('DD/MM/YYYY')
     : dayjs(date).format('MM/DD/YYYY')
 }
@@ -303,8 +304,10 @@ const buscarHorariosDisponiveis = async () => {
 }
 
 const buscarAtletas = async () => {
-  const response = await atletaService.getAllAtletas()
-  atletas.value = response.data
+  const page = 1
+  const pageSize = 999
+  const response = await pacientesService.getAtletasByMedico(page, pageSize)
+  atletas.value = response.data.itens
 }
 
 const selectTimeSlot = (hora) => {
