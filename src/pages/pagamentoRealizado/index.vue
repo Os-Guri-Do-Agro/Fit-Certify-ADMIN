@@ -45,8 +45,13 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
+const urlParams = new URLSearchParams(window.location.search);
+const email = urlParams.get('email');
+
+const appUrl = `com.nicolascastela.fitcertify://payment-success?email=${email}`;
+
 const voltarApp = () => {
-  window.location.href = 'com.nicolascastela.fitcertify://payment-success'
+  window.location.href = appUrl;
 }
 </script>
 
