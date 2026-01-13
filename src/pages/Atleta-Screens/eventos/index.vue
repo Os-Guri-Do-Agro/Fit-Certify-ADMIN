@@ -203,8 +203,6 @@
     })
 
     const verDetalhes = (eventoId) => {
-        console.log('Navegando para evento:', eventoId)
-        console.log('Rota:', `/Atleta-Screens/eventos/${eventoId}`)
         router.push(`/Atleta-Screens/eventos/${eventoId}`)
     }
 
