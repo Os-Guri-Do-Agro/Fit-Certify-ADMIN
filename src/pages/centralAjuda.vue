@@ -4,7 +4,7 @@
       <VCardText class="pa-8">
         <VRow align="center">
           <VCol>
-            <div class="d-flex align-center mb-4">
+            <div class="d-flex align-center mb-4 flex-column flex-md-row text-center text-md-start">
               <VIcon icon="mdi-help-circle" size="48" color="white" class="mr-4" />
               <div>
                 <h1 class="text-h3 font-weight-bold text-white mb-2">
@@ -100,20 +100,11 @@
           <VCardText class="pa-6">
             <div class="contact-list">
               <div class="contact-item">
-                <VIcon icon="mdi-phone" color="green" class="mr-3" />
-                <div>
-                  <strong>{{ $t('centralAjuda.directChannels.sac') }}</strong>
-                  <p class="text-body-2 text-grey-600 mt-1">
-                    {{ $t('centralAjuda.directChannels.sacNumber') }}
-                  </p>
-                </div>
-              </div>
-              <div class="contact-item">
                 <VIcon icon="mdi-email" color="green" class="mr-3" />
                 <div>
                   <strong>{{ $t('centralAjuda.directChannels.email') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    {{ $t('centralAjuda.directChannels.emailAddress') }}
+                    atendimento@fitcertify365.com
                   </p>
                 </div>
               </div>
@@ -122,7 +113,7 @@
                 <div>
                   <strong>{{ $t('centralAjuda.directChannels.whatsapp') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    {{ $t('centralAjuda.directChannels.whatsappNumber') }}
+                    (21) 400495694
                   </p>
                 </div>
               </div>
@@ -135,15 +126,18 @@
         <VCard class="h-100" elevation="2">
           <VCardTitle class="d-flex align-center pa-6 bg-purple-lighten-5">
             <VIcon icon="mdi-handshake" color="blue-lighten-1" class="mr-3" />
-            {{ $t('centralAjuda.partnership.title') }}
+            <span class="text-break text-pre-wrap">
+              {{ $t('centralAjuda.partnership.title') }}
+            </span>
+
           </VCardTitle>
           <VCardText class="pa-6">
             <p class="text-body-1 mb-4">
               {{ $t('centralAjuda.partnership.description') }}
             </p>
-            <VBtn 
-              color="blue-lighten-1" 
-              variant="flat" 
+            <VBtn
+              color="blue-lighten-1"
+              variant="flat"
               size="large"
               prepend-icon="mdi-email"
               block

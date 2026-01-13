@@ -201,7 +201,7 @@
                       <v-icon color="#00c6fe" size="24" class="mr-2">mdi-trophy</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.highlights') }}</h4>
                     </div>
-                    <p class="text-body-2">{{ medico?.destaques }}</p>
+                    <p class="text-body-2">{{ medico?.destaques }}</p>Você pode agendar consultas, mas precisa aguardar o médico aprovar. Assim que o agendamento for feito, uma notificação será encaminhada para ele.
                   </v-card-text>
                 </v-card>
               </v-col>

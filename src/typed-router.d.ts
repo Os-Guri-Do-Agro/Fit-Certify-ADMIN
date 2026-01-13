@@ -70,6 +70,7 @@ declare module 'vue-router/auto-routes' {
     '/notificacoes/': RouteRecordInfo<'/notificacoes/', '/notificacoes', Record<never, never>, Record<never, never>>,
     '/novaSenhaLogado/': RouteRecordInfo<'/novaSenhaLogado/', '/novaSenhaLogado', Record<never, never>, Record<never, never>>,
     '/pagamento/': RouteRecordInfo<'/pagamento/', '/pagamento', Record<never, never>, Record<never, never>>,
+    '/pagamentoRealizado/': RouteRecordInfo<'/pagamentoRealizado/', '/pagamentoRealizado', Record<never, never>, Record<never, never>>,
     '/payment-success': RouteRecordInfo<'/payment-success', '/payment-success', Record<never, never>, Record<never, never>>,
     '/politicaPrivacidade': RouteRecordInfo<'/politicaPrivacidade', '/politicaPrivacidade', Record<never, never>, Record<never, never>>,
     '/register': RouteRecordInfo<'/register', '/register', Record<never, never>, Record<never, never>>,
@@ -83,6 +84,7 @@ declare module 'vue-router/auto-routes' {
     '/thank-you': RouteRecordInfo<'/thank-you', '/thank-you', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/detalhesAtleta/': RouteRecordInfo<'/Treinador-Screens/detalhesAtleta/', '/Treinador-Screens/detalhesAtleta', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/editarPerfilTreinador/': RouteRecordInfo<'/Treinador-Screens/editarPerfilTreinador/', '/Treinador-Screens/editarPerfilTreinador', Record<never, never>, Record<never, never>>,
+    '/treinosCriados/': RouteRecordInfo<'/treinosCriados/', '/treinosCriados', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
     '/validarCertificado/': RouteRecordInfo<'/validarCertificado/', '/validarCertificado', Record<never, never>, Record<never, never>>,
   }

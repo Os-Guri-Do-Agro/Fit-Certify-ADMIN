@@ -47,12 +47,9 @@
           <v-card class="metrics-card mb-6" elevation="8" rounded="xl">
             <div class="metrics-header">
               <v-row align="center">
-                <v-col cols="12" md="4" class="text-center d-flex flex-column-reverse flex-md-column">
-                  <div class="d-flex flex-column-reverse flex-md-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
-                    <v-chip class="info-chip text-center d-flex justify-center text-white" prepend-icon="mdi-heart-pulse">
-                      {{ $t('perfilAtleta.healthMonitoring') }}
-                    </v-chip>
-                    <v-chip class="info-chip text-center d-flex justify-center text-white">
+                <v-col cols="12" lg="4" class="text-center d-flex flex-column-reverse flex-lg-column">
+                  <div class="d-flex flex-md-column-reverse flex-lg-row ga-2 align-center justify-center mt-5 mt-md-0 mb-md-5">
+                    <v-chip class="info-chip text-white" style="white-space: normal; height: auto; min-height: 32px;">
                       {{ $t('perfilAtleta.lastUpdate') }}
                     </v-chip>
                   </div>
@@ -64,7 +61,7 @@
                     <p class="text-subtitle-1 text-blue-darken-4">{{ $t('perfilAtleta.trackParameters') }}</p>
                   </div>
                 </v-col>
-                <v-col cols="12" md="8">
+                <v-col cols="12" lg="8">
                   <v-card class="" elevation="0" rounded="lg">
                     <v-card-text class="pa-4">
                       <v-row>
@@ -102,7 +99,7 @@
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
                               <v-icon color="#00c6fe" size="24" class="mr-2">mdi-thermometer</v-icon>
-                              <span class="metric-label">{{ $t('perfilAtleta.temperature') }}</span>
+                              <span class="metric-label text-pre-wrap text-break">{{ $t('perfilAtleta.temperature') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">°C</span></div>
                             <div class="metric-status normal">{{ $t('perfilAtleta.noData') }}</div>

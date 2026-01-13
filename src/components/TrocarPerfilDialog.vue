@@ -35,9 +35,9 @@
                 <div class="icon-circle mb-4" :style="`background: ${getPerfilGradient(perfil.nome)};`">
                   <v-icon size="40" color="white">{{ getPerfilIcon(perfil.nome) }}</v-icon>
                 </div>
-                <h3 class="text-h6 font-weight-bold mb-2">{{ t(`trocarPerfil.roles.${perfil.nome.toLowerCase()}`) }}</h3>
+                <h3 class="text-h6 font-weight-bold mb-2">{{ t(`trocarPerfil.roles.${getTipoPerfisKey(perfil.nome)}`) }}</h3>
                 <p class="text-body-2 text-medium-emphasis mb-0">
-                  {{ t('trocarPerfil.text') }} {{ t(`trocarPerfil.roles.${perfil.nome.toLowerCase()}`) }}
+                  {{ t('trocarPerfil.text') }} {{ t(`trocarPerfil.roles.${getTipoPerfisKey(perfil.nome)}`) }}
                 </p>
               </v-card-text>
             </v-card>
@@ -83,6 +83,16 @@ const { t } = useI18n();
 const props = defineProps({
   modelValue: Boolean
 })
+
+const getTipoPerfisKey = (nome: string) => {
+  const map: Record<string, string> = {
+    'Médico': 'medico',
+    'Atleta': 'atleta',
+    'Treinador': 'treinador',
+    'Fisioterapeuta': 'fisioterapeuta',
+  }
+  return map[nome] || nome
+}
 
 const emit = defineEmits(['update:modelValue'])
 

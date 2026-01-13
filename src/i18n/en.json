@@ -41,6 +41,7 @@
     "titleValidateCertificate": "Validate Certificate",
     "titleHelpCenter": "Help Center",
     "titlePlans": "Plans",
+    "titleTreinosCriados": "Created Trainings",
 
     "titleRegisterAthlete": "Register Athlete",
     "titleRegisterDoctor": "Register Doctor",
@@ -105,7 +106,8 @@
       "bibliotecaExercicios": "Exercise Library",
       "pacientes": "Patients",
       "listaPacientes": "Patient List",
-      "recentes": "Recent"
+      "recentes": "Recent",
+      "treinosCriados": "created workouts"
     },
     "account": {
       "minhaConta": "My Account",
@@ -1593,6 +1595,9 @@
     "scheduleAppointment": "Schedule Appointment",
     "athleteName": "Athlete Name",
     "externalPatientName": "External Patient Name",
+    "externalPatientCpf": "Patient's CPF (Brazilian Taxpayer Identification Number)",
+    "externalPatientPhone": "Outpatient Telephone Number",
+    "externalPatientEmail": "Outpatient Email",
     "externalAppointment": "External Appointment",
     "importantInfo": "Important Information",
     "scheduleInfo": "You can schedule here both for previous times for registration and for new times. External Patients and FitCertify365. If it's FitCertify, be careful as they will be notified in their app.",
@@ -2040,6 +2045,29 @@
     "createdBy": "Created by: {name} on {date}",
     "noWeeklyTrainings": "No weekly trainings found",
     "noDailyTrainings": "No daily trainings found"
+  },
+
+  "treinosCriados": {
+    "title": "Created Trainings",
+    "tabs": {
+      "weekly": "Weekly",
+      "daily": "Daily"
+    },
+    "athlete": "Athlete",
+    "frequency": "{count}x per week",
+    "exercises": "{count} exercises",
+    "exercise": "{count} exercise",
+    "instructions": "Instructions",
+    "careRestrictions": "Care and Restrictions",
+    "observations": "General Observations",
+    "exercisesList": "Exercise List",
+    "sets": "{count} sets",
+    "reps": "{count} reps",
+    "load": "{weight} kg",
+    "distance": "{km} km",
+    "createdBy": "Created by {name} on {date}",
+    "noWeeklyTrainings": "No weekly trainings created",
+    "noDailyTrainings": "No daily trainings created"
   },
 
   "pacienteForm": {
