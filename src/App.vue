@@ -50,7 +50,8 @@ const authRoutes = [
   '/validarCertificado',
   '/detalhesAtleta',
   '/thank-you',
-  '/payment-success'
+  '/payment-success',
+  '/pagamentoRealizado'
 ]
 const isAuthRoute = computed(() => {
   return (

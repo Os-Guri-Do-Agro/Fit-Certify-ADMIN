@@ -179,6 +179,21 @@
           <v-text-field v-if="ConsultaExterna" :label="t('agendaMedica.externalPatientName')" variant="outlined"
             prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
 
+          <v-row v-if="ConsultaExterna">
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaMedica.externalPatientCpf')" variant="outlined"
+                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaMedica.externalPatientEmail')" variant="outlined"
+                prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaMedica.externalPatientPhone')" variant="outlined"
+                prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"></v-text-field>
+            </v-col>
+          </v-row>
+
           <v-checkbox class="ma-0 pa-0" :label="t('agendaMedica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
           <v-alert class="mb-1"
@@ -282,6 +297,8 @@ import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'
 import { getErrorMessage } from '@/common/error.utils'
 import { useI18n } from 'vue-i18n'
+import medicoService from '@/services/medico/medico-service'
+import pacientesService from '@/services/medico/pacientes/pacientes-service'
 
 const { t, locale } = useI18n()
 
@@ -305,6 +322,9 @@ const datinhas = ref([])
 // const consultasPendentes = ref([])
 const selectedTimeSlot = ref(null)
 const nomePacienteExterno = ref('')
+const cpfPacienteExterno = ref('')
+const telefonePacienteExterno = ref('')
+const emailPacienteExterno = ref('')
 const currentDate = ref(dayjs())
 const currentMonth = ref(dayjs().format('MMMM YYYY'))
 const calendarDays = ref([])
@@ -344,8 +364,10 @@ const buscarHorariosDisponiveis = async () => {
 }
 
 const buscarAtletas = async () => {
-  const response = await atletaService.getAllAtletas()
-  atletas.value = response.data
+  const page = 1
+  const pageSize = 999
+  const response = await pacientesService.getAtletasByMedico(page, pageSize)
+  atletas.value = response.data.itens
 }
 
 const selectTimeSlot = (hora) => {
@@ -364,6 +386,15 @@ const criarConsulta = async () => {
       nomePacienteExterno: ConsultaExterna.value
         ? nomePacienteExterno.value
         : null,
+      cpf: ConsultaExterna.value
+      ? cpfPacienteExterno.value
+      : null,
+      telefone: ConsultaExterna.value
+      ? telefonePacienteExterno.value
+      : null,
+      email: ConsultaExterna.value
+      ? emailPacienteExterno.value
+      : null,
       consultaExterna: ConsultaExterna.value,
       dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }

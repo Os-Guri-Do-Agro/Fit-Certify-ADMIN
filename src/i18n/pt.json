@@ -41,6 +41,7 @@
     "titleValidateCertificate": "Validar Certificado",
     "titleHelpCenter": "Central de Ajuda",
     "titlePlans": "Planos",
+    "titleTreinosCriados": "Treinos Criados",
 
     "titleRegisterAthlete": "Cadastrar Atleta",
     "titleRegisterDoctor": "Cadastrar Médico",
@@ -106,7 +107,8 @@
       "bibliotecaExercicios": "Biblioteca de Exercícios",
       "pacientes": "Pacientes",
       "listaPacientes": "Lista de Pacientes",
-      "recentes": "Recentes"
+      "recentes": "Recentes",
+      "treinosCriados": "Treinos Criados"
     },
     "account": {
       "minhaConta": "Minha conta",
@@ -446,7 +448,7 @@
     "noAppointmentsDescription": "Você ainda não possui consultas com este médico.",
     "scheduleAppointmentTitle": "Marcar Consulta",
     "importantInfo": "Informações Importantes",
-    "scheduleInfo": "Você pode agendar consultas mas tem que aguardar o médico aprovar, assim que fizer o agendamento será encaminhado notificação para ele.",
+    "scheduleInfo": "Você pode agendar consultas, mas precisa aguardar o médico aprovar. Assim que o agendamento for feito, uma notificação será encaminhada para ele.",
     "doctorNoSchedules": "Médico sem horários configurados",
     "doctorNoSchedulesDescription": "Este médico ainda não configurou seus horários de atendimento.",
     "availableSchedules": "Horários Disponíveis",
@@ -925,6 +927,7 @@
   },
 
   "meuPlano": {
+    "managePlan": "Gerenciar Plano",
     "duration": "Duração",
     "year": "ano(s)",
     "month": "mês(es)",
@@ -1590,6 +1593,9 @@
     "scheduleAppointment": "Marcar Consulta",
     "athleteName": "Nome do Atleta",
     "externalPatientName": "Nome do Paciente Externo",
+    "externalPatientCpf": "CPF do Paciente Externo",
+    "externalPatientPhone": "Telefone do Paciente Externo",
+    "externalPatientEmail": "E-mail do Paciente Externo",
     "externalAppointment": "Consulta Externa",
     "importantInfo": "Informações Importantes",
     "scheduleInfo": "Você pode deixar marcado aqui tanto para horários anteriores para registro quanto para novos horários. Pacientes Externos e FitCertify365. Caso seja FitCertify, tome cuidado pois é notificado para ele em seu aplicativo.",
@@ -2036,6 +2042,29 @@
     "createdBy": "Criado por: {name} em {date}",
     "noWeeklyTrainings": "Nenhum treino semanal encontrado",
     "noDailyTrainings": "Nenhum treino diário encontrado"
+  },
+
+  "treinosCriados": {
+    "title": "Treinos Criados",
+    "tabs": {
+      "weekly": "Semanais",
+      "daily": "Diários"
+    },
+    "athlete": "Atleta",
+    "frequency": "{count}x por semana",
+    "exercises": "{count} exercícios",
+    "exercise": "{count} exercício",
+    "instructions": "Instruções",
+    "careRestrictions": "Cuidados e Restrições",
+    "observations": "Observações Gerais",
+    "exercisesList": "Lista de Exercícios",
+    "sets": "{count} séries",
+    "reps": "{count} repetições",
+    "load": "{weight} kg",
+    "distance": "{km} km",
+    "createdBy": "Criado por {name} em {date}",
+    "noWeeklyTrainings": "Nenhum treino semanal criado",
+    "noDailyTrainings": "Nenhum treino diário criado"
   },
 
   "pacienteForm": {

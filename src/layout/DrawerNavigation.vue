@@ -552,6 +552,13 @@ const menusPorPerfil = computed(() => ({
       children: [],
     },
     {
+      icon: 'mdi mdi-dumbbell',
+      title: t('drawerNavigator.menu.treinosCriados'),
+      value: 'treinosCriados',
+      to: '/treinosCriados',
+      children: [],
+    },
+    {
       icon: 'mdi mdi-human-handsup',
       title: t('drawerNavigator.menu.bibliotecaExercicios'),
       value: 'bibliotecaExercicios',
@@ -579,6 +586,13 @@ const menusPorPerfil = computed(() => ({
           value: 'conexoes',
           to: '/solicitacoesConexoes'
         },
+        {
+      icon: 'mdi mdi-dumbbell',
+      title: t('drawerNavigator.menu.treinosCriados'),
+      value: 'treinosCriados',
+      to: '/treinosCriados',
+      children: [],
+    },
         {
       icon: 'mdi mdi-human-handsup',
       title: t('drawerNavigator.menu.bibliotecaExercicios'),
