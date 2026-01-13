@@ -83,6 +83,7 @@ declare module 'vue-router/auto-routes' {
     '/thank-you': RouteRecordInfo<'/thank-you', '/thank-you', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/detalhesAtleta/': RouteRecordInfo<'/Treinador-Screens/detalhesAtleta/', '/Treinador-Screens/detalhesAtleta', Record<never, never>, Record<never, never>>,
     '/Treinador-Screens/editarPerfilTreinador/': RouteRecordInfo<'/Treinador-Screens/editarPerfilTreinador/', '/Treinador-Screens/editarPerfilTreinador', Record<never, never>, Record<never, never>>,
+    '/treinosCriados/': RouteRecordInfo<'/treinosCriados/', '/treinosCriados', Record<never, never>, Record<never, never>>,
     '/users/': RouteRecordInfo<'/users/', '/users', Record<never, never>, Record<never, never>>,
     '/validarCertificado/': RouteRecordInfo<'/validarCertificado/', '/validarCertificado', Record<never, never>, Record<never, never>>,
   }

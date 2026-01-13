@@ -112,7 +112,7 @@
       </VCard>
 
       <!-- Botão Gerenciar -->
-      <VBtn color="#00C6FE" variant="flat" class="mt-4 w-100 text-none" size="large" rounded="lg"
+      <VBtn color="blue-lighten-1" variant="flat" class="mt-4 w-100 text-none" size="large" rounded="lg"
         @click="handleGerenciarPlano" :loading="loadingManage" :disabled="loadingManage">
         <VIcon icon="mdi-cog" class="mr-2" />
         {{ $t('meuPlano.managePlan') }}

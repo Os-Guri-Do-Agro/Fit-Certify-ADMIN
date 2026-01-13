@@ -37,6 +37,18 @@ class treinoService {
     )
   }
 
+  async getTreinosByFisioterapeuta(fisioterapeutaId: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/treino/findByFisioterapeutaId/${fisioterapeutaId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Erro ao buscar treinos'
+    )
+  }
+
   async getTreinosByAtleta(atletaId: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(

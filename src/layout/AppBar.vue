@@ -179,6 +179,7 @@ const pageTitle = computed(() => {
   '/Fisioterapeuta-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Fisioterapeuta-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
   '/cadastrar-fisioterapeuta':  t('appBar.titleRegisterPhysio'),
+  '/treinosCriados': t('appBar.titleTreinosCriados'),
 
   '/Treinador-Screens/detalhesAtleta': t('appBar.titleAthleteDetails'),
   '/Treinador-Screens/editarPerfilTreinador': t('appBar.titleEditProfile'),
@@ -284,6 +285,7 @@ const pageIcon = computed(() => {
     '/cadastrar-medico': 'mdi-doctor',
     '/cadastrar-fisioterapeuta': 'mdi-account-heart',
     '/cadastrar-treinador': 'mdi-whistle',
+    '/treinosCriados': 'mdi-dumbbell'
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })

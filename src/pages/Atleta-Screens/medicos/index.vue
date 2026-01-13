@@ -134,7 +134,7 @@
                   {{ medico?.usuario?.nome }}
                 </div>
                 <div class="text-body-2" style="color: black">
-                  {{ medico?.especializacao }}
+                  {{ medico?.especializacao?.split(' ').slice(0, 3).join(' ') + (medico?.especializacao?.split(' ').length > 3 ? '...' : '') }}
                 </div>
                 <div class="text-body-2" style="color: black">
                   {{ $t('medicos.crm') }}: {{ medico.crm }}
