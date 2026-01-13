@@ -148,6 +148,12 @@
             item-title="usuario.nome" item-value="id" v-model="atletaSelected" prepend-inner-icon="mdi-account"></v-combobox>
           <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientName')" variant="outlined"
             prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
+          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientCPF')" variant="outlined"
+            prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
+          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientPhone')" variant="outlined"
+            prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"></v-text-field>
+          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientEmail')" variant="outlined"
+            prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"></v-text-field>
 
           <v-checkbox class="ma-0 pa-0" :label="t('agendaFisioterapeutica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
@@ -251,6 +257,9 @@ const dayselect = ref()
 const datinhas = ref([])
 const selectedTimeSlot = ref(null)
 const nomePacienteExterno = ref('')
+const cpfPacienteExterno = ref('')
+const telefonePacienteExterno = ref('')
+const emailPacienteExterno = ref('')
 const currentDate = ref(dayjs())
 const currentMonth = ref('')
 
@@ -323,7 +332,18 @@ const criarConsulta = async () => {
       diagnostico: '',
       medicamentosReceitados: '',
       situacao: 'Marcado',
-      nomePacienteExterno: ConsultaExterna.value ? nomePacienteExterno.value : null,
+      nomePacienteExterno: ConsultaExterna.value
+        ? nomePacienteExterno.value
+      : null,
+      cpfPacienteExterno: ConsultaExterna.value
+      ? cpfPacienteExterno.value
+      : null,
+      telefonePacienteExterno: ConsultaExterna.value
+      ? telefonePacienteExterno.value
+      : null,
+      emailPacienteExterno: ConsultaExterna.value
+      ? emailPacienteExterno.value
+      : null,
       consultaExterna: ConsultaExterna.value,
       dataConsulta: removerOffsetTimezone(selectedTimeSlot.value.horario),
     }
@@ -335,6 +355,9 @@ const criarConsulta = async () => {
     selectedTimeSlot.value = null
     atletaSelected.value = null
     nomePacienteExterno.value = ''
+    cpfPacienteExterno.value = ''
+    telefonePacienteExterno.value = ''
+    emailPacienteExterno.value = ''
     ConsultaExterna.value = false
 
     await buscarHorariosDisponiveis()
