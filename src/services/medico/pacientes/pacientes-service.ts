@@ -15,6 +15,7 @@ class pacientesService {
       throw error
     }
   }
+
   async getAtletasByMedico(
     page?: number,
     pageSize?: number,
@@ -35,6 +36,29 @@ class pacientesService {
         }
       }),
       'Failed to get all Doencas '
+    )
+  }
+
+  async getAtletasByFisio(
+    page?: number,
+    pageSize?: number,
+    nome?: string,
+  ): Promise<any> {
+    const token = getToken()
+    const params: Record<string, any> = {}
+
+    if (page !== undefined) params.page = page
+    if (pageSize !== undefined) params.pageSize = pageSize
+    if (nome) params.nome = nome
+
+    return this.handleRequest(
+      apiClient.get(`/fisioterapeuta/findPacientesPagined`, {
+        params,
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to get all Doencas'
     )
   }
 

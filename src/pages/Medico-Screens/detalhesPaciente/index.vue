@@ -684,6 +684,7 @@ const salvarCertificacao = async () => {
       atletaId: paciente.value.id,
       medicoId: getMedicoId(),
       validade: dayjs().add(mesesValidade, 'month').toISOString(),
+      consultaId: exameSelecionado.value.id,
       ativo: true
     }).then((resp) => {
       if (resp.success) {
@@ -717,6 +718,7 @@ const toggleAlergias = () => {
 }
 
 const abrirModalExame = (item) => {
+  console.log('Consulta selecionada:', item)
   exameSelecionado.value = item
   modalExame.value = true
 }
