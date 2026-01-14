@@ -102,8 +102,8 @@
               <div class="doctor-avatar-container">
                 <v-avatar size="160" class="doctor-avatar">
                   <v-img
-                    v-if="medico?.usuario?.avatarUrl"
-                    :src="medico?.usuario?.avatarUrl"
+                    v-if="medico?.avatarUrl"
+                    :src="medico?.avatarUrl"
                     alt="Foto do médico"
                     cover
                   />

@@ -2,11 +2,11 @@
   <div class="w-100 h-100 ma-0">
     <v-container class="py-6">
       <div class="d-flex align-center mb-6">
-        <v-btn 
-          icon 
-          variant="outlined" 
-          color="green" 
-          class="mr-3" 
+        <v-btn
+          icon
+          variant="outlined"
+          color="green"
+          class="mr-3"
           @click="voltarParaLista"
         >
           <v-icon>mdi-arrow-left</v-icon>
@@ -35,17 +35,17 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
+              <div
                 class="text-center pa-5 mb-5 position-relative"
                 style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); border-radius: 12px 12px 0 0;"
               >
-                <v-avatar 
-                  size="160" 
+                <v-avatar
+                  size="160"
                   class="elevation-3 mb-3"
                   style="background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
-                  <v-img 
-                    v-if="atleta.usuario?.avatarUrl" 
+                  <v-img
+                    v-if="atleta.avatarUrl"
                     :src="atleta.usuario.avatarUrl"
                     :alt="atleta.usuario?.nome"
                     cover
@@ -133,8 +133,8 @@
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)'
               }"
             >
-              <div 
-                class="pa-6 cursor-pointer d-flex align-center" 
+              <div
+                class="pa-6 cursor-pointer d-flex align-center"
                 @click="toggleAlergias"
               >
                 <v-avatar size="60" class="elevation-2 me-4" color="green-darken-1">
@@ -170,9 +170,9 @@
                       </v-list-item>
                     </template>
                     <template v-else>
-                      <v-list-item 
-                        v-for="(alergia, index) in alergias" 
-                        :key="index" 
+                      <v-list-item
+                        v-for="(alergia, index) in alergias"
+                        :key="index"
                         class="px-6 py-3"
                       >
                         <template #prepend>

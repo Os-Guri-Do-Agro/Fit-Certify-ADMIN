@@ -418,7 +418,7 @@ const carregarDados = async () => {
       formData.value.diaFuncionamentoFim = medicoData.diaFuncionamentoFim || ''
 
       displayData.value.nome = medicoData.usuario?.nome || ''
-      displayData.value.avatarUrl = medicoData.usuario?.avatarUrl || ''
+      displayData.value.avatarUrl = medicoData.avatarUrl || ''
       displayData.value.especializacao = medicoData.especializacao || ''
       displayData.value.crm = medicoData.crm || ''
     }

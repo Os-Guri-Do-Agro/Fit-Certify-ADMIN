@@ -48,7 +48,7 @@
                   style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
                   <v-img
-                    v-if="paciente.usuario?.avatarUrl"
+                    v-if="paciente.avatarUrl"
                     :src="paciente.usuario.avatarUrl"
                     :alt="paciente.usuario?.nome"
                     cover

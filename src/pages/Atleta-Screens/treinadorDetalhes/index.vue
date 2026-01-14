@@ -16,7 +16,7 @@
               </div>
               <div class="skeleton-name mx-auto mb-2"></div>
               <div class="skeleton-specialty mx-auto mb-4"></div>
-              
+
               <div class="d-flex justify-center ga-3 flex-wrap">
                 <div class="skeleton-chip"></div>
                 <div class="skeleton-chip"></div>
@@ -53,7 +53,7 @@
               <div class="doctor-avatar-container">
                 <v-avatar size="160" class="doctor-avatar">
                   <v-img
-                    v-if="treinador.usuario?.avatarUrl"
+                    v-if="treinador.avatarUrl"
                     :src="treinador.usuario.avatarUrl"
                     alt="Foto do treinador"
                     cover
@@ -63,7 +63,7 @@
               </div>
               <h1 class="doctor-name">{{ treinador.usuario?.nome }}</h1>
               <p class="doctor-specialty">{{ $t('treinadorDetalhes.coach') }}</p>
-              
+
               <div class="info-chips d-flex justify-center ga-3 flex-wrap mt-4">
                 <v-chip v-if="idade" class="info-chip" prepend-icon="mdi-calendar">
                   {{ idade }} {{ $t('treinadorDetalhes.years') }}

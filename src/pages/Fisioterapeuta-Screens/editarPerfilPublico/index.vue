@@ -250,7 +250,7 @@ const carregarDados = async () => {
       formData.value.diaFuncionamentoFim = data.diaFuncionamentoFim || ''
 
       displayData.value.nome = data.usuario?.nome || ''
-      displayData.value.avatarUrl = data.usuario?.avatarUrl || ''
+      displayData.value.avatarUrl = data.avatarUrl || ''
       displayData.value.crefito = data.crefito || ''
     }
   } catch (error) {

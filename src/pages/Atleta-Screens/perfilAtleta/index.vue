@@ -5,8 +5,8 @@
         <div class="profile-avatar-container">
           <v-avatar  size="120" class="profile-avatar">
             <v-img
-              v-if="atleta?.usuario?.avatarUrl"
-              :src="atleta?.usuario?.avatarUrl"
+              v-if="atleta?.avatarUrl"
+              :src="atleta?.avatarUrl"
               alt="Foto do perfil"
             />
             <v-icon v-else size="50" color="white">mdi-account</v-icon>

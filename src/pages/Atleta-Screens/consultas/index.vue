@@ -127,8 +127,8 @@
                   <v-col cols="3" class="me-4 d-flex align-center justify-center">
                     <v-avatar size="90" class="elevation-2">
                       <v-img
-                        v-if="consulta?.medico?.usuario?.avatarUrl"
-                        :src="consulta?.medico?.usuario?.avatarUrl"
+                        v-if="consulta?.medico?.avatarUrl"
+                        :src="consulta?.medico?.avatarUrl"
                         cover
                       ></v-img>
                       <v-icon v-else size="40" class="gradient-icon">mdi-doctor</v-icon>
@@ -177,7 +177,7 @@
                       class="font-weight-medium text-white"
                     >
                       {{ t(`consultas.status.${consulta?.situacao}`) }}
-                    </v-chip> 
+                    </v-chip>
                     <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="abrirModalConfirmacao(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
                       <v-icon>mdi-cancel</v-icon>
                       {{ t('consultas.cancelButton') }}
@@ -214,15 +214,15 @@
               <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
             </v-avatar>
           </div>
-          
+
           <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
             {{ t('consultas.modal.title') }}
           </h3>
-          
+
           <p class="text-body-1 text-grey-darken-1 mb-6">
             {{ t('consultas.modal.message') }}
           </p>
-          
+
           <div class="d-flex gap-3 justify-center">
             <v-btn
               color="grey-lighten-1"
@@ -235,7 +235,7 @@
               <v-icon start>mdi-close</v-icon>
               {{ t('consultas.modal.cancel') }}
             </v-btn>
-            
+
             <v-btn
               color="red"
               variant="flat"
@@ -290,7 +290,7 @@ const consultasFiltradas = computed(() => {
     return consultas.value.filter((c) => c.situacao === 'Recusado')
     if (filtro.value === 'canceladas')
     return consultas.value.filter((c) => c.situacao === 'Cancelada')
-  
+
   return consultas.value
 })
 

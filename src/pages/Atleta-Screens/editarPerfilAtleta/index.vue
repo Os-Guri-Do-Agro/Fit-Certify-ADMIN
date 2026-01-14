@@ -548,7 +548,7 @@ const carregarDados = async () => {
       formData.value.nome = atletaData.usuario?.nome || ''
       formData.value.email = atletaData.usuario?.email || ''
       formData.value.telefone = atletaData.telefone || ''
-      formData.value.avatar = atletaData.usuario?.avatarUrl || ''
+      formData.value.avatar = atletaData.avatarUrl || ''
       codigoConvite.value = atletaData.codigoConvite || ''
       if (atletaData.dataNascimento) {
         formData.value.dataNascimento = new Date(atletaData.dataNascimento).toISOString().split('T')[0]

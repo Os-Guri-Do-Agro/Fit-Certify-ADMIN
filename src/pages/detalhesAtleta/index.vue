@@ -48,7 +48,7 @@
             <!-- Header -->
             <div class="text-center mb-4 mb-sm-6">
               <v-avatar
-                v-if="atletaData?.usuario?.avatarUrl"
+                v-if="atletaData?.avatarUrl"
                 :size="display.mobile ? 80 : 120"
                 class="mb-3 mb-sm-4"
               >

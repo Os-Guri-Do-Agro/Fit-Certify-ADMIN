@@ -48,7 +48,7 @@
           <v-row align="center" class="min-height-400">
             <v-col cols="12" md="4" class="text-center">
               <v-avatar size="160" class="doctor-avatar">
-                <v-img v-if="fisioterapeuta?.usuario?.avatarUrl" :src="fisioterapeuta?.usuario?.avatarUrl" cover />
+                <v-img v-if="fisioterapeuta?.avatarUrl" :src="fisioterapeuta?.avatarUrl" cover />
                 <v-icon v-else size="80" color="white">mdi-account</v-icon>
               </v-avatar>
               <h1 class="doctor-name">{{ fisioterapeuta?.usuario?.nome }}</h1>
