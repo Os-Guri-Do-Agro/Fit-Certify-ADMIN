@@ -102,9 +102,9 @@
               <v-skeleton-loader type="table-row@10" />
             </template>
 
-            <template #item.usuario.avatarUrl="{ item }">
+            <template #item.avatarUrl="{ item }">
               <v-avatar size="40" class="my-2">
-                <v-img v-if="item.usuario.avatarUrl" :src="item.usuario.avatarUrl" :alt="item.usuario.nome" />
+                <v-img v-if="item.avatarUrl" :src="item.avatarUrl" :alt="item.usuario.nome" />
                 <v-icon v-else size="40" color="grey-lighten-1">mdi-account-circle</v-icon>
               </v-avatar>
             </template>
@@ -163,7 +163,7 @@ const page = ref(1)
 const totalPages = ref()
 
 const headers = computed(() => [
-  { title: t('pacientesMedico.table.profile'), key: 'usuario.avatarUrl', sortable: false },
+  { title: t('pacientesMedico.table.profile'), key: 'avatarUrl', sortable: false },
   { title: t('pacientesMedico.table.name'), key: 'usuario.nome',  sortable: false},
   { title: t('pacientesMedico.table.age'), key: 'idade', sortable: false },
   { title: t('pacientesMedico.table.gender'), key: 'genero', sortable: false,  },

@@ -46,7 +46,7 @@
                 >
                   <v-img
                     v-if="atleta.avatarUrl"
-                    :src="atleta.usuario.avatarUrl"
+                    :src="atleta.avatarUrl"
                     :alt="atleta.usuario?.nome"
                     cover
                   />

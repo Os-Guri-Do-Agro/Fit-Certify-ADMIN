@@ -52,7 +52,7 @@
                 :size="display.mobile ? 80 : 120"
                 class="mb-3 mb-sm-4"
               >
-                <v-img :src="atletaData.usuario.avatarUrl" alt="Avatar" />
+                <v-img :src="atletaData.avatarUrl" alt="Avatar" />
               </v-avatar>
               <v-icon
                 v-else

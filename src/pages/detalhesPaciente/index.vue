@@ -49,7 +49,7 @@
                 >
                   <v-img
                     v-if="paciente.avatarUrl"
-                    :src="paciente.usuario.avatarUrl"
+                    :src="paciente.avatarUrl"
                     :alt="paciente.usuario?.nome"
                     cover
                   />

@@ -54,7 +54,7 @@
                 <v-avatar size="160" class="doctor-avatar">
                   <v-img
                     v-if="treinador.avatarUrl"
-                    :src="treinador.usuario.avatarUrl"
+                    :src="treinador.avatarUrl"
                     alt="Foto do treinador"
                     cover
                   />
