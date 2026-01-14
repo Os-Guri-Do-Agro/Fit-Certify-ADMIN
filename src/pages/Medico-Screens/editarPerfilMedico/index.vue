@@ -62,7 +62,7 @@
           <v-form v-else ref="form" v-model="valid">
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-account-circle</v-icon>
                 {{ t('editarPerfilMedico.personalInfo') }}
               </v-card-title>
               <v-card-text class="pa-6">
@@ -75,7 +75,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-account"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
@@ -88,7 +88,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-email"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required, rules.email, rules.emailExists]"
                       :loading="emailValidation.loading"
                     ></v-text-field>
@@ -103,7 +103,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-phone"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.phone]"
                       @input="formatPhone"
                     ></v-text-field>
@@ -116,7 +116,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-calendar"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       type="date"
                       :rules="[rules.birthDate]"
                     ></v-text-field>
@@ -127,7 +127,7 @@
 
             <!-- <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-lock</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-lock</v-icon>
                 Alterar Senha
               </v-card-title>
               <v-card-text class="pa-6">
@@ -140,7 +140,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showPassword ? 'text' : 'password'"
                       :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showPassword = !showPassword"
@@ -154,7 +154,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-plus"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showNewPassword ? 'text' : 'password'"
                       :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showNewPassword = !showNewPassword"
@@ -169,7 +169,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-check"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showConfirmPassword ? 'text' : 'password'"
                       :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showConfirmPassword = !showConfirmPassword"
@@ -194,7 +194,7 @@
                 {{ t('editarPerfilMedico.cancel') }}
               </v-btn>
               <v-btn
-                color="#00c6fe"
+                color="#42A5F5"
                 rounded="xl"
                 size="large"
                 class="px-8 save-btn text-white"
@@ -478,7 +478,7 @@ onMounted(async () => {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #00c6fe !important;
+  background: #42A5F5 !important;
 }
 
 .profile-name {

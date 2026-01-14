@@ -1,5 +1,5 @@
 <template>
-  <v-container style="background-color: #00c6fe" fluid
+  <v-container style="background-color: #42A5F5" fluid
     class=" pa-0 fill-height d-flex flex-column flex-md-row overflow-x-hidden">
     <v-row no-gutters class="h-100">
 
@@ -7,21 +7,21 @@
       <v-dialog v-model="showModal" width="600" persistent>
         <v-card :loading="loading" :disabled="loading">
           <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-5 px-5 px-md-10">
-            <span class="mdi mdi-email-fast-outline text-h1" style="color: #00c6fe;"></span>
+            <span class="mdi mdi-email-fast-outline text-h1" style="color: #42A5F5;"></span>
             <span class="text-h6 text-md-h5 font-weight-bold">{{ $t('resetPassword.modal.title') }}</span>
           </v-card-title>
           <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1  px-md-10"
             style="white-space: normal; word-wrap: break-word;">
             <span>
               {{ $t('resetPassword.modal.subtitle') }} <span class="font-weight-medium"
-                style="color: #00c6fe;">{{ usuario?.email }}</span>
+                style="color: #42A5F5;">{{ usuario?.email }}</span>
             </span>
           </v-card-subtitle>
           <div class="my-5 px-5 px-md-10">
             <v-otp-input variant="solo-filled" v-model="codigo"></v-otp-input>
           </div>
           <v-card-actions class="d-flex w-100 flex-column-reverse ga-5 px-5 px-md-10 mb-5">
-            <v-btn class="w-100 text-white" height="50px" @click="confirmar" style="background-color: #00c6fe;"
+            <v-btn class="w-100 text-white" height="50px" @click="confirmar" style="background-color: #42A5F5;"
               :loading="loading">{{ $t('resetPassword.modal.confirmButton') }}</v-btn>
           </v-card-actions>
         </v-card>

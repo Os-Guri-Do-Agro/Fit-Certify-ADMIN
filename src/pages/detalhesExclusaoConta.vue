@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden">
     <!-- HEADER -->
-    <VCol class="pa-0 ma-0" md="12" style="background-color: #00c6fe">
+    <VCol class="pa-0 ma-0" md="12" style="background-color: #42A5F5">
       <VRow class="pa-0 ma-0">
         <VCol class="pa-0 ma-0 d-flex justify-center" cols="12">
           <v-container class="mb-5 mb-md-10 pa-0 ma-0 px-6 px-5 px-md-10" max-width="150vh">
@@ -95,7 +95,7 @@
                 </p>
 
                 <div class="my-6">
-                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
+                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #42A5F5">
                     {{ $t('detalhesExclusaoConta.section3.stage1Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">
@@ -104,7 +104,7 @@
                 </div>
 
                 <div class="my-6">
-                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
+                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #42A5F5">
                     {{ $t('detalhesExclusaoConta.section3.stage2Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">
@@ -113,7 +113,7 @@
                 </div>
 
                 <div class="my-6">
-                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #00c6fe">
+                  <h3 class="text-h6 font-weight-bold mb-3" style="color: #42A5F5">
                     {{ $t('detalhesExclusaoConta.section3.stage3Title') }}
                   </h3>
                   <p class="text-body-1 ml-4">

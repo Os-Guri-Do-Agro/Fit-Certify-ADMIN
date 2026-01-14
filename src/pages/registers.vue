@@ -50,7 +50,7 @@
                   @click="selecionarTipoConta('medico')" elevation="0">
                   <v-card-text class="pa-6 text-center">
                     <div class="icon-circle mb-4"
-                      style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);">
+                      style="background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%);">
                       <v-icon size="40" color="white">mdi-stethoscope</v-icon>
                     </div>
                     <h3 class="text-h6 font-weight-bold mb-3">Médico</h3>
@@ -65,7 +65,7 @@
 
           <!-- Botão de continuar -->
           <v-card-actions class="px-6 pb-6 pt-2">
-            <v-btn color="#00c6fe" variant="flat" block size="x-large" @click="confirmarTipoConta"
+            <v-btn color="#42A5F5" variant="flat" block size="x-large" @click="confirmarTipoConta"
               :disabled="!tipoContaSelecionado" class="text-white continue-btn" rounded="lg">
               <v-icon class="me-2">mdi-arrow-right</v-icon>
               Continuar
@@ -75,7 +75,7 @@
           <!-- Link para login -->
           <div class="text-center pb-6">
             <span class="text-body-2 text-medium-emphasis">Já tem uma conta?</span>
-            <v-btn variant="text" color="#00c6fe" @click="router.push('/login')" class="text-none font-weight-bold">
+            <v-btn variant="text" color="#42A5F5" @click="router.push('/login')" class="text-none font-weight-bold">
               Fazer Login
             </v-btn>
           </div>
@@ -148,7 +148,7 @@ function confirmarTipoConta() {
 .icon-wrapper {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -187,7 +187,7 @@ function confirmarTipoConta() {
 }
 
 .selected-card {
-  border: 3px solid #00c6fe !important;
+  border: 3px solid #42A5F5 !important;
   background: linear-gradient(135deg, rgba(0, 198, 254, 0.08) 0%, rgba(0, 153, 204, 0.08) 100%) !important;
   box-shadow: 0 8px 32px rgba(0, 198, 254, 0.3) !important;
   transform: translateY(-2px) scale(1.02);

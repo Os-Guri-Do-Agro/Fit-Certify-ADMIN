@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden">
     <!-- DIV DA ESQUERDA -->
-    <VCol class="pa-0 ma-0" md="4" style="background-color: #00c6fe">
+    <VCol class="pa-0 ma-0" md="4" style="background-color: #42A5F5">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column">
         <VCol
           class="pa-0 ma-0 d-flex text-center flex-column align-center justify-center">
@@ -37,7 +37,7 @@
       <v-container class="d-flex ga-10 align-top mx-md-5 flex-column py-8">
         <div class="w-100 d-flex justify-end">
           <v-btn icon variant="text" @click="sair">
-            <v-icon color="#00c6fe">mdi-close</v-icon>
+            <v-icon color="#42A5F5">mdi-close</v-icon>
           </v-btn>
         </div>
         <div class="w-100 d-flex align-center flex-column mb-4">
@@ -95,7 +95,7 @@
                   <VCardTitle
                     class="font-weight-bold text-h6 text-md-h5"
                     style="
-                      color: #00c6fe;
+                      color: #42A5F5;
                       font-family: DM Sans, sans-serif;
                     "
                     primary-title
@@ -105,7 +105,7 @@
                   <span
                     v-if="plano.maisPopular"
                     class="text-caption font-weight-bold px-3 py-1"
-                    style="color: #00c6fe; background: rgba(0, 198, 254, 0.1); border-radius: 20px;"
+                    style="color: #42A5F5; background: rgba(0, 198, 254, 0.1); border-radius: 20px;"
                   >
                     ⭐ {{ $t('registerPlanos.mostPopular') }}
                   </span>
@@ -291,7 +291,7 @@ p {
 }
 
 .plan-card:hover {
-  border-color: #00c6fe;
+  border-color: #42A5F5;
   box-shadow: 0 8px 24px rgba(0, 198, 254, 0.2) !important;
   transform: translateY(-4px);
 }

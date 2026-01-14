@@ -40,7 +40,7 @@
             >
               <div
                 class="text-center pa-5 mb-5 position-relative"
-                style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border-radius: 12px 12px 0 0;"
+                style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border-radius: 12px 12px 0 0;"
               >
                 <div class="position-absolute d-none d-md-flex" style="top: 16px; right: 16px;">
                   <v-chip
@@ -58,7 +58,7 @@
                 <v-avatar
                   size="160"
                   class="elevation-3 mb-3"
-                  style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
+                  style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
                   <v-img
                     v-if="paciente.avatarUrl"

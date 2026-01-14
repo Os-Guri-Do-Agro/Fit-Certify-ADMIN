@@ -343,7 +343,7 @@ const confirmarCancelamento = async () => {
 
 const getStatusColor = (status) => {
   if (status === 'Pendente') return 'orange'
-  if (status === 'Marcado') return '#00C6FE'
+  if (status === 'Marcado') return '#42A5F5'
   if (status === 'Concluido') return 'green'
   if (status === 'Recusado') return 'red'
   return 'grey'

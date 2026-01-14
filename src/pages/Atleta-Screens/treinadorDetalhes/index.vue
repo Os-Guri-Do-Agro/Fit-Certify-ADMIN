@@ -85,7 +85,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-4">
-                      <v-icon color="#00c6fe" size="32" class="mr-3">mdi-card-account-details</v-icon>
+                      <v-icon color="#42A5F5" size="32" class="mr-3">mdi-card-account-details</v-icon>
                       <h4 class="text-h5 font-weight-bold">{{ $t('treinadorDetalhes.contacts') }}</h4>
                     </div>
                     <div v-if="treinador.telefone" class="d-flex align-center mb-4">
@@ -112,7 +112,7 @@
         <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('treinadorDetalhes.notFound') }}</h3>
         <p class="text-h6 text-grey-darken-1 mb-8">{{ $t('treinadorDetalhes.notFoundDescription') }}</p>
         <v-btn
-          color="#00c6fe"
+          color="#42A5F5"
           rounded="xl"
           elevation="4"
           size="x-large"
@@ -226,7 +226,7 @@ onMounted(() => {
 
 .rating-chip {
   background: #fff !important;
-  color: #00c6fe !important;
+  color: #42A5F5 !important;
   margin-left: 8px;
   backdrop-filter: blur(10px);
   border: 1px solid;

@@ -56,7 +56,7 @@
               </v-icon>
               <h2
                 class="text-h6 text-sm-h5 text-md-h4 font-weight-bold mb-2 px-2"
-                :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
+                :style="{ color: isValido ? '#42A5F5' : '#f44336' }"
               >
                 {{ isValido ? t('validarCertificado.validCertificate') : t('validarCertificado.invalidCertificate') }}
               </h2>
@@ -93,7 +93,7 @@
                   </div>
                   <div
                     class="text-body-2 text-sm-body-1 font-weight-bold"
-                    :style="{ color: isValido ? '#00c6fe' : '#f44336' }"
+                    :style="{ color: isValido ? '#42A5F5' : '#f44336' }"
                   >
                     {{ formatarData(licenca.validade) || '--' }}
                   </div>
@@ -106,12 +106,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     {{ t('validarCertificado.athlete') }}
                   </span>
                 </div>
@@ -177,12 +177,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-doctor</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     {{ t('validarCertificado.doctor') }}
                   </span>
                 </div>
@@ -301,24 +301,24 @@ const getUserTimezone = () => {
 
 const temTimezone = (dataString) => {
   if (typeof dataString !== 'string') return false
-  return dataString.includes('Z') || 
+  return dataString.includes('Z') ||
          dataString.match(/[+-]\d{2}:\d{2}$/) !== null ||
          dataString.match(/[+-]\d{4}$/) !== null
 }
 
 const isValido = computed(() => {
   if (!licenca.value) return false
-  
+
   if (licenca.value.ativo !== true) {
     return false
   }
-  
+
   if (licenca.value.validade) {
     try {
       const userTimezone = getUserTimezone()
       const dataValidadeString = licenca.value.validade.toString()
       let dataValidade
-      
+
       // Se a data tem timezone explícito, dayjs já detecta automaticamente
       if (temTimezone(dataValidadeString)) {
         dataValidade = dayjs(licenca.value.validade)
@@ -326,12 +326,12 @@ const isValido = computed(() => {
         // Se não tem timezone, assume UTC (padrão de APIs REST)
         dataValidade = dayjs.utc(licenca.value.validade)
       }
-      
+
       // Se não é válida, tenta parse normal como fallback
       if (!dataValidade.isValid()) {
         dataValidade = dayjs(licenca.value.validade)
       }
-      
+
       // Converte para o timezone do dispositivo do usuário
       if (dataValidade.isValid()) {
         const dataValidadeUsuario = dataValidade.tz(userTimezone)
@@ -344,7 +344,7 @@ const isValido = computed(() => {
       return dayjs(licenca.value.validade).isAfter(dayjs())
     }
   }
-  
+
   return false
 })
 
@@ -354,22 +354,22 @@ const formatarData = (data) => {
     const userTimezone = getUserTimezone()
     const dataString = data.toString()
     let dataParsed
-    
+
     if (temTimezone(dataString)) {
       dataParsed = dayjs(data)
     } else {
       dataParsed = dayjs.utc(data)
     }
-    
+
     if (!dataParsed.isValid()) {
       dataParsed = dayjs(data)
     }
-    
+
     if (dataParsed.isValid()) {
       const formato = locale.value === 'pt' ? 'DD/MM/YYYY' : 'MM/DD/YYYY'
       return dataParsed.tz(userTimezone).format(formato)
     }
-    
+
     return '--'
   } catch (e) {
     console.error('Erro ao formatar data:', e)
@@ -385,9 +385,9 @@ const calcularIdade = (dataNascimento) => {
     const hoje = dayjs().tz(userTimezone)
     // Para calcular idade, usamos apenas a data (sem hora), então não precisa converter timezone
     const nascimento = dayjs(dataNascimento)
-    
+
     if (!nascimento.isValid()) return '--'
-    
+
     let idade = hoje.diff(nascimento, 'year')
     const mes = hoje.diff(nascimento, 'month') % 12
     if (mes < 0 || (mes === 0 && hoje.date() < nascimento.date())) {
@@ -434,23 +434,23 @@ const buscarLicenca = async () => {
   try {
     loading.value = true
     error.value = null
-    
+
     const licencaId = route.query.id || route.params.id
-    
+
     if (!licencaId) {
       error.value = t('validarCertificado.errorIdNotProvided')
       return
     }
 
     const response = await licencaCertificadoService.getLicencaCertificadoById(licencaId)
-    
+
     licenca.value = response.data || response
-    
+
     if (licenca.value) {
       if (licenca.value.atletaId) {
         await buscarAtleta(licenca.value.atletaId)
       }
-      
+
       if (licenca.value.medicoId) {
         await buscarMedico(licenca.value.medicoId)
       }

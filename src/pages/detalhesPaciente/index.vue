@@ -45,7 +45,7 @@
                 <v-avatar
                   size="160"
                   class="elevation-3 mb-3"
-                  style="background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
+                  style="background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); border: 4px solid rgba(255, 255, 255, 0.3);"
                 >
                   <v-img
                     v-if="paciente.avatarUrl"
