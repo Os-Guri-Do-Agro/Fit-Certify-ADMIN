@@ -35,7 +35,7 @@ const router = useRouter()
 onMounted(() => {
   setTimeout(() => {
     window.location.href = 'com.nicolascastela.fitcertify://payment-cancel'
-  }, 3000)
+  }, 1750)
 })
 </script>
 

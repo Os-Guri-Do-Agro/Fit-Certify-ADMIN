@@ -138,12 +138,12 @@
   </VRow>
 
   <!-- Dialog de seleção de perfil -->
-  <v-dialog v-model="dialogPerfil" max-width="650" @update:model-value="onDialogClose">
+  <v-dialog v-model="dialogPerfil" max-width="650" @update:model-value="onDialogClose" persistent>
     <v-card rounded="xl" elevation="8">
       <v-card-title class="text-center px-8 pt-4 pb-4">
         <div class="d-flex align-center flex-column justify-center w-100">
-          <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">Selecione seu Perfil</h2>
-          <span class="text-subtitle-2" style="color: #2c3e50;">Selecione o perfil que deseja realizar login</span>
+          <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('trocarPerfil.title') }}</h2>
+          <span class="text-subtitle-2" style="color: #2c3e50;">{{ $t('trocarPerfil.subtitle') }}</span>
         </div>
       </v-card-title>
       <v-card-text class="px-8 pb-8">
@@ -160,7 +160,7 @@
                   <v-icon color="white" size="50">mdi-account</v-icon>
                 </div>
               </v-avatar>
-              <span class="text-subtitle-1 font-weight-bold text-center" style="color: #2c3e50;">{{ perfil.nome }}</span>
+              <span class="text-subtitle-1 font-weight-bold text-center" style="color: #2c3e50;">{{ $t(`login.roles.${getRoles(perfil.nomeOriginal)}`) }}</span>
             </div>
           </v-col>
         </v-row>
@@ -278,11 +278,6 @@ const getRoles = (nome: string) => {
   return map[nome] || nome
 }
 
-const translatePerfilNome = (nome: string) => {
-  const roleKey = getRoles(nome)
-  return $t(`login.roles.${roleKey}`)
-}
-
 async function handleSubmit() {
   if (!formRef.value) return;
 
@@ -308,7 +303,7 @@ async function handleSubmit() {
       if (response.success && response.data?.perfis) {
         perfis.value = response.data.perfis.map((perfil: any) => ({
           ...perfil,
-          nome: translatePerfilNome(perfil.nome)
+          nomeOriginal: perfil.nome
         }));
         showPerfilSelect.value = true;
         dialogPerfil.value = true;
@@ -378,7 +373,7 @@ async function selecionarPerfil(perfil: any) {
   perfilId.value = perfil.id;
   perfilSelecionado.value = perfil;
   dialogPerfil.value = false;
-  
+
   try {
     loading.value = true;
     const response = await authService.loginComPerfil({
@@ -386,7 +381,7 @@ async function selecionarPerfil(perfil: any) {
       perfilId: perfil.id,
       isMobile: isMobile.value
     });
-    
+
     if (response.data?.access_token) {
       const storage = isMobile.value ? localStorage : sessionStorage;
       storage.setItem("token", response.data?.access_token);

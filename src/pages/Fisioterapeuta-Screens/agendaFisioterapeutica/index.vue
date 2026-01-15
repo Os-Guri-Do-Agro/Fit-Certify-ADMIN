@@ -144,16 +144,28 @@
         </v-card-title>
 
         <v-card-text class="pa-6">
+          <!-- caso seja atleta fitCertify -->
           <v-combobox clearable v-if="!ConsultaExterna" :label="t('agendaFisioterapeutica.athleteName')" variant="outlined" :items="atletas"
-            item-title="usuario.nome" item-value="id" v-model="atletaSelected" prepend-inner-icon="mdi-account"></v-combobox>
+            item-title="usuario.nome" item-value="id" v-model="atletaSelected"
+            prepend-inner-icon="mdi-account"></v-combobox>
+          <!-- Caso nao seja atleta fitcertify -->
           <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientName')" variant="outlined"
             prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
-          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientCPF')" variant="outlined"
-            prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
-          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientPhone')" variant="outlined"
-            prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"></v-text-field>
-          <v-text-field v-if="ConsultaExterna" :label="t('agendaFisioterapeutica.externalPatientEmail')" variant="outlined"
-            prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"></v-text-field>
+
+          <v-row v-if="ConsultaExterna">
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaFisioterapeutica.externalPatientCpf')" variant="outlined"
+                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaFisioterapeutica.externalPatientEmail')" variant="outlined"
+                prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"></v-text-field>
+            </v-col>
+            <v-col cols="12" md="4">
+              <v-text-field :label="t('agendaFisioterapeutica.externalPatientPhone')" variant="outlined"
+                prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"></v-text-field>
+            </v-col>
+          </v-row>
 
           <v-checkbox class="ma-0 pa-0" :label="t('agendaFisioterapeutica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
 
@@ -161,9 +173,12 @@
             :text="t('agendaFisioterapeutica.scheduleInfo')"
             :title="t('agendaFisioterapeutica.importantInfo')" type="info" variant="tonal"></v-alert>
 
+          <div></div>
+
           <v-row>
             <v-col cols="6">
-              <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100" locale="pt-BR"></v-date-picker>
+              <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100"
+                locale="pt-BR"></v-date-picker>
             </v-col>
             <v-col cols="6">
               <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
@@ -179,11 +194,26 @@
                     { selected: selectedTimeSlot?.horario === hora.horario },
                   ]" :disabled="!hora.disponivel" @click="hora.disponivel && selectTimeSlot(hora)">
                     <v-card-text class="pa-3 text-center">
-                      <v-icon :color="selectedTimeSlot?.horario === hora.horario ? 'white' : hora.disponivel ? 'blue' : 'grey'" class="mb-1">
-                        {{ hora.disponivel ? 'mdi-clock-check' : 'mdi-clock-remove' }}
+                      <v-icon :color="selectedTimeSlot?.horario === hora.horario
+                          ? 'white'
+                          : hora.disponivel
+                            ? 'blue'
+                            : 'grey'
+                        " class="mb-1">
+                        {{
+                          hora.disponivel
+                            ? 'mdi-clock-check'
+                            : 'mdi-clock-remove'
+                        }}
                       </v-icon>
-                      <div class="text-body-2 font-weight-medium">{{ formatarHorarioLocal(hora.horario) }}</div>
-                      <div class="text-caption text-grey">{{ formatarHorarioLocal(hora.horarioFim) }}</div>
+                      <div class="text-body-2 font-weight-medium">
+                        {{ formatarHorarioLocal(hora.horario) }}
+                      </div>
+                      <div class="text-caption text-grey">
+                        {{
+                          formatarHorarioLocal(hora.horarioFim)
+                        }}
+                      </div>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -195,7 +225,11 @@
                   </v-chip>
                   <v-chip color="grey" variant="flat" size="small">
                     <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                    {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} {{ t('agendaFisioterapeutica.occupied') }}
+                    {{
+                      (datinhas.slots?.length || 0) -
+                      (datinhas.slotsDisponiveis || 0)
+                    }}
+                    {{ t('agendaFisioterapeutica.occupied') }}
                   </v-chip>
                 </div>
               </v-card>
@@ -209,7 +243,10 @@
             <v-icon start>mdi-close</v-icon>
             {{ t('agendaFisioterapeutica.cancel') }}
           </v-btn>
-          <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+          <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot ||
+            (ConsultaExterna && !nomePacienteExterno) ||
+            (!ConsultaExterna && !atletaSelected)
+            ">
             <v-icon start>mdi-check</v-icon>
             {{ t('agendaFisioterapeutica.confirm') }}
           </v-btn>
@@ -487,6 +524,11 @@ const getStatusColor = (status) => {
   background-color: #fafafa;
 }
 
+.time-slot-card.unavailable:hover {
+  transform: none;
+  box-shadow: none;
+}
+
 .time-slot-card.selected {
   background: #1976d2 !important;
   color: white;
@@ -528,9 +570,7 @@ const getStatusColor = (status) => {
   backdrop-filter: blur(10px);
 }
 
-.calendar-card {
-  transition: all 0.3s ease;
-}
+
 
 .calendar-card:hover {
   box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15) !important;
