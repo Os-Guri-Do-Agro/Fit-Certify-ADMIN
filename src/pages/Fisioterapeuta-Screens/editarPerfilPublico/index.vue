@@ -47,19 +47,19 @@
                     <v-card-text class="pa-4">
                       <v-row>
                         <v-col cols="12">
-                          <v-text-field v-model="formData.experiencia" :label="$t('editarPerfilPublico.yearsExperience')" type="number" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-medal" color="#00c6fe"></v-text-field>
+                          <v-text-field v-model="formData.experiencia" :label="$t('editarPerfilPublico.yearsExperience')" type="number" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-medal" color="#42A5F5"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
-                          <v-text-field v-model="formData.horarioInicio" :label="$t('editarPerfilPublico.startTime')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-clock-start" placeholder="08:00" maxlength="5" @input="formatarHora('horarioInicio', $event)" :rules="[rules.horaValida, rules.horaInicioMenor]" color="#00c6fe"></v-text-field>
+                          <v-text-field v-model="formData.horarioInicio" :label="$t('editarPerfilPublico.startTime')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-clock-start" placeholder="08:00" maxlength="5" @input="formatarHora('horarioInicio', $event)" :rules="[rules.horaValida, rules.horaInicioMenor]" color="#42A5F5"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
-                          <v-text-field v-model="formData.horarioFim" :label="$t('editarPerfilPublico.endTime')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-clock-end" placeholder="18:00" maxlength="5" @input="formatarHora('horarioFim', $event)" :rules="[rules.horaValida, rules.horaFimMaior]" color="#00c6fe"></v-text-field>
+                          <v-text-field v-model="formData.horarioFim" :label="$t('editarPerfilPublico.endTime')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-clock-end" placeholder="18:00" maxlength="5" @input="formatarHora('horarioFim', $event)" :rules="[rules.horaValida, rules.horaFimMaior]" color="#42A5F5"></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
-                          <v-select v-model="formData.diaFuncionamentoInicio" :label="$t('editarPerfilPublico.startDay')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-calendar-start" :items="diasSemana" color="#00c6fe"></v-select>
+                          <v-select v-model="formData.diaFuncionamentoInicio" :label="$t('editarPerfilPublico.startDay')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-calendar-start" :items="diasSemana" color="#42A5F5"></v-select>
                         </v-col>
                         <v-col cols="12" md="6">
-                          <v-select v-model="formData.diaFuncionamentoFim" :label="$t('editarPerfilPublico.endDay')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-calendar-end" :items="diasSemana" color="#00c6fe"></v-select>
+                          <v-select v-model="formData.diaFuncionamentoFim" :label="$t('editarPerfilPublico.endDay')" variant="outlined" density="comfortable" rounded="lg" prepend-inner-icon="mdi-calendar-end" :items="diasSemana" color="#42A5F5"></v-select>
                         </v-col>
                       </v-row>
                     </v-card-text>
@@ -71,41 +71,41 @@
 
           <v-card class="mb-6" elevation="4" rounded="xl">
             <v-card-title class="section-title">
-              <v-icon class="mr-3" color="#00c6fe">mdi-target</v-icon>
+              <v-icon class="mr-3" color="#42A5F5">mdi-target</v-icon>
               {{ $t('editarPerfilPublico.mainFocus') }}
             </v-card-title>
             <v-card-text class="pa-6">
-              <v-textarea v-model="formData.foco" :label="$t('editarPerfilPublico.mainFocusPlaceholder')" variant="outlined" rounded="lg" rows="3" counter="300" :rules="[rules.maxLength(300)]" color="#00c6fe" no-resize></v-textarea>
+              <v-textarea v-model="formData.foco" :label="$t('editarPerfilPublico.mainFocusPlaceholder')" variant="outlined" rounded="lg" rows="3" counter="300" :rules="[rules.maxLength(300)]" color="#42A5F5" no-resize></v-textarea>
             </v-card-text>
           </v-card>
 
           <v-card elevation="4" rounded="xl">
             <v-card-title class="section-title">
-              <v-icon class="mr-3" color="#00c6fe">mdi-text-box-multiple</v-icon>
+              <v-icon class="mr-3" color="#42A5F5">mdi-text-box-multiple</v-icon>
               {{ $t('editarPerfilPublico.professionalInfo') }}
             </v-card-title>
             <v-card-text class="pa-6">
               <v-row>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-account-circle</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-account-circle</v-icon>
                     {{ $t('editarPerfilPublico.professionalProfile') }}
                   </div>
-                  <v-textarea v-model="formData.perfil" :placeholder="$t('editarPerfilPublico.professionalProfilePlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#00c6fe" no-resize class="mb-4"></v-textarea>
+                  <v-textarea v-model="formData.perfil" :placeholder="$t('editarPerfilPublico.professionalProfilePlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#42A5F5" no-resize class="mb-4"></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-briefcase</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-briefcase</v-icon>
                     {{ $t('editarPerfilPublico.professionalCareer') }}
                   </div>
-                  <v-textarea v-model="formData.carreira" :placeholder="$t('editarPerfilPublico.professionalCareerPlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#00c6fe" no-resize class="mb-4"></v-textarea>
+                  <v-textarea v-model="formData.carreira" :placeholder="$t('editarPerfilPublico.professionalCareerPlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#42A5F5" no-resize class="mb-4"></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-star</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-star</v-icon>
                     {{ $t('editarPerfilPublico.mainAchievements') }}
                   </div>
-                  <v-textarea v-model="formData.destaques" :placeholder="$t('editarPerfilPublico.mainAchievementsPlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#00c6fe" no-resize></v-textarea>
+                  <v-textarea v-model="formData.destaques" :placeholder="$t('editarPerfilPublico.mainAchievementsPlaceholder')" variant="outlined" rounded="lg" rows="4" counter="500" :rules="[rules.maxLength(500)]" color="#42A5F5" no-resize></v-textarea>
                 </v-col>
               </v-row>
             </v-card-text>
@@ -116,7 +116,7 @@
               <v-icon left>mdi-close</v-icon>
               {{ $t('editarPerfilPublico.cancel') }}
             </v-btn>
-            <v-btn color="#00c6fe" rounded="xl" size="large" class="px-8 save-btn text-white" @click="salvar" :loading="loading" elevation="4">
+            <v-btn color="#42A5F5" rounded="xl" size="large" class="px-8 save-btn text-white" @click="salvar" :loading="loading" elevation="4">
               <v-icon left>mdi-check</v-icon>
               {{ $t('editarPerfilPublico.saveChanges') }}
             </v-btn>
@@ -250,7 +250,7 @@ const carregarDados = async () => {
       formData.value.diaFuncionamentoFim = data.diaFuncionamentoFim || ''
 
       displayData.value.nome = data.usuario?.nome || ''
-      displayData.value.avatarUrl = data.usuario?.avatarUrl || ''
+      displayData.value.avatarUrl = data.avatarUrl || ''
       displayData.value.crefito = data.crefito || ''
     }
   } catch (error) {

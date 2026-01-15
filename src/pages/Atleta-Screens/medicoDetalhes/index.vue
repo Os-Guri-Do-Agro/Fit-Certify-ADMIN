@@ -102,8 +102,8 @@
               <div class="doctor-avatar-container">
                 <v-avatar size="160" class="doctor-avatar">
                   <v-img
-                    v-if="medico?.usuario?.avatarUrl"
-                    :src="medico?.usuario?.avatarUrl"
+                    v-if="medico?.avatarUrl"
+                    :src="medico?.avatarUrl"
                     alt="Foto do médico"
                     cover
                   />
@@ -162,7 +162,7 @@
             <v-card v-if="medico?.foco" class="info-card-2 focus-card mb-8 rounded-xl" elevation="2">
               <v-card-text class="pa-6">
                 <div class="d-flex align-center mb-3 justify-center">
-                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-target</v-icon>
+                  <v-icon color="#42A5F5" size="28" class="mr-3">mdi-target</v-icon>
                   <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">{{ $t('medicoDetalhes.mainFocusTitle') }}</h3>
                 </div>
                 <p class="text-body-1 mb-0 text-center">{{ medico?.foco }}</p>
@@ -174,7 +174,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-account-circle</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-account-circle</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.profile') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.perfil }}</p>
@@ -186,7 +186,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-briefcase</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-briefcase</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.career') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.carreira }}</p>
@@ -198,7 +198,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-trophy</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-trophy</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('medicoDetalhes.highlights') }}</h4>
                     </div>
                     <p class="text-body-2">{{ medico?.destaques }}</p>Você pode agendar consultas, mas precisa aguardar o médico aprovar. Assim que o agendamento for feito, uma notificação será encaminhada para ele.
@@ -210,14 +210,14 @@
             <v-card class="consultations-card rounded-xl info-card-2" elevation="2">
               <v-card-title class="pa-6 pb-0">
                 <div class="d-flex align-center">
-                  <v-icon color="#00c6fe" size="28" class="mr-3">mdi-calendar-clock</v-icon>
+                  <v-icon color="#42A5F5" size="28" class="mr-3">mdi-calendar-clock</v-icon>
                   <h3 class="text-h6 font-weight-bold ">{{ $t('medicoDetalhes.yourAppointments') }}</h3>
                 </div>
               </v-card-title>
 
               <v-card-text class="pa-6">
                 <div v-if="loadingConsultas" class="text-center py-8">
-                  <v-progress-circular color="#00c6fe" indeterminate class="mb-4"></v-progress-circular>
+                  <v-progress-circular color="#42A5F5" indeterminate class="mb-4"></v-progress-circular>
                   <p class="text-body-2 text-grey">{{ $t('medicoDetalhes.loadingAppointments') }}</p>
                 </div>
 
@@ -392,7 +392,7 @@
         </v-btn>
         <v-btn
           v-if="!medicoSemHorario"
-          color="#00c6fe"
+          color="#42A5F5"
           rounded="lg"
           size="large"
           @click="criarConsulta"
@@ -448,7 +448,7 @@ const loadingConsultas = ref(false)
 
 const getStatusColor = (situacao) => {
   if (situacao === 'Pendente') return 'orange'
-  if (situacao === 'Marcado') return '#00C6FE'
+  if (situacao === 'Marcado') return '#42A5F5'
   if (situacao === 'Concluido') return 'green'
   if (situacao === 'Recusado' || situacao === 'Recusada') return 'red'
   if (situacao === 'Cancelada') return 'grey'
@@ -619,7 +619,7 @@ onMounted(async () => {
 
 .rating-chip {
   background: #fff !important;
-  color: #00c6fe !important;
+  color: #42A5F5 !important;
   margin-left: 8px;
   backdrop-filter: blur(10px);
   border: 1px solid
@@ -656,7 +656,7 @@ onMounted(async () => {
 }
 
 .dialog-header {
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%);
 }
 
 /* Schedule Button */

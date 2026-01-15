@@ -55,7 +55,7 @@
         <template v-slot:activator="{ props }">
           <v-btn variant="flat" v-bind="props" class="profile-btn mr-3" :class="{ 'profile-loading': loading }">
             <v-avatar size="38" class="profile-avatar">
-              <v-img :src="atleta?.usuario?.avatarUrl || medico?.usuario?.avatarUrl || fisioterapeuta?.usuario?.avatarUrl || treinador?.usuario?.avatarUrl"></v-img>
+              <v-img :src="atleta?.avatarUrl || medico?.avatarUrl || fisioterapeuta?.avatarUrl || treinador?.avatarUrl"></v-img>
             </v-avatar>
             <div class="profile-info">
               <span class="profile-name">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome || treinador?.usuario?.nome }}</span>

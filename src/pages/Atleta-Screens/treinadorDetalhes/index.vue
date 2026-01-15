@@ -16,7 +16,7 @@
               </div>
               <div class="skeleton-name mx-auto mb-2"></div>
               <div class="skeleton-specialty mx-auto mb-4"></div>
-              
+
               <div class="d-flex justify-center ga-3 flex-wrap">
                 <div class="skeleton-chip"></div>
                 <div class="skeleton-chip"></div>
@@ -53,8 +53,8 @@
               <div class="doctor-avatar-container">
                 <v-avatar size="160" class="doctor-avatar">
                   <v-img
-                    v-if="treinador.usuario?.avatarUrl"
-                    :src="treinador.usuario.avatarUrl"
+                    v-if="treinador.avatarUrl"
+                    :src="treinador.avatarUrl"
                     alt="Foto do treinador"
                     cover
                   />
@@ -63,7 +63,7 @@
               </div>
               <h1 class="doctor-name">{{ treinador.usuario?.nome }}</h1>
               <p class="doctor-specialty">{{ $t('treinadorDetalhes.coach') }}</p>
-              
+
               <div class="info-chips d-flex justify-center ga-3 flex-wrap mt-4">
                 <v-chip v-if="idade" class="info-chip" prepend-icon="mdi-calendar">
                   {{ idade }} {{ $t('treinadorDetalhes.years') }}
@@ -85,7 +85,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-4">
-                      <v-icon color="#00c6fe" size="32" class="mr-3">mdi-card-account-details</v-icon>
+                      <v-icon color="#42A5F5" size="32" class="mr-3">mdi-card-account-details</v-icon>
                       <h4 class="text-h5 font-weight-bold">{{ $t('treinadorDetalhes.contacts') }}</h4>
                     </div>
                     <div v-if="treinador.telefone" class="d-flex align-center mb-4">
@@ -112,7 +112,7 @@
         <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('treinadorDetalhes.notFound') }}</h3>
         <p class="text-h6 text-grey-darken-1 mb-8">{{ $t('treinadorDetalhes.notFoundDescription') }}</p>
         <v-btn
-          color="#00c6fe"
+          color="#42A5F5"
           rounded="xl"
           elevation="4"
           size="x-large"
@@ -226,7 +226,7 @@ onMounted(() => {
 
 .rating-chip {
   background: #fff !important;
-  color: #00c6fe !important;
+  color: #42A5F5 !important;
   margin-left: 8px;
   backdrop-filter: blur(10px);
   border: 1px solid;

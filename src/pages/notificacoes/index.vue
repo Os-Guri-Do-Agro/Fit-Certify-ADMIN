@@ -103,7 +103,7 @@ const formatDateTime = (dateTime: string) => {
   const year = d.getFullYear()
   const hours = String(d.getHours()).padStart(2, '0')
   const minutes = String(d.getMinutes()).padStart(2, '0')
-  
+
   const dateStr = locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
   return `${dateStr} ${hours}:${minutes}`
 }
@@ -115,7 +115,7 @@ const notificacoesNaoLidas = computed(() => {
 
 const getNotificationColor = (tipo: string) => {
   switch (tipo) {
-    case 'consulta': return '#00c6fe'
+    case 'consulta': return '#42A5F5'
     case 'exame': return 'green'
     case 'medicacao': return 'orange'
     case 'cancelamento': return 'red'

@@ -28,7 +28,7 @@
         <v-col cols="12" md="8" lg="6">
           <v-card elevation="8" rounded="xl" class="password-card">
             <v-card-title class="section-title">
-              <v-icon class="mr-3" color="#00c6fe">mdi-shield-lock</v-icon>
+              <v-icon class="mr-3" color="#42A5F5">mdi-shield-lock</v-icon>
               {{ $t('novaSenhaLogado.setNewPassword') }}
             </v-card-title>
 
@@ -41,7 +41,7 @@
                   density="comfortable"
                   rounded="lg"
                   prepend-inner-icon="mdi-lock"
-                  color="#00c6fe"
+                  color="#42A5F5"
                   :type="showCurrentPassword ? 'text' : 'password'"
                   :append-inner-icon="showCurrentPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showCurrentPassword = !showCurrentPassword"
@@ -56,7 +56,7 @@
                   density="comfortable"
                   rounded="lg"
                   prepend-inner-icon="mdi-lock-plus"
-                  color="#00c6fe"
+                  color="#42A5F5"
                   :type="showNewPassword ? 'text' : 'password'"
                   :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showNewPassword = !showNewPassword"
@@ -71,7 +71,7 @@
                   density="comfortable"
                   rounded="lg"
                   prepend-inner-icon="mdi-lock-check"
-                  color="#00c6fe"
+                  color="#42A5F5"
                   :type="showConfirmPassword ? 'text' : 'password'"
                   :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showConfirmPassword = !showConfirmPassword"
@@ -95,7 +95,7 @@
                   {{ $t('novaSenhaLogado.cancel') }}
                 </v-btn>
                 <v-btn
-                  color="#00c6fe"
+                  color="#42A5F5"
                   rounded="xl"
                   size="large"
                   class="px-8 save-btn text-white"

@@ -32,9 +32,12 @@
                 <v-chip v-if="perfil.id === perfilAtualId" color="success" size="small" class="mb-2">
                   {{ t('trocarPerfil.warning')  }}
                 </v-chip>
-                <div class="icon-circle mb-4" :style="`background: ${getPerfilGradient(perfil.nome)};`">
-                  <v-icon size="40" color="white">{{ getPerfilIcon(perfil.nome) }}</v-icon>
-                </div>
+                <v-avatar size="150" class="mb-4 elevation-4">
+                  <v-img v-if="perfil?.avatarUrl" :src="perfil.avatarUrl" cover />
+                  <div v-else class="avatar-placeholder">
+                    <v-icon color="white" size="60">mdi-account</v-icon>
+                  </div>
+                </v-avatar>
                 <h3 class="text-h6 font-weight-bold mb-2">{{ t(`trocarPerfil.roles.${getTipoPerfisKey(perfil.nome)}`) }}</h3>
                 <p class="text-body-2 text-medium-emphasis mb-0">
                   {{ t('trocarPerfil.text') }} {{ t(`trocarPerfil.roles.${getTipoPerfisKey(perfil.nome)}`) }}
@@ -76,6 +79,7 @@ import { useI18n } from 'vue-i18n'
 interface Perfil {
   id: string | number
   nome: string
+  avatarUrl?: string
 }
 
 const { t } = useI18n();
@@ -206,20 +210,14 @@ const fechar = () => {
 </script>
 
 <style scoped>
-.icon-circle {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transition: transform 0.2s ease;
-}
-
-.selected-card .icon-circle {
-  transform: scale(1.08);
+  border-radius: 50%;
 }
 
 .selection-card {

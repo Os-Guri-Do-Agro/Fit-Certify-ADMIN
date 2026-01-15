@@ -10,31 +10,17 @@
       <div class="success-card">
         <div class="icon-wrapper">
           <div class="success-icon-bg">
-            <v-icon color="white" size="48" class="success-icon">mdi-check-circle</v-icon>
+            <v-icon color="white" size="48" class="success-icon">mdi-close-circle</v-icon>
           </div>
         </div>
 
         <h1 class="success-title">
-          Pagamento Confirmado!
+          Pagamento Cancelado!
         </h1>
 
         <div class="info-box">
-          <span class="info-text text-center">Parabéns! Sua transação foi processada com sucesso e seu acesso já está liberado.</span>
+          <span class="info-text text-center">Sua transação foi cancelada. Você pode tentar novamente quando desejar.</span>
         </div>
-      </div>
-
-      <div class="action-section">
-        <VBtn
-          class="return-btn text-white"
-          height="56px"
-          color="#88ce0d"
-          rounded="lg"
-          elevation="0"
-          size="large"
-          @click="voltarApp">
-          <v-icon start size="24">mdi-arrow-left</v-icon>
-          Voltar para o Aplicativo
-        </VBtn>
       </div>
     </div>
   </div>
@@ -42,17 +28,15 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
+import { onMounted } from 'vue'
 
 const router = useRouter()
 
-const urlParams = new URLSearchParams(window.location.search);
-const email = urlParams.get('email');
-
-const appUrl = `com.nicolascastela.fitcertify://payment-success?email=${email}`;
-
-const voltarApp = () => {
-  window.location.href = appUrl;
-}
+onMounted(() => {
+  setTimeout(() => {
+    window.location.href = 'com.nicolascastela.fitcertify://payment-cancel'
+  }, 1750)
+})
 </script>
 
 <style scoped>
@@ -116,11 +100,11 @@ const voltarApp = () => {
   width: 96px;
   height: 96px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #88ce0d 0%, #6ba80a 100%);
+  background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 8px 24px rgba(136, 206, 13, 0.35);
+  box-shadow: 0 8px 24px rgba(231, 76, 60, 0.35);
   animation: scaleIn 0.5s ease-out 0.4s both;
 }
 
@@ -150,10 +134,10 @@ const voltarApp = () => {
   display: flex;
   align-items: center;
   gap: 12px;
-  background: #f0f9e8;
+  background: #fdecea;
   padding: 16px 24px;
   border-radius: 12px;
-  border: 1px solid #d4edbc;
+  border: 1px solid #f5c6cb;
   width: 100%;
   max-width: 400px;
 }
@@ -181,7 +165,7 @@ const voltarApp = () => {
 
 .return-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(136, 206, 13, 0.3) !important;
+  box-shadow: 0 12px 28px rgba(231, 76, 60, 0.3) !important;
 }
 
 .return-btn:active {

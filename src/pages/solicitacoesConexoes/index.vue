@@ -79,7 +79,7 @@
                               class="badge-gradient"
                             >
                               <v-avatar size="90" class="avatar-shadow">
-                                <v-img v-if="solicitacao.solicitante?.usuario?.avatarUrl" :src="solicitacao.solicitante.usuario.avatarUrl" cover></v-img>
+                                <v-img v-if="solicitacao.solicitante?.avatarUrl" :src="solicitacao.solicitante.avatarUrl" cover></v-img>
                                 <v-icon v-else size="45" color="grey-darken-1">mdi-account</v-icon>
                               </v-avatar>
                             </v-badge>
@@ -177,7 +177,7 @@
                               offset-y="8"
                             >
                               <v-avatar size="90" class="avatar-shadow">
-                                <v-img v-if="solicitacao.destinatario?.usuario?.avatarUrl" :src="solicitacao.destinatario.usuario.avatarUrl" cover></v-img>
+                                <v-img v-if="solicitacao.destinatario?.avatarUrl" :src="solicitacao.destinatario.avatarUrl" cover></v-img>
                                 <v-icon v-else size="45" color="grey-darken-1">mdi-account</v-icon>
                               </v-avatar>
                             </v-badge>
@@ -266,8 +266,8 @@
                               offset-y="8"
                             >
                               <v-avatar size="90" class="avatar-shadow">
-                                <v-img v-if="isAtleta && getProfissional(conexao)?.usuario?.avatarUrl" :src="getProfissional(conexao).usuario.avatarUrl" cover></v-img>
-                                <v-img v-else-if="!isAtleta && conexao?.solicitante?.usuario?.avatarUrl" :src="conexao.solicitante.usuario.avatarUrl" cover></v-img>
+                                <v-img v-if="isAtleta && getProfissional(conexao)?.avatarUrl" :src="getProfissional(conexao).avatarUrl" cover></v-img>
+                                <v-img v-else-if="!isAtleta && conexao?.solicitante?.avatarUrl" :src="conexao.solicitante.avatarUrl" cover></v-img>
                                 <v-icon v-else size="45" color="grey-darken-1">mdi-account</v-icon>
                               </v-avatar>
                             </v-badge>
@@ -479,7 +479,6 @@ const conexoes = ref<any[]>([])
 
 const payload = getPayload()
 const isAtleta = payload?.role === 'atleta'
-const atletaId = ref('')
 
 const loadingPendentes = ref(false)
 const loadingSolicitacoesEnviadas = ref(false)
@@ -507,7 +506,7 @@ const formatDate = (date: string) => {
   const day = String(d.getDate()).padStart(2, '0')
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const year = d.getFullYear()
-  
+
   return locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
 }
 

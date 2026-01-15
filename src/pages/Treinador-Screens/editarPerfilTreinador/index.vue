@@ -62,7 +62,7 @@
           <v-form v-else ref="form" v-model="valid">
             <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-account-circle</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-account-circle</v-icon>
                 {{ $t('editarPerfilTreinador.personalInfo') }}
               </v-card-title>
               <v-card-text class="pa-6">
@@ -75,7 +75,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-account"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required]"
                     ></v-text-field>
                   </v-col>
@@ -88,7 +88,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-email"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.required, rules.email, rules.emailExists]"
                       :loading="emailValidation.loading"
                     ></v-text-field>
@@ -103,7 +103,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-phone"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :rules="[rules.phone]"
                       @input="formatPhone"
                     ></v-text-field>
@@ -116,7 +116,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-calendar"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       type="date"
                       :rules="[rules.birthDate]"
                     ></v-text-field>
@@ -129,11 +129,11 @@
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center justify-space-between mb-3">
                       <div class="d-flex align-center">
-                        <v-icon color="#00c6fe" class="mr-2">mdi-ticket-percent</v-icon>
+                        <v-icon color="#42A5F5" class="mr-2">mdi-ticket-percent</v-icon>
                         <span class="text-h6">{{ $t('editarPerfilTreinador.inviteCode') }}</span>
                       </div>
                       <v-btn
-                        color="#00c6fe"
+                        color="#42A5F5"
                         variant="tonal"
                         rounded="lg"
                         size="small"
@@ -151,7 +151,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-qrcode"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       readonly
                     >
                       <template v-slot:append-inner>
@@ -159,7 +159,7 @@
                           icon="mdi-content-copy"
                           variant="text"
                           size="small"
-                          color="#00c6fe"
+                          color="#42A5F5"
                           @click="copiarCodigo"
                         ></v-btn>
                       </template>
@@ -167,7 +167,7 @@
                   </v-col>
                   <v-col cols="12" md="6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" class="mr-2">mdi-ticket-account</v-icon>
+                      <v-icon color="#42A5F5" class="mr-2">mdi-ticket-account</v-icon>
                       <span class="text-h6">{{ $t('editarPerfilTreinador.insertCode') }}</span>
                     </div>
                     <v-text-field
@@ -177,7 +177,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-keyboard"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       placeholder="Ex: FIT2024ABC123"
                     >
                       <template v-slot:append-inner>
@@ -185,7 +185,7 @@
                           icon="mdi-check"
                           variant="tonal"
                           size="small"
-                          color="#00c6fe"
+                          color="#42A5F5"
                           @click="solicitarConexao()"
                         ></v-btn>
                       </template>
@@ -197,7 +197,7 @@
 
             <!-- <v-card class="mb-6" elevation="4" rounded="xl">
               <v-card-title class="section-title">
-                <v-icon class="mr-3" color="#00c6fe">mdi-lock</v-icon>
+                <v-icon class="mr-3" color="#42A5F5">mdi-lock</v-icon>
                 Alterar Senha
               </v-card-title>
               <v-card-text class="pa-6">
@@ -210,7 +210,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showPassword ? 'text' : 'password'"
                       :append-inner-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showPassword = !showPassword"
@@ -224,7 +224,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-plus"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showNewPassword ? 'text' : 'password'"
                       :append-inner-icon="showNewPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showNewPassword = !showNewPassword"
@@ -239,7 +239,7 @@
                       density="comfortable"
                       rounded="lg"
                       prepend-inner-icon="mdi-lock-check"
-                      color="#00c6fe"
+                      color="#42A5F5"
                       :type="showConfirmPassword ? 'text' : 'password'"
                       :append-inner-icon="showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off'"
                       @click:append-inner="showConfirmPassword = !showConfirmPassword"
@@ -264,7 +264,7 @@
                 {{ $t('editarPerfilTreinador.cancel') }}
               </v-btn>
               <v-btn
-                color="#00c6fe"
+                color="#42A5F5"
                 rounded="xl"
                 size="large"
                 class="px-8 save-btn text-white"
@@ -543,7 +543,7 @@ const carregarDados = async () => {
       formData.value.nome = atletaData.usuario?.nome || ''
       formData.value.email = atletaData.usuario?.email || ''
       formData.value.telefone = atletaData.telefone || ''
-      formData.value.avatar = atletaData.usuario?.avatarUrl || ''
+      formData.value.avatar = atletaData.avatarUrl || ''
       codigoConvite.value = atletaData.codigoConvite || ''
       if (atletaData.dataNascimento) {
         formData.value.dataNascimento = new Date(atletaData.dataNascimento).toISOString().split('T')[0]
@@ -604,7 +604,7 @@ onMounted(async () => {
   position: absolute;
   bottom: 0;
   right: 0;
-  background: #00c6fe !important;
+  background: #42A5F5 !important;
 }
 
 .profile-name {

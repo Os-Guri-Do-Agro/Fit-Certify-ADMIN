@@ -5,8 +5,8 @@
         <div class="profile-avatar-container">
           <v-avatar  size="120" class="profile-avatar">
             <v-img
-              v-if="atleta?.usuario?.avatarUrl"
-              :src="atleta?.usuario?.avatarUrl"
+              v-if="atleta?.avatarUrl"
+              :src="atleta?.avatarUrl"
               alt="Foto do perfil"
             />
             <v-icon v-else size="50" color="white">mdi-account</v-icon>
@@ -39,7 +39,7 @@
       <v-expansion-panel class="custom-expansion-panel">
         <v-expansion-panel-title>
           <div class="d-flex align-center">
-            <v-icon color="#00c6fe" size="28" class="mr-3">mdi-heart-pulse</v-icon>
+            <v-icon color="#42A5F5" size="28" class="mr-3">mdi-heart-pulse</v-icon>
             <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ $t('perfilAtleta.health') }}</h3>
           </div>
         </v-expansion-panel-title>
@@ -68,7 +68,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-heart</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-heart</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.heartRate') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">bpm</span></div>
@@ -78,7 +78,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-gauge</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-gauge</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.bloodPressure') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">mmHg</span></div>
@@ -88,7 +88,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-scale-bathroom</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.bodyWeight') }}</span>
                             </div>
                             <div class="metric-value"> <span>0</span> <span class="metric-unit">kg</span></div>
@@ -98,7 +98,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-thermometer</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-thermometer</v-icon>
                               <span class="metric-label text-pre-wrap text-break">{{ $t('perfilAtleta.temperature') }}</span>
                             </div>
                             <div class="metric-value">0 <span class="metric-unit">°C</span></div>
@@ -118,7 +118,7 @@
       <v-expansion-panel class="custom-expansion-panel">
         <v-expansion-panel-title>
           <div class="d-flex align-center">
-            <v-icon color="#00c6fe" size="28" class="mr-3">mdi-account-details</v-icon>
+            <v-icon color="#42A5F5" size="28" class="mr-3">mdi-account-details</v-icon>
             <h3 class="text-h6 font-weight-bold text-grey-darken-2">{{ $t('perfilAtleta.personalInfo') }}</h3>
           </div>
         </v-expansion-panel-title>
@@ -150,7 +150,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-email</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-email</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.email') }}</span>
                             </div>
                             <div class="metric-value">{{ atleta?.usuario?.email || $t('perfilAtleta.notInformed') }}</div>
@@ -159,7 +159,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-phone</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-phone</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.phone') }}</span>
                             </div>
                             <div class="metric-value">{{ atleta?.telefone || $t('perfilAtleta.notInformed') }}</div>
@@ -168,7 +168,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-card-account-details</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-card-account-details</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.cpf') }}</span>
                             </div>
                             <div class="metric-value">{{ formatarCpf }}</div>
@@ -177,7 +177,7 @@
                         <v-col cols="12" md="6">
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-calendar</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-calendar</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.birthDate') }}</span>
                             </div>
                             <div class="metric-value">{{ formatarData }}</div>
@@ -186,7 +186,7 @@
                         <v-col cols="12" >
                           <div class="metric-item">
                             <div class="d-flex align-center mb-2">
-                              <v-icon color="#00c6fe" size="24" class="mr-2">mdi-human-male-height</v-icon>
+                              <v-icon color="#42A5F5" size="24" class="mr-2">mdi-human-male-height</v-icon>
                               <span class="metric-label">{{ $t('perfilAtleta.height') }}</span>
                             </div>
                             <div class="metric-value">{{ atleta?.altura ? atleta.altura + ' cm' : $t('perfilAtleta.notInformed') }}</div>
@@ -338,16 +338,16 @@ onMounted(() => {
 }
 
 .custom-expansion-panel:first-child {
-  border-top: 4px solid #00c6fe;
+  border-top: 4px solid #42A5F5;
 }
 
 .custom-expansion-panel:last-child {
-  border-bottom: 4px solid #00c6fe;
+  border-bottom: 4px solid #42A5F5;
 }
 
 .custom-expansion-panel .v-expansion-panel-title {
   background: white;
-  color: #00c6fe;
+  color: #42A5F5;
   font-weight: 600;
   padding: 24px;
 }
@@ -365,7 +365,7 @@ onMounted(() => {
 }
 
 .metrics-card {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   border: none;
   overflow: hidden;
 }

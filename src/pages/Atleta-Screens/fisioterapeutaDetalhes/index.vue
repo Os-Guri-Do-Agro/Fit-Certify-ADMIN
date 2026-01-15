@@ -48,7 +48,7 @@
           <v-row align="center" class="min-height-400">
             <v-col cols="12" md="4" class="text-center">
               <v-avatar size="160" class="doctor-avatar">
-                <v-img v-if="fisioterapeuta?.usuario?.avatarUrl" :src="fisioterapeuta?.usuario?.avatarUrl" cover />
+                <v-img v-if="fisioterapeuta?.avatarUrl" :src="fisioterapeuta?.avatarUrl" cover />
                 <v-icon v-else size="80" color="white">mdi-account</v-icon>
               </v-avatar>
               <h1 class="doctor-name">{{ fisioterapeuta?.usuario?.nome }}</h1>
@@ -94,7 +94,7 @@
                 <v-card v-if="fisioterapeuta?.foco" class="info-card-2 focus-card mb-8 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3 justify-center">
-                      <v-icon color="#00c6fe" size="28" class="mr-3">mdi-target</v-icon>
+                      <v-icon color="#42A5F5" size="28" class="mr-3">mdi-target</v-icon>
                       <h3 class="text-h6 font-weight-bold text-light-blue-darken-1">{{ $t('fisioterapeutaDetalhes.mainFocusTitle') }}</h3>
                     </div>
                     <p class="text-body-1 mb-0 text-center">{{ fisioterapeuta?.foco }}</p>
@@ -105,7 +105,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-account-circle</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-account-circle</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.profile') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.perfil }}</p>
@@ -116,7 +116,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-briefcase</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-briefcase</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.career') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.carreira }}</p>
@@ -127,7 +127,7 @@
                 <v-card class="info-card h-100 rounded-xl" elevation="2">
                   <v-card-text class="pa-6">
                     <div class="d-flex align-center mb-3">
-                      <v-icon color="#00c6fe" size="24" class="mr-2">mdi-trophy</v-icon>
+                      <v-icon color="#42A5F5" size="24" class="mr-2">mdi-trophy</v-icon>
                       <h4 class="text-h6 font-weight-bold">{{ $t('fisioterapeutaDetalhes.highlights') }}</h4>
                     </div>
                     <p class="text-body-2">{{ fisioterapeuta?.destaques }}</p>
@@ -262,7 +262,7 @@
         </v-btn>
         <v-btn
           v-if="!fisioterapeutaSemHorario"
-          color="#00c6fe"
+          color="#42A5F5"
           rounded="lg"
           size="large"
           @click="criarConsulta"
@@ -420,7 +420,7 @@ onMounted(async () => {
 }
 .rating-chip {
   background: #fff !important;
-  color: #00c6fe !important;
+  color: #42A5F5 !important;
   margin-left: 8px;
   backdrop-filter: blur(10px);
   border: 1px solid;
@@ -436,7 +436,7 @@ onMounted(async () => {
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .dialog-header {
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%);
 }
 .schedule-btn {
   background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;

@@ -116,7 +116,7 @@
             <v-row align="center">
               <v-col cols="auto" class="text-center">
                 <v-avatar size="90" color="grey-lighten-3">
-                  <v-img v-if="medico?.usuario?.avatarUrl" :src="medico?.usuario?.avatarUrl" cover></v-img>
+                  <v-img v-if="medico?.avatarUrl" :src="medico?.avatarUrl" cover></v-img>
                   <v-icon v-else size="50" color="grey-darken-1">mdi-account</v-icon>
                 </v-avatar>
                 <div class="mt-2">

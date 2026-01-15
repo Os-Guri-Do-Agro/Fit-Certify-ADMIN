@@ -66,12 +66,7 @@
             </VTextField>
           </div>
 
-          <div v-if="showPerfilSelect" class="my-2 py-0 font-weight-medium">
-            <v-select v-model="perfilId" :items="perfis" item-title="nome" item-value="id"
-              :label="$t('login.tipoPerfil') + '*'" :placeholder="$t('login.tipoPerfilPlaceholder')"
-              :rules="[value => !!value || $t('login.campoObrigatorio')]" variant="outlined" rounded="lg"
-              bg-color="white" class="custom-field" />
-          </div>
+
 
           <div class="d-flex justify-space-between w-100 align-center my-4">
             <v-checkbox v-model="isMobile" :label="$t('login.manterLogin')" hide-details
@@ -84,7 +79,7 @@
 
           <div class="d-flex justify-center w-100 mt-6">
             <VBtn class="text-white w-100" height="50px" :loading="loading"
-              :color="showPerfilSelect ? '#88ce0d' : '#1E88E5'"
+              color="#1E88E5"
               rounded="xl" elevation="4" type="submit"
               style="font-weight: 600; text-transform: none; letter-spacing: 0; max-width: 400px;">
               {{ showPerfilSelect ? $t('login.buttonEnter') : $t('login.button') }}
@@ -101,7 +96,8 @@
             style="color: #1E88E5; background: none; border: none; cursor: pointer; font-family: DM Sans, sans-serif;">
             {{ $t('login.link') }}
           </button>
-        </div>      </div>
+        </div>
+      </div>
     </VCol>
 
     <!-- DIV DA DIREITA -->
@@ -140,6 +136,37 @@
       </v-img>
     </VCol>
   </VRow>
+
+  <!-- Dialog de seleção de perfil -->
+  <v-dialog v-model="dialogPerfil" max-width="650" @update:model-value="onDialogClose" persistent>
+    <v-card rounded="xl" elevation="8">
+      <v-card-title class="text-center px-8 pt-4 pb-4">
+        <div class="d-flex align-center flex-column justify-center w-100">
+          <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('trocarPerfil.title') }}</h2>
+          <span class="text-subtitle-2" style="color: #2c3e50;">{{ $t('trocarPerfil.subtitle') }}</span>
+        </div>
+      </v-card-title>
+      <v-card-text class="px-8 pb-8">
+        <v-row>
+          <v-col v-for="perfil in perfis" :key="perfil.id" cols="6">
+            <div
+              @click="selecionarPerfil(perfil)"
+              class="perfil-card d-flex flex-column align-center pa-5"
+              :class="{ 'perfil-selected': perfilId === perfil.id }"
+            >
+              <v-avatar size="150" class="mb-4 elevation-4">
+                <v-img v-if="perfil?.avatarUrl" :src="perfil.avatarUrl" cover />
+                <div v-else class="avatar-placeholder">
+                  <v-icon color="white" size="50">mdi-account</v-icon>
+                </div>
+              </v-avatar>
+              <span class="text-subtitle-1 font-weight-bold text-center" style="color: #2c3e50;">{{ $t(`login.roles.${getRoles(perfil.nomeOriginal)}`) }}</span>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
 
   <!-- Modal de recuperação de senha -->
   <v-dialog v-model="showModal" width="600">
@@ -195,7 +222,9 @@ const showPassword = ref(false)
 const email = ref('');
 const senha = ref('');
 const perfilId = ref(null);
-const perfis = ref([]);
+const perfis = ref<any[]>([]);
+const dialogPerfil = ref(false);
+const perfilSelecionado = ref<any>(null);
 const isMobile = ref(false)
 const showPerfilSelect = ref(false)
 
@@ -249,11 +278,6 @@ const getRoles = (nome: string) => {
   return map[nome] || nome
 }
 
-const translatePerfilNome = (nome: string) => {
-  const roleKey = getRoles(nome)
-  return $t(`login.roles.${roleKey}`)
-}
-
 async function handleSubmit() {
   if (!formRef.value) return;
 
@@ -279,51 +303,12 @@ async function handleSubmit() {
       if (response.success && response.data?.perfis) {
         perfis.value = response.data.perfis.map((perfil: any) => ({
           ...perfil,
-          nome: translatePerfilNome(perfil.nome)
+          nomeOriginal: perfil.nome
         }));
         showPerfilSelect.value = true;
-        toast.success($t('login.toastSuccess1'), { autoClose: 2500 });
+        dialogPerfil.value = true;
       } else {
         toast.error($t('login.toastError2'));
-      }
-    } else {
-
-      const response = await authService.loginComPerfil({
-        email: email.value,
-        perfilId: perfilId.value,
-        isMobile: isMobile.value
-      });
-      if (response.data?.access_token) {
-        const storage = isMobile.value ? localStorage : sessionStorage;
-        storage.setItem("token", response.data?.access_token);
-        const payload = getPayloadFromToken(response.data?.access_token);
-        const user = payload?.user;
-
-        // Salvar usuarioId no localStorage
-        if (user?.id) {
-          localStorage.setItem('usuarioId', user.id);
-        }
-
-        let path = '/';
-
-        if (getRole() === 'admin') {
-          toast.error($t('login.toastErrorAdmin'));
-          return;
-        }
-
-        if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
-          toast.error($t('login.toastErrorMedicoCRM'));
-        }
-
-        if (user?.atleta && !user.atleta.planoId) {
-          path = '/registerPlanos';
-        } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
-          path = '/';
-        }
-
-         router.push(path)
-      } else {
-        toast.error($t('login.toastError3'));
       }
     }
   } catch (err: any) {
@@ -384,6 +369,65 @@ function confirmarTipoConta() {
   }
 }
 
+async function selecionarPerfil(perfil: any) {
+  perfilId.value = perfil.id;
+  perfilSelecionado.value = perfil;
+  dialogPerfil.value = false;
+
+  try {
+    loading.value = true;
+    const response = await authService.loginComPerfil({
+      email: email.value,
+      perfilId: perfil.id,
+      isMobile: isMobile.value
+    });
+
+    if (response.data?.access_token) {
+      const storage = isMobile.value ? localStorage : sessionStorage;
+      storage.setItem("token", response.data?.access_token);
+      const payload = getPayloadFromToken(response.data?.access_token);
+      const user = payload?.user;
+
+      if (user?.id) {
+        localStorage.setItem('usuarioId', user.id);
+      }
+
+      let path = '/';
+
+      if (getRole() === 'admin') {
+        toast.error($t('login.toastErrorAdmin'));
+        return;
+      }
+
+      if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
+        toast.error($t('login.toastErrorMedicoCRM'));
+      }
+
+      if (user?.atleta && !user.atleta.planoId) {
+        path = '/registerPlanos';
+      } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
+        path = '/';
+      }
+
+      router.push(path);
+    } else {
+      toast.error($t('login.toastError3'));
+    }
+  } catch (err: any) {
+    toast.error($t('login.toastError3'));
+  } finally {
+    loading.value = false;
+  }
+}
+
+function onDialogClose(isOpen: boolean) {
+  if (!isOpen) {
+    showPerfilSelect.value = false;
+    perfilId.value = null;
+    perfilSelecionado.value = null;
+  }
+}
+
 </script>
 
 <style scoped>
@@ -433,5 +477,58 @@ p {
 
 .cursor-pointer {
   cursor: pointer;
+}
+
+.perfil-card {
+  border: 2px solid #e8e8e8;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: #fafafa;
+  position: relative;
+  overflow: hidden;
+}
+
+.perfil-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.05), rgba(30, 136, 229, 0.05));
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.perfil-card:hover {
+  border-color: #42A5F5;
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(30, 136, 229, 0.25);
+  background: white;
+}
+
+.perfil-card:hover::before {
+  opacity: 1;
+}
+
+.perfil-selected {
+  border-color: #1E88E5 !important;
+  border-width: 3px !important;
+  background: white !important;
+  box-shadow: 0 8px 24px rgba(30, 136, 229, 0.35) !important;
+}
+
+.perfil-selected::before {
+  opacity: 1;
+}
+
+.avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
