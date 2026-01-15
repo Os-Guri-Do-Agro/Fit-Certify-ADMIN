@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height" no-gutters>
     <!-- DIV DA ESQUERDA -->
-    <VCol class="pa-0 ma-0" md="4" style="background: #00c6fe">
+    <VCol class="pa-0 ma-0" md="4" style="background: #42A5F5">
       <VRow class="w-100 h-100 pa-0 ma-0 flex-column" no-gutters>
         <VCol class="pa-0 ma-0 flex-fill" cols="12">
           <RouterLink class="d-flex w-100 h-100 align-end justify-center justify-md-start mt-5 mt-md-0 pb-15"
@@ -256,7 +256,7 @@
                     <template #label>
                       <span>
                         Li e concordo com os
-                        <span class="cursor-pointer text-decoration-underline" style="color: #00c6fe"
+                        <span class="cursor-pointer text-decoration-underline" style="color: #42A5F5"
                           @click="showModalTerms = true">
                           termos de Uso e Política de Privacidade </span>.
                       </span>
@@ -361,7 +361,7 @@
   <v-dialog v-model="showModalTerms" width="600" height="800">
     <v-card class="py-5 px-md-3 custom-scroll" rounded="xl">
       <v-card-title class="text-center text-h5" style="
-                          color: #00c6fe;
+                          color: #42A5F5;
                           white-space: normal;
                           word-wrap: break-word;
                         ">Política de Privacidade, Termos e Condições de Uso e
@@ -416,7 +416,7 @@
       </v-card-text>
       <v-card-actions>
         <v-btn class="w-100 text-white font-weight-bold" @click="maisTermos" height="50px" rounded="lg"
-          style="background-color: #00c6fe">
+          style="background-color: #42A5F5">
           Ler Mais
         </v-btn>
       </v-card-actions>

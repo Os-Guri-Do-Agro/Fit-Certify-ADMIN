@@ -15,8 +15,8 @@
               />
               <v-avatar v-else size="190" class="profile-avatar">
                 <v-img
-                  v-if="medico?.usuario?.avatarUrl"
-                  :src="medico?.usuario?.avatarUrl"
+                  v-if="medico?.avatarUrl"
+                  :src="medico?.avatarUrl"
                   alt="Foto do perfil"
                 />
                 <v-icon v-else size="70" color="white">mdi-account</v-icon>

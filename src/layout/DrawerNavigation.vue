@@ -266,7 +266,7 @@
       <div>
         <v-divider
           class="mx-2 mb-3"
-          color="#00C6FE"
+          color="#42A5F5"
           opacity="0.3"
         ></v-divider>
 

@@ -14,7 +14,7 @@
 
     <template v-else-if="planoInfo?.hasSubscription">
       <!-- Header -->
-      <VCard class="mb-4 rounded-lg" elevation="0" style="background: linear-gradient(135deg, #00C6FE 0%, #0099CC 100%);">
+      <VCard class="mb-4 rounded-lg" elevation="0" style="background: linear-gradient(135deg, #42A5F5 0%, #0099CC 100%);">
         <VCardText class="text-center pa-8">
           <h1 class="text-h4 font-weight-bold text-white mb-2">
             {{ planoInfo.plan?.name }}
@@ -36,7 +36,7 @@
             <VListItem class="px-0 mb-2">
               <template #prepend>
                 <VAvatar color="#E3F5FF" size="40" class="mr-3">
-                  <VIcon icon="mdi-clock-outline" color="#00C6FE" size="20" />
+                  <VIcon icon="mdi-clock-outline" color="#42A5F5" size="20" />
                 </VAvatar>
               </template>
               <VListItemTitle class="text-body-2 text-grey-darken-1 mb-1">{{ $t('meuPlano.duration') }}</VListItemTitle>
@@ -51,7 +51,7 @@
             <VListItem class="px-0 mb-2">
               <template #prepend>
                 <VAvatar color="#E3F5FF" size="40" class="mr-3">
-                  <VIcon icon="mdi-account" color="#00C6FE" size="20" />
+                  <VIcon icon="mdi-account" color="#42A5F5" size="20" />
                 </VAvatar>
               </template>
               <VListItemTitle class="text-body-2 text-grey-darken-1 mb-1">{{ $t('meuPlano.customer') }}</VListItemTitle>
@@ -66,7 +66,7 @@
             <VListItem class="px-0 mb-2">
               <template #prepend>
                 <VAvatar color="#E3F5FF" size="40" class="mr-3">
-                  <VIcon icon="mdi-credit-card-clock" color="#00C6FE" size="20" />
+                  <VIcon icon="mdi-credit-card-clock" color="#42A5F5" size="20" />
                 </VAvatar>
               </template>
               <VListItemTitle class="text-body-2 text-grey-darken-1 mb-1">{{ $t('meuPlano.nextBilling') }}</VListItemTitle>

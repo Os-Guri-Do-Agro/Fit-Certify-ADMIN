@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height" no-gutters>
     <!-- DIV DA ESQUERDA -->
-    <VCol class="pa-0 ma-0 position-relative" md="4" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); overflow: hidden;">
+    <VCol class="pa-0 ma-0 position-relative" md="4" style="background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); overflow: hidden;">
       <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.1); top: -100px; right: -100px;"></div>
       <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.08); bottom: 50px; left: -50px;"></div>
 
@@ -42,7 +42,7 @@
               <VRow class="px-4 px-md-8">
                 <VCol class="mb-6 mt-10 mt-md-0" cols="12">
                   <div class="d-flex align-center ga-3">
-                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+                    <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
                       <v-icon color="white" size="20">mdi-account</v-icon>
                     </div>
                     <h2 class="text-start text-h5 font-weight-bold" style="color: #2c3e50; letter-spacing: -0.5px;">
@@ -85,7 +85,7 @@
                     :rules="[rules.requiredSenhaObrigatoria]" name="senha" :type="showPassword ? 'text' : 'password'"
                     :label="$t('register.personalInfo.password')" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
                     <template #append-inner>
-                      <v-icon @click="showPassword = !showPassword" class="cursor-pointer" color="#00c6fe">
+                      <v-icon @click="showPassword = !showPassword" class="cursor-pointer" color="#42A5F5">
                         {{ showPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
@@ -97,7 +97,7 @@
                     :rules="[rules.requiredConfirmarSenha]" name="confirmarSenha" :type="showConfirmPassword ? 'text' : 'password'"
                     :label="$t('register.personalInfo.confirmPassword')" variant="outlined" rounded="lg" bg-color="white" class="custom-field">
                     <template #append-inner>
-                      <v-icon @click="showConfirmPassword = !showConfirmPassword" class="cursor-pointer" color="#00c6fe">
+                      <v-icon @click="showConfirmPassword = !showConfirmPassword" class="cursor-pointer" color="#42A5F5">
                         {{ showConfirmPassword ? 'mdi-eye' : 'mdi-eye-off' }}
                       </v-icon>
                     </template>
@@ -216,14 +216,14 @@
               <!-- Botões -->
               <div class="d-flex justify-space-between w-100 flex-column-reverse flex-md-row align-center ga-4">
                 <VBtn class="w-100" :disabled="step === 1" height="50px" max-width="237px"
-                  color="#00c6fe" variant="outlined" rounded="xl" @click="prev"
+                  color="#42A5F5" variant="outlined" rounded="xl" @click="prev"
                   style="border-width: 2px; font-weight: 600; text-transform: none; letter-spacing: 0;">
                   <v-icon start>mdi-arrow-left</v-icon>
                   {{ $t('register.buttons.back') }}
                 </VBtn>
                 <VBtn class="text-white w-100" height="50px" max-width="237px" :loading="loading"
                   :disabled="loading || disabled || !isCurrentStepValid"
-                  :color="(step === 4 || perfilSelecionado?.nome === 'Treinador') ? '#88ce0d' : '#00c6fe'"
+                  :color="(step === 4 || perfilSelecionado?.nome === 'Treinador') ? '#88ce0d' : '#42A5F5'"
                   rounded="xl" elevation="4" @click="handleNext(next)"
                   style="font-weight: 600; text-transform: none; letter-spacing: 0;">
                   {{
@@ -1068,7 +1068,7 @@ input[type='date']::-webkit-calendar-picker-indicator {
 }
 
 :deep(.v-stepper-window::-webkit-scrollbar-thumb) {
-  background: #00c6fe;
+  background: #42A5F5;
   border-radius: 10px;
 }
 

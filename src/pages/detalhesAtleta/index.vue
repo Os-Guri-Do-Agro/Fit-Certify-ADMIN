@@ -48,11 +48,11 @@
             <!-- Header -->
             <div class="text-center mb-4 mb-sm-6">
               <v-avatar
-                v-if="atletaData?.usuario?.avatarUrl"
+                v-if="atletaData?.avatarUrl"
                 :size="display.mobile ? 80 : 120"
                 class="mb-3 mb-sm-4"
               >
-                <v-img :src="atletaData.usuario.avatarUrl" alt="Avatar" />
+                <v-img :src="atletaData.avatarUrl" alt="Avatar" />
               </v-avatar>
               <v-icon
                 v-else
@@ -64,7 +64,7 @@
               </v-icon>
               <h2
                 class="text-h6 text-sm-h5 text-md-h4 font-weight-bold mb-2 px-2"
-                style="color: #00c6fe"
+                style="color: #42A5F5"
               >
                 {{ atletaData?.usuario?.nome || 'Atleta' }}
               </h2>
@@ -78,12 +78,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Informações Pessoais
                   </span>
                 </div>
@@ -155,12 +155,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-human</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Informações Físicas
                   </span>
                 </div>
@@ -208,12 +208,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-check-circle</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Status e Preferências
                   </span>
                 </div>
@@ -278,12 +278,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-run</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Histórico Esportivo
                   </span>
                 </div>
@@ -328,12 +328,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-heart-pulse</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Histórico de Saúde
                   </span>
                 </div>
@@ -406,12 +406,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-calendar-clock</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Consultas ({{ atletaData.consultas.length }})
                   </span>
                 </div>
@@ -479,12 +479,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-alert</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Alergias ({{ atletaData.alergiasAtleta.length }})
                   </span>
                 </div>
@@ -569,12 +569,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-file-document</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Exames ({{ atletaData.exameAtleta.length }})
                   </span>
                 </div>
@@ -659,12 +659,12 @@
               variant="outlined"
               class="mb-4"
               rounded="lg"
-              style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;"
+              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
             >
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-chart-line</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Análises ({{ atletaData.analisesAtleta.length }})
                   </span>
                 </div>
@@ -699,7 +699,7 @@
               <v-card-title class="pa-3 pa-sm-4 pb-2">
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-information</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     Informações do Sistema
                   </span>
                 </div>

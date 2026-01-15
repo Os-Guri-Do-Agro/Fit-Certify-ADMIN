@@ -1,7 +1,7 @@
 <template>
   <VRow class="h-100 d-flex flex-column flex-md-row ma-0 pa-0 overflow-hidden fill-height" no-gutters>
     <!-- DIV DA ESQUERDA -->
-    <VCol class="pa-0 ma-0 position-relative" md="4" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); overflow: hidden;">
+    <VCol class="pa-0 ma-0 position-relative" md="4" style="background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); overflow: hidden;">
       <div style="position: absolute; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.1); top: -100px; right: -100px;"></div>
       <div style="position: absolute; width: 200px; height: 200px; border-radius: 50%; background: rgba(255,255,255,0.08); bottom: 50px; left: -50px;"></div>
 
@@ -58,7 +58,7 @@
           </p>
 
           <!-- Informação adicional específica -->
-          <div v-if="additionalInfo" class="mb-8 pa-4" style="background: rgba(0, 198, 254, 0.1); border-radius: 12px; border-left: 4px solid #00c6fe;">
+          <div v-if="additionalInfo" class="mb-8 pa-4" style="background: rgba(0, 198, 254, 0.1); border-radius: 12px; border-left: 4px solid #42A5F5;">
             <p class="text-body-2 text-md-body-1 mb-0" style="color: #2c3e50; font-family: DM Sans, sans-serif;">
               {{ additionalInfo }}
             </p>
@@ -67,7 +67,7 @@
           <!-- Botões de ação -->
           <div class="d-flex flex-column flex-md-row ga-4 w-100">
             <VBtn class="flex-grow-1" height="50px"
-              color="#00c6fe" variant="outlined" rounded="xl"
+              color="#42A5F5" variant="outlined" rounded="xl"
               style="border-width: 2px; font-weight: 600; text-transform: none; letter-spacing: 0;"
               @click="goToHome">
               <v-icon start>mdi-home</v-icon>

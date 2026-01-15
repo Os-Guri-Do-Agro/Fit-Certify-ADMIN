@@ -90,7 +90,7 @@
                             density="comfortable"
                             rounded="lg"
                             prepend-inner-icon="mdi-medal"
-                            color="#00c6fe"
+                            color="#42A5F5"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
@@ -105,7 +105,7 @@
                             maxlength="5"
                             @input="formatarHora('horarioInicio', $event)"
                             :rules="[rules.horaValida, rules.horaInicioMenor]"
-                            color="#00c6fe"
+                            color="#42A5F5"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
@@ -120,7 +120,7 @@
                             maxlength="5"
                             @input="formatarHora('horarioFim', $event)"
                             :rules="[rules.horaValida, rules.horaFimMaior]"
-                            color="#00c6fe"
+                            color="#42A5F5"
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12" md="6">
@@ -132,7 +132,7 @@
                             rounded="lg"
                             prepend-inner-icon="mdi-calendar-start"
                             :items="diasSemana"
-                            color="#00c6fe"
+                            color="#42A5F5"
                           ></v-select>
                         </v-col>
                         <v-col cols="12" md="6">
@@ -144,7 +144,7 @@
                             rounded="lg"
                             prepend-inner-icon="mdi-calendar-end"
                             :items="diasSemana"
-                            color="#00c6fe"
+                            color="#42A5F5"
                           ></v-select>
                         </v-col>
                       </v-row>
@@ -158,7 +158,7 @@
 
           <v-card class="mb-6" elevation="4" rounded="xl">
             <v-card-title class="section-title">
-              <v-icon class="mr-3" color="#00c6fe">mdi-target</v-icon>
+              <v-icon class="mr-3" color="#42A5F5">mdi-target</v-icon>
               {{ $t('editarPerfilPublico.mainFocus') }}
             </v-card-title>
             <v-card-text class="pa-6">
@@ -170,7 +170,7 @@
                 rows="3"
                 counter="300"
                 :rules="[rules.maxLength(300)]"
-                color="#00c6fe"
+                color="#42A5F5"
                 no-resize
               ></v-textarea>
             </v-card-text>
@@ -179,14 +179,14 @@
 
           <v-card elevation="4" rounded="xl">
             <v-card-title class="section-title">
-              <v-icon class="mr-3" color="#00c6fe">mdi-text-box-multiple</v-icon>
+              <v-icon class="mr-3" color="#42A5F5">mdi-text-box-multiple</v-icon>
               {{ $t('editarPerfilPublico.professionalInfo') }}
             </v-card-title>
             <v-card-text class="pa-6">
               <v-row>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-account-circle</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-account-circle</v-icon>
                     {{ $t('editarPerfilPublico.professionalProfile') }}
                   </div>
                   <v-textarea
@@ -197,14 +197,14 @@
                     rows="4"
                     counter="500"
                     :rules="[rules.maxLength(500)]"
-                    color="#00c6fe"
+                    color="#42A5F5"
                     no-resize
                     class="mb-4"
                   ></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-briefcase</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-briefcase</v-icon>
                     {{ $t('editarPerfilPublico.professionalCareer') }}
                   </div>
                   <v-textarea
@@ -215,14 +215,14 @@
                     rows="4"
                     counter="500"
                     :rules="[rules.maxLength(500)]"
-                    color="#00c6fe"
+                    color="#42A5F5"
                     no-resize
                     class="mb-4"
                   ></v-textarea>
                 </v-col>
                 <v-col cols="12">
                   <div class="field-label mb-2">
-                    <v-icon size="20" color="#00c6fe" class="mr-2">mdi-star</v-icon>
+                    <v-icon size="20" color="#42A5F5" class="mr-2">mdi-star</v-icon>
                     {{ $t('editarPerfilPublico.mainAchievements') }}
                   </div>
                   <v-textarea
@@ -233,7 +233,7 @@
                     rows="4"
                     counter="500"
                     :rules="[rules.maxLength(500)]"
-                    color="#00c6fe"
+                    color="#42A5F5"
                     no-resize
                   ></v-textarea>
                 </v-col>
@@ -256,7 +256,7 @@
               {{ $t('editarPerfilPublico.cancel') }}
             </v-btn>
             <v-btn
-              color="#00c6fe"
+              color="#42A5F5"
               rounded="xl"
               size="large"
               class="px-8 save-btn text-white"
@@ -418,7 +418,7 @@ const carregarDados = async () => {
       formData.value.diaFuncionamentoFim = medicoData.diaFuncionamentoFim || ''
 
       displayData.value.nome = medicoData.usuario?.nome || ''
-      displayData.value.avatarUrl = medicoData.usuario?.avatarUrl || ''
+      displayData.value.avatarUrl = medicoData.avatarUrl || ''
       displayData.value.especializacao = medicoData.especializacao || ''
       displayData.value.crm = medicoData.crm || ''
     }
@@ -436,7 +436,7 @@ onMounted(() => {
 
 <style scoped>
 .gradient-text {
-  background: linear-gradient(135deg, #2196F3 0%, #00c6fe 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

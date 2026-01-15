@@ -2,7 +2,7 @@
   <div style="background: #f8f9fa; min-height: 100vh;">
     <!-- Banner com Overlay -->
     <div class="banner-container"
-      :style="{ backgroundImage: evento?.imagemUrl ? `url(${evento.imagemUrl})` : 'linear-gradient(135deg, #00c6fe 0%, #0099cc 100%)' }">
+      :style="{ backgroundImage: evento?.imagemUrl ? `url(${evento.imagemUrl})` : 'linear-gradient(135deg, #42A5F5 0%, #0099cc 100%)' }">
       <div class="banner-overlay">
         <v-container>
           <v-btn icon variant="text" color="white" @click="voltarParaLista" class="mb-4" size="large">
@@ -14,7 +14,7 @@
 
     <!-- Loading -->
     <div v-if="loading" class="text-center py-16">
-      <v-progress-circular indeterminate color="#00c6fe" size="64" width="6" />
+      <v-progress-circular indeterminate color="#42A5F5" size="64" width="6" />
       <p class="text-h6 mt-6 font-weight-medium" style="color: #2c3e50;">{{ t('eventos.details.loading') }}</p>
     </div>
 
@@ -26,7 +26,7 @@
           <v-row>
             <v-col cols="12" md="8">
               <div class="d-flex align-center mb-4">
-                <v-icon size="40" color="#00c6fe" class="mr-3">mdi-calendar-star</v-icon>
+                <v-icon size="40" color="#42A5F5" class="mr-3">mdi-calendar-star</v-icon>
                 <h1 class="text-h3 font-weight-bold" style="color: #2c3e50;">
                   {{ locale === 'en' && evento.en_titulo ? evento.en_titulo : evento.titulo }}
                 </h1>
@@ -39,7 +39,7 @@
                   {{ t('eventos.details.sendCertificate') }}
                 </v-btn>
 
-                <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#00c6fe"
+                <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#42A5F5"
                   variant="flat" size="large" prepend-icon="mdi-web" rounded="lg" elevation="3" class="text-white px-6"
                   style="font-weight: 600; text-transform: none;">
                   {{ t('eventos.details.eventWebsite') }}
@@ -50,7 +50,7 @@
             <v-col cols="12" md="4" class="d-flex justify-center align-center">
               <v-avatar size="200" rounded="lg" class="logo-avatar">
                 <v-img v-if="evento.logoUrl" :src="evento.logoUrl" cover />
-                <v-icon v-else size="80" color="#00c6fe">mdi-image</v-icon>
+                <v-icon v-else size="80" color="#42A5F5">mdi-image</v-icon>
               </v-avatar>
             </v-col>
           </v-row>
@@ -68,7 +68,7 @@
                 </div>
                 <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.eventDate') }}</h3>
               </div>
-              <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
+              <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
                 {{ formatarData(evento.data) }}
               </p>
             </v-card-text>
@@ -84,7 +84,7 @@
                 </div>
                 <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.location') }}</h3>
               </div>
-              <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
+              <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
                 {{ evento.local || t('eventos.details.notInformed') }}
               </p>
             </v-card-text>
@@ -100,7 +100,7 @@
                 </div>
                 <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.modality') }}</h3>
               </div>
-              <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
+              <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
                 {{ locale === 'en' && tipoEvento?.en_nome ? tipoEvento.en_nome : tipoEvento?.nome || t('eventos.details.notInformed') }}
               </p>
             </v-card-text>
@@ -116,7 +116,7 @@
                 </div>
                 <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.distances') }}</h3>
               </div>
-              <p class="text-h5 font-weight-bold" style="color: #00c6fe;">
+              <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
                 {{ formatDistancias(evento.distanciasEvento) }}
               </p>
             </v-card-text>
@@ -128,7 +128,7 @@
       <v-card elevation="4" rounded="xl" class="mb-6">
         <v-card-text class="pa-8">
           <div class="d-flex align-center mb-4">
-            <v-icon size="32" color="#00c6fe" class="mr-3">mdi-text-box</v-icon>
+            <v-icon size="32" color="#42A5F5" class="mr-3">mdi-text-box</v-icon>
             <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ t('eventos.details.aboutEvent') }}</h2>
           </div>
           <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
@@ -142,7 +142,7 @@
       <v-card v-if="evento.organizacaoEvento && evento.organizacaoEvento.length > 0" elevation="4" rounded="xl">
         <v-card-text class="pa-8">
           <div class="d-flex align-center mb-4">
-            <v-icon size="32" color="#00c6fe" class="mr-3">mdi-office-building</v-icon>
+            <v-icon size="32" color="#42A5F5" class="mr-3">mdi-office-building</v-icon>
             <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ t('eventos.details.organization') }}</h2>
           </div>
           <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
@@ -153,7 +153,7 @@
                 cover />
               <div v-else class="d-flex align-center justify-center"
                 style="width: 150px; height: 80px; background: #f0f0f0;">
-                <v-icon size="40" color="#00c6fe">mdi-office-building</v-icon>
+                <v-icon size="40" color="#42A5F5">mdi-office-building</v-icon>
               </div>
             </v-card>
           </div>
@@ -169,7 +169,7 @@
         </div>
         <h3 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ t('eventos.details.notFound') }}</h3>
         <p class="text-h6 text-grey-darken-1 mb-8">{{ t('eventos.details.notFoundDescription') }}</p>
-        <v-btn color="#00c6fe" rounded="xl" elevation="4" size="x-large" @click="voltarParaLista"
+        <v-btn color="#42A5F5" rounded="xl" elevation="4" size="x-large" @click="voltarParaLista"
           class="text-white px-8" style="font-weight: 600; text-transform: none;">
           <v-icon class="mr-2">mdi-arrow-left</v-icon>
           {{ t('eventos.details.backToList') }}
@@ -181,23 +181,23 @@
     <v-dialog v-model="dialogTermos" max-width="800" persistent>
       <v-card rounded="xl">
         <v-card-title v-if="evento.possuiTermo && termos?.termo" class="pa-6 d-flex align-center"
-          style="background: #00c6fe; color: white;">
+          style="background: #42A5F5; color: white;">
           <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
           <span class="text-h5 font-weight-bold">{{ t('eventos.details.termsTitle') }}</span>
         </v-card-title>
 
-        <v-card-title v-else class="pa-6 d-flex align-center" style="background: #00c6fe; color: white;">
+        <v-card-title v-else class="pa-6 d-flex align-center" style="background: #42A5F5; color: white;">
           <v-icon class="mr-3" color="white">mdi-file-document-outline</v-icon>
           <span class="text-h5 font-weight-bold">{{ t('eventos.details.sendTitle') }}</span>
         </v-card-title>
 
         <v-card-text class="pa-6">
-          <div v-if="evento.possuiTermo && termos?.termo" @scroll="onScroll"  
+          <div v-if="evento.possuiTermo && termos?.termo" @scroll="onScroll"
             style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
             {{ termos.termo }}
           </div>
           <div v-else class="text-center py-8">
-            <v-icon size="80" color="#00c6fe" class="mb-4">mdi-cloud-upload-outline</v-icon>
+            <v-icon size="80" color="#42A5F5" class="mb-4">mdi-cloud-upload-outline</v-icon>
             <h3 class="text-h5 font-weight-bold mb-2" style="color: #2c3e50;">{{ t('eventos.details.almostThere') }}</h3>
             <p class="text-body-1 px-6" style="color: #666;">
               {{ t('eventos.details.confirmMessage') }}
@@ -376,7 +376,7 @@ onMounted(() => {
   width: 56px;
   height: 56px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%);
+  background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -390,7 +390,7 @@ onMounted(() => {
 
 .info-card:hover {
   transform: translateY(-4px);
-  border-color: #00c6fe;
+  border-color: #42A5F5;
   box-shadow: 0 8px 24px rgba(0, 198, 254, 0.3) !important;
 }
 
@@ -402,7 +402,7 @@ onMounted(() => {
 
 .org-card:hover {
   transform: translateY(-4px);
-  border-color: #00c6fe;
+  border-color: #42A5F5;
 }
 
 .empty-icon-container {

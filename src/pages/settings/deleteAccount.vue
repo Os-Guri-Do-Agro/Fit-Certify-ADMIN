@@ -27,10 +27,10 @@
         <v-card class="info-card mb-6" elevation="2" rounded="xl">
           <v-card-text class="pa-6">
             <div class="d-flex align-center mb-4">
-              <v-icon color="#00c6fe" size="28" class="mr-3">mdi-information</v-icon>
+              <v-icon color="#42A5F5" size="28" class="mr-3">mdi-information</v-icon>
               <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.whatHappens') }}</h3>
             </div>
-            
+
             <div class="consequences-list">
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-account-remove</v-icon>
@@ -52,7 +52,7 @@
 
             <v-btn
               variant="text"
-              color="#00c6fe"
+              color="#42A5F5"
               @click="redirectInfoExclusao()"
               class="mt-4 text-none"
               rounded="lg"
@@ -149,7 +149,7 @@
 
 .info-card {
   transition: all 0.3s ease;
-  border-left: 4px solid #00c6fe;
+  border-left: 4px solid #42A5F5;
 }
 
 .info-card:hover {

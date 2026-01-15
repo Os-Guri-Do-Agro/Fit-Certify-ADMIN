@@ -20,7 +20,7 @@
               <span class="text-body-2 font-weight-medium">{{ $t('criarTreino.step') }} {{ currentStep }} {{ $t('criarTreino.of') }} {{ totalSteps }}</span>
               <span class="text-body-2 text-medium-emphasis">{{ Math.round((currentStep / totalSteps) * 100) }}%</span>
             </div>
-            <VProgressLinear :model-value="(currentStep / totalSteps) * 100" color="#00c6fe" height="8" rounded></VProgressLinear>
+            <VProgressLinear :model-value="(currentStep / totalSteps) * 100" color="#42A5F5" height="8" rounded></VProgressLinear>
           </div>
 
           <VDivider></VDivider>
@@ -30,7 +30,7 @@
             <!-- Step 1: Informações do Treino -->
             <div v-if="currentStep === 1">
               <div class="d-flex align-center ga-3 mb-6">
-                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
                   <v-icon color="white" size="20">mdi-information</v-icon>
                 </div>
                 <h3 class="text-h6 font-weight-bold">{{ $t('criarTreino.trainingInfo') }}</h3>
@@ -70,13 +70,13 @@
             <!-- Step 2: Exercícios -->
             <div v-if="currentStep === 2">
               <div class="d-flex align-center ga-3 mb-6">
-                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
                   <v-icon color="white" size="20">mdi-dumbbell</v-icon>
                 </div>
                 <h3 class="text-h6 font-weight-bold">{{ $t('criarTreino.exercises') }}</h3>
               </div>
 
-              <VBtn color="#00c6fe" variant="flat" class="text-white mb-4" @click="modalSelecionarExercicio = true">
+              <VBtn color="#42A5F5" variant="flat" class="text-white mb-4" @click="modalSelecionarExercicio = true">
                 <v-icon start>mdi-plus</v-icon>
                 {{ $t('criarTreino.selectExercise') }}
               </VBtn>
@@ -129,7 +129,7 @@
                       </p>
                     </div>
                     <div class="d-flex ga-2">
-                      <VBtn icon="mdi-pencil" size="small" variant="text" color="#00c6fe" @click="editarExercicio(index)"></VBtn>
+                      <VBtn icon="mdi-pencil" size="small" variant="text" color="#42A5F5" @click="editarExercicio(index)"></VBtn>
                       <VBtn icon="mdi-delete" size="small" variant="text" color="error" @click="removerExercicio(index)"></VBtn>
                     </div>
                   </div>
@@ -141,7 +141,7 @@
             <!-- Step 3: Observações Finais -->
             <div v-if="currentStep === 3">
               <div class="d-flex align-center ga-3 mb-6">
-                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+                <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
                   <v-icon color="white" size="20">mdi-text-box</v-icon>
                 </div>
                 <h3 class="text-h6 font-weight-bold">{{ $t('criarTreino.finalObservations') }}</h3>
@@ -162,12 +162,12 @@
 
           <!-- Actions -->
           <VCardActions class="pa-6 d-flex justify-space-between">
-            <VBtn v-if="currentStep > 1" variant="outlined" color="#00c6fe" @click="currentStep--">
+            <VBtn v-if="currentStep > 1" variant="outlined" color="#42A5F5" @click="currentStep--">
               <v-icon start>mdi-arrow-left</v-icon>
               {{ $t('criarTreino.back') }}
             </VBtn>
             <VSpacer v-else></VSpacer>
-            <VBtn v-if="currentStep < totalSteps" color="#00c6fe" variant="flat" class="text-white" @click="currentStep++">
+            <VBtn v-if="currentStep < totalSteps" color="#42A5F5" variant="flat" class="text-white" @click="currentStep++">
               {{ $t('criarTreino.next') }}
               <v-icon end>mdi-arrow-right</v-icon>
             </VBtn>
@@ -215,7 +215,7 @@
         <VCardTitle class="pa-4">{{ $t('criarTreino.selectTrainingType') }}</VCardTitle>
         <VDivider></VDivider>
         <VCardText v-if="carregarTiposTreinos" class="pa-6 text-center">
-          <VProgressCircular indeterminate color="#00c6fe"></VProgressCircular>
+          <VProgressCircular indeterminate color="#42A5F5"></VProgressCircular>
         </VCardText>
         <VList v-else style="max-height: 400px; overflow-y: auto;">
           <VListItem v-for="tipo in tiposTreinos" :key="tipo.id" @click="selecionarTipoTreino(tipo)">
@@ -234,7 +234,7 @@
           <VTextField v-model="filtroExercicio" :label="$t('criarTreino.searchExercise')" variant="outlined" rounded="lg" prepend-inner-icon="mdi-magnify" clearable></VTextField>
         </VCardText>
         <VCardText v-if="carregandoExercicios" class="pa-6 text-center">
-          <VProgressCircular indeterminate color="#00c6fe"></VProgressCircular>
+          <VProgressCircular indeterminate color="#42A5F5"></VProgressCircular>
         </VCardText>
         <VList v-else style="max-height: 400px; overflow-y: auto;">
           <VListItem v-for="ex in exerciciosFiltrados" :key="ex.id" @click="selecionarExercicio(ex)">

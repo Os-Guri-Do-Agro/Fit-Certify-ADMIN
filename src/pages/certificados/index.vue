@@ -73,7 +73,7 @@
                         </span>
                       </div>
                       <div class="text-body-1 font-weight-bold"
-                        :style="{ color: certificadoValido ? '#00c6fe' : '#f44336' }">
+                        :style="{ color: certificadoValido ? '#42A5F5' : '#f44336' }">
                         {{ formatDate(certificado?.validade) || '--' }}
                       </div>
                     </div>
@@ -84,7 +84,7 @@
                     <template v-slot:title>
                       <div class="d-flex align-center">
                         <v-icon size="24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
-                        <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                        <span class="text-subtitle-1 font-weight-bold" style="color: #42A5F5">
                           {{ $t('certificados.athlete') }}
                         </span>
                       </div>
@@ -92,7 +92,7 @@
                     <template v-slot:text>
                       <v-card v-if="certificadoValidoEAtivo && certificado?.id" variant="outlined" class="mb-4"
                         rounded="lg"
-                        style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;">
+                        style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;">
                         <v-card-text class="pa-4 pt-2">
                           <v-row dense>
                             <v-col cols="12" sm="6" md="4">
@@ -154,7 +154,7 @@
                     <template v-slot:title>
                       <div class="d-flex align-center">
                         <v-icon size="24" color="light-blue-accent-3" class="mr-2">mdi-doctor</v-icon>
-                        <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                        <span class="text-subtitle-1 font-weight-bold" style="color: #42A5F5">
                           {{ $t('certificados.doctor') }}
                         </span>
                       </div>
@@ -162,7 +162,7 @@
                     <template v-slot:text>
                       <v-card v-if="certificadoValidoEAtivo && certificado?.id" variant="outlined" class="mb-2"
                         rounded="lg"
-                        style="border-left: 4px solid #00c6fe; border-color: rgba(0, 198, 254, 0.2) !important;">
+                        style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;">
                         <v-card-text class="pa-4 pt-2">
                           <v-row dense>
                             <v-col cols="12" sm="6" md="4">
@@ -246,7 +246,7 @@
             <v-expansion-panels v-else-if="temEventos">
               <v-expansion-panel v-if="templatesGerais.length > 0">
                 <template v-slot:title>
-                  <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     {{ $t('certificados.generalTemplates') }}
                   </span>
                 </template>
@@ -258,7 +258,7 @@
                           mdi-file-document
                         </v-icon>
                       </template>
-                      <v-list-item-title class="font-weight-medium" style="color: #00c6fe">
+                      <v-list-item-title class="font-weight-medium" style="color: #42A5F5">
                         {{ template.nome || 'Nome prova parceira' }}
                       </v-list-item-title>
                       <template v-slot:append>
@@ -275,7 +275,7 @@
               </v-expansion-panel>
               <v-expansion-panel v-if="templatesComEvento.length > 0">
                 <template v-slot:title>
-                  <span class="text-subtitle-1 font-weight-bold" style="color: #00c6fe">
+                  <span class="text-subtitle-1 font-weight-bold" style="color: #42A5F5">
                     {{ $t('certificados.eventTemplates') }}
                   </span>
                 </template>
@@ -287,7 +287,7 @@
                           mdi-file-document
                         </v-icon>
                       </template>
-                      <v-list-item-title class="font-weight-medium" style="color: #00c6fe">
+                      <v-list-item-title class="font-weight-medium" style="color: #42A5F5">
                         {{ template.nome || 'Nome prova parceira' }}
                       </v-list-item-title>
                       <template v-slot:append>
@@ -311,7 +311,7 @@
                     mdi-file-document
                   </v-icon>
                 </template>
-                <v-list-item-title class="font-weight-medium" style="color: #00c6fe">
+                <v-list-item-title class="font-weight-medium" style="color: #42A5F5">
                   {{ template.nome || 'Nome prova parceira' }}
                 </v-list-item-title>
                 <template v-slot:append>
@@ -408,7 +408,7 @@ const formatDate = (date) => {
   const day = String(d.getDate()).padStart(2, '0')
   const month = String(d.getMonth() + 1).padStart(2, '0')
   const year = d.getFullYear()
-  
+
   return locale.value === 'pt' ? `${day}/${month}/${year}` : `${month}/${day}/${year}`
 }
 

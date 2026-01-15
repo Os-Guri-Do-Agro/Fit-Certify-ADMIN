@@ -1,7 +1,7 @@
 <template>
   <v-container fluid class="pa-6">
     <v-card rounded="xl" elevation="4">
-      <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #00c6fe 0%, #0099cc 100%); color: white;">
+      <v-card-title class="pa-6 d-flex align-center" style="background: linear-gradient(135deg, #42A5F5 0%, #0099cc 100%); color: white;">
         <v-icon class="mr-3" color="white" size="32">mdi-human-handsup</v-icon>
         <span class="text-h5 font-weight-bold">{{ $t('cadastrarFisioterapeuta.title') }}</span>
       </v-card-title>
@@ -26,10 +26,10 @@
 
           <template #actions="{ next, prev }">
             <div class="pa-6 d-flex justify-space-between">
-              <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#00c6fe" rounded="xl">
+              <VBtn :disabled="step === 1" @click="prev" variant="outlined" color="#42A5F5" rounded="xl">
                 <v-icon start>mdi-arrow-left</v-icon>{{ $t('cadastrarFisioterapeuta.buttons.back') }}
               </VBtn>
-              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitFisioterapeuta() : next()" color="#00c6fe" class="text-white" rounded="xl">
+              <VBtn :loading="loading" :disabled="loading" @click="step === 3 ? submitFisioterapeuta() : next()" color="#42A5F5" class="text-white" rounded="xl">
                 {{ step === 3 ? $t('cadastrarFisioterapeuta.buttons.register') : $t('cadastrarFisioterapeuta.buttons.next') }}
                 <v-icon end>{{ step === 3 ? 'mdi-check' : 'mdi-arrow-right' }}</v-icon>
               </VBtn>

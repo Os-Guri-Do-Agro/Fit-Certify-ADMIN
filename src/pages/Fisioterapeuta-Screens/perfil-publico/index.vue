@@ -42,7 +42,7 @@
           <v-row align="center">
             <v-col cols="auto">
               <v-avatar size="120" color="white">
-                <img v-if="fisioterapeuta?.usuario?.avatarUrl" :src="fisioterapeuta?.usuario?.avatarUrl" style="object-fit: cover; width: 100%; height: 100%" />
+                <img v-if="fisioterapeuta?.avatarUrl" :src="fisioterapeuta?.avatarUrl" style="object-fit: cover; width: 100%; height: 100%" />
                 <v-icon v-else size="60" color="blue">mdi-account</v-icon>
               </v-avatar>
             </v-col>
