@@ -1553,6 +1553,11 @@
     "finalize": "Finalizar",
     "cancel": "Cancelar",
     "noAppointments": "Nenhuma consulta encontrada",
+    "filters": {
+      "scheduled": "Marcado",
+      "completed": "Concluido",
+      "external": "Externa"
+    },
     "cancelModal": {
       "title": "Cancelar Consulta?",
       "message": "Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.",
@@ -1569,11 +1574,43 @@
       "cancel": "Cancelar",
       "finalize": "Finalizar"
     },
+    "detailsModal": {
+      "title": "Detalhes da Consulta",
+      "patient": "Paciente",
+      "date": "Data",
+      "time": "Horário",
+      "status": "Status",
+      "phone": "Telefone",
+      "close": "Fechar",
+      "certifyAthlete": "Certificar Atleta"
+    },
+    "certificationModal": {
+      "title": "Certificar Atleta",
+      "patient": "Paciente",
+      "appointmentDate": "Data da Consulta",
+      "phone": "Telefone",
+      "validityMonths": "Meses de Validade",
+      "customMonths": "Informe a quantidade de meses",
+      "validationRule": "Informe um valor entre 1 e 12 meses",
+      "hint": "Informe quantos meses o certificado estará válido (máximo 12)",
+      "cancel": "Cancelar",
+      "certify": "Certificar",
+      "monthOptions": {
+        "1": "1 mês",
+        "3": "3 meses",
+        "6": "6 meses",
+        "9": "9 meses",
+        "12": "12 meses",
+        "other": "Outro"
+      }
+    },
     "toast": {
       "cancelSuccess": "Consulta cancelada com sucesso!",
       "cancelError": "Erro ao cancelar consulta:",
       "finalizeSuccess": "Consulta finalizada com sucesso!",
       "finalizeError": "Erro ao finalizar consulta:",
+      "certificateSuccess": "Certificado gerado com sucesso",
+      "certificateError": "Erro ao gerar certificado:",
       "unknownError": "Erro desconhecido"
     },
     "status": {
@@ -1592,6 +1629,7 @@
     "appointments": "Consultas",
     "today": "Hoje",
     "viewMore": "Ver mais",
+    "invalidCpf": "CPF inválido. Por favor, tente novamente.",
     "noAppointments": "Nenhuma consulta neste dia",
     "scheduleAppointment": "Marcar Consulta",
     "athleteName": "Nome do Atleta",
