@@ -106,7 +106,7 @@
                     <div
                       class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
                     >
-                      {{ consulta?.atleta?.usuario?.nome || t('consultasMedico.externalPatient') }}
+                      {{ consulta?.atleta?.usuario?.nome || consulta?.nomePacienteExterno }}
                     </div>
                     <div
                       v-if="consulta?.atleta?.genero"
@@ -279,21 +279,6 @@
           <div class="mt-4" v-if="consultaSelecionada.medicamentosReceitados">
             <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.finalizeModal.medications') }}</div>
             <div class="text-body-1">{{ consultaSelecionada.medicamentosReceitados }}</div>
-          </div>
-
-          <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && consultaSelecionada.atletaId">
-            <v-divider class="mb-4" />
-            <v-btn
-              color="primary"
-              variant="flat"
-              rounded="xl"
-              block
-              size="large"
-              prepend-icon="mdi-certificate"
-              @click="certificarAtleta()"
-            >
-              {{ t('consultasMedico.detailsModal.certifyAthlete') }}
-            </v-btn>
           </div>
 
           <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && consultaSelecionada.consultaExterna === true">
