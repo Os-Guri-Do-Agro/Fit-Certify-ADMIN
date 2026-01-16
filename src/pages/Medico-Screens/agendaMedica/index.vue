@@ -182,7 +182,7 @@
           <v-row v-if="ConsultaExterna">
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaMedica.externalPatientCpf')" variant="outlined"
-                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
+                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno" :counter="11"></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaMedica.externalPatientEmail')" variant="outlined"
@@ -376,6 +376,14 @@ const selectTimeSlot = (hora) => {
 
 const criarConsulta = async () => {
   loading.value = true
+
+  if (ConsultaExterna) {
+    if(cpfPacienteExterno.value.replace(/\D/g, '').length !== 11) {
+      toast.error(t('agendaMedica.invalidCpf'))
+      loading.value = false
+      return
+    }
+  }
   try {
     const data = {
       medicoId: getMedicoId(),

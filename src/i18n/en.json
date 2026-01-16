@@ -1555,6 +1555,11 @@
     "finalize": "Finalize",
     "cancel": "Cancel",
     "noAppointments": "No appointments found",
+    "filters": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "external": "External"
+    },
     "cancelModal": {
       "title": "Cancel Appointment?",
       "message": "This action cannot be undone. The appointment will be permanently cancelled.",
@@ -1571,11 +1576,43 @@
       "cancel": "Cancel",
       "finalize": "Finalize"
     },
+    "detailsModal": {
+      "title": "Appointment Details",
+      "patient": "Patient",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "phone": "Phone",
+      "close": "Close",
+      "certifyAthlete": "Certify Athlete"
+    },
+    "certificationModal": {
+      "title": "Certify Athlete",
+      "patient": "Patient",
+      "appointmentDate": "Appointment Date",
+      "phone": "Phone",
+      "validityMonths": "Validity Months",
+      "customMonths": "Enter the number of months",
+      "validationRule": "Enter a value between 1 and 12 months",
+      "hint": "Enter how many months the certificate will be valid (maximum 12)",
+      "cancel": "Cancel",
+      "certify": "Certify",
+      "monthOptions": {
+        "1": "1 month",
+        "3": "3 months",
+        "6": "6 months",
+        "9": "9 months",
+        "12": "12 months",
+        "other": "Other"
+      }
+    },
     "toast": {
       "cancelSuccess": "Appointment cancelled successfully!",
       "cancelError": "Error cancelling appointment:",
       "finalizeSuccess": "Appointment finalized successfully!",
       "finalizeError": "Error finalizing appointment:",
+      "certificateSuccess": "Certificate generated successfully",
+      "certificateError": "Error generating certificate:",
       "unknownError": "Unknown error"
     },
     "status": {
@@ -1594,6 +1631,7 @@
     "appointments": "Appointments",
     "today": "Today",
     "viewMore": "View more",
+    "invalidCpf": "Invalid CPF (Brazilian tax identification number). Please try again.",
     "noAppointments": "No appointments on this day",
     "scheduleAppointment": "Schedule Appointment",
     "athleteName": "Athlete Name",
