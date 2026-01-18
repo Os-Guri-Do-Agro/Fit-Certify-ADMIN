@@ -152,6 +152,18 @@ class atletaService {
       'Erro ao gerar código de convite'
     )
   }
+
+  async ativarContaAtleta(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/atleta/reativar-atleta/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do atleta'
+    )
+  }
 }
 
 export default new atletaService()

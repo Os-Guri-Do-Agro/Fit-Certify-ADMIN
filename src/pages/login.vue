@@ -140,6 +140,9 @@
   <!-- Dialog de seleção de perfil -->
   <v-dialog v-model="dialogPerfil" max-width="650" @update:model-value="onDialogClose" persistent>
     <v-card rounded="xl" elevation="8">
+      <v-overlay :model-value="loadingPerfil" contained class="align-center justify-center">
+        <v-progress-circular color="#1E88E5" indeterminate size="64"></v-progress-circular>
+      </v-overlay>
       <v-card-title class="text-center px-8 pt-4 pb-4">
         <div class="d-flex align-center flex-column justify-center w-100">
           <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('trocarPerfil.title') }}</h2>
@@ -152,7 +155,7 @@
             <div
               @click="selecionarPerfil(perfil)"
               class="perfil-card d-flex flex-column align-center pa-5"
-              :class="{ 'perfil-selected': perfilId === perfil.id }"
+              :class="{ 'perfil-selected': perfilId === perfil.id, 'perfil-disabled': loadingPerfil }"
             >
               <v-avatar size="150" class="mb-4 elevation-4">
                 <v-img v-if="perfil?.avatarUrl" :src="perfil.avatarUrl" cover />
@@ -201,11 +204,50 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <!-- Modal de ativação de conta -->
+  <v-dialog v-model="dialogAtivarConta" width="600">
+    <v-card rounded="xl" style="font-family: DM Sans, sans-serif;">
+      <div class="d-flex justify-end pa-2">
+        <v-btn variant="text" icon @click="dialogAtivarConta = false">
+          <v-icon color="#1E88E5">mdi-close</v-icon>
+        </v-btn>
+      </div>
+      <v-card-title class="d-flex flex-column justify-center align-center ga-5 mt-2 px-5 px-md-10">
+        <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%); display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0, 198, 254, 0.4);">
+          <v-icon color="white" size="24">mdi-account-check</v-icon>
+        </div>
+        <span class="text-h6 text-md-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('login.activateAccount.title') }}</span>
+      </v-card-title>
+      <v-card-subtitle class="text-center text-subtitle-2 text-md-subtitle-1 px-5 px-md-10"
+        style="white-space: normal; word-wrap: break-word; color: #42A5F5; line-height: 1.6;">
+        {{ $t('login.activateAccount.subtitle') }}
+      </v-card-subtitle>
+      <v-card-text class="text-center px-5 px-md-10 mt-2" style="color: #2c3e50;">
+        {{ $t('login.activateAccount.description') }}
+      </v-card-text>
+      <v-card-actions class="d-flex w-100 flex-column ga-3 px-5 px-md-10 mb-5">
+        <v-btn class="w-100 text-white" height="50px" color="#1E88E5"
+          :loading="loadingAtivarConta" @click="ativarConta" rounded="xl" elevation="4"
+          :disabled="loadingAtivarConta"
+          style="font-weight: 600; text-transform: none; letter-spacing: 0; background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);">
+          {{ $t('login.activateAccount.buttonActivate') }}
+        </v-btn>
+        <v-btn class="w-100" height="50px" color="#1E88E5" variant="outlined"
+          @click="dialogAtivarConta = false" rounded="xl"
+          :disabled="loadingAtivarConta"
+          style="font-weight: 600; text-transform: none; letter-spacing: 0;">
+          {{ $t('login.activateAccount.buttonCancel') }}
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service';
 import userService from '@/services/user/user-service';
+import atletaService from '@/services/atleta/atleta-service';
 import { getPayload, getPayloadFromToken, getRole, getStatusMedicoCRM } from '@/utils/auth';
 import { ref, watch, onMounted, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
@@ -214,6 +256,8 @@ import type { VForm } from 'vuetify/components';
 import dayjs from 'dayjs';
 import { getErrorMessage } from '@/common/error.utils';
 import { useI18n } from 'vue-i18n';
+import type { AxiosError } from 'axios';
+import { ca } from 'vuetify/locale';
 
 const { t: $t, locale } = useI18n();
 const currentLocale = ref(locale.value)
@@ -241,6 +285,25 @@ const clicouEnviar = ref(false)
 const showTipoContaModal = ref(false)
 const tipoContaSelecionado = ref('')
 let debounceTimer: number
+
+const dialogAtivarConta = ref(false)
+const perfilInativoId = ref('')
+const loadingAtivarConta = ref(false)
+const loadingPerfil = ref(false)
+
+const ativarConta = async () => {
+  try {
+    loadingAtivarConta.value = true
+    const id = perfilInativoId.value
+    await atletaService.ativarContaAtleta(id)
+    toast.success($t('login.activateAccount.toastSuccess'))
+    dialogAtivarConta.value = false
+  } catch (error) {
+    toast.error($t('login.activateAccount.toastError'))
+  } finally {
+    loadingAtivarConta.value = false
+  }
+}
 
 
 const changeLocale = (lang: string) => {
@@ -336,6 +399,7 @@ async function onBlurEmailModal(email: string) {
     toast.error($t('login.forgotPassword.toastEmailError1_2') + ' ' + getErrorMessage(error, $t('login.forgotPassword.toastEmailError2_2')));
   } finally {
     loadingEmailModal.value = false;
+    loading.value = false;
   }
 }
 
@@ -370,12 +434,13 @@ function confirmarTipoConta() {
 }
 
 async function selecionarPerfil(perfil: any) {
+  if (loadingPerfil.value) return;
+
   perfilId.value = perfil.id;
   perfilSelecionado.value = perfil;
-  dialogPerfil.value = false;
 
   try {
-    loading.value = true;
+    loadingPerfil.value = true;
     const response = await authService.loginComPerfil({
       email: email.value,
       perfilId: perfil.id,
@@ -387,6 +452,7 @@ async function selecionarPerfil(perfil: any) {
       storage.setItem("token", response.data?.access_token);
       const payload = getPayloadFromToken(response.data?.access_token);
       const user = payload?.user;
+      dialogPerfil.value = false;
 
       if (user?.id) {
         localStorage.setItem('usuarioId', user.id);
@@ -414,9 +480,20 @@ async function selecionarPerfil(perfil: any) {
       toast.error($t('login.toastError3'));
     }
   } catch (err: any) {
-    toast.error($t('login.toastError3'));
+    const error = err as AxiosError<{
+      message: string;
+      statusCode: number;
+      atletaId: string;
+    }>
+    if (error.response?.data.statusCode === 400) {
+      perfilInativoId.value = error.response?.data.atletaId;
+      dialogAtivarConta.value = true;
+    } else {
+      toast.error($t('login.toastError3'));
+    }
+
   } finally {
-    loading.value = false;
+    loadingPerfil.value = false;
   }
 }
 
@@ -425,6 +502,7 @@ function onDialogClose(isOpen: boolean) {
     showPerfilSelect.value = false;
     perfilId.value = null;
     perfilSelecionado.value = null;
+    loadingPerfil.value = false;
   }
 }
 
@@ -487,6 +565,11 @@ p {
   background: #fafafa;
   position: relative;
   overflow: hidden;
+}
+
+.perfil-card.perfil-disabled {
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .perfil-card::before {

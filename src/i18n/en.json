@@ -236,6 +236,15 @@
       "toastErrorCode1_2": "Error sending code:",
       "toastErrorCode2_2": "Unknown error"
     },
+    "activateAccount": {
+      "title": "Inactive Profile",
+      "subtitle": "This profile is inactive. Do you want to activate it again?",
+      "description": "By confirming, we will reactivate your athlete profile and you will regain access.",
+      "buttonActivate": "Activate Profile",
+      "buttonCancel": "Cancel",
+      "toastSuccess": "Profile activated successfully!",
+      "toastError": "Error activating profile, please try again later."
+    },
     "roles": {
       "atleta": "Athlete",
       "medico": "Doctor",

@@ -237,6 +237,15 @@
       "toastErrorCode1_2": "Erro ao enviar código:",
       "toastErrorCode2_2": "Erro desconhecido"
     },
+    "activateAccount": {
+      "title": "Perfil Inativo",
+      "subtitle": "Este perfil encontra-se inativo. Deseja ativá-lo novamente?",
+      "description": "Ao confirmar, ativaremos novamente seu perfil de atleta e você voltará a ter acesso.",
+      "buttonActivate": "Ativar Perfil",
+      "buttonCancel": "Cancelar",
+      "toastSuccess": "Perfil ativado com sucesso!",
+      "toastError": "Erro ao ativar o perfil, tente novamente mais tarde."
+    },
     "roles": {
       "atleta": "Atleta",
       "medico": "Médico",
