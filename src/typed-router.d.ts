@@ -79,6 +79,7 @@ declare module 'vue-router/auto-routes' {
     '/registerPlanos': RouteRecordInfo<'/registerPlanos', '/registerPlanos', Record<never, never>, Record<never, never>>,
     '/registers': RouteRecordInfo<'/registers', '/registers', Record<never, never>, Record<never, never>>,
     '/resumo/': RouteRecordInfo<'/resumo/', '/resumo', Record<never, never>, Record<never, never>>,
+    '/select-profile': RouteRecordInfo<'/select-profile', '/select-profile', Record<never, never>, Record<never, never>>,
     '/settings/': RouteRecordInfo<'/settings/', '/settings', Record<never, never>, Record<never, never>>,
     '/settings/deleteAccount': RouteRecordInfo<'/settings/deleteAccount', '/settings/deleteAccount', Record<never, never>, Record<never, never>>,
     '/solicitacoesConexoes/': RouteRecordInfo<'/solicitacoesConexoes/', '/solicitacoesConexoes', Record<never, never>, Record<never, never>>,
