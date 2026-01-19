@@ -134,12 +134,15 @@
 
     <v-dialog v-model="ActiveDialog" max-width="1000" persistent>
       <v-card rounded="xl" elevation="8">
-        <v-card-title class="dialog-header-bg text-white pa-6">
+        <v-card-title class="dialog-header-bg text-white pa-6 d-flex justify-space-between">
           <div class="d-flex align-center">
             <div class="icon-wrapper mr-3">
               <v-icon color="white">mdi-calendar-plus</v-icon>
             </div>
             <span class="text-h5 font-weight-bold">{{ t('agendaFisioterapeutica.scheduleAppointment') }}</span>
+          </div>
+          <div class="d-flex align-center ml-3">
+            <v-btn icon="mdi-close" size="24" color="white" variant="text" class="pa-5 d-flex align-center justify-center" @click="ActiveDialog = false"></v-btn>
           </div>
         </v-card-title>
 
@@ -155,15 +158,20 @@
           <v-row v-if="ConsultaExterna">
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaFisioterapeutica.externalPatientCpf')" variant="outlined"
-                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"></v-text-field>
+                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"
+                :counter="14" :rules="[validarCPF]" :error-messages="cpfError"
+                @input="formatarCPF"></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaFisioterapeutica.externalPatientEmail')" variant="outlined"
-                prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"></v-text-field>
+                prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"
+                :rules="[validarEmail]" :error-messages="emailError"></v-text-field>
             </v-col>
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaFisioterapeutica.externalPatientPhone')" variant="outlined"
-                prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"></v-text-field>
+                prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"
+                :counter="15" :rules="[validarTelefone]" :error-messages="telefoneError"
+                @input="formatarTelefone"></v-text-field>
             </v-col>
           </v-row>
 
@@ -239,11 +247,11 @@
 
         <v-card-actions class="pa-6">
           <v-spacer></v-spacer>
-          <v-btn color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
+          <v-btn class="px-4" color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
             <v-icon start>mdi-close</v-icon>
             {{ t('agendaFisioterapeutica.cancel') }}
           </v-btn>
-          <v-btn color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot ||
+          <v-btn class="px-4" color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot ||
             (ConsultaExterna && !nomePacienteExterno) ||
             (!ConsultaExterna && !atletaSelected)
             ">
@@ -297,6 +305,9 @@ const nomePacienteExterno = ref('')
 const cpfPacienteExterno = ref('')
 const telefonePacienteExterno = ref('')
 const emailPacienteExterno = ref('')
+const cpfError = ref('')
+const telefoneError = ref('')
+const emailError = ref('')
 const currentDate = ref(dayjs())
 const currentMonth = ref('')
 
@@ -360,8 +371,114 @@ const selectTimeSlot = (hora) => {
   selectedTimeSlot.value = hora
 }
 
+const formatarCPF = () => {
+  let valor = cpfPacienteExterno.value.replace(/\D/g, '')
+  if (valor.length <= 11) {
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d)/, '$1.$2')
+    valor = valor.replace(/(\d{3})(\d{1,2})$/, '$1-$2')
+    cpfPacienteExterno.value = valor
+  }
+}
+
+const formatarTelefone = () => {
+  let valor = telefonePacienteExterno.value.replace(/\D/g, '')
+  if (valor.length <= 11) {
+    if (valor.length <= 10) {
+      valor = valor.replace(/(\d{2})(\d)/, '($1) $2')
+      valor = valor.replace(/(\d{4})(\d)/, '$1-$2')
+    } else {
+      valor = valor.replace(/(\d{2})(\d)/, '($1) $2')
+      valor = valor.replace(/(\d{5})(\d)/, '$1-$2')
+    }
+    telefonePacienteExterno.value = valor
+  }
+}
+
+const validarCPF = () => {
+  const cpf = cpfPacienteExterno.value.replace(/\D/g, '')
+  if (!cpf) {
+    cpfError.value = ''
+    return true
+  }
+  if (cpf.length !== 11) {
+    cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF deve ter 11 dígitos'
+    return false
+  }
+  
+  if (/^(\d)\1{10}$/.test(cpf)) {
+    cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
+    return false
+  }
+  
+  let soma = 0
+  for (let i = 0; i < 9; i++) {
+    soma += parseInt(cpf.charAt(i)) * (10 - i)
+  }
+  let resto = (soma * 10) % 11
+  if (resto === 10 || resto === 11) resto = 0
+  if (resto !== parseInt(cpf.charAt(9))) {
+    cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
+    return false
+  }
+  
+  soma = 0
+  for (let i = 0; i < 10; i++) {
+    soma += parseInt(cpf.charAt(i)) * (11 - i)
+  }
+  resto = (soma * 10) % 11
+  if (resto === 10 || resto === 11) resto = 0
+  if (resto !== parseInt(cpf.charAt(10))) {
+    cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
+    return false
+  }
+  
+  cpfError.value = ''
+  return true
+}
+
+const validarTelefone = () => {
+  const telefone = telefonePacienteExterno.value.replace(/\D/g, '')
+  if (!telefone) {
+    telefoneError.value = ''
+    return true
+  }
+  if (telefone.length < 10 || telefone.length > 11) {
+    telefoneError.value = t('agendaFisioterapeutica.invalidPhone') || 'Telefone inválido'
+    return false
+  }
+  telefoneError.value = ''
+  return true
+}
+
+const validarEmail = () => {
+  const email = emailPacienteExterno.value
+  if (!email) {
+    emailError.value = ''
+    return true
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(email)) {
+    emailError.value = t('agendaFisioterapeutica.invalidEmail') || 'Email inválido'
+    return false
+  }
+  emailError.value = ''
+  return true
+}
+
 const criarConsulta = async () => {
   loading.value = true
+  
+  if (ConsultaExterna.value) {
+    const cpfValido = validarCPF()
+    const telefoneValido = validarTelefone()
+    const emailValido = validarEmail()
+    
+    if (!cpfValido || !telefoneValido || !emailValido) {
+      loading.value = false
+      return
+    }
+  }
   try {
     const data = {
       fisioterapeutaId: getFisioterapeutaId(),
@@ -395,6 +512,9 @@ const criarConsulta = async () => {
     cpfPacienteExterno.value = ''
     telefonePacienteExterno.value = ''
     emailPacienteExterno.value = ''
+    cpfError.value = ''
+    telefoneError.value = ''
+    emailError.value = ''
     ConsultaExterna.value = false
 
     await buscarHorariosDisponiveis()

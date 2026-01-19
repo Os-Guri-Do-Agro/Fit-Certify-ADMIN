@@ -565,6 +565,9 @@
     "appointmentSuccess": "Appointment scheduled successfully!",
     "appointmentError": "Error scheduling appointment:",
     "unknownError": "Unknown error",
+    "invalidCpf": "Invalid CPF",
+    "invalidPhone": "Invalid phone number",
+    "invalidEmail": "Invalid email",
     "external": "External",
     "fitcertify": "FitCertify365",
     "days": {
@@ -1641,6 +1644,8 @@
     "today": "Today",
     "viewMore": "View more",
     "invalidCpf": "Invalid CPF (Brazilian tax identification number). Please try again.",
+    "invalidPhone": "Invalid phone number",
+    "invalidEmail": "Invalid email",
     "noAppointments": "No appointments on this day",
     "scheduleAppointment": "Schedule Appointment",
     "athleteName": "Athlete Name",
