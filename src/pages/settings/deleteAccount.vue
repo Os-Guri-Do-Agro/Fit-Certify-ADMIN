@@ -18,8 +18,12 @@
               <v-icon size="64" color="#ff5252">mdi-alert-circle</v-icon>
             </div>
             <h1 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('deleteAccount.title') }}</h1>
-            <p class="text-h6 mb-0" style="color: #ff5252; font-weight: 600;">
+            <p class="text-h6 mb-2" style="color: #ff5252; font-weight: 600;">
               {{ $t('deleteAccount.permanentWarning') }}
+            </p>
+            <p class="text-body-2 mb-0" style="color: #42A5F5; font-weight: 500;">
+              <v-icon size="16" color="#42A5F5" class="mr-1">mdi-check-circle</v-icon>
+              {{ $t('deleteAccount.canReactivate') }}
             </p>
           </v-card-text>
         </v-card>
@@ -30,6 +34,19 @@
               <v-icon color="#42A5F5" size="28" class="mr-3">mdi-information</v-icon>
               <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.whatHappens') }}</h3>
             </div>
+
+            <v-alert
+              type="warning"
+              variant="tonal"
+              rounded="lg"
+              class="mb-4"
+              density="comfortable"
+            >
+              <div class="d-flex align-center">
+                <v-icon class="mr-2">mdi-information-outline</v-icon>
+                <span class="font-weight-medium">{{ $t('deleteAccount.onlyCurrentProfile') }}</span>
+              </div>
+            </v-alert>
 
             <div class="consequences-list">
               <div class="consequence-item" v-if="isAtleta()">

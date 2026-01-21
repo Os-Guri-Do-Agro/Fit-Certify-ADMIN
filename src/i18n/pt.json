@@ -1341,7 +1341,9 @@
     "backButton": "Voltar",
     "title": "Desativar Perfil",
     "permanentWarning": "Esta ação irá desativar temporariamente seu perfil",
+    "canReactivate": "Pode ser reativado a qualquer momento",
     "whatHappens": "O que acontece quando você desativa seu perfil?",
+    "onlyCurrentProfile": "Apenas o perfil atual será desativado. Seus outros perfis continuarão ativos.",
     "consequences": {
       "item1": "Seu acesso ao perfil será bloqueado após a finalização do plano",
       "item3": "Você perderá acesso aos serviços",

@@ -53,11 +53,12 @@
               <span class="text-h6 font-weight-bold text-error">{{ $t('settings.dangerZone') }}</span>
             </div>
             <p class="text-body-2 mb-4 text-grey-darken-1">{{ $t('settings.dangerZoneDescription') }}</p>
-            <v-btn v-if="!perfil?.contaDeletada" color="error" variant="outlined" rounded="lg" @click="handleDeleteAccount()">
+            <v-skeleton-loader v-if="perfil === null" type="button" width="250" />
+            <v-btn v-else-if="!perfil?.contaDeletada" color="error" variant="outlined" rounded="lg" @click="handleDeleteAccount()" :loading="deletingAccount">
               <v-icon class="mr-2">mdi-delete</v-icon>
               {{ $t('settings.deleteAccount') }}
             </v-btn>
-            <v-btn v-else color="success" variant="outlined" rounded="lg" @click="showReactivateDialog = true">
+            <v-btn v-else color="success" variant="outlined" rounded="lg" @click="showReactivateDialog = true" :loading="deletingAccount">
               <v-icon class="mr-2">mdi-check-circle</v-icon>
               {{ $t('settings.cancelDeactivation') }}
             </v-btn>
@@ -200,6 +201,7 @@ const accountItems = computed(() => {
 });
 
 const infoUser = async () => {
+  perfil.value = null;
   try {
     if (isAtleta()) {
     const response = await atletaService.getAtletaById(getAtletaId());

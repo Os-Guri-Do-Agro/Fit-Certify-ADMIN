@@ -1343,7 +1343,9 @@
     "backButton": "Back",
     "title": "Deactivate Profile",
     "permanentWarning": "This action will temporarily deactivate your profile.",
+    "canReactivate": "Can be reactivated at any time",
     "whatHappens": "What happens when you deactivate your profile?",
+    "onlyCurrentProfile": "Only the current profile will be deactivated. Your other profiles will remain active.",
     "consequences": {
       "item1": "Your profile access will be blocked after the plan ends.",
       "item3": "You will lose access to services",
