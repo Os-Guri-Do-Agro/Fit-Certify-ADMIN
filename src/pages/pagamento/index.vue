@@ -289,8 +289,8 @@
             },
             trial_period_days: cupomValido.value.cupom?.diasTrial || null,
             cupomIdStripe: cupomId.value,
-            success_url: 'https://admin.fitcertify365.com/payment-success',
-            cancel_url: 'https://admin.fitcertify365.com/login',
+            success_url: 'https://fit-certify-admin.vercel.app/payment-success',
+            cancel_url: 'https://fit-certify-admin.vercel.app/login',
             planoId: plano.value.id,
             cupom: cupom.value
           }
@@ -308,8 +308,8 @@
                 number: formData.value.numero,
               },
             },
-            success_url: 'https://admin.fitcertify365.com/',
-            cancel_url: 'https://admin.fitcertify365.com/login',
+            success_url: 'https://fit-certify-admin.vercel.app/',
+            cancel_url: 'https://fit-certify-admin.vercel.app/login',
             planoId: plano.value.id
           }
         }
