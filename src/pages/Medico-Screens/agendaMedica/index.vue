@@ -128,7 +128,7 @@
                       <v-icon size="14" color="grey" class="mr-1">mdi-clock-outline</v-icon>
                       <span class="text-caption text-grey">{{ appointment.time }}</span>
                     </div>
-                    <div class="d-flex gap-1 flex-wrap">
+                    <div class="d-flex ga-1 flex-wrap" >
                       <v-chip size="small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
                         variant="flat" class="text-white">
                         {{
@@ -185,7 +185,7 @@
           <v-row v-if="ConsultaExterna">
             <v-col cols="12" md="4">
               <v-text-field :label="t('agendaMedica.externalPatientCpf')" variant="outlined"
-                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno" 
+                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"
                 :counter="14" :rules="[validarCPF]" :error-messages="cpfError"
                 @input="formatarCPF"></v-text-field>
             </v-col>
@@ -419,13 +419,13 @@ const validarCPF = () => {
     cpfError.value = t('agendaMedica.invalidCpf') || 'CPF deve ter 11 dígitos'
     return false
   }
-  
+
   // Rejeita CPFs com todos os dígitos iguais
   if (/^(\d)\1{10}$/.test(cpf)) {
     cpfError.value = t('agendaMedica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   // Validação dos dígitos verificadores
   let soma = 0
   for (let i = 0; i < 9; i++) {
@@ -437,7 +437,7 @@ const validarCPF = () => {
     cpfError.value = t('agendaMedica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   soma = 0
   for (let i = 0; i < 10; i++) {
     soma += parseInt(cpf.charAt(i)) * (11 - i)
@@ -448,7 +448,7 @@ const validarCPF = () => {
     cpfError.value = t('agendaMedica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   cpfError.value = ''
   return true
 }
@@ -489,7 +489,7 @@ const criarConsulta = async () => {
     const cpfValido = validarCPF()
     const telefoneValido = validarTelefone()
     const emailValido = validarEmail()
-    
+
     if (!cpfValido || !telefoneValido || !emailValido) {
       loading.value = false
       return

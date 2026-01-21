@@ -49,6 +49,10 @@
     "titleRegisterCoach": "Cadastrar Treinador",
     "titleRegisterAdmin": "Cadastrar Administrador",
 
+    "titleDeleteAccount": "Desativar Perfil",
+    "titleExternalConsultations": "Consultas Externas",
+    "titleExternalPatients": "Pacientes Externos",
+
     "role": {
       "atleta": "Atleta",
       "medico": "Médico",
@@ -66,7 +70,7 @@
   "trocarPerfil": {
     "title": "Escolha seu Perfil",
     "subtitle":  "Escolha o perfil que deseja acessar",
-    "waningSuccess": "Troca de perfil realizada com sucesso!",
+    "warningSuccess": "Troca de perfil realizada com sucesso!",
     "warningError": "Erro ao trocar de perfil",
     "warning": "Você já está neste perfil",
     "text": "Acessar como",
@@ -108,7 +112,9 @@
       "pacientes": "Pacientes",
       "listaPacientes": "Lista de Pacientes",
       "recentes": "Recentes",
-      "treinosCriados": "Treinos Criados"
+      "treinosCriados": "Treinos Criados",
+      "externas": "Consultas Externas",
+      "pacientesExternos": "Pacientes Externos"
     },
     "account": {
       "minhaConta": "Minha conta",
@@ -595,6 +601,18 @@
     "finalize": "Finalizar",
     "cancel": "Cancelar",
     "noAppointments": "Nenhuma consulta encontrada",
+    "status": {
+      "Marcado": "Marcado",
+      "Concluido": "Concluído",
+      "Pendente": "Pendente",
+      "Recusado": "Recusado",
+      "Cancelada": "Cancelada"
+    },
+    "gender": {
+      "Masculino": "Masculino",
+      "Feminino": "Feminino",
+      "Outro": "Outro"
+    },
     "cancelModal": {
       "title": "Cancelar Consulta?",
       "message": "Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.",
@@ -984,9 +1002,9 @@
     "publicProfile": "Perfil Público",
     "subscriptionPayments": "Assinatura e Pagamentos",
     "helpCenter": "Central de Ajuda",
-    "dangerZone": "Zona de Perigo",
-    "dangerZoneDescription": "Ações que afetam permanentemente sua conta.",
-    "deleteAccount": "Excluir Conta",
+    "dangerZone": "Gerenciamento de conta",
+    "dangerZoneDescription": "Gerenciamento de perfis.",
+    "deleteAccount": "Desativar Perfil",
     "deleteAccountTitle": "Deletar Conta",
     "deleteAccountMessage": "Tem certeza que deseja deletar sua conta?",
     "deleteAccountWarning": "Esta ação não pode ser desfeita e todos os seus dados serão perdidos permanentemente.",
@@ -1317,14 +1335,13 @@
 
   "deleteAccount": {
     "backButton": "Voltar",
-    "title": "Excluir Conta",
-    "permanentWarning": "Esta ação é permanente e não pode ser desfeita",
-    "whatHappens": "O que acontece quando você exclui sua conta?",
+    "title": "Desativar Perfil",
+    "permanentWarning": "Esta ação irá desativar temporariamente seu perfil",
+    "whatHappens": "O que acontece quando você desativa seu perfil?",
     "consequences": {
-      "item1": "Todos os seus dados pessoais serão removidos",
-      "item2": "Seu histórico será apagado",
+      "item1": "Seu acesso ao perfil será bloqueado após a finalização do plano",
       "item3": "Você perderá acesso aos serviços",
-      "item4": "Esta ação não pode ser revertida"
+      "item4": "Outros usuários não poderam te ver"
     },
     "readFullPolicy": "Ler política completa",
     "deleteButton": "Excluir Conta",
@@ -1513,7 +1530,8 @@
     },
     "gender": {
       "Masculino": "Masculino",
-      "Feminino": "Feminino"
+      "Feminino": "Feminino",
+      "Outro": "Outro"
     }
   },
 
@@ -1524,7 +1542,7 @@
       "issuedCertificates": "Certificados Emitidos",
       "scheduledAppointments": "Consultas Marcadas"
     },
-    "title": "Meus Pacientes",
+    "title": "Meus Pacientes FitCertify365",
     "searchPlaceholder": "Buscar paciente...",
     "table": {
       "profile": "Perfil",
@@ -1537,7 +1555,8 @@
     },
     "gender": {
       "Masculino": "Masculino",
-      "Feminino": "Feminino"
+      "Feminino": "Feminino",
+      "Outro": "Outro"
     }
   },
 
@@ -1555,6 +1574,86 @@
       "acceptError": "Erro ao aceitar consulta:",
       "refuseSuccess": "Consulta recusada com sucesso!",
       "refuseError": "Erro ao recusar consulta:",
+      "unknownError": "Erro desconhecido"
+    }
+  },
+
+  "consultasExternas": {
+    "title": "Consultas Externas",
+    "filters": {
+      "scheduled": "Marcado",
+      "completed": "Realizado",
+      "cancelled": "Cancelada"
+    },
+    "searchByName": "Buscar por nome",
+    "searchByCpf": "Buscar por CPF",
+    "name": "Nome",
+    "cpf": "CPF",
+    "patient": "Paciente",
+    "finalize": "Finalizar",
+    "cancel": "Cancelar",
+    "noAppointments": "Nenhuma consulta encontrada",
+    "status": {
+      "Marcado": "Marcado",
+      "Concluido": "Concluído",
+      "Cancelada": "Cancelada"
+    },
+    "detailsModal": {
+      "title": "Detalhes da Consulta",
+      "patient": "Paciente",
+      "date": "Data",
+      "time": "Horário",
+      "status": "Status",
+      "phone": "Telefone",
+      "diagnosis": "Diagnóstico",
+      "medications": "Medicamentos Receitados",
+      "close": "Fechar",
+      "certifyAthlete": "Certificar Atleta"
+    },
+    "cancelModal": {
+      "title": "Cancelar Consulta",
+      "message": "Tem certeza que deseja cancelar esta consulta? Esta ação não pode ser desfeita.",
+      "no": "Não",
+      "yesCancel": "Sim, Cancelar"
+    },
+    "finalizeModal": {
+      "title": "Finalizar Consulta",
+      "subtitle": "Adicione as informações finais",
+      "diagnosis": "Diagnóstico",
+      "diagnosisPlaceholder": "Descreva o diagnóstico",
+      "medications": "Medicamentos Receitados",
+      "medicationsPlaceholder": "Liste os medicamentos receitados",
+      "cancel": "Cancelar",
+      "finalize": "Finalizar Consulta"
+    },
+    "certificationModal": {
+      "title": "Certificar Atleta",
+      "subtitle": "Emitir certificado médico",
+      "patient": "Paciente",
+      "appointmentDate": "Data da Consulta",
+      "phone": "Telefone",
+      "validityMonths": "Validade do Certificado (meses)",
+      "monthOptions": {
+        "1": "1 mês",
+        "3": "3 meses",
+        "6": "6 meses",
+        "9": "9 meses",
+        "12": "12 meses",
+        "other": "Outro"
+      },
+      "customMonths": "Quantidade de meses",
+      "required": "Campo obrigatório",
+      "validationRule": "Deve ser maior que 0",
+      "cancel": "Cancelar",
+      "certify": "Certificar"
+    },
+    "toast": {
+      "cancelSuccess": "Consulta cancelada com sucesso!",
+      "cancelError": "Erro ao cancelar consulta",
+      "finalizeSuccess": "Consulta finalizada com sucesso!",
+      "finalizeError": "Erro ao finalizar consulta",
+      "certificateSuccess": "Certificado gerado com sucesso!",
+      "certificateError": "Este paciente externo já tem um certificado ativo.",
       "unknownError": "Erro desconhecido"
     }
   },

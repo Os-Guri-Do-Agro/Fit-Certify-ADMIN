@@ -156,7 +156,7 @@ const formatDate = (dateString: string) => {
 const handleGerenciarPlano = async () => {
   loadingManage.value = true
   try {
-    const return_url  = 'https://fit-certify-admin.vercel.app/Atleta-Screens/meuPlano'
+    const return_url  = 'https://admin.fitcertify365.com/Atleta-Screens/meuPlano'
     const response = await stripeService.gerenciarPlano(return_url)
     window.location.href = response.data.url
   } catch (error) {

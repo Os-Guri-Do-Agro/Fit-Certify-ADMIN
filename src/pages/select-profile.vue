@@ -114,6 +114,10 @@ onMounted(() => {
   }
 
   perfis.value = JSON.parse(savedPerfis);
+
+  if (perfis.value.length === 1) {
+    selecionarPerfil(perfis.value[0]);
+  }
 });
 
 const getRoles = (nome: string) => {
@@ -381,11 +385,11 @@ async function selecionarPerfil(perfil: any) {
     gap: 20px;
     max-width: 600px;
   }
-  
+
   .card-content {
     padding: 32px 20px;
   }
-  
+
   .icon-header {
     width: 72px;
     height: 72px;

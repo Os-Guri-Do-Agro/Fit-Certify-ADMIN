@@ -27,14 +27,6 @@
         >
           {{ t('consultasMedico.filters.completed') }}
         </v-btn>
-        <v-btn
-          value="Externa"
-          :variant="filtroSelecionado === 'Externa' ? 'flat' : 'outlined'"
-          class="px-8 text-body-1 font-weight-medium filter-btn"
-          :class="{ 'active-filter': filtroSelecionado === 'Externa' }"
-        >
-          {{ t('consultasMedico.filters.external') }}
-        </v-btn>
       </v-btn-toggle>
     </v-row>
 
@@ -91,87 +83,77 @@
               lg="4"
             >
               <v-card
-                class="pa-5 hover-card d-flex flex-column"
-                elevation="4"
-                rounded="xl"
-                :style="{
-                  borderLeft: `4px solid ${getStatusColor(consulta?.situacao)}`,
-                }"
+                class="consulta-card"
+                elevation="2"
+                rounded="lg"
                 @click="abrirModalDetalhes(consulta)"
-                style="cursor: pointer;"
               >
-                <v-row align="center" no-gutters class="flex-grow-1">
-
-                  <v-col class="d-flex flex-column justify-center">
-                    <div
-                      class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
+                <div class="card-status-bar" :style="{ backgroundColor: getStatusColor(consulta?.situacao) }" />
+                
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center justify-space-between mb-4">
+                    <div class="d-flex align-center">
+                      <v-avatar color="primary" size="40" class="me-3">
+                        <v-icon color="white">mdi-account</v-icon>
+                      </v-avatar>
+                      <div>
+                        <div class="text-subtitle-1 font-weight-bold text-grey-darken-4">
+                          {{ consulta?.atleta?.usuario?.nome || consulta?.nomePacienteExterno }}
+                        </div>
+                        <div class="text-caption text-grey-darken-1">
+                          {{ consulta?.atleta?.genero ? t(`pacientesMedico.gender.${consulta.atleta.genero}`, consulta.atleta.genero) : 'Paciente' }}
+                        </div>
+                      </div>
+                    </div>
+                    <v-chip
+                      :color="getStatusColor(consulta?.situacao)"
+                      size="small"
+                      variant="tonal"
+                      class="font-weight-medium"
                     >
-                      {{ consulta?.atleta?.usuario?.nome || consulta?.nomePacienteExterno }}
+                      {{ t(`consultasMedico.status.${consulta?.situacao}`) }}
+                    </v-chip>
+                  </div>
+
+                  <v-divider class="mb-4" />
+
+                  <div class="info-section">
+                    <div class="info-item">
+                      <v-icon size="18" color="primary" class="me-2">mdi-calendar</v-icon>
+                      <span class="text-body-2 text-grey-darken-2">{{ formatarDataComLocale(consulta?.dataConsulta, locale) }}</span>
                     </div>
-                    <div
-                      v-if="consulta?.atleta?.genero"
-                      class="text-body-2 text-grey-darken-1 mb-2"
+                    <div class="info-item mt-2">
+                      <v-icon size="18" color="primary" class="me-2">mdi-clock-outline</v-icon>
+                      <span class="text-body-2 text-grey-darken-2">{{ formatarHorarioLocal(consulta?.dataConsulta) }}</span>
+                    </div>
+                  </div>
+
+                  <div v-if="consulta?.situacao === 'Marcado'" class="action-buttons mt-5">
+                    <v-btn
+                      color="success"
+                      variant="flat"
+                      size="small"
+                      rounded="lg"
+                      prepend-icon="mdi-check-circle"
+                      class="flex-grow-1"
+                      @click.stop="abrirModalFinalizar(consulta.id)"
                     >
-                      {{ consulta?.atleta?.genero }}
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 mb-3">
-                      <div
-                        class="text-body-2 text-grey-darken-2 d-flex align-center"
-                      >
-                        <v-icon size="16" class="me-2" color="blue"
-                          >mdi-calendar</v-icon
-                        >
-                        {{ formatarDataLocal(consulta?.dataConsulta) }}
-                      </div>
-                      <div
-                        class="text-body-2 text-grey-darken-2 d-flex align-center"
-                      >
-                        <v-icon size="16" class="me-2" color="orange"
-                          >mdi-clock-outline</v-icon
-                        >
-                        {{ formatarHorarioLocal(consulta?.dataConsulta) }}
-                      </div>
-                    </div>
-
-                    <div class="d-flex align-center justify-space-between flex-wrap ga-2">
-                      <v-chip
-                        :color="getStatusColor(consulta?.situacao)"
-                        size="small"
-                        variant="flat"
-                        class="font-weight-medium text-white"
-                      >
-                        {{ t(`consultasMedico.status.${consulta?.situacao}`) }}
-                      </v-chip>
-                      <div class="d-flex gap-2">
-                        <v-btn
-                        v-if="consulta?.situacao === 'Marcado'"
-                          color="green"
-                          variant="outlined"
-                          size="small"
-                          rounded="xl"
-                          prepend-icon="mdi-check"
-                          @click.stop="abrirModalFinalizar(consulta.id)"
-                        >
-                          {{ t('consultasMedico.finalize') }}
-                        </v-btn>
-                        <v-btn
-                        v-if="consulta?.situacao === 'Marcado'"
-                          color="red"
-                          variant="outlined"
-                          size="small"
-                          rounded="xl"
-                          :loading="loadingCancelarIds.has(consulta.id)"
-                          prepend-icon="mdi-close"
-                          @click.stop="abrirModalConfirmacao(consulta.id)"
-                          class="ml-1"
-                        >
-                          {{ t('consultasMedico.cancel') }}
-                        </v-btn>
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
+                      {{ t('consultasMedico.finalize') }}
+                    </v-btn>
+                    <v-btn
+                      color="error"
+                      variant="outlined"
+                      size="small"
+                      rounded="lg"
+                      prepend-icon="mdi-close-circle"
+                      class="flex-grow-1"
+                      :loading="loadingCancelarIds.has(consulta.id)"
+                      @click.stop="abrirModalConfirmacao(consulta.id)"
+                    >
+                      {{ t('consultasMedico.cancel') }}
+                    </v-btn>
+                  </div>
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -186,44 +168,22 @@
 
     <!-- Modal de Confirmação -->
     <v-dialog v-model="modalConfirmacao" max-width="450" persistent>
-      <v-card class="modal-confirmacao" rounded="xl">
+      <v-card rounded="lg" class="modal-card">
         <v-card-text class="text-center pa-8">
-          <div class="mb-6">
-            <v-avatar size="80" color="red-lighten-4" class="mb-4">
-              <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
-            </v-avatar>
-          </div>
-
-          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
+          <v-avatar size="80" color="error" variant="tonal" class="mb-4">
+            <v-icon size="48" color="error">mdi-alert-circle-outline</v-icon>
+          </v-avatar>
+          <h3 class="text-h5 font-weight-bold text-grey-darken-4 mb-3">
             {{ t('consultasMedico.cancelModal.title') }}
           </h3>
-
           <p class="text-body-1 text-grey-darken-1 mb-6">
             {{ t('consultasMedico.cancelModal.message') }}
           </p>
-
           <div class="d-flex gap-3 justify-center">
-            <v-btn
-              color="grey-lighten-1"
-              variant="outlined"
-              size="large"
-              rounded="xl"
-              min-width="120"
-              @click="modalConfirmacao = false"
-            >
-              <v-icon start>mdi-close</v-icon>
+            <v-btn color="grey" variant="outlined" rounded="lg" class="text-none px-6" @click="modalConfirmacao = false">
               {{ t('consultasMedico.cancelModal.cancel') }}
             </v-btn>
-
-            <v-btn
-              color="red"
-              variant="flat"
-              size="large"
-              rounded="xl"
-              min-width="120"
-              @click="confirmarCancelamento"
-            >
-              <v-icon start>mdi-check</v-icon>
+            <v-btn color="error" variant="flat" rounded="lg" class="text-none font-weight-medium px-6" @click="confirmarCancelamento">
               {{ t('consultasMedico.cancelModal.confirm') }}
             </v-btn>
           </div>
@@ -233,51 +193,80 @@
 
     <!-- Modal de Detalhes da Consulta -->
     <v-dialog v-model="modalDetalhes" max-width="700" persistent>
-      <v-card rounded="xl">
-        <v-card-title class="d-flex align-center justify-space-between pa-6 pb-4">
-          <span class="text-h5 font-weight-bold">{{ t('consultasMedico.detailsModal.title') }}</span>
-          <v-btn icon="mdi-close" variant="text" @click="modalDetalhes = false" />
-        </v-card-title>
+      <v-card rounded="lg" class="modal-card">
+        <div class="modal-header">
+          <div class="d-flex align-center">
+            <v-avatar color="primary" size="48" class="me-3">
+              <v-icon color="white" size="28">mdi-file-document-outline</v-icon>
+            </v-avatar>
+            <div>
+              <div class="text-h5 font-weight-bold text-grey-darken-4">{{ t('consultasMedico.detailsModal.title') }}</div>
+              <div class="text-caption text-grey-darken-1">Informações completas</div>
+            </div>
+          </div>
+          <v-btn icon="mdi-close" variant="text" size="small" @click="modalDetalhes = false" />
+        </div>
 
         <v-divider />
 
         <v-card-text class="pa-6" v-if="consultaSelecionada">
-          <div class="mb-4">
-            <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.patient') }}</div>
+          <div class="detail-section mb-4">
+            <div class="d-flex align-center mb-3">
+              <v-icon color="primary" class="me-2">mdi-account</v-icon>
+              <span class="text-subtitle-2 text-grey-darken-1">{{ t('consultasMedico.detailsModal.patient') }}</span>
+            </div>
             <div class="text-h6 font-weight-medium">{{ consultaSelecionada.atleta?.usuario?.nome || consultaSelecionada.nomePacienteExterno || 'N/A' }}</div>
           </div>
 
           <v-row>
             <v-col cols="6">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.date') }}</div>
-              <div class="text-body-1">{{ formatarDataLocal(consultaSelecionada.dataConsulta) }}</div>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-calendar</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.date') }}</div>
+                <div class="text-body-1 font-weight-medium">{{ formatarDataComLocale(consultaSelecionada.dataConsulta, locale) }}</div>
+              </div>
             </v-col>
             <v-col cols="6">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.time') }}</div>
-              <div class="text-body-1">{{ formatarHorarioLocal(consultaSelecionada.dataConsulta) }}</div>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-clock-outline</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.time') }}</div>
+                <div class="text-body-1 font-weight-medium">{{ formatarHorarioLocal(consultaSelecionada.dataConsulta) }}</div>
+              </div>
             </v-col>
           </v-row>
 
           <v-row class="mt-2">
             <v-col cols="6">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.status') }}</div>
-              <v-chip :color="getStatusColor(consultaSelecionada.situacao)" size="small" variant="flat">
-                {{ t(`consultasMedico.status.${consultaSelecionada.situacao}`) }}
-              </v-chip>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-information-outline</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-2">{{ t('consultasMedico.detailsModal.status') }}</div>
+                <v-chip :color="getStatusColor(consultaSelecionada.situacao)" size="small" variant="tonal" class="font-weight-medium">
+                  {{ t(`consultasMedico.status.${consultaSelecionada.situacao}`) }}
+                </v-chip>
+              </div>
             </v-col>
             <v-col cols="6" v-if="consultaSelecionada.atleta?.telefone">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.phone') }}</div>
-              <div class="text-body-1">{{ consultaSelecionada.atleta.telefone }}</div>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-phone</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ t('consultasMedico.detailsModal.phone') }}</div>
+                <div class="text-body-1 font-weight-medium">{{ consultaSelecionada.atleta.telefone }}</div>
+              </div>
             </v-col>
           </v-row>
 
-          <div class="mt-4" v-if="consultaSelecionada.diagnostico">
-            <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.finalizeModal.diagnosis') }}</div>
+          <div class="detail-section mt-4" v-if="consultaSelecionada.diagnostico">
+            <div class="d-flex align-center mb-2">
+              <v-icon color="primary" class="me-2">mdi-stethoscope</v-icon>
+              <span class="text-subtitle-2 text-grey-darken-1">{{ t('consultasMedico.finalizeModal.diagnosis') }}</span>
+            </div>
             <div class="text-body-1">{{ consultaSelecionada.diagnostico }}</div>
           </div>
 
-          <div class="mt-4" v-if="consultaSelecionada.medicamentosReceitados">
-            <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.finalizeModal.medications') }}</div>
+          <div class="detail-section mt-4" v-if="consultaSelecionada.medicamentosReceitados">
+            <div class="d-flex align-center mb-2">
+              <v-icon color="primary" class="me-2">mdi-pill</v-icon>
+              <span class="text-subtitle-2 text-grey-darken-1">{{ t('consultasMedico.finalizeModal.medications') }}</span>
+            </div>
             <div class="text-body-1">{{ consultaSelecionada.medicamentosReceitados }}</div>
           </div>
 
@@ -286,10 +275,11 @@
             <v-btn
               color="primary"
               variant="flat"
-              rounded="xl"
+              rounded="lg"
               block
               size="large"
               prepend-icon="mdi-certificate"
+              class="text-none font-weight-medium"
               @click="certificarAtleta()"
             >
               {{ t('consultasMedico.detailsModal.certifyAthlete') }}
@@ -301,25 +291,45 @@
 
     <!-- Modal de Certificar Atleta -->
     <v-dialog v-model="modalCertificar" max-width="600" persistent>
-      <v-card rounded="xl">
-        <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
-          {{ t('consultasMedico.certificationModal.title') }}
-        </v-card-title>
+      <v-card rounded="lg" class="modal-card">
+        <div class="modal-header">
+          <div class="d-flex align-center">
+            <v-avatar color="primary" size="48" class="me-3">
+              <v-icon color="white" size="28">mdi-certificate</v-icon>
+            </v-avatar>
+            <div>
+              <div class="text-h5 font-weight-bold text-grey-darken-4">{{ t('consultasMedico.certificationModal.title') }}</div>
+              <div class="text-caption text-grey-darken-1">Emitir certificado médico</div>
+            </div>
+          </div>
+          <v-btn icon="mdi-close" variant="text" size="small" @click="fecharModalCertificar" />
+        </div>
+
+        <v-divider />
 
         <v-card-text class="pa-6" v-if="consultaSelecionada">
-          <div class="mb-4">
-            <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.certificationModal.patient') }}</div>
+          <div class="detail-section mb-4">
+            <div class="d-flex align-center mb-2">
+              <v-icon color="primary" class="me-2">mdi-account</v-icon>
+              <span class="text-subtitle-2 text-grey-darken-1">{{ t('consultasMedico.certificationModal.patient') }}</span>
+            </div>
             <div class="text-h6 font-weight-medium">{{ consultaSelecionada.atleta?.usuario?.nome || consultaSelecionada.nomePacienteExterno }}</div>
           </div>
 
           <v-row class="mb-4">
             <v-col cols="6">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.certificationModal.appointmentDate') }}</div>
-              <div class="text-body-1">{{ formatarDataLocal(consultaSelecionada.dataConsulta) }}</div>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-calendar</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ t('consultasMedico.certificationModal.appointmentDate') }}</div>
+                <div class="text-body-1 font-weight-medium">{{ formatarDataComLocale(consultaSelecionada.dataConsulta, locale) }}</div>
+              </div>
             </v-col>
             <v-col cols="6" v-if="consultaSelecionada.atleta?.telefone || consultaSelecionada?.telefonePacienteExterno">
-              <div class="text-subtitle-2 text-grey-darken-1 mb-1">{{ t('consultasMedico.certificationModal.phone') }}</div>
-              <div class="text-body-1">{{ consultaSelecionada.atleta?.telefone || consultaSelecionada?.telefonePacienteExterno }}</div>
+              <div class="detail-box">
+                <v-icon size="20" color="primary" class="mb-2">mdi-phone</v-icon>
+                <div class="text-caption text-grey-darken-1 mb-1">{{ t('consultasMedico.certificationModal.phone') }}</div>
+                <div class="text-body-1 font-weight-medium">{{ consultaSelecionada.atleta?.telefone || consultaSelecionada?.telefonePacienteExterno }}</div>
+              </div>
             </v-col>
           </v-row>
 
@@ -349,18 +359,19 @@
         <v-card-actions class="pa-6 pt-0">
           <v-spacer />
           <v-btn
-            color="grey-lighten-1"
+            color="grey"
             variant="outlined"
-            rounded="xl"
+            rounded="lg"
+            class="text-none"
             @click="fecharModalCertificar"
           >
             {{ t('consultasMedico.certificationModal.cancel') }}
           </v-btn>
-
           <v-btn
             color="primary"
             variant="flat"
-            rounded="xl"
+            rounded="lg"
+            class="text-none font-weight-medium"
             :loading="loadingCertificar"
             :disabled="!validadeCertificado || (validadeCertificado === 'outro' && !mesesPersonalizado)"
             @click="confirmarCertificacao"
@@ -372,11 +383,22 @@
     </v-dialog>
 
     <!-- Modal de Finalizar Consulta -->
-    <v-dialog v-model="modalFinalizar" max-width="500" persistent>
-      <v-card rounded="xl">
-        <v-card-title class="text-h5 font-weight-bold pa-6 pb-0">
-          {{ t('consultasMedico.finalizeModal.title') }}
-        </v-card-title>
+    <v-dialog v-model="modalFinalizar" max-width="550" persistent>
+      <v-card rounded="lg" class="modal-card">
+        <div class="modal-header">
+          <div class="d-flex align-center">
+            <v-avatar color="success" size="48" class="me-3">
+              <v-icon color="white" size="28">mdi-check-circle</v-icon>
+            </v-avatar>
+            <div>
+              <div class="text-h5 font-weight-bold text-grey-darken-4">{{ t('consultasMedico.finalizeModal.title') }}</div>
+              <div class="text-caption text-grey-darken-1">Adicione as informações finais</div>
+            </div>
+          </div>
+          <v-btn icon="mdi-close" variant="text" size="small" @click="fecharModalFinalizar" />
+        </div>
+
+        <v-divider />
 
         <v-card-text class="pa-6">
           <v-form ref="formFinalizar" v-model="formValid">
@@ -390,7 +412,6 @@
               :placeholder="t('consultasMedico.finalizeModal.diagnosisPlaceholder')"
               class="mb-4"
             />
-
             <v-textarea
               v-model="dadosFinalizacao.medicamentosReceitados"
               :label="t('consultasMedico.finalizeModal.medications')"
@@ -401,28 +422,10 @@
             />
           </v-form>
         </v-card-text>
-
         <v-card-actions class="pa-6 pt-0">
           <v-spacer />
-          <v-btn
-            color="grey-lighten-1"
-            variant="outlined"
-            rounded="xl"
-            @click="fecharModalFinalizar"
-          >
-            {{ t('consultasMedico.finalizeModal.cancel') }}
-          </v-btn>
-
-          <v-btn
-            color="green"
-            variant="flat"
-            rounded="xl"
-            :loading="loadingFinalizar"
-            :disabled="!formValid"
-            @click="confirmarFinalizacao"
-          >
-            {{ t('consultasMedico.finalizeModal.finalize') }}
-          </v-btn>
+          <v-btn color="grey" variant="outlined" rounded="lg" class="text-none" @click="fecharModalFinalizar">{{ t('consultasMedico.finalizeModal.cancel') }}</v-btn>
+          <v-btn color="success" variant="flat" rounded="lg" class="text-none font-weight-medium" :loading="loadingFinalizar" :disabled="!formValid" @click="confirmarFinalizacao">{{ t('consultasMedico.finalizeModal.finalize') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -431,7 +434,7 @@
 
 <script setup>
 import consultasService from '@/services/consultas/consultas-service'
-import { formatarDataLocal, formatarHorarioLocal } from '@/utils/date.utils'
+import { formatarDataComLocale, formatarHorarioLocal } from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
 import 'dayjs/locale/en'
@@ -484,15 +487,7 @@ const opcoesMeses = computed(() => [
 ])
 
 const consultas = computed(() => {
-  if (filtroSelecionado.value === 'Externa') {
-    const externas = todasConsultas.value.filter(c => c.consultaExterna === true)
-    return externas.sort((a, b) => {
-      if (a.situacao === 'Marcado' && b.situacao !== 'Marcado') return -1
-      if (a.situacao !== 'Marcado' && b.situacao === 'Marcado') return 1
-      return 0
-    })
-  }
-  return todasConsultas.value.filter(c => c.situacao === filtroSelecionado.value)
+  return todasConsultas.value.filter(c => c.situacao === filtroSelecionado.value && c.consultaExterna === false)
 })
 
 
@@ -718,16 +713,86 @@ onMounted(() => {
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
 }
 
+.consulta-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.consulta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transition: height 0.3s ease;
+}
+
+.consulta-card:hover .card-status-bar {
+  height: 6px;
+}
+
+.info-section {
+  background: rgba(66, 165, 245, 0.04);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-card {
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(66, 165, 245, 0.05) 0%, rgba(30, 136, 229, 0.05) 100%);
+}
+
+.detail-section {
+  padding: 16px;
+  background: rgba(66, 165, 245, 0.04);
+  border-radius: 8px;
+  border-left: 3px solid rgb(var(--v-theme-primary));
+}
+
+.detail-box {
+  padding: 16px;
+  background: rgba(66, 165, 245, 0.04);
+  border-radius: 8px;
+  height: 100%;
+  transition: all 0.2s ease;
+}
+
+.detail-box:hover {
+  background: rgba(66, 165, 245, 0.08);
+  transform: translateY(-2px);
+}
+
 .gap-1 {
   gap: 4px;
 }
 
 .gap-3 {
   gap: 12px;
-}
-
-.modal-confirmacao {
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15) !important;
 }
 
 .flex-grow-1 {

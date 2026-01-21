@@ -200,7 +200,7 @@ class fisioterapeutaService {
   async findConsultasByFisioterapeuta(dataInicio: string, dataFim: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.post(`/consulta/findConsultasByFisioterapeuta`,
+      apiClient.post(`/consulta/findConsultasByMedico`,
         { dataInicio, dataFim },
         { headers: { Authorization: `Bearer ${token}` } }
       ),
@@ -248,7 +248,7 @@ class fisioterapeutaService {
   async findConsultasByDayForFisioterapeuta(data: { dataInicio: string, dataFim: string }): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.post('/consulta/findConsultasByFisioterapeuta', data, {
+      apiClient.post('/consulta/findConsultasByMedico', data, {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to get consultas by day'

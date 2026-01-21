@@ -37,10 +37,6 @@
                 <span class="text-body-1">{{ $t('deleteAccount.consequences.item1') }}</span>
               </div>
               <div class="consequence-item">
-                <v-icon color="#ff5252" size="20" class="mr-3">mdi-history</v-icon>
-                <span class="text-body-1">{{ $t('deleteAccount.consequences.item2') }}</span>
-              </div>
-              <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-lock</v-icon>
                 <span class="text-body-1">{{ $t('deleteAccount.consequences.item3') }}</span>
               </div>

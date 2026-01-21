@@ -36,6 +36,26 @@ class consultasService {
     )
   }
 
+  async findConsultasExternas(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post(`/consulta/findConsultasExternas`, data,
+        { headers: { Authorization: `Bearer ${token}` } }
+      ),
+      'Erro ao buscar consultas externas'
+    )
+  }
+
+  async findPacienteExterno(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/consulta/findPacientesExternos`, {
+        headers: { Authorization: `Bearer ${token}` }
+      }),
+      'erro ao buscar pacientes externos'
+    )
+  }
+
 
 
   async getConsultasPendentesByMedico(): Promise<any> {

@@ -49,6 +49,10 @@
     "titleRegisterCoach": "Register Coach",
     "titleRegisterAdmin": "Register Administrator",
 
+    "titleDeleteAccount": "Deactivate Profile",
+    "titleExternalConsultations": "External Consultations",
+    "titleExternalPatients": "External Patients",
+
     "role": {
       "atleta": "Athlete",
       "medico": "Doctor",
@@ -107,7 +111,9 @@
       "pacientes": "Patients",
       "listaPacientes": "Patient List",
       "recentes": "Recent",
-      "treinosCriados": "created workouts"
+      "treinosCriados": "created workouts",
+      "externas": "external consultations",
+      "pacientesExternos": "External Patients"
     },
     "account": {
       "minhaConta": "My Account",
@@ -594,6 +600,18 @@
     "finalize": "Finalize",
     "cancel": "Cancel",
     "noAppointments": "No appointments found",
+    "status": {
+      "Marcado": "Scheduled",
+      "Concluido": "Completed",
+      "Pendente": "Pending",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled"
+    },
+    "gender": {
+      "Masculino": "Male",
+      "Feminino": "Female",
+      "Outro": "Other"
+    },
     "cancelModal": {
       "title": "Cancel Appointment?",
       "message": "This action cannot be undone. The appointment will be permanently cancelled.",
@@ -986,9 +1004,9 @@
     "publicProfile": "Public Profile",
     "subscriptionPayments": "Subscription and Payments",
     "helpCenter": "Help Center",
-    "dangerZone": "Danger Zone",
-    "dangerZoneDescription": "Actions that permanently affect your account.",
-    "deleteAccount": "Delete Account",
+    "dangerZone": "Account management",
+    "dangerZoneDescription": "Profile management",
+    "deleteAccount": "Deactivate profile",
     "deleteAccountTitle": "Delete Account",
     "deleteAccountMessage": "Are you sure you want to delete your account?",
     "deleteAccountWarning": "This action cannot be undone and all your data will be permanently lost.",
@@ -1319,14 +1337,13 @@
 
   "deleteAccount": {
     "backButton": "Back",
-    "title": "Delete Account",
-    "permanentWarning": "This action is permanent and cannot be undone",
-    "whatHappens": "What happens when you delete your account?",
+    "title": "Deactivate Profile",
+    "permanentWarning": "This action will temporarily deactivate your profile.",
+    "whatHappens": "What happens when you deactivate your profile?",
     "consequences": {
-      "item1": "All your personal data will be removed",
-      "item2": "Your history will be deleted",
+      "item1": "Your profile access will be blocked after the plan ends.",
       "item3": "You will lose access to services",
-      "item4": "This action cannot be reversed"
+      "item4": "Other users will not be able to see you."
     },
     "readFullPolicy": "Read full policy",
     "deleteButton": "Delete Account",
@@ -1515,7 +1532,8 @@
     },
     "gender": {
       "Masculino": "Male",
-      "Feminino": "Female"
+      "Feminino": "Female",
+      "Outro": "Other"
     }
   },
 
@@ -1526,7 +1544,7 @@
       "issuedCertificates": "Issued Certificates",
       "scheduledAppointments": "Scheduled Appointments"
     },
-    "title": "My Patients",
+    "title": "My Patients FitCertify365",
     "searchPlaceholder": "Search patient...",
     "table": {
       "profile": "Profile",
@@ -1539,7 +1557,8 @@
     },
     "gender": {
       "Masculino": "Male",
-      "Feminino": "Female"
+      "Feminino": "Female",
+      "Outro": "Others"
     }
   },
 
@@ -1557,6 +1576,86 @@
       "acceptError": "Error accepting appointment:",
       "refuseSuccess": "Appointment refused successfully!",
       "refuseError": "Error refusing appointment:",
+      "unknownError": "Unknown error"
+    }
+  },
+
+  "consultasExternas": {
+    "title": "External Consultations",
+    "filters": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "searchByName": "Search by name",
+    "searchByCpf": "Search by CPF",
+    "name": "Name",
+    "cpf": "CPF",
+    "patient": "Patient",
+    "finalize": "Finalize",
+    "cancel": "Cancel",
+    "noAppointments": "No appointments found",
+    "status": {
+      "Marcado": "Scheduled",
+      "Concluido": "Completed",
+      "Cancelada": "Cancelled"
+    },
+    "detailsModal": {
+      "title": "Appointment Details",
+      "patient": "Patient",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "phone": "Phone",
+      "diagnosis": "Diagnosis",
+      "medications": "Prescribed Medications",
+      "close": "Close",
+      "certifyAthlete": "Certify Athlete"
+    },
+    "cancelModal": {
+      "title": "Cancel Appointment",
+      "message": "Are you sure you want to cancel this appointment? This action cannot be undone.",
+      "no": "No",
+      "yesCancel": "Yes, Cancel"
+    },
+    "finalizeModal": {
+      "title": "Finalize Appointment",
+      "subtitle": "Add final information",
+      "diagnosis": "Diagnosis",
+      "diagnosisPlaceholder": "Describe the diagnosis",
+      "medications": "Prescribed Medications",
+      "medicationsPlaceholder": "List the prescribed medications",
+      "cancel": "Cancel",
+      "finalize": "Finalize Appointment"
+    },
+    "certificationModal": {
+      "title": "Certify Athlete",
+      "subtitle": "Issue medical certificate",
+      "patient": "Patient",
+      "appointmentDate": "Appointment Date",
+      "phone": "Phone",
+      "validityMonths": "Certificate Validity (months)",
+      "monthOptions": {
+        "1": "1 month",
+        "3": "3 months",
+        "6": "6 months",
+        "9": "9 months",
+        "12": "12 months",
+        "other": "Other"
+      },
+      "customMonths": "Number of months",
+      "required": "Required field",
+      "validationRule": "Must be greater than 0",
+      "cancel": "Cancel",
+      "certify": "Certify"
+    },
+    "toast": {
+      "cancelSuccess": "Appointment cancelled successfully!",
+      "cancelError": "Error cancelling appointment",
+      "finalizeSuccess": "Appointment finalized successfully!",
+      "finalizeError": "Error finalizing appointment",
+      "certificateSuccess": "Certificate generated successfully!",
+      "certificateError": "This external patient already has an active certificate.",
       "unknownError": "Unknown error"
     }
   },
