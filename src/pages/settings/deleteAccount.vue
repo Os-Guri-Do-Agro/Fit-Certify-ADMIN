@@ -207,7 +207,10 @@ import { toast } from 'vue3-toastify';
 import { getErrorMessage } from '@/common/error.utils';
 import { useI18n } from 'vue-i18n';
 import atletaService from '@/services/atleta/atleta-service';
-import { getAtletaId } from '@/utils/auth';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import medicoService from '@/services/medico/medico-service';
+import treinadorService from '@/services/treinador/treinador-service';
+import { getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador } from '@/utils/auth';
 
 const { t } = useI18n();
 const payload = ref<any>();
@@ -225,9 +228,15 @@ const handleDeleteAccount = async () => {
 
   try {
     const motivo = motivoDesativacao.value || 'Nenhum motivo informado.'
-    const id = getAtletaId()
-
-    await atletaService.desativarContaAtleta(id, motivo)
+    if (isAtleta()) {
+     await atletaService.desativarContaAtleta(getAtletaId(), motivo)
+    } else if (isFisioterapeuta()) {
+      await fisioterapeutaService.desativarFisio(getFisioterapeutaId(), motivo)
+    } else if (isTreinador()) {
+      await treinadorService.desativarTreinador(getTreinadorId(), motivo)
+    } else if (isMedico()) {
+      await medicoService.desativarMedico(getMedicoId(), motivo)
+    }
 
     toast.success(t('deleteAccount.successMessage'));
     localStorage.clear();

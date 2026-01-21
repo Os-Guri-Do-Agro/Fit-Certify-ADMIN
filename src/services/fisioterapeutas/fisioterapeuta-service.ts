@@ -273,6 +273,20 @@ class fisioterapeutaService {
       'Failed to create consulta'
     )
   }
+
+  async desativarFisio(id: string, motivo: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/fisioterapeuta/inativar-fisioterapeuta/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        data: { motivo }
+      }),
+      'Erro ao inativar fisioterapeuta'
+    )
+  }
 }
 
 export default new fisioterapeutaService();

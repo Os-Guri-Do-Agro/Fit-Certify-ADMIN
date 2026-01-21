@@ -101,6 +101,20 @@ class treinadorService {
       'Erro ao gerar código de convite'
     )
   }
+
+  async desativarTreinador(id: string, motivo: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/treinador/inativar-treinador/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        data: { motivo }
+      }),
+      'Erro ao inativar treinador'
+    )
+  }
 }
 
 export default new treinadorService()

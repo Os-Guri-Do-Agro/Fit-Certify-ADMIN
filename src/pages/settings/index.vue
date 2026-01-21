@@ -53,12 +53,41 @@
               <span class="text-h6 font-weight-bold text-error">{{ $t('settings.dangerZone') }}</span>
             </div>
             <p class="text-body-2 mb-4 text-grey-darken-1">{{ $t('settings.dangerZoneDescription') }}</p>
-            <v-btn color="error" variant="outlined" rounded="lg" @click="handleDeleteAccount()">
+            <v-btn v-if="!perfil?.contaDeletada" color="error" variant="outlined" rounded="lg" @click="handleDeleteAccount()">
               <v-icon class="mr-2">mdi-delete</v-icon>
               {{ $t('settings.deleteAccount') }}
             </v-btn>
+            <v-btn v-else color="success" variant="outlined" rounded="lg" @click="showReactivateDialog = true">
+              <v-icon class="mr-2">mdi-check-circle</v-icon>
+              {{ $t('settings.cancelDeactivation') }}
+            </v-btn>
           </v-card-text>
         </v-card>
+
+        <!-- Dialog de Reativação -->
+        <v-dialog v-model="showReactivateDialog" max-width="400">
+          <v-card rounded="xl" class="pa-4">
+            <v-card-title class="text-center text-h5 font-weight-bold text-success mb-4">
+              {{ $t('settings.reactivateAccountTitle') }}
+            </v-card-title>
+
+            <v-card-text class="text-center">
+              <v-icon icon="mdi-check-circle-outline" size="64" color="success" class="mb-4" />
+              <p class="text-body-1 mb-4">
+                {{ $t('settings.reactivateAccountMessage') }}
+              </p>
+            </v-card-text>
+
+            <v-card-actions class="justify-center gap-3 pt-4">
+              <v-btn variant="outlined" color="grey" @click="showReactivateDialog = false" rounded="lg">
+                {{ $t('settings.cancel') }}
+              </v-btn>
+              <v-btn color="success" @click="confirmReactivation" rounded="lg">
+                {{ $t('settings.reactivate') }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
 
         <!-- Dialog de Confirmação -->
         <v-dialog v-model="showDeleteDialog" max-width="400">
@@ -128,13 +157,21 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n';
+import atletaService from '@/services/atleta/atleta-service';
+import medicoService from '@/services/medico/medico-service';
+import treinadorService from '@/services/treinador/treinador-service';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import { getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador } from '@/utils/auth';
+
 
 const { t } = useI18n();
 const payload = ref<any>();
 const showDeleteDialog = ref(false);
+const showReactivateDialog = ref(false);
 const deletingAccount = ref(false);
 const router = useRouter();
 const userRole = ref('');
+const perfil = ref<any>(null)
 
 const accountItems = computed(() => {
   const baseItems = [
@@ -160,6 +197,39 @@ const accountItems = computed(() => {
 
   return baseItems;
 });
+
+const infoUser = async () => {
+  try {
+    if (isAtleta()) {
+    const response = await atletaService.getAtletaById(getAtletaId());
+    perfil.value = response.data;
+    } else if (isMedico()) {
+    const response = await medicoService.getMedicoById(getMedicoId());
+    perfil.value = response.data;
+    } else if (isFisioterapeuta()) {
+    const response = await fisioterapeutaService.getFisioterapeutaById(getFisioterapeutaId());
+    perfil.value = response.data;
+    } else if (isTreinador()) {
+    const response = await treinadorService.getTreinadorById(getTreinadorId());
+    perfil.value = response.data;
+    }
+  } catch (error) {
+    console.error('Erro ao buscar dados do atleta:', error);
+  }
+}
+
+const confirmReactivation = async () => {
+  showReactivateDialog.value = false;
+  try {
+    await atletaService.ativarContaAtleta(getAtletaId())
+    toast.success("Conta ativada com sucesso!");
+    setTimeout(() => {
+      window.location.reload();
+    }, 1500);
+  } catch (error) {
+    console.error('Erro ao ativar conta do atleta:', error);
+  }
+}
 
 const handleNavigation = (item: any) => {
   if (item.to === '/politicaPrivacidade') {
@@ -189,5 +259,7 @@ const handleDeleteAccount = () => {
 onMounted(() => {
   payload.value = getPayload();
   userRole.value = getRole();
+
+  infoUser()
 });
 </script>
