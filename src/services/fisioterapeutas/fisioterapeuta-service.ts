@@ -287,6 +287,18 @@ class fisioterapeutaService {
       'Erro ao inativar fisioterapeuta'
     )
   }
+
+  async ativarContaFisioterapeuta(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/fisioterapeuta/reativar-fisioterapeuta/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do fisioterapeuta'
+    )
+  }
 }
 
 export default new fisioterapeutaService();

@@ -165,6 +165,18 @@ class medicoService {
       'Erro ao inativar médico'
     )
   }
+
+  async ativarContaMedico(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/medico/reativar-medico/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do medico'
+    )
+  }
 }
 
 export default new medicoService()

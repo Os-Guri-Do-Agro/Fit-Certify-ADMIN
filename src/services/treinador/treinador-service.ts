@@ -115,6 +115,18 @@ class treinadorService {
       'Erro ao inativar treinador'
     )
   }
+
+  async ativarContaTreinador(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/treinador/reativar-treinador/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do treinador'
+    )
+  }
 }
 
 export default new treinadorService()

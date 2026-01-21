@@ -386,7 +386,7 @@
           </v-avatar>
           <h3 class="text-h5 font-weight-bold text-grey-darken-4 mb-3">{{ t('consultasExternas.cancelModal.title') }}</h3>
           <p class="text-body-1 text-grey-darken-1 mb-6">{{ t('consultasExternas.cancelModal.message') }}</p>
-          <div class="d-flex gap-3 justify-center">
+          <div class="d-flex ga-3 justify-center">
             <v-btn color="grey" variant="outlined" rounded="lg" class="text-none px-6" @click="modalCancelar = false">{{ t('consultasExternas.cancelModal.no') }}</v-btn>
             <v-btn color="error" variant="flat" rounded="lg" class="text-none font-weight-medium px-6" :loading="loadingCancelar" @click="confirmarCancelamento">{{ t('consultasExternas.cancelModal.yesCancel') }}</v-btn>
           </div>

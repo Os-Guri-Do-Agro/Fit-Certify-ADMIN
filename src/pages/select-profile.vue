@@ -23,7 +23,7 @@
         >
           <div class="card-content">
             <div class="avatar-wrapper">
-              <div class="avatar-ring" :class="{ 'ring-active': perfilId === perfil.id }">
+              <div class="avatar-ring" :class="{ 'ring-active': perfilId === perfil.id, 'ring-inactive': perfil.ativo === false && perfil.contaDeletada === true }">
                 <v-avatar size="140">
                   <v-img v-if="perfil?.avatarUrl" :src="perfil.avatarUrl" cover />
                   <div v-else class="avatar-placeholder">
@@ -90,13 +90,18 @@ import { toast } from 'vue3-toastify';
 import { useI18n } from 'vue-i18n';
 import authService from '@/services/auth/auth-service';
 import atletaService from '@/services/atleta/atleta-service';
-import { getPayloadFromToken, getRole, getStatusMedicoCRM } from '@/utils/auth';
+import medicoService from '@/services/medico/medico-service';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import treinadorService from '@/services/treinador/treinador-service';
+import { getPayloadFromToken, getRole, getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador } from '@/utils/auth';
 import type { AxiosError } from 'axios';
 
 const { t: $t } = useI18n();
 const router = useRouter();
 
 const perfis = ref<any[]>([]);
+const nomePerfil = ref('')
+const roleId = ref('')
 const perfilId = ref(null);
 const loading = ref(false);
 const dialogAtivarConta = ref(false);
@@ -131,23 +136,81 @@ const getRoles = (nome: string) => {
 };
 
 const ativarConta = async () => {
+  loadingAtivarConta.value = true;
   try {
-    loadingAtivarConta.value = true;
-    const id = perfilInativoId.value;
-    await atletaService.ativarContaAtleta(id);
-    toast.success($t('login.activateAccount.toastSuccess'));
+    if (nomePerfil.value === 'Atleta') {
+      await atletaService.ativarContaAtleta(roleId.value);
+    } else if (nomePerfil.value === 'Médico') {
+      await medicoService.ativarContaMedico(roleId.value);
+    } else if (nomePerfil.value === 'Fisioterapeuta') {
+      await fisioterapeutaService.ativarContaFisioterapeuta(roleId.value);
+    } else if (nomePerfil.value === 'Treinador') {
+      await treinadorService.ativarContaTreinador(roleId.value);
+    }
+    toast.success('Conta reativada com sucesso!');
     dialogAtivarConta.value = false;
+
+    const savedEmail = sessionStorage.getItem('loginEmail');
+    const savedIsMobile = sessionStorage.getItem('loginIsMobile') === 'true';
+
+    loading.value = true;
+    const response = await authService.loginComPerfil({
+      email: savedEmail,
+      perfilId: perfilId.value,
+      isMobile: savedIsMobile
+    });
+
+    if (response.data?.access_token) {
+      const storage = savedIsMobile ? localStorage : sessionStorage;
+      storage.setItem("token", response.data?.access_token);
+      const payload = getPayloadFromToken(response.data?.access_token);
+      const user = payload?.user;
+
+      if (user?.id) {
+        localStorage.setItem('usuarioId', user.id);
+      }
+
+      sessionStorage.removeItem('perfis');
+      sessionStorage.removeItem('loginEmail');
+      sessionStorage.removeItem('loginIsMobile');
+
+      let path = '/';
+
+      if (getRole() === 'admin') {
+        toast.error($t('login.toastErrorAdmin'));
+        return;
+      }
+
+      if (user?.atleta && !user.atleta.planoId) {
+        path = '/registerPlanos';
+      } else if (user?.medico || (user?.atleta && user.atleta.planoId)) {
+        path = '/';
+      }
+
+      router.push(path);
+    }
   } catch (error) {
-    toast.error($t('login.activateAccount.toastError'));
+    console.error('Erro ao ativar conta:', error);
+    toast.error($t('login.toastError3'));
   } finally {
     loadingAtivarConta.value = false;
+    loading.value = false;
   }
-};
+}
 
 async function selecionarPerfil(perfil: any) {
+  if (perfil.ativo === false && perfil.contaDeletada === true) {
+    perfilId.value = perfil.id;
+    nomePerfil.value = perfil.nome;
+    roleId.value = perfil.roleId;
+    dialogAtivarConta.value = true;
+    return;
+  }
   if (loading.value) return;
 
   perfilId.value = perfil.id;
+  nomePerfil.value = perfil.nome;
+  roleId.value = perfil.roleId
   const savedEmail = sessionStorage.getItem('loginEmail');
   const savedIsMobile = sessionStorage.getItem('loginIsMobile') === 'true';
 
@@ -169,7 +232,6 @@ async function selecionarPerfil(perfil: any) {
         localStorage.setItem('usuarioId', user.id);
       }
 
-      // Limpar dados temporários
       sessionStorage.removeItem('perfis');
       sessionStorage.removeItem('loginEmail');
       sessionStorage.removeItem('loginIsMobile');
@@ -179,10 +241,6 @@ async function selecionarPerfil(perfil: any) {
       if (getRole() === 'admin') {
         toast.error($t('login.toastErrorAdmin'));
         return;
-      }
-
-      if (getRole() === 'medico' && getStatusMedicoCRM() === false) {
-        toast.error($t('login.toastErrorMedicoCRM'));
       }
 
       if (user?.atleta && !user.atleta.planoId) {
@@ -195,19 +253,9 @@ async function selecionarPerfil(perfil: any) {
     } else {
       toast.error($t('login.toastError3'));
     }
-  } catch (err: any) {
-    const error = err as AxiosError<{
-      message: string;
-      statusCode: number;
-      atletaId: string;
-    }>;
-
-    if (error.response?.data.statusCode === 400) {
-      perfilInativoId.value = error.response?.data.atletaId;
-      dialogAtivarConta.value = true;
-    } else {
+  } catch (error) {
       toast.error($t('login.toastError3'));
-    }
+      console.error(error)
   } finally {
     loading.value = false;
   }
@@ -325,6 +373,11 @@ async function selecionarPerfil(perfil: any) {
 .avatar-ring.ring-active {
   background: linear-gradient(135deg, #42A5F5, #1E88E5);
   box-shadow: 0 8px 24px rgba(30, 136, 229, 0.4);
+}
+
+.avatar-ring.ring-inactive {
+  background: linear-gradient(135deg, #f87171, #ef4444);
+  box-shadow: 0 8px 24px rgba(248, 113, 113, 0.3);
 }
 
 .perfil-card:hover .avatar-ring {

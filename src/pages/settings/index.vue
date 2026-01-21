@@ -82,7 +82,7 @@
               <v-btn variant="outlined" color="grey" @click="showReactivateDialog = false" rounded="lg">
                 {{ $t('settings.cancel') }}
               </v-btn>
-              <v-btn color="success" @click="confirmReactivation" rounded="lg">
+              <v-btn  class="bg-success" @click="confirmReactivation" :loading="loading" rounded="lg">
                 {{ $t('settings.reactivate') }}
               </v-btn>
             </v-card-actions>
@@ -172,6 +172,7 @@ const deletingAccount = ref(false);
 const router = useRouter();
 const userRole = ref('');
 const perfil = ref<any>(null)
+const loading = ref(false);
 
 const accountItems = computed(() => {
   const baseItems = [
@@ -219,15 +220,24 @@ const infoUser = async () => {
 }
 
 const confirmReactivation = async () => {
-  showReactivateDialog.value = false;
+  loading.value = true;
   try {
-    await atletaService.ativarContaAtleta(getAtletaId())
-    toast.success("Conta ativada com sucesso!");
-    setTimeout(() => {
-      window.location.reload();
-    }, 1500);
+    if (isAtleta()) {
+      await atletaService.ativarContaAtleta(getAtletaId());
+    } else if (isMedico()) {
+      await medicoService.ativarContaMedico(getMedicoId());
+    } else if (isFisioterapeuta()) {
+      await fisioterapeutaService.ativarContaFisioterapeuta(getFisioterapeutaId());
+    } else if (isTreinador()) {
+      await treinadorService.ativarContaTreinador(getTreinadorId());
+    }
+    toast.success('Conta reativada com sucesso!');
+    window.location.reload();
   } catch (error) {
     console.error('Erro ao ativar conta do atleta:', error);
+  } finally {
+    showReactivateDialog.value = false;
+    loading.value = false;
   }
 }
 

@@ -2,7 +2,7 @@
   <v-container class="pa-6">
     <v-row justify="center">
       <v-col cols="12" md="8" lg="6">
-        <v-btn
+        <!-- <v-btn
           icon
           variant="text"
           size="large"
@@ -10,7 +10,7 @@
           class="mb-4"
         >
           <v-icon size="28">mdi-arrow-left</v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <v-card class="warning-card mb-6" elevation="0" rounded="xl">
           <v-card-text class="pa-8 text-center">
@@ -32,7 +32,7 @@
             </div>
 
             <div class="consequences-list">
-              <div class="consequence-item">
+              <div class="consequence-item" v-if="isAtleta()">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-account-remove</v-icon>
                 <span class="text-body-1">{{ $t('deleteAccount.consequences.item1') }}</span>
               </div>
@@ -46,7 +46,7 @@
               </div>
             </div>
 
-            <v-btn
+            <!-- <v-btn
               variant="text"
               color="#42A5F5"
               @click="redirectInfoExclusao()"
@@ -55,7 +55,7 @@
             >
               {{ $t('deleteAccount.readFullPolicy') }}
               <v-icon class="ml-2" size="18">mdi-open-in-new</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-card-text>
         </v-card>
 
@@ -230,17 +230,25 @@ const handleDeleteAccount = async () => {
     const motivo = motivoDesativacao.value || 'Nenhum motivo informado.'
     if (isAtleta()) {
      await atletaService.desativarContaAtleta(getAtletaId(), motivo)
+     toast.success(t('deleteAccount.successMessage'));
     } else if (isFisioterapeuta()) {
       await fisioterapeutaService.desativarFisio(getFisioterapeutaId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
     } else if (isTreinador()) {
       await treinadorService.desativarTreinador(getTreinadorId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
     } else if (isMedico()) {
       await medicoService.desativarMedico(getMedicoId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
     }
 
-    toast.success(t('deleteAccount.successMessage'));
-    localStorage.clear();
-    router.push('/login');
+    if (!isAtleta()) {
+      sessionStorage.clear();
+      localStorage.clear();
+      window.location.href = '/login';
+    } else {
+      router.push('/settings');
+    }
   } catch (error) {
     toast.error(t('deleteAccount.errorMessage') + ' ' + getErrorMessage(error, t('deleteAccount.unknownError')));
   } finally {

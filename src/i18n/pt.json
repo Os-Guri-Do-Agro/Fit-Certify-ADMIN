@@ -1009,11 +1009,11 @@
     "reactivateAccountTitle": "Reativar Conta",
     "reactivateAccountMessage": "Tem certeza que deseja reativar sua conta?",
     "reactivate": "Reativar",
-    "deleteAccountTitle": "Deletar Conta",
-    "deleteAccountMessage": "Tem certeza que deseja deletar sua conta?",
-    "deleteAccountWarning": "Esta ação não pode ser desfeita e todos os seus dados serão perdidos permanentemente.",
+    "deleteAccountTitle": "Desativar Perfil",
+    "deleteAccountMessage": "Tem certeza que deseja desativar seu perfil?",
+    "deleteAccountWarning": "Esta ação irá desativar temporariamente seu perfil.",
     "cancel": "Cancelar",
-    "delete": "Deletar",
+    "delete": "Desativar",
     "logoutSuccess": "Logout realizado com sucesso!"
   },
 
@@ -1245,40 +1245,40 @@
   },
 
   "detalhesExclusaoConta": {
-    "pageTitle": "Processo de Exclusão de Conta",
+    "pageTitle": "Processo de Desativação de Conta",
     "section1": {
-      "title": "1. Sobre a Exclusão de Conta",
-      "p1": "A {company} respeita o direito dos usuários de solicitar a exclusão de suas contas e dados pessoais, em conformidade com a {law} e demais legislações aplicáveis.",
+      "title": "1. Sobre a Desativação de Conta",
+      "p1": "A {company} respeita o direito dos usuários de solicitar a desativação de suas contas e dados pessoais, em conformidade com a {law} e demais legislações aplicáveis.",
       "company": "FitCertify365",
       "law": "Lei Geral de Proteção de Dados (LGPD)",
-      "p2": "Este documento explica como funciona o processo de exclusão de conta, quais dados são removidos e os prazos envolvidos."
+      "p2": "Este documento explica como funciona o processo de desativação de conta, quais dados são afetados e os prazos envolvidos."
     },
     "section2": {
-      "title": "2. Como Solicitar a Exclusão",
-      "intro": "Para solicitar a exclusão de sua conta, você pode:",
+      "title": "2. Como Solicitar a Desativação",
+      "intro": "Para solicitar a desativação de sua conta, você pode:",
       "step1": "Acessar a página de {settings} em sua conta",
       "settings": "Configurações",
       "step2": "Navegar até {path}",
       "path": "settings/deleteAccount",
       "step3": "Clicar no botão {button}",
-      "button": "\"Deletar Conta\"",
+      "button": "\"Desativar Perfil\"",
       "step4": "Confirmar sua solicitação no diálogo de confirmação",
-      "alternative": "Alternativamente, você pode enviar uma solicitação por e-mail para {email} com o assunto \"Solicitação de Exclusão de Conta\".",
+      "alternative": "Alternativamente, você pode enviar uma solicitação por e-mail para {email} com o assunto \"Solicitação de Desativação de Conta\".",
       "email": "desenvolvimento@fitcertify365.com"
     },
     "section3": {
-      "title": "3. Processo de Exclusão",
+      "title": "3. Processo de Desativação",
       "intro": "Após receber sua solicitação, seguimos o seguinte processo:",
       "stage1Title": "Etapa 1: Verificação (1-2 dias úteis)",
       "stage1Desc": "Verificamos a identidade do solicitante e validamos a solicitação para garantir a segurança da conta.",
       "stage2Title": "Etapa 2: Período de Carência (30 dias)",
       "stage2Desc": "Sua conta será desativada, mas os dados permanecerão armazenados por 30 dias. Durante este período, você pode cancelar a solicitação e reativar sua conta.",
-      "stage3Title": "Etapa 3: Exclusão Definitiva",
-      "stage3Desc": "Após o período de carência, todos os seus dados pessoais serão permanentemente removidos de nossos sistemas."
+      "stage3Title": "Etapa 3: Desativação Definitiva",
+      "stage3Desc": "Após o período de carência, seu perfil será permanentemente desativado de nossos sistemas."
     },
     "section4": {
-      "title": "4. Dados que Serão Excluídos",
-      "intro": "A exclusão da conta resultará na remoção permanente dos seguintes dados:",
+      "title": "4. Dados que Serão Afetados",
+      "intro": "A desativação da conta resultará no bloqueio de acesso aos seguintes dados:",
       "item1": "Informações pessoais (nome, e-mail, telefone)",
       "item2": "Dados de saúde e fitness armazenados",
       "item3": "Histórico de atividades e exercícios",
@@ -1288,7 +1288,7 @@
       "item7": "Arquivos e documentos enviados"
     },
     "section5": {
-      "title": "5. Dados que Podem Ser Mantidos",
+      "title": "5. Dados que Serão Mantidos",
       "intro": "Por questões legais, regulatórias ou de segurança, alguns dados podem ser mantidos por períodos específicos:",
       "item1": "Registros de transações financeiras (conforme legislação fiscal)",
       "item2": "Logs de segurança e auditoria (anonimizados)",
@@ -1298,7 +1298,7 @@
     },
     "section6": {
       "title": "6. Download dos Seus Dados",
-      "intro": "Antes da exclusão definitiva, você tem o direito de solicitar uma cópia dos seus dados pessoais:",
+      "intro": "Antes da desativação definitiva, você tem o direito de solicitar uma cópia dos seus dados pessoais:",
       "item1": "Solicite o download durante o período de carência de 30 dias",
       "item2": "Os dados serão fornecidos em formato estruturado e legível",
       "item3": "O download estará disponível por 7 dias após a solicitação",
@@ -1307,7 +1307,7 @@
     },
     "section7": {
       "title": "7. Cancelamento da Solicitação",
-      "intro": "Durante o período de carência de 30 dias, você pode cancelar a solicitação de exclusão:",
+      "intro": "Durante o período de carência de 30 dias, você pode cancelar a solicitação de desativação:",
       "item1": "Faça login em sua conta (se ainda estiver no período de carência)",
       "item2": "Ou envie um e-mail para {email}",
       "email": "atendimento@fitcertify365.com",
@@ -1315,25 +1315,25 @@
       "item4": "Todos os dados serão restaurados ao estado anterior"
     },
     "section8": {
-      "title": "8. Consequências da Exclusão",
+      "title": "8. Consequências da Desativação",
       "warning": "ATENÇÃO:",
-      "intro": "A exclusão da conta é irreversível após o período de carência. As consequências incluem:",
-      "item1": "Perda permanente de todos os dados de saúde e fitness",
-      "item2": "Cancelamento automático de assinaturas ativas",
-      "item3": "Impossibilidade de recuperar histórico de atividades",
+      "intro": "A desativação da conta é irreversível após o período de carência. As consequências incluem:",
+      "item1": "Bloqueio de acesso a todos os dados de saúde e fitness",
+      "item2": "Suspensão de assinaturas ativas",
+      "item3": "Impossibilidade de acessar histórico de atividades",
       "item4": "Perda de acesso a consultas médicas anteriores",
-      "item5": "Necessidade de criar nova conta para usar novamente o serviço"
+      "item5": "Necessidade de reativar a conta para usar novamente o serviço"
     },
     "section9": {
       "title": "9. Dúvidas e Suporte",
-      "intro": "Para dúvidas sobre o processo de exclusão de conta ou para solicitar suporte:",
+      "intro": "Para dúvidas sobre o processo de desativação de conta ou para solicitar suporte:",
       "email": "E-mail:",
       "emailAddress": "atendimento@fitcertify365.com",
       "hours": "Horário de Atendimento:",
       "hoursValue": "Segunda a Sexta, 9h às 18h",
       "responseTime": "Tempo de Resposta:",
       "responseTimeValue": "Até 48 horas úteis",
-      "footer": "Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de exclusão e seus direitos como usuário."
+      "footer": "Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de desativação e seus direitos como usuário."
     }
   },
 
@@ -1345,19 +1345,19 @@
     "consequences": {
       "item1": "Seu acesso ao perfil será bloqueado após a finalização do plano",
       "item3": "Você perderá acesso aos serviços",
-      "item4": "Outros usuários não poderam te ver"
+      "item4": "Outros usuários não poderão te ver"
     },
     "readFullPolicy": "Ler política completa",
     "deleteButton": "Desativar Perfil",
     "cancelButton": "Cancelar",
     "confirmDialog": {
-      "title": "Confirmar Exclusão",
-      "message": "Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.",
+      "title": "Confirmar Desativação",
+      "message": "Tem certeza que deseja desativar seu perfil? Esta ação irá bloquear temporariamente seu acesso.",
       "cancel": "Cancelar",
-      "delete": "Deletar"
+      "delete": "Desativar"
     },
-    "successMessage": "Conta deletada com sucesso!",
-    "errorMessage": "Erro ao deletar conta:",
+    "successMessage": "Perfil desativado com sucesso!",
+    "errorMessage": "Erro ao desativar perfil:",
     "unknownError": "Erro desconhecido"
   },
 
