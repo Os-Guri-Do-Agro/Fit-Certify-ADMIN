@@ -126,7 +126,7 @@
                     </div>
                     <div class="d-flex align-center mb-2">
                       <v-icon size="14" color="grey" class="mr-1">mdi-clock-outline</v-icon>
-                      <span class="text-caption text-grey">{{ appointment.time }}</span>
+                      <span class="text-caption text-grey">{{ appointment.time}}</span>
                     </div>
                     <div class="d-flex ga-1 flex-wrap" >
                       <v-chip size="small" :color="appointment.type === 'fitcertify' ? 'blue' : 'orange'"
@@ -601,7 +601,7 @@ const buscarConsultasDoDia = async (selectedDate) => {
         patient: consulta.consultaExterna
           ? consulta.nomePacienteExterno
           : consulta.atleta.usuario.nome,
-        time: dayjs(consulta.dataConsulta).utc().format('HH:mm'),
+        time: dayjs(consulta.dataConsulta).format('HH:mm'),
         status: consulta.situacao,
         type: consulta.consultaExterna ? 'external' : 'fitcertify',
       }))
