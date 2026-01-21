@@ -91,10 +91,18 @@
               </div>
               <h3 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.confirmDialog.title') }}</h3>
             </v-card-title>
-            <v-card-text class="pa-6 text-center">
-              <p class="text-body-1 mb-0" style="color: #666;">
+            <v-card-text class="pa-6">
+              <p class="text-body-1 mb-4 text-center" style="color: #666;">
                 {{ $t('deleteAccount.confirmDialog.message') }}
               </p>
+              <v-textarea
+                v-model="motivoDesativacao"
+                label="Motivo da desativação"
+                placeholder="Informe o motivo (opcional)"
+                rows="3"
+                variant="outlined"
+                rounded="lg"
+              ></v-textarea>
             </v-card-text>
             <v-card-actions class="pa-6 justify-center gap-3">
               <v-btn
@@ -198,12 +206,15 @@ import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { getErrorMessage } from '@/common/error.utils';
 import { useI18n } from 'vue-i18n';
+import atletaService from '@/services/atleta/atleta-service';
+import { getAtletaId } from '@/utils/auth';
 
 const { t } = useI18n();
 const payload = ref<any>();
 const showDeleteDialog = ref(false);
 const deletingAccount = ref(false);
 const router = useRouter();
+const motivoDesativacao = ref('')
 
 const redirectInfoExclusao = () => {
   window.open('/detalhesExclusaoConta', '_blank');
@@ -213,12 +224,14 @@ const handleDeleteAccount = async () => {
   deletingAccount.value = true;
 
   try {
-    // Simular chamada da API
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const motivo = motivoDesativacao.value || 'Nenhum motivo informado.'
+    const id = getAtletaId()
 
+    await atletaService.desativarContaAtleta(id, motivo)
+
+    toast.success(t('deleteAccount.successMessage'));
     localStorage.clear();
     router.push('/login');
-    toast.success(t('deleteAccount.successMessage'));
   } catch (error) {
     toast.error(t('deleteAccount.errorMessage') + ' ' + getErrorMessage(error, t('deleteAccount.unknownError')));
   } finally {

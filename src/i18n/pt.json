@@ -1344,7 +1344,7 @@
       "item4": "Outros usuários não poderam te ver"
     },
     "readFullPolicy": "Ler política completa",
-    "deleteButton": "Excluir Conta",
+    "deleteButton": "Desativar Perfil",
     "cancelButton": "Cancelar",
     "confirmDialog": {
       "title": "Confirmar Exclusão",

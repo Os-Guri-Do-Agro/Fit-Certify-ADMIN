@@ -1007,7 +1007,7 @@
     "dangerZone": "Account management",
     "dangerZoneDescription": "Profile management",
     "deleteAccount": "Deactivate profile",
-    "deleteAccountTitle": "Delete Account",
+    "deleteAccountTitle": "Deactivate Profile",
     "deleteAccountMessage": "Are you sure you want to delete your account?",
     "deleteAccountWarning": "This action cannot be undone and all your data will be permanently lost.",
     "cancel": "Cancel",
@@ -1346,7 +1346,7 @@
       "item4": "Other users will not be able to see you."
     },
     "readFullPolicy": "Read full policy",
-    "deleteButton": "Delete Account",
+    "deleteButton": "Deactivate Profile",
     "cancelButton": "Cancel",
     "confirmDialog": {
       "title": "Confirm Deletion",

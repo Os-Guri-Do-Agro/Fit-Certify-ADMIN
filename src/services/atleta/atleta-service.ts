@@ -156,12 +156,26 @@ class atletaService {
   async ativarContaAtleta(id: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.put(`/atleta/reativar-atleta/${id}`, {
+      apiClient.put(`/atleta/reativar-atleta/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`
         },
       }),
       'Erro ao reativar conta do atleta'
+    )
+  }
+
+  async desativarContaAtleta(id: string, motivo: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/atleta/inativar-atleta/${id}`, {
+        data: { motivo },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao desativar conta do atleta'
     )
   }
 }
