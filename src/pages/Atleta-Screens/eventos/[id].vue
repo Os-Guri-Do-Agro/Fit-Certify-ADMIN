@@ -33,10 +33,17 @@
               </div>
 
               <div class="d-flex flex-wrap ga-3 mb-6">
-                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" color="#88ce0d"
+                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" :disabled="evento.atletaInscrito"  color="#88ce0d"
                   variant="flat" size="large" prepend-icon="mdi-email" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
-                  {{ t('eventos.details.sendCertificate') }}
+                  <span v-if="evento.atletaInscrito">
+                    {{ t('eventos.details.sendCertificate') }}
+                  </span>
+
+                  <span v-else>
+                    {{ t('eventos.details.registered') }}
+                  </span>
+
                 </v-btn>
 
                 <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#42A5F5"

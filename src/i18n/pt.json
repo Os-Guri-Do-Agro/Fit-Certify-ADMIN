@@ -176,7 +176,8 @@
       "almostThere": "Quase lá!",
       "confirmMessage": "Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar sua participação.",
       "cancel": "Cancelar",
-      "confirmSend": "Confirmar Envio"
+      "confirmSend": "Confirmar Envio",
+      "registered": "Já Inscrito"
     }
   },
 

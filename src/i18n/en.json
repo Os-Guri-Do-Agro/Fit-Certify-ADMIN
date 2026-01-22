@@ -175,7 +175,8 @@
       "almostThere": "Almost there!",
       "confirmMessage": "Confirm the submission of your certificate so we can validate your participation in this event and record your attendance.",
       "cancel": "Cancel",
-      "confirmSend": "Confirm Submission"
+      "confirmSend": "Confirm Submission",
+      "registered": "Already Registered"
     }
   },
 
