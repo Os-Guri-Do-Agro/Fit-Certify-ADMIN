@@ -52,7 +52,8 @@ const authRoutes = [
   '/thank-you',
   '/payment-success',
   '/pagamentoRealizado',
-  '/pagamentoCancelado'
+  '/pagamentoCancelado',
+  '/select-profile'
 ]
 const isAuthRoute = computed(() => {
   return (

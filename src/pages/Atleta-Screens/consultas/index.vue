@@ -113,80 +113,66 @@
               lg="4"
             >
               <v-card
-                class="pa-6 hover-card"
-                elevation="4"
-                rounded="xl"
-                height="100%"
-                :style="{
-                  borderLeft: `4px solid ${getStatusColor(consulta?.situacao)}`,
-                  background:
-                    'linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%)',
-                }"
+                class="consulta-card"
+                elevation="2"
+                rounded="lg"
               >
-                <v-row  no-gutters>
-                  <v-col cols="3" class="me-4 d-flex align-center justify-center">
-                    <v-avatar size="90" class="elevation-2">
-                      <v-img
-                        v-if="consulta?.medico?.avatarUrl"
-                        :src="consulta?.medico?.avatarUrl"
-                        cover
-                      ></v-img>
-                      <v-icon v-else size="40" class="gradient-icon">mdi-doctor</v-icon>
-                    </v-avatar>
-                  </v-col>
-
-                  <v-col cols="8" class="d-flex flex-column align-center align-sm-start justify-center">
-                    <div
-                      class="text-h6 font-weight-bold text-grey-darken-3 mb-1"
-                    >
-                      Dr. {{ consulta?.medico?.usuario?.nome }}
-                    </div>
-                    <div
-                      class="text-body-2 text-grey-darken-1 mb-3 d-flex align-center"
-                    >
-                      <v-icon size="16" class="me-1 gradient-icon"
-                        >mdi-stethoscope</v-icon
-                      >
-                      {{ consulta?.medico?.especializacao }}
-                    </div>
-
-                    <div class="d-flex flex-column gap-1 mb-3">
-                      <div
-                        class="text-body-2 text-grey-darken-2 d-flex align-center"
-                      >
-                        <v-icon size="16" class="me-2 gradient-icon"
-                          >mdi-calendar</v-icon
-                        >
-                        {{ formatarDataComLocale(consulta?.dataConsulta, locale) }}
-                      </div>
-                      <div
-                        class="text-body-2 text-grey-darken-2 d-flex align-center"
-                      >
-                        <v-icon size="16" class="me-2" color="orange"
-                          >mdi-clock-outline</v-icon
-                        >
-                        {{ formatarHorarioLocal(consulta?.dataConsulta) }}
+                <div class="card-status-bar" :style="{ backgroundColor: getStatusColor(consulta?.situacao) }" />
+                
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center justify-space-between mb-4">
+                    <div class="d-flex align-center">
+                      <v-avatar size="50" class="me-3">
+                        <v-img v-if="consulta?.medico?.avatarUrl" :src="consulta?.medico?.avatarUrl" cover />
+                        <v-icon v-else color="primary" size="28">mdi-doctor</v-icon>
+                      </v-avatar>
+                      <div>
+                        <div class="text-subtitle-1 font-weight-bold text-grey-darken-4">
+                          Dr. {{ consulta?.medico?.usuario?.nome }}
+                        </div>
+                        <div class="text-caption text-grey-darken-1">
+                          {{ consulta?.medico?.especializacao }}
+                        </div>
                       </div>
                     </div>
-
-                    <div class="d-flex align-center justify-space-between w-100">
-                                         <v-chip
+                    <v-chip
                       :color="getStatusColor(consulta?.situacao)"
                       size="small"
-                      variant="flat"
-                      class="font-weight-medium text-white"
+                      variant="tonal"
+                      class="font-weight-medium"
                     >
                       {{ t(`consultas.status.${consulta?.situacao}`) }}
                     </v-chip>
-                    <v-btn :loading="loadingCancelarIds.has(consulta?.id)" @click="abrirModalConfirmacao(consulta?.id)" v-if="consulta?.situacao === 'Marcado'" rounded="xl" color="red" variant="outlined" size="small">
-                      <v-icon>mdi-cancel</v-icon>
+                  </div>
+
+                  <v-divider class="mb-4" />
+
+                  <div class="info-section">
+                    <div class="info-item">
+                      <v-icon size="18" color="primary" class="me-2">mdi-calendar</v-icon>
+                      <span class="text-body-2 text-grey-darken-2">{{ formatarDataComLocale(consulta?.dataConsulta, locale) }}</span>
+                    </div>
+                    <div class="info-item mt-2">
+                      <v-icon size="18" color="primary" class="me-2">mdi-clock-outline</v-icon>
+                      <span class="text-body-2 text-grey-darken-2">{{ formatarHorarioLocal(consulta?.dataConsulta) }}</span>
+                    </div>
+                  </div>
+
+                  <div v-if="consulta?.situacao === 'Marcado'" class="action-buttons mt-5">
+                    <v-btn
+                      color="error"
+                      variant="flat"
+                      size="small"
+                      rounded="lg"
+                      prepend-icon="mdi-close-circle"
+                      class="flex-grow-1"
+                      :loading="loadingCancelarIds.has(consulta?.id)"
+                      @click="abrirModalConfirmacao(consulta?.id)"
+                    >
                       {{ t('consultas.cancelButton') }}
                     </v-btn>
-                    </div>
-
-
-                  </v-col>
-                </v-row>
+                  </div>
+                </v-card-text>
               </v-card>
             </v-col>
           </v-row>
@@ -207,46 +193,16 @@
 
     <!-- Modal de Confirmação -->
     <v-dialog v-model="modalConfirmacao" max-width="450" persistent>
-      <v-card class="modal-confirmacao" rounded="xl">
+      <v-card rounded="lg" class="modal-card">
         <v-card-text class="text-center pa-8">
-          <div class="mb-6">
-            <v-avatar size="80" color="red-lighten-4" class="mb-4">
-              <v-icon size="40" color="red">mdi-alert-circle-outline</v-icon>
-            </v-avatar>
-          </div>
-
-          <h3 class="text-h5 font-weight-bold text-grey-darken-3 mb-3">
-            {{ t('consultas.modal.title') }}
-          </h3>
-
-          <p class="text-body-1 text-grey-darken-1 mb-6">
-            {{ t('consultas.modal.message') }}
-          </p>
-
+          <v-avatar size="80" color="error" variant="tonal" class="mb-4">
+            <v-icon size="48" color="error">mdi-alert-circle-outline</v-icon>
+          </v-avatar>
+          <h3 class="text-h5 font-weight-bold text-grey-darken-4 mb-3">{{ t('consultas.modal.title') }}</h3>
+          <p class="text-body-1 text-grey-darken-1 mb-6">{{ t('consultas.modal.message') }}</p>
           <div class="d-flex gap-3 justify-center">
-            <v-btn
-              color="grey-lighten-1"
-              variant="outlined"
-              size="large"
-              rounded="xl"
-              min-width="120"
-              @click="modalConfirmacao = false"
-            >
-              <v-icon start>mdi-close</v-icon>
-              {{ t('consultas.modal.cancel') }}
-            </v-btn>
-
-            <v-btn
-              color="red"
-              variant="flat"
-              size="large"
-              rounded="xl"
-              min-width="120"
-              @click="confirmarCancelamento"
-            >
-              <v-icon start>mdi-check</v-icon>
-              {{ t('consultas.modal.confirm') }}
-            </v-btn>
+            <v-btn color="grey" variant="outlined" rounded="lg" class="text-none px-6" @click="modalConfirmacao = false">{{ t('consultas.modal.cancel') }}</v-btn>
+            <v-btn color="error" variant="flat" rounded="lg" class="text-none font-weight-medium px-6" @click="confirmarCancelamento">{{ t('consultas.modal.confirm') }}</v-btn>
           </div>
         </v-card-text>
       </v-card>
@@ -431,6 +387,52 @@ onMounted(() => {
 .hover-card:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+}
+
+.consulta-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.consulta-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12) !important;
+}
+
+.card-status-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  transition: height 0.3s ease;
+}
+
+.consulta-card:hover .card-status-bar {
+  height: 6px;
+}
+
+.info-section {
+  background: rgba(66, 165, 245, 0.04);
+  padding: 12px;
+  border-radius: 8px;
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.modal-card {
+  overflow: hidden;
 }
 
 .gap-1 {

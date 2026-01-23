@@ -67,10 +67,10 @@
                     :label="$t('register.personalInfo.cpf')" variant="outlined" rounded="lg" bg-color="white" class="custom-field" />
                 </VCol>
 
-                <VCol class="my-2 py-0 font-weight-medium" cols="12" :md="perfilSelecionado?.nome !== 'Treinador' ? 6 : 12">
+                <VCol class="my-2 py-0 font-weight-medium" cols="12" md="6">
                   <VTextField id="formEmail" v-model="form.email"
                     @blur="(e) => onBlurEmail(e.target.value)" :rules="[rules.requiredEmailObrigatorio]"
-                    :placeholder="$t('register.personalInfo.emailPlaceholder')" type="email" :label="$t('register.personalInfo.email')" variant="outlined" rounded="lg"
+                    placeholder="exemplo@gmail.com" type="email" :label="$t('register.personalInfo.email')" variant="outlined" rounded="lg"
                     bg-color="white" :loading="loadingEmail" class="custom-field" />
                 </VCol>
 

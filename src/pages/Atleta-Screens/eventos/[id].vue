@@ -33,10 +33,17 @@
               </div>
 
               <div class="d-flex flex-wrap ga-3 mb-6">
-                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" color="#88ce0d"
+                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" :disabled="evento.aceitouTermo"  color="#88ce0d"
                   variant="flat" size="large" prepend-icon="mdi-email" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
-                  {{ t('eventos.details.sendCertificate') }}
+                  <span v-if="!evento.aceitouTermo">
+                    {{ t('eventos.details.sendCertificate') }}
+                  </span>
+
+                  <span v-else>
+                    {{ t('eventos.details.registered') }}
+                  </span>
+
                 </v-btn>
 
                 <v-btn v-if="evento.linkSiteProva" :href="evento.linkSiteProva" target="_blank" color="#42A5F5"
@@ -229,6 +236,7 @@ import termosService from '@/services/eventos/termos/termos-service'
 import { toast } from 'vue3-toastify'
 import { isAtleta } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
+import { getAtletaId } from '@/utils/auth'
 
 const { t, locale } = useI18n()
 
@@ -275,6 +283,8 @@ const aceitarTermos = async () => {
     }
     await termosService.aceitarTermos(data)
     toast.success('Termos e certificado enviados para o e-mail cadastrado.')
+    dialogTermos.value = false
+    await carregarEvento()
   } catch (error) {
     console.error('Erro ao aceitar termos:', error)
     toast.error('Erro ao aceitar termos')
@@ -295,12 +305,13 @@ const carregarEvento = async () => {
   try {
     loading.value = true
     const params = route.params as { id?: string }
-    const eventoId = params.id || ''
+    const eventoId = params.id
+    const atletaId = getAtletaId()
     if (!eventoId) {
       throw new Error('ID do evento não encontrado')
     }
 
-    const eventoResponse = await eventoService.getByEventoId(eventoId)
+    const eventoResponse = await eventoService.getByEventoAtletaId(eventoId, atletaId)
     evento.value = eventoResponse.data || eventoResponse
 
     try {

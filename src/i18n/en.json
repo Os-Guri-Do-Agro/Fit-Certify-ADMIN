@@ -49,6 +49,10 @@
     "titleRegisterCoach": "Register Coach",
     "titleRegisterAdmin": "Register Administrator",
 
+    "titleDeleteAccount": "Deactivate Profile",
+    "titleExternalConsultations": "External Consultations",
+    "titleExternalPatients": "External Patients",
+
     "role": {
       "atleta": "Athlete",
       "medico": "Doctor",
@@ -107,7 +111,9 @@
       "pacientes": "Patients",
       "listaPacientes": "Patient List",
       "recentes": "Recent",
-      "treinosCriados": "created workouts"
+      "treinosCriados": "created workouts",
+      "externas": "external consultations",
+      "pacientesExternos": "External Patients"
     },
     "account": {
       "minhaConta": "My Account",
@@ -169,7 +175,8 @@
       "almostThere": "Almost there!",
       "confirmMessage": "Confirm the submission of your certificate so we can validate your participation in this event and record your attendance.",
       "cancel": "Cancel",
-      "confirmSend": "Confirm Submission"
+      "confirmSend": "Confirm Submission",
+      "registered": "Already Registered"
     }
   },
 
@@ -235,6 +242,15 @@
       "toastSuccessCode": "Code sent successfully!",
       "toastErrorCode1_2": "Error sending code:",
       "toastErrorCode2_2": "Unknown error"
+    },
+    "activateAccount": {
+      "title": "Inactive Profile",
+      "subtitle": "This profile is inactive. Do you want to activate it again?",
+      "description": "By confirming, we will reactivate your athlete profile and you will regain access.",
+      "buttonActivate": "Activate Profile",
+      "buttonCancel": "Cancel",
+      "toastSuccess": "Profile activated successfully!",
+      "toastError": "Error activating profile, please try again later."
     },
     "roles": {
       "atleta": "Athlete",
@@ -556,6 +572,9 @@
     "appointmentSuccess": "Appointment scheduled successfully!",
     "appointmentError": "Error scheduling appointment:",
     "unknownError": "Unknown error",
+    "invalidCpf": "Invalid CPF",
+    "invalidPhone": "Invalid phone number",
+    "invalidEmail": "Invalid email",
     "external": "External",
     "fitcertify": "FitCertify365",
     "days": {
@@ -582,6 +601,18 @@
     "finalize": "Finalize",
     "cancel": "Cancel",
     "noAppointments": "No appointments found",
+    "status": {
+      "Marcado": "Scheduled",
+      "Concluido": "Completed",
+      "Pendente": "Pending",
+      "Recusado": "Refused",
+      "Cancelada": "Cancelled"
+    },
+    "gender": {
+      "Masculino": "Male",
+      "Feminino": "Female",
+      "Outro": "Other"
+    },
     "cancelModal": {
       "title": "Cancel Appointment?",
       "message": "This action cannot be undone. The appointment will be permanently cancelled.",
@@ -974,14 +1005,18 @@
     "publicProfile": "Public Profile",
     "subscriptionPayments": "Subscription and Payments",
     "helpCenter": "Help Center",
-    "dangerZone": "Danger Zone",
-    "dangerZoneDescription": "Actions that permanently affect your account.",
-    "deleteAccount": "Delete Account",
-    "deleteAccountTitle": "Delete Account",
-    "deleteAccountMessage": "Are you sure you want to delete your account?",
-    "deleteAccountWarning": "This action cannot be undone and all your data will be permanently lost.",
+    "dangerZone": "Account management",
+    "dangerZoneDescription": "Profile management",
+    "deleteAccount": "Deactivate profile",
+    "cancelDeactivation": "Cancel Deactivation",
+    "reactivateAccountTitle": "Reactivate Account",
+    "reactivateAccountMessage": "Are you sure you want to reactivate your account?",
+    "reactivate": "Reactivate",
+    "deleteAccountTitle": "Deactivate Profile",
+    "deleteAccountMessage": "Are you sure you want to deactivate your profile?",
+    "deleteAccountWarning": "This action will temporarily deactivate your profile.",
     "cancel": "Cancel",
-    "delete": "Delete",
+    "delete": "Deactivate",
     "logoutSuccess": "Logout successful!"
   },
 
@@ -1213,40 +1248,40 @@
   },
 
   "detalhesExclusaoConta": {
-    "pageTitle": "Account Deletion Process",
+    "pageTitle": "Account Deactivation Process",
     "section1": {
-      "title": "1. About Account Deletion",
-      "p1": "{company} respects users' right to request deletion of their accounts and personal data, in compliance with the {law} and other applicable legislation.",
+      "title": "1. About Account Deactivation",
+      "p1": "{company} respects users' right to request deactivation of their accounts and personal data, in compliance with the {law} and other applicable legislation.",
       "company": "FitCertify365",
       "law": "General Data Protection Law (LGPD)",
-      "p2": "This document explains how the account deletion process works, what data is removed and the timelines involved."
+      "p2": "This document explains how the account deactivation process works, what data is affected and the timelines involved."
     },
     "section2": {
-      "title": "2. How to Request Deletion",
-      "intro": "To request deletion of your account, you can:",
+      "title": "2. How to Request Deactivation",
+      "intro": "To request deactivation of your account, you can:",
       "step1": "Access the {settings} page in your account",
       "settings": "Settings",
       "step2": "Navigate to {path}",
       "path": "settings/deleteAccount",
       "step3": "Click the {button} button",
-      "button": "\"Delete Account\"",
+      "button": "\"Deactivate Profile\"",
       "step4": "Confirm your request in the confirmation dialog",
-      "alternative": "Alternatively, you can send a request by email to {email} with the subject \"Account Deletion Request\".",
+      "alternative": "Alternatively, you can send a request by email to {email} with the subject \"Account Deactivation Request\".",
       "email": "desenvolvimento@fitcertify365.com"
     },
     "section3": {
-      "title": "3. Deletion Process",
+      "title": "3. Deactivation Process",
       "intro": "After receiving your request, we follow the following process:",
       "stage1Title": "Stage 1: Verification (1-2 business days)",
       "stage1Desc": "We verify the requester's identity and validate the request to ensure account security.",
       "stage2Title": "Stage 2: Grace Period (30 days)",
       "stage2Desc": "Your account will be deactivated, but data will remain stored for 30 days. During this period, you can cancel the request and reactivate your account.",
-      "stage3Title": "Stage 3: Permanent Deletion",
-      "stage3Desc": "After the grace period, all your personal data will be permanently removed from our systems."
+      "stage3Title": "Stage 3: Permanent Deactivation",
+      "stage3Desc": "After the grace period, your profile will be permanently deactivated from our systems."
     },
     "section4": {
-      "title": "4. Data That Will Be Deleted",
-      "intro": "Account deletion will result in permanent removal of the following data:",
+      "title": "4. Data That Will Be Affected",
+      "intro": "Account deactivation will result in blocking access to the following data:",
       "item1": "Personal information (name, email, phone)",
       "item2": "Stored health and fitness data",
       "item3": "Activity and exercise history",
@@ -1256,7 +1291,7 @@
       "item7": "Uploaded files and documents"
     },
     "section5": {
-      "title": "5. Data That May Be Retained",
+      "title": "5. Data That Will Be Retained",
       "intro": "For legal, regulatory or security reasons, some data may be retained for specific periods:",
       "item1": "Financial transaction records (according to tax legislation)",
       "item2": "Security and audit logs (anonymized)",
@@ -1266,7 +1301,7 @@
     },
     "section6": {
       "title": "6. Download Your Data",
-      "intro": "Before permanent deletion, you have the right to request a copy of your personal data:",
+      "intro": "Before permanent deactivation, you have the right to request a copy of your personal data:",
       "item1": "Request download during the 30-day grace period",
       "item2": "Data will be provided in structured and readable format",
       "item3": "Download will be available for 7 days after request",
@@ -1275,7 +1310,7 @@
     },
     "section7": {
       "title": "7. Canceling the Request",
-      "intro": "During the 30-day grace period, you can cancel the deletion request:",
+      "intro": "During the 30-day grace period, you can cancel the deactivation request:",
       "item1": "Log in to your account (if still within the grace period)",
       "item2": "Or send an email to {email}",
       "email": "atendimento@fitcertify365.com",
@@ -1283,50 +1318,51 @@
       "item4": "All data will be restored to the previous state"
     },
     "section8": {
-      "title": "8. Consequences of Deletion",
+      "title": "8. Consequences of Deactivation",
       "warning": "WARNING:",
-      "intro": "Account deletion is irreversible after the grace period. Consequences include:",
-      "item1": "Permanent loss of all health and fitness data",
-      "item2": "Automatic cancellation of active subscriptions",
-      "item3": "Inability to recover activity history",
+      "intro": "Account deactivation is irreversible after the grace period. Consequences include:",
+      "item1": "Blocking access to all health and fitness data",
+      "item2": "Suspension of active subscriptions",
+      "item3": "Inability to access activity history",
       "item4": "Loss of access to previous medical consultations",
-      "item5": "Need to create a new account to use the service again"
+      "item5": "Need to reactivate account to use the service again"
     },
     "section9": {
       "title": "9. Questions and Support",
-      "intro": "For questions about the account deletion process or to request support:",
+      "intro": "For questions about the account deactivation process or to request support:",
       "email": "Email:",
       "emailAddress": "atendimento@fitcertify365.com",
       "hours": "Business Hours:",
       "hoursValue": "Monday to Friday, 9am to 6pm",
       "responseTime": "Response Time:",
       "responseTimeValue": "Up to 48 business hours",
-      "footer": "Our team is ready to clarify any questions about the deletion process and your rights as a user."
+      "footer": "Our team is ready to clarify any questions about the deactivation process and your rights as a user."
     }
   },
 
   "deleteAccount": {
     "backButton": "Back",
-    "title": "Delete Account",
-    "permanentWarning": "This action is permanent and cannot be undone",
-    "whatHappens": "What happens when you delete your account?",
+    "title": "Deactivate Profile",
+    "permanentWarning": "This action will temporarily deactivate your profile.",
+    "canReactivate": "Can be reactivated at any time",
+    "whatHappens": "What happens when you deactivate your profile?",
+    "onlyCurrentProfile": "Only the current profile will be deactivated. Your other profiles will remain active.",
     "consequences": {
-      "item1": "All your personal data will be removed",
-      "item2": "Your history will be deleted",
+      "item1": "Your profile access will be blocked after the plan ends.",
       "item3": "You will lose access to services",
-      "item4": "This action cannot be reversed"
+      "item4": "Other users will not be able to see you."
     },
     "readFullPolicy": "Read full policy",
-    "deleteButton": "Delete Account",
+    "deleteButton": "Deactivate Profile",
     "cancelButton": "Cancel",
     "confirmDialog": {
-      "title": "Confirm Deletion",
-      "message": "Are you sure you want to delete your account? This action cannot be undone.",
+      "title": "Confirm Deactivation",
+      "message": "Are you sure you want to deactivate your profile? This action will temporarily block your access.",
       "cancel": "Cancel",
-      "delete": "Delete"
+      "delete": "Deactivate"
     },
-    "successMessage": "Account deleted successfully!",
-    "errorMessage": "Error deleting account:",
+    "successMessage": "Profile deactivated successfully!",
+    "errorMessage": "Error deactivating profile:",
     "unknownError": "Unknown error"
   },
 
@@ -1503,7 +1539,8 @@
     },
     "gender": {
       "Masculino": "Male",
-      "Feminino": "Female"
+      "Feminino": "Female",
+      "Outro": "Other"
     }
   },
 
@@ -1514,7 +1551,7 @@
       "issuedCertificates": "Issued Certificates",
       "scheduledAppointments": "Scheduled Appointments"
     },
-    "title": "My Patients",
+    "title": "My Patients FitCertify365",
     "searchPlaceholder": "Search patient...",
     "table": {
       "profile": "Profile",
@@ -1527,7 +1564,8 @@
     },
     "gender": {
       "Masculino": "Male",
-      "Feminino": "Female"
+      "Feminino": "Female",
+      "Outro": "Others"
     }
   },
 
@@ -1545,6 +1583,86 @@
       "acceptError": "Error accepting appointment:",
       "refuseSuccess": "Appointment refused successfully!",
       "refuseError": "Error refusing appointment:",
+      "unknownError": "Unknown error"
+    }
+  },
+
+  "consultasExternas": {
+    "title": "External Consultations",
+    "filters": {
+      "scheduled": "Scheduled",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    },
+    "searchByName": "Search by name",
+    "searchByCpf": "Search by CPF",
+    "name": "Name",
+    "cpf": "CPF",
+    "patient": "Patient",
+    "finalize": "Finalize",
+    "cancel": "Cancel",
+    "noAppointments": "No appointments found",
+    "status": {
+      "Marcado": "Scheduled",
+      "Concluido": "Completed",
+      "Cancelada": "Cancelled"
+    },
+    "detailsModal": {
+      "title": "Appointment Details",
+      "patient": "Patient",
+      "date": "Date",
+      "time": "Time",
+      "status": "Status",
+      "phone": "Phone",
+      "diagnosis": "Diagnosis",
+      "medications": "Prescribed Medications",
+      "close": "Close",
+      "certifyAthlete": "Certify Athlete"
+    },
+    "cancelModal": {
+      "title": "Cancel Appointment",
+      "message": "Are you sure you want to cancel this appointment? This action cannot be undone.",
+      "no": "No",
+      "yesCancel": "Yes, Cancel"
+    },
+    "finalizeModal": {
+      "title": "Finalize Appointment",
+      "subtitle": "Add final information",
+      "diagnosis": "Diagnosis",
+      "diagnosisPlaceholder": "Describe the diagnosis",
+      "medications": "Prescribed Medications",
+      "medicationsPlaceholder": "List the prescribed medications",
+      "cancel": "Cancel",
+      "finalize": "Finalize Appointment"
+    },
+    "certificationModal": {
+      "title": "Certify Athlete",
+      "subtitle": "Issue medical certificate",
+      "patient": "Patient",
+      "appointmentDate": "Appointment Date",
+      "phone": "Phone",
+      "validityMonths": "Certificate Validity (months)",
+      "monthOptions": {
+        "1": "1 month",
+        "3": "3 months",
+        "6": "6 months",
+        "9": "9 months",
+        "12": "12 months",
+        "other": "Other"
+      },
+      "customMonths": "Number of months",
+      "required": "Required field",
+      "validationRule": "Must be greater than 0",
+      "cancel": "Cancel",
+      "certify": "Certify"
+    },
+    "toast": {
+      "cancelSuccess": "Appointment cancelled successfully!",
+      "cancelError": "Error cancelling appointment",
+      "finalizeSuccess": "Appointment finalized successfully!",
+      "finalizeError": "Error finalizing appointment",
+      "certificateSuccess": "Certificate generated successfully!",
+      "certificateError": "This external patient already has an active certificate.",
       "unknownError": "Unknown error"
     }
   },
@@ -1632,6 +1750,8 @@
     "today": "Today",
     "viewMore": "View more",
     "invalidCpf": "Invalid CPF (Brazilian tax identification number). Please try again.",
+    "invalidPhone": "Invalid phone number",
+    "invalidEmail": "Invalid email",
     "noAppointments": "No appointments on this day",
     "scheduleAppointment": "Schedule Appointment",
     "athleteName": "Athlete Name",
