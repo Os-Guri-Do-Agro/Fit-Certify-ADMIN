@@ -14,6 +14,7 @@ declare module 'vue' {
     HelloWorld: typeof import('./components/HelloWorld.vue')['default']
     MedicoForm: typeof import('./components/MedicoForm.vue')['default']
     PacienteForm: typeof import('./components/PacienteForm.vue')['default']
+    PreRaceHealthCheckForm: typeof import('./components/PreRaceHealthCheckForm.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TrocarPerfilDialog: typeof import('./components/TrocarPerfilDialog.vue')['default']
