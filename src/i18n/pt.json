@@ -49,6 +49,10 @@
     "titleRegisterCoach": "Cadastrar Treinador",
     "titleRegisterAdmin": "Cadastrar Administrador",
 
+    "titleDeleteAccount": "Desativar Perfil",
+    "titleExternalConsultations": "Consultas Externas",
+    "titleExternalPatients": "Pacientes Externos",
+
     "role": {
       "atleta": "Atleta",
       "medico": "Médico",
@@ -66,7 +70,7 @@
   "trocarPerfil": {
     "title": "Escolha seu Perfil",
     "subtitle":  "Escolha o perfil que deseja acessar",
-    "waningSuccess": "Troca de perfil realizada com sucesso!",
+    "warningSuccess": "Troca de perfil realizada com sucesso!",
     "warningError": "Erro ao trocar de perfil",
     "warning": "Você já está neste perfil",
     "text": "Acessar como",
@@ -108,7 +112,9 @@
       "pacientes": "Pacientes",
       "listaPacientes": "Lista de Pacientes",
       "recentes": "Recentes",
-      "treinosCriados": "Treinos Criados"
+      "treinosCriados": "Treinos Criados",
+      "externas": "Consultas Externas",
+      "pacientesExternos": "Pacientes Externos"
     },
     "account": {
       "minhaConta": "Minha conta",
@@ -170,7 +176,8 @@
       "almostThere": "Quase lá!",
       "confirmMessage": "Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar sua participação.",
       "cancel": "Cancelar",
-      "confirmSend": "Confirmar Envio"
+      "confirmSend": "Confirmar Envio",
+      "registered": "Já Inscrito"
     }
   },
 
@@ -236,6 +243,15 @@
       "toastSuccessCode": "Código enviado com sucesso!",
       "toastErrorCode1_2": "Erro ao enviar código:",
       "toastErrorCode2_2": "Erro desconhecido"
+    },
+    "activateAccount": {
+      "title": "Perfil Inativo",
+      "subtitle": "Este perfil encontra-se inativo. Deseja ativá-lo novamente?",
+      "description": "Ao confirmar, ativaremos novamente seu perfil de atleta e você voltará a ter acesso.",
+      "buttonActivate": "Ativar Perfil",
+      "buttonCancel": "Cancelar",
+      "toastSuccess": "Perfil ativado com sucesso!",
+      "toastError": "Erro ao ativar o perfil, tente novamente mais tarde."
     },
     "roles": {
       "atleta": "Atleta",
@@ -557,6 +573,9 @@
     "appointmentSuccess": "Consulta marcada com sucesso!",
     "appointmentError": "Erro ao marcar consulta:",
     "unknownError": "Erro desconhecido",
+    "invalidCpf": "CPF inválido",
+    "invalidPhone": "Telefone inválido",
+    "invalidEmail": "E-mail inválido",
     "external": "Externo",
     "fitcertify": "FitCertify365",
     "days": {
@@ -583,6 +602,18 @@
     "finalize": "Finalizar",
     "cancel": "Cancelar",
     "noAppointments": "Nenhuma consulta encontrada",
+    "status": {
+      "Marcado": "Marcado",
+      "Concluido": "Concluído",
+      "Pendente": "Pendente",
+      "Recusado": "Recusado",
+      "Cancelada": "Cancelada"
+    },
+    "gender": {
+      "Masculino": "Masculino",
+      "Feminino": "Feminino",
+      "Outro": "Outro"
+    },
     "cancelModal": {
       "title": "Cancelar Consulta?",
       "message": "Esta ação não pode ser desfeita. A consulta será permanentemente cancelada.",
@@ -972,14 +1003,18 @@
     "publicProfile": "Perfil Público",
     "subscriptionPayments": "Assinatura e Pagamentos",
     "helpCenter": "Central de Ajuda",
-    "dangerZone": "Zona de Perigo",
-    "dangerZoneDescription": "Ações que afetam permanentemente sua conta.",
-    "deleteAccount": "Excluir Conta",
-    "deleteAccountTitle": "Deletar Conta",
-    "deleteAccountMessage": "Tem certeza que deseja deletar sua conta?",
-    "deleteAccountWarning": "Esta ação não pode ser desfeita e todos os seus dados serão perdidos permanentemente.",
+    "dangerZone": "Gerenciamento de conta",
+    "dangerZoneDescription": "Gerenciamento de perfis.",
+    "deleteAccount": "Desativar Perfil",
+    "cancelDeactivation": "Cancelar Desativação",
+    "reactivateAccountTitle": "Reativar Conta",
+    "reactivateAccountMessage": "Tem certeza que deseja reativar sua conta?",
+    "reactivate": "Reativar",
+    "deleteAccountTitle": "Desativar Perfil",
+    "deleteAccountMessage": "Tem certeza que deseja desativar seu perfil?",
+    "deleteAccountWarning": "Esta ação irá desativar temporariamente seu perfil.",
     "cancel": "Cancelar",
-    "delete": "Deletar",
+    "delete": "Desativar",
     "logoutSuccess": "Logout realizado com sucesso!"
   },
 
@@ -1211,40 +1246,40 @@
   },
 
   "detalhesExclusaoConta": {
-    "pageTitle": "Processo de Exclusão de Conta",
+    "pageTitle": "Processo de Desativação de Conta",
     "section1": {
-      "title": "1. Sobre a Exclusão de Conta",
-      "p1": "A {company} respeita o direito dos usuários de solicitar a exclusão de suas contas e dados pessoais, em conformidade com a {law} e demais legislações aplicáveis.",
+      "title": "1. Sobre a Desativação de Conta",
+      "p1": "A {company} respeita o direito dos usuários de solicitar a desativação de suas contas e dados pessoais, em conformidade com a {law} e demais legislações aplicáveis.",
       "company": "FitCertify365",
       "law": "Lei Geral de Proteção de Dados (LGPD)",
-      "p2": "Este documento explica como funciona o processo de exclusão de conta, quais dados são removidos e os prazos envolvidos."
+      "p2": "Este documento explica como funciona o processo de desativação de conta, quais dados são afetados e os prazos envolvidos."
     },
     "section2": {
-      "title": "2. Como Solicitar a Exclusão",
-      "intro": "Para solicitar a exclusão de sua conta, você pode:",
+      "title": "2. Como Solicitar a Desativação",
+      "intro": "Para solicitar a desativação de sua conta, você pode:",
       "step1": "Acessar a página de {settings} em sua conta",
       "settings": "Configurações",
       "step2": "Navegar até {path}",
       "path": "settings/deleteAccount",
       "step3": "Clicar no botão {button}",
-      "button": "\"Deletar Conta\"",
+      "button": "\"Desativar Perfil\"",
       "step4": "Confirmar sua solicitação no diálogo de confirmação",
-      "alternative": "Alternativamente, você pode enviar uma solicitação por e-mail para {email} com o assunto \"Solicitação de Exclusão de Conta\".",
+      "alternative": "Alternativamente, você pode enviar uma solicitação por e-mail para {email} com o assunto \"Solicitação de Desativação de Conta\".",
       "email": "desenvolvimento@fitcertify365.com"
     },
     "section3": {
-      "title": "3. Processo de Exclusão",
+      "title": "3. Processo de Desativação",
       "intro": "Após receber sua solicitação, seguimos o seguinte processo:",
       "stage1Title": "Etapa 1: Verificação (1-2 dias úteis)",
       "stage1Desc": "Verificamos a identidade do solicitante e validamos a solicitação para garantir a segurança da conta.",
       "stage2Title": "Etapa 2: Período de Carência (30 dias)",
       "stage2Desc": "Sua conta será desativada, mas os dados permanecerão armazenados por 30 dias. Durante este período, você pode cancelar a solicitação e reativar sua conta.",
-      "stage3Title": "Etapa 3: Exclusão Definitiva",
-      "stage3Desc": "Após o período de carência, todos os seus dados pessoais serão permanentemente removidos de nossos sistemas."
+      "stage3Title": "Etapa 3: Desativação Definitiva",
+      "stage3Desc": "Após o período de carência, seu perfil será permanentemente desativado de nossos sistemas."
     },
     "section4": {
-      "title": "4. Dados que Serão Excluídos",
-      "intro": "A exclusão da conta resultará na remoção permanente dos seguintes dados:",
+      "title": "4. Dados que Serão Afetados",
+      "intro": "A desativação da conta resultará no bloqueio de acesso aos seguintes dados:",
       "item1": "Informações pessoais (nome, e-mail, telefone)",
       "item2": "Dados de saúde e fitness armazenados",
       "item3": "Histórico de atividades e exercícios",
@@ -1254,7 +1289,7 @@
       "item7": "Arquivos e documentos enviados"
     },
     "section5": {
-      "title": "5. Dados que Podem Ser Mantidos",
+      "title": "5. Dados que Serão Mantidos",
       "intro": "Por questões legais, regulatórias ou de segurança, alguns dados podem ser mantidos por períodos específicos:",
       "item1": "Registros de transações financeiras (conforme legislação fiscal)",
       "item2": "Logs de segurança e auditoria (anonimizados)",
@@ -1264,7 +1299,7 @@
     },
     "section6": {
       "title": "6. Download dos Seus Dados",
-      "intro": "Antes da exclusão definitiva, você tem o direito de solicitar uma cópia dos seus dados pessoais:",
+      "intro": "Antes da desativação definitiva, você tem o direito de solicitar uma cópia dos seus dados pessoais:",
       "item1": "Solicite o download durante o período de carência de 30 dias",
       "item2": "Os dados serão fornecidos em formato estruturado e legível",
       "item3": "O download estará disponível por 7 dias após a solicitação",
@@ -1273,7 +1308,7 @@
     },
     "section7": {
       "title": "7. Cancelamento da Solicitação",
-      "intro": "Durante o período de carência de 30 dias, você pode cancelar a solicitação de exclusão:",
+      "intro": "Durante o período de carência de 30 dias, você pode cancelar a solicitação de desativação:",
       "item1": "Faça login em sua conta (se ainda estiver no período de carência)",
       "item2": "Ou envie um e-mail para {email}",
       "email": "atendimento@fitcertify365.com",
@@ -1281,50 +1316,51 @@
       "item4": "Todos os dados serão restaurados ao estado anterior"
     },
     "section8": {
-      "title": "8. Consequências da Exclusão",
+      "title": "8. Consequências da Desativação",
       "warning": "ATENÇÃO:",
-      "intro": "A exclusão da conta é irreversível após o período de carência. As consequências incluem:",
-      "item1": "Perda permanente de todos os dados de saúde e fitness",
-      "item2": "Cancelamento automático de assinaturas ativas",
-      "item3": "Impossibilidade de recuperar histórico de atividades",
+      "intro": "A desativação da conta é irreversível após o período de carência. As consequências incluem:",
+      "item1": "Bloqueio de acesso a todos os dados de saúde e fitness",
+      "item2": "Suspensão de assinaturas ativas",
+      "item3": "Impossibilidade de acessar histórico de atividades",
       "item4": "Perda de acesso a consultas médicas anteriores",
-      "item5": "Necessidade de criar nova conta para usar novamente o serviço"
+      "item5": "Necessidade de reativar a conta para usar novamente o serviço"
     },
     "section9": {
       "title": "9. Dúvidas e Suporte",
-      "intro": "Para dúvidas sobre o processo de exclusão de conta ou para solicitar suporte:",
+      "intro": "Para dúvidas sobre o processo de desativação de conta ou para solicitar suporte:",
       "email": "E-mail:",
       "emailAddress": "atendimento@fitcertify365.com",
       "hours": "Horário de Atendimento:",
       "hoursValue": "Segunda a Sexta, 9h às 18h",
       "responseTime": "Tempo de Resposta:",
       "responseTimeValue": "Até 48 horas úteis",
-      "footer": "Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de exclusão e seus direitos como usuário."
+      "footer": "Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de desativação e seus direitos como usuário."
     }
   },
 
   "deleteAccount": {
     "backButton": "Voltar",
-    "title": "Excluir Conta",
-    "permanentWarning": "Esta ação é permanente e não pode ser desfeita",
-    "whatHappens": "O que acontece quando você exclui sua conta?",
+    "title": "Desativar Perfil",
+    "permanentWarning": "Esta ação irá desativar temporariamente seu perfil",
+    "canReactivate": "Pode ser reativado a qualquer momento",
+    "whatHappens": "O que acontece quando você desativa seu perfil?",
+    "onlyCurrentProfile": "Apenas o perfil atual será desativado. Seus outros perfis continuarão ativos.",
     "consequences": {
-      "item1": "Todos os seus dados pessoais serão removidos",
-      "item2": "Seu histórico será apagado",
+      "item1": "Seu acesso ao perfil será bloqueado após a finalização do plano",
       "item3": "Você perderá acesso aos serviços",
-      "item4": "Esta ação não pode ser revertida"
+      "item4": "Outros usuários não poderão te ver"
     },
     "readFullPolicy": "Ler política completa",
-    "deleteButton": "Excluir Conta",
+    "deleteButton": "Desativar Perfil",
     "cancelButton": "Cancelar",
     "confirmDialog": {
-      "title": "Confirmar Exclusão",
-      "message": "Tem certeza que deseja deletar sua conta? Esta ação não pode ser desfeita.",
+      "title": "Confirmar Desativação",
+      "message": "Tem certeza que deseja desativar seu perfil? Esta ação irá bloquear temporariamente seu acesso.",
       "cancel": "Cancelar",
-      "delete": "Deletar"
+      "delete": "Desativar"
     },
-    "successMessage": "Conta deletada com sucesso!",
-    "errorMessage": "Erro ao deletar conta:",
+    "successMessage": "Perfil desativado com sucesso!",
+    "errorMessage": "Erro ao desativar perfil:",
     "unknownError": "Erro desconhecido"
   },
 
@@ -1501,7 +1537,8 @@
     },
     "gender": {
       "Masculino": "Masculino",
-      "Feminino": "Feminino"
+      "Feminino": "Feminino",
+      "Outro": "Outro"
     }
   },
 
@@ -1512,7 +1549,7 @@
       "issuedCertificates": "Certificados Emitidos",
       "scheduledAppointments": "Consultas Marcadas"
     },
-    "title": "Meus Pacientes",
+    "title": "Meus Pacientes FitCertify365",
     "searchPlaceholder": "Buscar paciente...",
     "table": {
       "profile": "Perfil",
@@ -1525,7 +1562,8 @@
     },
     "gender": {
       "Masculino": "Masculino",
-      "Feminino": "Feminino"
+      "Feminino": "Feminino",
+      "Outro": "Outro"
     }
   },
 
@@ -1543,6 +1581,86 @@
       "acceptError": "Erro ao aceitar consulta:",
       "refuseSuccess": "Consulta recusada com sucesso!",
       "refuseError": "Erro ao recusar consulta:",
+      "unknownError": "Erro desconhecido"
+    }
+  },
+
+  "consultasExternas": {
+    "title": "Consultas Externas",
+    "filters": {
+      "scheduled": "Marcado",
+      "completed": "Realizado",
+      "cancelled": "Cancelada"
+    },
+    "searchByName": "Buscar por nome",
+    "searchByCpf": "Buscar por CPF",
+    "name": "Nome",
+    "cpf": "CPF",
+    "patient": "Paciente",
+    "finalize": "Finalizar",
+    "cancel": "Cancelar",
+    "noAppointments": "Nenhuma consulta encontrada",
+    "status": {
+      "Marcado": "Marcado",
+      "Concluido": "Concluído",
+      "Cancelada": "Cancelada"
+    },
+    "detailsModal": {
+      "title": "Detalhes da Consulta",
+      "patient": "Paciente",
+      "date": "Data",
+      "time": "Horário",
+      "status": "Status",
+      "phone": "Telefone",
+      "diagnosis": "Diagnóstico",
+      "medications": "Medicamentos Receitados",
+      "close": "Fechar",
+      "certifyAthlete": "Certificar Atleta"
+    },
+    "cancelModal": {
+      "title": "Cancelar Consulta",
+      "message": "Tem certeza que deseja cancelar esta consulta? Esta ação não pode ser desfeita.",
+      "no": "Não",
+      "yesCancel": "Sim, Cancelar"
+    },
+    "finalizeModal": {
+      "title": "Finalizar Consulta",
+      "subtitle": "Adicione as informações finais",
+      "diagnosis": "Diagnóstico",
+      "diagnosisPlaceholder": "Descreva o diagnóstico",
+      "medications": "Medicamentos Receitados",
+      "medicationsPlaceholder": "Liste os medicamentos receitados",
+      "cancel": "Cancelar",
+      "finalize": "Finalizar Consulta"
+    },
+    "certificationModal": {
+      "title": "Certificar Atleta",
+      "subtitle": "Emitir certificado médico",
+      "patient": "Paciente",
+      "appointmentDate": "Data da Consulta",
+      "phone": "Telefone",
+      "validityMonths": "Validade do Certificado (meses)",
+      "monthOptions": {
+        "1": "1 mês",
+        "3": "3 meses",
+        "6": "6 meses",
+        "9": "9 meses",
+        "12": "12 meses",
+        "other": "Outro"
+      },
+      "customMonths": "Quantidade de meses",
+      "required": "Campo obrigatório",
+      "validationRule": "Deve ser maior que 0",
+      "cancel": "Cancelar",
+      "certify": "Certificar"
+    },
+    "toast": {
+      "cancelSuccess": "Consulta cancelada com sucesso!",
+      "cancelError": "Erro ao cancelar consulta",
+      "finalizeSuccess": "Consulta finalizada com sucesso!",
+      "finalizeError": "Erro ao finalizar consulta",
+      "certificateSuccess": "Certificado gerado com sucesso!",
+      "certificateError": "Este paciente externo já tem um certificado ativo.",
       "unknownError": "Erro desconhecido"
     }
   },
@@ -1629,7 +1747,9 @@
     "appointments": "Consultas",
     "today": "Hoje",
     "viewMore": "Ver mais",
-    "invalidCpf": "CPF inválido. Por favor, tente novamente.",
+    "invalidCpf": "CPF inválido",
+    "invalidPhone": "Telefone inválido",
+    "invalidEmail": "E-mail inválido",
     "noAppointments": "Nenhuma consulta neste dia",
     "scheduleAppointment": "Marcar Consulta",
     "athleteName": "Nome do Atleta",

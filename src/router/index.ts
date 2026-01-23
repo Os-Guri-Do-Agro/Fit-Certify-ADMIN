@@ -24,6 +24,7 @@ router.beforeEach((to, from, next) => {
   // PASSO 1: Definir rotas públicas (não precisam de autenticação)
   const publicRoutes = [
     '/login',
+    '/select-profile',
     '/register',
     '/registers',
     '/register-medico',

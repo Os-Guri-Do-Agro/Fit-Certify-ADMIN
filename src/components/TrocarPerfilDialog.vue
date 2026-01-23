@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" max-width="800" persistent>
+  <v-dialog v-model="dialog" max-width="1000" persistent>
     <v-card rounded="xl" elevation="12">
       <v-card-title class="d-flex justify-space-between align-center pa-6">
         <div>
@@ -28,7 +28,7 @@
               @click="selecionarPerfil(perfil)"
               elevation="0"
             >
-              <v-card-text class="pa-6 text-center">
+              <v-card-text class="pa-6 text-center d-flex flex-column align-center justify-center">
                 <v-chip v-if="perfil.id === perfilAtualId" color="success" size="small" class="mb-2">
                   {{ t('trocarPerfil.warning')  }}
                 </v-chip>

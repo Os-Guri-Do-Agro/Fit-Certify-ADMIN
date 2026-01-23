@@ -390,6 +390,12 @@ const pacienteItems = computed(() => [
     value: 'salvos',
     to: '/Medico-Screens/pacientesAtendidos',
   },
+  {
+    icon: 'mdi-account-group-outline',
+    title: t('drawerNavigator.menu.pacientesExternos'),
+    value: 'pacientesExternos',
+    to: '/pacientesExternos',
+  },
 ])
 
 const footerMenuItem = computed(() => [
@@ -420,6 +426,12 @@ const menusPorPerfil = computed(() => ({
           title: t('drawerNavigator.menu.consultas'),
           value: 'consultas',
           to: '/Medico-Screens/consultas',
+        },
+        {
+          icon: 'mdi mdi-clipboard-list-outline',
+          title: t('drawerNavigator.menu.externas'),
+          value: 'consultasExternas',
+          to: '/consultasExternas',
         },
         {
           icon: 'mdi mdi-calendar-month-outline',
@@ -529,6 +541,12 @@ const menusPorPerfil = computed(() => ({
           title: t('drawerNavigator.menu.consultas'),
           value: 'consultas',
           to: '/Fisioterapeuta-Screens/consultas',
+        },
+        {
+          icon: 'mdi mdi-clipboard-list-outline',
+          title: t('drawerNavigator.menu.externas'),
+          value: 'consultasExternas',
+          to: '/consultasExternas',
         },
         {
           icon: 'mdi mdi-calendar-month-outline',

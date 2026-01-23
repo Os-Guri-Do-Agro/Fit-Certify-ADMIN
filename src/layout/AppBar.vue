@@ -209,7 +209,11 @@ const pageTitle = computed(() => {
   '/cadastar-medico': t('appBar.titleRegisterDoctor'),
   '/cadastar-fisioterapeuta': t('appBar.titleRegisterPhysio'),
   '/cadastar-treinador': t('appBar.titleRegisterCoach'),
-  '/cadastar-administrador': t('appBar.titleRegisterAdmin')
+  '/cadastar-administrador': t('appBar.titleRegisterAdmin'),
+
+  '/settings/deleteAccount': t('appBar.titleDeleteAccount'),
+  '/consultasExternas': t('appBar.titleExternalConsultations'),
+  '/pacientesExternos': t('appBar.titleExternalPatients')
   }
   return routeMap[path] || ''
 })
@@ -285,7 +289,10 @@ const pageIcon = computed(() => {
     '/cadastrar-medico': 'mdi-doctor',
     '/cadastrar-fisioterapeuta': 'mdi-account-heart',
     '/cadastrar-treinador': 'mdi-whistle',
-    '/treinosCriados': 'mdi-dumbbell'
+    '/treinosCriados': 'mdi-dumbbell',
+    '/settings/deleteAccount': 'mdi-account-remove',
+    "/consultasExternas": "mdi-clipboard-list-outline",
+    "/pacientesExternos": "mdi-account-group-outline"
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })

@@ -51,6 +51,19 @@ class EventoService {
     )
   }
 
+  getByEventoAtletaId(eventoId: string, atletaId: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/evento/${eventoId}/${atletaId}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      'Failed to get evento'
+    )
+  }
+
   getAllTipoEventos(): Promise<any> {
     const token = getToken()
     return this.handleRequest(

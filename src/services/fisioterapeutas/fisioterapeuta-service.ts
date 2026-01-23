@@ -200,7 +200,7 @@ class fisioterapeutaService {
   async findConsultasByFisioterapeuta(dataInicio: string, dataFim: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.post(`/consulta/findConsultasByFisioterapeuta`,
+      apiClient.post(`/consulta/findConsultasByMedico`,
         { dataInicio, dataFim },
         { headers: { Authorization: `Bearer ${token}` } }
       ),
@@ -248,7 +248,7 @@ class fisioterapeutaService {
   async findConsultasByDayForFisioterapeuta(data: { dataInicio: string, dataFim: string }): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.post('/consulta/findConsultasByFisioterapeuta', data, {
+      apiClient.post('/consulta/findConsultasByMedico', data, {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to get consultas by day'
@@ -271,6 +271,32 @@ class fisioterapeutaService {
         headers: { Authorization: `Bearer ${token}` },
       }),
       'Failed to create consulta'
+    )
+  }
+
+  async desativarFisio(id: string, motivo: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/fisioterapeuta/inativar-fisioterapeuta/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        data: { motivo }
+      }),
+      'Erro ao inativar fisioterapeuta'
+    )
+  }
+
+  async ativarContaFisioterapeuta(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/fisioterapeuta/reativar-fisioterapeuta/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do fisioterapeuta'
     )
   }
 }

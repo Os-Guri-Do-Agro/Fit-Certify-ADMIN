@@ -2,7 +2,7 @@
   <v-container class="pa-6">
     <v-row justify="center">
       <v-col cols="12" md="8" lg="6">
-        <v-btn
+        <!-- <v-btn
           icon
           variant="text"
           size="large"
@@ -10,7 +10,7 @@
           class="mb-4"
         >
           <v-icon size="28">mdi-arrow-left</v-icon>
-        </v-btn>
+        </v-btn> -->
 
         <v-card class="warning-card mb-6" elevation="0" rounded="xl">
           <v-card-text class="pa-8 text-center">
@@ -18,8 +18,12 @@
               <v-icon size="64" color="#ff5252">mdi-alert-circle</v-icon>
             </div>
             <h1 class="text-h4 font-weight-bold mb-3" style="color: #2c3e50;">{{ $t('deleteAccount.title') }}</h1>
-            <p class="text-h6 mb-0" style="color: #ff5252; font-weight: 600;">
+            <p class="text-h6 mb-2" style="color: #ff5252; font-weight: 600;">
               {{ $t('deleteAccount.permanentWarning') }}
+            </p>
+            <p class="text-body-2 mb-0" style="color: #42A5F5; font-weight: 500;">
+              <v-icon size="16" color="#42A5F5" class="mr-1">mdi-check-circle</v-icon>
+              {{ $t('deleteAccount.canReactivate') }}
             </p>
           </v-card-text>
         </v-card>
@@ -31,14 +35,23 @@
               <h3 class="text-h6 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.whatHappens') }}</h3>
             </div>
 
+            <v-alert
+              type="warning"
+              variant="tonal"
+              rounded="lg"
+              class="mb-4"
+              density="comfortable"
+            >
+              <div class="d-flex align-center">
+                <v-icon class="mr-2">mdi-information-outline</v-icon>
+                <span class="font-weight-medium">{{ $t('deleteAccount.onlyCurrentProfile') }}</span>
+              </div>
+            </v-alert>
+
             <div class="consequences-list">
-              <div class="consequence-item">
+              <div class="consequence-item" v-if="isAtleta()">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-account-remove</v-icon>
                 <span class="text-body-1">{{ $t('deleteAccount.consequences.item1') }}</span>
-              </div>
-              <div class="consequence-item">
-                <v-icon color="#ff5252" size="20" class="mr-3">mdi-history</v-icon>
-                <span class="text-body-1">{{ $t('deleteAccount.consequences.item2') }}</span>
               </div>
               <div class="consequence-item">
                 <v-icon color="#ff5252" size="20" class="mr-3">mdi-lock</v-icon>
@@ -50,7 +63,7 @@
               </div>
             </div>
 
-            <v-btn
+            <!-- <v-btn
               variant="text"
               color="#42A5F5"
               @click="redirectInfoExclusao()"
@@ -59,7 +72,7 @@
             >
               {{ $t('deleteAccount.readFullPolicy') }}
               <v-icon class="ml-2" size="18">mdi-open-in-new</v-icon>
-            </v-btn>
+            </v-btn> -->
           </v-card-text>
         </v-card>
 
@@ -95,10 +108,18 @@
               </div>
               <h3 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ $t('deleteAccount.confirmDialog.title') }}</h3>
             </v-card-title>
-            <v-card-text class="pa-6 text-center">
-              <p class="text-body-1 mb-0" style="color: #666;">
+            <v-card-text class="pa-6">
+              <p class="text-body-1 mb-4 text-center" style="color: #666;">
                 {{ $t('deleteAccount.confirmDialog.message') }}
               </p>
+              <v-textarea
+                v-model="motivoDesativacao"
+                label="Motivo da desativação"
+                placeholder="Informe o motivo (opcional)"
+                rows="3"
+                variant="outlined"
+                rounded="lg"
+              ></v-textarea>
             </v-card-text>
             <v-card-actions class="pa-6 justify-center gap-3">
               <v-btn
@@ -202,12 +223,18 @@ import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import { getErrorMessage } from '@/common/error.utils';
 import { useI18n } from 'vue-i18n';
+import atletaService from '@/services/atleta/atleta-service';
+import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
+import medicoService from '@/services/medico/medico-service';
+import treinadorService from '@/services/treinador/treinador-service';
+import { getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador } from '@/utils/auth';
 
 const { t } = useI18n();
 const payload = ref<any>();
 const showDeleteDialog = ref(false);
 const deletingAccount = ref(false);
 const router = useRouter();
+const motivoDesativacao = ref('')
 
 const redirectInfoExclusao = () => {
   window.open('/detalhesExclusaoConta', '_blank');
@@ -217,12 +244,28 @@ const handleDeleteAccount = async () => {
   deletingAccount.value = true;
 
   try {
-    // Simular chamada da API
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const motivo = motivoDesativacao.value || 'Nenhum motivo informado.'
+    if (isAtleta()) {
+     await atletaService.desativarContaAtleta(getAtletaId(), motivo)
+     toast.success(t('deleteAccount.successMessage'));
+    } else if (isFisioterapeuta()) {
+      await fisioterapeutaService.desativarFisio(getFisioterapeutaId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
+    } else if (isTreinador()) {
+      await treinadorService.desativarTreinador(getTreinadorId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
+    } else if (isMedico()) {
+      await medicoService.desativarMedico(getMedicoId(), motivo)
+      toast.success(t('deleteAccount.successMessage'));
+    }
 
-    localStorage.clear();
-    router.push('/login');
-    toast.success(t('deleteAccount.successMessage'));
+    if (!isAtleta()) {
+      sessionStorage.clear();
+      localStorage.clear();
+      window.location.href = '/login';
+    } else {
+      router.push('/settings');
+    }
   } catch (error) {
     toast.error(t('deleteAccount.errorMessage') + ' ' + getErrorMessage(error, t('deleteAccount.unknownError')));
   } finally {

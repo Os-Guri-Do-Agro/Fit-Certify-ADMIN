@@ -151,6 +151,32 @@ class medicoService {
        'Failed to consult CRM'
      )
    }
+
+   async desativarMedico(id: string, motivo: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/medico/inativar-medico/${id}`, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        data: { motivo }
+      }),
+      'Erro ao inativar médico'
+    )
+  }
+
+  async ativarContaMedico(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.put(`/medico/reativar-medico/${id}`, {}, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Erro ao reativar conta do medico'
+    )
+  }
 }
 
 export default new medicoService()
