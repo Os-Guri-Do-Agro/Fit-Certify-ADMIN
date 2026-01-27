@@ -370,7 +370,7 @@ const buscarHorariosDisponiveis = async () => {
     medicoId: getMedicoId(),
     data: dayjs(dayselect.value).format('YYYY-MM-DD'),
   }
-  const response = await consultasService.findHorariosDisponiveis(data)
+  const response = await consultasService.findAllConsultasByMedico(data)
   datinhas.value = response.data
 }
 
