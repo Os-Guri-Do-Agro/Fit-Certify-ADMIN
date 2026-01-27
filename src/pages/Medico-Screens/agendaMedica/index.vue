@@ -198,7 +198,7 @@
               <v-text-field :label="t('agendaMedica.externalPatientPhone')" variant="outlined"
                 prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"
                 :counter="15" :rules="[validarTelefone]" :error-messages="telefoneError"
-                @input="formatarTelefone"></v-text-field>
+                maxlength="15" @input="formatarTelefone"></v-text-field>
             </v-col>
           </v-row>
 
@@ -397,6 +397,11 @@ const formatarCPF = () => {
 
 const formatarTelefone = () => {
   let valor = telefonePacienteExterno.value.replace(/\D/g, '')
+  // Limita a 11 dígitos numéricos
+  if (valor.length > 11) {
+    valor = valor.substring(0, 11)
+  }
+  
   if (valor.length <= 11) {
     if (valor.length <= 10) {
       valor = valor.replace(/(\d{2})(\d)/, '($1) $2')
