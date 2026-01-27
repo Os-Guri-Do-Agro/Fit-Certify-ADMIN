@@ -53,7 +53,8 @@ const authRoutes = [
   '/payment-success',
   '/pagamentoRealizado',
   '/pagamentoCancelado',
-  '/select-profile'
+  '/select-profile',
+  '/Atleta-Screens/checkinSaude'
 ]
 const isAuthRoute = computed(() => {
   return (
