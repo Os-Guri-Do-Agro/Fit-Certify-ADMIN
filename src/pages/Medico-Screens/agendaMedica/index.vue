@@ -291,7 +291,7 @@
 </template>
 
 <script setup>
-import atletaService from '@/services/atleta/atleta-service'
+
 import consultasService from '@/services/consultas/consultas-service'
 import { getMedicoId, getRole } from '@/utils/auth'
 import { formatarDataHoraLocal, formatarHorarioLocal, formatarDataLocal, removerOffsetTimezone } from '@/utils/date.utils'
@@ -370,7 +370,7 @@ const buscarHorariosDisponiveis = async () => {
     medicoId: getMedicoId(),
     data: dayjs(dayselect.value).format('YYYY-MM-DD'),
   }
-  const response = await consultasService.findAllConsultasByMedico(data)
+  const response = await consultasService.findHorariosDisponiveis(data)
   datinhas.value = response.data
 }
 
@@ -587,13 +587,9 @@ const buscarConsultasDoDia = async (selectedDate) => {
   const dataInicio = selectedDate + 'T00:00:00.000Z'
   const dataFim = selectedDate + 'T23:59:00.000Z'
 
-  const data = {
-    dataInicio,
-    dataFim,
-  }
 
   try {
-    const response = await consultasService.findConsultasByDayForMedico(data)
+    const response = await consultasService.findAllsConsultasByMedico(dataInicio, dataFim)
     if (response.success && response.data.length > 0) {
       const dayData = response.data[0]
       const appointments = dayData.consultas.map((consulta) => ({
@@ -840,19 +836,25 @@ const getStatusColor = (status) => {
   margin-bottom: 12px;
   background: white;
   border-radius: 12px;
+  border: 1px solid #f0f0f0; /* Added border for subtle definition */
   border-left: 4px solid #1E88E5;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Very subtle shadow */
 }
 
 .appointment-item-card:hover {
   transform: translateX(4px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: #e3f2fd;
 }
 
 .appointment-list {
   max-height: 500px;
   overflow-y: auto;
-  padding: 4px;
+  padding: 12px; /* Increased padding */
+  background-color: #f8fafc; /* Added light background to the container */
+  border-radius: 16px; /* Rounded corners for the container */
+  border: 1px solid #edf2f7;
 }
 
 .appointment-list::-webkit-scrollbar {

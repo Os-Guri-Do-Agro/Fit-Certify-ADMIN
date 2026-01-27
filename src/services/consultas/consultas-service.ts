@@ -25,7 +25,7 @@ class consultasService {
     )
   }
 
-  async findAllConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
+  async findAllsConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
       apiClient.post(`/consulta/findAllConsultasByMedico`,
