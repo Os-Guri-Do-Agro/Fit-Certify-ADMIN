@@ -506,7 +506,7 @@ const criarConsulta = async () => {
         ? nomePacienteExterno.value
       : null,
       cpfPacienteExterno: ConsultaExterna.value
-      ? cpfPacienteExterno.value
+      ? cpfPacienteExterno.value.replace(/\D/g, '')
       : null,
       telefonePacienteExterno: ConsultaExterna.value
       ? telefonePacienteExterno.value
