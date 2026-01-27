@@ -836,10 +836,10 @@ const getStatusColor = (status) => {
   margin-bottom: 12px;
   background: white;
   border-radius: 12px;
-  border: 1px solid #f0f0f0; /* Added border for subtle definition */
+  border: 1px solid #f0f0f0; 
   border-left: 4px solid #1E88E5;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02); /* Very subtle shadow */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
 }
 
 .appointment-item-card:hover {
@@ -851,9 +851,9 @@ const getStatusColor = (status) => {
 .appointment-list {
   max-height: 500px;
   overflow-y: auto;
-  padding: 12px; /* Increased padding */
-  background-color: #f8fafc; /* Added light background to the container */
-  border-radius: 16px; /* Rounded corners for the container */
+  padding: 12px; 
+  background-color: #f8fafc; 
+  border-radius: 16px; 
   border: 1px solid #edf2f7;
 }
 
