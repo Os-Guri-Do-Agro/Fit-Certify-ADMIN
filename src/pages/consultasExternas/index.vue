@@ -203,7 +203,6 @@
         </div>
 
         <v-divider />
-
         <v-card-text class="pa-6" v-if="consultaSelecionada">
           <div class="detail-section mb-4">
             <div class="d-flex align-center mb-3">
@@ -276,6 +275,7 @@
               prepend-icon="mdi-certificate"
               class="text-none font-weight-medium"
               @click="certificarAtleta()"
+              :disabled="consultaSelecionada?.licencaCertificado !== null && consultaSelecionada?.licencaCertificado?.ativo === true"
             >
               {{ t('consultasExternas.detailsModal.certifyAthlete') }}
             </v-btn>
@@ -506,6 +506,7 @@ const buscarConsultas = async () => {
       cpf: tipoBusca.value === 'cpf' ? (valorBusca.value || null) : null
     }
     const response = await consultasService.findConsultasExternas(data)
+    
     consultas.value = response.data.flatMap(item => item.consultas || [])
   } catch (error) {
     console.error(error)
@@ -551,6 +552,7 @@ const confirmarCertificacao = async () => {
     await licencaCertificadoService.postLicencaCertificado(data)
     toast.success(t('consultasExternas.toast.certificateSuccess'))
     fecharModalCertificar()
+    buscarConsultas()
     modalDetalhes.value = false
   } catch (error) {
     console.error('Erro ao gerar certificado:', error)

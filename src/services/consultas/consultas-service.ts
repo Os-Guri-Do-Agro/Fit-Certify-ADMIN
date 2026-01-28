@@ -25,6 +25,16 @@ class consultasService {
     )
   }
 
+  async findAllsConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post(`/consulta/findAllConsultasByMedico`,
+        { dataInicio, dataFim },
+        { headers: { Authorization: `Bearer ${token}` } }
+      ),
+      'Failed to get consultas by doctor'
+    )
+  }
   async findConsultasByMedico(dataInicio: string, dataFim: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
