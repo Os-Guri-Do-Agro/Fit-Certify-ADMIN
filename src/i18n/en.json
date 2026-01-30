@@ -1,5 +1,6 @@
 {
   "appBar": {
+    "titleForms": "Forms",
     "titleEvents": "Events",
     "titleConsultas": "Appointments",
     "titleRegistersDocs": "Medical Records",
@@ -13,7 +14,6 @@
     "titleMyPlan": "My Plan",
     "titleOverview": "Overview",
     "titleMyTrainings": "My Trainings",
-
     "titleCalendar": "Calendar",
     "titlePendingConsultations": "Pending Appointments",
     "titlePatientList": "Patient List",
@@ -21,9 +21,7 @@
     "titlePatientDetails": "Patient Details",
     "titlePublicProfile": "Public Profile",
     "titleEditPublicProfile": "Edit Public Profile",
-
     "titleAthleteDetails": "Athlete Details",
-
     "titleConnections": "Connections",
     "titleCertificates": "Certificates",
     "titleNotifications": "Notifications",
@@ -42,17 +40,14 @@
     "titleHelpCenter": "Help Center",
     "titlePlans": "Plans",
     "titleTreinosCriados": "Created Trainings",
-
     "titleRegisterAthlete": "Register Athlete",
     "titleRegisterDoctor": "Register Doctor",
     "titleRegisterPhysio": "Register Physiotherapist",
     "titleRegisterCoach": "Register Coach",
     "titleRegisterAdmin": "Register Administrator",
-
     "titleDeleteAccount": "Deactivate Profile",
     "titleExternalConsultations": "External Consultations",
     "titleExternalPatients": "External Patients",
-
     "role": {
       "atleta": "Athlete",
       "medico": "Doctor",
@@ -65,26 +60,24 @@
       "logout": "Logout"
     }
   },
-
-    "trocarPerfil": {
-      "title": "Choose Your Profile",
-      "subtitle": "Select the profile you want to access",
-      "warningSuccess": "Profile changed successfully!",
-      "warningError": "Error changing profile!",
-      "warning": "You are already on this profile.",
-      "text": "Access with",
-      "roles": {
-        "atleta": "Athlete",
-        "medico": "Doctor",
-        "fisioterapeuta": "Physiotherapist",
-        "treinador": "Coach"        
-      },
-      "buttons": {
-        "cancel": "Cancel",
-        "trocarPerfil": "Switch Profile"
-      }
+  "trocarPerfil": {
+    "title": "Choose Your Profile",
+    "subtitle": "Select the profile you want to access",
+    "warningSuccess": "Profile changed successfully!",
+    "warningError": "Error changing profile!",
+    "warning": "You are already on this profile.",
+    "text": "Access with",
+    "roles": {
+      "atleta": "Athlete",
+      "medico": "Doctor",
+      "fisioterapeuta": "Physiotherapist",
+      "treinador": "Coach"
     },
-
+    "buttons": {
+      "cancel": "Cancel",
+      "trocarPerfil": "Switch Profile"
+    }
+  },
   "drawerNavigator": {
     "roles": {
       "treinador": "Coach",
@@ -113,7 +106,8 @@
       "recentes": "Recent",
       "treinosCriados": "created workouts",
       "externas": "external consultations",
-      "pacientesExternos": "External Patients"
+      "pacientesExternos": "External Patients",
+      "formularios": "Forms"
     },
     "account": {
       "minhaConta": "My Account",
@@ -129,7 +123,6 @@
       "sair": "Logout"
     }
   },
-
   "eventos": {
     "title": "Events",
     "searchTitle": "Search by Title",
@@ -141,6 +134,8 @@
     "noEvents": "No events found",
     "noEventsDescription": "There are no events available at the moment",
     "viewDetails": "View Details",
+    "answerForm": "Answer Form",
+    "formAnswered": "Form Answered",
     "months": {
       "january": "January",
       "february": "February",
@@ -179,7 +174,6 @@
       "registered": "Already Registered"
     }
   },
-
   "consultas": {
     "title": "My Appointments",
     "filters": {
@@ -259,7 +253,6 @@
       "treinador": "Coach"
     }
   },
-
   "solicitacoesConexoes": {
     "title": "Connection Requests",
     "subtitle": "Manage your connections with professionals and athletes",
@@ -329,7 +322,6 @@
       "errorUnlink": "Error unlinking connection"
     }
   },
-
   "gerenciarCodigos": {
     "title": "Manage Codes",
     "viewConnectionsButton": "View My Connections",
@@ -362,7 +354,6 @@
     "shareMessage": "🔗 FitCertify Connection Code\nCode: {code}\n\nUse this code to connect with me on the FitCertify platform!",
     "shareTitle": "FitCertify Invitation Code"
   },
-
   "registrosMedicos": {
     "title": "Medical Records",
     "subtitle": "Complete history of your completed appointments",
@@ -378,7 +369,6 @@
     "prescribedMedications": "Prescribed Medications",
     "situation": "Situation"
   },
-
   "certificados": {
     "title": "Certificates",
     "certificateActive": "Your Certificate is Active",
@@ -409,7 +399,6 @@
     "validateCertificate": "Validate Certificate",
     "closeButton": "Close"
   },
-
   "notificacoes": {
     "title": "Notifications",
     "subtitle": "Track all your important notifications",
@@ -419,9 +408,12 @@
     "markAllAsRead": "Mark all as read",
     "new": "New",
     "noNotifications": "No notifications",
-    "noNotificationsDescription": "You have no notifications at the moment."
+    "noNotificationsDescription": "You have no notifications at the moment.",
+    "pendingForms": "Pending Medical Forms",
+    "pendingFormsDescription": "You have {count} medical form(s) awaiting response",
+    "answerForms": "Answer",
+    "pendingFormsToast": "You have pending medical forms to answer"
   },
-
   "medicos": {
     "title": "Find a Doctor",
     "subtitle": "Find a partner doctor near you and schedule your in-person appointment",
@@ -445,7 +437,6 @@
     "mapDescription": "Click on a doctor's 📍 icon or enter a ZIP code<br>to view the location on the map",
     "crm": "CRM"
   },
-
   "medicoDetalhes": {
     "reviews": "reviews",
     "yearsExperience": "{years} years of experience",
@@ -475,7 +466,6 @@
     "scheduleError": "Error scheduling appointment: {error}",
     "unknownError": "Unknown error"
   },
-
   "meusMedicos": {
     "title": "My Doctors",
     "subtitle": "Schedule a new appointment with your trusted partner doctors",
@@ -483,7 +473,6 @@
     "searchNewDoctors": "Search for new doctors",
     "moreDetails": "More Details"
   },
-
   "perfilAtleta": {
     "profileTitle": "Athlete Profile",
     "activePlan": "Active Plan",
@@ -510,7 +499,6 @@
     "height": "Height",
     "notInformed": "Not informed"
   },
-
   "fisioterapeutaDetalhes": {
     "reviews": "reviews",
     "yearsExperience": "{years} years of experience",
@@ -535,7 +523,6 @@
     "scheduleError": "Error scheduling appointment: {error}",
     "unknownError": "Unknown error"
   },
-
   "treinadorDetalhes": {
     "reviews": "reviews",
     "coach": "Coach",
@@ -546,7 +533,6 @@
     "notFoundDescription": "The requested coach does not exist or has been removed",
     "back": "Back"
   },
-
   "agendaFisioterapeutica": {
     "title": "Physiotherapy Schedule",
     "newAppointment": "New Appointment",
@@ -594,7 +580,6 @@
       "Pendente": "Pending"
     }
   },
-
   "consultasFisioterapeuta": {
     "title": "My Appointments",
     "externalPatient": "External Patient",
@@ -637,7 +622,6 @@
       "unknownError": "Unknown error"
     }
   },
-
   "consultasPendentesFisioterapeuta": {
     "title": "Pending Appointments",
     "subtitle": "{count} appointments awaiting approval",
@@ -655,7 +639,6 @@
       "unknownError": "Unknown error"
     }
   },
-
   "exercicios": {
     "title": "Exercise Library",
     "subtitle": "Manage and view all exercises",
@@ -708,7 +691,6 @@
       "triceps": "Triceps"
     }
   },
-
   "perfilFisioterapeuta": {
     "profileType": "Physiotherapist Profile",
     "editProfile": "Edit Profile",
@@ -739,7 +721,6 @@
       "state": "State"
     }
   },
-
   "editarPerfilFisioterapeuta": {
     "editProfile": "Edit Profile",
     "personalInfo": "Personal Information",
@@ -773,7 +754,6 @@
     "codeGenerateError": "Error generating invitation code",
     "unknownError": "Unknown error"
   },
-
   "editarPerfilPublico": {
     "editPublicProfile": "Edit Public Profile",
     "physiotherapist": "Physiotherapist",
@@ -810,7 +790,6 @@
       "sunday": "Sunday"
     }
   },
-
   "detalhesPaciente": {
     "backToList": "Back to List",
     "createTraining": "Create Training",
@@ -864,7 +843,6 @@
       "Pendente": "Pending"
     }
   },
-
   "criarTreino": {
     "title": "Create New Training",
     "subtitle": "Fill in the personalized training information",
@@ -918,7 +896,6 @@
       "errorCreatingTraining": "Error creating training"
     }
   },
-
   "resumo": {
     "title": "Summary",
     "subtitle": "Overview of your metrics",
@@ -958,7 +935,6 @@
       "pending": "Pending"
     }
   },
-
   "meuPlano": {
     "duration": "Duration",
     "year": "year(s)",
@@ -993,7 +969,6 @@
     "loadError": "Error loading plan information: {error}",
     "unknownError": "Unknown error"
   },
-
   "settings": {
     "title": "Settings",
     "account": "Account",
@@ -1019,7 +994,6 @@
     "delete": "Deactivate",
     "logoutSuccess": "Logout successful!"
   },
-
   "editarPerfilTreinador": {
     "title": "Edit Profile",
     "personalInfo": "Personal Information",
@@ -1055,7 +1029,6 @@
     "codeGenerateError": "Error generating invitation code",
     "unknownError": "Unknown error"
   },
-
   "editarPerfilAtleta": {
     "title": "Edit Profile",
     "personalInfo": "Personal Information",
@@ -1095,7 +1068,6 @@
     "loadError": "Error loading athlete data: {error}",
     "unknownError": "Unknown error"
   },
-
   "novaSenhaLogado": {
     "changePassword": "Change Password",
     "keepAccountSecure": "Keep your account secure with a new password",
@@ -1112,7 +1084,6 @@
     "passwordChangeError": "Error changing password: {error}",
     "unknownError": "Unknown error"
   },
-
   "cupons": {
     "couponSystem": "Coupon System",
     "discountCoupons": "Discount Coupons",
@@ -1199,7 +1170,6 @@
       "CANCELADO": "Cancelled"
     }
   },
-
   "cupomInfo": {
     "title": "FitCertify365 Coupon System",
     "subtitle": "Complete information about our discount program",
@@ -1246,7 +1216,6 @@
       "a4": "In your coupons area, you can see how many times your coupon has been used and how many uses remain from the maximum limit."
     }
   },
-
   "detalhesExclusaoConta": {
     "pageTitle": "Account Deactivation Process",
     "section1": {
@@ -1339,7 +1308,6 @@
       "footer": "Our team is ready to clarify any questions about the deactivation process and your rights as a user."
     }
   },
-
   "deleteAccount": {
     "backButton": "Back",
     "title": "Deactivate Profile",
@@ -1365,7 +1333,6 @@
     "errorMessage": "Error deactivating profile:",
     "unknownError": "Unknown error"
   },
-
   "centralAjuda": {
     "title": "FitCertify365 Help Center",
     "subtitle": "Find answers to your questions and contact us",
@@ -1399,7 +1366,6 @@
       "button": "Get in Touch"
     }
   },
-
   "resetPassword": {
     "modal": {
       "title": "Check your email",
@@ -1422,7 +1388,6 @@
       "invalidToken": "Invalid token"
     }
   },
-
   "detalhesPacienteMedico": {
     "title": "Patient Details",
     "active": "Active",
@@ -1492,7 +1457,6 @@
       "Feminino": "Female"
     }
   },
-
   "perfilMedico": {
     "profileType": "Doctor Profile",
     "editProfile": "Edit Profile",
@@ -1524,7 +1488,6 @@
       "state": "State"
     }
   },
-
   "pacientesAtendidosMedico": {
     "title": "List of Served Patients",
     "searchPlaceholder": "Search patient...",
@@ -1543,7 +1506,6 @@
       "Outro": "Other"
     }
   },
-
   "pacientesMedico": {
     "metrics": {
       "totalPatients": "Total Patients",
@@ -1568,7 +1530,6 @@
       "Outro": "Others"
     }
   },
-
   "consultasPendentesMedico": {
     "title": "Pending Appointments",
     "subtitle": "{count} appointments awaiting approval",
@@ -1586,7 +1547,6 @@
       "unknownError": "Unknown error"
     }
   },
-
   "consultasExternas": {
     "title": "External Consultations",
     "filters": {
@@ -1666,7 +1626,6 @@
       "unknownError": "Unknown error"
     }
   },
-
   "consultasMedico": {
     "title": "My Appointments",
     "externalPatient": "External Patient",
@@ -1741,7 +1700,6 @@
       "Pendente": "Pending"
     }
   },
-
   "agendaMedica": {
     "title": "Medical Schedule",
     "newAppointment": "New Appointment",
@@ -1789,7 +1747,6 @@
       "Pendente": "Pending"
     }
   },
-
   "cadastrarFisioterapeuta": {
     "title": "Register Physiotherapist",
     "steps": {
@@ -1899,7 +1856,6 @@
     },
     "required": "Required field"
   },
-
   "cadastrarAtleta": {
     "title": "Register Athlete",
     "steps": {
@@ -1990,7 +1946,6 @@
       "registerError": "Error registering athlete"
     }
   },
-
   "editarPerfilMedico": {
     "editProfile": "Edit Profile",
     "personalInfo": "Personal Information",
@@ -2013,7 +1968,6 @@
     "loadError": "Error loading doctor data:",
     "unknownError": "Unknown error"
   },
-
   "validarCertificado": {
     "loading": "Loading certificate information...",
     "errorTitle": "Error validating certificate",
@@ -2036,7 +1990,6 @@
     "errorIdNotProvided": "License ID not provided",
     "errorLoadingInfo": "Unable to load certificate information"
   },
-
   "registerPlanos": {
     "title": "Start your journey with more health and performance now.",
     "subtitle": "Creating your FitCertify365 account is fast, secure and free. With it, you will be able to validate certificates, track your health markers and enjoy exclusive benefits in our marketplace.",
@@ -2064,7 +2017,6 @@
       "item_11": "Access to the complete health dashboard."
     }
   },
-
   "pagamento": {
     "cartao": "Card",
     "creditDebitCard": "Credit or Debit Card",
@@ -2185,7 +2137,6 @@
     "duration": "Duration",
     "withDiscount": "with {percentage}% discount"
   },
-
   "treinosAtleta": {
     "title": "My Trainings",
     "tabs": {
@@ -2207,7 +2158,6 @@
     "noWeeklyTrainings": "No weekly trainings found",
     "noDailyTrainings": "No daily trainings found"
   },
-
   "treinosCriados": {
     "title": "Created Trainings",
     "tabs": {
@@ -2230,7 +2180,6 @@
     "noWeeklyTrainings": "No weekly trainings created",
     "noDailyTrainings": "No daily trainings created"
   },
-
   "pacienteForm": {
     "physicalData": {
       "title": "Physical Data",
@@ -2325,7 +2274,6 @@
       "weightRequired": "Weight required"
     }
   },
-
   "medicoForm": {
     "professionalInfo": {
       "title": "Professional Information",
@@ -2421,7 +2369,6 @@
     },
     "required": "Required field"
   },
-
   "cadastrarMedico": {
     "title": "Register Doctor",
     "steps": {
@@ -2516,7 +2463,6 @@
     },
     "required": "Required field"
   },
-
   "cadastrarTreinador": {
     "title": "Register Coach",
     "contact": "Contact",
@@ -2531,7 +2477,6 @@
       "registerError": "Error registering coach"
     }
   },
-
   "register": {
     "leftPanel": {
       "title1": "Start your journey with more health and performance now.",
@@ -2591,7 +2536,6 @@
       "registerError": "Unable to complete registration"
     }
   },
-
   "politicaPrivacidade": {
     "title": "Privacy Policy, Terms and Conditions of Use and Data Protection",
     "section1": {
@@ -2696,12 +2640,59 @@
       "email": "atendimento@fitcertify365.com"
     }
   },
-
   "paymentSuccess": {
     "title": "Payment Confirmed!",
     "message": "Thank you for choosing FitCertify365! Your payment has been processed successfully.",
     "goToHome": "Go to Login",
     "welcomeTitle": "Welcome to FitCertify365",
     "welcomeMessage": "Your journey to sports medical certifications starts now!"
+  },
+  "formulariosMedicos": {
+    "title": "Pre-Race Medical Form",
+    "subtitle": "Select the event to fill out the form",
+    "errorLoading": "Error loading forms",
+    "noEvents": "No events available",
+    "noEventsDescription": "There are no forms available for completion at this time.",
+    "formSubmitted": "Form Submitted",
+    "answerForm": "Answer Form"
+  },
+  "preRaceHealthCheck": {
+    "title": "Pre-Race Health Check-in",
+    "subtitle": "Answer the questions below to assist the medical team. All fields are optional.",
+    "healthQuestionnaire": "Health Questionnaire",
+    "page": "Page",
+    "yes": "Yes",
+    "no": "No",
+    "placeholder": "Enter your answer",
+    "back": "Back",
+    "next": "Next",
+    "submit": "Submit Check-in",
+    "successTitle": "Check-in Submitted!",
+    "successMessage": "Your form has been submitted successfully.",
+    "backToForms": "Back to Forms",
+    "questions": {
+      "dor_peito": "Have you experienced chest pain or pressure, palpitations, or unusual shortness of breath in the last 48 hours?",
+      "febre": "Have you had a fever or chills in the last 24 hours?",
+      "horas_sono": "How many hours of sleep did you get last night?",
+      "termogenico": "Have you consumed any thermogenic supplement, pre-workout, or stimulant in the last 12 hours?",
+      "tontura": "Have you experienced dizziness, visual darkening, or fainting in the last two days?",
+      "analgesico": "Have you taken any anti-inflammatory or painkiller in the last 6 hours?",
+      "viagem": "Have you taken a long trip or experienced a sudden altitude change in the last week?",
+      "dor_muscular": "Do you feel any joint or muscle pain that forces you to limp or change your running form?",
+      "estado_mental": "Do you feel mentally alert and oriented at the moment?",
+      "nausea": "Have you had any episode of vomiting or persistent nausea in the last 12 hours?"
+    },
+    "justifications": {
+      "dor_peito": "Identifies acute cardiac warning signs that may progress to serious events during intense effort.",
+      "febre": "Fever compromises thermal regulation and increases the risk of viral myocarditis, one of the main causes of sudden death in athletes.",
+      "horas_sono": "Sleep deprivation reduces heat dissipation capacity and impairs motor coordination, increasing the risk of complications.",
+      "termogenico": "These substances can dangerously elevate heart rate and blood pressure, as well as mask signs of exhaustion.",
+      "tontura": "Indicates circulatory instability or metabolic imbalances that may lead to collapse during the race.",
+      "analgesico": "Using these medications before intense effort increases the risk of acute kidney injury, especially in dehydration contexts.",
+      "viagem": "Jet lag and lack of acclimatization alter cardiovascular response and the athlete's hydration status.",
+      "dor_muscular": "Biomechanical compensations significantly increase the risk of acute orthopedic injuries during the race.",
+      "estado_mental": "Changes in mental clarity may indicate electrolyte imbalance, dehydration, or severe systemic stress.",
+      "nausea": "Vomiting and nausea indicate prior dehydration and electrolyte loss, compromising muscle and cardiovascular function."
+    }
   }
 }

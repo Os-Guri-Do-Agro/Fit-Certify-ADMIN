@@ -1,5 +1,6 @@
 ﻿{
   "appBar": {
+    "titleForms": "Formulários",
     "titleEvents": "Eventos",
     "titleConsultas": "Consultas",
     "titleRegistersDocs": "Registros Médicos",
@@ -13,7 +14,6 @@
     "titleMyPlan": "Meu Plano",
     "titleOverview": "Visão Geral",
     "titleMyTrainings": "Meus Treinos",
-
     "titleCalendar": "Calendário",
     "titlePendingConsultations": "Consultas Pendentes",
     "titlePatientList": "Lista de Pacientes",
@@ -21,9 +21,7 @@
     "titlePatientDetails": "Detalhes do Paciente",
     "titlePublicProfile": "Perfil Público",
     "titleEditPublicProfile": "Editar Perfil Público",
-
     "titleAthleteDetails": "Detalhes do Atleta",
-
     "titleConnections": "Conexões",
     "titleCertificates": "Certificados",
     "titleNotifications": "Notificações",
@@ -42,34 +40,29 @@
     "titleHelpCenter": "Central de Ajuda",
     "titlePlans": "Planos",
     "titleTreinosCriados": "Treinos Criados",
-
     "titleRegisterAthlete": "Cadastrar Atleta",
     "titleRegisterDoctor": "Cadastrar Médico",
     "titleRegisterPhysio": "Cadastrar Fisioterapeuta",
     "titleRegisterCoach": "Cadastrar Treinador",
     "titleRegisterAdmin": "Cadastrar Administrador",
-
     "titleDeleteAccount": "Desativar Perfil",
     "titleExternalConsultations": "Consultas Externas",
     "titleExternalPatients": "Pacientes Externos",
-
     "role": {
       "atleta": "Atleta",
       "medico": "Médico",
       "fisioterapeuta": "Fisioterapeuta",
       "treinador": "Treinador"
     },
-
     "actions": {
       "profile": "Perfil",
       "settings": "Configurações",
       "logout": "Sair"
     }
   },
-
   "trocarPerfil": {
     "title": "Escolha seu Perfil",
-    "subtitle":  "Escolha o perfil que deseja acessar",
+    "subtitle": "Escolha o perfil que deseja acessar",
     "warningSuccess": "Troca de perfil realizada com sucesso!",
     "warningError": "Erro ao trocar de perfil",
     "warning": "Você já está neste perfil",
@@ -85,7 +78,6 @@
       "trocarPerfil": "Trocar Perfil"
     }
   },
-
   "drawerNavigator": {
     "roles": {
       "treinador": "Treinador",
@@ -114,7 +106,8 @@
       "recentes": "Recentes",
       "treinosCriados": "Treinos Criados",
       "externas": "Consultas Externas",
-      "pacientesExternos": "Pacientes Externos"
+      "pacientesExternos": "Pacientes Externos",
+      "formularios": "Formulários"
     },
     "account": {
       "minhaConta": "Minha conta",
@@ -130,7 +123,6 @@
       "sair": "Sair"
     }
   },
-
   "eventos": {
     "title": "Eventos",
     "searchTitle": "Buscar por Título",
@@ -142,6 +134,8 @@
     "noEvents": "Nenhum evento encontrado",
     "noEventsDescription": "Não há eventos disponíveis no momento",
     "viewDetails": "Ver Detalhes",
+    "answerForm": "Responder Formulário",
+    "formAnswered": "Formulário Respondido",
     "months": {
       "january": "Janeiro",
       "february": "Fevereiro",
@@ -180,7 +174,6 @@
       "registered": "Já Inscrito"
     }
   },
-
   "consultas": {
     "title": "Minhas Consultas",
     "filters": {
@@ -238,7 +231,7 @@
       "button": "Enviar Código",
       "toastEmailError1": "Email não encontrado no sistema",
       "toastEmailError1_2": "Erro ao verificar email:",
-      "toastEmailError2_2": "Erro desconhecido", 
+      "toastEmailError2_2": "Erro desconhecido",
       "toastEmailSuccess1": "Email encontrado! Clique em enviar para enviarmos o código de verificação.",
       "toastSuccessCode": "Código enviado com sucesso!",
       "toastErrorCode1_2": "Erro ao enviar código:",
@@ -260,7 +253,6 @@
       "treinador": "Treinador"
     }
   },
-
   "solicitacoesConexoes": {
     "title": "Solicitações de Conexão",
     "subtitle": "Gerencie suas conexões com profissionais e atletas",
@@ -330,7 +322,6 @@
       "errorUnlink": "Erro ao desvincular conexão"
     }
   },
-
   "gerenciarCodigos": {
     "title": "Gerenciar Códigos",
     "viewConnectionsButton": "Ver Minhas Conexões",
@@ -363,7 +354,6 @@
     "shareMessage": "🔗 Código de Conexão FitCertify\nCódigo: {code}\n\nUse este código para se conectar comigo na plataforma FitCertify!",
     "shareTitle": "Código de Convite FitCertify"
   },
-
   "registrosMedicos": {
     "title": "Registros Médicos",
     "subtitle": "Histórico completo de suas consultas concluídas",
@@ -379,7 +369,6 @@
     "prescribedMedications": "Medicamentos Receitados",
     "situation": "Situação"
   },
-
   "certificados": {
     "title": "Certificados",
     "certificateActive": "Seu Certificado está Ativo",
@@ -410,7 +399,6 @@
     "validateCertificate": "Validar Certificado",
     "closeButton": "Fechar"
   },
-
   "notificacoes": {
     "title": "Notificações",
     "subtitle": "Acompanhe todas as suas notificações importantes",
@@ -420,9 +408,12 @@
     "markAllAsRead": "Marcar todas como lidas",
     "new": "Nova",
     "noNotifications": "Nenhuma notificação",
-    "noNotificationsDescription": "Você não possui notificações no momento."
+    "noNotificationsDescription": "Você não possui notificações no momento.",
+    "pendingForms": "Formulários Médicos Pendentes",
+    "pendingFormsDescription": "Você tem {count} formulário(s) médico(s) aguardando resposta",
+    "answerForms": "Responder",
+    "pendingFormsToast": "Você tem formulários médicos pendentes para responder"
   },
-
   "medicos": {
     "title": "Encontre um Médico",
     "subtitle": "Encontre um médico parceiro próximo a você e agende sua consulta presencial",
@@ -446,7 +437,6 @@
     "mapDescription": "Clique no ícone 📍 de um médico ou digite um CEP<br>para visualizar a localização no mapa",
     "crm": "CRM"
   },
-
   "medicoDetalhes": {
     "reviews": "avaliações",
     "yearsExperience": "{years} anos de experiência",
@@ -476,7 +466,6 @@
     "scheduleError": "Erro ao marcar consulta: {error}",
     "unknownError": "Erro desconhecido"
   },
-
   "meusMedicos": {
     "title": "Meus Médicos",
     "subtitle": "Agende uma nova consulta com seus médicos parceiros de confiança",
@@ -484,7 +473,6 @@
     "searchNewDoctors": "Buscar novos médicos",
     "moreDetails": "Mais Detalhes"
   },
-
   "perfilAtleta": {
     "profileTitle": "Perfil do Atleta",
     "activePlan": "Plano Ativo",
@@ -511,7 +499,6 @@
     "height": "Altura",
     "notInformed": "Não informado"
   },
-
   "fisioterapeutaDetalhes": {
     "reviews": "avaliações",
     "yearsExperience": "{years} anos de experiência",
@@ -536,7 +523,6 @@
     "scheduleError": "Erro ao marcar consulta: {error}",
     "unknownError": "Erro desconhecido"
   },
-
   "treinadorDetalhes": {
     "reviews": "avaliações",
     "coach": "Treinador",
@@ -547,7 +533,6 @@
     "notFoundDescription": "O treinador solicitado não existe ou foi removido",
     "back": "Voltar"
   },
-
   "agendaFisioterapeutica": {
     "title": "Agenda Fisioterapêutica",
     "newAppointment": "Nova Consulta",
@@ -595,7 +580,6 @@
       "Pendente": "Pendente"
     }
   },
-
   "consultasFisioterapeuta": {
     "title": "Minhas Consultas",
     "externalPatient": "Paciente Externo",
@@ -638,7 +622,6 @@
       "unknownError": "Erro desconhecido"
     }
   },
-
   "consultasPendentesFisioterapeuta": {
     "title": "Consultas Pendentes",
     "subtitle": "{count} consultas aguardando aprovação",
@@ -656,7 +639,6 @@
       "unknownError": "Erro desconhecido"
     }
   },
-
   "exercicios": {
     "title": "Biblioteca de Exercícios",
     "subtitle": "Gerencie e visualize todos os exercícios",
@@ -695,21 +677,20 @@
       "loadError": "Erro ao carregar exercícios",
       "loadTrainingTypesError": "Erro ao carregar tipos de treino"
     },
-      "tiposTreino": {
-        "abdomen": "Abdômen",
-        "antebraco": "Antebraço",
-        "braco": "Braço",
-        "cardio": "Cardio",
-        "costas": "Costas",
-        "funcional": "Funcional",
-        "gluteo": "Glúteo",
-        "ombro": "Ombro",
-        "peito": "Peito",
-        "perna": "Perna",
-        "triceps": "Tríceps"
-      }
+    "tiposTreino": {
+      "abdomen": "Abdômen",
+      "antebraco": "Antebraço",
+      "braco": "Braço",
+      "cardio": "Cardio",
+      "costas": "Costas",
+      "funcional": "Funcional",
+      "gluteo": "Glúteo",
+      "ombro": "Ombro",
+      "peito": "Peito",
+      "perna": "Perna",
+      "triceps": "Tríceps"
+    }
   },
-
   "perfilFisioterapeuta": {
     "profileType": "Perfil Fisioterapeuta",
     "editProfile": "Editar Perfil",
@@ -740,7 +721,6 @@
       "state": "UF"
     }
   },
-
   "editarPerfilFisioterapeuta": {
     "editProfile": "Editar Perfil",
     "personalInfo": "Informações Pessoais",
@@ -774,7 +754,6 @@
     "codeGenerateError": "Erro ao gerar código de convite",
     "unknownError": "Erro desconhecido"
   },
-
   "editarPerfilPublico": {
     "editPublicProfile": "Editar Perfil Público",
     "physiotherapist": "Fisioterapeuta",
@@ -811,7 +790,6 @@
       "sunday": "Domingo"
     }
   },
-
   "detalhesPaciente": {
     "backToList": "Voltar para Lista",
     "createTraining": "Criar Treino",
@@ -865,7 +843,6 @@
       "Pendente": "Pendente"
     }
   },
-
   "criarTreino": {
     "title": "Criar Novo Treino",
     "subtitle": "Preencha as informações do treino personalizado",
@@ -919,7 +896,6 @@
       "errorCreatingTraining": "Erro ao criar treino"
     }
   },
-
   "resumo": {
     "title": "Resumo",
     "subtitle": "Visão geral das suas métricas",
@@ -959,7 +935,6 @@
       "pending": "Pendentes"
     }
   },
-
   "meuPlano": {
     "managePlan": "Gerenciar Plano",
     "duration": "Duração",
@@ -991,7 +966,6 @@
     "loadError": "Erro ao carregar informações do plano: {error}",
     "unknownError": "Erro desconhecido"
   },
-
   "settings": {
     "title": "Configurações",
     "account": "Conta",
@@ -1017,7 +991,6 @@
     "delete": "Desativar",
     "logoutSuccess": "Logout realizado com sucesso!"
   },
-
   "editarPerfilTreinador": {
     "title": "Editar Perfil",
     "personalInfo": "Informações Pessoais",
@@ -1053,7 +1026,6 @@
     "codeGenerateError": "Erro ao gerar código de convite",
     "unknownError": "Erro desconhecido"
   },
-
   "editarPerfilAtleta": {
     "title": "Editar Perfil",
     "personalInfo": "Informações Pessoais",
@@ -1093,7 +1065,6 @@
     "loadError": "Erro ao carregar dados do atleta: {error}",
     "unknownError": "Erro desconhecido"
   },
-
   "novaSenhaLogado": {
     "changePassword": "Alterar Senha",
     "keepAccountSecure": "Mantenha sua conta segura com uma nova senha",
@@ -1110,7 +1081,6 @@
     "passwordChangeError": "Erro ao alterar senha: {error}",
     "unknownError": "Erro desconhecido"
   },
-
   "cupons": {
     "couponSystem": "Sistema de Cupons",
     "discountCoupons": "Cupons de Desconto",
@@ -1197,7 +1167,6 @@
       "CANCELADO": "Cancelado"
     }
   },
-
   "cupomInfo": {
     "title": "Sistema de Cupons FitCertify365",
     "subtitle": "Informações completas sobre nosso programa de descontos",
@@ -1244,7 +1213,6 @@
       "a4": "Na sua área de cupons, você pode ver quantas vezes seu cupom foi utilizado e quantos usos ainda restam do limite máximo."
     }
   },
-
   "detalhesExclusaoConta": {
     "pageTitle": "Processo de Desativação de Conta",
     "section1": {
@@ -1337,7 +1305,6 @@
       "footer": "Nossa equipe está pronta para esclarecer qualquer dúvida sobre o processo de desativação e seus direitos como usuário."
     }
   },
-
   "deleteAccount": {
     "backButton": "Voltar",
     "title": "Desativar Perfil",
@@ -1363,7 +1330,6 @@
     "errorMessage": "Erro ao desativar perfil:",
     "unknownError": "Erro desconhecido"
   },
-
   "centralAjuda": {
     "title": "Central de Ajuda FitCertify365",
     "subtitle": "Encontre respostas para suas dúvidas e entre em contato conosco",
@@ -1397,7 +1363,6 @@
       "button": "Entre em Contato"
     }
   },
-
   "resetPassword": {
     "modal": {
       "title": "Verifique seu e-mail",
@@ -1420,7 +1385,6 @@
       "invalidToken": "Token inválido"
     }
   },
-
   "detalhesPacienteMedico": {
     "title": "Detalhes do Paciente",
     "active": "Ativo",
@@ -1490,7 +1454,6 @@
       "Feminino": "Feminino"
     }
   },
-
   "perfilMedico": {
     "profileType": "Perfil Médico",
     "editProfile": "Editar Perfil",
@@ -1522,7 +1485,6 @@
       "state": "UF"
     }
   },
-
   "pacientesAtendidosMedico": {
     "title": "Lista de Pacientes Atendidos",
     "searchPlaceholder": "Buscar paciente...",
@@ -1541,7 +1503,6 @@
       "Outro": "Outro"
     }
   },
-
   "pacientesMedico": {
     "metrics": {
       "totalPatients": "Total de Pacientes",
@@ -1566,7 +1527,6 @@
       "Outro": "Outro"
     }
   },
-
   "consultasPendentesMedico": {
     "title": "Consultas Pendentes",
     "subtitle": "{count} consultas aguardando aprovação",
@@ -1584,7 +1544,6 @@
       "unknownError": "Erro desconhecido"
     }
   },
-
   "consultasExternas": {
     "title": "Consultas Externas",
     "filters": {
@@ -1664,7 +1623,6 @@
       "unknownError": "Erro desconhecido"
     }
   },
-
   "consultasMedico": {
     "title": "Minhas Consultas",
     "externalPatient": "Paciente Externo",
@@ -1739,7 +1697,6 @@
       "Pendente": "Pendente"
     }
   },
-
   "agendaMedica": {
     "title": "Agenda Médica",
     "newAppointment": "Nova Consulta",
@@ -1787,7 +1744,6 @@
       "Pendente": "Pendente"
     }
   },
-
   "cadastrarFisioterapeuta": {
     "title": "Cadastrar Fisioterapeuta",
     "steps": {
@@ -1897,7 +1853,6 @@
     },
     "required": "Campo obrigatório"
   },
-
   "cadastrarAtleta": {
     "title": "Cadastrar Atleta",
     "steps": {
@@ -1988,7 +1943,6 @@
       "registerError": "Erro ao cadastrar atleta"
     }
   },
-
   "editarPerfilMedico": {
     "editProfile": "Editar Perfil",
     "personalInfo": "Informações Pessoais",
@@ -2011,7 +1965,6 @@
     "loadError": "Erro ao carregar dados do médico:",
     "unknownError": "Erro desconhecido"
   },
-
   "validarCertificado": {
     "loading": "Carregando informações do certificado...",
     "errorTitle": "Erro ao validar certificado",
@@ -2034,7 +1987,6 @@
     "errorIdNotProvided": "ID da licença não fornecido",
     "errorLoadingInfo": "Não foi possível carregar as informações do certificado"
   },
-
   "registerPlanos": {
     "title": "Comece agora sua jornada com mais saúde e performance.",
     "subtitle": "Criar sua conta na FitCertify365 é rápido, seguro e gratuito. Com ela, você poderá validar certificados, acompanhar seus marcadores de saúde e aproveitar benefícios exclusivos no nosso marketplace.",
@@ -2048,21 +2000,20 @@
       "saudeCertificada": "Saúde Certificada",
       "saudeAtiva": "Saúde Ativa"
     },
-    "beneficios": { 
-      "item_01": "Conexão com provas parceiras", 
-      "item_02": "Emissão autmomática de modelo oficial", 
-      "item_03": "Aplicação ilimitada em diferentes provas durante a validade", 
-      "item_04": "Assinatura digital + QR Code", 
-      "item_05": "Descontos no Marketplace", 
-      "item_06": "Acesso ao painel de saúde", 
-      "item_07": "Monitoramento contínuo", 
+    "beneficios": {
+      "item_01": "Conexão com provas parceiras",
+      "item_02": "Emissão autmomática de modelo oficial",
+      "item_03": "Aplicação ilimitada em diferentes provas durante a validade",
+      "item_04": "Assinatura digital + QR Code",
+      "item_05": "Descontos no Marketplace",
+      "item_06": "Acesso ao painel de saúde",
+      "item_07": "Monitoramento contínuo",
       "item_08": "Integração com wearables",
       "item_09": "Alertas inteligentes e histórico",
       "item_10": "Integração com apps e dispositivos",
       "item_11": "Acesso ao painel de saúde completo"
-     }
+    }
   },
-
   "pagamento": {
     "cartao": "Cartão",
     "creditDebitCard": "Cartão de Crédito ou Débito",
@@ -2204,7 +2155,6 @@
     "noWeeklyTrainings": "Nenhum treino semanal encontrado",
     "noDailyTrainings": "Nenhum treino diário encontrado"
   },
-
   "treinosCriados": {
     "title": "Treinos Criados",
     "tabs": {
@@ -2227,7 +2177,6 @@
     "noWeeklyTrainings": "Nenhum treino semanal criado",
     "noDailyTrainings": "Nenhum treino diário criado"
   },
-
   "pacienteForm": {
     "physicalData": {
       "title": "Dados Físicos",
@@ -2322,7 +2271,6 @@
       "weightRequired": "Peso obrigatório"
     }
   },
-
   "medicoForm": {
     "professionalInfo": {
       "title": "Informações Profissionais",
@@ -2418,7 +2366,6 @@
     },
     "required": "Campo obrigatório"
   },
-
   "cadastrarMedico": {
     "title": "Cadastrar Médico",
     "steps": {
@@ -2513,7 +2460,6 @@
     },
     "required": "Campo obrigatório"
   },
-
   "cadastrarTreinador": {
     "title": "Cadastrar Treinador",
     "contact": "Contato",
@@ -2528,7 +2474,6 @@
       "registerError": "Erro ao cadastrar treinador"
     }
   },
-
   "register": {
     "leftPanel": {
       "title1": "Comece agora sua jornada com mais saúde e performance.",
@@ -2588,7 +2533,6 @@
       "registerError": "Não foi possível concluir o cadastro"
     }
   },
-
   "politicaPrivacidade": {
     "title": "Política de Privacidade, Termos e Condições de Uso e Proteção de Dados",
     "section1": {
@@ -2693,12 +2637,59 @@
       "email": "atendimento@fitcertify365.com"
     }
   },
-
   "paymentSuccess": {
     "title": "Pagamento Confirmado!",
     "message": "Obrigado por escolher o FitCertify365! Seu pagamento foi processado com sucesso.",
     "goToHome": "Ir para Tela Inicial",
     "welcomeTitle": "Bem-vindo ao FitCertify365",
     "welcomeMessage": "Sua jornada para certificações médicas esportivas começa agora!"
+  },
+  "formulariosMedicos": {
+    "title": "Formulário Médico Pré-Prova",
+    "subtitle": "Selecione o evento para preencher o formulário",
+    "errorLoading": "Erro ao carregar os formulários",
+    "noEvents": "Nenhum evento disponível",
+    "noEventsDescription": "Não há formulários disponíveis para preenchimento no momento.",
+    "formSubmitted": "Formulário Enviado",
+    "answerForm": "Responder Formulário"
+  },
+  "preRaceHealthCheck": {
+    "title": "Check-in de Saúde Pré-Prova",
+    "subtitle": "Responda as perguntas abaixo para auxiliar a equipe médica. Todos os campos são opcionais.",
+    "healthQuestionnaire": "Questionário de Saúde",
+    "page": "Página",
+    "yes": "Sim",
+    "no": "Não",
+    "placeholder": "Digite sua resposta",
+    "back": "Voltar",
+    "next": "Próximo",
+    "submit": "Enviar Check-in",
+    "successTitle": "Check-in Enviado!",
+    "successMessage": "Seu formulário foi enviado com sucesso.",
+    "backToForms": "Voltar para Formulários",
+    "questions": {
+      "dor_peito": "Sentiu dor ou pressão no peito, palpitações ou falta de ar fora do comum nas últimas 48 horas?",
+      "febre": "Teve febre ou calafrios nas últimas 24 horas?",
+      "horas_sono": "Quantas horas de sono você teve na última noite?",
+      "termogenico": "Consumiu algum suplemento termogênico, pré-treino ou estimulante nas últimas 12 horas?",
+      "tontura": "Apresentou tontura, escurecimento visual ou desmaio nos últimos dois dias?",
+      "analgesico": "Tomou algum anti-inflamatório ou analgésico nas últimas 6 horas?",
+      "viagem": "Realizou alguma viagem longa ou mudança brusca de altitude na última semana?",
+      "dor_muscular": "Sente alguma dor articular ou muscular que o obrigue a mancar ou mudar sua forma de correr?",
+      "estado_mental": "Você se sente mentalmente alerta e orientado no momento?",
+      "nausea": "Teve algum episódio de vômito ou náusea persistente nas últimas 12 horas?"
+    },
+    "justifications": {
+      "dor_peito": "Identifica sinais de alerta cardíaco agudo que podem evoluir para eventos graves durante esforço intenso.",
+      "febre": "A febre compromete a regulação térmica e aumenta o risco de miocardite viral, uma das principais causas de morte súbita em atletas.",
+      "horas_sono": "A privação de sono reduz a capacidade de dissipação de calor e prejudica a coordenação motora, elevando o risco de intercorrências.",
+      "termogenico": "Essas substâncias podem elevar perigosamente a frequência cardíaca e a pressão arterial, além de mascarar sinais de exaustão.",
+      "tontura": "Indica instabilidade circulatória ou desequilíbrios metabólicos que podem levar a colapsos durante a prova.",
+      "analgesico": "O uso dessas medicações antes de esforço intenso aumenta o risco de lesão renal aguda, especialmente em contextos de desidratação.",
+      "viagem": "Jet lag e falta de aclimatação alteram a resposta cardiovascular e o estado de hidratação do atleta.",
+      "dor_muscular": "Compensações biomecânicas aumentam significativamente o risco de lesões ortopédicas agudas durante a prova.",
+      "estado_mental": "Alterações na clareza mental podem indicar desequilíbrio eletrolítico, desidratação ou estresse sistêmico severo.",
+      "nausea": "Vômitos e náuseas indicam desidratação prévia e perda de eletrólitos, comprometendo a função muscular e cardiovascular."
+    }
   }
 }

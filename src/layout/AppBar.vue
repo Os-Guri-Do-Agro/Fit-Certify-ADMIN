@@ -42,7 +42,7 @@
       </v-menu>
 
       <v-btn @click="router.push('/notificacoes')" icon variant="flat" class="action-btn mr-2">
-        <v-badge dot color="#FF6B6B" offset-x="-2" offset-y="2">
+        <v-badge :model-value="temFormularioPendente" dot color="#FF6B6B" offset-x="-2" offset-y="2">
           <v-icon size="20px">mdi-bell-outline</v-icon>
         </v-badge>
       </v-btn>
@@ -103,12 +103,14 @@ import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
 import treinadorService from '@/services/treinador/treinador-service';
+import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
 import { getFisioterapeutaId } from '@/utils/auth';
 import { getTreinadorId } from '@/utils/auth';
+import { isAtleta } from '@/utils/auth';
 import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
-import { ca } from 'vuetify/locale';
+import { toast } from 'vue3-toastify';
 
 const layoutStore = useLayoutStore()
 const payload = ref<any>()
@@ -122,6 +124,7 @@ const fisioterapeuta = ref<any>()
 const treinador = ref<any>()
 const loading = ref(true)
 const dialogPerfil = ref(false)
+const temFormularioPendente = ref(false)
 
 const changeLocale = (lang: string) => {
   locale.value = lang
@@ -158,6 +161,7 @@ const pageTitle = computed(() => {
   '/Atleta-Screens/meuPlano': t('appBar.titleMyPlan'),
   '/Atleta-Screens/visaoGeral': t('appBar.titleOverview'),
   '/Atleta-Screens/treinosAtleta': t('appBar.titleMyTrainings'),
+  '/Atleta-Screens/formularios': t('appBar.titleForms'),
 
   '/Medico-Screens/agendaMedica': t('appBar.titleCalendar'),
   '/Medico-Screens/consultas': t('appBar.titleConsultas'),
@@ -213,7 +217,7 @@ const pageTitle = computed(() => {
 
   '/settings/deleteAccount': t('appBar.titleDeleteAccount'),
   '/consultasExternas': t('appBar.titleExternalConsultations'),
-  '/pacientesExternos': t('appBar.titleExternalPatients')
+  '/pacientesExternos': t('appBar.titleExternalPatients'),
   }
   return routeMap[path] || ''
 })
@@ -292,7 +296,8 @@ const pageIcon = computed(() => {
     '/treinosCriados': 'mdi-dumbbell',
     '/settings/deleteAccount': 'mdi-account-remove',
     "/consultasExternas": "mdi-clipboard-list-outline",
-    "/pacientesExternos": "mdi-account-group-outline"
+    "/pacientesExternos": "mdi-account-group-outline",
+    "/Atleta-Screens/formularios": "mdi-form-select"
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })
@@ -343,6 +348,22 @@ const buscarTreinadorById = async (id: string) => {
   }
 }
 
+const verificarFormulariosPendentes = async () => {
+  if (!isAtleta()) return
+  
+  try {
+    const response = await formularioMedicoService.buscarFormularios()
+    const formularios = response.data || response
+    const pendente = formularios.some((f: any) => !f.jaRespondeu)
+    
+    if (pendente) {
+      temFormularioPendente.value = true
+    }
+  } catch (error) {
+    console.error('Erro ao verificar formulários:', error)
+  }
+}
+
 onMounted(async () => {
   const savedLocale = localStorage.getItem('locale')
   if (savedLocale) {
@@ -353,6 +374,7 @@ onMounted(async () => {
   if (getAtletaId()) {
     await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
+    await verificarFormulariosPendentes()
   } else if (getMedicoId()) {
     await buscarMedicoById(getMedicoId())
     payload.value = getPayload()

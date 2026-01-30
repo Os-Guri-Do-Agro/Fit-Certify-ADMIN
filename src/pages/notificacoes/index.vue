@@ -9,7 +9,7 @@
         <p class="header-subtitle">{{ $t('notificacoes.subtitle') }}</p>
         <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-bell">
-            {{ notificacoes.length }} {{ $t('notificacoes.total') }}
+            {{ totalNotificacoes }} {{ $t('notificacoes.total') }}
           </v-chip>
           <v-chip class="stat-chip" prepend-icon="mdi-bell-badge">
             {{ notificacoesNaoLidas }} {{ $t('notificacoes.unread') }}
@@ -22,14 +22,30 @@
       <v-col cols="12" md="10">
           <div class="d-flex align-center justify-space-between mb-6">
             <h3 class="text-h6 font-weight-bold">{{ $t('notificacoes.yourNotifications') }}</h3>
-            <v-btn v-if="notificacoesNaoLidas > 0" variant="flat" class="gradient-btn" size="small"
-              @click="marcarTodasComoLidas">
-              <v-icon size="16" class="mr-1">mdi-check-all</v-icon>
-              {{ $t('notificacoes.markAllAsRead') }}
-            </v-btn>
           </div>
 
           <div>
+            <v-card v-if="isAtleta() && formulariosPendentes.length > 0" elevation="3" class="mb-4 rounded-xl" color="#FFF3E0">
+              <v-card-text class="pa-5">
+                <div class="d-flex align-center">
+                  <v-avatar color="#FF6B35" size="48" class="mr-4">
+                    <v-icon color="white" size="24">mdi-clipboard-text</v-icon>
+                  </v-avatar>
+                  <div class="flex-grow-1">
+                    <h4 class="text-subtitle-1 font-weight-bold text-black mb-1">
+                      {{ t('notificacoes.pendingForms') }}
+                    </h4>
+                    <p class="text-body-2 text-grey-darken-1 mb-0">
+                      {{ t('notificacoes.pendingFormsDescription', { count: formulariosPendentes.length }) }}
+                    </p>
+                  </div>
+                  <v-btn @click="irParaFormularios" color="#FF6B35" variant="flat" size="small">
+                    {{ t('notificacoes.answerForms') }}
+                  </v-btn>
+                </div>
+              </v-card-text>
+            </v-card>
+
             <div v-if="notificacoes.length > 0">
               <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="2" :class="[
                 'notification-item mb-4 rounded-xl',
@@ -86,14 +102,19 @@
 import { formatarDataHora , formatarDataLocal} from '@/utils/date.utils'
 import dayjs from 'dayjs'
 import 'dayjs/locale/pt-br'
-import { computed, ref } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
+import { isAtleta } from '@/utils/auth'
+import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service'
+import { useRouter } from 'vue-router'
 
 const { t, locale } = useI18n()
+const router = useRouter()
 
 dayjs.locale('pt-br')
 
 const notificacoes = ref<any[]>([])
+const formulariosPendentes = ref<any[]>([])
 
 const formatDateTime = (dateTime: string) => {
   if (!dateTime) return ''
@@ -109,7 +130,15 @@ const formatDateTime = (dateTime: string) => {
 }
 
 const notificacoesNaoLidas = computed(() => {
-  return notificacoes.value.filter(n => !n.visualizado).length
+  const naoLidas = notificacoes.value.filter(n => !n.visualizado).length
+  const formsPendentes = isAtleta() ? formulariosPendentes.value.length : 0
+  return naoLidas + formsPendentes
+})
+
+const totalNotificacoes = computed(() => {
+  const total = notificacoes.value.length
+  const formsPendentes = isAtleta() ? formulariosPendentes.value.length : 0
+  return total + formsPendentes
 })
 
 
@@ -140,6 +169,26 @@ const toggleVisualizacao = (notificacao: any) => {
 const marcarTodasComoLidas = () => {
   notificacoes.value.forEach(n => n.visualizado = true)
 }
+
+const buscarFormulariosPendentes = async () => {
+  if (!isAtleta()) return
+  
+  try {
+    const response = await formularioMedicoService.buscarFormularios()
+    const formularios = response.data || response
+    formulariosPendentes.value = formularios.filter((f: any) => !f.jaRespondeu)
+  } catch (error) {
+    console.error('Erro ao buscar formulários:', error)
+  }
+}
+
+const irParaFormularios = () => {
+  router.push('/Atleta-Screens/formularios')
+}
+
+onMounted(() => {
+  buscarFormulariosPendentes()
+})
 </script>
 
 <style scoped>
