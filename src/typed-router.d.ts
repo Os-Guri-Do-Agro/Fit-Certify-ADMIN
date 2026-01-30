@@ -26,6 +26,7 @@ declare module 'vue-router/auto-routes' {
     '/Atleta-Screens/eventos/': RouteRecordInfo<'/Atleta-Screens/eventos/', '/Atleta-Screens/eventos', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/eventos/[id]': RouteRecordInfo<'/Atleta-Screens/eventos/[id]', '/Atleta-Screens/eventos/:id', { id: ParamValue<true> }, { id: ParamValue<false> }>,
     '/Atleta-Screens/fisioterapeutaDetalhes/': RouteRecordInfo<'/Atleta-Screens/fisioterapeutaDetalhes/', '/Atleta-Screens/fisioterapeutaDetalhes', Record<never, never>, Record<never, never>>,
+    '/Atleta-Screens/formularios/': RouteRecordInfo<'/Atleta-Screens/formularios/', '/Atleta-Screens/formularios', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/medicoDetalhes/': RouteRecordInfo<'/Atleta-Screens/medicoDetalhes/', '/Atleta-Screens/medicoDetalhes', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/medicos/': RouteRecordInfo<'/Atleta-Screens/medicos/', '/Atleta-Screens/medicos', Record<never, never>, Record<never, never>>,
     '/Atleta-Screens/meuPlano/': RouteRecordInfo<'/Atleta-Screens/meuPlano/', '/Atleta-Screens/meuPlano', Record<never, never>, Record<never, never>>,

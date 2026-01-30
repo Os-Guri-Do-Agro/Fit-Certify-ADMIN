@@ -7,239 +7,68 @@
             <div class="icon-container">
               <v-icon color="white" size="24">mdi-clipboard-pulse</v-icon>
             </div>
-            <h1 class="header-title">Check-in de Saúde Pré-Prova</h1>
+            <h1 class="header-title">{{ $t('preRaceHealthCheck.title') }}</h1>
           </div>
           <img src="/favicon.png" alt="Logo" class="header-logo" />
         </div>
         <p class="header-subtitle">
-          Responda as perguntas abaixo para auxiliar a equipe médica. Todos os campos são opcionais.
+          {{ $t('preRaceHealthCheck.subtitle') }}
         </p>
       </div>
 
       <v-card-text class="pa-6 pa-md-8">
-        <v-stepper v-model="currentStep" elevation="0" class="custom-stepper">
+        <div v-if="loadingFormularios" class="d-flex justify-center align-center" style="min-height: 400px;">
+          <v-progress-circular indeterminate color="#42A5F5" size="64"></v-progress-circular>
+        </div>
+        <v-stepper v-else v-model="currentStep" elevation="0" class="custom-stepper">
           <v-stepper-header>
-            <v-stepper-item :complete="currentStep > 1" :value="1" title="Sintomas" />
-            <v-divider />
-            <v-stepper-item :complete="currentStep > 2" :value="2" title="Saúde Geral" />
-            <v-divider />
-            <v-stepper-item :complete="currentStep > 3" :value="3" title="Sono e Medicação" />
-            <v-divider />
-            <v-stepper-item :value="4" title="Condições Físicas" />
+            <template v-for="(grupo, index) in perguntasPorPagina" :key="index">
+              <v-stepper-item :complete="currentStep > index + 1" :value="index + 1" :title="`${$t('preRaceHealthCheck.page')} ${index + 1}`" />
+              <v-divider v-if="index < perguntasPorPagina.length - 1" />
+            </template>
           </v-stepper-header>
 
           <v-stepper-window>
-            <v-stepper-window-item :value="1">
-              <v-form ref="formRef">
-                <div class="section-card">
-                  <div class="section-header">
-                    <div class="section-icon-wrapper">
-                      <v-icon color="white" size="20">mdi-heart-pulse</v-icon>
-                    </div>
-                    <h2 class="section-title">Sintomas Cardiovasculares e Respiratórios</h2>
-                  </div>
-
-                  <v-row class="mt-4">
-                    <v-col cols="12">
-                      <div class="question-label">
-                        Sentiu dor ou pressão no peito, palpitações ou falta de ar fora do comum nas últimas 48 horas?
-                      </div>
-                      <div class="justification-text">
-                        <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                        Identifica sinais de alerta cardíaco agudo que podem evoluir para eventos graves, como infarto ou arritmias, durante o esforço máximo.
-                      </div>
-                      <v-radio-group v-model="formData.sintomasCardiovasculares" inline hide-details class="mt-2">
-                        <v-radio label="Sim" :value="true" color="success"></v-radio>
-                        <v-radio label="Não" :value="false" color="success"></v-radio>
-                      </v-radio-group>
-                    </v-col>
-
-                    <v-col cols="12">
-                      <div class="question-label">
-                        Apresentou tontura, escurecimento visual ou desmaio nos últimos dois dias?
-                      </div>
-                      <div class="justification-text">
-                        <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                        Indica instabilidade no sistema circulatório ou desequilíbrios metabólicos que podem causar colapsos durante a corrida.
-                      </div>
-                      <v-radio-group v-model="formData.tonturaDesmaiо" inline hide-details class="mt-2">
-                        <v-radio label="Sim" :value="true" color="success"></v-radio>
-                        <v-radio label="Não" :value="false" color="success"></v-radio>
-                      </v-radio-group>
-                    </v-col>
-                  </v-row>
-                </div>
-              </v-form>
-            </v-stepper-window-item>
-
-            <v-stepper-window-item :value="2">
+            <v-stepper-window-item v-for="(grupo, index) in perguntasPorPagina" :key="index" :value="index + 1">
               <div class="section-card">
                 <div class="section-header">
                   <div class="section-icon-wrapper">
-                    <v-icon color="white" size="20">mdi-thermometer</v-icon>
+                    <v-icon color="white" size="20">mdi-clipboard-text</v-icon>
                   </div>
-                  <h2 class="section-title">Condições Gerais de Saúde</h2>
+                  <h2 class="section-title">{{ $t('preRaceHealthCheck.healthQuestionnaire') }}</h2>
                 </div>
 
                 <v-row class="mt-4">
-                  <v-col cols="12" md="6">
+                  <v-col v-for="pergunta in grupo" :key="pergunta.id" cols="12">
                     <div class="question-label">
-                      Teve febre ou calafrios nas últimas 24 horas?
+                      {{ pergunta.pergunta }}
                     </div>
                     <div class="justification-text">
                       <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      A febre prejudica a regulação térmica do corpo e aumenta o risco de miocardite viral, uma das principais causas de morte súbita em atletas.
+                      {{ pergunta.justificativa }}
                     </div>
-                    <v-radio-group v-model="formData.febreCalafrios" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
-                  </v-col>
 
-                  <v-col cols="12" md="6">
-                    <div class="question-label">
-                      Teve vômito ou náusea persistente nas últimas 12 horas?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      Indica um estado de desidratação prévia e perda de eletrólitos que compromete a função muscular e a segurança cardiovascular.
-                    </div>
-                    <v-radio-group v-model="formData.vomitoNausea" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-
-                  <v-col cols="12">
-                    <div class="question-label">
-                      Você se sente mentalmente alerta e orientado neste momento?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      Alterações na clareza mental podem ser sinais precoces de desequilíbrio eletrolítico ou estresse sistêmico severo.
-                    </div>
-                    <v-radio-group v-model="formData.alertaMental" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-stepper-window-item>
-
-            <v-stepper-window-item :value="3">
-              <div class="section-card mb-6">
-                <div class="section-header">
-                  <div class="section-icon-wrapper">
-                    <v-icon color="white" size="20">mdi-sleep</v-icon>
-                  </div>
-                  <h2 class="section-title">Sono e Recuperação</h2>
-                </div>
-
-                <v-row class="mt-4">
-                  <v-col cols="12" md="6">
-                    <div class="question-label mb-1">
-                      Quantas horas de sono você teve na última noite?
-                    </div>
-                    <div class="justification-text mb-2">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      A privação de sono reduz a capacidade de dissipar calor e prejudica a coordenação motora, elevando o risco de intercorrências térmicas e quedas.
-                    </div>
-                    <v-text-field
-                      v-model.number="formData.horasSono"
-                      variant="outlined"
-                      rounded="lg"
-                      bg-color="white"
-                      type="number"
-                      min="0"
-                      max="24"
-                      step="0.5"
-                      suffix="horas"
-                      prepend-inner-icon="mdi-clock-outline"
-                      color="#42A5F5"
-                      class="custom-field"
+                    <v-radio-group
+                      v-if="pergunta.tipo === 'boolean'"
+                      v-model="formData[pergunta.id]"
+                      inline
                       hide-details
-                    ></v-text-field>
-                  </v-col>
-                </v-row>
-              </div>
-
-              <div class="section-card">
-                <div class="section-header">
-                  <div class="section-icon-wrapper">
-                    <v-icon color="white" size="20">mdi-pill</v-icon>
-                  </div>
-                  <h2 class="section-title">Medicamentos e Suplementos</h2>
-                </div>
-
-                <v-row class="mt-4">
-                  <v-col cols="12">
-                    <div class="question-label">
-                      Consumiu suplemento termogênico, pré-treino ou estimulante nas últimas 12 horas?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      Essas substâncias podem elevar a frequência cardíaca e a pressão arterial de forma perigosa, além de mascarar sinais de exaustão do organismo.
-                    </div>
-                    <v-radio-group v-model="formData.suplementoEstimulante" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
+                      class="mt-2"
+                    >
+                      <v-radio :label="$t('preRaceHealthCheck.yes')" :value="true" color="success"></v-radio>
+                      <v-radio :label="$t('preRaceHealthCheck.no')" :value="false" color="success"></v-radio>
                     </v-radio-group>
-                  </v-col>
 
-                  <v-col cols="12">
-                    <div class="question-label">
-                      Tomou algum anti-inflamatório ou analgésico nas últimas 6 horas?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      O uso de anti-inflamatórios antes de exercícios intensos aumenta significativamente o risco de lesão renal aguda devido à desidratação.
-                    </div>
-                    <v-radio-group v-model="formData.antiInflamatorioAnalgesico" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-                </v-row>
-              </div>
-            </v-stepper-window-item>
-
-            <v-stepper-window-item :value="4">
-              <div class="section-card">
-                <div class="section-header">
-                  <div class="section-icon-wrapper">
-                    <v-icon color="white" size="20">mdi-run</v-icon>
-                  </div>
-                  <h2 class="section-title">Condições Físicas e Ambientais</h2>
-                </div>
-
-                <v-row class="mt-4">
-                  <v-col cols="12">
-                    <div class="question-label">
-                      Realizou viagem longa ou mudança brusca de altitude na última semana?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      O jet lag e a falta de aclimatação alteram a resposta cardiovascular e o estado de hidratação, exigindo atenção redobrada da equipe médica.
-                    </div>
-                    <v-radio-group v-model="formData.viagemAltitude" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
-                  </v-col>
-
-                  <v-col cols="12">
-                    <div class="question-label">
-                      Sente dor articular ou muscular que altere sua forma de correr?
-                    </div>
-                    <div class="justification-text">
-                      <v-icon size="14" color="#6c757d">mdi-information-outline</v-icon>
-                      Permite prever lesões ortopédicas agudas causadas por compensações biomecânicas durante a prova.
-                    </div>
-                    <v-radio-group v-model="formData.dorArticularMuscular" inline hide-details class="mt-2">
-                      <v-radio label="Sim" :value="true" color="success"></v-radio>
-                      <v-radio label="Não" :value="false" color="success"></v-radio>
-                    </v-radio-group>
+                    <v-text-field
+                      v-else-if="pergunta.tipo === 'string'"
+                      v-model="formData[pergunta.id]"
+                      :placeholder="$t('preRaceHealthCheck.placeholder')"
+                      variant="outlined"
+                      density="comfortable"
+                      rounded="lg"
+                      hide-details
+                      class="mt-2 custom-field"
+                    />
                   </v-col>
                 </v-row>
               </div>
@@ -257,19 +86,19 @@
               :disabled="loading"
             >
               <v-icon left>mdi-chevron-left</v-icon>
-              Voltar
+              {{ $t('preRaceHealthCheck.back') }}
             </v-btn>
             <v-spacer v-else />
-            
+
             <v-btn
-              v-if="currentStep < 4"
+              v-if="currentStep < totalSteps"
               color="#42A5F5"
               rounded="lg"
               size="large"
               class="text-white"
               @click="currentStep++"
             >
-              Próximo
+              {{ $t('preRaceHealthCheck.next') }}
               <v-icon right>mdi-chevron-right</v-icon>
             </v-btn>
             <v-btn
@@ -282,56 +111,115 @@
               :loading="loading"
             >
               <v-icon left>mdi-check</v-icon>
-              Enviar Check-in
+              {{ $t('preRaceHealthCheck.submit') }}
             </v-btn>
           </div>
         </v-stepper>
       </v-card-text>
     </v-card>
+
+    <v-dialog v-model="successDialog" persistent max-width="500">
+      <v-card rounded="xl">
+        <v-card-text class="text-center pa-8">
+          <div class="success-icon-wrapper mx-auto mb-4">
+            <v-icon size="80" color="white">mdi-check-circle</v-icon>
+          </div>
+          <h2 class="text-h5 font-weight-bold mb-3">{{ $t('preRaceHealthCheck.successTitle') }}</h2>
+          <p class="text-body-1 text-grey-darken-1">{{ $t('preRaceHealthCheck.successMessage') }}</p>
+        </v-card-text>
+        <v-card-actions class="pa-6 pt-0">
+          <v-btn
+            color="#42A5F5"
+            variant="flat"
+            rounded="lg"
+            block
+            size="large"
+            @click="voltarFormularios"
+          >
+            {{ $t('preRaceHealthCheck.backToForms') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 import type { PreRaceHealthCheckData } from '@/Interfaces/pre-race-health-check.interface'
+import formurarioMedicoService from '@/services/formulario-medico/formurarioMedico-service'
 
+const router = useRouter()
+const { t } = useI18n()
 const formRef = ref()
 const loading = ref(false)
+const loadingFormularios = ref(true)
 const currentStep = ref(1)
+const formularios = ref<any[]>([])
+const formData = ref<Record<string, any>>({})
+const successDialog = ref(false)
 
-const formData = ref<PreRaceHealthCheckData>({
-  sintomasCardiovasculares: null,
-  tonturaDesmaiо: null,
-  febreCalafrios: null,
-  vomitoNausea: null,
-  alertaMental: null,
-  horasSono: null,
-  suplementoEstimulante: null,
-  antiInflamatorioAnalgesico: null,
-  viagemAltitude: null,
-  dorArticularMuscular: null,
+const perguntas = computed(() => {
+  const perguntasOriginais = formularios.value[0]?.perguntas || []
+  return perguntasOriginais.map((p: any) => ({
+    ...p,
+    pergunta: t(`preRaceHealthCheck.questions.${p.id}`),
+    justificativa: t(`preRaceHealthCheck.justifications.${p.id}`)
+  }))
 })
 
+const perguntasPorPagina = computed(() => {
+  const porPagina = 3
+  const grupos: any[][] = []
+  for (let i = 0; i < perguntas.value.length; i += porPagina) {
+    grupos.push(perguntas.value.slice(i, i + porPagina))
+  }
+  return grupos
+})
+
+const totalSteps = computed(() => perguntasPorPagina.value.length)
+
+const bsucarFormularios = async () => {
+  loadingFormularios.value = true
+  try {
+    const response = await formurarioMedicoService.buscarFormularios()
+    if (response.data?.[0]?.jaRespondeu) {
+      window.location.href = '/Atleta-Screens/formularios'
+      return
+    }
+    formularios.value = response.data
+    perguntas.value.forEach((p: any) => {
+      formData.value[p.id] = null
+    })
+  } catch (error) {
+    console.error('Erro ao buscar formularios:', error)
+    toast.error('Erro ao carregar os formularios.')
+  } finally {
+    loadingFormularios.value = false
+  }
+}
+
 const props = defineProps<{
-  eventoId?: number
+  eventoId?: number | string
+}>()
+
+const emit = defineEmits<{
+  submit: [data: PreRaceHealthCheckData]
+  cancel: []
 }>()
 
 const handleSubmit = async () => {
   loading.value = true
-  
   try {
-    const payload: PreRaceHealthCheckData = {
-      ...formData.value,
-      dataPreenchimento: new Date().toISOString(),
+    const data = {
       eventoId: props.eventoId,
+      ...formData.value
     }
-
-    // Simulação de envio (mocado)
-    await new Promise(resolve => setTimeout(resolve, 1000))
-    console.log('Check-in enviado (mocado):', payload)
-    
-    toast.success('Check-in de saúde enviado com sucesso!')
+    await formurarioMedicoService.responderFormulario(data)
+    successDialog.value = true
     resetForm()
   } catch (error) {
     console.error('Erro ao enviar check-in:', error)
@@ -341,20 +229,19 @@ const handleSubmit = async () => {
   }
 }
 
-const resetForm = () => {
-  formData.value = {
-    sintomasCardiovasculares: null,
-    tonturaDesmaiо: null,
-    febreCalafrios: null,
-    vomitoNausea: null,
-    alertaMental: null,
-    horasSono: null,
-    suplementoEstimulante: null,
-    antiInflamatorioAnalgesico: null,
-    viagemAltitude: null,
-    dorArticularMuscular: null,
-  }
+const voltarFormularios = () => {
+  window.location.href = '/Atleta-Screens/formularios'
 }
+
+const resetForm = () => {
+  perguntas.value.forEach((p: any) => {
+    formData.value[p.id] = null
+  })
+}
+
+onMounted(() => {
+  bsucarFormularios()
+})
 </script>
 
 <style scoped>
@@ -516,5 +403,16 @@ const resetForm = () => {
   padding: 6px 0;
   font-style: italic;
   opacity: 0.85;
+}
+
+.success-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #66BB6A 0%, #43A047 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px rgba(67, 160, 71, 0.3);
 }
 </style>
