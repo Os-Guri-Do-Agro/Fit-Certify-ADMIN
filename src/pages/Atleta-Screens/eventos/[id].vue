@@ -52,6 +52,13 @@
                   {{ t('eventos.details.eventWebsite') }}
                 </v-btn>
               </div>
+              <div class="">
+                <v-btn v-if="isUserAtleta && !evento.formularioMedicoRespondido" @click="responderFormulario" color="#FF6B35"
+                  variant="flat" size="large" prepend-icon="mdi-clipboard-text" rounded="lg" elevation="3"
+                  class="text-white px-6" style="font-weight: 600; text-transform: none;">
+                  {{ t('eventos.answerForm') }}
+                </v-btn>
+              </div>
             </v-col>
 
             <v-col cols="12" md="4" class="d-flex justify-center align-center">
@@ -233,6 +240,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import eventoService from '@/services/eventos/eventos-service'
 import termosService from '@/services/eventos/termos/termos-service'
+import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service'
 import { toast } from 'vue3-toastify'
 import { isAtleta } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
@@ -249,6 +257,7 @@ const loadingTermos = ref(false)
 const termos = ref<any>(null)
 const dialogTermos = ref(false)
 const scrolledToBottom = ref(false)
+const formularioRespondido = ref(false)
 
 const tipoEvento = ref<any>(null)
 const isUserAtleta = computed(() => isAtleta())
@@ -301,6 +310,24 @@ const formatDistancias = (distanciasEvento: any[]) => {
   return distanciasEvento.map((d) => `${d.distancia}K`).join(' / ')
 }
 
+const verificarFormularioRespondido = async () => {
+  try {
+    const params = route.params as { id?: string }
+    const eventoId = params.id
+    if (!eventoId) return
+
+    const response = await formularioMedicoService.respostaByEventoId(eventoId)
+    formularioRespondido.value = response.data.jaRespondeu
+  } catch (error) {
+    console.error('Erro ao verificar formulário:', error)
+  }
+}
+
+const responderFormulario = () => {
+  const params = route.params as { id?: string }
+  router.push(`/Atleta-Screens/formulario-medico/${params.id}`)
+}
+
 const carregarEvento = async () => {
   try {
     loading.value = true
@@ -324,6 +351,7 @@ const carregarEvento = async () => {
     }
 
     await buscarTermos()
+    await verificarFormularioRespondido()
   } catch (error) {
     console.error('Erro ao carregar evento:', error)
     toast.error('Erro ao carregar detalhes do evento')
