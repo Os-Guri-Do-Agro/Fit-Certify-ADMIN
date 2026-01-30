@@ -13,7 +13,7 @@ import PreRaceHealthCheckForm from '@/components/PreRaceHealthCheckForm.vue'
 import { getToken } from '@/utils/auth'
 
 const route = useRoute()
-const eventoId = ref<number | undefined>()
+const eventoId = ref<string | undefined>(route.query.eventoId as string)
 
 onMounted(() => {
   if (!getToken() || getToken() === null ) {

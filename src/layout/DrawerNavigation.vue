@@ -464,6 +464,12 @@ const menusPorPerfil = computed(() => ({
           to: '/Atleta-Screens/eventos',
         },
         {
+          icon: 'mdi-form-select',
+          title: t('drawerNavigator.menu.formularios'),
+          value: 'formularios',
+          to: '/Atleta-Screens/formularios',
+        },
+        {
           icon: 'mdi-weight-lifter',
           title: 'Treinos',
           value: 'treinos',
