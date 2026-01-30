@@ -24,7 +24,16 @@
             <h3 class="text-h6 font-weight-bold">{{ $t('notificacoes.yourNotifications') }}</h3>
           </div>
 
-          <div>
+          <div v-if="loading" class="loading-container">
+            <v-skeleton-loader
+              v-for="i in 3"
+              :key="i"
+              type="list-item-avatar-two-line"
+              class="mb-4 rounded-xl"
+            />
+          </div>
+
+          <div v-else>
             <v-card v-if="isAtleta() && formulariosPendentes.length > 0" elevation="3" class="mb-4 rounded-xl" color="#FFF3E0">
               <v-card-text class="pa-5">
                 <div class="d-flex align-center">
@@ -87,7 +96,7 @@
               </v-card>
             </div>
 
-            <div v-else class="text-center py-8">
+            <div v-if="totalNotificacoes <= 0" class="text-center py-8">
               <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
               <h4 class="text-h6 text-grey-darken-1 mb-2">{{ $t('notificacoes.noNotifications') }}</h4>
               <p class="text-body-2 text-grey">{{ $t('notificacoes.noNotificationsDescription') }}</p>
@@ -115,6 +124,7 @@ dayjs.locale('pt-br')
 
 const notificacoes = ref<any[]>([])
 const formulariosPendentes = ref<any[]>([])
+const loading = ref(true)
 
 const formatDateTime = (dateTime: string) => {
   if (!dateTime) return ''
@@ -135,7 +145,7 @@ const notificacoesNaoLidas = computed(() => {
   return naoLidas + formsPendentes
 })
 
-const totalNotificacoes = computed(() => {
+const totalNotificacoes = computed<any>(() => {
   const total = notificacoes.value.length
   const formsPendentes = isAtleta() ? formulariosPendentes.value.length : 0
   return total + formsPendentes
@@ -172,7 +182,7 @@ const marcarTodasComoLidas = () => {
 
 const buscarFormulariosPendentes = async () => {
   if (!isAtleta()) return
-  
+
   try {
     const response = await formularioMedicoService.buscarFormularios()
     const formularios = response.data || response
@@ -186,8 +196,18 @@ const irParaFormularios = () => {
   router.push('/Atleta-Screens/formularios')
 }
 
+const carregarNotificacoes = async () => {
+  loading.value = true
+  try {
+    await buscarFormulariosPendentes()
+    await new Promise(resolve => setTimeout(resolve, 800))
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
-  buscarFormulariosPendentes()
+  carregarNotificacoes()
 })
 </script>
 
