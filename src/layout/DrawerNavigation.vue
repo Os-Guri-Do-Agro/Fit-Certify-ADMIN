@@ -291,7 +291,7 @@
 
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout'
-import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout, getUserID } from '@/utils/auth'
+import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout, getUserID, getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId } from '@/utils/auth'
 import { getProfileRoute, getListaConexaoRoute } from '@/utils/profile'
 import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
@@ -304,22 +304,6 @@ const layoutStore = useLayoutStore()
 const $route = useRoute()
 const open = ref(['Analise'])
 const payload = ref<any>()
-const infoUser = ref<any>()
-
-
-  const infoUsuario = async () => {
-    try {
-      const id = getUserID()
-      if (!id) {
-        console.warn('User ID not found')
-        return
-      }
-      const response = await userService.userById(id)
-      infoUser.value = response.data
-    } catch (error) {
-      console.error('Erro ao buscar informações do usuário:', error)
-    }
-  }
 
 const notificacoesItems = computed(() => [
   {
@@ -331,28 +315,28 @@ const notificacoesItems = computed(() => [
 ])
 const contaItems = computed(() => {
   const children = [
-    ...(!infoUser.value?.atletaId ? [{
+    ...(!getAtletaId() ? [{
       icon: 'mdi-run',
       title: t('drawerNavigator.account.atleta'),
       value: 'cadastrar-atleta',
       to: '/cadastrar-atleta',
       hideForRoles: ['atleta'],
     }] : []),
-    ...(!infoUser.value?.medicoId ? [{
+    ...(!getMedicoId() ? [{
       icon: 'mdi-stethoscope',
       title: t('drawerNavigator.account.medico'),
       value: 'cadastrar-medico',
       to: '/cadastrar-medico',
       hideForRoles: ['medico'],
     }] : []),
-    ...(!infoUser.value?.fisioterapeutaId ? [{
+    ...(!getFisioterapeutaId() ? [{
       icon: 'mdi-human-handsup',
       title: t('drawerNavigator.account.fisioterapeuta'),
       value: 'cadastrar-fisioterapeuta',
       to: '/cadastrar-fisioterapeuta',
       hideForRoles: ['fisioterapeuta'],
     }] : []),
-    ...(!infoUser.value?.treinadorId ? [{
+    ...(!getTreinadorId() ? [{
       icon: 'mdi-whistle',
       title: t('drawerNavigator.account.treinador'),
       value: 'cadastrar-treinador',
@@ -671,7 +655,6 @@ const menuFinal = computed(() => {
 
 onMounted(() => {
   payload.value = getPayload()
-  infoUsuario()
 })
 
 onMounted(() => {

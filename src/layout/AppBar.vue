@@ -350,12 +350,12 @@ const buscarTreinadorById = async (id: string) => {
 
 const verificarFormulariosPendentes = async () => {
   if (!isAtleta()) return
-  
+
   try {
     const response = await formularioMedicoService.buscarFormularios()
     const formularios = response.data || response
     const pendente = formularios.some((f: any) => !f.jaRespondeu)
-    
+
     if (pendente) {
       temFormularioPendente.value = true
     }
