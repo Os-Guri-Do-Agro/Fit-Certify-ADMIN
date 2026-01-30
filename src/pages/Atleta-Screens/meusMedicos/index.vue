@@ -98,19 +98,6 @@ const pageSize = ref(10)
 const totalPages = ref(0)
 const loading = ref(true)
 const medico = ref([])
-const usuario = ref(null)
-
-const buscarUsuario = async () => {
-  try {
-    const payload = getPayload()
-    if (payload?.user?.id) {
-      const response = await userService.userById(payload.user.id)
-      usuario.value = response
-    }
-  } catch (error) {
-    console.error('erro ao buscar usuário', error)
-  }
-}
 
 const buscarmeusMedico = async () => {
   try {
@@ -130,7 +117,6 @@ const buscarmeusMedico = async () => {
 }
 
 onMounted(() => {
-  buscarUsuario()
   buscarmeusMedico()
 })
 
