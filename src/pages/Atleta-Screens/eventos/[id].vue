@@ -53,7 +53,7 @@
                 </v-btn>
               </div>
               <div class="">
-                <v-btn v-if="isUserAtleta && !evento.formularioMedicoRespondido && evento.aceitouTermo" @click="responderFormulario" color="#FF6B35"
+                <v-btn v-if="isUserAtleta && !evento.formularioMedicoRespondido && evento.aceitouTermo && evento.formularioMedicoDisponivel" @click="responderFormulario" color="#FF6B35"
                   variant="flat" size="large" prepend-icon="mdi-clipboard-text" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
                   {{ t('eventos.answerForm') }}
@@ -206,9 +206,9 @@
         </v-card-title>
 
         <v-card-text class="pa-6">
-          <div v-if="evento.possuiTermo && termos?.termo" @scroll="onScroll"
+          <div v-if="evento.possuiTermo" @scroll="onScroll"
             style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
-            {{ termos.termo }}
+            {{ evento.termo?.conteudoGenerico }}
           </div>
           <div v-else class="text-center py-8">
             <v-icon size="80" color="#42A5F5" class="mb-4">mdi-cloud-upload-outline</v-icon>
@@ -267,9 +267,7 @@ const formatarData = (data: string) => {
   return date.toLocaleDateString(localeStr, {
     day: '2-digit',
     month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+    year: 'numeric'
   })
 }
 

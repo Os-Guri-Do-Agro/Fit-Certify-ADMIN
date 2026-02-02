@@ -162,12 +162,14 @@ const formularios = ref<any[]>([])
 const formData = ref<Record<string, any>>({})
 const successDialog = ref(false)
 
+const { locale } = useI18n()
+
 const perguntas = computed(() => {
   const perguntasOriginais = formularios.value[0]?.perguntas || []
   return perguntasOriginais.map((p: any) => ({
     ...p,
-    pergunta: t(`preRaceHealthCheck.questions.${p.id}`),
-    justificativa: t(`preRaceHealthCheck.justifications.${p.id}`)
+    pergunta: locale.value === 'en' && p.en_pergunta ? p.en_pergunta : p.pergunta,
+    justificativa: locale.value === 'en' && p.en_justificativa ? p.en_justificativa : p.justificativa
   }))
 })
 
