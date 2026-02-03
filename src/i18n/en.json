@@ -411,7 +411,7 @@
     "noNotifications": "No notifications",
     "noNotificationsDescription": "You have no notifications at the moment.",
     "pendingForms": "Pending Forms",
-    "pendingFormsCount": "You have {count} {count, plural, one {form} other {forms}} to answer",
+    "pendingFormsCount": "You have {count} form(s) to answer",
     "answerForms": "Answer",
     "pendingFormsToast": "You have pending medical forms to answer"
   },

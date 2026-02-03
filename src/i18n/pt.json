@@ -411,7 +411,7 @@
     "noNotifications": "Nenhuma notificação",
     "noNotificationsDescription": "Você não possui notificações no momento.",
     "pendingForms": "Formulários Pendentes",
-    "pendingFormsCount": "Você tem {count} {count, plural, one {formulário} other {formulários}} para responder",
+    "pendingFormsCount": "Você tem {count} formulário(s) para responder",
     "answerForms": "Responder",
     "pendingFormsToast": "Você tem formulários médicos pendentes para responder"
   },
