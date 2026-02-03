@@ -189,6 +189,7 @@ const accountItems = computed(() => {
   }
   if (userRole.value === 'atleta') {
     baseItems.unshift({ icon: 'account-outline', title: t('settings.editProfile'), to: '/Atleta-Screens/editarPerfilAtleta' });
+    baseItems.push({ icon: 'file-document-multiple', title: t('appBar.titleDocuments'), to: '/Atleta-Screens/documentos' });
     baseItems.push({ icon: 'wallet-outline', title: t('settings.subscriptionPayments'), to: '/Atleta-Screens/meuPlano' });
   }
   if (userRole.value === 'fisioterapeuta') {
