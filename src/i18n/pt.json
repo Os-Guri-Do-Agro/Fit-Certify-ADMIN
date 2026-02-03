@@ -1,5 +1,6 @@
 ﻿{
   "appBar": {
+    "titleDocuments": "Documentos",
     "titleForms": "Formulários",
     "titleEvents": "Eventos",
     "titleConsultas": "Consultas",
@@ -409,8 +410,8 @@
     "new": "Nova",
     "noNotifications": "Nenhuma notificação",
     "noNotificationsDescription": "Você não possui notificações no momento.",
-    "pendingForms": "Formulários Médicos Pendentes",
-    "pendingFormsDescription": "Você tem {count} formulário(s) médico(s) aguardando resposta",
+    "pendingForms": "Formulários Pendentes",
+    "pendingFormsCount": "Você tem {count} {count, plural, one {formulário} other {formulários}} para responder",
     "answerForms": "Responder",
     "pendingFormsToast": "Você tem formulários médicos pendentes para responder"
   },
@@ -2652,6 +2653,54 @@
     "noEventsDescription": "Não há formulários disponíveis para preenchimento no momento.",
     "formSubmitted": "Formulário Enviado",
     "answerForm": "Responder Formulário"
+  },
+  "documentos": {
+    "title": "Documentos",
+    "subtitle": "Gerencie seus documentos médicos e exames",
+    "searchPlaceholder": "Buscar documento...",
+    "addDocument": "Adicionar Documento",
+    "noDocuments": "Nenhum documento encontrado",
+    "noDocumentsDescription": "Não há documentos disponíveis no momento",
+    "noDocumentsEmpty": "Nenhum documento cadastrado",
+    "noDocumentsEmptyDescription": "Adicione seu primeiro documento",
+    "tryOtherTerms": "Tente buscar com outros termos",
+    "types": {
+      "exame": "Exame",
+      "atestado": "Atestado",
+      "receita": "Receita",
+      "pdf": "PDF Genérico"
+    },
+    "addModal": {
+      "title": "Adicionar Documento",
+      "name": "Nome do documento",
+      "type": "Tipo de documento",
+      "file": "Selecionar arquivo",
+      "nameRequired": "Nome é obrigatório",
+      "typeRequired": "Tipo é obrigatório",
+      "fileRequired": "Arquivo é obrigatório",
+      "cancel": "Cancelar",
+      "add": "Adicionar"
+    },
+    "detailsModal": {
+      "title": "Detalhes do Documento",
+      "uploadDate": "Data de Upload:",
+      "size": "Tamanho:",
+      "type": "Tipo:",
+      "download": "Baixar",
+      "delete": "Excluir",
+      "close": "Fechar"
+    },
+    "deleteModal": {
+      "title": "Excluir Documento?",
+      "message": "Esta ação não pode ser desfeita.",
+      "cancel": "Cancelar",
+      "confirm": "Excluir"
+    },
+    "toasts": {
+      "addSuccess": "Documento adicionado com sucesso!",
+      "deleteSuccess": "Documento excluído com sucesso!",
+      "downloadStarted": "Download iniciado!"
+    }
   },
   "preRaceHealthCheck": {
     "title": "Check-in de Saúde Pré-Prova",

@@ -1,5 +1,6 @@
 {
   "appBar": {
+    "titleDocuments": "Documents",
     "titleForms": "Forms",
     "titleEvents": "Events",
     "titleConsultas": "Appointments",
@@ -409,8 +410,8 @@
     "new": "New",
     "noNotifications": "No notifications",
     "noNotificationsDescription": "You have no notifications at the moment.",
-    "pendingForms": "Pending Medical Forms",
-    "pendingFormsDescription": "You have {count} medical form(s) awaiting response",
+    "pendingForms": "Pending Forms",
+    "pendingFormsCount": "You have {count} {count, plural, one {form} other {forms}} to answer",
     "answerForms": "Answer",
     "pendingFormsToast": "You have pending medical forms to answer"
   },
@@ -2655,6 +2656,54 @@
     "noEventsDescription": "There are no forms available for completion at this time.",
     "formSubmitted": "Form Submitted",
     "answerForm": "Answer Form"
+  },
+  "documentos": {
+    "title": "Documents",
+    "subtitle": "Manage your medical documents and exams",
+    "searchPlaceholder": "Search document...",
+    "addDocument": "Add Document",
+    "noDocuments": "No documents found",
+    "noDocumentsDescription": "There are no documents available at the moment",
+    "noDocumentsEmpty": "No documents registered",
+    "noDocumentsEmptyDescription": "Add your first document",
+    "tryOtherTerms": "Try searching with other terms",
+    "types": {
+      "exame": "Exam",
+      "atestado": "Certificate",
+      "receita": "Prescription",
+      "pdf": "Generic PDF"
+    },
+    "addModal": {
+      "title": "Add Document",
+      "name": "Document name",
+      "type": "Document type",
+      "file": "Select file",
+      "nameRequired": "Name is required",
+      "typeRequired": "Type is required",
+      "fileRequired": "File is required",
+      "cancel": "Cancel",
+      "add": "Add"
+    },
+    "detailsModal": {
+      "title": "Document Details",
+      "uploadDate": "Upload Date:",
+      "size": "Size:",
+      "type": "Type:",
+      "download": "Download",
+      "delete": "Delete",
+      "close": "Close"
+    },
+    "deleteModal": {
+      "title": "Delete Document?",
+      "message": "This action cannot be undone.",
+      "cancel": "Cancel",
+      "confirm": "Delete"
+    },
+    "toasts": {
+      "addSuccess": "Document added successfully!",
+      "deleteSuccess": "Document deleted successfully!",
+      "downloadStarted": "Download started!"
+    }
   },
   "preRaceHealthCheck": {
     "title": "Pre-Race Health Check-in",

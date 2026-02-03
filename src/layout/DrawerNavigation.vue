@@ -458,6 +458,12 @@ const menusPorPerfil = computed(() => ({
           title: 'Treinos',
           value: 'treinos',
           to: '/Atleta-Screens/treinosAtleta',
+        },
+        {
+          icon: 'mdi-chart-bar',
+          title: t('drawerNavigator.menu.registrosMedicos'),
+          value: 'registrosMedicos',
+          to: '/Atleta-Screens/registrosMedicos',
         }
       ],
     },
@@ -474,13 +480,6 @@ const menusPorPerfil = computed(() => ({
           value: 'conexoes',
           to: '/solicitacoesConexoes'
         },
-    {
-      icon: 'mdi-chart-bar',
-      title: t('drawerNavigator.menu.registrosMedicos'),
-      value: 'registrosMedicos',
-      to: '/Atleta-Screens/registrosMedicos',
-      children: [],
-    },
     {
       icon: 'mdi mdi-file-document-outline',
       title: t('drawerNavigator.menu.certificados'),
