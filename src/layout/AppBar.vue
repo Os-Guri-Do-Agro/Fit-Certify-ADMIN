@@ -42,7 +42,7 @@
       </v-menu>
 
       <v-btn @click="router.push('/notificacoes')" icon variant="flat" class="action-btn mr-2">
-        <v-badge :model-value="temFormularioPendente" dot color="#FF6B6B" offset-x="-2" offset-y="2">
+        <v-badge :model-value="notificacoesNaoLidas > 0" :content="notificacoesNaoLidas" color="#FF6B6B" offset-x="-2" offset-y="2">
           <v-icon size="20px">mdi-bell-outline</v-icon>
         </v-badge>
       </v-btn>
@@ -58,7 +58,7 @@
               <v-img :src="atleta?.avatarUrl || medico?.avatarUrl || fisioterapeuta?.avatarUrl || treinador?.avatarUrl"></v-img>
             </v-avatar>
             <div class="profile-info">
-              <span class="profile-name">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome || treinador?.usuario?.nome }}</span>
+              <span class="profile-name">{{ nomeUsuario }}</span>
               <span class="profile-role" v-if="!loading && payload?.role">{{ t(`appBar.role.${payload?.role}`) }}</span>
             </div>
             <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
@@ -104,6 +104,7 @@ import medicoService from '@/services/medico/medico-service';
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
 import treinadorService from '@/services/treinador/treinador-service';
 import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service';
+import notificacoesService from '@/services/notificacoes/notificacoes-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
 import { getFisioterapeutaId } from '@/utils/auth';
@@ -111,6 +112,8 @@ import { getTreinadorId } from '@/utils/auth';
 import { isAtleta } from '@/utils/auth';
 import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
 import { toast } from 'vue3-toastify';
+import { eventBus } from '@/utils/eventBus';
+import { onBeforeUnmount } from 'vue';
 
 const layoutStore = useLayoutStore()
 const payload = ref<any>()
@@ -125,6 +128,13 @@ const treinador = ref<any>()
 const loading = ref(true)
 const dialogPerfil = ref(false)
 const temFormularioPendente = ref(false)
+const notificacoesNaoLidas = ref(0)
+
+const nomeUsuario = computed(() => {
+  const nomeCompleto = atleta.value?.usuario?.nome || medico.value?.usuario?.nome || fisioterapeuta.value?.usuario?.nome || treinador.value?.usuario?.nome
+  const partes = nomeCompleto.trim().split(' ')
+  return partes.slice(0, 2).join(' ')
+})
 
 const changeLocale = (lang: string) => {
   locale.value = lang
@@ -174,6 +184,7 @@ const pageTitle = computed(() => {
   '/Medico-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Medico-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
   '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
+  '/Atleta-Screens/documentos': t('appBar.titleDocuments'),
 
   '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
   '/Fisioterapeuta-Screens/consultas': t('appBar.titleConsultas'),
@@ -297,7 +308,8 @@ const pageIcon = computed(() => {
     '/settings/deleteAccount': 'mdi-account-remove',
     "/consultasExternas": "mdi-clipboard-list-outline",
     "/pacientesExternos": "mdi-account-group-outline",
-    "/Atleta-Screens/formularios": "mdi-form-select"
+    "/Atleta-Screens/formularios": "mdi-form-select",
+    '/Atleta-Screens/documentos': "mdi-file-document-multiple"
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })
@@ -350,17 +362,29 @@ const buscarTreinadorById = async (id: string) => {
 
 const verificarFormulariosPendentes = async () => {
   if (!isAtleta()) return
-  
+
   try {
     const response = await formularioMedicoService.buscarFormularios()
     const formularios = response.data || response
     const pendente = formularios.some((f: any) => !f.jaRespondeu)
-    
+
     if (pendente) {
       temFormularioPendente.value = true
     }
   } catch (error) {
     console.error('Erro ao verificar formulários:', error)
+  }
+}
+
+const buscarNotificacoesNaoLidas = async () => {
+  try {
+    const response = await notificacoesService.buscarNotificacoes(1, 100)
+    const notificacoes = response.data?.itens || []
+    const naoLidas = notificacoes.filter((n: any) => !n.lida).length
+    const formsPendentes = isAtleta() ? (temFormularioPendente.value ? 1 : 0) : 0
+    notificacoesNaoLidas.value = naoLidas + formsPendentes
+  } catch (error) {
+    console.error('Erro ao buscar notificações:', error)
   }
 }
 
@@ -375,18 +399,28 @@ onMounted(async () => {
     await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
     await verificarFormulariosPendentes()
+    await buscarNotificacoesNaoLidas()
   } else if (getMedicoId()) {
     await buscarMedicoById(getMedicoId())
     payload.value = getPayload()
+    await buscarNotificacoesNaoLidas()
   } else if (getFisioterapeutaId()) {
     await buscarFisioterapeutaById(getFisioterapeutaId())
     payload.value = getPayload()
+    await buscarNotificacoesNaoLidas()
   } else if (getTreinadorId()) {
     await buscarTreinadorById(getTreinadorId())
     payload.value = getPayload()
+    await buscarNotificacoesNaoLidas()
   } else{
     return
   }
+
+  eventBus.on('notificacao-lida', buscarNotificacoesNaoLidas)
+})
+
+onBeforeUnmount(() => {
+  eventBus.off('notificacao-lida', buscarNotificacoesNaoLidas)
 })
 
 function sair() {

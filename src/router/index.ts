@@ -57,6 +57,7 @@ router.beforeEach((to, from, next) => {
   // PASSO 5.1: Bloquear admin
   if (role === 'admin') {
     toast.error('Este painel é exclusivo para médicos e atletas')
+    localStorage.removeItem('token')
     sessionStorage.removeItem('token')
     return next('/login')
   }
@@ -64,6 +65,7 @@ router.beforeEach((to, from, next) => {
   // PASSO 5.2: Verificar médico sem CRM validado
   if (role === 'medico' && getStatusMedicoCRM() === false) {
     toast.error('Médico aguardando validação do CRM', { autoClose: 5000 })
+    localStorage.removeItem('token')
     sessionStorage.removeItem('token')
     return next('/login')
   }

@@ -53,7 +53,7 @@
                 </v-btn>
               </div>
               <div class="">
-                <v-btn v-if="isUserAtleta && !evento.formularioMedicoRespondido" @click="responderFormulario" color="#FF6B35"
+                <v-btn v-if="isUserAtleta && !evento.formularioMedicoRespondido && evento.aceitouTermo && evento.formularioMedicoDisponivel" @click="responderFormulario" color="#FF6B35"
                   variant="flat" size="large" prepend-icon="mdi-clipboard-text" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
                   {{ t('eventos.answerForm') }}
@@ -206,9 +206,9 @@
         </v-card-title>
 
         <v-card-text class="pa-6">
-          <div v-if="evento.possuiTermo && termos?.termo" @scroll="onScroll"
+          <div v-if="evento.possuiTermo" @scroll="onScroll"
             style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
-            {{ termos.termo }}
+            {{ evento.termo?.conteudoGenerico }}
           </div>
           <div v-else class="text-center py-8">
             <v-icon size="80" color="#42A5F5" class="mb-4">mdi-cloud-upload-outline</v-icon>
@@ -240,7 +240,6 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import eventoService from '@/services/eventos/eventos-service'
 import termosService from '@/services/eventos/termos/termos-service'
-import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service'
 import { toast } from 'vue3-toastify'
 import { isAtleta } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
@@ -257,7 +256,6 @@ const loadingTermos = ref(false)
 const termos = ref<any>(null)
 const dialogTermos = ref(false)
 const scrolledToBottom = ref(false)
-const formularioRespondido = ref(false)
 
 const tipoEvento = ref<any>(null)
 const isUserAtleta = computed(() => isAtleta())
@@ -269,9 +267,7 @@ const formatarData = (data: string) => {
   return date.toLocaleDateString(localeStr, {
     day: '2-digit',
     month: 'long',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
+    year: 'numeric'
   })
 }
 
@@ -310,19 +306,6 @@ const formatDistancias = (distanciasEvento: any[]) => {
   return distanciasEvento.map((d) => `${d.distancia}K`).join(' / ')
 }
 
-const verificarFormularioRespondido = async () => {
-  try {
-    const params = route.params as { id?: string }
-    const eventoId = params.id
-    if (!eventoId) return
-
-    const response = await formularioMedicoService.respostaByEventoId(eventoId)
-    formularioRespondido.value = response.data.jaRespondeu
-  } catch (error) {
-    console.error('Erro ao verificar formulário:', error)
-  }
-}
-
 const responderFormulario = () => {
   const params = route.params as { id?: string }
   router.push(`/Atleta-Screens/formulario-medico/${params.id}`)
@@ -341,23 +324,22 @@ const carregarEvento = async () => {
     const eventoResponse = await eventoService.getByEventoAtletaId(eventoId, atletaId)
     evento.value = eventoResponse.data || eventoResponse
 
-    try {
-
-      const id = evento?.value?.tipoEventoId
-      const tiposResponse = await eventoService.getTipoEventoById(id)
-      tipoEvento.value = tiposResponse.data || tiposResponse
-    } catch (tipoError) {
-      console.error('Não foi possível carregar tipos de eventos:', tipoError)
-    }
-
-    await buscarTermos()
-    await verificarFormularioRespondido()
   } catch (error) {
     console.error('Erro ao carregar evento:', error)
     toast.error('Erro ao carregar detalhes do evento')
     evento.value = null
   } finally {
     loading.value = false
+  }
+}
+
+const buscarTipoEvento = async (id: string) => {
+  try {
+    const response = await eventoService.getTipoEventoById(id)
+    tipoEvento.value = response.data || response
+  } catch (error) {
+    console.error('Erro ao buscar tipo de evento:', error)
+    return null
   }
 }
 
@@ -379,7 +361,6 @@ const onScroll = (e: Event) => {
 const confirmarEnvio = async () => {
   try {
     await aceitarTermos()
-    // window.location.href = `mailto:${evento.value.linkEnviarCertificado}`
     dialogTermos.value = false
   } catch (error) {
     console.error('Erro ao confirmar envio:', error)
@@ -387,7 +368,12 @@ const confirmarEnvio = async () => {
 }
 
 onMounted(() => {
-  carregarEvento()
+  const carregarDados = async () => {
+    await carregarEvento()
+    const id = evento.value?.tipoEventoId
+    buscarTipoEvento(id)
+  }
+  carregarDados()
 })
 </script>
 

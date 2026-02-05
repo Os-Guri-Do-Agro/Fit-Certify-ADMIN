@@ -1,5 +1,5 @@
 <template>
-  <v-container class="py-10">
+  <div class="py-10">
     <div class="header-section">
       <div class="header-content">
         <div class="header-icon-wrapper">
@@ -7,14 +7,14 @@
         </div>
         <h1 class="header-title">{{ $t('notificacoes.title') }}</h1>
         <p class="header-subtitle">{{ $t('notificacoes.subtitle') }}</p>
-        <div class="notification-stats">
+        <!-- <div class="notification-stats">
           <v-chip class="stat-chip" prepend-icon="mdi-bell">
             {{ totalNotificacoes }} {{ $t('notificacoes.total') }}
           </v-chip>
           <v-chip class="stat-chip" prepend-icon="mdi-bell-badge">
             {{ notificacoesNaoLidas }} {{ $t('notificacoes.unread') }}
           </v-chip>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -22,9 +22,28 @@
       <v-col cols="12" md="10">
           <div class="d-flex align-center justify-space-between mb-6">
             <h3 class="text-h6 font-weight-bold">{{ $t('notificacoes.yourNotifications') }}</h3>
+            <v-btn
+              v-if="notificacoesNaoLidas > 0"
+              @click="marcarTodasComoLidas"
+              color="#42A5F5"
+              variant="flat"
+              size="small"
+              prepend-icon="mdi-check-all"
+            >
+              {{ $t('notificacoes.markAllAsRead') }}
+            </v-btn>
           </div>
 
-          <div>
+          <div v-if="loading" class="loading-container">
+            <v-skeleton-loader
+              v-for="i in 3"
+              :key="i"
+              type="list-item-avatar-two-line"
+              class="mb-4 rounded-xl"
+            />
+          </div>
+
+          <div v-else>
             <v-card v-if="isAtleta() && formulariosPendentes.length > 0" elevation="3" class="mb-4 rounded-xl" color="#FFF3E0">
               <v-card-text class="pa-5">
                 <div class="d-flex align-center">
@@ -33,30 +52,45 @@
                   </v-avatar>
                   <div class="flex-grow-1">
                     <h4 class="text-subtitle-1 font-weight-bold text-black mb-1">
-                      {{ t('notificacoes.pendingForms') }}
+                      {{ $t('notificacoes.pendingForms') }}
                     </h4>
                     <p class="text-body-2 text-grey-darken-1 mb-0">
-                      {{ t('notificacoes.pendingFormsDescription', { count: formulariosPendentes.length }) }}
+                      {{ $t('notificacoes.pendingFormsCount', { count: formulariosPendentes.length }) }}
                     </p>
                   </div>
                   <v-btn @click="irParaFormularios" color="#FF6B35" variant="flat" size="small">
-                    {{ t('notificacoes.answerForms') }}
+                    {{ $t('notificacoes.answerForms') }}
                   </v-btn>
                 </div>
               </v-card-text>
             </v-card>
 
-            <div v-if="notificacoes.length > 0">
-              <v-card v-for="notificacao in notificacoes" :key="notificacao.id" elevation="2" :class="[
-                'notification-item mb-4 rounded-xl',
-                { 'unread': !notificacao.visualizado, 'read': notificacao.visualizado }
-              ]">
-                <v-card-text class="pa-5">
+            <div v-if="loadingNotificacoes">
+              <v-skeleton-loader
+                v-for="i in 3"
+                :key="i"
+                type="list-item-avatar-two-line"
+                class="mb-4 rounded-xl"
+              />
+            </div>
+
+            <div v-else-if="notificacoesFiltradas.length > 0">
+              <v-card
+                v-for="notificacao in notificacoesFiltradas"
+                :key="notificacao.id"
+                elevation="2"
+                :class="[
+                  'notification-item mb-4 rounded-xl',
+                  { 'unread': !notificacao.lida, 'read': notificacao.lida }
+                ]"
+                @click="marcarComoLida(notificacao)"
+                style="cursor: pointer;"
+              >
+                <v-card-text class="pa-5 position-relative">
+                  <div v-if="!notificacao.lida" class="unread-dot"></div>
                   <div class="d-flex align-center">
-                    <v-avatar :color="getNotificationColor(notificacao.tipo)" size="48" class="mr-4">
-                      <v-icon color="white" size="24">
-                        {{ getNotificationIcon(notificacao.tipo) }}
-                      </v-icon>
+                    <v-avatar color="#42A5F5" size="48" class="mr-4">
+                      <v-icon color="white" size="24">mdi-bell</v-icon>
                     </v-avatar>
 
                     <div class="flex-grow-1">
@@ -64,19 +98,9 @@
                         <h4 class="text-subtitle-1 font-weight-medium text-black">
                           {{ notificacao.titulo }}
                         </h4>
-                        <div class="d-flex align-center">
-                          <span class="text-caption text-grey mr-2">
-                            {{ formatDateTime(notificacao.data) }}
-                          </span>
-                          <v-chip v-if="!notificacao.visualizado" color="blue" size="x-small" class="mr-2">
-                            {{ $t('notificacoes.new') }}
-                          </v-chip>
-                          <v-btn icon size="small" variant="text" @click="toggleVisualizacao(notificacao)">
-                            <v-icon size="16">
-                              {{ notificacao.visualizado ? 'mdi-eye-off' : 'mdi-eye' }}
-                            </v-icon>
-                          </v-btn>
-                        </div>
+                        <span class="text-caption text-grey">
+                          {{ formatDateTime(notificacao.createdAt) }}
+                        </span>
                       </div>
                       <p class="text-body-2 text-grey-darken-1 mb-0">
                         {{ notificacao.descricao }}
@@ -85,9 +109,13 @@
                   </div>
                 </v-card-text>
               </v-card>
+
+              <div v-if="hasMore" ref="loadMoreTrigger" class="text-center py-4">
+                <v-progress-circular v-if="loadingMore" indeterminate color="#42A5F5" />
+              </div>
             </div>
 
-            <div v-else class="text-center py-8">
+            <div v-if="totalNotificacoes <= 0" class="text-center py-8">
               <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
               <h4 class="text-h6 text-grey-darken-1 mb-2">{{ $t('notificacoes.noNotifications') }}</h4>
               <p class="text-body-2 text-grey">{{ $t('notificacoes.noNotificationsDescription') }}</p>
@@ -95,7 +123,7 @@
           </div>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -106,7 +134,9 @@ import { computed, ref, onMounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { isAtleta } from '@/utils/auth'
 import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service'
+import notificacoesService from '@/services/notificacoes/notificacoes-service'
 import { useRouter } from 'vue-router'
+import { eventBus } from '@/utils/eventBus'
 
 const { t, locale } = useI18n()
 const router = useRouter()
@@ -115,6 +145,13 @@ dayjs.locale('pt-br')
 
 const notificacoes = ref<any[]>([])
 const formulariosPendentes = ref<any[]>([])
+const loading = ref(true)
+const loadingNotificacoes = ref(true)
+const loadingMore = ref(false)
+const page = ref(1)
+const pageSize = ref(20)
+const hasMore = ref(true)
+const loadMoreTrigger = ref<HTMLElement | null>(null)
 
 const formatDateTime = (dateTime: string) => {
   if (!dateTime) return ''
@@ -129,13 +166,22 @@ const formatDateTime = (dateTime: string) => {
   return `${dateStr} ${hours}:${minutes}`
 }
 
+const notificacoesFiltradas = computed(() => {
+  return notificacoes.value.sort((a, b) => {
+    if (a.lida === b.lida) {
+      return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    }
+    return a.lida ? 1 : -1
+  })
+})
+
 const notificacoesNaoLidas = computed(() => {
-  const naoLidas = notificacoes.value.filter(n => !n.visualizado).length
+  const naoLidas = notificacoes.value.filter(n => !n.lida).length
   const formsPendentes = isAtleta() ? formulariosPendentes.value.length : 0
   return naoLidas + formsPendentes
 })
 
-const totalNotificacoes = computed(() => {
+const totalNotificacoes = computed<any>(() => {
   const total = notificacoes.value.length
   const formsPendentes = isAtleta() ? formulariosPendentes.value.length : 0
   return total + formsPendentes
@@ -166,13 +212,65 @@ const toggleVisualizacao = (notificacao: any) => {
   notificacao.visualizado = !notificacao.visualizado
 }
 
-const marcarTodasComoLidas = () => {
-  notificacoes.value.forEach(n => n.visualizado = true)
+const marcarComoLida = async (notificacao: any) => {
+  if (notificacao.lida) return
+  notificacao.lida = true
+  try {
+    await notificacoesService.marcarComoLida([notificacao.id])
+    eventBus.emit('notificacao-lida')
+  } catch (error) {
+    console.error('Erro ao marcar notificação como lida:', error)
+    notificacao.lida = false
+  }
+}
+
+const marcarTodasComoLidas = async () => {
+  notificacoes.value = notificacoes.value.map(n => ({ ...n, lida: true }))
+  try {
+    const ids = notificacoes.value.map(n => n.id)
+    await notificacoesService.marcarComoLida(ids)
+    eventBus.emit('notificacao-lida')
+  } catch (error) {
+    console.error('Erro ao marcar todas notificações como lidas:', error)
+    buscarNotificacoes()
+  }
+}
+
+const buscarNotificacoes = async (append = false) => {
+  if (append) {
+    loadingMore.value = true
+  } else {
+    loadingNotificacoes.value = true
+  }
+
+  try {
+    const response = await notificacoesService.buscarNotificacoes(page.value, pageSize.value)
+    const novosItens = response.data?.itens || []
+
+    if (append) {
+      notificacoes.value = [...notificacoes.value, ...novosItens]
+    } else {
+      notificacoes.value = novosItens
+    }
+
+    hasMore.value = novosItens.length === pageSize.value
+  } catch (error) {
+    console.error('Erro ao buscar notificações:', error)
+  } finally {
+    loadingNotificacoes.value = false
+    loadingMore.value = false
+  }
+}
+
+const carregarMais = async () => {
+  if (loadingMore.value || !hasMore.value) return
+  page.value++
+  await buscarNotificacoes(true)
 }
 
 const buscarFormulariosPendentes = async () => {
   if (!isAtleta()) return
-  
+
   try {
     const response = await formularioMedicoService.buscarFormularios()
     const formularios = response.data || response
@@ -186,8 +284,36 @@ const irParaFormularios = () => {
   router.push('/Atleta-Screens/formularios')
 }
 
+const carregarNotificacoes = async () => {
+  loading.value = true
+  try {
+    await buscarFormulariosPendentes()
+    await new Promise(resolve => setTimeout(resolve, 800))
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(() => {
-  buscarFormulariosPendentes()
+  carregarNotificacoes()
+  setTimeout(() => {
+    buscarNotificacoes()
+  }, 2000)
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      if (entries[0].isIntersecting && hasMore.value && !loadingMore.value) {
+        carregarMais()
+      }
+    },
+    { threshold: 0.1 }
+  )
+
+  setTimeout(() => {
+    if (loadMoreTrigger.value) {
+      observer.observe(loadMoreTrigger.value)
+    }
+  }, 3000)
 })
 </script>
 
@@ -254,16 +380,25 @@ onMounted(() => {
 
 .notification-item {
   transition: all 0.2s ease;
-  border-left: 4px solid transparent;
 }
 
 .notification-item.unread {
-  border-left-color: #42A5F5;
   background: rgba(66, 165, 245, 0.03);
 }
 
 .notification-item.read {
-  background: #fafafa;
+  background: #e0e0e0;
+}
+
+.unread-dot {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  width: 10px;
+  height: 10px;
+  background: #42A5F5;
+  border-radius: 50%;
+  z-index: 1;
 }
 
 .notification-item:hover {
