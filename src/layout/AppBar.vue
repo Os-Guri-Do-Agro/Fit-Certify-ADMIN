@@ -132,6 +132,7 @@ const notificacoesNaoLidas = ref(0)
 
 const nomeUsuario = computed(() => {
   const nomeCompleto = atleta.value?.usuario?.nome || medico.value?.usuario?.nome || fisioterapeuta.value?.usuario?.nome || treinador.value?.usuario?.nome
+  if (!nomeCompleto) return ''
   const partes = nomeCompleto.trim().split(' ')
   return partes.slice(0, 2).join(' ')
 })
