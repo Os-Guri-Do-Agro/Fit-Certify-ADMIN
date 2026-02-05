@@ -161,7 +161,7 @@ const ativarConta = async () => {
     });
 
     if (response.data?.access_token) {
-      const storage = savedIsMobile ? localStorage : sessionStorage;
+      const storage = localStorage;
       storage.setItem("token", response.data?.access_token);
       const payload = getPayloadFromToken(response.data?.access_token);
       const user = payload?.user;
@@ -223,7 +223,7 @@ async function selecionarPerfil(perfil: any) {
     });
 
     if (response.data?.access_token) {
-      const storage = savedIsMobile ? localStorage : sessionStorage;
+      const storage = localStorage;
       storage.setItem("token", response.data?.access_token);
       const payload = getPayloadFromToken(response.data?.access_token);
       const user = payload?.user;

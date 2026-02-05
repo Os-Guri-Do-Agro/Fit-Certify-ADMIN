@@ -58,7 +58,7 @@
               <v-img :src="atleta?.avatarUrl || medico?.avatarUrl || fisioterapeuta?.avatarUrl || treinador?.avatarUrl"></v-img>
             </v-avatar>
             <div class="profile-info">
-              <span class="profile-name">{{ atleta?.usuario?.nome || medico?.usuario?.nome || fisioterapeuta?.usuario?.nome || treinador?.usuario?.nome }}</span>
+              <span class="profile-name">{{ nomeUsuario }}</span>
               <span class="profile-role" v-if="!loading && payload?.role">{{ t(`appBar.role.${payload?.role}`) }}</span>
             </div>
             <v-icon size="16" class="ml-1">mdi-chevron-down</v-icon>
@@ -129,6 +129,12 @@ const loading = ref(true)
 const dialogPerfil = ref(false)
 const temFormularioPendente = ref(false)
 const notificacoesNaoLidas = ref(0)
+
+const nomeUsuario = computed(() => {
+  const nomeCompleto = atleta.value?.usuario?.nome || medico.value?.usuario?.nome || fisioterapeuta.value?.usuario?.nome || treinador.value?.usuario?.nome
+  const partes = nomeCompleto.trim().split(' ')
+  return partes.slice(0, 2).join(' ')
+})
 
 const changeLocale = (lang: string) => {
   locale.value = lang
