@@ -33,7 +33,7 @@
               </div>
 
               <div class="d-flex flex-wrap ga-3 mb-6">
-                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" :disabled="evento.aceitouTermo"  color="#88ce0d"
+                <v-btn v-if="evento.linkEnviarCertificado && isUserAtleta" @click="abrirDialogTermos" :disabled="evento.aceitouTermo || evento.possuiCertificadoExclusivo && !evento.temCertificado"  color="#88ce0d"
                   variant="flat" size="large" prepend-icon="mdi-email" rounded="lg" elevation="3"
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
                   <span v-if="!evento.aceitouTermo">
@@ -58,6 +58,13 @@
                   class="text-white px-6" style="font-weight: 600; text-transform: none;">
                   {{ t('eventos.answerForm') }}
                 </v-btn>
+              </div>
+              <div class="mt-5" v-if="evento.possuiCertificadoExclusivo">
+                <v-chip color="info">
+                  <span>
+                    {{ t('eventos.details.exclusivo') }}
+                  </span>
+                </v-chip>
               </div>
             </v-col>
 
@@ -208,7 +215,7 @@
         <v-card-text class="pa-6">
           <div v-if="evento.possuiTermo" @scroll="onScroll"
             style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
-            {{ evento.termo?.conteudoGenerico }}
+            {{ termos?.termo }}
           </div>
           <div v-else class="text-center py-8">
             <v-icon size="80" color="#42A5F5" class="mb-4">mdi-cloud-upload-outline</v-icon>
@@ -240,6 +247,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import eventoService from '@/services/eventos/eventos-service'
 import termosService from '@/services/eventos/termos/termos-service'
+import atletaService from '@/services/atleta/atleta-service'
 import { toast } from 'vue3-toastify'
 import { isAtleta } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
@@ -371,6 +379,10 @@ onMounted(() => {
   const carregarDados = async () => {
     await carregarEvento()
     const id = evento.value?.tipoEventoId
+
+    if (evento.value?.possuiTermo) {
+      buscarTermos()
+    }
     buscarTipoEvento(id)
   }
   carregarDados()
