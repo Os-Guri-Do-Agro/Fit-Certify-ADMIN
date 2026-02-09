@@ -152,6 +152,7 @@
       "december": "December"
     },
     "details": {
+      "exclusivo": "Exclusive event for certified athletes.",
       "loading": "Loading event...",
       "sendCertificate": "Send Certificate",
       "eventWebsite": "Event Website",

@@ -35,6 +35,18 @@ class UserService {
     )
   }
 
+  mudarIdioma(idioma: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.patch('/user/idioma', { idioma }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      'ERROR - 404'
+    )
+  }
+
 }
 
 export default new UserService()
