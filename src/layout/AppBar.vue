@@ -105,11 +105,13 @@ import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-ser
 import treinadorService from '@/services/treinador/treinador-service';
 import formularioMedicoService from '@/services/formulario-medico/formurarioMedico-service';
 import notificacoesService from '@/services/notificacoes/notificacoes-service';
+import userService from '@/services/user/user-service';
 import { getAtletaId } from '@/utils/auth';
 import { getMedicoId } from '@/utils/auth';
 import { getFisioterapeutaId } from '@/utils/auth';
 import { getTreinadorId } from '@/utils/auth';
 import { isAtleta } from '@/utils/auth';
+import { getUserLanguage } from '@/utils/auth';
 import TrocarPerfilDialog from '@/components/TrocarPerfilDialog.vue';
 import { toast } from 'vue3-toastify';
 import { eventBus } from '@/utils/eventBus';
@@ -132,13 +134,23 @@ const notificacoesNaoLidas = ref(0)
 
 const nomeUsuario = computed(() => {
   const nomeCompleto = atleta.value?.usuario?.nome || medico.value?.usuario?.nome || fisioterapeuta.value?.usuario?.nome || treinador.value?.usuario?.nome
+  if (!nomeCompleto) return ''
   const partes = nomeCompleto.trim().split(' ')
   return partes.slice(0, 2).join(' ')
 })
 
+const enviarIdioma = async () => {
+  try {
+    await userService.mudarIdioma(locale.value)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 const changeLocale = (lang: string) => {
   locale.value = lang
   currentLocale.value = lang
+  enviarIdioma()
   localStorage.setItem('locale', lang)
 }
 
@@ -417,6 +429,10 @@ onMounted(async () => {
   }
 
   eventBus.on('notificacao-lida', buscarNotificacoesNaoLidas)
+
+  if (locale.value !== getUserLanguage()) {
+    enviarIdioma()
+  }
 })
 
 onBeforeUnmount(() => {

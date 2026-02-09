@@ -152,6 +152,7 @@
       "december": "Dezembro"
     },
     "details": {
+      "exclusivo": "Evento exclusivo para atletas certificados.",
       "loading": "Carregando evento...",
       "sendCertificate": "Enviar Certificado",
       "eventWebsite": "Site da Prova",

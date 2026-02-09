@@ -149,7 +149,7 @@ export const medicoLogin = () => {
 
 export const getStatusMedicoCRM = () => {
   const payload = getPayload()
-  if(payload?.role == 'medico') {
+  if (payload?.role == 'medico') {
     return payload?.user?.medico?.ativo
   }
 }
@@ -164,13 +164,13 @@ export const getAtletaId = () => {
 }
 export const getFisioterapeutaId = () => {
   const payload = getPayload()
-  if(payload?.role == 'fisioterapeuta') {
+  if (payload?.role == 'fisioterapeuta') {
     return payload?.user?.fisioterapeutaId
   }
 }
 export const getTreinadorId = () => {
   const payload = getPayload()
-  if(payload?.role == 'treinador') {
+  if (payload?.role == 'treinador') {
     return payload?.user?.treinadorId
   }
 }
@@ -255,4 +255,9 @@ export const getToken = () => {
 export const getAuthHeaders = () => {
   const token = getToken()
   return token ? { 'Authorization': `Bearer ${token}` } : {}
+}
+
+export const getUserLanguage = () => {
+  const payload = getPayload()
+  return payload?.user?.idioma
 }
