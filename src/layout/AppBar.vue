@@ -95,7 +95,7 @@
 <script setup lang="ts">
 import { getProfileRoute } from '@/utils/profile';
 import { useLayoutStore } from '@/stores/layout';
-import { getPayload, logout } from '@/utils/auth';
+import { getPayload, getToken, logout } from '@/utils/auth';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -327,7 +327,7 @@ const pageIcon = computed(() => {
 })
 
 const buscarAtletaById = async (id: string) => {
-
+  if (!getToken()) return
   try {
     const response = await atletaService.getAtletaById(id)
     atleta.value = response.data
@@ -339,7 +339,7 @@ const buscarAtletaById = async (id: string) => {
 }
 
 const buscarMedicoById = async (id: string) => {
-
+  if (!getToken()) return
   try {
     const response = await medicoService.getMedicoById(id)
     medico.value = response.data
@@ -351,6 +351,7 @@ const buscarMedicoById = async (id: string) => {
 }
 
 const buscarFisioterapeutaById = async (id: string) => {
+  if (!getToken()) return
   try {
     const response = await fisioterapeutaService.getFisioterapeutaById(id)
     fisioterapeuta.value = response.data
@@ -362,6 +363,7 @@ const buscarFisioterapeutaById = async (id: string) => {
 }
 
 const buscarTreinadorById = async (id: string) => {
+  if (!getToken()) return
   try {
     const response = await treinadorService.getTreinadorById(id)
     treinador.value = response.data
@@ -373,7 +375,7 @@ const buscarTreinadorById = async (id: string) => {
 }
 
 const verificarFormulariosPendentes = async () => {
-  if (!isAtleta()) return
+  if (!getToken() || !isAtleta()) return
 
   try {
     const response = await formularioMedicoService.buscarFormularios()
@@ -389,6 +391,8 @@ const verificarFormulariosPendentes = async () => {
 }
 
 const buscarNotificacoesNaoLidas = async () => {
+  if (!getToken()) return
+
   try {
     const response = await notificacoesService.buscarNotificacoes(1, 100)
     const notificacoes = response.data?.itens || []
@@ -407,6 +411,8 @@ onMounted(async () => {
     currentLocale.value = savedLocale
   }
 
+  if (!getToken()) return
+
   if (getAtletaId()) {
     await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
@@ -424,8 +430,6 @@ onMounted(async () => {
     await buscarTreinadorById(getTreinadorId())
     payload.value = getPayload()
     await buscarNotificacoesNaoLidas()
-  } else{
-    return
   }
 
   eventBus.on('notificacao-lida', buscarNotificacoesNaoLidas)
