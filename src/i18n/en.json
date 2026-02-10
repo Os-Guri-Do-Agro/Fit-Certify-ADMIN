@@ -2744,5 +2744,33 @@
       "estado_mental": "Changes in mental clarity may indicate electrolyte imbalance, dehydration, or severe systemic stress.",
       "nausea": "Vomiting and nausea indicate prior dehydration and electrolyte loss, compromising muscle and cardiovascular function."
     }
+  },
+  "thankYou": {
+    "title": "Thank You!",
+    "mainMessage": {
+      "medico": "Your medical registration has been submitted for review!",
+      "paciente": "Your registration was completed successfully!"
+    },
+    "description": {
+      "medico": "We have received your information and documents. Our team will review your CRM and credentials. You will receive a confirmation email once your account is approved.",
+      "paciente": "Now you can log in and start enjoying all the benefits of the FitCertify365 platform. Track your health markers and issue medical certificates."
+    },
+    "additionalInfo": {
+      "medico": "💡 The validation process may take up to 48 business hours. You will be notified by email when your account is active.",
+      "paciente": "🎉 Explore our platform and discover how we can help you achieve your health and performance goals!"
+    },
+    "leftPanel": {
+      "title": {
+        "medico": "Welcome to the FitCertify365 medical team!",
+        "paciente": "Welcome to the FitCertify365 community!"
+      },
+      "subtitle": {
+        "medico": "Your registration has been successfully submitted. You are now part of our network of health professionals specialized in sports medicine.",
+        "paciente": "Your registration was completed successfully. Now you can start your journey towards a healthier and more active life."
+      }
+    },
+    "buttons": {
+      "home": "Home Page"
+    }
   }
 }
