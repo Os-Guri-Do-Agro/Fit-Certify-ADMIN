@@ -457,9 +457,21 @@ const handleSintomaChange = (item) => {
   }
 }
 
+const normalizeFileName = (name) => {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9._-]/g, '')
+}
+
 const handleFileChange = (files) => {
   if (!files) return
-  const newFiles = Array.isArray(files) ? files : [files]
+  const fileList = Array.isArray(files) ? files : [files]
+  const newFiles = fileList.map(file => {
+    const normalizedName = normalizeFileName(file.name)
+    return new File([file], normalizedName, { type: file.type })
+  })
   emit('update:formPdfImage', [...props.formPdfImage, ...newFiles])
 }
 

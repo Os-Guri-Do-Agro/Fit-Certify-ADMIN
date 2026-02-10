@@ -2741,5 +2741,33 @@
       "estado_mental": "Alterações na clareza mental podem indicar desequilíbrio eletrolítico, desidratação ou estresse sistêmico severo.",
       "nausea": "Vômitos e náuseas indicam desidratação prévia e perda de eletrólitos, comprometendo a função muscular e cardiovascular."
     }
+  },
+  "thankYou": {
+    "title": "Obrigado!",
+    "mainMessage": {
+      "medico": "Seu cadastro médico foi enviado para análise!",
+      "paciente": "Seu cadastro foi realizado com sucesso!"
+    },
+    "description": {
+      "medico": "Recebemos suas informações e documentos. Nossa equipe irá analisar seu CRM e credenciais. Você receberá um e-mail de confirmação assim que sua conta for aprovada.",
+      "paciente": "Agora você pode fazer login e começar a aproveitar todos os benefícios da plataforma FitCertify365. Acompanhe seus marcadores de saúde e emita certificados médicos."
+    },
+    "additionalInfo": {
+      "medico": "💡 O processo de validação pode levar até 48 horas úteis. Você será notificado por e-mail quando sua conta estiver ativa.",
+      "paciente": "🎉 Explore nossa plataforma e descubra como podemos ajudar você a alcançar seus objetivos de saúde e performance!"
+    },
+    "leftPanel": {
+      "title": {
+        "medico": "Bem-vindo à equipe médica FitCertify365!",
+        "paciente": "Bem-vindo à comunidade FitCertify365!"
+      },
+      "subtitle": {
+        "medico": "Seu cadastro foi enviado com sucesso. Agora você faz parte da nossa rede de profissionais de saúde especializados em medicina esportiva.",
+        "paciente": "Seu cadastro foi realizado com sucesso. Agora você pode começar sua jornada rumo a uma vida mais saudável e ativa."
+      }
+    },
+    "buttons": {
+      "home": "Página Inicial"
+    }
   }
 }

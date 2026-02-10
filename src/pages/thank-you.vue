@@ -44,7 +44,7 @@
 
           <!-- Título principal -->
           <h2 class="text-h4 text-md-h3 font-weight-bold mb-4" style="color: #2c3e50; letter-spacing: -0.5px; font-family: DM Sans, sans-serif;">
-            Obrigado!
+            {{ $t('thankYou.title') }}
           </h2>
 
           <!-- Mensagem personalizada -->
@@ -71,7 +71,7 @@
               style="border-width: 2px; font-weight: 600; text-transform: none; letter-spacing: 0;"
               @click="goToHome">
               <v-icon start>mdi-home</v-icon>
-              Página Inicial
+              {{ $t('thankYou.buttons.home') }}
             </VBtn>
           </div>
         </div>
@@ -83,9 +83,11 @@
 <script setup>
 import { computed, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 const router = useRouter()
 const route = useRoute()
+const { t } = useI18n()
 
 // Determina o tipo de cadastro baseado na query string
 const userType = computed(() => {
@@ -94,38 +96,24 @@ const userType = computed(() => {
 
 // Títulos e textos personalizados
 const title = computed(() => {
-  return userType.value === 'medico'
-    ? 'Bem-vindo à equipe médica FitCertify365!'
-    : 'Bem-vindo à comunidade FitCertify365!'
+  return t(`thankYou.leftPanel.title.${userType.value}`)
 })
 
 const subtitle = computed(() => {
-  return userType.value === 'medico'
-    ? 'Seu cadastro foi enviado com sucesso. Agora você faz parte da nossa rede de profissionais de saúde especializados em medicina esportiva.'
-    : 'Seu cadastro foi realizado com sucesso. Agora você pode começar sua jornada rumo a uma vida mais saudável e ativa.'
+  return t(`thankYou.leftPanel.subtitle.${userType.value}`)
 })
 
 const mainMessage = computed(() => {
-  return userType.value === 'medico'
-    ? 'Seu cadastro médico foi enviado para análise!'
-    : 'Seu cadastro foi realizado com sucesso!'
+  return t(`thankYou.mainMessage.${userType.value}`)
 })
 
 const description = computed(() => {
-  return userType.value === 'medico'
-    ? 'Recebemos suas informações e documentos. Nossa equipe irá analisar seu CRM e credenciais. Você receberá um e-mail de confirmação assim que sua conta for aprovada.'
-    : 'Agora você pode fazer login e começar a aproveitar todos os benefícios da plataforma FitCertify365. Acompanhe seus marcadores de saúde e emita certificados médicos.'
+  return t(`thankYou.description.${userType.value}`)
 })
 
 const additionalInfo = computed(() => {
-  return userType.value === 'medico'
-    ? '💡 O processo de validação pode levar até 48 horas úteis. Você será notificado por e-mail quando sua conta estiver ativa.'
-    : '🎉 Explore nossa plataforma e descubra como podemos ajudar você a alcançar seus objetivos de saúde e performance!'
+  return t(`thankYou.additionalInfo.${userType.value}`)
 })
-
-const goToLogin = () => {
-  router.push('/login')
-}
 
 const goToHome = () => {
   router.push('/')

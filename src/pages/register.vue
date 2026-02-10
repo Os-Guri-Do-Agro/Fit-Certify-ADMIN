@@ -784,6 +784,14 @@ const isCurrentStepValid = computed(() => {
 })
 
 
+const normalizeFileName = (name) => {
+  return name
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9._-]/g, '')
+}
+
 const { handleSubmit, errors } = useForm({
   validateOnMount: false,
   validateOnBlur: true,
@@ -817,7 +825,9 @@ const submitAtleta = handleSubmit(async () => {
 
     if (arquivos?.length > 0) {
       arquivos.forEach((file) => {
-        formData.append('files', file)
+        const normalizedName = normalizeFileName(file.name)
+        const normalizedFile = new File([file], normalizedName, { type: file.type })
+        formData.append('files', normalizedFile)
       })
     }
 
