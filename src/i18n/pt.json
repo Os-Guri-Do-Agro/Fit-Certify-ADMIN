@@ -2698,7 +2698,11 @@
       "confirm": "Excluir"
     },
     "toasts": {
+      "loadError": "Erro ao carregar documentos",
       "addSuccess": "Documento adicionado com sucesso!",
+      "addError": "Erro ao adicionar documento",
+      "downloadSuccess": "Download realizado com sucesso!",
+      "downloadError": "Erro ao baixar documento",
       "deleteSuccess": "Documento excluído com sucesso!",
       "downloadStarted": "Download iniciado!"
     }

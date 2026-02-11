@@ -12,18 +12,8 @@
       </div>
     </div>
 
-    <v-row justify="center"  class="mb-6 mt-8">
-      <v-col cols="12" md="9" lg="6"  class="d-flex flex-row flex-wrap ga-5">
-        <v-text-field
-          v-model="busca"
-          prepend-inner-icon="mdi-magnify"
-          :placeholder="$t('documentos.searchPlaceholder')"
-          variant="outlined"
-          rounded="xl"
-          density="comfortable"
-          hide-details
-          clearable
-        />
+    <v-row justify="center" class="mb-6 mt-8">
+      <v-col cols="12" class="d-flex justify-center">
         <v-btn
           size="large"
           rounded="xl"
@@ -51,7 +41,7 @@
         <div v-else>
           <v-row>
             <v-col
-              v-for="doc in documentosFiltrados"
+              v-for="doc in documentos"
               :key="doc.id"
               cols="12"
               md="6"
@@ -72,9 +62,6 @@
                       <div class="text-subtitle-1 font-weight-bold text-grey-darken-4">
                         {{ doc.nome }}
                       </div>
-                      <div class="text-caption text-grey-darken-1">
-                        {{ getTipoLabel(doc.tipo) }}
-                      </div>
                     </div>
                   </div>
 
@@ -85,20 +72,16 @@
                       <v-icon size="18" color="primary" class="me-2">mdi-calendar</v-icon>
                       <span class="text-body-2 text-grey-darken-2">{{ formatarData(doc.dataUpload) }}</span>
                     </div>
-                    <div class="info-item mt-2">
-                      <v-icon size="18" color="primary" class="me-2">mdi-file</v-icon>
-                      <span class="text-body-2 text-grey-darken-2">{{ formatarTamanho(doc.tamanho) }}</span>
-                    </div>
                   </div>
                 </v-card-text>
               </v-card>
             </v-col>
           </v-row>
 
-          <div v-if="documentosFiltrados.length === 0" class="text-center py-16">
+          <div v-if="documentos.length === 0" class="text-center py-16">
             <v-icon size="80" color="grey-lighten-2">mdi-file-document-outline</v-icon>
-            <p class="text-h6 mt-4 text-grey">{{ busca ? $t('documentos.noDocuments') : $t('documentos.noDocumentsEmpty') }}</p>
-            <p class="text-body-2 text-grey-darken-1 mt-2">{{ busca ? $t('documentos.tryOtherTerms') : $t('documentos.noDocumentsEmptyDescription') }}</p>
+            <p class="text-h6 mt-4 text-grey">{{ $t('documentos.noDocumentsEmpty') }}</p>
+            <p class="text-body-2 text-grey-darken-1 mt-2">{{ $t('documentos.noDocumentsEmptyDescription') }}</p>
           </div>
         </div>
       </v-col>
@@ -113,25 +96,6 @@
         <v-divider />
         <v-card-text class="pa-6">
           <v-form ref="formRef">
-            <v-text-field
-              v-model="novoDocumento.nome"
-              :label="$t('documentos.addModal.name')"
-              variant="outlined"
-              rounded="lg"
-              :rules="[v => !!v || $t('documentos.addModal.nameRequired')]"
-              class="mb-4"
-            />
-            <v-select
-              v-model="novoDocumento.tipo"
-              :label="$t('documentos.addModal.type')"
-              :items="tiposDocumento"
-              item-title="label"
-              item-value="value"
-              variant="outlined"
-              rounded="lg"
-              :rules="[v => !!v || $t('documentos.addModal.typeRequired')]"
-              class="mb-4"
-            />
             <v-file-input
               v-model="novoDocumento.arquivo"
               :label="$t('documentos.addModal.file')"
@@ -139,7 +103,10 @@
               rounded="lg"
               prepend-icon=""
               prepend-inner-icon="mdi-paperclip"
-              :rules="[v => !!v || $t('documentos.addModal.fileRequired')]"
+              :rules="[
+                v => !!v || $t('documentos.addModal.fileRequired'),
+                v => !v || !v[0] || v[0].size <= 10485760 || 'Arquivo deve ter no máximo 10MB'
+              ]"
               accept=".pdf,.jpg,.jpeg,.png"
               show-size
             />
@@ -163,7 +130,7 @@
             rounded="lg"
             class="text-none font-weight-medium px-6"
             :loading="salvando"
-            @click="salvarDocumento"
+            @click="adicionarDocumento"
           >
             {{ $t('documentos.addModal.add') }}
           </v-btn>
@@ -181,7 +148,6 @@
             </v-avatar>
             <div>
               <div class="text-h6 font-weight-bold">{{ documentoSelecionado.nome }}</div>
-              <div class="text-caption text-grey-darken-1">{{ getTipoLabel(documentoSelecionado.tipo) }}</div>
             </div>
           </div>
         </v-card-title>
@@ -192,19 +158,11 @@
               <span class="info-label">{{ $t('documentos.detailsModal.uploadDate') }}</span>
               <span class="info-value">{{ formatarData(documentoSelecionado.dataUpload) }}</span>
             </div>
-            <div class="info-row">
-              <span class="info-label">{{ $t('documentos.detailsModal.size') }}</span>
-              <span class="info-value">{{ formatarTamanho(documentoSelecionado.tamanho) }}</span>
-            </div>
-            <div class="info-row">
-              <span class="info-label">{{ $t('documentos.detailsModal.type') }}</span>
-              <span class="info-value">{{ getTipoLabel(documentoSelecionado.tipo) }}</span>
-            </div>
           </div>
         </v-card-text>
         <v-divider />
         <v-card-actions class="pa-6">
-          <v-btn
+          <!-- <v-btn
             color="error"
             variant="outlined"
             rounded="lg"
@@ -213,7 +171,7 @@
             @click="confirmarExclusao"
           >
             {{ $t('documentos.detailsModal.delete') }}
-          </v-btn>
+          </v-btn> -->
           <v-spacer />
           <v-btn
             color="primary"
@@ -221,7 +179,8 @@
             rounded="lg"
             prepend-icon="mdi-download"
             class="text-none"
-            @click="baixarDocumento"
+            :loading="baixando"
+            @click="downloadDocumento"
           >
             {{ $t('documentos.detailsModal.download') }}
           </v-btn>
@@ -231,7 +190,7 @@
             rounded="lg"
             class="text-none"
             @click="fecharDetalhes"
-          >
+           >
             {{ $t('documentos.detailsModal.close') }}
           </v-btn>
         </v-card-actions>
@@ -278,24 +237,95 @@
 import { ref, computed, onMounted } from 'vue'
 import type { IDocumento } from '@/Interfaces/documento-interface'
 import { toast } from 'vue3-toastify'
+import documentosService from '@/services/documentos/documentos-service'
+import { getAtletaId } from '@/utils/auth'
 
 const loading = ref(true)
-const busca = ref('')
 const modalAdicionar = ref(false)
 const modalDetalhes = ref(false)
 const modalConfirmacao = ref(false)
 const salvando = ref(false)
 const excluindo = ref(false)
+const baixando = ref(false)
 const documentoSelecionado = ref<IDocumento | null>(null)
 const formRef = ref()
 
-const documentos = ref<IDocumento[]>([])
+const documentos = ref<any[]>([])
 
-const novoDocumento = ref({
-  nome: '',
-  tipo: '',
-  arquivo: null as File[] | null
+const novoDocumento = ref<{
+  arquivo: File | null}>({
+  arquivo: null
 })
+
+const buscarDocumentos = async() => {
+  loading.value = true
+  try {
+    const response = await documentosService.buscarDocumentoByAtleta(getAtletaId())
+    documentos.value = response.data.map((doc: any) => ({
+      id: doc.id,
+      nome: doc.nomeImagem.split('_')[0],
+      tipo: getTipoFromContentType(doc.contentType),
+      dataUpload: new Date(doc.createdAt),
+      createdBy: doc.createdBy
+    }))
+  } catch (error) {
+    console.error('Erro ao buscar documentos:', error)
+    toast.error(t('documentos.toasts.loadError'))
+  } finally {
+    loading.value = false
+  }
+}
+
+const adicionarDocumento = async () => {
+  if (!novoDocumento.value.arquivo) {
+    toast.error('Arquivo é obrigatório')
+    return
+  }
+
+  salvando.value = true
+  try {
+    const formData = new FormData()
+    formData.append('exame', novoDocumento.value.arquivo)
+
+    await documentosService.adicionarDocumento(getAtletaId(), formData)
+    toast.success(t('documentos.toasts.addSuccess'))
+    fecharModalAdicionar()
+    await buscarDocumentos()
+  } catch (error) {
+    console.error('Erro ao adicionar documento:', error)
+    toast.error(t('documentos.toasts.addError'))
+  } finally {
+    salvando.value = false
+  }
+}
+
+const downloadDocumento = async () => {
+  baixando.value = true
+  try {
+    const response = await documentosService.baixarDocumento(documentoSelecionado.value?.id)
+    const { base64, contentType, nomeImagem } = response.data
+    const byteCharacters = atob(base64)
+    const byteNumbers = new Array(byteCharacters.length)
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i)
+    }
+    const byteArray = new Uint8Array(byteNumbers)
+    const blob = new Blob([byteArray], { type: contentType })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement('a')
+    link.href = url
+    link.download = nomeImagem.split('_')[0]
+    link.click()
+    window.URL.revokeObjectURL(url)
+    toast.success(t('documentos.toasts.downloadSuccess'))
+  } catch (error) {
+    console.error('Erro ao baixar documento:', error)
+    toast.error(t('documentos.toasts.downloadError'))
+  } finally {
+    baixando.value = false
+  }
+}
+
 
 import { useI18n } from 'vue-i18n'
 
@@ -308,18 +338,8 @@ const tiposDocumento = computed(() => [
   { label: t('documentos.types.pdf'), value: 'pdf' }
 ])
 
-const documentosFiltrados = computed(() => {
-  if (!busca.value) return documentos.value
-  return documentos.value.filter(doc =>
-    doc.nome.toLowerCase().includes(busca.value.toLowerCase())
-  )
-})
-
 const getIconByTipo = (tipo: string) => {
   const icons: Record<string, string> = {
-    exame: 'mdi-flask',
-    atestado: 'mdi-file-certificate',
-    receita: 'mdi-prescription',
     pdf: 'mdi-file-pdf-box'
   }
   return icons[tipo] || 'mdi-file'
@@ -335,6 +355,12 @@ const getIconColor = (tipo: string) => {
   return colors[tipo] || 'grey'
 }
 
+const getTipoFromContentType = (contentType: string) => {
+  if (contentType.includes('pdf')) return 'pdf'
+  if (contentType.includes('image')) return 'exame'
+  return 'pdf'
+}
+
 const getTipoLabel = (tipo: string) => {
   return t(`documentos.types.${tipo}`) || tipo
 }
@@ -348,6 +374,7 @@ const formatarData = (data: Date) => {
 }
 
 const formatarTamanho = (bytes: number) => {
+  if (!bytes || bytes === 0) return '-'
   if (bytes < 1024) return bytes + ' B'
   if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB'
   return (bytes / 1048576).toFixed(1) + ' MB'
@@ -359,29 +386,8 @@ const abrirModalAdicionar = () => {
 
 const fecharModalAdicionar = () => {
   modalAdicionar.value = false
-  novoDocumento.value = { nome: '', tipo: '', arquivo: null }
+  novoDocumento.value = {arquivo: null }
   formRef.value?.reset()
-}
-
-const salvarDocumento = async () => {
-  const { valid } = await formRef.value.validate()
-  if (!valid) return
-
-  salvando.value = true
-  setTimeout(() => {
-    const arquivo = novoDocumento.value.arquivo?.[0]
-    const doc: IDocumento = {
-      id: Date.now().toString(),
-      nome: novoDocumento.value.nome,
-      tipo: novoDocumento.value.tipo as IDocumento['tipo'],
-      dataUpload: new Date(),
-      tamanho: arquivo?.size || 1024000
-    }
-    documentos.value.unshift(doc)
-    toast.success(t('documentos.toasts.addSuccess'))
-    fecharModalAdicionar()
-    salvando.value = false
-  }, 1000)
 }
 
 const abrirDetalhes = (doc: IDocumento) => {
@@ -415,9 +421,7 @@ const baixarDocumento = () => {
 }
 
 onMounted(() => {
-  setTimeout(() => {
-    loading.value = false
-  }, 800)
+  buscarDocumentos()
 })
 </script>
 
