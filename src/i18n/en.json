@@ -1,5 +1,7 @@
 {
   "appBar": {
+    "titleAlterarSenhaEmailAlt": "Change Password",
+    "titleEmailsAlternativos": "Alternative Emails",
     "titleDocuments": "Documents",
     "titleForms": "Forms",
     "titleEvents": "Events",
@@ -117,7 +119,10 @@
       "atleta": "Athlete",
       "medico": "Doctor",
       "fisioterapeuta": "Physiotherapist",
-      "treinador": "Coach"
+      "treinador": "Coach",
+      "perfilPuflico": "Public Profile",
+      "emailsAlternativos": "Alternative Emails",
+      "alterarSenhaEmailAlt": "Change Password"
     },
     "footer": {
       "configuracoes": "Settings",
@@ -2775,6 +2780,59 @@
     },
     "buttons": {
       "home": "Home Page"
+    }
+  },
+  "emailsAlternativos": {
+    "title": "Alternative Emails",
+    "addEmail": "Add Email",
+    "noEmails": "No emails registered",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "cancel": "Cancel",
+    "add": "Add",
+    "delete": "Delete",
+    "deleteTitle": "Delete Email",
+    "deleteMessage": "Do you really want to delete this email?",
+    "validation": {
+      "required": "Required field",
+      "invalidEmail": "Invalid email",
+      "minLength": "Password must have at least 8 characters",
+      "passwordsNotMatch": "Passwords do not match"
+    },
+    "toasts": {
+      "loadError": "Error loading emails",
+      "createSuccess": "Email created successfully",
+      "createError": "Error creating email",
+      "deleteSuccess": "Email deleted successfully",
+      "deleteError": "Error deleting email"
+    }
+  },
+  "alterarSenhaEmailAlternativo": {
+    "title": "Update Data",
+    "subtitle": "Keep your information secure",
+    "email": "Email",
+    "currentPassword": "Current Password",
+    "newPassword": "New Password",
+    "confirmNewPassword": "Confirm New Password",
+    "cancel": "Cancel",
+    "save": "Save",
+    "info": {
+      "title": "Information",
+      "emailTitle": "Email",
+      "emailDescription": "You can update your email whenever you want.",
+      "passwordTitle": "Password",
+      "passwordDescription": "To update the password, you need to provide the current password."
+    },
+    "validation": {
+      "passwordMatch": "Passwords do not match"
+    },
+    "toasts": {
+      "passwordMismatch": "Passwords do not match",
+      "currentPasswordRequired": "To change the password, provide the current password",
+      "success": "Data changed successfully",
+      "error": "Error changing data: ",
+      "unknownError": "Unknown error"
     }
   }
 }

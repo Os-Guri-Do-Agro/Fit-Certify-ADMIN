@@ -1,5 +1,7 @@
 ﻿{
   "appBar": {
+    "titleAlterarSenhaEmailAlt": "Alterar Senha",
+    "titleEmailsAlternativos": "E-mails Alternativos",
     "titleDocuments": "Documentos",
     "titleForms": "Formulários",
     "titleEvents": "Eventos",
@@ -117,7 +119,10 @@
       "atleta": "Atleta",
       "medico": "Médico",
       "fisioterapeuta": "Fisioterapeuta",
-      "treinador": "Treinador"
+      "treinador": "Treinador",
+      "perfilPuflico": "Perfil Público",
+      "emailsAlternativos": "E-mails Alternativos",
+      "alterarSenhaEmailAlt": "Alterar Senha"
     },
     "footer": {
       "configuracoes": "Configurações",
@@ -2772,6 +2777,59 @@
     },
     "buttons": {
       "home": "Página Inicial"
+    }
+  },
+  "emailsAlternativos": {
+    "title": "Emails Alternativos",
+    "addEmail": "Adicionar Email",
+    "noEmails": "Nenhum email cadastrado",
+    "email": "Email",
+    "password": "Senha",
+    "confirmPassword": "Confirmar Senha",
+    "cancel": "Cancelar",
+    "add": "Adicionar",
+    "delete": "Deletar",
+    "deleteTitle": "Deletar Email",
+    "deleteMessage": "Deseja realmente deletar este email?",
+    "validation": {
+      "required": "Campo obrigatório",
+      "invalidEmail": "Email inválido",
+      "minLength": "Senha deve ter no mínimo 8 caracteres",
+      "passwordsNotMatch": "As senhas não coincidem"
+    },
+    "toasts": {
+      "loadError": "Erro ao buscar emails",
+      "createSuccess": "Email criado com sucesso",
+      "createError": "Erro ao criar email",
+      "deleteSuccess": "Email deletado com sucesso",
+      "deleteError": "Erro ao deletar email"
+    }
+  },
+  "alterarSenhaEmailAlternativo": {
+    "title": "Atualizar Dados",
+    "subtitle": "Mantenha suas informações seguras",
+    "email": "Email",
+    "currentPassword": "Senha Atual",
+    "newPassword": "Nova Senha",
+    "confirmNewPassword": "Confirmar Nova Senha",
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "info": {
+      "title": "Informações",
+      "emailTitle": "Email",
+      "emailDescription": "Você pode atualizar seu email quando quiser.",
+      "passwordTitle": "Senha",
+      "passwordDescription": "Para atualizar a senha, é necessário informar a senha atual."
+    },
+    "validation": {
+      "passwordMatch": "As senhas não coincidem"
+    },
+    "toasts": {
+      "passwordMismatch": "As senhas não coincidem",
+      "currentPasswordRequired": "Para alterar a senha, informe a senha atual",
+      "success": "Dados alterados com sucesso",
+      "error": "Erro ao alterar dados: ",
+      "unknownError": "Erro desconhecido"
     }
   }
 }

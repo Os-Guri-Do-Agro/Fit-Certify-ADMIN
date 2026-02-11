@@ -291,7 +291,7 @@
 
 <script setup lang="ts">
 import { useLayoutStore } from '@/stores/layout'
-import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout, getUserID, getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId } from '@/utils/auth'
+import { getPayload, isAtleta, isFisioterapeuta, isMedico, isTreinador, logout, getUserID, getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, usuarioAlternativo } from '@/utils/auth'
 import { getProfileRoute, getListaConexaoRoute } from '@/utils/profile'
 import { computed, onBeforeUnmount, onMounted, ref, toRaw } from 'vue'
 import { useRoute } from 'vue-router'
@@ -352,12 +352,31 @@ const contaItems = computed(() => {
       value: 'dashboard',
       to: getProfileRoute(),
     },
-    ...(children.length > 0 ? [{
+    ...(children.length > 0 && !usuarioAlternativo() ? [{
       icon: 'mdi-account-plus',
       title: t('drawerNavigator.account.novoPerfil'),
       value: 'novo-perfil',
       children,
     }] : []),
+    ... (!usuarioAlternativo() ? [{
+      icon: 'mdi-account-box-edit-outline',
+      title: t('drawerNavigator.account.perfilPuflico'),
+      value: 'publicProfile',
+      to: '/Medico-Screens/editarPerfilPublico',
+    }] : []),
+    ... (!usuarioAlternativo() ? [{
+      icon: 'mdi-account-child',
+      title: t('drawerNavigator.account.emailsAlternativos'),
+      value: 'emailsAlternativos',
+      to: '/Medico-Screens/emailsAlternativos',
+    }] : []),
+    ... (usuarioAlternativo() ? [{
+      icon: 'mdi-lock-reset',
+      title: t('drawerNavigator.account.alterarSenhaEmailAlt'),
+      value: 'alterarSenhaEmailAlt',
+      to: '/Medico-Screens/AlterarSenhaEmailAlternativo',
+    }] : []),
+
   ]
 })
 

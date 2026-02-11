@@ -89,7 +89,7 @@
                 @click="abrirModalDetalhes(consulta)"
               >
                 <div class="card-status-bar" :style="{ backgroundColor: getStatusColor(consulta?.situacao) }" />
-                
+
                 <v-card-text class="pa-6">
                   <div class="d-flex align-center justify-space-between mb-4">
                     <div class="d-flex align-center">
@@ -130,6 +130,7 @@
 
                   <div v-if="consulta?.situacao === 'Marcado'" class="action-buttons mt-5">
                     <v-btn
+                      v-if="!usuarioAlternativo()"
                       color="success"
                       variant="flat"
                       size="small"
@@ -270,7 +271,7 @@
             <div class="text-body-1">{{ consultaSelecionada.medicamentosReceitados }}</div>
           </div>
 
-          <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && consultaSelecionada.consultaExterna === true">
+          <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && consultaSelecionada.consultaExterna === true && !usuarioAlternativo()">
             <v-divider class="mb-4" />
             <v-btn
               color="primary"
@@ -444,6 +445,7 @@ import atletaService from '@/services/atleta/atleta-service'
 import { getErrorMessage } from '@/common/error.utils'
 import { useI18n } from 'vue-i18n'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
+import { usuarioAlternativo } from '@/utils/auth'
 
 const { t, locale } = useI18n()
 

@@ -54,7 +54,7 @@
                 <v-chip class="info-chip text-center d-flex justify-center" prepend-icon="mdi-identifier">
                    <p class="textId">ID: {{ getUserID() }}</p>
                 </v-chip>
-                <v-btn class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#1E88E5" @click="() => router.push('/medico-Screens/editarPerfilMedico')">
+                <v-btn v-if="!usuarioAlternativo()" class="info-chip d-flex align-center justify-center " variant="outlined" rounded="xl" color="#1E88E5" @click="() => router.push('/medico-Screens/editarPerfilMedico')">
                   <v-icon class="mr-2 text-white" color="white">mdi-pencil</v-icon>
                   <p class="text-white text-subtitle-2">{{ t('perfilMedico.editProfile') }}</p>
                 </v-btn>
@@ -292,7 +292,7 @@
 import { formatarData, formatarHorarioLocal } from '@/utils/date.utils'
 import router from '@/router'
 import medicoService from '@/services/medico/medico-service'
-import { getMedicoId, getUserID } from '@/utils/auth'
+import { getMedicoId, getUserID, usuarioAlternativo } from '@/utils/auth'
 import { onMounted, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
 
