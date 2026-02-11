@@ -329,7 +329,7 @@ const downloadDocumento = async () => {
 
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const tiposDocumento = computed(() => [
   { label: t('documentos.types.exame'), value: 'exame' },
@@ -366,7 +366,11 @@ const getTipoLabel = (tipo: string) => {
 }
 
 const formatarData = (data: Date) => {
-  return new Date(data).toLocaleDateString('pt-BR', {
+  const localeMap: Record<string, string> = {
+    pt: 'pt-BR',
+    en: 'en-US'
+  }
+  return new Date(data).toLocaleDateString(localeMap[locale.value] || 'pt-BR', {
     day: '2-digit',
     month: 'long',
     year: 'numeric'
