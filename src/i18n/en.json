@@ -2701,7 +2701,11 @@
       "confirm": "Delete"
     },
     "toasts": {
+      "loadError": "Error loading documents",
       "addSuccess": "Document added successfully!",
+      "addError": "Error adding document",
+      "downloadSuccess": "Download completed successfully!",
+      "downloadError": "Error downloading document",
       "deleteSuccess": "Document deleted successfully!",
       "downloadStarted": "Download started!"
     }
