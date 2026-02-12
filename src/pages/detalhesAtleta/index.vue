@@ -18,7 +18,7 @@
               :size="display.mobile ? 48 : 64"
             />
             <p class="text-body-2 text-sm-body-1 mt-4 text-grey px-2">
-              Carregando informações do atleta...
+              {{ t('detalhesAtleta.loading') }}
             </p>
           </div>
 
@@ -26,7 +26,7 @@
           <div v-else-if="error" class="text-center py-6 py-sm-8">
             <v-icon :size="display.mobile ? 60 : 80" color="error">mdi-alert-circle</v-icon>
             <h2 class="text-h6 text-sm-h5 font-weight-bold mt-3 mt-sm-4 mb-2 px-2" style="color: #f44336">
-              Erro ao carregar informações
+              {{ t('detalhesAtleta.errorLoading') }}
             </h2>
             <p class="text-body-2 text-sm-body-1 text-grey mb-4 px-2">
               {{ error }}
@@ -39,7 +39,7 @@
               class="mt-2"
               @click="$router.push('/')"
             >
-              Voltar ao início
+              {{ t('detalhesAtleta.backToHome') }}
             </v-btn>
           </div>
 
@@ -66,10 +66,10 @@
                 class="text-h6 text-sm-h5 text-md-h4 font-weight-bold mb-2 px-2"
                 style="color: #42A5F5"
               >
-                {{ atletaData?.usuario?.nome || 'Atleta' }}
+                {{ atletaData?.usuario?.nome || t('detalhesAtleta.athlete') }}
               </h2>
               <p class="text-body-2 text-sm-body-1 text-grey px-2">
-                Informações completas do atleta
+                {{ t('detalhesAtleta.completeInfo') }}
               </p>
             </div>
 
@@ -84,7 +84,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Informações Pessoais
+                    {{ t('detalhesAtleta.personalInfo') }}
                   </span>
                 </div>
               </v-card-title>
@@ -92,7 +92,7 @@
                 <v-row dense>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Nome</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.name') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData?.usuario?.nome || '--' }}
                       </div>
@@ -100,7 +100,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.email">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Email</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.email') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium" style="word-break: break-all; white-space: normal;">
                         {{ atletaData.usuario.email }}
                       </div>
@@ -108,7 +108,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.cpf">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">CPF</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.cpf') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ formatarCPF(atletaData.usuario.cpf) }}
                       </div>
@@ -116,7 +116,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.telefone">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Telefone</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.phone') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.telefone }}
                       </div>
@@ -124,7 +124,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Data de Nascimento</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.birthDate') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ formatarData(atletaData.dataNascimento) }}
                       </div>
@@ -132,15 +132,15 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Idade</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.age') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ calcularIdade(atletaData.dataNascimento) }} anos
+                        {{ calcularIdade(atletaData.dataNascimento) }} {{ t('detalhesAtleta.years') }}
                       </div>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.genero">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Gênero</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.gender') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.genero }}
                       </div>
@@ -161,7 +161,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-human</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Informações Físicas
+                    {{ t('detalhesAtleta.physicalInfo') }}
                   </span>
                 </div>
               </v-card-title>
@@ -169,7 +169,7 @@
                 <v-row dense>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Altura</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.height') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.altura }} m
                       </div>
@@ -177,7 +177,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.peso">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Peso</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.weight') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.peso }} kg
                       </div>
@@ -185,7 +185,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.tipoSanguineo">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Tipo Sanguíneo</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bloodType') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.tipoSanguineo }}
                       </div>
@@ -193,7 +193,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura && atletaData?.peso">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">IMC</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bmi') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ calcularIMC(atletaData.altura, atletaData.peso) }}
                       </div>
@@ -214,7 +214,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-check-circle</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Status e Preferências
+                    {{ t('detalhesAtleta.statusPreferences') }}
                   </span>
                 </div>
               </v-card-title>
@@ -222,49 +222,49 @@
                 <v-row dense>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Status</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.status') }}</div>
                       <v-chip
                         :color="atletaData?.ativo ? 'success' : 'error'"
                         size="small"
                         variant="flat"
                       >
-                        {{ atletaData?.ativo ? 'Ativo' : 'Inativo' }}
+                        {{ atletaData?.ativo ? t('detalhesAtleta.active') : t('detalhesAtleta.inactive') }}
                       </v-chip>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Fez Checkup Recente</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.recentCheckup') }}</div>
                       <v-chip
                         :color="atletaData?.fezCheckupUltimosMeses ? 'success' : 'default'"
                         size="small"
                         variant="flat"
                       >
-                        {{ atletaData?.fezCheckupUltimosMeses ? 'Sim' : 'Não' }}
+                        {{ atletaData?.fezCheckupUltimosMeses ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
                       </v-chip>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Possui Smartwatch</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.hasSmartwatch') }}</div>
                       <v-chip
                         :color="atletaData?.possuiSmartwatch ? 'success' : 'default'"
                         size="small"
                         variant="flat"
                       >
-                        {{ atletaData?.possuiSmartwatch ? 'Sim' : 'Não' }}
+                        {{ atletaData?.possuiSmartwatch ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
                       </v-chip>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Pratica Atividade Física</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.practicesPhysicalActivity') }}</div>
                       <v-chip
                         :color="atletaData?.praticaAtividadeFisicaRegularmente ? 'success' : 'default'"
                         size="small"
                         variant="flat"
                       >
-                        {{ atletaData?.praticaAtividadeFisicaRegularmente ? 'Sim' : 'Não' }}
+                        {{ atletaData?.praticaAtividadeFisicaRegularmente ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
                       </v-chip>
                     </div>
                   </v-col>
@@ -284,7 +284,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-run</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Histórico Esportivo
+                    {{ t('detalhesAtleta.sportsHistory') }}
                   </span>
                 </div>
               </v-card-title>
@@ -292,7 +292,7 @@
                 <v-row dense>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.objetivo">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Objetivo</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.goal') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.historicoEsportivo.objetivo }}
                       </div>
@@ -300,19 +300,19 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Participou de Provas</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.participatedInRaces') }}</div>
                       <v-chip
                         :color="atletaData.historicoEsportivo.participouProvasAntes ? 'success' : 'default'"
                         size="small"
                         variant="flat"
                       >
-                        {{ atletaData.historicoEsportivo.participouProvasAntes ? 'Sim' : 'Não' }}
+                        {{ atletaData.historicoEsportivo.participouProvasAntes ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
                       </v-chip>
                     </div>
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.ultimaProva">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Última Prova</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.lastRace') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.historicoEsportivo.ultimaProva }}
                       </div>
@@ -334,7 +334,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-heart-pulse</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Histórico de Saúde
+                    {{ t('detalhesAtleta.healthHistory') }}
                   </span>
                 </div>
               </v-card-title>
@@ -342,7 +342,7 @@
                 <v-row dense>
                   <v-col cols="12" v-if="atletaData.historicoSaude.tomaMedicamentoContinuo && String(atletaData.historicoSaude.tomaMedicamentoContinuo).trim() !== ''">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Medicamentos Contínuos</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.continuousMedications') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.historicoSaude.tomaMedicamentoContinuo }}
                       </div>
@@ -350,7 +350,7 @@
                   </v-col>
                   <v-col cols="12" v-if="atletaData.historicoSaude.outrasCondicoesMedicas && String(atletaData.historicoSaude.outrasCondicoesMedicas).trim() !== ''">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Outras Condições Médicas</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.otherMedicalConditions') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ atletaData.historicoSaude.outrasCondicoesMedicas }}
                       </div>
@@ -360,7 +360,7 @@
 
                 <!-- Doenças -->
                 <div v-if="atletaData.historicoSaude.historicoSaudeDoencas && atletaData.historicoSaude.historicoSaudeDoencas.length > 0" class="mt-4">
-                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">Doenças</div>
+                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.diseases') }}</div>
                   <v-chip
                     v-for="(doenca, index) in atletaData.historicoSaude.historicoSaudeDoencas"
                     :key="index"
@@ -375,7 +375,7 @@
 
                 <!-- Sintomas -->
                 <div v-if="atletaData.historicoSaude.historicoSaudeSintoma && atletaData.historicoSaude.historicoSaudeSintoma.length > 0" class="mt-4">
-                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">Sintomas</div>
+                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.symptoms') }}</div>
                   <v-chip
                     v-for="(sintoma, index) in atletaData.historicoSaude.historicoSaudeSintoma"
                     :key="index"
@@ -395,7 +395,7 @@
                   (!atletaData.historicoSaude.historicoSaudeDoencas || atletaData.historicoSaude.historicoSaudeDoencas.length === 0) &&
                   (!atletaData.historicoSaude.historicoSaudeSintoma || atletaData.historicoSaude.historicoSaudeSintoma.length === 0)
                 " class="text-center py-4">
-                  <p class="text-body-2 text-grey">Nenhuma informação de saúde registrada.</p>
+                  <p class="text-body-2 text-grey">{{ t('detalhesAtleta.noHealthInfo') }}</p>
                 </div>
               </v-card-text>
             </v-card>
@@ -412,7 +412,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-calendar-clock</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Consultas ({{ atletaData.consultas.length }})
+                    {{ t('detalhesAtleta.appointments') }} ({{ atletaData.consultas.length }})
                   </span>
                 </div>
               </v-card-title>
@@ -444,7 +444,7 @@
                       <v-row dense class="mt-2">
                         <v-col cols="12" v-if="consulta.diagnostico">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">Diagnóstico</div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.diagnosis') }}</div>
                             <div class="text-body-2 text-sm-body-1 font-weight-medium">
                               {{ consulta.diagnostico }}
                             </div>
@@ -452,7 +452,7 @@
                         </v-col>
                         <v-col cols="12" v-if="consulta.medicamentosReceitados">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">Medicamentos Receitados</div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.prescribedMedications') }}</div>
                             <div class="text-body-2 text-sm-body-1 font-weight-medium">
                               {{ consulta.medicamentosReceitados }}
                             </div>
@@ -460,7 +460,7 @@
                         </v-col>
                         <v-col cols="12" sm="6" v-if="consulta.createdBy">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">Criado por</div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.createdBy') }}</div>
                             <div class="text-body-2 text-sm-body-1 font-weight-medium">
                               {{ consulta.createdBy }}
                             </div>
@@ -485,7 +485,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-alert</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Alergias ({{ atletaData.alergiasAtleta.length }})
+                    {{ t('detalhesAtleta.allergies') }} ({{ atletaData.alergiasAtleta.length }})
                   </span>
                 </div>
               </v-card-title>
@@ -518,7 +518,7 @@
                           <div class="file-content">
                             <v-icon :size="display.mobile ? 48 : 64" color="error" class="file-icon">mdi-file-pdf-box</v-icon>
                             <div class="text-caption text-center text-grey-darken-1 file-name">
-                              {{ alergia.nomeArquivo || 'Documento PDF' }}
+                              {{ alergia.nomeArquivo || t('detalhesAtleta.pdfDocument') }}
                             </div>
                             <v-btn
                               color="light-blue-accent-3"
@@ -530,7 +530,7 @@
                               class="file-btn"
                             >
                               <v-icon :size="display.mobile ? 16 : 20" class="mr-1">mdi-open-in-new</v-icon>
-                              Abrir PDF
+                              {{ t('detalhesAtleta.openPdf') }}
                             </v-btn>
                           </div>
                         </div>
@@ -539,7 +539,7 @@
                           <div class="file-content">
                             <v-icon :size="display.mobile ? 48 : 64" color="grey" class="file-icon">mdi-file</v-icon>
                             <div class="text-caption text-center text-grey-darken-1 file-name">
-                              {{ alergia.nomeArquivo || 'Arquivo' }}
+                              {{ alergia.nomeArquivo || t('detalhesAtleta.file') }}
                             </div>
                             <v-btn
                               color="light-blue-accent-3"
@@ -552,7 +552,7 @@
                               class="file-btn"
                             >
                               <v-icon :size="display.mobile ? 16 : 20" class="mr-1">mdi-download</v-icon>
-                              Baixar Arquivo
+                              {{ t('detalhesAtleta.downloadFile') }}
                             </v-btn>
                           </div>
                         </div>
@@ -575,7 +575,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-file-document</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Exames ({{ atletaData.exameAtleta.length }})
+                    {{ t('detalhesAtleta.exams') }} ({{ atletaData.exameAtleta.length }})
                   </span>
                 </div>
               </v-card-title>
@@ -604,7 +604,7 @@
                           <div class="file-content">
                             <v-icon :size="display.mobile ? 48 : 64" color="error" class="file-icon">mdi-file-pdf-box</v-icon>
                             <div class="text-caption text-center text-grey-darken-1 file-name">
-                              {{ exame.nomeImagem || 'Documento PDF' }}
+                              {{ exame.nomeImagem || t('detalhesAtleta.pdfDocument') }}
                             </div>
                             <v-btn
                               color="light-blue-accent-3"
@@ -616,7 +616,7 @@
                               class="file-btn"
                             >
                               <v-icon :size="display.mobile ? 16 : 20" class="mr-1">mdi-open-in-new</v-icon>
-                              Abrir PDF
+                              {{ t('detalhesAtleta.openPdf') }}
                             </v-btn>
                           </div>
                         </div>
@@ -625,7 +625,7 @@
                           <div class="file-content">
                             <v-icon :size="display.mobile ? 48 : 64" color="grey" class="file-icon">mdi-file</v-icon>
                             <div class="text-caption text-center text-grey-darken-1 file-name">
-                              {{ exame.nomeImagem || 'Arquivo' }}
+                              {{ exame.nomeImagem || t('detalhesAtleta.file') }}
                             </div>
                             <v-btn
                               color="light-blue-accent-3"
@@ -638,7 +638,7 @@
                               class="file-btn"
                             >
                               <v-icon :size="display.mobile ? 16 : 20" class="mr-1">mdi-download</v-icon>
-                              Baixar Arquivo
+                              {{ t('detalhesAtleta.downloadFile') }}
                             </v-btn>
                           </div>
                         </div>
@@ -665,7 +665,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-chart-line</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Análises ({{ atletaData.analisesAtleta.length }})
+                    {{ t('detalhesAtleta.analyses') }} ({{ atletaData.analisesAtleta.length }})
                   </span>
                 </div>
               </v-card-title>
@@ -678,7 +678,7 @@
                   >
                     <v-card variant="outlined" class="mb-3">
                       <v-card-text>
-                        <div class="text-body-2 font-weight-medium">{{ analise.titulo || `Análise ${index + 1}` }}</div>
+                        <div class="text-body-2 font-weight-medium">{{ analise.titulo || `${t('detalhesAtleta.analysis')} ${index + 1}` }}</div>
                         <div class="text-caption text-grey-darken-1 mt-2" v-if="analise.createdAt">
                           {{ formatarDataHora(analise.createdAt) }}
                         </div>
@@ -700,7 +700,7 @@
                 <div class="d-flex align-center">
                   <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-information</v-icon>
                   <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    Informações do Sistema
+                    {{ t('detalhesAtleta.systemInfo') }}
                   </span>
                 </div>
               </v-card-title>
@@ -708,7 +708,7 @@
                 <v-row dense>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.createdAt">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Data de Criação</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.createdAt') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ formatarDataHora(atletaData.createdAt) }}
                       </div>
@@ -716,7 +716,7 @@
                   </v-col>
                   <v-col cols="12" sm="6" md="4" v-if="atletaData?.updatedAt">
                     <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">Última Atualização</div>
+                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.lastUpdate') }}</div>
                       <div class="text-body-2 text-sm-body-1 font-weight-medium">
                         {{ formatarDataHora(atletaData.updatedAt) }}
                       </div>
@@ -737,7 +737,7 @@
                 block
                 @click="$router.push('/')"
               >
-                Voltar ao início
+                {{ t('detalhesAtleta.backToHome') }}
               </v-btn>
             </div>
           </div>
@@ -750,9 +750,9 @@
             <v-avatar color="error" size="80" class="mb-4">
               <v-icon size="50" color="white">mdi-lock-outline</v-icon>
             </v-avatar>
-            <div class="text-h5 font-weight-bold mb-3">Acesso Negado</div>
+            <div class="text-h5 font-weight-bold mb-3">{{ t('detalhesAtleta.accessDenied') }}</div>
             <div class="text-body-1 text-grey-darken-1 mb-6">
-              Você precisa estar logado para acessar esta página.
+              {{ t('detalhesAtleta.loginRequired') }}
             </div>
             <v-btn
               color="light-blue-accent-3"
@@ -763,7 +763,7 @@
               @click="router.push('/login')"
             >
               <v-icon start>mdi-login</v-icon>
-              Fazer Login
+              {{ t('detalhesAtleta.login') }}
             </v-btn>
           </v-card-text>
         </v-card>
@@ -776,12 +776,15 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
+import { useI18n } from 'vue-i18n'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import 'dayjs/locale/pt-br'
 import atletaService from '@/services/atleta/atleta-service'
 import { getToken } from '@/utils/auth'
+
+const { t } = useI18n()
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
