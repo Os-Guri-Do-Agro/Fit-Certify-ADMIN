@@ -264,13 +264,18 @@ async function handleSubmit() {
         nomeOriginal: perfil.nome
       }));
       
-      // Salvar dados temporários no sessionStorage
-      sessionStorage.setItem('perfis', JSON.stringify(perfis));
-      sessionStorage.setItem('loginEmail', email.value);
-      sessionStorage.setItem('loginIsMobile', String(isMobile.value));
-      
-      // Redirecionar para página de seleção de perfil
-      router.push('/select-profile');
+      // Se houver apenas um perfil, fazer login direto
+      if (perfis.length === 1) {
+        await loginComPerfilUnico(perfis[0]);
+      } else {
+        // Salvar dados temporários no sessionStorage
+        sessionStorage.setItem('perfis', JSON.stringify(perfis));
+        sessionStorage.setItem('loginEmail', email.value);
+        sessionStorage.setItem('loginIsMobile', String(isMobile.value));
+        
+        // Redirecionar para página de seleção de perfil
+        router.push('/select-profile');
+      }
     } else {
       toast.error($t('login.toastError2'));
     }
@@ -321,6 +326,46 @@ async function enviarCodigo() {
 
 function selecionarTipoConta(tipo: string) {
   tipoContaSelecionado.value = tipo
+}
+
+async function loginComPerfilUnico(perfil: any) {
+  try {
+    const response = await authService.loginComPerfil({
+      email: email.value,
+      perfilId: perfil.id,
+      isMobile: isMobile.value
+    });
+
+    if (response.data?.access_token) {
+      localStorage.setItem('token', response.data.access_token);
+      
+      const payload = response.data.access_token.split('.')[1];
+      const decodedPayload = JSON.parse(atob(payload));
+      const user = decodedPayload?.user;
+
+      if (user?.id) {
+        localStorage.setItem('usuarioId', user.id);
+      }
+
+      let path = '/';
+      const role = decodedPayload?.role;
+
+      if (role === 'admin') {
+        toast.error($t('login.toastErrorAdmin'));
+        return;
+      }
+
+      if (user?.atleta && !user.atleta.planoId) {
+        path = '/registerPlanos';
+      }
+
+      router.push(path);
+    } else {
+      toast.error($t('login.toastError3'));
+    }
+  } catch (error) {
+    toast.error($t('login.toastError3'));
+  }
 }
 
 function confirmarTipoConta() {

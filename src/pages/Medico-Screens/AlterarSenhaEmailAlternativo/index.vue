@@ -43,11 +43,12 @@
                   prepend-inner-icon="mdi-email"
                   color="#42A5F5"
                   type="email"
+                  :rules="[rules.email]"
                   class="mb-4"
                 />
 
                 <v-text-field
-                  v-model="formData.senhaAtual"
+                  v-model="formData.senhaAntiga"
                   :label="$t('alterarSenhaEmailAlternativo.currentPassword')"
                   variant="outlined"
                   density="comfortable"
@@ -71,6 +72,7 @@
                   :type="showPasswordNew ? 'text' : 'password'"
                   :append-inner-icon="showPasswordNew ? 'mdi-eye' : 'mdi-eye-off'"
                   @click:append-inner="showPasswordNew = !showPasswordNew"
+                  :rules="[rules.password]"
                   class="mb-4"
                 />
 
@@ -186,34 +188,58 @@ const showPasswordConfirm = ref(false)
 
 const formData = ref({
   email: '',
-  senhaAtual: '',
+  senhaAntiga: '',
   novaSenha: '',
   confirmarNovaSenha: ''
 })
 
 const rules = {
   required: (v: string) => !!v || t('emailsAlternativos.validation.required'),
+  email: (v: string) => {
+    const pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return !v || pattern.test(v) || 'Email inválido'
+  },
+  password: (v: string) => {
+    if (!v) return true
+    if (v.length < 8) return 'A senha deve ter pelo menos 8 caracteres'
+    if (!/[0-9]/.test(v)) return 'A senha deve conter pelo menos um número'
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(v)) return 'A senha deve conter pelo menos um caractere especial'
+    return true
+  },
   passwordMatch: (v: string) => !formData.value.novaSenha || v === formData.value.novaSenha || t('alterarSenhaEmailAlternativo.validation.passwordMatch')
 }
 
 const salvar = async () => {
+  if (!valid.value) {
+    toast.error('Por favor, corrija os erros no formulário')
+    return
+  }
+
+  if (!formData.value.novaSenha && !formData.value.email) {
+    toast.error('Preencha pelo menos a senha ou o email alternativo')
+    return
+  }
+
   if (formData.value.novaSenha && formData.value.novaSenha !== formData.value.confirmarNovaSenha) {
     toast.error(t('alterarSenhaEmailAlternativo.toasts.passwordMismatch'))
     return
   }
 
-  if (formData.value.novaSenha && !formData.value.senhaAtual) {
+  if (formData.value.novaSenha && !formData.value.senhaAntiga) {
     toast.error(t('alterarSenhaEmailAlternativo.toasts.currentPasswordRequired'))
     return
   }
 
   loading.value = true
   try {
-    await userService.mudarSenhaEmailAlternativo({
-      email: formData.value.email,
-      senhaAtual: formData.value.senhaAtual,
-      novaSenha: formData.value.novaSenha
-    })
+    const payload: any = {}
+    if (formData.value.email) payload.email = formData.value.email
+    if (formData.value.novaSenha) {
+      payload.senhaAntiga = formData.value.senhaAntiga
+      payload.senhaNova = formData.value.novaSenha
+    }
+
+    await userService.mudarSenhaEmailAlternativo(payload)
 
     toast.success(t('alterarSenhaEmailAlternativo.toasts.success'))
 

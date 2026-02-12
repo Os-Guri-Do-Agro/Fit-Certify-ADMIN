@@ -98,7 +98,7 @@ class UserService {
   mudarSenhaEmailAlternativo(data: any): Promise<any> {
     const token = getToken()
     return this.handleRequest(
-      apiClient.patch('/user/emails-alternativos', data, {
+      apiClient.patch('/user/emails-alternativos?isMobile=true', data, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
