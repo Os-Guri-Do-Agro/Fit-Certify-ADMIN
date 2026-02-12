@@ -9,7 +9,7 @@
             <v-icon class="mr-3" color="#1E88E5">mdi-account-cog</v-icon>
             {{ $t('settings.account') }}
           </v-card-title>
-          <v-list>
+          <v-list >
             <v-list-item v-for="(item, index) in accountItems" :key="index" @click="handleNavigation(item)" class="list-item-hover">
               <template #prepend>
                 <v-icon :icon="`mdi-${item.icon}`" color="#1E88E5" />
@@ -26,7 +26,7 @@
           </v-list>
         </v-card>
 
-        <v-card class="mb-6" elevation="4" rounded="xl">
+        <v-card  class="mb-6" elevation="4" rounded="xl">
           <v-card-title class="section-title">
             <v-icon class="mr-3" color="#1E88E5">mdi-help-circle</v-icon>
             {{ $t('settings.support') }}
@@ -46,7 +46,7 @@
           </v-list>
         </v-card>
 
-        <v-card elevation="4" rounded="xl" class="danger-zone">
+        <v-card v-if="!usuarioAlternativo()" elevation="4" rounded="xl" class="danger-zone">
           <v-card-text class="pa-6">
             <div class="d-flex align-center mb-3">
               <v-icon icon="mdi-alert" color="error" size="28" class="mr-3" />
@@ -162,7 +162,7 @@ import atletaService from '@/services/atleta/atleta-service';
 import medicoService from '@/services/medico/medico-service';
 import treinadorService from '@/services/treinador/treinador-service';
 import fisioterapeutaService from '@/services/fisioterapeutas/fisioterapeuta-service';
-import { getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador } from '@/utils/auth';
+import { getAtletaId, getMedicoId, getFisioterapeutaId, getTreinadorId, isAtleta, isMedico, isFisioterapeuta, isTreinador, usuarioAlternativo } from '@/utils/auth';
 
 
 const { t } = useI18n();
@@ -177,13 +177,18 @@ const loading = ref(false);
 
 const accountItems = computed(() => {
   const baseItems = [
-    { icon: 'lock-reset', title: t('settings.newPassword'), to: '/novaSenhaLogado' },
+  ... (!usuarioAlternativo() ? [{
+    icon: 'lock-reset', title: t('settings.newPassword'), to: '/novaSenhaLogado' }] : []),
+    ... (usuarioAlternativo() ? [{
+      icon: 'lock-reset', title: t('settings.newPassword'), to: '/Medico-Screens/AlterarSenhaEmailAlternativo' }] : []),
     { icon: 'shield-lock-outline', title: t('settings.privacy'), to: '/politicaPrivacidade' },
-    { icon: 'ticket-percent', title: t('settings.referrals'), to: '/cupons' }
+    ... (!usuarioAlternativo() ? [{
+      icon: 'ticket-percent', title: t('settings.referrals'), to: '/cupons'
+    }] : []),
   ];
 
   // Adiciona item específico para médico
-  if (userRole.value === 'medico') {
+  if (userRole.value === 'medico' && !usuarioAlternativo()) {
     baseItems.unshift({ icon: 'account-outline', title: t('settings.editProfile'), to: '/Medico-Screens/editarPerfilMedico' });
     baseItems.push({ icon: 'doctor', title: t('settings.publicProfile'), to: '/Medico-Screens/editarPerfilPublico' });
   }

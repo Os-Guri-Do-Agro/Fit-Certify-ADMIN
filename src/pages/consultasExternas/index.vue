@@ -151,6 +151,7 @@
 
                 <div v-if="consulta?.situacao === 'Marcado'" class="action-buttons mt-5">
                   <v-btn
+                    v-if="!usuarioAlternativo()"
                     color="success"
                     variant="flat"
                     size="small"
@@ -264,7 +265,7 @@
             <div class="text-body-1">{{ consultaSelecionada.medicamentosReceitados }}</div>
           </div>
 
-          <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && getMedicoId()">
+          <div class="mt-6" v-if="consultaSelecionada.situacao === 'Concluido' && getMedicoId() && !usuarioAlternativo()">
             <v-divider class="mb-4" />
             <v-btn
               color="primary"
@@ -451,7 +452,7 @@ import 'dayjs/locale/en'
 import { toast } from 'vue3-toastify'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
 import { getErrorMessage } from '@/common/error.utils'
-import { getMedicoId } from '@/utils/auth'
+import { getMedicoId, usuarioAlternativo } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
 
 const { t, locale } = useI18n()
@@ -506,7 +507,7 @@ const buscarConsultas = async () => {
       cpf: tipoBusca.value === 'cpf' ? (valorBusca.value || null) : null
     }
     const response = await consultasService.findConsultasExternas(data)
-    
+
     consultas.value = response.data.flatMap(item => item.consultas || [])
   } catch (error) {
     console.error(error)
