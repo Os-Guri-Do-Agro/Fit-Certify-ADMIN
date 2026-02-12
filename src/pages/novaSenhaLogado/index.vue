@@ -117,7 +117,7 @@
 
 <script setup lang="ts">
 import authService from '@/services/auth/auth-service'
-import { getPayload, isTokenValid, logout } from '@/utils/auth'
+import { getPayload, isTokenValid, logout, usuarioAlternativo } from '@/utils/auth'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { toast } from 'vue3-toastify'

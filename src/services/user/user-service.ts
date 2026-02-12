@@ -47,6 +47,66 @@ class UserService {
     )
   }
 
+  getEmailsAlternativos(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get('/user/emails-alternativos', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to fetch alternative emails'
+    )
+  }
+
+  createEmailAlternativo(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/user/emails-alternativos', data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to create alternative email'
+    )
+  }
+
+  deleteEmailAlternativo(id: string): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.delete(`/user/emails-alternativos/${id}`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to delete alternative email'
+    )
+  }
+
+  alterarSenhaEmail(data: { email?: string; senhaAtual: string; novaSenha?: string }): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.patch('/user/alterar-senha-email', data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to update password or email'
+    )
+  }
+
+  mudarSenhaEmailAlternativo(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.patch('/user/emails-alternativos?isMobile=true', data, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      }),
+      'Failed to update alternative email password'
+    )
+  }
+
 }
 
 export default new UserService()

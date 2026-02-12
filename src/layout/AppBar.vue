@@ -47,7 +47,7 @@
         </v-badge>
       </v-btn>
 
-      <v-btn @click="dialogPerfil = true" icon variant="flat" class="action-btn mr-3">
+      <v-btn v-if="!usuarioAlternativo()" @click="dialogPerfil = true" icon variant="flat" class="action-btn mr-3">
         <v-icon size="20px">mdi-account-convert</v-icon>
       </v-btn>
 
@@ -65,7 +65,7 @@
           </v-btn>
         </template>
         <v-list class="profile-menu" elevation="8">
-          <v-list-item @click="router.push(getProfileRoute())" class="menu-item">
+          <v-list-item  @click="router.push(getProfileRoute())" class="menu-item">
             <template v-slot:prepend>
               <v-icon size="20">mdi-account-circle</v-icon>
             </template>
@@ -95,7 +95,7 @@
 <script setup lang="ts">
 import { getProfileRoute } from '@/utils/profile';
 import { useLayoutStore } from '@/stores/layout';
-import { getPayload, getToken, logout } from '@/utils/auth';
+import { getPayload, getToken, logout, usuarioAlternativo } from '@/utils/auth';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -184,6 +184,8 @@ const pageTitle = computed(() => {
   '/Atleta-Screens/visaoGeral': t('appBar.titleOverview'),
   '/Atleta-Screens/treinosAtleta': t('appBar.titleMyTrainings'),
   '/Atleta-Screens/formularios': t('appBar.titleForms'),
+  '/Atleta-Screens/documentos': t('appBar.titleDocuments'),
+
 
   '/Medico-Screens/agendaMedica': t('appBar.titleCalendar'),
   '/Medico-Screens/consultas': t('appBar.titleConsultas'),
@@ -195,8 +197,9 @@ const pageTitle = computed(() => {
   '/Medico-Screens/editarPerfilMedico': t('appBar.titleEditProfile'),
   '/Medico-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Medico-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
+  '/Medico-Screens/emailsAlternativos': t('appBar.titleEmailsAlternativos'),
+  '/Medico-Screens/AlterarSenhaEmailAlternativo': t('appBar.titleAlterarSenhaEmailAlt'),
   '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
-  '/Atleta-Screens/documentos': t('appBar.titleDocuments'),
 
   '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
   '/Fisioterapeuta-Screens/consultas': t('appBar.titleConsultas'),
@@ -206,10 +209,10 @@ const pageTitle = computed(() => {
   '/Fisioterapeuta-Screens/perfil-publico': t('appBar.titlePublicProfile'),
   '/Fisioterapeuta-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
   '/cadastrar-fisioterapeuta':  t('appBar.titleRegisterPhysio'),
-  '/treinosCriados': t('appBar.titleTreinosCriados'),
 
   '/Treinador-Screens/detalhesAtleta': t('appBar.titleAthleteDetails'),
   '/Treinador-Screens/editarPerfilTreinador': t('appBar.titleEditProfile'),
+  '/treinosCriados': t('appBar.titleTreinosCriados'),
   '/cadastrar-treinador': t('appBar.titleRegisterCoach'),
 
   '/solicitacoesConexoes': t('appBar.titleConnections'),
@@ -284,6 +287,8 @@ const pageIcon = computed(() => {
     '/Medico-Screens/editarPerfilMedico': 'mdi-account-edit',
     '/Medico-Screens/perfil-publico': 'mdi-account-box',
     '/Medico-Screens/editarPerfilPublico': 'mdi-account-edit-outline',
+    '/Medico-Screens/emailsAlternativos': 'mdi-account-child',
+    '/Medico-Screens/AlterarSenhaEmailAlternativo': 'mdi-lock-reset',
     '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'mdi-calendar-month-outline',
     '/Fisioterapeuta-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Fisioterapeuta-Screens/consultasPendentes': 'mdi-calendar-month-outline',

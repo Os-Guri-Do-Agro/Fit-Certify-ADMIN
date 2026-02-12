@@ -154,6 +154,11 @@ export const getStatusMedicoCRM = () => {
   }
 }
 
+export const usuarioAlternativo = () => {
+  const payload = getPayload()
+  return payload?.usuarioAlternativo === true
+}
+
 export const getMedicoId = () => {
   const payload = getPayload()
   return payload?.role === 'medico' ? payload?.user?.medicoId : null

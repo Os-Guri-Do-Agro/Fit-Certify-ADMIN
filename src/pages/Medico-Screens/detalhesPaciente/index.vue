@@ -214,6 +214,7 @@
         <v-row class="mt-4">
           <v-col cols="12">
             <v-card
+            v-if="!usuarioAlternativo()"
               class="expandable-card"
               elevation="4"
               rounded="xl"
@@ -531,7 +532,7 @@ import alergiasService from '@/services/alergias/alergias-service'
 import atletaService from '@/services/atleta/atleta-service'
 import consultasService from '@/services/consultas/consultas-service'
 import licencaCertificadoService from '@/services/licenca-certificado/licenca-certificado-service'
-import { getMedicoId } from '@/utils/auth'
+import { getMedicoId, usuarioAlternativo } from '@/utils/auth'
 import dayjs from 'dayjs'
 import { vMaska } from 'maska/vue'
 import { computed, onMounted, ref } from 'vue'
