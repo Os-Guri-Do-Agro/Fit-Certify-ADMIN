@@ -358,13 +358,13 @@ const contaItems = computed(() => {
       value: 'novo-perfil',
       children,
     }] : []),
-    ... (!usuarioAlternativo() ? [{
+    ... (isMedico() && !usuarioAlternativo() ? [{
       icon: 'mdi-account-box-edit-outline',
       title: t('drawerNavigator.account.perfilPuflico'),
       value: 'publicProfile',
       to: '/Medico-Screens/editarPerfilPublico',
     }] : []),
-    ... (!usuarioAlternativo() ? [{
+    ... (isMedico() && !usuarioAlternativo() ? [{
       icon: 'mdi-account-child',
       title: t('drawerNavigator.account.emailsAlternativos'),
       value: 'emailsAlternativos',
