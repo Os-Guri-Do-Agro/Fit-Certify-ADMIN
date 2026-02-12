@@ -743,28 +743,60 @@
           </div>
         </v-card>
       </v-col>
+
+      <v-dialog v-model="dialogSemToken" width="500" persistent>
+        <v-card rounded="lg">
+          <v-card-text class="text-center pa-8">
+            <v-avatar color="error" size="80" class="mb-4">
+              <v-icon size="50" color="white">mdi-lock-outline</v-icon>
+            </v-avatar>
+            <div class="text-h5 font-weight-bold mb-3">Acesso Negado</div>
+            <div class="text-body-1 text-grey-darken-1 mb-6">
+              Você precisa estar logado para acessar esta página.
+            </div>
+            <v-btn
+              color="light-blue-accent-3"
+              variant="flat"
+              size="large"
+              rounded="lg"
+              block
+              @click="router.push('/login')"
+            >
+              <v-icon start>mdi-login</v-icon>
+              Fazer Login
+            </v-btn>
+          </v-card-text>
+        </v-card>
+      </v-dialog>
     </v-row>
   </v-container>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useDisplay } from 'vuetify'
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import 'dayjs/locale/pt-br'
 import atletaService from '@/services/atleta/atleta-service'
+import { getToken } from '@/utils/auth'
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
 
 const route = useRoute()
+const router = useRouter()
 const display = useDisplay()
 const loading = ref(true)
 const atletaData = ref(null)
 const error = ref(null)
+const dialogSemToken = ref(false)
+
+function irParaLogin() {
+  router.push('/login')
+}
 
 const containerClass = computed(() => {
   return display.mobile ? 'px-2 py-4' : 'px-4 py-8'
@@ -994,6 +1026,11 @@ const buscarAtletaInfos = async () => {
 }
 
 onMounted(() => {
+  const token = getToken()
+  if (!token) {
+    dialogSemToken.value = true
+    return
+  }
   buscarAtletaInfos()
 })
 </script>
