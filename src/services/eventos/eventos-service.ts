@@ -33,7 +33,7 @@ class EventoService {
           'Content-Type': 'application/json'
         }
 
-    }),
+      }),
       'Failed to get eventos'
     )
   }
@@ -100,6 +100,19 @@ class EventoService {
       }),
       'Erro ao buscar eventos paginados'
     );
+  }
+
+  getEventosByMedico(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/evento/meus-eventos`, {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      }),
+      'Failed to get eventos'
+    )
   }
 
 }

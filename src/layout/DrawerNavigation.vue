@@ -445,6 +445,13 @@ const menusPorPerfil = computed(() => ({
       ],
     },
     {
+      icon: 'mdi-email-multiple',
+      title: t('appBar.titleConvitesEvento'),
+      value: 'convitesEventos',
+      to: '/Medico-Screens/convitesEventos',
+      children: [],
+    },
+    {
       icon: 'mdi mdi-compass-outline',
       title: t('drawerNavigator.menu.resumo'),
       value: 'resumo',

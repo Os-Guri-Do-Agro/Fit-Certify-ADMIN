@@ -65,6 +65,7 @@ declare module 'vue-router/auto-routes' {
     '/Medico-Screens/AlterarSenhaEmailAlternativo/': RouteRecordInfo<'/Medico-Screens/AlterarSenhaEmailAlternativo/', '/Medico-Screens/AlterarSenhaEmailAlternativo', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/consultas/': RouteRecordInfo<'/Medico-Screens/consultas/', '/Medico-Screens/consultas', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/consultasPendentes/': RouteRecordInfo<'/Medico-Screens/consultasPendentes/', '/Medico-Screens/consultasPendentes', Record<never, never>, Record<never, never>>,
+    '/Medico-Screens/convitesEventos/': RouteRecordInfo<'/Medico-Screens/convitesEventos/', '/Medico-Screens/convitesEventos', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/detalhesPaciente/': RouteRecordInfo<'/Medico-Screens/detalhesPaciente/', '/Medico-Screens/detalhesPaciente', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/editarPerfilMedico/': RouteRecordInfo<'/Medico-Screens/editarPerfilMedico/', '/Medico-Screens/editarPerfilMedico', Record<never, never>, Record<never, never>>,
     '/Medico-Screens/editarPerfilPublico/': RouteRecordInfo<'/Medico-Screens/editarPerfilPublico/', '/Medico-Screens/editarPerfilPublico', Record<never, never>, Record<never, never>>,

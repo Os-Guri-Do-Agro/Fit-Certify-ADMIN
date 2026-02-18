@@ -96,14 +96,14 @@
                     <div class="flex-grow-1">
                       <div class="d-flex align-center justify-space-between mb-1">
                         <h4 class="text-subtitle-1 font-weight-medium text-black">
-                          {{ notificacao.titulo }}
+                          {{ locale === 'en' ? notificacao.en_titulo : notificacao.titulo }}
                         </h4>
                         <span class="text-caption text-grey">
                           {{ formatDateTime(notificacao.createdAt) }}
                         </span>
                       </div>
                       <p class="text-body-2 text-grey-darken-1 mb-0">
-                        {{ notificacao.descricao }}
+                        {{ locale === 'en' ? notificacao.en_descricao : notificacao.descricao }}
                       </p>
                     </div>
                   </div>

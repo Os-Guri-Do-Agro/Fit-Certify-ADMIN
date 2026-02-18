@@ -199,6 +199,7 @@ const pageTitle = computed(() => {
   '/Medico-Screens/editarPerfilPublico': t('appBar.titleEditPublicProfile'),
   '/Medico-Screens/emailsAlternativos': t('appBar.titleEmailsAlternativos'),
   '/Medico-Screens/AlterarSenhaEmailAlternativo': t('appBar.titleAlterarSenhaEmailAlt'),
+  '/Medico-Screens/convitesEventos': t('appBar.titleConvitesEvento'),
   '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
 
   '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
@@ -289,6 +290,7 @@ const pageIcon = computed(() => {
     '/Medico-Screens/editarPerfilPublico': 'mdi-account-edit-outline',
     '/Medico-Screens/emailsAlternativos': 'mdi-account-child',
     '/Medico-Screens/AlterarSenhaEmailAlternativo': 'mdi-lock-reset',
+    '/Medico-Screens/convitesEventos': 'mdi-email-multiple',
     '/Fisioterapeuta-Screens/agendaFisioterapeutica': 'mdi-calendar-month-outline',
     '/Fisioterapeuta-Screens/consultas': 'mdi-clipboard-list-outline',
     '/Fisioterapeuta-Screens/consultasPendentes': 'mdi-calendar-month-outline',
@@ -399,7 +401,7 @@ const buscarNotificacoesNaoLidas = async () => {
   if (!getToken()) return
 
   try {
-    const response = await notificacoesService.buscarNotificacoes(1, 100)
+    const response = await notificacoesService.buscarNotificacoes(1, 20)
     const notificacoes = response.data?.itens || []
     const naoLidas = notificacoes.filter((n: any) => !n.lida).length
     const formsPendentes = isAtleta() ? (temFormularioPendente.value ? 1 : 0) : 0
