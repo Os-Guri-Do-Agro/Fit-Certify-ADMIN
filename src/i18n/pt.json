@@ -1,5 +1,6 @@
 ﻿{
   "appBar": {
+    "titleConvitesEvento": "Convites e Eventos",
     "titleAlterarSenhaEmailAlt": "Alterar Senha",
     "titleEmailsAlternativos": "E-mails Alternativos",
     "titleDocuments": "Documentos",
@@ -127,6 +128,34 @@
     "footer": {
       "configuracoes": "Configurações",
       "sair": "Sair"
+    }
+  },
+  "convitesEventos": {
+    "pageTitle": "Convites e Eventos",
+    "tabConvites": "Convites Pendentes",
+    "tabEventos": "Meus Eventos",
+    "noConvites": "Nenhum convite pendente",
+    "noConvitesDesc": "Você não possui convites de organizações no momento",
+    "noEventos": "Nenhum evento inscrito",
+    "noEventosDesc": "Você ainda não está inscrito em nenhum evento",
+    "details": "Detalhes",
+    "accept": "Aceitar",
+    "refuse": "Recusar",
+    "active": "Ativo",
+    "closed": "Encerrado",
+    "dialogTitle": "Informações do Evento",
+    "location": "Local",
+    "date": "Data",
+    "site": "Site",
+    "status": "Status",
+    "close": "Fechar",
+    "toasts": {
+      "errorLoadConvites": "Erro ao carregar convites",
+      "errorLoadEventos": "Erro ao carregar eventos",
+      "acceptSuccess": "Convite aceito com sucesso!",
+      "refuseSuccess": "Convite rejeitado",
+      "acceptError": "Erro ao aceitar convite",
+      "refuseError": "Erro ao rejeitar convite"
     }
   },
   "eventos": {
