@@ -1,5 +1,6 @@
 {
   "appBar": {
+    "titleConvitesEvento": "Invitations to Events",
     "titleAlterarSenhaEmailAlt": "Change Password",
     "titleEmailsAlternativos": "Alternative Emails",
     "titleDocuments": "Documents",
@@ -127,6 +128,34 @@
     "footer": {
       "configuracoes": "Settings",
       "sair": "Logout"
+    }
+  },
+  "convitesEventos": {
+    "pageTitle": "Invitations & Events",
+    "tabConvites": "Pending Invitations",
+    "tabEventos": "My Events",
+    "noConvites": "No pending invitations",
+    "noConvitesDesc": "You have no invitations from organizations at the moment",
+    "noEventos": "No registered events",
+    "noEventosDesc": "You are not registered in any event yet",
+    "details": "Details",
+    "accept": "Accept",
+    "refuse": "Refuse",
+    "active": "Active",
+    "closed": "Closed",
+    "dialogTitle": "Event Information",
+    "location": "Location",
+    "date": "Date",
+    "site": "Website",
+    "status": "Status",
+    "close": "Close",
+    "toasts": {
+      "errorLoadConvites": "Error loading invitations",
+      "errorLoadEventos": "Error loading events",
+      "acceptSuccess": "Invitation accepted successfully!",
+      "refuseSuccess": "Invitation refused",
+      "acceptError": "Error accepting invitation",
+      "refuseError": "Error refusing invitation"
     }
   },
   "eventos": {
