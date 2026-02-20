@@ -126,33 +126,33 @@ class medicoService {
     )
   }
 
-   async validarCrm(validateCrmDto: any): Promise<any> {
-     const token = getToken()
-     return this.handleRequest(
-       apiClient.post('/medico/validar-crm', validateCrmDto, {
-         headers: {
+  async validarCrm(validateCrmDto: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/medico/validar-crm', validateCrmDto, {
+        headers: {
           'Content-Type': 'application/json',
-           'Authorization': `Bearer ${token}`
-         },
+          'Authorization': `Bearer ${token}`
+        },
       }),
-       'Failed to validate CRM'
-     )
-   }
+      'Failed to validate CRM'
+    )
+  }
 
-   async consultarCrm(consultarCrmDto: any): Promise<any> {
-     const token = getToken()
-     return this.handleRequest(
-       apiClient.post('/medico/consultar-crm', consultarCrmDto, {
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': `Bearer ${token}`
-         },
-       }),
-       'Failed to consult CRM'
-     )
-   }
+  async consultarCrm(consultarCrmDto: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post('/medico/consultar-crm', consultarCrmDto, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      }),
+      'Failed to consult CRM'
+    )
+  }
 
-   async desativarMedico(id: string, motivo: string): Promise<any> {
+  async desativarMedico(id: string, motivo: string): Promise<any> {
     const token = getToken()
     return this.handleRequest(
       apiClient.delete(`/medico/inativar-medico/${id}`, {
@@ -175,6 +175,18 @@ class medicoService {
         },
       }),
       'Erro ao reativar conta do medico'
+    )
+  }
+
+  getMeusGrupos(): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/medico/meus-grupos`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Failed to get all Doencas'
     )
   }
 }
