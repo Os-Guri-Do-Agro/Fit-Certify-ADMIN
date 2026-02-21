@@ -1,11 +1,11 @@
 <template>
-  <v-container class="py-8" fluid>
+  <v-container class="py-6" fluid>
     <!-- Header da Agenda -->
     <v-row justify="center" class="mb-6">
       <v-col cols="12">
-        <v-card class="hero-card" elevation="0" rounded="xl">
+        <v-card class="hero-card" elevation="0" rounded="lg">
           <div class="hero-overlay"></div>
-          <v-card-text class="pa-8 position-relative">
+          <v-card-text class="pa-6 position-relative">
             <v-row align="center">
               <v-col cols="12" md="8">
                 <div class="d-flex align-center mb-2">
@@ -13,7 +13,7 @@
                     <v-icon size="40" color="white">mdi-calendar-month</v-icon>
                   </div>
                   <div>
-                    <h1 class="text-h4 font-weight-bold text-white mb-1">{{ t('agendaMedica.title') }}</h1>
+                    <h1 class="text-h5 font-weight-bold text-white mb-1" style="letter-spacing: 0.3px;">{{ t('agendaMedica.title') }}</h1>
                     <p class="text-subtitle-1 text-white mb-0" style="opacity: 0.9;">
                       {{ locale === 'pt' ? dayjs().format('dddd, DD [de] MMMM [de] YYYY') : dayjs().format('dddd, MMMM DD, YYYY') }}
                     </p>
@@ -21,8 +21,8 @@
                 </div>
               </v-col>
               <v-col cols="12" md="4" class="text-md-right">
-                <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="large" rounded="xl"
-                  prepend-icon="mdi-plus" class="text-blue font-weight-bold elevation-4">
+                <v-btn @click="ActiveDialog = true" color="white" variant="flat" size="default" rounded="lg"
+                  prepend-icon="mdi-plus" class="text-blue font-weight-bold">
                   {{ t('agendaMedica.newAppointment') }}
                 </v-btn>
               </v-col>
@@ -36,8 +36,8 @@
     <v-row justify="center">
       <v-col cols="12" lg="8">
         <!-- Calendário Simples -->
-        <v-card elevation="4" rounded="xl" class="mb-4 calendar-card">
-          <v-card-title class="pa-6 calendar-header-bg">
+        <v-card elevation="2" rounded="lg" class="mb-4 calendar-card">
+          <v-card-title class="pa-5 calendar-header-bg">
             <div class="d-flex align-center justify-space-between w-100">
               <div class="d-flex align-center">
                 <div class="icon-wrapper mr-3">
@@ -85,8 +85,8 @@
 
       <v-col cols="12" lg="4">
         <!-- Consultas do Dia Selecionado -->
-        <v-card elevation="4" rounded="xl" class="appointments-card">
-          <v-card-title class="pa-6 appointments-header-bg">
+        <v-card elevation="2" rounded="lg" class="appointments-card">
+          <v-card-title class="pa-5 appointments-header-bg">
             <div class="d-flex align-center justify-space-between w-100 flex-wrap ga-2">
               <div class="d-flex align-center">
                 <div class="icon-wrapper mr-3">
@@ -160,128 +160,104 @@
       </v-col>
     </v-row>
     <v-dialog v-model="ActiveDialog" max-width="1000" persistent>
-      <v-card rounded="xl" elevation="8">
-        <v-card-title class="dialog-header-bg text-white pa-6 d-flex justify-space-between">
-          <div class="d-flex align-center">
-            <div class="icon-wrapper mr-3">
-              <v-icon color="white">mdi-calendar-plus</v-icon>
+      <v-card rounded="lg" elevation="6" class="dialog-card">
+        <!-- Header -->
+        <div class="dialog-header-bg d-flex align-center justify-space-between px-6 py-4">
+          <div class="d-flex align-center ga-3">
+            <v-icon color="white" size="20">mdi-calendar-plus</v-icon>
+            <span class="text-subtitle-1 font-weight-bold text-white" style="letter-spacing:0.3px">{{ t('agendaMedica.scheduleAppointment') }}</span>
+          </div>
+          <v-btn icon="mdi-close" size="small" color="white" variant="text" @click="ActiveDialog = false"></v-btn>
+        </div>
+
+        <v-card-text class="pa-0">
+          <div class="dialog-body">
+            <!-- Coluna esquerda: Paciente -->
+            <div class="dialog-col-left">
+              <p class="dialog-section-label">{{ t('agendaMedica.athleteName') }}</p>
+
+              <v-combobox clearable v-if="!ConsultaExterna" :label="t('agendaMedica.athleteName')" variant="outlined"
+                density="compact" :items="atletas" item-title="usuario.nome" item-value="id"
+                v-model="atletaSelected" prepend-inner-icon="mdi-account" hide-details class="mb-3"></v-combobox>
+
+              <v-text-field v-if="ConsultaExterna" :label="t('agendaMedica.externalPatientName')" variant="outlined"
+                density="compact" prepend-inner-icon="mdi-account" v-model="nomePacienteExterno" hide-details class="mb-3"></v-text-field>
+
+              <v-row v-if="ConsultaExterna" dense>
+                <v-col cols="12">
+                  <v-text-field :label="t('agendaMedica.externalPatientCpf')" variant="outlined" density="compact"
+                    prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"
+                    :counter="14" :rules="[validarCPF]" :error-messages="cpfError" @input="formatarCPF"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field :label="t('agendaMedica.externalPatientEmail')" variant="outlined" density="compact"
+                    prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"
+                    :rules="[validarEmail]" :error-messages="emailError"></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field :label="t('agendaMedica.externalPatientPhone')" variant="outlined" density="compact"
+                    prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"
+                    :counter="15" :rules="[validarTelefone]" :error-messages="telefoneError"
+                    maxlength="15" @input="formatarTelefone"></v-text-field>
+                </v-col>
+              </v-row>
+
+              <v-checkbox density="compact" class="mb-2" :label="t('agendaMedica.externalAppointment')" v-model="ConsultaExterna" color="blue" hide-details></v-checkbox>
+
+              <v-alert :text="t('agendaMedica.scheduleInfo')" :title="t('agendaMedica.importantInfo')"
+                type="info" variant="tonal" density="compact" class="mt-2"></v-alert>
             </div>
-            <span class="text-h5 font-weight-bold">{{ t('agendaMedica.scheduleAppointment') }}</span>
-          </div>
-          <div class="d-flex align-center ml-3">
-            <v-btn icon="mdi-close" size="24" color="white" variant="text" class="pa-5 d-flex align-center justify-center" @click="ActiveDialog = false"></v-btn>
-          </div>
-        </v-card-title>
 
-        <v-card-text class="pa-6">
-          <!-- caso seja atleta fitCertify -->
-          <v-combobox clearable v-if="!ConsultaExterna" :label="t('agendaMedica.athleteName')" variant="outlined" :items="atletas"
-            item-title="usuario.nome" item-value="id" v-model="atletaSelected"
-            prepend-inner-icon="mdi-account"></v-combobox>
-          <!-- Caso nao seja atleta fitcertify -->
-          <v-text-field v-if="ConsultaExterna" :label="t('agendaMedica.externalPatientName')" variant="outlined"
-            prepend-inner-icon="mdi-account" v-model="nomePacienteExterno"></v-text-field>
+            <!-- Divisor vertical -->
+            <v-divider vertical class="dialog-divider"></v-divider>
 
-          <v-row v-if="ConsultaExterna">
-            <v-col cols="12" md="4">
-              <v-text-field :label="t('agendaMedica.externalPatientCpf')" variant="outlined"
-                prepend-inner-icon="mdi-card-account-details" v-model="cpfPacienteExterno"
-                :counter="14" :rules="[validarCPF]" :error-messages="cpfError"
-                @input="formatarCPF"></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field :label="t('agendaMedica.externalPatientEmail')" variant="outlined"
-                prepend-inner-icon="mdi-email" v-model="emailPacienteExterno"
-                :rules="[validarEmail]" :error-messages="emailError"></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field :label="t('agendaMedica.externalPatientPhone')" variant="outlined"
-                prepend-inner-icon="mdi-phone" v-model="telefonePacienteExterno"
-                :counter="15" :rules="[validarTelefone]" :error-messages="telefoneError"
-                maxlength="15" @input="formatarTelefone"></v-text-field>
-            </v-col>
-          </v-row>
+            <!-- Coluna direita: Data e Horários -->
+            <div class="dialog-col-right">
+              <p class="dialog-section-label">{{ t('agendaMedica.availableSchedules') }}</p>
 
-          <v-checkbox class="ma-0 pa-0" :label="t('agendaMedica.externalAppointment')" v-model="ConsultaExterna" color="blue"></v-checkbox>
-
-          <v-alert class="mb-1"
-            :text="t('agendaMedica.scheduleInfo')"
-            :title="t('agendaMedica.importantInfo')" type="info" variant="tonal"></v-alert>
-
-          <div></div>
-          <v-row>
-            <v-col cols="6">
-              <v-date-picker v-model="dayselect" color="blue" elevation="2" rounded="lg" class="w-100"
+              <v-date-picker v-model="dayselect" color="blue" elevation="0" rounded="lg" class="w-100 dialog-datepicker"
                 locale="pt-BR"></v-date-picker>
-            </v-col>
-            <v-col cols="6">
-              <v-card rounded="lg" variant="outlined" color="blue" class="pa-4">
-                <v-card-title class="text-h6 font-weight-bold mb-4 pa-0">
-                  <v-icon class="mr-2" color="blue">mdi-clock-outline</v-icon>
-                  {{ t('agendaMedica.availableSchedules') }}
-                </v-card-title>
+
+              <div class="mt-4">
+                <div class="d-flex align-center justify-space-between mb-2">
+                  <span class="text-caption font-weight-600 text-medium-emphasis" style="text-transform:uppercase;letter-spacing:0.5px">
+                    {{ t('agendaMedica.availableSchedules') }}
+                  </span>
+                  <div class="d-flex ga-1">
+                    <v-chip color="success" variant="tonal" size="x-small">
+                      {{ datinhas.slotsDisponiveis || 0 }} {{ t('agendaMedica.available') }}
+                    </v-chip>
+                    <v-chip color="grey" variant="tonal" size="x-small">
+                      {{ (datinhas.slots?.length || 0) - (datinhas.slotsDisponiveis || 0) }} {{ t('agendaMedica.occupied') }}
+                    </v-chip>
+                  </div>
+                </div>
 
                 <div class="time-slots-grid">
-                  <v-card v-for="(hora, index) in datinhas.slots" :key="index" :class="[
-                    'time-slot-card',
-                    hora.disponivel ? 'available' : 'unavailable',
-                    { selected: selectedTimeSlot?.horario === hora.horario },
-                  ]" :disabled="!hora.disponivel" @click="hora.disponivel && selectTimeSlot(hora)">
-                    <v-card-text class="pa-3 text-center">
-                      <v-icon :color="selectedTimeSlot?.horario === hora.horario
-                          ? 'white'
-                          : hora.disponivel
-                            ? 'blue'
-                            : 'grey'
-                        " class="mb-1">
-                        {{
-                          hora.disponivel
-                            ? 'mdi-clock-check'
-                            : 'mdi-clock-remove'
-                        }}
-                      </v-icon>
-                      <div class="text-body-2 font-weight-medium">
-                        {{ formatarHorarioLocal(hora.horario) }}
-                      </div>
-                      <div class="text-caption text-grey">
-                        {{
-                          formatarHorarioLocal(hora.horarioFim)
-                        }}
-                      </div>
-                    </v-card-text>
-                  </v-card>
+                  <div v-for="(hora, index) in datinhas.slots" :key="index"
+                    :class="['time-slot', hora.disponivel ? 'available' : 'unavailable', { selected: selectedTimeSlot?.horario === hora.horario }]"
+                    @click="hora.disponivel && selectTimeSlot(hora)">
+                    <v-icon size="14" class="mb-1" :color="selectedTimeSlot?.horario === hora.horario ? 'white' : hora.disponivel ? '#1565c0' : '#bdbdbd'">
+                      {{ hora.disponivel ? 'mdi-clock-check-outline' : 'mdi-clock-remove-outline' }}
+                    </v-icon>
+                    <span class="slot-time">{{ formatarHorarioLocal(hora.horario) }}</span>
+                    <span class="slot-end">{{ formatarHorarioLocal(hora.horarioFim) }}</span>
+                  </div>
                 </div>
-
-                <div class="mt-4 text-center">
-                  <v-chip color="success" variant="flat" size="small" class="mr-2">
-                    <v-icon size="12" class="mr-1">mdi-check</v-icon>
-                    {{ datinhas.slotsDisponiveis || 0 }} {{ t('agendaMedica.available') }}
-                  </v-chip>
-                  <v-chip color="grey" variant="flat" size="small">
-                    <v-icon size="12" class="mr-1">mdi-close</v-icon>
-                    {{
-                      (datinhas.slots?.length || 0) -
-                      (datinhas.slotsDisponiveis || 0)
-                    }}
-                    {{ t('agendaMedica.occupied') }}
-                  </v-chip>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row>
+              </div>
+            </div>
+          </div>
         </v-card-text>
 
-        <v-card-actions class="pa-6">
+        <v-divider></v-divider>
+        <v-card-actions class="px-6 py-4">
           <v-spacer></v-spacer>
-          <v-btn class="px-4" color="grey-lighten-1" variant="outlined" size="large" rounded="xl" @click="ActiveDialog = false">
-            <v-icon start>mdi-close</v-icon>
+          <v-btn variant="text" color="grey-darken-1" @click="ActiveDialog = false">
             {{ t('agendaMedica.cancel') }}
           </v-btn>
-          <v-btn class="px-4" color="blue" variant="flat" size="large" rounded="xl" @click="criarConsulta" :loading="loading" :disabled="!selectedTimeSlot ||
-            (ConsultaExterna && !nomePacienteExterno) ||
-            (!ConsultaExterna && !atletaSelected)
-            ">
-            <v-icon start>mdi-check</v-icon>
+          <v-btn color="blue-darken-2" variant="flat" rounded="lg" class="px-6" @click="criarConsulta" :loading="loading"
+            :disabled="!selectedTimeSlot || (ConsultaExterna && !nomePacienteExterno) || (!ConsultaExterna && !atletaSelected)">
+            <v-icon start size="16">mdi-check</v-icon>
             {{ t('agendaMedica.confirm') }}
           </v-btn>
         </v-card-actions>
@@ -660,104 +636,173 @@ const getStatusColor = (status) => {
 <style scoped>
 .time-slots-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-  max-height: 340px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  max-height: 220px;
   overflow-y: auto;
 }
 
-.time-slot-card {
+.time-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  border-radius: 6px;
+  border: 1px solid #e0e0e0;
+  transition: all 0.15s ease;
+  background: #fff;
+  line-height: 1.3;
+}
+
+.time-slot.available {
+  border-color: #bbdefb;
+  background: #f5f9ff;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
 }
 
-.time-slot-card.available {
-  border-color: #e3f2fd;
+.time-slot.available:hover {
+  border-color: #1565c0;
+  background: #e3f0ff;
 }
 
-.time-slot-card.available:hover {
-  border-color: #1976d2;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(25, 118, 210, 0.2);
-}
-
-.time-slot-card.unavailable {
-  opacity: 0.5;
+.time-slot.unavailable {
+  opacity: 0.4;
   cursor: not-allowed;
-  background-color: #fafafa;
+  background: #f5f5f5;
 }
 
-.time-slot-card.unavailable:hover {
-  transform: none;
-  box-shadow: none;
+.time-slot.selected {
+  background: #1565c0 !important;
+  border-color: #1565c0;
+  box-shadow: 0 2px 8px rgba(21, 101, 192, 0.3);
 }
 
-.time-slot-card.selected {
-  background: #1976d2 !important;
-  color: white;
-  border-color: #1976d2;
+.time-slot.selected .slot-time,
+.time-slot.selected .slot-end {
+  color: white !important;
+}
+
+.slot-time {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #263238;
+}
+
+.slot-end {
+  font-size: 0.7rem;
+  color: #90a4ae;
+}
+
+.dialog-card {
+  overflow: hidden;
+}
+
+.dialog-body {
+  display: flex;
+  min-height: 0;
+}
+
+.dialog-col-left {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+}
+
+.dialog-col-right {
+  flex: 1;
+  padding: 24px;
+  min-width: 0;
+  background: #f8fafc;
+}
+
+.dialog-divider {
+  opacity: 1;
+  border-color: #e8edf2;
+}
+
+.dialog-section-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #78909c;
+  margin-bottom: 12px;
+}
+
+.dialog-datepicker {
+  border: 1px solid #e8edf2;
+  border-radius: 8px;
 }
 
 .hero-card {
-  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  background: linear-gradient(135deg, #1E88E5 0%, #1565c0 100%);
   position: relative;
   overflow: hidden;
+  border-bottom: 3px solid rgba(255,255,255,0.15);
 }
 
 .hero-overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+  top: -40px;
+  right: -40px;
+  width: 220px;
+  height: 220px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
 }
 
 .icon-wrapper-large {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  padding: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
 .icon-wrapper {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 8px;
-  padding: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  padding: 7px;
   display: flex;
   align-items: center;
   justify-content: center;
-  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.2);
 }
 
-
+.calendar-card {
+  border: 1px solid #e8edf2;
+  transition: box-shadow 0.2s ease;
+}
 
 .calendar-card:hover {
-  box-shadow: 0 12px 40px rgba(30, 136, 229, 0.15) !important;
+  box-shadow: 0 6px 24px rgba(30, 136, 229, 0.12) !important;
 }
 
 .calendar-header-bg {
-  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
+  background: linear-gradient(135deg, #1E88E5 0%, #1565c0 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .appointments-card {
-  transition: all 0.3s ease;
+  border: 1px solid #e8edf2;
+  transition: box-shadow 0.2s ease;
 }
 
 .appointments-card:hover {
-  box-shadow: 0 12px 40px rgba(76, 175, 80, 0.15) !important;
+  box-shadow: 0 6px 24px rgba(56, 142, 60, 0.12) !important;
 }
 
 .appointments-header-bg {
-  background: linear-gradient(135deg, #66bb6a 0%, #4caf50 100%);
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .dialog-header-bg {
-  background: linear-gradient(135deg, #2196F3 0%, #1E88E5 100%);
+  background: linear-gradient(135deg, #1E88E5 0%, #1565c0 100%);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
 .calendar-grid {
@@ -767,22 +812,26 @@ const getStatusColor = (status) => {
 .calendar-header {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
-  margin-bottom: 8px;
+  gap: 2px;
+  margin-bottom: 6px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
 }
 
 .day-header {
   text-align: center;
-  font-weight: bold;
-  padding: 8px;
-  color: #666;
-  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 6px 4px;
+  color: #546e7a;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .calendar-body {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  gap: 1px;
+  gap: 3px;
 }
 
 .calendar-day {
@@ -792,91 +841,94 @@ const getStatusColor = (status) => {
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border-radius: 8px;
-  transition: all 0.2s ease;
-  background: white;
-  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  transition: all 0.15s ease;
+  background: #fff;
+  border: 1px solid #eceff1;
+  font-size: 0.875rem;
 }
 
 .calendar-day:hover {
   background: #e3f2fd;
-  transform: scale(1.05);
+  border-color: #90caf9;
 }
 
 .calendar-day.today {
-  background: #1976d2;
+  background: #1565c0;
   color: white;
-  font-weight: bold;
+  font-weight: 700;
+  border-color: #1565c0;
+  box-shadow: 0 2px 6px rgba(21, 101, 192, 0.35);
 }
 
 .calendar-day.other-month {
-  color: #bbb;
-  background: #f9f9f9;
+  color: #cfd8dc;
+  background: #fafafa;
+  border-color: #f5f5f5;
 }
 
 .calendar-day.has-appointments::after {
   content: '';
   position: absolute;
-  bottom: 4px;
-  right: 4px;
-  width: 6px;
-  height: 6px;
-  background: #4caf50;
+  bottom: 3px;
+  right: 3px;
+  width: 5px;
+  height: 5px;
+  background: #43a047;
   border-radius: 50%;
 }
 
 .calendar-day.selected {
-  background: #e8f5e8 !important;
-  border-color: #4caf50;
-  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+  background: #e8f5e9 !important;
+  border-color: #43a047;
+  box-shadow: 0 1px 6px rgba(67, 160, 71, 0.25);
 }
 
 .calendar-day.selected.today {
-  background: #1976d2 !important;
-  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.5);
+  background: #1565c0 !important;
+  border-color: #1565c0;
+  box-shadow: 0 2px 6px rgba(21, 101, 192, 0.4);
 }
 
 .appointment-item-card {
-  padding: 16px;
-  margin-bottom: 12px;
+  padding: 14px 16px;
+  margin-bottom: 8px;
   background: white;
-  border-radius: 12px;
-  border: 1px solid #f0f0f0; 
-  border-left: 4px solid #1E88E5;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.02); 
+  border-radius: 6px;
+  border: 1px solid #eceff1;
+  border-left: 3px solid #1E88E5;
+  transition: all 0.15s ease;
 }
 
 .appointment-item-card:hover {
-  transform: translateX(4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  border-color: #e3f2fd;
+  background: #f8fbff;
+  border-left-color: #1565c0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .appointment-list {
   max-height: 500px;
   overflow-y: auto;
-  padding: 12px; 
-  background-color: #f8fafc; 
-  border-radius: 16px; 
-  border: 1px solid #edf2f7;
+  padding: 10px;
+  background-color: #f4f6f8;
+  border-radius: 8px;
+  border: 1px solid #e8edf2;
 }
 
 .appointment-list::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
 }
 
 .appointment-list::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
+  background: transparent;
 }
 
 .appointment-list::-webkit-scrollbar-thumb {
-  background: #1E88E5;
-  border-radius: 10px;
+  background: #90caf9;
+  border-radius: 4px;
 }
 
 .appointment-list::-webkit-scrollbar-thumb:hover {
-  background: #1565c0;
+  background: #1E88E5;
 }
 </style>
