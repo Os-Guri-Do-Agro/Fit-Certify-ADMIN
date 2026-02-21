@@ -22,6 +22,10 @@
           <v-icon class="mr-2">mdi-calendar-check</v-icon>
           {{ t('convitesEventos.tabEventos') }}
         </v-tab>
+        <v-tab value="grupos">
+          <v-icon class="mr-2">mdi-account-group</v-icon>
+          {{ t('convitesEventos.tabGrupos') }}
+        </v-tab>
       </v-tabs>
 
       <v-window v-model="tab">
@@ -163,6 +167,55 @@
             </v-col>
           </v-row>
         </v-window-item>
+
+        <!-- Aba de Grupos de Acesso -->
+        <v-window-item value="grupos">
+          <v-row v-if="loadingGrupos">
+            <v-col cols="12" md="4" v-for="n in 3" :key="n">
+              <v-skeleton-loader type="card"></v-skeleton-loader>
+            </v-col>
+          </v-row>
+
+          <div v-else-if="gruposAcesso.length === 0" class="empty-state">
+            <div class="empty-icon-wrapper">
+              <v-icon size="80" color="#90CAF9">mdi-account-group-outline</v-icon>
+            </div>
+            <h3 class="empty-title">{{ t('convitesEventos.noGrupos') }}</h3>
+            <p class="empty-text">{{ t('convitesEventos.noGruposDesc') }}</p>
+          </div>
+
+          <v-row v-else>
+            <v-col cols="12" md="4" v-for="grupo in gruposAcesso" :key="grupo.id">
+              <v-card elevation="4" rounded="xl" class="ma-2">
+                <v-card-text class="pa-6">
+                  <div class="d-flex align-center mb-4">
+                    <v-icon size="32" class="mr-3 gradient-icon">mdi-account-group</v-icon>
+                    <h3 class="text-h6 font-weight-bold gradient-text">{{ grupo.nome }}</h3>
+                  </div>
+
+                  <div class="event-details">
+                    <div class="d-flex align-center mb-2">
+                      <v-icon size="20" color="grey-darken-1" class="mr-2">mdi-text</v-icon>
+                      <span class="text-body-2">{{ grupo.descricao }}</span>
+                    </div>
+                    <div class="d-flex align-center mb-2">
+                      <v-icon size="20" color="grey-darken-1" class="mr-2">mdi-calendar-plus</v-icon>
+                      <span class="text-body-2">{{ formatDate(grupo.createdAt) }}</span>
+                    </div>
+                  </div>
+
+                  <v-chip
+                    :color="grupo.ativo ? 'success' : 'grey'"
+                    size="small"
+                    class="mt-3"
+                  >
+                    {{ grupo.ativo ? t('convitesEventos.active') : t('convitesEventos.inactive') }}
+                  </v-chip>
+                </v-card-text>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-window-item>
       </v-window>
     </div>
 
@@ -226,12 +279,14 @@ import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 import conviteEventoService from '@/services/conviteEvento/conviteEvento-service'
 import eventosSerice from '@/services/eventos/eventos-service'
+import medicoService from '@/services/medico/medico-service'
 
 const { t, locale } = useI18n()
 
 const tab = ref('convites')
 const loadingConvites = ref(false)
 const loadingEventos = ref(false)
+const loadingGrupos = ref(false)
 const loadingAction = ref(null)
 const dialogInfo = ref(false)
 const conviteSelecionado = ref(null)
@@ -240,6 +295,7 @@ const loadingRejeitarAction = ref(null)
 
 const convitesPendentes = ref([])
 const eventosInscritos = ref([])
+const gruposAcesso = ref([])
 
 const formatDate = (date) => {
   return new Date(date).toLocaleDateString(locale.value === 'en' ? 'en-US' : 'pt-BR')
@@ -263,6 +319,18 @@ const carregarConvites = async () => {
     toast.error(t('convitesEventos.toasts.errorLoadConvites'))
   } finally {
     loadingConvites.value = false
+  }
+}
+
+const carregarGrupos = async () => {
+  loadingGrupos.value = true
+  try {
+    const response = await medicoService.getMeusGrupos()
+    gruposAcesso.value = response.data
+  } catch (error) {
+    toast.error(t('convitesEventos.toasts.errorLoadGrupos'))
+  } finally {
+    loadingGrupos.value = false
   }
 }
 
@@ -321,6 +389,7 @@ const rejeitarConvite = async (conviteId) => {
 onMounted(() => {
   carregarConvites()
   carregarEventos()
+  carregarGrupos()
 })
 </script>
 
