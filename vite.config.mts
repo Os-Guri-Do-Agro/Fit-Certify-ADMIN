@@ -67,6 +67,17 @@ export default defineConfig({
       '.vue',
     ],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vue-vendor': ['vue', 'vue-router', 'pinia'],
+          'vuetify-vendor': ['vuetify'],
+          'dayjs-vendor': ['dayjs'],
+        },
+      },
+    },
+  },
   server: {
     port: 3000,
     historyApiFallback: true,
