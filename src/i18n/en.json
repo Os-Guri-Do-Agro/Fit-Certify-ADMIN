@@ -223,6 +223,7 @@
       "confirmSend": "Confirm Submission",
       "registered": "Already Registered",
       "duration": "Event Duration",
+      "days": "Days",
       "termsNotice": "The terms presented below are the exclusive responsibility of the event organizer",
       "termsNoticeMiddle": ". FitCertify365 acts only as an intermediary platform and is not responsible for the content, conditions, or obligations described in this document. By confirming, you declare that you have read and fully agreed to the terms established by the organizer.",
       "termsNoticeLabel": "Notice:"
