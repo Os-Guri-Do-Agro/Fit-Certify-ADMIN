@@ -9,6 +9,38 @@
       </div>
     </v-sheet>
 
+    <v-alert
+      rounded="xl"
+      class="cms-banner"
+      border-color="#1E88E5"
+      elevation="2"
+    >
+      <div class="d-flex align-center flex-wrap ga-3">
+        <div class="cms-icon-wrapper">
+          <v-icon size="28" color="white">mdi-monitor-dashboard</v-icon>
+        </div>
+        <div class="flex-grow-1">
+          <p class="text-subtitle-1 font-weight-bold mb-1" style="color: #1E88E5;">
+            {{ t('convitesEventos.cmsBannerTitle') }}
+          </p>
+          <p class="text-body-2 text-grey-darken-1 mb-0">
+            {{ t('convitesEventos.cmsBannerDesc') }}
+          </p>
+        </div>
+        <v-btn
+          href="https://cms.fitcert365.com/login"
+          target="_blank"
+          variant="flat"
+          color="#1E88E5"
+          rounded="lg"
+          prepend-icon="mdi-open-in-new"
+          class="text-white"
+        >
+          {{ t('convitesEventos.cmsBannerBtn') }}
+        </v-btn>
+      </div>
+    </v-alert>
+
     <div class="content-section">
       <v-tabs v-model="tab" color="#42A5F5" class="mb-6">
         <v-tab value="convites">
@@ -28,7 +60,7 @@
         </v-tab>
       </v-tabs>
 
-      <v-window v-model="tab">
+    <v-window v-model="tab">
         <!-- Aba de Convites -->
         <v-window-item value="convites">
           <v-row v-if="loadingConvites">
@@ -431,6 +463,17 @@ onMounted(() => {
   font-weight: 700;
   color: white;
   margin: 0;
+}
+
+.cms-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  background: linear-gradient(135deg, #42A5F5 0%, #1E88E5 100%);
+  border-radius: 12px;
+  flex-shrink: 0;
 }
 
 .content-section {

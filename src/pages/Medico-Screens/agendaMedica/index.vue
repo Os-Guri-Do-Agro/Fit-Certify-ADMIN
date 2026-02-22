@@ -216,7 +216,7 @@
               <p class="dialog-section-label">{{ t('agendaMedica.availableSchedules') }}</p>
 
               <v-date-picker v-model="dayselect" color="blue" elevation="0" rounded="lg" class="w-100 dialog-datepicker"
-                locale="pt-BR"></v-date-picker>
+                :locale="locale === 'pt' ? 'pt-BR' : 'en-US'"></v-date-picker>
 
               <div class="mt-4">
                 <div class="d-flex align-center justify-space-between mb-2">
@@ -286,16 +286,13 @@ import pacientesService from '@/services/medico/pacientes/pacientes-service'
 
 const { t, locale } = useI18n()
 
-// Configurar locale do dayjs baseado no idioma
-const currentLocale = computed(() => locale.value === 'pt' ? 'pt-br' : 'en')
-dayjs.locale(currentLocale.value)
+dayjs.extend(utc)
+dayjs.extend(timezone)
+dayjs.locale(locale.value === 'pt' ? 'pt-br' : 'en')
 
 watch(locale, (newLocale) => {
   dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
-  currentMonth.value = currentDate.value.format('MMMM YYYY')
 })
-dayjs.extend(utc)
-dayjs.extend(timezone)
 const loading = ref(false)
 const atletaSelected = ref(null)
 const ActiveDialog = ref(false)
@@ -313,7 +310,9 @@ const cpfError = ref('')
 const telefoneError = ref('')
 const emailError = ref('')
 const currentDate = ref(dayjs())
-const currentMonth = ref(dayjs().format('MMMM YYYY'))
+const currentMonth = computed(() =>
+  currentDate.value.locale(locale.value === 'pt' ? 'pt-br' : 'en').format('MMMM YYYY')
+)
 const calendarDays = ref([])
 const selectedDay = ref(dayjs().format('YYYY-MM-DD'))
 const selectedDayAppointments = ref({
@@ -551,7 +550,6 @@ const generateCalendar = () => {
     current = current.add(1, 'day')
   }
   calendarDays.value = days
-  currentMonth.value = currentDate.value.format('MMMM YYYY')
 }
 
 const nextMonth = () => {

@@ -442,6 +442,12 @@ const menusPorPerfil = computed(() => ({
           value: 'Medico-Screens/consultasPendentes',
           to: '/Medico-Screens/consultasPendentes',
         },
+        {
+          icon: 'mdi-email-plus-outline',
+          title: t('appBar.titleConvidarAtleta'),
+          value: 'convidarAtleta',
+          to: '/Medico-Screens/convidarAtleta',
+        },
       ],
     },
     {
@@ -501,11 +507,24 @@ const menusPorPerfil = computed(() => ({
       children: [],
     },
     {
-          icon: 'mdi-link',
-          title: t('drawerNavigator.menu.conexoes'),
-          value: 'conexoes',
-          to: '/solicitacoesConexoes'
+      icon: 'mdi-link',
+      title: t('drawerNavigator.menu.conexoes'),
+      value: 'conexoes',
+      children: [
+        {
+          icon: 'mdi-account-check',
+          title: t('drawerNavigator.menu.minhasConexoes'),
+          value: 'minhasConexoes',
+          to: '/minhasConexoes',
         },
+        {
+          icon: 'mdi-account-clock',
+          title: t('drawerNavigator.menu.gerenciarSolicitacoes'),
+          value: 'gerenciarSolicitacoes',
+          to: '/solicitacoesConexoes',
+        },
+      ],
+    },
     {
       icon: 'mdi mdi-file-document-outline',
       title: t('drawerNavigator.menu.certificados'),
@@ -575,7 +594,20 @@ const menusPorPerfil = computed(() => ({
       icon: 'mdi-link',
       title: t('drawerNavigator.menu.conexoes'),
       value: 'conexoes',
-      to: '/solicitacoesConexoes'
+      children: [
+        {
+          icon: 'mdi-account-check',
+          title: t('drawerNavigator.menu.minhasConexoes'),
+          value: 'minhasConexoes',
+          to: '/minhasConexoes',
+        },
+        {
+          icon: 'mdi-account-clock',
+          title: t('drawerNavigator.menu.gerenciarSolicitacoes'),
+          value: 'gerenciarSolicitacoes',
+          to: '/solicitacoesConexoes',
+        },
+      ],
     },
     {
       icon: 'mdi mdi-compass-outline',
@@ -614,11 +646,24 @@ const menusPorPerfil = computed(() => ({
       ],
     },
   {
-          icon: 'mdi-link',
-          title: t('drawerNavigator.menu.conexoes'),
-          value: 'conexoes',
-          to: '/solicitacoesConexoes'
+      icon: 'mdi-link',
+      title: t('drawerNavigator.menu.conexoes'),
+      value: 'conexoes',
+      children: [
+        {
+          icon: 'mdi-account-check',
+          title: t('drawerNavigator.menu.minhasConexoes'),
+          value: 'minhasConexoes',
+          to: '/minhasConexoes',
         },
+        {
+          icon: 'mdi-account-clock',
+          title: t('drawerNavigator.menu.gerenciarSolicitacoes'),
+          value: 'gerenciarSolicitacoes',
+          to: '/solicitacoesConexoes',
+        },
+      ],
+    },
         {
       icon: 'mdi mdi-dumbbell',
       title: t('drawerNavigator.menu.treinosCriados'),

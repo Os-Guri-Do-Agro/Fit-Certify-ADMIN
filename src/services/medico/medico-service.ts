@@ -189,6 +189,32 @@ class medicoService {
       'Failed to get all Doencas'
     )
   }
+
+  postConvidarAtleta(data: any): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.post(`/medico/pacientes-externos`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+      }),
+      'Failed to get all Doencas'
+    )
+  }
+
+  getConvitesAtletas(page: number, pageSize: number): Promise<any> {
+    const token = getToken()
+    return this.handleRequest(
+      apiClient.get(`/medico/pacientes-externos`, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        params: { page, pageSize }
+      }),
+      'Failed to get all Doencas'
+    )
+  }
 }
 
 export default new medicoService()

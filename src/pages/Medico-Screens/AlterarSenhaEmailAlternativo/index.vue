@@ -176,6 +176,7 @@ import { useI18n } from 'vue-i18n'
 import { toast } from 'vue3-toastify'
 import userService from '@/services/user/user-service'
 import { getErrorMessage } from '@/common/error.utils'
+import { getUserID, getToken } from '@/utils/auth'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -239,7 +240,12 @@ const salvar = async () => {
       payload.senhaNova = formData.value.novaSenha
     }
 
-    await userService.mudarSenhaEmailAlternativo(payload)
+    const response = await userService.mudarSenhaEmailAlternativo(payload)
+
+    if (response?.data?.access_token) {
+      const storage = localStorage.getItem('token') ? localStorage : sessionStorage
+      storage.setItem('token', response.data.access_token)
+    }
 
     toast.success(t('alterarSenhaEmailAlternativo.toasts.success'))
 

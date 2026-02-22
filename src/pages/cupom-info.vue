@@ -151,7 +151,7 @@
                 <div>
                   <strong>{{ $t('cupomInfo.support.email') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    {{ $t('cupomInfo.support.emailAddress') }}
+                    atendimento@fitcertify365.com
                   </p>
                 </div>
               </div>
@@ -161,7 +161,7 @@
                 <div>
                   <strong>{{ $t('cupomInfo.support.phone') }}</strong>
                   <p class="text-body-2 text-grey-600 mt-1">
-                    {{ $t('cupomInfo.support.phoneNumber') }}
+                    +55 (41) 99185-8019
                   </p>
                 </div>
               </div>

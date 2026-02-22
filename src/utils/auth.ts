@@ -161,23 +161,22 @@ export const usuarioAlternativo = () => {
 
 export const getMedicoId = () => {
   const payload = getPayload()
-  return payload?.role === 'medico' ? payload?.user?.medicoId : null
+  return payload?.user?.medicoId
 }
+
 export const getAtletaId = () => {
   const payload = getPayload()
-  return payload?.role === 'atleta' ? payload?.user?.atletaId : null
+  return payload?.user?.atletaId
 }
+
 export const getFisioterapeutaId = () => {
   const payload = getPayload()
-  if (payload?.role == 'fisioterapeuta') {
     return payload?.user?.fisioterapeutaId
-  }
 }
+
 export const getTreinadorId = () => {
   const payload = getPayload()
-  if (payload?.role == 'treinador') {
     return payload?.user?.treinadorId
-  }
 }
 
 export const getRole = () => {
