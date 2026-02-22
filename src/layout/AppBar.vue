@@ -95,7 +95,7 @@
 <script setup lang="ts">
 import { getProfileRoute } from '@/utils/profile';
 import { useLayoutStore } from '@/stores/layout';
-import { getPayload, getToken, logout, usuarioAlternativo } from '@/utils/auth';
+import { getPayload, getToken, isFisioterapeuta, isMedico, isTreinador, logout, usuarioAlternativo } from '@/utils/auth';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
@@ -200,6 +200,7 @@ const pageTitle = computed(() => {
   '/Medico-Screens/emailsAlternativos': t('appBar.titleEmailsAlternativos'),
   '/Medico-Screens/AlterarSenhaEmailAlternativo': t('appBar.titleAlterarSenhaEmailAlt'),
   '/Medico-Screens/convitesEventos': t('appBar.titleConvitesEvento'),
+  '/Medico-Screens/convidarAtleta': t('appBar.titleConvidarAtleta'),
   '/cadastrar-medico': t('appBar.titleRegisterDoctor'),
 
   '/Fisioterapeuta-Screens/agendaFisioterapeutica': t('appBar.titleCalendar'),
@@ -217,6 +218,7 @@ const pageTitle = computed(() => {
   '/cadastrar-treinador': t('appBar.titleRegisterCoach'),
 
   '/solicitacoesConexoes': t('appBar.titleConnections'),
+  '/minhasConexoes': t('appBar.titleMyConnections'),
   '/certificados': t('appBar.titleCertificates'),
   '/notificacoes': t('appBar.titleNotifications'),
   '/exercicios': t('appBar.titleExerciseLibrary'),
@@ -235,6 +237,7 @@ const pageTitle = computed(() => {
   '/validarCertificado': t('appBar.titleValidateCertificate'),
   '/centralAjuda': t('appBar.titleHelpCenter'),
   '/registerPlanos': t('appBar.titlePlans'),
+  '/cupom-info': t('appBar.titleCouponInfo'),
 
   '/cadastrar-atleta': t('appBar.titleRegisterAthlete'),
   '/cadastar-medico': t('appBar.titleRegisterDoctor'),
@@ -328,13 +331,16 @@ const pageIcon = computed(() => {
     "/consultasExternas": "mdi-clipboard-list-outline",
     "/pacientesExternos": "mdi-account-group-outline",
     "/Atleta-Screens/formularios": "mdi-form-select",
-    '/Atleta-Screens/documentos': "mdi-file-document-multiple"
+    "/Atleta-Screens/documentos": "mdi-file-document-multiple",
+    "/cupom-info": "mdi-ticket-percent-outline",
+    "/minhasConexoes": "mdi-link-variant",
+    "/Medico-Screens/convidarAtleta": "mdi-email-plus"
   }
   return iconMap[path] || 'mdi-view-dashboard'
 })
 
 const buscarAtletaById = async (id: string) => {
-  if (!getToken()) return
+  if (!getToken() && !isAtleta()) return
   try {
     const response = await atletaService.getAtletaById(id)
     atleta.value = response.data
@@ -346,7 +352,7 @@ const buscarAtletaById = async (id: string) => {
 }
 
 const buscarMedicoById = async (id: string) => {
-  if (!getToken()) return
+  if (!getToken() && !isMedico()) return
   try {
     const response = await medicoService.getMedicoById(id)
     medico.value = response.data
@@ -358,7 +364,7 @@ const buscarMedicoById = async (id: string) => {
 }
 
 const buscarFisioterapeutaById = async (id: string) => {
-  if (!getToken()) return
+  if (!getToken() && !isFisioterapeuta()) return
   try {
     const response = await fisioterapeutaService.getFisioterapeutaById(id)
     fisioterapeuta.value = response.data
@@ -370,7 +376,7 @@ const buscarFisioterapeutaById = async (id: string) => {
 }
 
 const buscarTreinadorById = async (id: string) => {
-  if (!getToken()) return
+  if (!getToken() && !isTreinador()) return
   try {
     const response = await treinadorService.getTreinadorById(id)
     treinador.value = response.data
@@ -420,20 +426,20 @@ onMounted(async () => {
 
   if (!getToken()) return
 
-  if (getAtletaId()) {
+  if (isAtleta()) {
     await buscarAtletaById(getAtletaId())
     payload.value = getPayload()
     await verificarFormulariosPendentes()
     await buscarNotificacoesNaoLidas()
-  } else if (getMedicoId()) {
+  } else if (isMedico()) {
     await buscarMedicoById(getMedicoId())
     payload.value = getPayload()
     await buscarNotificacoesNaoLidas()
-  } else if (getFisioterapeutaId()) {
+  } else if (isFisioterapeuta()) {
     await buscarFisioterapeutaById(getFisioterapeutaId())
     payload.value = getPayload()
     await buscarNotificacoesNaoLidas()
-  } else if (getTreinadorId()) {
+  } else if (isTreinador()) {
     await buscarTreinadorById(getTreinadorId())
     payload.value = getPayload()
     await buscarNotificacoesNaoLidas()

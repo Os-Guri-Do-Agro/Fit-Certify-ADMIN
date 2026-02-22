@@ -143,6 +143,22 @@
             </v-card-text>
           </v-card>
         </v-col>
+
+        <v-col v-if="evento.duracaoEvento" cols="12" md="6">
+          <v-card elevation="4" rounded="xl" class="info-card h-100">
+            <v-card-text class="pa-6">
+              <div class="d-flex align-center mb-4">
+                <div class="icon-badge">
+                  <v-icon color="white" size="28">mdi-timer-outline</v-icon>
+                </div>
+                <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.duration') }}</h3>
+              </div>
+              <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
+                {{ evento.duracaoEvento }}
+              </p>
+            </v-card-text>
+          </v-card>
+        </v-col>
       </v-row>
 
       <!-- Descrição -->
@@ -156,6 +172,38 @@
           <p class="text-body-1" style="line-height: 1.8; color: #555; font-size: 1.1rem;">
             {{ locale === 'en' && evento.en_descricao ? evento.en_descricao : evento.descricao || t('eventos.details.noDescription') }}
           </p>
+        </v-card-text>
+      </v-card>
+
+      <!-- Médicos -->
+      <v-card v-if="evento.medicoEventos && evento.medicoEventos.length > 0" elevation="4" rounded="xl" class="mb-6">
+        <v-card-text class="pa-8">
+          <div class="d-flex align-center mb-4">
+            <v-icon size="32" color="#42A5F5" class="mr-3">mdi-doctor</v-icon>
+            <h2 class="text-h5 font-weight-bold" style="color: #2c3e50;">{{ t('eventos.details.doctors') }}</h2>
+          </div>
+          <v-divider class="mb-6" style="border-width: 2px; border-color: #E7F8F6;" />
+          <div class="d-flex flex-wrap ga-3">
+            <div v-for="(medicoEvento, index) in evento.medicoEventos" :key="index"
+              class="d-flex align-center ga-4 pa-3 medico-card" style="border-radius: 12px; border: 1px solid #E7F8F6; min-width: 260px; flex: 1;">
+              <v-avatar size="52">
+                <v-img v-if="medicoEvento.medico?.avatarUrl" :src="medicoEvento.medico.avatarUrl" cover />
+                <v-icon v-else size="32" color="#42A5F5">mdi-account-circle</v-icon>
+              </v-avatar>
+              <div class="flex-grow-1">
+                <p class="text-subtitle-2 font-weight-bold mb-0" style="color: #2c3e50;">{{ medicoEvento.medico?.usuario?.nome }}</p>
+                <span class="text-caption" style="color: #42A5F5;">CRM {{ medicoEvento.medico?.crm }}</span>
+              </div>
+              <div class="d-flex ga-1">
+                <v-btn v-if="medicoEvento.medico?.linkInstagram" :href="medicoEvento.medico.linkInstagram" target="_blank" icon size="x-small" variant="tonal" color="#E1306C">
+                  <v-icon size="16">mdi-instagram</v-icon>
+                </v-btn>
+                <v-btn v-if="medicoEvento.medico?.linkFacebook" :href="medicoEvento.medico.linkFacebook" target="_blank" icon size="x-small" variant="tonal" color="#1877F2">
+                  <v-icon size="16">mdi-facebook</v-icon>
+                </v-btn>
+              </div>
+            </div>
+          </div>
         </v-card-text>
       </v-card>
 
@@ -213,6 +261,19 @@
         </v-card-title>
 
         <v-card-text class="pa-6">
+          <v-alert
+            v-if="evento.possuiTermo && termos?.termo"
+            type="info"
+            variant="tonal"
+            rounded="lg"
+            class="mb-4"
+            icon="mdi-information-outline"
+          >
+            <span class="text-body-2" style="line-height: 1.6;">
+              <strong>{{ t('eventos.details.termsNoticeLabel') }}</strong> {{ t('eventos.details.termsNotice') }}
+              <strong>{{ evento.organizacaoEvento[0]?.organizacao?.nome }}</strong>{{ t('eventos.details.termsNoticeMiddle') }}
+            </span>
+          </v-alert>
           <div v-if="evento.possuiTermo" @scroll="onScroll"
             style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
             {{ termos?.termo }}
@@ -249,7 +310,7 @@ import eventoService from '@/services/eventos/eventos-service'
 import termosService from '@/services/eventos/termos/termos-service'
 import atletaService from '@/services/atleta/atleta-service'
 import { toast } from 'vue3-toastify'
-import { isAtleta } from '@/utils/auth'
+import { isAtleta, isTreinador } from '@/utils/auth'
 import { useI18n } from 'vue-i18n'
 import { getAtletaId } from '@/utils/auth'
 
@@ -280,6 +341,7 @@ const formatarData = (data: string) => {
 }
 
 const buscarTermos = async () => {
+  if (!isAtleta()) return
   try {
     const response = await termosService.getTermosByEventoId(evento.value.id)
     termos.value = response.data || response
@@ -329,8 +391,15 @@ const carregarEvento = async () => {
       throw new Error('ID do evento não encontrado')
     }
 
-    const eventoResponse = await eventoService.getByEventoAtletaId(eventoId, atletaId)
+    if (isAtleta()) {
+         const eventoResponse = await eventoService.getByEventoAtletaId(eventoId, atletaId)
     evento.value = eventoResponse.data || eventoResponse
+    } else {
+      const eventoResponse = await eventoService.getByEventoId(eventoId)
+      evento.value = eventoResponse.data || eventoResponse
+    }
+
+
 
   } catch (error) {
     console.error('Erro ao carregar evento:', error)
@@ -440,6 +509,17 @@ onMounted(() => {
 .org-card:hover {
   transform: translateY(-4px);
   border-color: #42A5F5;
+}
+
+.medico-card {
+  transition: all 0.3s ease;
+  border: 2px solid #E7F8F6;
+}
+
+.medico-card:hover {
+  transform: translateY(-4px);
+  border-color: #42A5F5;
+  box-shadow: 0 8px 24px rgba(0, 198, 254, 0.3) !important;
 }
 
 .empty-icon-container {

@@ -34,7 +34,11 @@
                 </template>
                 <v-list-item-title class="font-weight-bold text-grey-darken-3">{{ email.email }}</v-list-item-title>
                 <template v-slot:append>
+                  <div class="d-flex ga-2">
+                  <v-btn icon="mdi-pen" color="success" variant="flat" size="small" rounded="lg" @click="abrirAlterarSenha(email)" />
                   <v-btn icon="mdi-delete" color="error" variant="flat" size="small" rounded="lg" @click="confirmarDelete(email.id)" />
+                  </div>
+
                 </template>
               </v-list-item>
             </v-list>
@@ -88,6 +92,64 @@
       </v-card>
     </v-dialog>
 
+    <v-dialog v-model="senhaDialog" max-width="500">
+      <v-card rounded="xl">
+        <v-card-title class="pa-5 bg-blue-lighten-1 text-white">
+          <v-icon color="white" class="mr-2">mdi-lock-reset</v-icon>
+          {{ $t('alterarSenhaEmailAlternativo.title') }}
+        </v-card-title>
+        <v-card-text class="pa-5">
+          <v-form ref="senhaForm" v-model="senhaValid">
+            <v-text-field
+              v-model="senhaData.email"
+              :label="$t('alterarSenhaEmailAlternativo.email')"
+              variant="outlined"
+              prepend-inner-icon="mdi-email"
+              type="email"
+              readonly
+              class="mb-3"
+            />
+            <v-text-field
+              v-model="senhaData.senhaAntiga"
+              :label="$t('alterarSenhaEmailAlternativo.currentPassword')"
+              variant="outlined"
+              prepend-inner-icon="mdi-lock"
+              :type="showPasswordOld ? 'text' : 'password'"
+              :append-inner-icon="showPasswordOld ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="showPasswordOld = !showPasswordOld"
+              class="mb-3"
+            />
+            <v-text-field
+              v-model="senhaData.novaSenha"
+              :label="$t('alterarSenhaEmailAlternativo.newPassword')"
+              variant="outlined"
+              prepend-inner-icon="mdi-lock-plus"
+              :type="showPasswordNew ? 'text' : 'password'"
+              :append-inner-icon="showPasswordNew ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="showPasswordNew = !showPasswordNew"
+              :rules="[senhaRules.password]"
+              class="mb-3"
+            />
+            <v-text-field
+              v-model="senhaData.confirmarNovaSenha"
+              :label="$t('alterarSenhaEmailAlternativo.confirmNewPassword')"
+              variant="outlined"
+              prepend-inner-icon="mdi-lock-check"
+              :type="showPasswordConfirm ? 'text' : 'password'"
+              :append-inner-icon="showPasswordConfirm ? 'mdi-eye' : 'mdi-eye-off'"
+              @click:append-inner="showPasswordConfirm = !showPasswordConfirm"
+              :rules="[senhaRules.passwordMatch]"
+            />
+          </v-form>
+        </v-card-text>
+        <v-card-actions class="pa-5">
+          <v-spacer />
+          <v-btn variant="outlined" @click="senhaDialog = false" :disabled="savingSenha">{{ $t('alterarSenhaEmailAlternativo.cancel') }}</v-btn>
+          <v-btn color="blue-lighten-1" variant="elevated" :loading="savingSenha" @click="salvarSenha">{{ $t('alterarSenhaEmailAlternativo.save') }}</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+
     <v-dialog v-model="deleteDialog" max-width="400">
       <v-card class="text-center justify-center align-center pa-6" rounded="xl">
         <v-icon icon="mdi-alert-circle" size="64" color="error" class="mb-4" />
@@ -107,6 +169,7 @@ import { ref, onMounted } from 'vue'
 import { toast } from 'vue3-toastify'
 import { useI18n } from 'vue-i18n'
 import userService from '@/services/user/user-service';
+import { getMedicoId, getUserID } from '@/utils/auth';
 
 const { t } = useI18n()
 
@@ -117,6 +180,31 @@ const deleting = ref(false)
 const dialog = ref(false)
 const deleteDialog = ref(false)
 const emailToDelete = ref(null)
+const senhaDialog = ref(false)
+const savingSenha = ref(false)
+const senhaValid = ref(false)
+const showPasswordOld = ref(false)
+const showPasswordNew = ref(false)
+const showPasswordConfirm = ref(false)
+
+const senhaData = ref({
+  id: '',
+  email: '',
+  senhaAntiga: '',
+  novaSenha: '',
+  confirmarNovaSenha: ''
+})
+
+const senhaRules = {
+  password: (v) => {
+    if (!v) return true
+    if (v.length < 8) return 'A senha deve ter pelo menos 8 caracteres'
+    if (!/[0-9]/.test(v)) return 'A senha deve conter pelo menos um número'
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(v)) return 'A senha deve conter pelo menos um caractere especial'
+    return true
+  },
+  passwordMatch: (v) => !senhaData.value.novaSenha || v === senhaData.value.novaSenha || t('alterarSenhaEmailAlternativo.validation.passwordMatch')
+}
 
 const formData = ref({
   email: '',
@@ -204,6 +292,37 @@ const criarEmail = async () => {
     toast.error(t('emailsAlternativos.toasts.createError'))
   } finally {
     creating.value = false
+  }
+}
+
+const abrirAlterarSenha = (email) => {
+  senhaData.value = { id: email.id, email: email.email, senhaAntiga: '', novaSenha: '', confirmarNovaSenha: '' }
+  showPasswordOld.value = false
+  showPasswordNew.value = false
+  showPasswordConfirm.value = false
+  senhaDialog.value = true
+}
+
+const salvarSenha = async () => {
+  if (senhaData.value.novaSenha && senhaData.value.novaSenha !== senhaData.value.confirmarNovaSenha) {
+    toast.error(t('alterarSenhaEmailAlternativo.toasts.passwordMismatch'))
+    return
+  }
+  if (senhaData.value.novaSenha && !senhaData.value.senhaAntiga) {
+    toast.error(t('alterarSenhaEmailAlternativo.toasts.currentPasswordRequired'))
+    return
+  }
+
+  savingSenha.value = true
+  try {
+    const payload = { emailAlternativoId: senhaData.value.id, email: senhaData.value.email, senhaAntiga: senhaData.value.senhaAntiga, senhaNova: senhaData.value.novaSenha }
+    await userService.mudarSenhaEmailAlternativo(payload)
+    toast.success(t('alterarSenhaEmailAlternativo.toasts.success'))
+    senhaDialog.value = false
+  } catch (error) {
+    toast.error(t('alterarSenhaEmailAlternativo.toasts.error'))
+  } finally {
+    savingSenha.value = false
   }
 }
 

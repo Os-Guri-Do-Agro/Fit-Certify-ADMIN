@@ -185,7 +185,7 @@
               <p class="dialog-section-label">{{ t('agendaFisioterapeutica.availableSchedules') }}</p>
 
               <v-date-picker v-model="dayselect" color="blue" elevation="0" rounded="lg" class="w-100 dialog-datepicker"
-                locale="pt-BR"></v-date-picker>
+                :locale="locale === 'pt' ? 'pt-BR' : 'en-US'"></v-date-picker>
 
               <div class="mt-4">
                 <div class="d-flex align-center justify-space-between mb-2">
@@ -260,8 +260,6 @@ dayjs.extend(timezone)
 
 watch(locale, (newLocale) => {
   dayjs.locale(newLocale === 'pt' ? 'pt-br' : 'en')
-  currentMonth.value = currentDate.value.format('MMMM YYYY')
-  generateCalendar()
 })
 
 const loading = ref(false)
@@ -280,7 +278,9 @@ const cpfError = ref('')
 const telefoneError = ref('')
 const emailError = ref('')
 const currentDate = ref(dayjs())
-const currentMonth = ref('')
+const currentMonth = computed(() =>
+  currentDate.value.locale(locale.value === 'pt' ? 'pt-br' : 'en').format('MMMM YYYY')
+)
 
 const weekDays = computed(() => [
   t('agendaFisioterapeutica.days.sun'),
@@ -334,7 +334,7 @@ const buscarHorariosDisponiveis = async () => {
 const buscarAtletas = async () => {
   const page = 1
   const pageSize = 999
-  const response = await pacientesService.getAtletasByMedico(page, pageSize)
+  const response = await pacientesService.getAtletasByFisio(page, pageSize)
   atletas.value = response.data.itens
 }
 
@@ -376,12 +376,12 @@ const validarCPF = () => {
     cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF deve ter 11 dígitos'
     return false
   }
-  
+
   if (/^(\d)\1{10}$/.test(cpf)) {
     cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   let soma = 0
   for (let i = 0; i < 9; i++) {
     soma += parseInt(cpf.charAt(i)) * (10 - i)
@@ -392,7 +392,7 @@ const validarCPF = () => {
     cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   soma = 0
   for (let i = 0; i < 10; i++) {
     soma += parseInt(cpf.charAt(i)) * (11 - i)
@@ -403,7 +403,7 @@ const validarCPF = () => {
     cpfError.value = t('agendaFisioterapeutica.invalidCpf') || 'CPF inválido'
     return false
   }
-  
+
   cpfError.value = ''
   return true
 }
@@ -439,12 +439,12 @@ const validarEmail = () => {
 
 const criarConsulta = async () => {
   loading.value = true
-  
+
   if (ConsultaExterna.value) {
     const cpfValido = validarCPF()
     const telefoneValido = validarTelefone()
     const emailValido = validarEmail()
-    
+
     if (!cpfValido || !telefoneValido || !emailValido) {
       loading.value = false
       return
@@ -517,7 +517,6 @@ const generateCalendar = () => {
     current = current.add(1, 'day')
   }
   calendarDays.value = days
-  currentMonth.value = currentDate.value.format('MMMM YYYY')
 }
 
 const nextMonth = () => {

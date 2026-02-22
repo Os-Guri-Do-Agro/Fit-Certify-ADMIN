@@ -115,7 +115,7 @@
               </div>
             </div>
 
-            <div v-if="totalNotificacoes <= 0" class="text-center py-8">
+            <div v-if="totalNotificacoes <= 0 && !loadingNotificacoes" class="text-center py-8">
               <v-icon size="64" color="grey-lighten-2" class="mb-4">mdi-bell-off</v-icon>
               <h4 class="text-h6 text-grey-darken-1 mb-2">{{ $t('notificacoes.noNotifications') }}</h4>
               <p class="text-body-2 text-grey">{{ $t('notificacoes.noNotificationsDescription') }}</p>

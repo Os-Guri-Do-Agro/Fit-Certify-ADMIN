@@ -182,7 +182,7 @@ const accountItems = computed(() => {
     ... (usuarioAlternativo() ? [{
       icon: 'lock-reset', title: t('settings.newPassword'), to: '/Medico-Screens/AlterarSenhaEmailAlternativo' }] : []),
     { icon: 'shield-lock-outline', title: t('settings.privacy'), to: '/politicaPrivacidade' },
-    ... (!usuarioAlternativo() ? [{
+    ... (!usuarioAlternativo() && !isMedico() ? [{
       icon: 'ticket-percent', title: t('settings.referrals'), to: '/cupons'
     }] : []),
   ];

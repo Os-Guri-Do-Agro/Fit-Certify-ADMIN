@@ -1,5 +1,7 @@
 ﻿{
   "appBar": {
+    "titleCouponInfo": "Sistema de Cupons",
+    "titleConvidarAtleta": "Convidar Atleta",
     "titleConvitesEvento": "Convites para Eventos",
     "titleAlterarSenhaEmailAlt": "Alterar Senha",
     "titleEmailsAlternativos": "E-mails Alternativos",
@@ -26,7 +28,8 @@
     "titlePublicProfile": "Perfil Público",
     "titleEditPublicProfile": "Editar Perfil Público",
     "titleAthleteDetails": "Detalhes do Atleta",
-    "titleConnections": "Conexões",
+    "titleConnections": "Solicitações de Conexão",
+    "titleMyConnections": "Minhas Conexões",
     "titleCertificates": "Certificados",
     "titleNotifications": "Notificações",
     "titleExerciseLibrary": "Biblioteca de Exercícios",
@@ -97,6 +100,8 @@
       "saude": "Saúde",
       "eventos": "Eventos",
       "conexoes": "Conexões",
+      "minhasConexoes": "Minhas Conexões",
+      "gerenciarSolicitacoes": "Solicitações de Conexão",
       "registrosMedicos": "Registros Médicos",
       "certificados": "Certificados",
       "notificacoes": "Notificações",
@@ -153,6 +158,9 @@
     "site": "Site",
     "status": "Status",
     "close": "Fechar",
+    "cmsBannerTitle": "Gerencie seus eventos com mais controle",
+    "cmsBannerDesc": "Acesse a Central de Gerenciamento FitCertify365 para visualizar detalhes completos, gerenciar inscrições e muito mais.",
+    "cmsBannerBtn": "Acessar Central",
     "toasts": {
       "errorLoadConvites": "Erro ao carregar convites",
       "errorLoadEventos": "Erro ao carregar eventos",
@@ -203,6 +211,7 @@
       "aboutEvent": "Sobre o Evento",
       "noDescription": "Descrição não disponível para este evento.",
       "organization": "Organização",
+      "doctors": "Médicos",
       "notFound": "Evento não encontrado",
       "notFoundDescription": "O evento solicitado não existe ou foi removido",
       "backToList": "Voltar para Lista",
@@ -212,7 +221,11 @@
       "confirmMessage": "Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar sua participação.",
       "cancel": "Cancelar",
       "confirmSend": "Confirmar Envio",
-      "registered": "Já Inscrito"
+      "registered": "Já Inscrito",
+      "duration": "Duração do Evento",
+      "termsNotice": "Os termos apresentados a seguir são de responsabilidade exclusiva do organizador do evento da organização",
+      "termsNoticeMiddle": ". A FitCertify365 atua apenas como plataforma intermediária e não se responsabiliza pelo conteúdo, condições ou obrigações descritas neste documento. Ao confirmar, você declara ter lido e concordado integralmente com os termos estabelecidos pelo organizador.",
+      "termsNoticeLabel": "Aviso:"
     }
   },
   "consultas": {
@@ -293,6 +306,10 @@
       "fisioterapeuta": "Fisioterapeuta",
       "treinador": "Treinador"
     }
+  },
+  "minhasConexoes": {
+    "title": "Minhas Conexões",
+    "subtitle": "Gerencie suas conexões ativas"
   },
   "solicitacoesConexoes": {
     "title": "Solicitações de Conexão",
@@ -376,6 +393,7 @@
     },
     "connectProfessional": {
       "title": "Conectar com Profissional",
+      "titleElse": "Conectar com Atleta",
       "description": "Digite o código de convite do profissional para enviar uma solicitação de conexão.",
       "professionalType": "Tipo de profissional:",
       "physiotherapist": "Fisioterapeuta",
@@ -1426,6 +1444,57 @@
       "invalidToken": "Token inválido"
     }
   },
+  "convidarAtleta": {
+    "title": "Convidar Atleta para FitCertify365",
+    "subtitle": "Preencha os dados do atleta para enviar o convite por e-mail",
+    "form": {
+      "athleteData": "Dados do Atleta",
+      "name": "Nome completo",
+      "cpf": "CPF",
+      "email": "E-mail",
+      "phone": "Telefone",
+      "certificationPeriod": "Período de Certificação",
+      "validityMonths": "Meses de Validade",
+      "customMonths": "Informe a quantidade de meses",
+      "customMonthsHint": "Informe quantos meses o certificado estará válido (máximo 12)",
+      "validUntil": "Certificado válido até"
+    },
+    "validation": {
+      "required": "Campo obrigatório",
+      "invalidCpf": "CPF inválido",
+      "invalidEmail": "E-mail inválido",
+      "invalidPhone": "Telefone inválido",
+      "monthsRange": "Informe um valor entre 1 e 12 meses"
+    },
+    "buttons": {
+      "cancel": "Cancelar",
+      "send": "Enviar Convite"
+    },
+    "list": {
+      "title": "Atletas Convidados",
+      "count": "convidado(s)",
+      "months": "meses",
+      "empty": "Nenhum atleta convidado ainda"
+    },
+    "toast": {
+      "success": "Convite enviado com sucesso!",
+      "error": "Erro ao enviar convite"
+    },
+    "infoCards": {
+      "about": {
+        "title": "Sobre este recurso",
+        "text": "Este módulo permite convidar atletas externos para a FitCertify365. O sistema gera um <strong>certificado</strong> vinculado exclusivamente ao CPF informado."
+      },
+      "certificate": {
+        "title": "Como funciona o certificado",
+        "text": "Cada convite gera um certificado digital com validade definida por você. O atleta receberá um e-mail com instruções de acesso e código único válido para provas parceiras."
+      },
+      "responsibility": {
+        "title": "Responsabilidade médica",
+        "text": "O envio implica na sua responsabilidade clínica sobre a aptidão do atleta. Certifique-se de que o paciente foi avaliado. <strong>Convites indevidos comprometem sua credencial.</strong>"
+      }
+    }
+  },
   "detalhesPacienteMedico": {
     "title": "Detalhes do Paciente",
     "active": "Ativo",
@@ -2168,6 +2237,7 @@
     "couponPlaceholder": "Digite o cupom",
     "validateCoupon": "Validar Cupom",
     "couponValid": "Cupom válido! Desconto de {percentage}% aplicado.",
+    "trialPeriod": "Cupom válido! Período de trial de {days} dias aplicado.",
     "couponInvalid": "Cupom inválido. Tente novamente.",
     "planSummary": "Resumo do Plano",
     "monthlyValue": "Valor Mensal",
