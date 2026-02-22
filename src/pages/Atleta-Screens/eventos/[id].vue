@@ -154,7 +154,7 @@
                 <h3 class="text-h6 font-weight-bold ml-3" style="color: #2c3e50;">{{ t('eventos.details.duration') }}</h3>
               </div>
               <p class="text-h5 font-weight-bold" style="color: #42A5F5;">
-                {{ evento.duracaoEvento }} {{ t('eventos.days') }}
+                {{ evento.duracaoEvento }} {{ t('eventos.details.days') }}
               </p>
             </v-card-text>
           </v-card>
