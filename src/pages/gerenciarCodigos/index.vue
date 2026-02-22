@@ -56,7 +56,8 @@
           <div style="width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, #88ce0d 0%, #6ba80a 100%); display: flex; align-items: center; justify-content: center;">
             <v-icon color="white" size="20">mdi-account-plus</v-icon>
           </div>
-          <h2 class="text-h6 font-weight-bold" style="color: #2c3e50;">{{ $t('gerenciarCodigos.connectProfessional.title') }}</h2>
+          <h2 class="text-h6 font-weight-bold" style="color: #2c3e50;" v-if="userRole === 'atleta'">{{ $t('gerenciarCodigos.connectProfessional.title') }}</h2>
+          <h2 class="text-h6 font-weight-bold" style="color: #2c3e50;" v-if="userRole !== 'atleta'">{{ $t('gerenciarCodigos.connectProfessional.titleElse') }}</h2>
         </div>
         <p class="text-body-2 mb-4" style="color: #64748b;">{{ $t('gerenciarCodigos.connectProfessional.description') }}</p>
 

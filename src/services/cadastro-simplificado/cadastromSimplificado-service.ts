@@ -21,6 +21,13 @@ class cadastroSimplificadoService {
     )
   }
 
+  getByMedicoId(medicoId: string | number): Promise<any> {
+    return this.handleRequest(
+      apiClient.get(`/cadastro-simplificado/medico/${medicoId}`),
+      'Failed to get cadastros by medicoId'
+    )
+  }
+
 }
 
 export default new cadastroSimplificadoService()
