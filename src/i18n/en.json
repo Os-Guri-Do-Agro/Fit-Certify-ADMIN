@@ -2996,6 +2996,10 @@
     "lastUpdate": "Last Update",
     "accessDenied": "Access Denied",
     "loginRequired": "You need to be logged in to access this page.",
-    "login": "Login"
+    "login": "Login",
+    "tabDados": "Data",
+    "tabFormularios": "Forms",
+    "tabSaude": "Health",
+    "situation": "Situation"
   }
 }

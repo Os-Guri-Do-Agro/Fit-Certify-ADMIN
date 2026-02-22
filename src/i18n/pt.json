@@ -2993,6 +2993,10 @@
     "lastUpdate": "Última Atualização",
     "accessDenied": "Acesso Negado",
     "loginRequired": "Você precisa estar logado para acessar esta página.",
-    "login": "Fazer Login"
+    "login": "Fazer Login",
+    "tabDados": "Dados",
+    "tabFormularios": "Formulários",
+    "tabSaude": "Saúde",
+    "situation": "Situação"
   }
 }
