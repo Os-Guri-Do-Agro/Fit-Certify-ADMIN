@@ -47,8 +47,11 @@
                 </v-btn>
               </template>
             </VTextField>
-            <div v-if="cupomValido" class="text-success mt-2">
+            <div v-if="cupomValido && cupomValido?.cupom?.porcentagem > 0" class="text-success mt-2">
               {{ $t('pagamento.couponValid', { percentage: cupomValido?.cupom?.porcentagem }) }}
+            </div>
+            <div v-else-if="cupomValido && cupomValido?.cupom?.diasTrial" class="text-success mt-2">
+              {{ $t('pagamento.trialPeriod', { days: cupomValido?.cupom?.diasTrial }) }}
             </div>
             <div v-else-if="cupomValido === false" class="text-error mt-2">
               {{ $t('pagamento.couponInvalid') }}

@@ -2237,6 +2237,7 @@
     "couponPlaceholder": "Digite o cupom",
     "validateCoupon": "Validar Cupom",
     "couponValid": "Cupom válido! Desconto de {percentage}% aplicado.",
+    "trialPeriod": "Cupom válido! Período de trial de {days} dias aplicado.",
     "couponInvalid": "Cupom inválido. Tente novamente.",
     "planSummary": "Resumo do Plano",
     "monthlyValue": "Valor Mensal",

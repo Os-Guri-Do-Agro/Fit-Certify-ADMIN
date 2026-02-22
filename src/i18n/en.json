@@ -2236,6 +2236,7 @@
     "couponPlaceholder": "Enter the coupon",
     "validateCoupon": "Validate Coupon",
     "couponValid": "Valid coupon! {percentage}% discount applied.",
+    "trialPeriod": "Valid coupon! {days}-day trial period applied.",
     "couponInvalid": "Invalid coupon. Try again.",
     "planSummary": "Plan Summary",
     "monthlyValue": "Monthly Value",
