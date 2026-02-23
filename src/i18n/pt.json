@@ -221,6 +221,7 @@
       "confirmMessage": "Confirme o envio do seu certificado para que possamos validar sua participação neste evento e registrar sua participação.",
       "cancel": "Cancelar",
       "confirmSend": "Confirmar Envio",
+      "agreeTerms": "Li e concordo com os termos",
       "registered": "Já Inscrito",
       "duration": "Duração do Evento",
       "days": "Dias",
@@ -2993,6 +2994,10 @@
     "lastUpdate": "Última Atualização",
     "accessDenied": "Acesso Negado",
     "loginRequired": "Você precisa estar logado para acessar esta página.",
-    "login": "Fazer Login"
+    "login": "Fazer Login",
+    "tabDados": "Dados",
+    "tabFormularios": "Formulários",
+    "tabSaude": "Saúde",
+    "situation": "Situação"
   }
 }
