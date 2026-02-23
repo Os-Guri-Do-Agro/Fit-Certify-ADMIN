@@ -275,9 +275,8 @@
             </span>
           </v-alert>
           <div v-if="evento.possuiTermo" @scroll="onScroll"
-            style="max-height: 400px; overflow-y: auto; white-space: pre-wrap; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 16px; border-radius: 8px; background: #fafafa;">
-            {{ termos?.termo }}
-          </div>
+            style="max-height: 400px; overflow-y: auto; line-height: 1.6; color: #333; border: 1px solid #e0e0e0; padding: 24px; border-radius: 8px; background: #fafafa;"
+            v-html="decodeHtml(termos?.termo)" />
           <div v-else class="text-center py-8">
             <v-icon size="80" color="#42A5F5" class="mb-4">mdi-cloud-upload-outline</v-icon>
             <h3 class="text-h5 font-weight-bold mb-2" style="color: #2c3e50;">{{ t('eventos.details.almostThere') }}</h3>
@@ -443,6 +442,13 @@ const onScroll = (e: Event) => {
   const target = e.target as HTMLElement
   const bottom = target.scrollHeight - target.scrollTop <= target.clientHeight + 10
   if (bottom) scrolledToBottom.value = true
+}
+
+const decodeHtml = (html: string) => {
+  if (!html) return ''
+  const txt = document.createElement('textarea')
+  txt.innerHTML = html
+  return txt.value
 }
 
 const confirmarEnvio = async () => {
