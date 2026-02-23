@@ -1,15 +1,36 @@
 <template>
-  <v-container class="d-flex align-center justify-center" :class="containerClass">
-    <v-row justify="center" class="w-100 ma-0">
-      <v-col cols="12" sm="12" md="11" lg="10" xl="9" class="pa-2 pa-sm-4">
-        <v-card
-          class="pa-4 pa-sm-6"
-          elevation="3"
-          rounded="xl"
-          :style="{
-            background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)',
-          }"
-        >
+  <v-container fluid class="pa-0" style="min-height: 100vh; background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)">
+    <v-row class="w-100 ma-0">
+      <v-col cols="12" class="pa-4 pa-sm-6">
+        <!-- Botão de idioma fixo no canto superior direito -->
+        <div style="position: fixed; top: 16px; right: 16px; z-index: 999;">
+          <v-menu offset-y transition="slide-y-transition">
+            <template v-slot:activator="{ props }">
+              <v-btn icon variant="flat" v-bind="props">
+                <img
+                  :src="currentLocale === 'pt' ? 'https://flagcdn.com/w40/br.png' : 'https://flagcdn.com/w40/gb.png'"
+                  :alt="currentLocale === 'pt' ? 'Português' : 'English'"
+                  style="width: 32px; height: 24px; object-fit: cover; border-radius: 4px;"
+                />
+              </v-btn>
+            </template>
+            <v-list elevation="8">
+              <v-list-item @click="changeLocale('pt')">
+                <template v-slot:prepend>
+                  <img src="https://flagcdn.com/w40/br.png" alt="Brasil" style="width: 32px; height: 24px; object-fit: cover; border-radius: 2px;" class="mr-2" />
+                </template>
+                <v-list-item-title>Português</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="changeLocale('en')">
+                <template v-slot:prepend>
+                  <img src="https://flagcdn.com/w40/gb.png" alt="England" style="width: 32px; height: 24px; object-fit: cover; border-radius: 2px;" class="mr-2" />
+                </template>
+                <v-list-item-title>English</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </div>
+        <div>
           <!-- Loading State -->
           <div v-if="loading" class="text-center py-6 py-sm-8">
             <v-progress-circular
@@ -45,451 +66,370 @@
 
           <!-- Success State -->
           <div v-else-if="atletaData">
-            <!-- Header -->
-            <div class="text-center mb-4 mb-sm-6">
-              <v-avatar
-                v-if="atletaData?.avatarUrl"
-                :size="display.mobile ? 80 : 120"
-                class="mb-3 mb-sm-4"
-              >
-                <v-img :src="atletaData.avatarUrl" alt="Avatar" />
-              </v-avatar>
-              <v-icon
-                v-else
-                :size="display.mobile ? 80 : 120"
-                color="light-blue-accent-3"
-                class="mb-3 mb-sm-4"
-              >
-                mdi-account-circle
-              </v-icon>
-              <h2
-                class="text-h6 text-sm-h5 text-md-h4 font-weight-bold mb-2 px-2"
-                style="color: #42A5F5"
-              >
-                {{ atletaData?.usuario?.nome || t('detalhesAtleta.athlete') }}
-              </h2>
-              <p class="text-body-2 text-sm-body-1 text-grey px-2">
-                {{ t('detalhesAtleta.completeInfo') }}
-              </p>
+            <!-- Header Clínico -->
+            <div class="athlete-header mb-4 mb-sm-6">
+              <div class="d-flex align-center gap-4 flex-wrap">
+                <v-avatar
+                  v-if="atletaData?.avatarUrl"
+                  :size="display.mobile ? 64 : 88"
+                  class="athlete-avatar"
+                >
+                  <v-img :src="atletaData.avatarUrl" alt="Avatar" />
+                </v-avatar>
+                <v-avatar
+                  v-else
+                  :size="display.mobile ? 64 : 88"
+                  color="light-blue-accent-3"
+                  variant="tonal"
+                  class="athlete-avatar"
+                >
+                  <v-icon :size="display.mobile ? 36 : 52" color="light-blue-accent-3">mdi-account</v-icon>
+                </v-avatar>
+                <div class="flex-grow-1">
+                  <div class="d-flex align-center flex-wrap gap-2 mb-1">
+                    <h2 class="text-h6 text-sm-h5 font-weight-bold" style="color: #1565C0">
+                      {{ atletaData?.usuario?.nome || t('detalhesAtleta.athlete') }}
+                    </h2>
+                    <v-chip :color="atletaData?.ativo ? 'success' : 'error'" size="x-small" variant="flat">
+                      {{ atletaData?.ativo ? t('detalhesAtleta.active') : t('detalhesAtleta.inactive') }}
+                    </v-chip>
+                  </div>
+                  <div class="d-flex flex-wrap gap-2 mt-2">
+                    <v-chip v-if="atletaData?.dataNascimento" size="small" variant="tonal" color="blue-grey" prepend-icon="mdi-cake-variant">
+                      {{ calcularIdade(atletaData.dataNascimento) }} anos
+                    </v-chip>
+                    <v-chip v-if="atletaData?.tipoSanguineo" size="small" variant="tonal" color="red" prepend-icon="mdi-water">
+                      {{ atletaData.tipoSanguineo }}
+                    </v-chip>
+                    <v-chip v-if="atletaData?.altura && atletaData?.peso" size="small" variant="tonal" color="indigo" prepend-icon="mdi-scale">
+                      IMC {{ calcularIMC(atletaData.altura, atletaData.peso) }}
+                    </v-chip>
+                    <v-chip v-if="atletaData?.genero" size="small" variant="tonal" color="blue-grey" prepend-icon="mdi-gender-male-female">
+                      {{ atletaData.genero }}
+                    </v-chip>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <!-- Informações Pessoais -->
-            <v-card
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.personalInfo') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.name') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData?.usuario?.nome || '--' }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.email">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.email') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium" style="word-break: break-all; white-space: normal;">
-                        {{ atletaData.usuario.email }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.cpf">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.cpf') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ formatarCPF(atletaData.usuario.cpf) }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.telefone">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.phone') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.telefone }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.birthDate') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ formatarData(atletaData.dataNascimento) }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.age') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ calcularIdade(atletaData.dataNascimento) }} {{ t('detalhesAtleta.years') }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.genero">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.gender') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.genero }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            <!-- Tabs -->
+            <v-tabs v-model="activeTab" color="light-blue-accent-3" class="mb-4" show-arrows>
+              <v-tab value="dados" prepend-icon="mdi-account-details">{{ t('detalhesAtleta.tabDados') }}</v-tab>
+              <v-tab value="formularios" prepend-icon="mdi-clipboard-text">{{ t('detalhesAtleta.tabFormularios') }}</v-tab>
+              <v-tab value="saude" prepend-icon="mdi-heart-pulse">{{ t('detalhesAtleta.tabSaude') }}</v-tab>
+            </v-tabs>
 
-            <!-- Informações Físicas -->
-            <v-card
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-human</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.physicalInfo') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.height') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.altura }} m
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.peso">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.weight') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.peso }} kg
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.tipoSanguineo">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bloodType') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.tipoSanguineo }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura && atletaData?.peso">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bmi') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ calcularIMC(atletaData.altura, atletaData.peso) }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            <v-tabs-window v-model="activeTab">
 
-            <!-- Status e Preferências -->
-            <v-card
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-check-circle</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.statusPreferences') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.status') }}</div>
-                      <v-chip
-                        :color="atletaData?.ativo ? 'success' : 'error'"
-                        size="small"
-                        variant="flat"
-                      >
-                        {{ atletaData?.ativo ? t('detalhesAtleta.active') : t('detalhesAtleta.inactive') }}
-                      </v-chip>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.recentCheckup') }}</div>
-                      <v-chip
-                        :color="atletaData?.fezCheckupUltimosMeses ? 'success' : 'default'"
-                        size="small"
-                        variant="flat"
-                      >
-                        {{ atletaData?.fezCheckupUltimosMeses ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
-                      </v-chip>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.hasSmartwatch') }}</div>
-                      <v-chip
-                        :color="atletaData?.possuiSmartwatch ? 'success' : 'default'"
-                        size="small"
-                        variant="flat"
-                      >
-                        {{ atletaData?.possuiSmartwatch ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
-                      </v-chip>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.practicesPhysicalActivity') }}</div>
-                      <v-chip
-                        :color="atletaData?.praticaAtividadeFisicaRegularmente ? 'success' : 'default'"
-                        size="small"
-                        variant="flat"
-                      >
-                        {{ atletaData?.praticaAtividadeFisicaRegularmente ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
-                      </v-chip>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+              <!-- Tab: Dados Básicos -->
+              <v-tabs-window-item value="dados">
+                <v-expansion-panels v-model="expandedDados" multiple>
 
-            <!-- Histórico Esportivo -->
-            <v-card
-              v-if="atletaData?.historicoEsportivo"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-run</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.sportsHistory') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.objetivo">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.goal') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.historicoEsportivo.objetivo }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.participatedInRaces') }}</div>
-                      <v-chip
-                        :color="atletaData.historicoEsportivo.participouProvasAntes ? 'success' : 'default'"
-                        size="small"
-                        variant="flat"
-                      >
-                        {{ atletaData.historicoEsportivo.participouProvasAntes ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
-                      </v-chip>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.ultimaProva">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.lastRace') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.historicoEsportivo.ultimaProva }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
-
-            <!-- Histórico de Saúde -->
-            <v-card
-              v-if="atletaData?.historicoSaude"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-heart-pulse</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.healthHistory') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" v-if="atletaData.historicoSaude.tomaMedicamentoContinuo && String(atletaData.historicoSaude.tomaMedicamentoContinuo).trim() !== ''">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.continuousMedications') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.historicoSaude.tomaMedicamentoContinuo }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" v-if="atletaData.historicoSaude.outrasCondicoesMedicas && String(atletaData.historicoSaude.outrasCondicoesMedicas).trim() !== ''">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.otherMedicalConditions') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ atletaData.historicoSaude.outrasCondicoesMedicas }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-
-                <!-- Doenças -->
-                <div v-if="atletaData.historicoSaude.historicoSaudeDoencas && atletaData.historicoSaude.historicoSaudeDoencas.length > 0" class="mt-4">
-                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.diseases') }}</div>
-                  <v-chip
-                    v-for="(doenca, index) in atletaData.historicoSaude.historicoSaudeDoencas"
-                    :key="index"
-                    class="ma-1"
-                    color="light-blue-accent-3"
-                    variant="flat"
-                    size="small"
-                  >
-                    {{ doenca.doenca?.descricao || '--' }}
-                  </v-chip>
-                </div>
-
-                <!-- Sintomas -->
-                <div v-if="atletaData.historicoSaude.historicoSaudeSintoma && atletaData.historicoSaude.historicoSaudeSintoma.length > 0" class="mt-4">
-                  <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.symptoms') }}</div>
-                  <v-chip
-                    v-for="(sintoma, index) in atletaData.historicoSaude.historicoSaudeSintoma"
-                    :key="index"
-                    class="ma-1"
-                    color="light-blue-accent-3"
-                    variant="flat"
-                    size="small"
-                  >
-                    {{ sintoma.sintoma?.descricao || '--' }}
-                  </v-chip>
-                </div>
-
-                <!-- Mensagem quando não há informações -->
-                <div v-if="
-                  (!atletaData.historicoSaude.tomaMedicamentoContinuo || String(atletaData.historicoSaude.tomaMedicamentoContinuo || '').trim() === '') &&
-                  (!atletaData.historicoSaude.outrasCondicoesMedicas || String(atletaData.historicoSaude.outrasCondicoesMedicas || '').trim() === '') &&
-                  (!atletaData.historicoSaude.historicoSaudeDoencas || atletaData.historicoSaude.historicoSaudeDoencas.length === 0) &&
-                  (!atletaData.historicoSaude.historicoSaudeSintoma || atletaData.historicoSaude.historicoSaudeSintoma.length === 0)
-                " class="text-center py-4">
-                  <p class="text-body-2 text-grey">{{ t('detalhesAtleta.noHealthInfo') }}</p>
-                </div>
-              </v-card-text>
-            </v-card>
-
-            <!-- Consultas -->
-            <v-card
-              v-if="atletaData?.consultas && atletaData.consultas.length > 0"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-calendar-clock</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.appointments') }} ({{ atletaData.consultas.length }})
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-expansion-panels variant="accordion" class="mb-2">
-                  <v-expansion-panel
-                    v-for="(consulta, index) in atletaData.consultas"
-                    :key="index"
-                    class="mb-2"
-                  >
+                  <!-- Informações Pessoais -->
+                  <v-expansion-panel value="pessoal" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
                     <v-expansion-panel-title>
-                      <div class="d-flex align-center justify-space-between w-100">
-                        <div>
-                          <div class="text-body-2 font-weight-medium">
-                            {{ formatarDataHora(consulta.dataConsulta) }}
-                          </div>
-                          <v-chip
-                            :color="getSituacaoColor(consulta.situacao)"
-                            size="small"
-                            variant="flat"
-                            class="mt-1"
-                          >
-                            {{ consulta.situacao }}
-                          </v-chip>
-                        </div>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-account</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.personalInfo') }}</span>
                       </div>
                     </v-expansion-panel-title>
                     <v-expansion-panel-text>
-                      <v-row dense class="mt-2">
-                        <v-col cols="12" v-if="consulta.diagnostico">
+                      <v-row dense>
+                        <v-col cols="12" sm="6" md="4">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.diagnosis') }}</div>
-                            <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                              {{ consulta.diagnostico }}
-                            </div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.name') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData?.usuario?.nome || '--' }}</div>
                           </div>
                         </v-col>
-                        <v-col cols="12" v-if="consulta.medicamentosReceitados">
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.email">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.prescribedMedications') }}</div>
-                            <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                              {{ consulta.medicamentosReceitados }}
-                            </div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.email') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium" style="word-break: break-all;">{{ atletaData.usuario.email }}</div>
                           </div>
                         </v-col>
-                        <v-col cols="12" sm="6" v-if="consulta.createdBy">
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.usuario?.cpf">
                           <div class="info-field">
-                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.createdBy') }}</div>
-                            <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                              {{ consulta.createdBy }}
-                            </div>
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.cpf') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ formatarCPF(atletaData.usuario.cpf) }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.telefone">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.phone') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.telefone }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.birthDate') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ formatarData(atletaData.dataNascimento) }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.dataNascimento">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.age') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ calcularIdade(atletaData.dataNascimento) }} {{ t('detalhesAtleta.years') }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.genero">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.gender') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.genero }}</div>
                           </div>
                         </v-col>
                       </v-row>
                     </v-expansion-panel-text>
                   </v-expansion-panel>
-                </v-expansion-panels>
-              </v-card-text>
-            </v-card>
 
-            <!-- Alergias -->
-            <v-card
-              v-if="atletaData?.alergiasAtleta && atletaData.alergiasAtleta.length > 0"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-alert</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.allergies') }} ({{ atletaData.alergiasAtleta.length }})
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
+                  <!-- Informações Físicas -->
+                  <v-expansion-panel value="fisico" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-human</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.physicalInfo') }}</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-row dense>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.height') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.altura }} m</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.peso">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.weight') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.peso }} kg</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.tipoSanguineo">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bloodType') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.tipoSanguineo }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData?.altura && atletaData?.peso">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.bmi') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ calcularIMC(atletaData.altura, atletaData.peso) }}</div>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+                  <!-- Status e Preferências -->
+                  <v-expansion-panel value="status" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-check-circle</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.statusPreferences') }}</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-row dense>
+                        <v-col cols="12" sm="6" md="4">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.status') }}</div>
+                            <v-chip :color="atletaData?.ativo ? 'success' : 'error'" size="small" variant="flat">
+                              {{ atletaData?.ativo ? t('detalhesAtleta.active') : t('detalhesAtleta.inactive') }}
+                            </v-chip>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.recentCheckup') }}</div>
+                            <v-chip :color="atletaData?.fezCheckupUltimosMeses ? 'success' : 'default'" size="small" variant="flat">
+                              {{ atletaData?.fezCheckupUltimosMeses ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
+                            </v-chip>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.hasSmartwatch') }}</div>
+                            <v-chip :color="atletaData?.possuiSmartwatch ? 'success' : 'default'" size="small" variant="flat">
+                              {{ atletaData?.possuiSmartwatch ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
+                            </v-chip>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.practicesPhysicalActivity') }}</div>
+                            <v-chip :color="atletaData?.praticaAtividadeFisicaRegularmente ? 'success' : 'default'" size="small" variant="flat">
+                              {{ atletaData?.praticaAtividadeFisicaRegularmente ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
+                            </v-chip>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+                </v-expansion-panels>
+              </v-tabs-window-item>
+
+              <!-- Tab: Formulários -->
+              <v-tabs-window-item value="formularios">
+                <v-expansion-panels v-model="expandedFormularios" multiple>
+                  <!-- Histórico Esportivo -->
+                  <v-expansion-panel v-if="atletaData?.historicoEsportivo" value="esportivo" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-run</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.sportsHistory') }}</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-row dense>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.objetivo">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.goal') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.historicoEsportivo.objetivo }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.participatedInRaces') }}</div>
+                            <v-chip :color="atletaData.historicoEsportivo.participouProvasAntes ? 'success' : 'default'" size="small" variant="flat">
+                              {{ atletaData.historicoEsportivo.participouProvasAntes ? t('detalhesAtleta.yes') : t('detalhesAtleta.no') }}
+                            </v-chip>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" sm="6" md="4" v-if="atletaData.historicoEsportivo.ultimaProva">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.lastRace') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.historicoEsportivo.ultimaProva }}</div>
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+                  <!-- Análises -->
+                  <v-expansion-panel v-if="atletaData?.analisesAtleta && atletaData.analisesAtleta.length > 0" value="analises" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-chart-line</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.analyses') }} ({{ atletaData.analisesAtleta.length }})</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-row dense>
+                        <v-col cols="12" v-for="(analise, index) in atletaData.analisesAtleta" :key="index">
+                          <v-card variant="outlined" class="mb-3">
+                            <v-card-text>
+                              <div class="text-body-2 font-weight-medium">{{ analise.titulo || `${t('detalhesAtleta.analysis')} ${index + 1}` }}</div>
+                              <div class="text-caption text-grey-darken-1 mt-2" v-if="analise.createdAt">{{ formatarDataHora(analise.createdAt) }}</div>
+                            </v-card-text>
+                          </v-card>
+                        </v-col>
+                      </v-row>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+                  <!-- Consultas -->
+                  <v-expansion-panel v-if="atletaData?.consultas && atletaData.consultas.length > 0" value="consultas" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-calendar-clock</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.appointments') }} ({{ atletaData.consultas.length }})</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-expansion-panels variant="accordion" class="mb-2">
+                        <v-expansion-panel v-for="(consulta, index) in atletaData.consultas" :key="index" class="mb-2">
+                          <v-expansion-panel-title>
+                            <div class="d-flex align-center justify-space-between w-100">
+                              <div>
+                                <div class="text-body-2 font-weight-medium">{{ formatarDataHora(consulta.dataConsulta) }}</div>
+                                <v-chip :color="getSituacaoColor(consulta.situacao)" size="small" variant="flat" class="mt-1">{{ t('detalhesAtleta.situation') }}: {{ consulta.situacao }}</v-chip>
+                              </div>
+                            </div>
+                          </v-expansion-panel-title>
+                          <v-expansion-panel-text>
+                            <v-row dense class="mt-2">
+                              <v-col cols="12" v-if="consulta.diagnostico">
+                                <div class="info-field">
+                                  <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.diagnosis') }}</div>
+                                  <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ consulta.diagnostico }}</div>
+                                </div>
+                              </v-col>
+                              <v-col cols="12" v-if="consulta.medicamentosReceitados">
+                                <div class="info-field">
+                                  <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.prescribedMedications') }}</div>
+                                  <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ consulta.medicamentosReceitados }}</div>
+                                </div>
+                              </v-col>
+                              <v-col cols="12" sm="6" v-if="consulta.createdBy">
+                                <div class="info-field">
+                                  <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.createdBy') }}</div>
+                                  <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ consulta.createdBy }}</div>
+                                </div>
+                              </v-col>
+                            </v-row>
+                          </v-expansion-panel-text>
+                        </v-expansion-panel>
+                      </v-expansion-panels>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+                </v-expansion-panels>
+              </v-tabs-window-item>
+
+              <!-- Tab: Saúde -->
+              <v-tabs-window-item value="saude">
+                <v-expansion-panels v-model="expandedSaude" multiple>
+                  <!-- Histórico de Saúde -->
+                  <v-expansion-panel v-if="atletaData?.historicoSaude" value="saude" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-heart-pulse</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.healthHistory') }}</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
+                      <v-row dense>
+                        <v-col cols="12" v-if="atletaData.historicoSaude.tomaMedicamentoContinuo && String(atletaData.historicoSaude.tomaMedicamentoContinuo).trim() !== ''">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.continuousMedications') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.historicoSaude.tomaMedicamentoContinuo }}</div>
+                          </div>
+                        </v-col>
+                        <v-col cols="12" v-if="atletaData.historicoSaude.outrasCondicoesMedicas && String(atletaData.historicoSaude.outrasCondicoesMedicas).trim() !== ''">
+                          <div class="info-field">
+                            <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.otherMedicalConditions') }}</div>
+                            <div class="text-body-2 text-sm-body-1 font-weight-medium">{{ atletaData.historicoSaude.outrasCondicoesMedicas }}</div>
+                          </div>
+                        </v-col>
+                      </v-row>
+                      <div v-if="atletaData.historicoSaude.historicoSaudeDoencas && atletaData.historicoSaude.historicoSaudeDoencas.length > 0" class="mt-4">
+                        <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.diseases') }}</div>
+                        <v-chip v-for="(doenca, index) in atletaData.historicoSaude.historicoSaudeDoencas" :key="index" class="ma-1" color="light-blue-accent-3" variant="flat" size="small">
+                          {{ doenca.doenca?.descricao || '--' }}
+                        </v-chip>
+                      </div>
+                      <div v-if="atletaData.historicoSaude.historicoSaudeSintoma && atletaData.historicoSaude.historicoSaudeSintoma.length > 0" class="mt-4">
+                        <div class="text-caption text-grey-darken-1 mb-2 font-weight-medium">{{ t('detalhesAtleta.symptoms') }}</div>
+                        <v-chip v-for="(sintoma, index) in atletaData.historicoSaude.historicoSaudeSintoma" :key="index" class="ma-1" color="light-blue-accent-3" variant="flat" size="small">
+                          {{ sintoma.sintoma?.descricao || '--' }}
+                        </v-chip>
+                      </div>
+                      <div v-if="(!atletaData.historicoSaude.tomaMedicamentoContinuo || String(atletaData.historicoSaude.tomaMedicamentoContinuo || '').trim() === '') && (!atletaData.historicoSaude.outrasCondicoesMedicas || String(atletaData.historicoSaude.outrasCondicoesMedicas || '').trim() === '') && (!atletaData.historicoSaude.historicoSaudeDoencas || atletaData.historicoSaude.historicoSaudeDoencas.length === 0) && (!atletaData.historicoSaude.historicoSaudeSintoma || atletaData.historicoSaude.historicoSaudeSintoma.length === 0)" class="text-center py-4">
+                        <p class="text-body-2 text-grey">{{ t('detalhesAtleta.noHealthInfo') }}</p>
+                      </div>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+
+
+                  <!-- Alergias -->
+                  <v-expansion-panel v-if="atletaData?.alergiasAtleta && atletaData.alergiasAtleta.length > 0" value="alergias" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-alert</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.allergies') }} ({{ atletaData.alergiasAtleta.length }})</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
                 <v-row dense class="alergias-row">
                   <v-col
                     cols="12"
@@ -560,26 +500,17 @@
                     </v-card>
                   </v-col>
                 </v-row>
-              </v-card-text>
-            </v-card>
-
-            <!-- Exames -->
-            <v-card
-              v-if="atletaData?.exameAtleta && atletaData.exameAtleta.length > 0"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-file-document</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.exams') }} ({{ atletaData.exameAtleta.length }})
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
+                  <!-- Exames -->
+                  <v-expansion-panel v-if="atletaData?.exameAtleta && atletaData.exameAtleta.length > 0" value="exames" rounded="lg" class="mb-3" style="border-left: 4px solid #42A5F5;">
+                    <v-expansion-panel-title>
+                      <div class="d-flex align-center">
+                        <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-file-document</v-icon>
+                        <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">{{ t('detalhesAtleta.exams') }} ({{ atletaData.exameAtleta.length }})</span>
+                      </div>
+                    </v-expansion-panel-title>
+                    <v-expansion-panel-text>
                 <v-row dense class="exames-row">
                   <v-col
                     cols="12"
@@ -650,81 +581,13 @@
                     </v-card>
                   </v-col>
                 </v-row>
-              </v-card-text>
-            </v-card>
+                    </v-expansion-panel-text>
+                  </v-expansion-panel>
 
-            <!-- Análises -->
-            <v-card
-              v-if="atletaData?.analisesAtleta && atletaData.analisesAtleta.length > 0"
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="border-left: 4px solid #42A5F5; border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-chart-line</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.analyses') }} ({{ atletaData.analisesAtleta.length }})
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col
-                    cols="12"
-                    v-for="(analise, index) in atletaData.analisesAtleta"
-                    :key="index"
-                  >
-                    <v-card variant="outlined" class="mb-3">
-                      <v-card-text>
-                        <div class="text-body-2 font-weight-medium">{{ analise.titulo || `${t('detalhesAtleta.analysis')} ${index + 1}` }}</div>
-                        <div class="text-caption text-grey-darken-1 mt-2" v-if="analise.createdAt">
-                          {{ formatarDataHora(analise.createdAt) }}
-                        </div>
-                      </v-card-text>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+                </v-expansion-panels>
+              </v-tabs-window-item>
 
-            <!-- Informações do Sistema -->
-            <v-card
-              variant="outlined"
-              class="mb-4"
-              rounded="lg"
-              style="background-color: rgba(0, 198, 254, 0.05); border-color: rgba(0, 198, 254, 0.2) !important;"
-            >
-              <v-card-title class="pa-3 pa-sm-4 pb-2">
-                <div class="d-flex align-center">
-                  <v-icon :size="display.mobile ? 20 : 24" color="light-blue-accent-3" class="mr-2">mdi-information</v-icon>
-                  <span class="text-subtitle-2 text-sm-subtitle-1 font-weight-bold" style="color: #42A5F5">
-                    {{ t('detalhesAtleta.systemInfo') }}
-                  </span>
-                </div>
-              </v-card-title>
-              <v-card-text class="pa-3 pa-sm-4 pt-2">
-                <v-row dense>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.createdAt">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.createdAt') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ formatarDataHora(atletaData.createdAt) }}
-                      </div>
-                    </div>
-                  </v-col>
-                  <v-col cols="12" sm="6" md="4" v-if="atletaData?.updatedAt">
-                    <div class="info-field">
-                      <div class="text-caption text-grey-darken-1 mb-1">{{ t('detalhesAtleta.lastUpdate') }}</div>
-                      <div class="text-body-2 text-sm-body-1 font-weight-medium">
-                        {{ formatarDataHora(atletaData.updatedAt) }}
-                      </div>
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card-text>
-            </v-card>
+            </v-tabs-window>
 
             <!-- Botão Voltar -->
             <div class="text-center">
@@ -732,7 +595,7 @@
                 color="light-blue-accent-3"
                 variant="flat"
                 rounded="lg"
-                size="small"
+                size="large"
                 class="mt-2"
                 block
                 @click="$router.push('/')"
@@ -741,7 +604,7 @@
               </v-btn>
             </div>
           </div>
-        </v-card>
+        </div>
       </v-col>
 
       <v-dialog v-model="dialogSemToken" width="500" persistent>
@@ -784,7 +647,14 @@ import 'dayjs/locale/pt-br'
 import atletaService from '@/services/atleta/atleta-service'
 import { getToken } from '@/utils/auth'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const currentLocale = ref(locale.value)
+
+const changeLocale = (lang) => {
+  locale.value = lang
+  currentLocale.value = lang
+  localStorage.setItem('locale', lang)
+}
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
@@ -796,14 +666,15 @@ const loading = ref(true)
 const atletaData = ref(null)
 const error = ref(null)
 const dialogSemToken = ref(false)
+const activeTab = ref('dados')
+const expandedDados = ref(['pessoal', 'fisico'])
+const expandedFormularios = ref(['esportivo'])
+const expandedSaude = ref(['saude'])
 
 function irParaLogin() {
   router.push('/login')
 }
 
-const containerClass = computed(() => {
-  return display.mobile ? 'px-2 py-4' : 'px-4 py-8'
-})
 
 const getUserTimezone = () => {
   try {
@@ -1036,11 +907,20 @@ onMounted(() => {
   }
   buscarAtletaInfos()
 })
+
 </script>
 
 <style scoped>
 .gap-4 {
   gap: 16px;
+}
+
+.gap-2 {
+  gap: 8px;
+}
+
+.gap-3 {
+  gap: 12px;
 }
 
 .w-100 {
@@ -1049,6 +929,19 @@ onMounted(() => {
 
 .info-field {
   padding: 8px 0;
+}
+
+.athlete-header {
+  background: linear-gradient(135deg, #E3F2FD 0%, #f0f9ff 100%);
+  border: 1px solid rgba(66, 165, 245, 0.2);
+  border-left: 4px solid #42A5F5;
+  border-radius: 12px;
+  padding: 16px 20px;
+}
+
+.athlete-avatar {
+  border: 3px solid rgba(66, 165, 245, 0.3);
+  flex-shrink: 0;
 }
 
 .v-row.alergias-row,

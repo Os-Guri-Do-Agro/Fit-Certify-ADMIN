@@ -287,16 +287,24 @@
           </div>
         </v-card-text>
 
-        <v-card-actions class="pa-6">
-          <v-btn @click="dialogTermos = false" variant="outlined" color="#666" rounded="lg" size="large" class="px-6">
-            {{ t('eventos.details.cancel') }}
-          </v-btn>
-          <v-spacer />
-          <v-btn @click="confirmarEnvio" :disabled="(evento.possuiTermo && !scrolledToBottom) || loadingTermos"
-            :loading="loadingTermos" color="#88ce0d" variant="flat" rounded="lg" size="large" class="text-white px-6"
-            style="font-weight: 600;">
-            {{ t('eventos.details.confirmSend') }}
-          </v-btn>
+        <v-card-actions class="pa-6 flex-column align-stretch ga-3">
+          <v-checkbox
+            v-model="concordouTermos"
+            color="#88ce0d"
+            hide-details
+            :label="t('eventos.details.agreeTerms')"
+          />
+          <div class="d-flex">
+            <v-btn @click="dialogTermos = false" variant="outlined" color="#666" rounded="lg" size="large" class="px-6">
+              {{ t('eventos.details.cancel') }}
+            </v-btn>
+            <v-spacer />
+            <v-btn @click="confirmarEnvio" :disabled="!concordouTermos || loadingTermos"
+              :loading="loadingTermos" color="#88ce0d" variant="flat" rounded="lg" size="large" class="text-white px-6"
+              style="font-weight: 600;">
+              {{ t('eventos.details.confirmSend') }}
+            </v-btn>
+          </div>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -325,6 +333,7 @@ const loadingTermos = ref(false)
 const termos = ref<any>(null)
 const dialogTermos = ref(false)
 const scrolledToBottom = ref(false)
+const concordouTermos = ref(false)
 
 const tipoEvento = ref<any>(null)
 const isUserAtleta = computed(() => isAtleta())
@@ -426,6 +435,7 @@ const voltarParaLista = () => {
 
 const abrirDialogTermos = () => {
   scrolledToBottom.value = false
+  concordouTermos.value = false
   dialogTermos.value = true
 }
 
