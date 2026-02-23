@@ -221,6 +221,7 @@
       "confirmMessage": "Confirm the submission of your certificate so we can validate your participation in this event and record your attendance.",
       "cancel": "Cancel",
       "confirmSend": "Confirm Submission",
+      "agreeTerms": "I have read and agree to the terms",
       "registered": "Already Registered",
       "duration": "Event Duration",
       "days": "Days",
